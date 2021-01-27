@@ -1,16 +1,20 @@
 {
   "name": "felte",
   "version": "0.1.0",
-  "description": "A form utility for Svelte",
-  "main": "dist/index.js",
+  "description": "A form library for Svelte",
+  "browser": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "license": "MIT",
+  "homepage": "https://github.com/pablo-abc/felte",
+  "repository": "github:pablo-abc/felte",
+  "keywords": ["svelte", "forms", "validation"],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
-    "dev": "rollup -cw"
+    "dev": "rollup -cw",
+    "prepublish": "yarn build"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
@@ -34,8 +38,5 @@
     "bueno": "^0.1.5",
     "svelte": "^3.32.0"
   },
-  "files": [
-    "dist",
-    "src"
-  ]
+  "files": ["dist"]
 }

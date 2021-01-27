@@ -9,7 +9,7 @@ export default {
   input: './src/index.ts',
   external: ['svelte'],
   output: [
-    { file: pkg.main, format: 'cjs', sourcemap: prod },
+    { file: pkg.browser, format: 'cjs', sourcemap: prod },
     { file: pkg.module, format: 'esm', sourcemap: prod },
   ],
   plugins: [resolve(), commonjs(), typescript()],
