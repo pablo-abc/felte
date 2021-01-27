@@ -127,7 +127,29 @@ export function createForm<D extends Record<string, unknown>>(
     isSubmitting.set(false);
   }
 
+  function setFormFieldsDefaultValues(node: HTMLFormElement) {
+    for (const el of node.elements) {
+      if ((!isInputElement(el) && !isTextAreaElement(el)) || !el.name) continue;
+      const initialValue = config.initialValues[el.name];
+      if (isInputElement(el) && el.type === 'checkbox') {
+        if (typeof initialValue === 'boolean') {
+          el.checked = initialValue;
+        } else if (Array.isArray(initialValue)) {
+          el.checked = initialValue.includes(el.value);
+        }
+        continue;
+      }
+      if (isInputElement(el) && el.type === 'radio') {
+        el.checked = initialValue === el.value;
+        continue;
+      }
+      el.value = String(initialValue);
+    }
+  }
+
   function form(node: HTMLFormElement) {
+    setFormFieldsDefaultValues(node);
+
     function setCheckboxValues(target: HTMLInputElement) {
       const checkboxes = node.querySelectorAll(`[name=${target.name}]`);
       if (checkboxes.length === 1)
@@ -148,29 +170,12 @@ export function createForm<D extends Record<string, unknown>>(
       update((data) => ({ ...data, [target.name]: checkedRadio?.value }));
     }
 
-    for (const el of node.elements) {
-      if ((!isInputElement(el) && !isTextAreaElement(el)) || !el.name) continue;
-      const initialValue = config.initialValues[el.name];
-      if (isInputElement(el) && el.type === 'checkbox') {
-        if (typeof initialValue === 'boolean') {
-          el.checked = initialValue;
-        } else if (Array.isArray(initialValue)) {
-          el.checked = initialValue.includes(el.value);
-        }
-        continue;
-      }
-      if (isInputElement(el) && el.type === 'radio') {
-        el.checked = initialValue === el.value;
-        continue;
-      }
-      el.value = String(initialValue);
-    }
-
     function handleInput(e: InputEvent) {
       const target = e.target;
       if (!isInputElement(target) && !isTextAreaElement(target)) return;
       if (target.type === 'checkbox' || target.type === 'radio') return;
       if (!target.name) return;
+      touched.update((current) => ({ ...current, [target.name]: true }));
       update((data) => ({
         ...data,
         [target.name]: target.type.match(/^(number|range)$/)
@@ -183,6 +188,7 @@ export function createForm<D extends Record<string, unknown>>(
       const target = e.target;
       if (!isInputElement(target)) return;
       if (!target.name) return;
+      touched.update((current) => ({ ...current, [target.name]: true }));
       if (target.type === 'checkbox') setCheckboxValues(target);
       if (target.type === 'radio') setRadioValues(target);
     }
@@ -190,6 +196,7 @@ export function createForm<D extends Record<string, unknown>>(
       const target = e.target;
       if (!isInputElement(target) && !isTextAreaElement(target)) return;
       if (!target.name) return;
+      touched.update((current) => ({ ...current, [target.name]: true }));
     }
 
     node.addEventListener('input', handleInput);
