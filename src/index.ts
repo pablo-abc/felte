@@ -202,12 +202,14 @@ export function createForm<D extends Record<string, unknown>>(
     node.addEventListener('input', handleInput);
     node.addEventListener('change', handleChange);
     node.addEventListener('focusout', handleBlur);
+    node.addEventListener('submit', handleSubmit);
 
     return {
       destroy() {
         node.removeEventListener('input', handleInput);
         node.removeEventListener('change', handleChange);
         node.removeEventListener('foucsout', handleBlur);
+        node.removeEventListener('submit', handleSubmit);
       },
     };
   }
