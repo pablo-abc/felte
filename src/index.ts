@@ -4,8 +4,8 @@ import { writable, derived, get } from 'svelte/store';
 import type { Readable, Writable } from 'svelte/store';
 import type { MessageRenderer, MessageBuilder } from 'bueno/locale';
 
-export interface FormConfig<D extends Record<string, unknown>, R = D> {
-  initialValues: D;
+export type FormConfig<D extends Record<string, unknown>, R = D> = {
+  initialValues?: D;
   bueno?: Schema<D, R>;
   validate?: (values: D) => Errors<D>;
   onSubmit: (values: D) => Promise<void> | void;
@@ -13,7 +13,7 @@ export interface FormConfig<D extends Record<string, unknown>, R = D> {
     renderer: MessageRenderer<any, any>;
     builder: MessageBuilder<any>;
   };
-}
+};
 
 export declare type Errors<Values> = {
   [K in keyof Values]?: Values[K] extends any[]
@@ -42,17 +42,17 @@ export interface Form<D extends Record<string, unknown>> {
 }
 
 function isInputElement(el: EventTarget): el is HTMLInputElement {
-  return (el as HTMLInputElement)?.tagName === 'INPUT';
+  return (el as HTMLInputElement)?.nodeName === 'INPUT';
 }
 
 function isTextAreaElement(el: EventTarget): el is HTMLTextAreaElement {
-  return (el as HTMLTextAreaElement)?.tagName === 'TEXTAREA';
+  return (el as HTMLTextAreaElement)?.nodeName === 'TEXTAREA';
 }
 
 export function createForm<D extends Record<string, unknown>>(
   config: FormConfig<D>
 ): Form<D> {
-  const initialTouched = Object.keys(config.initialValues).reduce(
+  const initialTouched = Object.keys(config.initialValues || {}).reduce(
     (acc, key) => ({
       ...acc,
       [key]: false,
@@ -62,7 +62,9 @@ export function createForm<D extends Record<string, unknown>>(
 
   const touched = writable(initialTouched);
 
-  const { subscribe, set, update } = writable({ ...config.initialValues });
+  const { subscribe, set, update } = writable(
+    config.initialValues ? { ...config.initialValues } : undefined
+  );
 
   function newDataSet(values: D) {
     touched.update((current) => {
@@ -128,23 +130,33 @@ export function createForm<D extends Record<string, unknown>>(
   }
 
   function setFormFieldsDefaultValues(node: HTMLFormElement) {
+    const defaultData: Record<string, unknown> = {};
     for (const el of node.elements) {
       if ((!isInputElement(el) && !isTextAreaElement(el)) || !el.name) continue;
-      const initialValue = config.initialValues[el.name];
       if (isInputElement(el) && el.type === 'checkbox') {
-        if (typeof initialValue === 'boolean') {
-          el.checked = initialValue;
-        } else if (Array.isArray(initialValue)) {
-          el.checked = initialValue.includes(el.value);
+        if (typeof defaultData[el.name] === 'undefined') {
+          const checkboxes = node.querySelectorAll(`[name=${el.name}]`);
+          if (checkboxes.length === 1) {
+            defaultData[el.name] = el.checked;
+            continue;
+          }
+          defaultData[el.name] = el.checked ? [el.value] : [];
+          continue;
+        }
+        if (Array.isArray(defaultData[el.name]) && el.checked) {
+          (defaultData[el.name] as string[]).push(el.value);
         }
         continue;
       }
-      if (isInputElement(el) && el.type === 'radio') {
-        el.checked = initialValue === el.value;
+      if (isInputElement(el) && el.type === 'radio' && el.checked) {
+        defaultData[el.name] = el.value;
         continue;
       }
-      el.value = String(initialValue);
+      defaultData[el.name] = el.type.match(/^(number|range)$/)
+        ? +el.value
+        : el.value;
     }
+    set(defaultData as D);
   }
 
   function form(node: HTMLFormElement) {
