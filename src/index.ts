@@ -1,18 +1,21 @@
-import { checkPerKey } from 'bueno';
-import type { Schema } from 'bueno';
 import { writable, derived, get } from 'svelte/store';
 import type { Readable, Writable } from 'svelte/store';
-import type { MessageRenderer, MessageBuilder } from 'bueno/locale';
 
-export type FormConfig<D extends Record<string, unknown>, R = D> = {
-  initialValues?: D;
-  bueno?: Schema<D, R>;
+type FormConfigWithInitialValues<D extends Record<string, unknown>> = {
+  initialValues: D;
   validate?: (values: D) => Errors<D>;
   onSubmit: (values: D) => Promise<void> | void;
-  locale?: {
-    renderer: MessageRenderer<any, any>;
-    builder: MessageBuilder<any>;
-  };
+};
+
+type FormConfigWithoutInitialValues<D extends Record<string, unknown>> = {
+  validate?: (values: D) => Errors<D>;
+  onSubmit: (values: D) => Promise<void> | void;
+};
+
+export type FormConfig<D extends Record<string, unknown>> = {
+  initialValues?: D;
+  validate?: (values: D) => Errors<D>;
+  onSubmit: (values: D) => Promise<void> | void;
 };
 
 export declare type Errors<Values> = {
@@ -50,8 +53,14 @@ function isTextAreaElement(el: EventTarget): el is HTMLTextAreaElement {
 }
 
 export function createForm<D extends Record<string, unknown>>(
+  config: FormConfigWithInitialValues<D>
+): Form<D>;
+export function createForm<D extends Record<string, unknown>>(
+  config: FormConfigWithoutInitialValues<D>
+): Form<D | undefined>;
+export function createForm<D extends Record<string, unknown>>(
   config: FormConfig<D>
-): Form<D> {
+): Form<D | undefined> {
   const initialTouched = Object.keys(config.initialValues || {}).reduce(
     (acc, key) => ({
       ...acc,
@@ -83,9 +92,6 @@ export function createForm<D extends Record<string, unknown>>(
   const errors = derived({ subscribe }, ($data) => {
     let errors: Errors<D> = {};
     if (config.validate) errors = config.validate($data);
-    if (config.bueno) {
-      errors = checkPerKey<D, D>({ ...$data }, config.bueno, config.locale);
-    }
     return errors;
   });
 
@@ -103,7 +109,7 @@ export function createForm<D extends Record<string, unknown>>(
   );
 
   const isValid = derived([errors, touched], ([$errors, $touched]) => {
-    if (!config.validate && !config.bueno) return true;
+    if (!config.validate) return true;
     const formTouched = Object.keys($touched).some((key) => $touched[key]);
     const hasErrors = Object.keys($errors).some((key) => !!$errors[key]);
     if (!formTouched || hasErrors) return false;
