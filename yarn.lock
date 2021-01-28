@@ -1225,11 +1225,6 @@ browserslist@^4.14.5, browserslist@^4.14.6, browserslist@^4.16.1:
     escalade "^3.1.1"
     node-releases "^1.1.69"
 
-bueno@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/bueno/-/bueno-0.1.5.tgz#3ca2b0c5b0d79da4b5cef5cb94e5b466389364b6"
-  integrity sha512-DSyAwNjjxQqwy2XceFhRd4j9KWY1ue6mLhreGsv1Cio3IjyCFSwsarL0YMswiNu9UIfun6PcAVPyIzaF6i5quA==
-
 builtin-modules@^3.1.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/builtin-modules/-/builtin-modules-3.2.0.tgz#45d5db99e7ee5e6bc4f362e008bf917ab5049887"
