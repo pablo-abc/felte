@@ -18,19 +18,13 @@ Felte exports a single `createForm` function that accepts a config object with t
 
 ```typescript
 interface FormConfig<D extends Record<string, unknown>, R = D> {
-  initialValues: D;
-  bueno?: Schema<D, R>;
+  initialValues?: D;
   validate?: (values: D) => Errors<D>;
   onSubmit: (values: D) => void;
-  locale?: {
-    renderer: MessageRenderer<any, any>;
-    builder: MessageBuilder<any>;
-  };
 }
 ```
 
 - `initialValues` refers to the initial values of the form.
-- `bueno` refers to a schema made with the "bueno" validation library. If this is set, you also need to provide a locale from bueno in the `locale` property (e.g. `bueno.enUS`).
 - `validate` is a custom validation function that must return an object with the same props as initialValues, but with error messages or `undefined` as values.
 - `onSubmit` is the function that will be executed when the form is submited.
 
@@ -67,10 +61,6 @@ The recommended way to use it is by using the `form` action from `createForm` an
   import { createForm } from 'felte'
 
   const { form, data, errors } = createForm({
-    initialValues: {
-      email: '',
-      password: '',
-    },
     validate: (values) => {
       /* validate and return errors found */
     },
@@ -90,7 +80,7 @@ The recommended way to use it is by using the `form` action from `createForm` an
 </form>
 ```
 
-That's all you need! With the example above you'll see **Felte** automatically updating the values of `data` when you type, as well as `errors` when finding an error. Note that the only required properties for `createForm` are `initialValues` and `onSubmit`.
+That's all you need! With the example above you'll see **Felte** automatically updating the values of `data` when you type, as well as `errors` when finding an error. Note that the only required property for `createForm` is `onSubmit`.
 
 > If using Felte this way, make sure to set the `name` attributes of your inputs since that is what Felte uses to map to the `data` store.
 
@@ -126,4 +116,4 @@ Since `data` is a writable store, you can also bind the data properties to your 
 </form>
 ```
 
-With this approach you should see a similar behaviour to the previous way of using this. Note that the `name` attribute is optional here. It is a bit more verbose, so it's recommended to use the previous way of handling forms.
+With this approach you should see a similar behaviour to the previous way of using this. Note that the `name` attribute is optional here, but the `initialValues` property for `createForm` is required. It is a bit more verbose, so it's recommended to use the previous way of handling forms.
