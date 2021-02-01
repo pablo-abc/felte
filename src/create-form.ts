@@ -105,6 +105,7 @@ export function createForm<D extends Record<string, unknown>>(
   }
 
   function form(node: HTMLFormElement) {
+    node.noValidate = !!config.validate;
     setFormFieldsDefaultValues(node);
 
     function setCheckboxValues(target: HTMLInputElement) {
