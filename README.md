@@ -97,6 +97,8 @@ Also note that using the `data` and `errors` store is completely optional in thi
 
 > If using Felte this way, make sure to set the `name` attributes of your inputs since that is what Felte uses to map to the `data` store.
 
+> Default values are taken from the fields' `value` and/or `checked` attributes. `initialValues` is ignored if you use this approach.
+
 Using this approach `data` will be undefined until the form element loads.
 
 ## Binding to inputs
