@@ -41,7 +41,11 @@ export function createForm<D extends Record<string, unknown>>(
           t
         );
       });
-      if (Object.keys(get(errors)).length !== 0) {
+      const currentErrors = get(errors);
+      const hasErrors = Object.keys(currentErrors).some(
+        (key) => !!currentErrors[key]
+      );
+      if (hasErrors) {
         config.useConstraintApi &&
           (event.target as HTMLFormElement).reportValidity();
         return;
