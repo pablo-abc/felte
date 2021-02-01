@@ -12,5 +12,5 @@ export default {
     { file: pkg.browser, format: 'cjs', sourcemap: prod },
     { file: pkg.module, format: 'esm', sourcemap: prod },
   ],
-  plugins: [resolve(), commonjs(), typescript()],
+  plugins: [resolve({ browser: true }), commonjs(), typescript()],
 };
