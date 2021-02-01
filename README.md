@@ -37,7 +37,7 @@ interface FormConfig<D extends Record<string, unknown>> {
 - `validate` is a custom validation function that must return an object with the same props as initialValues, but with error messages or `undefined` as values.
 - `onSubmit` is the function that will be executed when the form is submited.
 - `onError` is a function that will run if the submit throws an exception. It will contain the error catched. This is optional and potential exceptions might as well be handled inside the `onSubmit` function.
-= `useConstraintApi` this tells **felte** to use or not use the browser's Constraint Validation API to the report errors found in the `validate` function. By default it is `true`.
+= `useConstraintApi` this tells **felte** to use or not use the browser's Constraint Validation API to the report errors found in the `validate` function. By default it is `false`.
 
 When called, `createForm` will return an object with the following interface:
 
@@ -78,6 +78,7 @@ The recommended way to use it is by using the `form` action from `createForm` an
     onSubmit: async (values) => {
       /* call to an api */
     },
+    useConstraintApi: true,
   })
 
   $: console.log($data)
@@ -93,7 +94,7 @@ The recommended way to use it is by using the `form` action from `createForm` an
 
 That's all you need! With the example above you'll see **Felte** automatically updating the values of `data` when you type, as well as `errors` when finding an error. Note that the only required property for `createForm` is `onSubmit`.
 
-Also note that using the `data` and `errors` store is completely optional in this method, since you already get access to the values of the form in the `onSubmit` function, and validation errors are by default reported with the browser`s Constraint Validation API.
+Also note that using the `data` and `errors` store is completely optional in this method, since you already get access to the values of the form in the `onSubmit` function, and validation errors are reported with the browser's Constraint Validation API by setting `useConstraintApi` to `true`.
 
 > If using Felte this way, make sure to set the `name` attributes of your inputs since that is what Felte uses to map to the `data` store.
 

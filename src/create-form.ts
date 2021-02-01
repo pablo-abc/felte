@@ -24,7 +24,7 @@ export function createForm<D extends Record<string, unknown>>(
 export function createForm<D extends Record<string, unknown>>(
   config: FormConfig<D>
 ): Form<D | undefined> {
-  config.useConstraintApi ??= true;
+  config.useConstraintApi ??= false;
   const { isSubmitting, data, errors, touched, isValid } = createStores<D>(
     config
   );
