@@ -97,6 +97,10 @@ export function createForm<D extends Record<string, unknown>>(
         defaultData[el.name] = el.value;
         continue;
       }
+      if (isInputElement(el) && el.type === 'file') {
+        defaultData[el.name] = el.multiple ? el.files : el.files[0];
+        continue;
+      }
       defaultData[el.name] = el.type.match(/^(number|range)$/)
         ? +el.value
         : el.value;
@@ -131,10 +135,19 @@ export function createForm<D extends Record<string, unknown>>(
       data.update((data) => ({ ...data, [target.name]: checkedRadio?.value }));
     }
 
+    function setFileValue(target: HTMLInputElement) {
+      const files = target.files;
+      touched.update((current) => ({ ...current, [target.name]: true }));
+      data.update((data) => ({
+        ...data,
+        [target.name]: target.multiple ? files : files[0],
+      }));
+    }
+
     function handleInput(e: InputEvent) {
       const target = e.target;
       if (!isInputElement(target) && !isTextAreaElement(target)) return;
-      if (target.type === 'checkbox' || target.type === 'radio') return;
+      if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
       touched.update((current) => ({ ...current, [target.name]: true }));
       data.update((data) => ({
@@ -152,6 +165,7 @@ export function createForm<D extends Record<string, unknown>>(
       touched.update((current) => ({ ...current, [target.name]: true }));
       if (target.type === 'checkbox') setCheckboxValues(target);
       if (target.type === 'radio') setRadioValues(target);
+      if (target.type === 'file') setFileValue(target);
     }
 
     function handleBlur(e: Event) {
