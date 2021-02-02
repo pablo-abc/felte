@@ -19,6 +19,8 @@ npm install --save felte
 yarn add felte
 ```
 
+> If using Sapper you may need to add felte as a dev dependency. To do this just add the `-D` flag to any of the previous commands.
+
 ## Usage
 
 Felte exports a single `createForm` function that accepts a config object with the following interface:
