@@ -37,7 +37,7 @@ interface FormConfig<D extends Record<string, unknown>> {
 - `validate` is a custom validation function that must return an object with the same props as initialValues, but with error messages or `undefined` as values.
 - `onSubmit` is the function that will be executed when the form is submited.
 - `onError` is a function that will run if the submit throws an exception. It will contain the error catched. This is optional and potential exceptions might as well be handled inside the `onSubmit` function.
-= `useConstraintApi` this tells **felte** to use or not use the browser's Constraint Validation API to the report errors found in the `validate` function. By default it is `false`.
+= `useConstraintApi` this tells **Felte** to use or not use the browser's Constraint Validation API to the report errors found in the `validate` function. By default it is `false`.
 
 When called, `createForm` will return an object with the following interface:
 
@@ -62,6 +62,8 @@ export interface Form<D extends Record<string, unknown>> {
 - `handleSubmit` is the event handler to be passed to `on:submit`.
 - `isValid` is a readable store that only holds a boolean denoting if the form has any errors or not.
 - `isSubmitting` is a writable store that only holds a boolean denoting if the form is submitting or not.
+
+If a `validate` function is provided, Felte will add a `novalidate` to the form so it doesn't clash with the browser's built-in validations such as the ones resulting from `required`, `pattern` or due to types such as `email` or `url`. This is done on JavaScript's mount so the browser's validations will be run if JavaScript does not load. You may add these attributes anyway for accessibility purposes, and leaving them in may help you make these forms works even if JavaScript hasn't loaded yet. If a `validate` function is not defined, Felte will not interfere with the browser's validation.
 
 ### Using the form action
 
