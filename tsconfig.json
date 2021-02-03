@@ -12,5 +12,9 @@
     "declarationMap": true,
     "declarationDir": "./dist"
   },
+  "typedocOptions": {
+    "entryPoints": ["src/index.ts"],
+    "out": "docs"
+  },
   "include": ["src"]
 }
