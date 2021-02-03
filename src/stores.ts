@@ -1,20 +1,20 @@
 import { derived, writable } from 'svelte/store';
 import type { Errors, Form, FormConfig, Touched } from './types';
 
-type Stores<D extends Record<string, unknown>> = Omit<
-  Form<D>,
+type Stores<Data extends Record<string, unknown>> = Omit<
+  Form<Data>,
   'handleSubmit' | 'form'
 >;
 
-export function createStores<D extends Record<string, unknown>>(
-  config: FormConfig<D>
-): Stores<D> {
+export function createStores<Data extends Record<string, unknown>>(
+  config: FormConfig<Data>
+): Stores<Data> {
   const initialTouched = Object.keys(config.initialValues || {}).reduce(
     (acc, key) => ({
       ...acc,
       [key]: false,
     }),
-    {} as Touched<D>
+    {} as Touched<Data>
   );
 
   const touched = writable(initialTouched);
@@ -23,13 +23,16 @@ export function createStores<D extends Record<string, unknown>>(
     config.initialValues ? { ...config.initialValues } : undefined
   );
 
-  const errors = derived(data, ($data: D, set: (values: Errors<D>) => void) => {
-    (async () => {
-      let errors: Errors<D> = {};
-      if (config.validate) errors = await config.validate($data);
-      set(errors);
-    })();
-  });
+  const errors = derived(
+    data,
+    ($data: Data, set: (values: Errors<Data>) => void) => {
+      (async () => {
+        let errors: Errors<Data> = {};
+        if (config.validate) errors = await config.validate($data);
+        set(errors);
+      })();
+    }
+  );
 
   const { subscribe: errorSubscribe } = derived(
     [errors, touched],
@@ -39,7 +42,7 @@ export function createStores<D extends Record<string, unknown>>(
           ...acc,
           ...($touched[key] && { [key]: $errors[key] }),
         }),
-        {} as Errors<D>
+        {} as Errors<Data>
       );
     }
   );

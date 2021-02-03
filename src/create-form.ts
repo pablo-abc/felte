@@ -15,17 +15,29 @@ function isTextAreaElement(el: EventTarget): el is HTMLTextAreaElement {
   return (el as HTMLTextAreaElement)?.nodeName === 'TEXTAREA';
 }
 
-export function createForm<D extends Record<string, unknown>>(
-  config: FormConfigWithInitialValues<D>
-): Form<D>;
-export function createForm<D extends Record<string, unknown>>(
-  config: FormConfigWithoutInitialValues<D>
-): Form<D | undefined>;
-export function createForm<D extends Record<string, unknown>>(
-  config: FormConfig<D>
-): Form<D | undefined> {
+/**
+ * Creates the stores and `form` action to make the form reactive.
+ * In order to use auto-subscriptions with the stores, call this function at the top-level scope of the component.
+ *
+ * @param config - Configuration for the form itself. Since `initialValues` is set, `Data` will not be undefined
+ */
+export function createForm<Data extends Record<string, unknown>>(
+  config: FormConfigWithInitialValues<Data>
+): Form<Data>;
+/**
+ * Creates the stores and `form` action to make the form reactive.
+ * In order to use auto-subscriptions with the stores, call this function at the top-level scope of the component.
+ *
+ * @param config - Configuration for the form itself. Since `initialValues` is not set (when only using the `form` action), `Data` will be undefined until the `form` element loads.
+ */
+export function createForm<Data extends Record<string, unknown>>(
+  config: FormConfigWithoutInitialValues<Data>
+): Form<Data | undefined>;
+export function createForm<Data extends Record<string, unknown>>(
+  config: FormConfig<Data>
+): Form<Data | undefined> {
   config.useConstraintApi ??= false;
-  const { isSubmitting, data, errors, touched, isValid } = createStores<D>(
+  const { isSubmitting, data, errors, touched, isValid } = createStores<Data>(
     config
   );
   async function handleSubmit(event: Event) {
@@ -59,7 +71,7 @@ export function createForm<D extends Record<string, unknown>>(
     }
   }
 
-  function newDataSet(values: D) {
+  function newDataSet(values: Data) {
     touched.update((current) => {
       const untouchedKeys = Object.keys(current).filter((key) => !current[key]);
       return untouchedKeys.reduce(
@@ -105,7 +117,7 @@ export function createForm<D extends Record<string, unknown>>(
         ? +el.value
         : el.value;
     }
-    data.set(defaultData as D);
+    data.set(defaultData as Data);
   }
 
   function form(node: HTMLFormElement) {
@@ -184,7 +196,11 @@ export function createForm<D extends Record<string, unknown>>(
           for (const el of node.elements) {
             if ((!isInputElement(el) && !isTextAreaElement(el)) || !el.name)
               continue;
-            el.setCustomValidity($errors[el.name] || '');
+            const fieldErrors = $errors[el.name];
+            const message = Array.isArray(fieldErrors)
+              ? fieldErrors.join('\n')
+              : fieldErrors;
+            el.setCustomValidity(message || '');
           }
         })
       : undefined;
