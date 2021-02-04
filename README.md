@@ -106,7 +106,7 @@ Also note that using the `data` and `errors` store is completely optional in thi
 
 Using this approach `data` will be undefined until the form element loads.
 
-### Nested forms
+#### Nested forms
 
 Felte supports the usage of nested objects for forms by setting the name of an input to the format of `object.prop`. It supports multiple levels. The behaviour is the same as previously explained, taking the default values from the `value` and/or `checked` attributes when appropriate.
 

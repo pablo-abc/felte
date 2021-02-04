@@ -157,6 +157,19 @@
 					<p>Default values are taken from the fields&#39; <code>value</code> and/or <code>checked</code> attributes. <code>initialValues</code> is ignored if you use this approach.</p>
 				</blockquote>
 				<p>Using this approach <code>data</code> will be undefined until the form element loads.</p>
+				<a href="#nested-forms" id="nested-forms" style="color: inherit; text-decoration: none;">
+					<h3>Nested forms</h3>
+				</a>
+				<p>Felte supports the usage of nested objects for forms by setting the name of an input to the format of <code>object.prop</code>. It supports multiple levels. The behaviour is the same as previously explained, taking the default values from the <code>value</code> and/or <code>checked</code> attributes when appropriate.</p>
+				<p>Again, be mindful of the fact that <code>data</code> will be undefined until the form element loads.</p>
+				<pre><code class="language-html"><span style="color: #800000">&lt;form</span><span style="color: #000000"> </span><span style="color: #FF0000">use:form</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">  </span><span style="color: #800000">&lt;input</span><span style="color: #000000"> </span><span style="color: #FF0000">name</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;account.email&quot;</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">  </span><span style="color: #800000">&lt;input</span><span style="color: #000000"> </span><span style="color: #FF0000">name</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;account.password&quot;</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">  </span><span style="color: #800000">&lt;input</span><span style="color: #000000"> </span><span style="color: #FF0000">name</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;profile.firstName&quot;</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">  </span><span style="color: #800000">&lt;input</span><span style="color: #000000"> </span><span style="color: #FF0000">name</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;profile.lastName&quot;</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">  </span><span style="color: #800000">&lt;input</span><span style="color: #000000"> </span><span style="color: #FF0000">type</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;submit&quot;</span><span style="color: #000000"> </span><span style="color: #FF0000">value</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;Create account&quot;</span><span style="color: #800000">&gt;</span>
+<span style="color: #800000">&lt;/form&gt;</span>
+</code></pre>
 				<a href="#binding-to-inputs" id="binding-to-inputs" style="color: inherit; text-decoration: none;">
 					<h2>Binding to inputs</h2>
 				</a>
