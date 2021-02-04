@@ -25,6 +25,7 @@ export function deepSome(obj: Obj, pred: (value: unknown) => boolean): boolean {
     _isPlainObject(value) ? deepSome(value as Obj, pred) : pred(value)
   );
 }
+
 export function hasSomeErrors<Data extends Obj>(errors: Errors<Data>): boolean {
   return _some(errors, (value) =>
     _isPlainObject(value) ? hasSomeErrors(value as Obj) : !!value

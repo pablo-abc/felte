@@ -4,6 +4,7 @@ import _set from 'lodash/set';
 import _get from 'lodash/get';
 import _update from 'lodash/update';
 import _mergeWith from 'lodash/mergeWith';
+import _isPlainObject from 'lodash/isPlainObject';
 import produce from 'immer';
 import type {
   Form,
@@ -71,10 +72,12 @@ export function createForm<Data extends Record<string, unknown>>(
   }
 
   function dataSetCustomizer(dataValue: unknown, initialValue: unknown) {
+    if (_isPlainObject(dataValue)) return;
     return dataValue !== initialValue;
   }
 
   function dataSetTouchedCustomizer(dataValue: unknown, touchedValue: boolean) {
+    if (_isPlainObject(dataValue)) return;
     return touchedValue || dataValue;
   }
 

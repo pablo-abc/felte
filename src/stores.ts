@@ -2,6 +2,7 @@ import { derived, writable } from 'svelte/store';
 import type { Errors, Form, FormConfig, Touched } from './types';
 import _cloneDeep from 'lodash/cloneDeep';
 import _mergeWith from 'lodash/mergeWith';
+import _isPlainObject from 'lodash/isPlainObject';
 import { deepSet, deepSome } from './helpers';
 import produce from 'immer';
 
@@ -36,6 +37,7 @@ export function createStores<Data extends Record<string, unknown>>(
   );
 
   function errorFilterer(errValue?: string, touchValue?: boolean) {
+    if (_isPlainObject(errValue)) return;
     return (touchValue && errValue) || null;
   }
 
