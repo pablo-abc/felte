@@ -1,11 +1,11 @@
 import type { Writable, Readable } from 'svelte/store';
 
+type Obj = Record<string, unknown>;
+
 /**
  * Configuration object when `initialValues` is not set. Used when using the `form` action.
  */
-export interface FormConfigWithoutInitialValues<
-  Data extends Record<string, unknown>
-> {
+export interface FormConfigWithoutInitialValues<Data extends Obj> {
   /** Optional function to validate the data. */
   validate?: (values: Data) => Errors<Data> | Promise<Errors<Data>>;
   /** Required function to handle the form data on submit. */
@@ -19,9 +19,8 @@ export interface FormConfigWithoutInitialValues<
 /**
  * Configuration object when `initialValues` is set. Used when using the `data` store to bind to form inputs.
  */
-export interface FormConfigWithInitialValues<
-  Data extends Record<string, unknown>
-> extends FormConfigWithoutInitialValues<Data> {
+export interface FormConfigWithInitialValues<Data extends Obj>
+  extends FormConfigWithoutInitialValues<Data> {
   /** Initial values for the form. To be used when not using the `form` action. */
   initialValues: Data;
 }
@@ -29,25 +28,25 @@ export interface FormConfigWithInitialValues<
 /**
  * Configuration object type. `initialValues` is optional.
  */
-export interface FormConfig<Data extends Record<string, unknown>>
+export interface FormConfig<Data extends Obj>
   extends FormConfigWithoutInitialValues<Data> {
   initialValues?: Data;
 }
 
 /** The errors object may contain either a string or array or string per key. */
-export declare type Errors<Values> = {
-  [key in keyof Values]?: string | string[];
+export type Errors<Data> = {
+  [key in keyof Data]?: string | string[] | Errors<Data[key]> | null;
 };
 
 /** The touched object may only contain booleans per key. */
-export type Touched<Data extends Record<string, unknown>> = {
-  [key in keyof Data]: boolean;
+export type Touched<Data extends Obj> = {
+  [key in keyof Data]: Data[key] extends Obj ? Touched<Data[key]> : boolean;
 };
 
 export type FormAction = (node: HTMLFormElement) => { destroy: () => void };
 
 /** The return type for the `createForm` function. */
-export interface Form<Data extends Record<string, unknown>> {
+export interface Form<Data extends Obj> {
   /** Action function to be used with the `use` directive on your `form` elements. */
   form: FormAction;
   /** Writable store that contains the form's data. */

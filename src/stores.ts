@@ -1,5 +1,9 @@
 import { derived, writable } from 'svelte/store';
 import type { Errors, Form, FormConfig, Touched } from './types';
+import _cloneDeep from 'lodash/cloneDeep';
+import _mergeWith from 'lodash/mergeWith';
+import { deepSet, deepSome } from './helpers';
+import produce from 'immer';
 
 type Stores<Data extends Record<string, unknown>> = Omit<
   Form<Data>,
@@ -9,18 +13,15 @@ type Stores<Data extends Record<string, unknown>> = Omit<
 export function createStores<Data extends Record<string, unknown>>(
   config: FormConfig<Data>
 ): Stores<Data> {
-  const initialTouched = Object.keys(config.initialValues || {}).reduce(
-    (acc, key) => ({
-      ...acc,
-      [key]: false,
-    }),
-    {} as Touched<Data>
+  const initialTouched: Touched<Data> = deepSet<Data, boolean>(
+    config.initialValues || ({} as Data),
+    false
   );
 
   const touched = writable(initialTouched);
 
   const data = writable(
-    config.initialValues ? { ...config.initialValues } : undefined
+    config.initialValues ? _cloneDeep(config.initialValues) : undefined
   );
 
   const errors = derived(
@@ -28,29 +29,29 @@ export function createStores<Data extends Record<string, unknown>>(
     ($data: Data, set: (values: Errors<Data>) => void) => {
       (async () => {
         let errors: Errors<Data> = {};
-        if (config.validate) errors = await config.validate($data);
+        if (config.validate && $data) errors = await config.validate($data);
         set(errors);
       })();
     }
   );
 
+  function errorFilterer(errValue?: string, touchValue?: boolean) {
+    return (touchValue && errValue) || null;
+  }
+
   const { subscribe: errorSubscribe } = derived(
     [errors, touched],
     ([$errors, $touched]) => {
-      return Object.keys($errors || {}).reduce(
-        (acc, key) => ({
-          ...acc,
-          ...($touched[key] && { [key]: $errors[key] }),
-        }),
-        {} as Errors<Data>
+      return produce($errors, (draft) =>
+        _mergeWith(draft, $touched, errorFilterer)
       );
     }
   );
 
   const isValid = derived([errors, touched], ([$errors, $touched]) => {
     if (!config.validate) return true;
-    const formTouched = Object.keys($touched).some((key) => $touched[key]);
-    const hasErrors = Object.keys($errors).some((key) => !!$errors[key]);
+    const formTouched = deepSome($touched, (touch) => !!touch);
+    const hasErrors = deepSome($errors, (error) => !!error);
     if (!formTouched || hasErrors) return false;
     return true;
   });

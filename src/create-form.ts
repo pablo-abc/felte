@@ -1,11 +1,18 @@
 import { get } from 'svelte/store';
 import { createStores } from './stores';
+import _set from 'lodash/set';
+import _get from 'lodash/get';
+import _update from 'lodash/update';
+import _mergeWith from 'lodash/mergeWith';
+import produce from 'immer';
 import type {
   Form,
   FormConfig,
   FormConfigWithInitialValues,
   FormConfigWithoutInitialValues,
+  Touched,
 } from './types';
+import { deepSet, deepSome } from './helpers';
 
 function isInputElement(el: EventTarget): el is HTMLInputElement {
   return (el as HTMLInputElement)?.nodeName === 'INPUT';
@@ -45,18 +52,10 @@ export function createForm<Data extends Record<string, unknown>>(
       isSubmitting.set(true);
       event.preventDefault();
       touched.update((t) => {
-        return Object.keys(t).reduce(
-          (acc, key) => ({
-            ...acc,
-            [key]: true,
-          }),
-          t
-        );
+        return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
       });
       const currentErrors = get(errors);
-      const hasErrors = Object.keys(currentErrors).some(
-        (key) => !!currentErrors[key]
-      );
+      const hasErrors = deepSome(currentErrors, (error) => !!error);
       if (hasErrors) {
         config.useConstraintApi &&
           (event.target as HTMLFormElement).reportValidity();
@@ -71,16 +70,23 @@ export function createForm<Data extends Record<string, unknown>>(
     }
   }
 
+  function dataSetCustomizer(dataValue: unknown, initialValue: unknown) {
+    return dataValue !== initialValue;
+  }
+
+  function dataSetTouchedCustomizer(dataValue: unknown, touchedValue: boolean) {
+    return touchedValue || dataValue;
+  }
+
   function newDataSet(values: Data) {
     touched.update((current) => {
-      const untouchedKeys = Object.keys(current).filter((key) => !current[key]);
-      return untouchedKeys.reduce(
-        (acc, key) => ({
-          ...acc,
-          [key]: values[key] !== config.initialValues[key],
-        }),
-        current
+      const changed = _mergeWith(
+        {},
+        values,
+        config.initialValues,
+        dataSetCustomizer
       );
+      return _mergeWith({}, changed, current, dataSetTouchedCustomizer);
     });
     return data.set(values);
   }
@@ -89,33 +95,35 @@ export function createForm<Data extends Record<string, unknown>>(
     const defaultData: Record<string, unknown> = {};
     for (const el of node.elements) {
       if ((!isInputElement(el) && !isTextAreaElement(el)) || !el.name) continue;
-      touched.update((t) => ({ ...t, [el.name]: false }));
+      touched.update(produce((t) => _set(t, el.name, false)));
       if (isInputElement(el) && el.type === 'checkbox') {
         if (typeof defaultData[el.name] === 'undefined') {
           const checkboxes = node.querySelectorAll(`[name=${el.name}]`);
           if (checkboxes.length === 1) {
-            defaultData[el.name] = el.checked;
+            _set(defaultData, el.name, el.checked);
             continue;
           }
-          defaultData[el.name] = el.checked ? [el.value] : [];
+          _set(defaultData, el.name, el.checked ? [el.value] : []);
           continue;
         }
         if (Array.isArray(defaultData[el.name]) && el.checked) {
-          (defaultData[el.name] as string[]).push(el.value);
+          _update(defaultData, el.name, (value) => [...value, el.value]);
         }
         continue;
       }
       if (isInputElement(el) && el.type === 'radio' && el.checked) {
-        defaultData[el.name] = el.value;
+        _set(defaultData, el.name, el.value);
         continue;
       }
       if (isInputElement(el) && el.type === 'file') {
-        defaultData[el.name] = el.multiple ? el.files : el.files[0];
+        _set(defaultData, el.name, el.multiple ? el.files : el.files[0]);
         continue;
       }
-      defaultData[el.name] = el.type.match(/^(number|range)$/)
-        ? +el.value
-        : el.value;
+      _set(
+        defaultData,
+        el.name,
+        el.type.match(/^(number|range)$/) ? +el.value : el.value
+      );
     }
     data.set(defaultData as Data);
   }
@@ -124,19 +132,31 @@ export function createForm<Data extends Record<string, unknown>>(
     node.noValidate = !!config.validate;
     setFormFieldsDefaultValues(node);
 
+    function touchField(fieldName: string) {
+      touched.update(
+        produce((t) => {
+          _set(t, fieldName, true);
+        })
+      );
+    }
+
     function setCheckboxValues(target: HTMLInputElement) {
       const checkboxes = node.querySelectorAll(`[name=${target.name}]`);
       if (checkboxes.length === 1)
-        return data.update((data) => ({
-          ...data,
-          [target.name]: target.checked,
-        }));
-      return data.update((data) => ({
-        ...data,
-        [target.name]: Array.from(checkboxes)
-          .filter((el: HTMLInputElement) => el.checked)
-          .map((el: HTMLInputElement) => el.value),
-      }));
+        return data.update(
+          produce((data) => _set(data, target.name, target.checked))
+        );
+      return data.update(
+        produce((data) =>
+          _set(
+            data,
+            target.name,
+            Array.from(checkboxes)
+              .filter((el: HTMLInputElement) => el.checked)
+              .map((el: HTMLInputElement) => el.value)
+          )
+        )
+      );
     }
 
     function setRadioValues(target: HTMLInputElement) {
@@ -144,16 +164,18 @@ export function createForm<Data extends Record<string, unknown>>(
       const checkedRadio = Array.from(radios).find(
         (el) => isInputElement(el) && el.checked
       ) as HTMLInputElement | undefined;
-      data.update((data) => ({ ...data, [target.name]: checkedRadio?.value }));
+      data.update(
+        produce((data) => _set(data, target.name, checkedRadio?.value))
+      );
     }
 
     function setFileValue(target: HTMLInputElement) {
       const files = target.files;
-      touched.update((current) => ({ ...current, [target.name]: true }));
-      data.update((data) => ({
-        ...data,
-        [target.name]: target.multiple ? files : files[0],
-      }));
+      data.update(
+        produce((data) =>
+          _set(data, target.name, target.multiple ? files : files[0])
+        )
+      );
     }
 
     function handleInput(e: InputEvent) {
@@ -161,20 +183,23 @@ export function createForm<Data extends Record<string, unknown>>(
       if (!isInputElement(target) && !isTextAreaElement(target)) return;
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
-      touched.update((current) => ({ ...current, [target.name]: true }));
-      data.update((data) => ({
-        ...data,
-        [target.name]: target.type.match(/^(number|range)$/)
-          ? +target.value
-          : target.value,
-      }));
+      touchField(target.name);
+      data.update(
+        produce((data) =>
+          _set(
+            data,
+            target.name,
+            target.type.match(/^(number|range)$/) ? +target.value : target.value
+          )
+        )
+      );
     }
 
     function handleChange(e: Event) {
       const target = e.target;
       if (!isInputElement(target)) return;
       if (!target.name) return;
-      touched.update((current) => ({ ...current, [target.name]: true }));
+      touchField(target.name);
       if (target.type === 'checkbox') setCheckboxValues(target);
       if (target.type === 'radio') setRadioValues(target);
       if (target.type === 'file') setFileValue(target);
@@ -184,7 +209,7 @@ export function createForm<Data extends Record<string, unknown>>(
       const target = e.target;
       if (!isInputElement(target) && !isTextAreaElement(target)) return;
       if (!target.name) return;
-      touched.update((current) => ({ ...current, [target.name]: true }));
+      touchField(target.name);
     }
 
     node.addEventListener('input', handleInput);
@@ -196,10 +221,12 @@ export function createForm<Data extends Record<string, unknown>>(
           for (const el of node.elements) {
             if ((!isInputElement(el) && !isTextAreaElement(el)) || !el.name)
               continue;
-            const fieldErrors = $errors[el.name];
+            const fieldErrors = _get($errors, el.name, '');
             const message = Array.isArray(fieldErrors)
               ? fieldErrors.join('\n')
-              : fieldErrors;
+              : typeof fieldErrors === 'string'
+              ? fieldErrors
+              : '';
             el.setCustomValidity(message || '');
           }
         })
