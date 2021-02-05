@@ -4,6 +4,7 @@ import _set from 'lodash/set';
 import _get from 'lodash/get';
 import _update from 'lodash/update';
 import _mergeWith from 'lodash/mergeWith';
+import _defaultsDeep from 'lodash/defaultsDeep';
 import _isPlainObject from 'lodash/isPlainObject';
 import produce from 'immer';
 import type {
@@ -15,12 +16,23 @@ import type {
 } from './types';
 import { deepSet, deepSome } from './helpers';
 
+type FormControls = HTMLInputElement | HTMLTextAreaElement;
+
 function isInputElement(el: EventTarget): el is HTMLInputElement {
   return (el as HTMLInputElement)?.nodeName === 'INPUT';
 }
 
 function isTextAreaElement(el: EventTarget): el is HTMLTextAreaElement {
   return (el as HTMLTextAreaElement)?.nodeName === 'TEXTAREA';
+}
+
+function isFieldSetElement(el: EventTarget): el is HTMLFieldSetElement {
+  return (el as HTMLFieldSetElement)?.nodeName === 'FIELDSET';
+}
+
+function getPath(el: FormControls): string {
+  const fieldSetName = el.dataset.fieldset;
+  return fieldSetName ? `${fieldSetName}.${el.name}` : el.name;
 }
 
 /**
@@ -94,46 +106,62 @@ export function createForm<Data extends Record<string, unknown>>(
     return data.set(values);
   }
 
-  function setFormFieldsDefaultValues(node: HTMLFormElement) {
+  function getFormFieldsDefaultValues(node: HTMLFormElement) {
     const defaultData: Record<string, unknown> = {};
+    let fieldSetElements: Set<Element> = new Set();
+    let fieldSet: HTMLFieldSetElement | undefined;
     for (const el of node.elements) {
+      if (isFieldSetElement(el)) {
+        fieldSet = el;
+        fieldSetElements = new Set(Array.from(el.elements));
+      }
       if ((!isInputElement(el) && !isTextAreaElement(el)) || !el.name) continue;
-      touched.update(produce((t) => _set(t, el.name, false)));
+      let elName = el.name;
+      if (fieldSetElements.size && fieldSetElements.has(el)) {
+        if (fieldSet?.name) {
+          elName = `${fieldSet.name}.${elName}`;
+          el.dataset.fieldset = fieldSet.name;
+        }
+        fieldSetElements.delete(el);
+      } else {
+        fieldSet = undefined;
+      }
+      touched.update(produce((t) => _set(t, elName, false)));
       if (isInputElement(el) && el.type === 'checkbox') {
-        if (typeof defaultData[el.name] === 'undefined') {
-          const checkboxes = node.querySelectorAll(`[name=${el.name}]`);
+        if (typeof _get(defaultData, elName) === 'undefined') {
+          const checkboxes = node.querySelectorAll(`[name="${elName}"]`);
           if (checkboxes.length === 1) {
-            _set(defaultData, el.name, el.checked);
+            _set(defaultData, elName, el.checked);
             continue;
           }
-          _set(defaultData, el.name, el.checked ? [el.value] : []);
+          _set(defaultData, elName, el.checked ? [el.value] : []);
           continue;
         }
-        if (Array.isArray(defaultData[el.name]) && el.checked) {
-          _update(defaultData, el.name, (value) => [...value, el.value]);
+        if (Array.isArray(defaultData[elName]) && el.checked) {
+          _update(defaultData, elName, (value) => [...value, el.value]);
         }
         continue;
       }
       if (isInputElement(el) && el.type === 'radio' && el.checked) {
-        _set(defaultData, el.name, el.value);
+        _set(defaultData, elName, el.value);
         continue;
       }
       if (isInputElement(el) && el.type === 'file') {
-        _set(defaultData, el.name, el.multiple ? el.files : el.files[0]);
+        _set(defaultData, elName, el.multiple ? el.files : el.files[0]);
         continue;
       }
       _set(
         defaultData,
-        el.name,
+        elName,
         el.type.match(/^(number|range)$/) ? +el.value : el.value
       );
     }
-    data.set(defaultData as Data);
+    return defaultData as Data;
   }
 
   function form(node: HTMLFormElement) {
     node.noValidate = !!config.validate;
-    setFormFieldsDefaultValues(node);
+    data.set(getFormFieldsDefaultValues(node));
 
     function touchField(fieldName: string) {
       touched.update(
@@ -144,16 +172,16 @@ export function createForm<Data extends Record<string, unknown>>(
     }
 
     function setCheckboxValues(target: HTMLInputElement) {
-      const checkboxes = node.querySelectorAll(`[name=${target.name}]`);
+      const checkboxes = node.querySelectorAll(`[name="${target.name}"]`);
       if (checkboxes.length === 1)
         return data.update(
-          produce((data) => _set(data, target.name, target.checked))
+          produce((data) => _set(data, getPath(target), target.checked))
         );
       return data.update(
         produce((data) =>
           _set(
             data,
-            target.name,
+            getPath(target),
             Array.from(checkboxes)
               .filter((el: HTMLInputElement) => el.checked)
               .map((el: HTMLInputElement) => el.value)
@@ -163,12 +191,12 @@ export function createForm<Data extends Record<string, unknown>>(
     }
 
     function setRadioValues(target: HTMLInputElement) {
-      const radios = node.querySelectorAll(`[name=${target.name}]`);
+      const radios = node.querySelectorAll(`[name="${target.name}"]`);
       const checkedRadio = Array.from(radios).find(
         (el) => isInputElement(el) && el.checked
       ) as HTMLInputElement | undefined;
       data.update(
-        produce((data) => _set(data, target.name, checkedRadio?.value))
+        produce((data) => _set(data, getPath(target), checkedRadio?.value))
       );
     }
 
@@ -176,7 +204,7 @@ export function createForm<Data extends Record<string, unknown>>(
       const files = target.files;
       data.update(
         produce((data) =>
-          _set(data, target.name, target.multiple ? files : files[0])
+          _set(data, getPath(target), target.multiple ? files : files[0])
         )
       );
     }
@@ -186,12 +214,12 @@ export function createForm<Data extends Record<string, unknown>>(
       if (!isInputElement(target) && !isTextAreaElement(target)) return;
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
-      touchField(target.name);
+      touchField(getPath(target));
       data.update(
         produce((data) =>
           _set(
             data,
-            target.name,
+            getPath(target),
             target.type.match(/^(number|range)$/) ? +target.value : target.value
           )
         )
@@ -202,7 +230,7 @@ export function createForm<Data extends Record<string, unknown>>(
       const target = e.target;
       if (!isInputElement(target)) return;
       if (!target.name) return;
-      touchField(target.name);
+      touchField(getPath(target));
       if (target.type === 'checkbox') setCheckboxValues(target);
       if (target.type === 'radio') setRadioValues(target);
       if (target.type === 'file') setFileValue(target);
@@ -212,9 +240,23 @@ export function createForm<Data extends Record<string, unknown>>(
       const target = e.target;
       if (!isInputElement(target) && !isTextAreaElement(target)) return;
       if (!target.name) return;
-      touchField(target.name);
+      touchField(getPath(target));
     }
 
+    const mutationOptions = { childList: true, subtree: true };
+
+    function mutationCallback(mutationList: MutationRecord[]) {
+      for (const mutation of mutationList) {
+        if (mutation.type !== 'childList') continue;
+        if (mutation.addedNodes.length === 0) continue;
+        const newDefaultData = getFormFieldsDefaultValues(node);
+        data.update(produce(($data) => _defaultsDeep($data, newDefaultData)));
+      }
+    }
+
+    const observer = new MutationObserver(mutationCallback);
+
+    observer.observe(node, mutationOptions);
     node.addEventListener('input', handleInput);
     node.addEventListener('change', handleChange);
     node.addEventListener('focusout', handleBlur);
@@ -224,7 +266,7 @@ export function createForm<Data extends Record<string, unknown>>(
           for (const el of node.elements) {
             if ((!isInputElement(el) && !isTextAreaElement(el)) || !el.name)
               continue;
-            const fieldErrors = _get($errors, el.name, '');
+            const fieldErrors = _get($errors, getPath(el), '');
             const message = Array.isArray(fieldErrors)
               ? fieldErrors.join('\n')
               : typeof fieldErrors === 'string'
@@ -237,6 +279,7 @@ export function createForm<Data extends Record<string, unknown>>(
 
     return {
       destroy() {
+        observer.disconnect();
         node.removeEventListener('input', handleInput);
         node.removeEventListener('change', handleChange);
         node.removeEventListener('foucsout', handleBlur);
