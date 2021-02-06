@@ -1,39 +1,30 @@
-import { get } from 'svelte/store';
-import { createStores } from './stores';
-import _set from 'lodash/set';
-import _get from 'lodash/get';
-import _update from 'lodash/update';
-import _mergeWith from 'lodash/mergeWith';
-import _defaultsDeep from 'lodash/defaultsDeep';
-import _isPlainObject from 'lodash/isPlainObject';
 import produce from 'immer';
+import _defaultsDeep from 'lodash/defaultsDeep';
+import _get from 'lodash/get';
+import _isPlainObject from 'lodash/isPlainObject';
+import _mergeWith from 'lodash/mergeWith';
+import _set from 'lodash/set';
+import _unset from 'lodash/unset';
+import { get } from 'svelte/store';
+import {
+  deepSet,
+  deepSome,
+  getFormControls,
+  getFormDefaultValues,
+  getPath,
+  isElement,
+  isFormControl,
+  isInputElement,
+} from './helpers';
+import { createStores } from './stores';
 import type {
   Form,
   FormConfig,
   FormConfigWithInitialValues,
   FormConfigWithoutInitialValues,
+  FormControl,
   Touched,
 } from './types';
-import { deepSet, deepSome } from './helpers';
-
-type FormControls = HTMLInputElement | HTMLTextAreaElement;
-
-function isInputElement(el: EventTarget): el is HTMLInputElement {
-  return (el as HTMLInputElement)?.nodeName === 'INPUT';
-}
-
-function isTextAreaElement(el: EventTarget): el is HTMLTextAreaElement {
-  return (el as HTMLTextAreaElement)?.nodeName === 'TEXTAREA';
-}
-
-function isFieldSetElement(el: EventTarget): el is HTMLFieldSetElement {
-  return (el as HTMLFieldSetElement)?.nodeName === 'FIELDSET';
-}
-
-function getPath(el: FormControls): string {
-  const fieldSetName = el.dataset.fieldset;
-  return fieldSetName ? `${fieldSetName}.${el.name}` : el.name;
-}
 
 /**
  * Creates the stores and `form` action to make the form reactive.
@@ -106,62 +97,11 @@ export function createForm<Data extends Record<string, unknown>>(
     return data.set(values);
   }
 
-  function getFormFieldsDefaultValues(node: HTMLFormElement) {
-    const defaultData: Record<string, unknown> = {};
-    let fieldSetElements: Set<Element> = new Set();
-    let fieldSet: HTMLFieldSetElement | undefined;
-    for (const el of node.elements) {
-      if (isFieldSetElement(el)) {
-        fieldSet = el;
-        fieldSetElements = new Set(Array.from(el.elements));
-      }
-      if ((!isInputElement(el) && !isTextAreaElement(el)) || !el.name) continue;
-      let elName = el.name;
-      if (fieldSetElements.size && fieldSetElements.has(el)) {
-        if (fieldSet?.name) {
-          elName = `${fieldSet.name}.${elName}`;
-          el.dataset.fieldset = fieldSet.name;
-        }
-        fieldSetElements.delete(el);
-      } else {
-        fieldSet = undefined;
-      }
-      touched.update(produce((t) => _set(t, elName, false)));
-      if (isInputElement(el) && el.type === 'checkbox') {
-        if (typeof _get(defaultData, elName) === 'undefined') {
-          const checkboxes = node.querySelectorAll(`[name="${elName}"]`);
-          if (checkboxes.length === 1) {
-            _set(defaultData, elName, el.checked);
-            continue;
-          }
-          _set(defaultData, elName, el.checked ? [el.value] : []);
-          continue;
-        }
-        if (Array.isArray(defaultData[elName]) && el.checked) {
-          _update(defaultData, elName, (value) => [...value, el.value]);
-        }
-        continue;
-      }
-      if (isInputElement(el) && el.type === 'radio' && el.checked) {
-        _set(defaultData, elName, el.value);
-        continue;
-      }
-      if (isInputElement(el) && el.type === 'file') {
-        _set(defaultData, elName, el.multiple ? el.files : el.files[0]);
-        continue;
-      }
-      _set(
-        defaultData,
-        elName,
-        el.type.match(/^(number|range)$/) ? +el.value : el.value
-      );
-    }
-    return defaultData as Data;
-  }
-
   function form(node: HTMLFormElement) {
     node.noValidate = !!config.validate;
-    data.set(getFormFieldsDefaultValues(node));
+    const { defaultData, defaultTouched } = getFormDefaultValues<Data>(node);
+    touched.set(defaultTouched);
+    data.set(defaultData);
 
     function touchField(fieldName: string) {
       touched.update(
@@ -211,7 +151,7 @@ export function createForm<Data extends Record<string, unknown>>(
 
     function handleInput(e: InputEvent) {
       const target = e.target;
-      if (!isInputElement(target) && !isTextAreaElement(target)) return;
+      if (!isFormControl(target)) return;
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
       touchField(getPath(target));
@@ -238,19 +178,40 @@ export function createForm<Data extends Record<string, unknown>>(
 
     function handleBlur(e: Event) {
       const target = e.target;
-      if (!isInputElement(target) && !isTextAreaElement(target)) return;
+      if (!isFormControl(target)) return;
       if (!target.name) return;
       touchField(getPath(target));
     }
 
     const mutationOptions = { childList: true, subtree: true };
 
+    function unsetTaggedForRemove(formControls: FormControl[]) {
+      for (const control of formControls) {
+        if (control.dataset.unsetOnRemove !== 'true') continue;
+        data.update(
+          produce(($data) => {
+            _unset($data, getPath(control));
+          })
+        );
+      }
+    }
+
     function mutationCallback(mutationList: MutationRecord[]) {
       for (const mutation of mutationList) {
         if (mutation.type !== 'childList') continue;
-        if (mutation.addedNodes.length === 0) continue;
-        const newDefaultData = getFormFieldsDefaultValues(node);
-        data.update(produce(($data) => _defaultsDeep($data, newDefaultData)));
+        if (mutation.addedNodes.length > 0) {
+          const { defaultData: newDefaultData } = getFormDefaultValues<Data>(
+            node
+          );
+          data.update(produce(($data) => _defaultsDeep($data, newDefaultData)));
+        }
+        if (mutation.removedNodes.length > 0) {
+          for (const removedNode of mutation.removedNodes) {
+            if (!isElement(removedNode)) continue;
+            const formControls = getFormControls(removedNode);
+            unsetTaggedForRemove(formControls);
+          }
+        }
       }
     }
 
@@ -264,8 +225,7 @@ export function createForm<Data extends Record<string, unknown>>(
     const unsubscribeErrors = config.useConstraintApi
       ? errors.subscribe(($errors) => {
           for (const el of node.elements) {
-            if ((!isInputElement(el) && !isTextAreaElement(el)) || !el.name)
-              continue;
+            if (!isFormControl(el) || !el.name) continue;
             const fieldErrors = _get($errors, getPath(el), '');
             const message = Array.isArray(fieldErrors)
               ? fieldErrors.join('\n')
@@ -282,7 +242,7 @@ export function createForm<Data extends Record<string, unknown>>(
         observer.disconnect();
         node.removeEventListener('input', handleInput);
         node.removeEventListener('change', handleChange);
-        node.removeEventListener('foucsout', handleBlur);
+        node.removeEventListener('focusout', handleBlur);
         node.removeEventListener('submit', handleSubmit);
         unsubscribeErrors?.();
       },

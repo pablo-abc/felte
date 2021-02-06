@@ -1,10 +1,10 @@
-import { derived, writable } from 'svelte/store';
-import type { Errors, Form, FormConfig, Touched } from './types';
-import _cloneDeep from 'lodash/cloneDeep';
-import _mergeWith from 'lodash/mergeWith';
-import _isPlainObject from 'lodash/isPlainObject';
-import { deepSet, deepSome } from './helpers';
 import produce from 'immer';
+import _cloneDeep from 'lodash/cloneDeep';
+import _isPlainObject from 'lodash/isPlainObject';
+import _mergeWith from 'lodash/mergeWith';
+import { derived, writable } from 'svelte/store';
+import { deepSet, deepSome } from './helpers';
+import type { Errors, Form, FormConfig, Touched } from './types';
 
 type Stores<Data extends Record<string, unknown>> = Omit<
   Form<Data>,

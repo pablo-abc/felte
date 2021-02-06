@@ -1,9 +1,10 @@
-import _mapValues from 'lodash/mapValues';
+import _get from 'lodash/get';
 import _isPlainObject from 'lodash/isPlainObject';
+import _mapValues from 'lodash/mapValues';
+import _set from 'lodash/set';
 import _some from 'lodash/some';
-import type { Errors } from './types';
-
-type Obj = Record<string, unknown>;
+import _update from 'lodash/update';
+import type { Errors, FormControl, Obj, Touched } from './types';
 
 type DeepSetResult<Data extends Obj, Value> = {
   [key in keyof Data]: Data[key] extends Obj
@@ -30,4 +31,112 @@ export function hasSomeErrors<Data extends Obj>(errors: Errors<Data>): boolean {
   return _some(errors, (value) =>
     _isPlainObject(value) ? hasSomeErrors(value as Obj) : !!value
   );
+}
+
+export function isInputElement(el: EventTarget): el is HTMLInputElement {
+  return (el as HTMLInputElement)?.nodeName === 'INPUT';
+}
+
+export function isTextAreaElement(el: EventTarget): el is HTMLTextAreaElement {
+  return (el as HTMLTextAreaElement)?.nodeName === 'TEXTAREA';
+}
+
+export function isSelectElement(el: EventTarget): el is HTMLSelectElement {
+  return (el as HTMLSelectElement)?.nodeName === 'SELECT';
+}
+
+export function isFieldSetElement(el: EventTarget): el is HTMLFieldSetElement {
+  return (el as HTMLFieldSetElement)?.nodeName === 'FIELDSET';
+}
+
+export function isFormControl(el: EventTarget): el is FormControl {
+  return isInputElement(el) || isTextAreaElement(el) || isSelectElement(el);
+}
+
+export function isElement(el: Node): el is Element {
+  return el.nodeType === Node.ELEMENT_NODE;
+}
+
+export function getPath(el: FormControl): string {
+  const fieldSetName = el.dataset.fieldset;
+  return fieldSetName ? `${fieldSetName}.${el.name}` : el.name;
+}
+
+export function getFormControls(el: Element): FormControl[] {
+  if (isFormControl(el)) return [el];
+  if (el.childElementCount === 0) return [];
+  const foundControls: FormControl[] = [];
+  for (const child of el.children) {
+    if (isFormControl(child)) foundControls.push(child);
+    if (isFieldSetElement(child)) {
+      for (const fieldsetChild of child.elements) {
+        if (isFormControl(fieldsetChild)) foundControls.push(fieldsetChild);
+      }
+    }
+    if (child.childElementCount > 0)
+      foundControls.push(...getFormControls(child));
+  }
+  return foundControls;
+}
+
+export function addAttrsFromFieldset(fieldSet: HTMLFieldSetElement): void {
+  for (const element of fieldSet.elements) {
+    if (!isFormControl(element) && !isFieldSetElement(element)) continue;
+    if (fieldSet.name && element.name) {
+      element.dataset.fieldset = fieldSet.dataset.fieldset
+        ? `${fieldSet.dataset.fieldset}.${fieldSet.name}`
+        : fieldSet.name;
+    }
+    if (
+      fieldSet.dataset.unsetOnRemove === 'true' &&
+      !element.hasAttribute('data-unset-on-remove')
+    ) {
+      element.dataset.unsetOnRemove = 'true';
+    }
+  }
+}
+
+export function getFormDefaultValues<Data extends Obj>(
+  node: HTMLFormElement
+): { defaultData: Data; defaultTouched: Touched<Data> } {
+  const defaultData = {} as Data;
+  const defaultTouched = {} as Touched<Data>;
+  for (const el of node.elements) {
+    if (isFieldSetElement(el)) addAttrsFromFieldset(el);
+    if (!isFormControl(el) || !el.name) continue;
+    const elName = getPath(el);
+    _set(defaultTouched, elName, false);
+    if (isInputElement(el) && el.type === 'checkbox') {
+      if (typeof _get(defaultData, elName) === 'undefined') {
+        const checkboxes = node.querySelectorAll(`[name="${elName}"]`);
+        if (checkboxes.length === 1) {
+          _set(defaultData, elName, el.checked);
+          continue;
+        }
+        _set(defaultData, elName, el.checked ? [el.value] : []);
+        continue;
+      }
+      if (Array.isArray(_get(defaultData, elName)) && el.checked) {
+        _update(defaultData, elName, (value) => [...value, el.value]);
+      }
+      continue;
+    }
+    if (isInputElement(el) && el.type === 'radio' && el.checked) {
+      _set(defaultData, elName, el.value);
+      continue;
+    }
+    if (isInputElement(el) && el.type === 'file') {
+      _set(defaultData, elName, el.multiple ? el.files : el.files[0]);
+      continue;
+    }
+    _set(
+      defaultData,
+      elName,
+      el.type.match(/^(number|range)$/) ? +el.value : el.value
+    );
+  }
+  return {
+    defaultData,
+    defaultTouched,
+  };
 }

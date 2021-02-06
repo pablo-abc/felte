@@ -1,6 +1,12 @@
-import type { Writable, Readable } from 'svelte/store';
+import type { Readable, Writable } from 'svelte/store';
 
-type Obj = Record<string, unknown>;
+/** `Record<string, unknown>` */
+export type Obj = Record<string, unknown>;
+
+export type FormControl =
+  | HTMLInputElement
+  | HTMLTextAreaElement
+  | HTMLSelectElement;
 
 /**
  * Configuration object when `initialValues` is not set. Used when using the `form` action.
