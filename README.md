@@ -110,8 +110,6 @@ Using this approach `data` will be undefined until the form element loads.
 
 Felte supports the usage of nested objects for forms by setting the name of an input to the format of `object.prop`. It supports multiple levels. The behaviour is the same as previously explained, taking the default values from the `value` and/or `checked` attributes when appropriate.
 
-Again, be mindful of the fact that `data` will be undefined until the form element loads.
-
 ```html
 <form use:form>
   <input name="account.email">
@@ -121,6 +119,65 @@ Again, be mindful of the fact that `data` will be undefined until the form eleme
   <input type="submit" value="Create account">
 </form>
 ```
+
+You can also "namespace" the inputs using the `fieldset` tag like this:
+
+```html
+<form use:form>
+  <fieldset name="account">
+    <input name="email">
+    <input name="password">
+  </fieldset>
+  <fieldset name="profile">
+    <input name="firstName">
+    <input name="lastName">
+  </fieldset>
+  <input type="submit" value="Create account">
+</form>
+```
+
+Both of these would result in a data object with this shape:
+
+```js
+{
+  account: {
+    email: '',
+    password: '',
+  },
+  profile: {
+    firstName: '',
+    lastName: '',
+  },
+}
+```
+
+Again, be mindful of the fact that `data` will be undefined until the form element loads.
+
+#### Dynamic forms
+
+You can freely add/remove fields from the form and Felte will handle it.
+
+```html
+<form use:form>
+  <fieldset name="account">
+    <input name="email">
+    <input name="password">
+  </fieldset>
+  {#if condition}
+    <fieldset name="profile" data-unset-on-remove=true>
+      <input name="firstName">
+      <input name="lastName" data-unset-on-remove=false>
+    </fieldset>
+  {/if}
+  <input type="submit" value="Create account">
+</form>
+```
+
+The `data-unset-on-remove=true` tells Felte to remove the property from the data object when the HTML element is removed from the DOM. By default this is false. If you do not set this attribute to `true`, the properties from the removed elements will remain in the data object untouched.
+
+You can set the `data-unset-on-remove=true` attribute to a `fieldset` element and all the elements contained within the fieldset will be unset on removal of the node, unless any element within the fieldset element have `data-unset-on-remove` set to false.
+
+> Felte takes any value that is not `true` as `false` on the `data-unset-on-remove` attribute.
 
 ## Binding to inputs
 
