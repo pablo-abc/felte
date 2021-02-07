@@ -1,5 +1,7 @@
 # Felte: A form library for Svelte
 
+![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)
+
 Felte is a simple to use form library for Svelte. It is based on Svelte stores nd Selte actions for its functionality. No `Field` or `Form` components, just plain stores and actions to build your form however you like.
 
 
