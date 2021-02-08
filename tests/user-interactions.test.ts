@@ -242,4 +242,18 @@ describe('User interactions with form', () => {
     expect(validate).toHaveBeenCalled();
     await waitFor(() => expect(onSubmit).not.toHaveBeenCalled());
   });
+
+  test('Calls validate on input', async () => {
+    const validate = jest.fn(() => ({}));
+    const onSubmit = jest.fn();
+    const { form, errors } = createForm({
+      onSubmit,
+      validate,
+    });
+    const { formElement, emailInput } = createLoginForm();
+    form(formElement);
+    userEvent.type(emailInput, 'jacek@soplica.com');
+    get(errors);
+    await waitFor(() => expect(validate).toHaveBeenCalled());
+  });
 });
