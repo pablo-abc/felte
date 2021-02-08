@@ -1,6 +1,6 @@
 {
   "name": "felte",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "A form library for Svelte",
   "browser": "dist/index.js",
   "module": "dist/index.mjs",
@@ -9,7 +9,11 @@
   "license": "MIT",
   "homepage": "https://felte.berganza.dev",
   "repository": "github:pablo-abc/felte",
-  "keywords": ["svelte", "forms", "validation"],
+  "keywords": [
+    "svelte",
+    "forms",
+    "validation"
+  ],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -46,7 +50,9 @@
   "peerDependencies": {
     "svelte": "^3.0.0"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@types/lodash": "^4.14.168",
     "immer": "^8.0.1",
