@@ -1,43 +1,7 @@
 import '@testing-library/jest-dom/extend-expect';
 import { screen } from '@testing-library/dom';
 import { createForm } from '../src';
-import userEvent from '@testing-library/user-event';
-import { get } from 'svelte/store';
-
-function createDOM() {
-  const formElement = document.createElement('form');
-  formElement.name = 'test-form';
-  document.body.appendChild(formElement);
-}
-
-type InputAttributes = {
-  type?: string;
-  required?: boolean;
-  name?: string;
-};
-
-function createInputElement(attrs: InputAttributes) {
-  const inputElement = document.createElement('input');
-  if (attrs.name) inputElement.name = attrs.name;
-  if (attrs.type) inputElement.type = attrs.type;
-  inputElement.required = !!attrs.required;
-  return inputElement;
-}
-
-function createLoginForm() {
-  const formElement = screen.getByRole('form') as HTMLFormElement;
-  const emailInput = createInputElement({ name: 'email', type: 'email' });
-  const passwordInput = createInputElement({
-    name: 'password',
-    type: 'password',
-  });
-  const submitInput = createInputElement({ type: 'submit' });
-  const userFieldset = document.createElement('fieldset');
-  userFieldset.name = 'user';
-  userFieldset.append(emailInput, passwordInput);
-  formElement.append(userFieldset, submitInput);
-  return { formElement, emailInput, passwordInput, submitInput };
-}
+import { removeAllChildren, createInputElement, createDOM } from './common';
 
 describe('Form action DOM mutations', () => {
   beforeAll(() => {
@@ -46,7 +10,7 @@ describe('Form action DOM mutations', () => {
 
   afterEach(() => {
     const formElement = screen.getByRole('form');
-    formElement.innerHTML = '';
+    removeAllChildren(formElement);
   });
 
   test('Adds novalidate to form when using a validate function', () => {
@@ -127,24 +91,5 @@ describe('Form action DOM mutations', () => {
     [outerSecondaryInput, innerSecondaryinput].forEach((el) => {
       expect(el).toHaveAttribute('data-unset-on-remove', 'false');
     });
-  });
-
-  test('Input and data object get same value', () => {
-    const { form, data } = createForm({
-      onSubmit: jest.fn(),
-    });
-    const { formElement, emailInput, passwordInput } = createLoginForm();
-    form(formElement);
-    userEvent.type(emailInput, 'test@email.com');
-    userEvent.type(passwordInput, 'password');
-    const $data = get(data);
-    expect($data).toEqual(
-      expect.objectContaining({
-        user: {
-          email: 'test@email.com',
-          password: 'password',
-        },
-      })
-    );
   });
 });
