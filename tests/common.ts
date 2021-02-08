@@ -8,12 +8,16 @@ export type InputAttributes = {
   type?: string;
   required?: boolean;
   name?: string;
+  value?: string;
+  checked?: boolean;
 };
 
 export function createInputElement(attrs: InputAttributes): HTMLInputElement {
   const inputElement = document.createElement('input');
   if (attrs.name) inputElement.name = attrs.name;
   if (attrs.type) inputElement.type = attrs.type;
+  if (attrs.value) inputElement.value = attrs.value;
+  if (attrs.checked) inputElement.checked = attrs.checked;
   inputElement.required = !!attrs.required;
   return inputElement;
 }

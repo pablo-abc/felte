@@ -108,7 +108,7 @@ export function getFormDefaultValues<Data extends Obj>(
     _set(defaultTouched, elName, false);
     if (isInputElement(el) && el.type === 'checkbox') {
       if (typeof _get(defaultData, elName) === 'undefined') {
-        const checkboxes = node.querySelectorAll(`[name="${elName}"]`);
+        const checkboxes = node.querySelectorAll(`[name="${el.name}"]`);
         if (checkboxes.length === 1) {
           _set(defaultData, elName, el.checked);
           continue;
@@ -121,8 +121,9 @@ export function getFormDefaultValues<Data extends Obj>(
       }
       continue;
     }
-    if (isInputElement(el) && el.type === 'radio' && el.checked) {
-      _set(defaultData, elName, el.value);
+    if (isInputElement(el) && el.type === 'radio') {
+      if (_get(defaultData, elName)) continue;
+      _set(defaultData, elName, el.checked ? el.value : undefined);
       continue;
     }
     if (isInputElement(el) && el.type === 'file') {
