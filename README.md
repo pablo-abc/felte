@@ -14,7 +14,7 @@ I felt that Svelte would allow to create a simple, almost configuration-less way
 
 In order to accomplish usage as simple as possible, Felte takes advantage of Svelte actions to be able to make a form reactive using only the `use` directive. Felte also has built-in error reporting capabilities by using the browser's Constraint Validation API. This means you can use the `:valid` and `:invalid` pseudo-classes to style your components and do not need to worry about reporting errors as long as you return appropriate messages from the `validate` function.
 
-## Instalation
+## Installation
 
 ```sh
 npm install --save felte
