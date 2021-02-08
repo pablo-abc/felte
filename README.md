@@ -5,7 +5,7 @@
 ![Version](https://img.shields.io/github/package-json/v/pablo-abc/felte)
 ![NPM Version](https://img.shields.io/npm/v/felte)
 
-Felte is a simple to use form library for Svelte. It is based on Svelte stores nd Selte actions for its functionality. No `Field` or `Form` components, just plain stores and actions to build your form however you like.
+Felte is a simple to use form library for Svelte. It is based on Svelte stores nd Selte actions for its functionality. No `Field` or `Form` components, just plain stores and actions to build your form however you like. You can see it in actino in this [CodeSandbox demo](https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte)!
 
 
 ## Why
