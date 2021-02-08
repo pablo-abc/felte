@@ -60,10 +60,11 @@ describe('User interactions with form', () => {
     expect(validate).toHaveBeenCalled();
   });
 
-  test('Calls validation function on submit', async () => {
+  test('Calls validation function on submit without calling onSubmit', () => {
     const validate = jest.fn(() => ({ user: { email: 'Not email' } }));
+    const onSubmit = jest.fn();
     const { form } = createForm({
-      onSubmit: jest.fn(),
+      onSubmit,
       validate,
     });
     const { formElement, emailInput } = createLoginForm();
@@ -71,5 +72,6 @@ describe('User interactions with form', () => {
     userEvent.type(emailInput, 'test@email.com');
     formElement.submit();
     expect(validate).toHaveBeenCalled();
+    expect(onSubmit).not.toHaveBeenCalled();
   });
 });

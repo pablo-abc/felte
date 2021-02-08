@@ -1,7 +1,8 @@
 {
   "name": "felte",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A form library for Svelte",
+  "main": "dist/index.js",
   "browser": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -9,11 +10,7 @@
   "license": "MIT",
   "homepage": "https://felte.berganza.dev",
   "repository": "github:pablo-abc/felte",
-  "keywords": [
-    "svelte",
-    "forms",
-    "validation"
-  ],
+  "keywords": ["svelte", "forms", "validation"],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -28,6 +25,7 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/user-event": "^12.6.3",
     "@types/jest": "^26.0.20",
+    "@types/lodash": "^4.14.168",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
     "@wessberg/rollup-plugin-ts": "^1.3.8",
@@ -51,11 +49,8 @@
   "peerDependencies": {
     "svelte": "^3.0.0"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "dependencies": {
-    "@types/lodash": "^4.14.168",
     "immer": "^8.0.1",
     "lodash": "^4.17.20"
   }

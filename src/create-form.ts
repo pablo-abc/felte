@@ -52,20 +52,23 @@ export function createForm<Data extends Record<string, unknown>>(
     config
   );
   async function handleSubmit(event: Event) {
+    event.preventDefault();
     try {
       isSubmitting.set(true);
-      event.preventDefault();
+      const currentData = get(data);
       touched.update((t) => {
         return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
       });
-      const currentErrors = get(errors);
-      const hasErrors = deepSome(currentErrors, (error) => !!error);
-      if (hasErrors) {
-        config.useConstraintApi &&
-          (event.target as HTMLFormElement).reportValidity();
-        return;
+      if (config.validate) {
+        const currentErrors = await config.validate(currentData);
+        const hasErrors = deepSome(currentErrors, (error) => !!error);
+        if (hasErrors) {
+          config.useConstraintApi &&
+            (event.target as HTMLFormElement).reportValidity();
+          return;
+        }
       }
-      await config.onSubmit(get(data));
+      await config.onSubmit(currentData);
     } catch (e) {
       if (!config.onError) throw e;
       config.onError(e);
