@@ -7,6 +7,8 @@
 
 Felte is a simple to use form library for Svelte. It is based on Svelte stores nd Selte actions for its functionality. No `Field` or `Form` components, just plain stores and actions to build your form however you like. You can see it in actino in this [CodeSandbox demo](https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte)!
 
+**WARNING:** The API is not set in stone yet, so breaking changes may occur between minor versions until it is stable enough to be 1.0.0
+
 
 ## Why
 
@@ -48,6 +50,7 @@ When called, `createForm` will return an object with the following interface:
 
 ```typescript
 type FormAction = (node: HTMLFormElement) => { destroy: () => void };
+export type FieldValue = string | string[] | boolean | number | File | File[];
 
 export interface Form<D extends Record<string, unknown>> {
   form: FormAction;
@@ -57,6 +60,11 @@ export interface Form<D extends Record<string, unknown>> {
   handleSubmit: (e: Event) => void;
   isValid: Readable<boolean>;
   isSubmitting: Writable<boolean>;
+  // Helper functions:
+  setTouched: (path: string) => void;
+  setError: (path: string, error: string | string[]) => void;
+  setField: (path: string, value?: FieldValue, touch?: boolean) => void;
+  reportValidity?: () => void;
 }
 ```
 
@@ -67,6 +75,11 @@ export interface Form<D extends Record<string, unknown>> {
 - `handleSubmit` is the event handler to be passed to `on:submit`.
 - `isValid` is a readable store that only holds a boolean denoting if the form has any errors or not.
 - `isSubmitting` is a writable store that only holds a boolean denoting if the form is submitting or not.
+- `setTouched` is a helper function to touch a specific field.
+- `setError` is a helper function to set an error in a specific field.
+- `setField` is a helper function to set the data of a specific field. If undefined, it clears the field. If you set `touch` to `false` the field will not be touched with this change.
+
+> If the helper functions are called before initialization of the form, whatever you set will be overwritten.
 
 If a `validate` function is provided, Felte will add a `novalidate` to the form so it doesn't clash with the browser's built-in validations such as the ones resulting from `required`, `pattern` or due to types such as `email` or `url`. This is done on JavaScript's mount so the browser's validations will be run if JavaScript does not load. You may add these attributes anyway for accessibility purposes, and leaving them in may help you make these forms works even if JavaScript hasn't loaded yet. If a `validate` function is not defined, Felte will not interfere with the browser's validation.
 
@@ -167,20 +180,20 @@ You can freely add/remove fields from the form and Felte will handle it.
     <input name="password">
   </fieldset>
   {#if condition}
-    <fieldset name="profile" data-unset-on-remove=true>
+    <fieldset name="profile" data-felte-unset-on-remove=true>
       <input name="firstName">
-      <input name="lastName" data-unset-on-remove=false>
+      <input name="lastName" data-felte-unset-on-remove=false>
     </fieldset>
   {/if}
   <input type="submit" value="Create account">
 </form>
 ```
 
-The `data-unset-on-remove=true` tells Felte to remove the property from the data object when the HTML element is removed from the DOM. By default this is false. If you do not set this attribute to `true`, the properties from the removed elements will remain in the data object untouched.
+The `data-felte-unset-on-remove=true` tells Felte to remove the property from the data object when the HTML element is removed from the DOM. By default this is false. If you do not set this attribute to `true`, the properties from the removed elements will remain in the data object untouched.
 
-You can set the `data-unset-on-remove=true` attribute to a `fieldset` element and all the elements contained within the fieldset will be unset on removal of the node, unless any element within the fieldset element have `data-unset-on-remove` set to false.
+You can set the `data-felte-unset-on-remove=true` attribute to a `fieldset` element and all the elements contained within the fieldset will be unset on removal of the node, unless any element within the fieldset element have `data-felte-unset-on-remove` set to false.
 
-> Felte takes any value that is not `true` as `false` on the `data-unset-on-remove` attribute.
+> Felte takes any value that is not `true` as `false` on the `data-felte-unset-on-remove` attribute.
 
 ## Binding to inputs
 

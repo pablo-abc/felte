@@ -67,17 +67,17 @@ describe('Form action DOM mutations', () => {
     });
   });
 
-  test('Propagates unset-on-remove attribute respecting specificity', () => {
+  test('Propagates felte-unset-on-remove attribute respecting specificity', () => {
     const { form } = createForm({ onSubmit: jest.fn() });
     const outerFieldset = document.createElement('fieldset');
-    outerFieldset.dataset.unsetOnRemove = 'true';
+    outerFieldset.dataset.felteUnsetOnRemove = 'true';
     const outerTextInput = createInputElement({ name: 'outerText' });
     const outerSecondaryInput = createInputElement({ name: 'outerSecondary' });
-    outerSecondaryInput.dataset.unsetOnRemove = 'false';
+    outerSecondaryInput.dataset.felteUnsetOnRemove = 'false';
     const innerFieldset = document.createElement('fieldset');
     const innerTextInput = createInputElement({ name: 'innerText' });
     const innerSecondaryinput = createInputElement({ name: 'innerSecondary' });
-    innerSecondaryinput.dataset.unsetOnRemove = 'false';
+    innerSecondaryinput.dataset.felteUnsetOnRemove = 'false';
     innerFieldset.append(innerTextInput, innerSecondaryinput);
     outerFieldset.append(outerTextInput, outerSecondaryInput, innerFieldset);
     const formElement = screen.getByRole('form') as HTMLFormElement;
@@ -85,11 +85,11 @@ describe('Form action DOM mutations', () => {
     form(formElement);
     [outerFieldset, outerTextInput, innerFieldset, innerTextInput].forEach(
       (el) => {
-        expect(el).toHaveAttribute('data-unset-on-remove', 'true');
+        expect(el).toHaveAttribute('data-felte-unset-on-remove', 'true');
       }
     );
     [outerSecondaryInput, innerSecondaryinput].forEach((el) => {
-      expect(el).toHaveAttribute('data-unset-on-remove', 'false');
+      expect(el).toHaveAttribute('data-felte-unset-on-remove', 'false');
     });
   });
 });

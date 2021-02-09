@@ -51,6 +51,7 @@ export function createForm<Data extends Record<string, unknown>>(
   const { isSubmitting, data, errors, touched, isValid } = createStores<Data>(
     config
   );
+
   async function handleSubmit(event: Event) {
     event.preventDefault();
     try {
@@ -108,14 +109,21 @@ export function createForm<Data extends Record<string, unknown>>(
     errors.update(($errors) => _set($errors, path, error));
   }
 
-  function setField(path: string, value?: FieldValue, touch = true) {
+  function setField(path: string, value?: FieldValue, touch = true): void {
     data.update(($data) => _set($data, path, value));
     if (touch) setTouched(path);
+  }
+
+  let formElement: HTMLFormElement | undefined;
+
+  function reportValidity(): void {
+    formElement?.reportValidity();
   }
 
   function form(node: HTMLFormElement) {
     node.noValidate = !!config.validate;
     const { defaultData, defaultTouched } = getFormDefaultValues<Data>(node);
+    formElement = node;
     touched.set(defaultTouched);
     data.set(defaultData);
 
@@ -187,7 +195,7 @@ export function createForm<Data extends Record<string, unknown>>(
 
     function unsetTaggedForRemove(formControls: FormControl[]) {
       for (const control of formControls) {
-        if (control.dataset.unsetOnRemove !== 'true') continue;
+        if (control.dataset.felteUnsetOnRemove !== 'true') continue;
         data.update(($data) => {
           _unset($data, getPath(control));
           return $data;
@@ -221,20 +229,20 @@ export function createForm<Data extends Record<string, unknown>>(
     node.addEventListener('change', handleChange);
     node.addEventListener('focusout', handleBlur);
     node.addEventListener('submit', handleSubmit);
-    const unsubscribeErrors = config.useConstraintApi
-      ? errors.subscribe(($errors) => {
-          for (const el of node.elements) {
-            if (!isFormControl(el) || !el.name) continue;
-            const fieldErrors = _get($errors, getPath(el), '');
-            const message = Array.isArray(fieldErrors)
-              ? fieldErrors.join('\n')
-              : typeof fieldErrors === 'string'
-              ? fieldErrors
-              : '';
-            el.setCustomValidity(message || '');
-          }
-        })
-      : undefined;
+    const unsubscribeErrors = errors.subscribe(($errors) => {
+      for (const el of node.elements) {
+        if (!isFormControl(el) || !el.name) continue;
+        const fieldErrors = _get($errors, getPath(el), '');
+        const message = Array.isArray(fieldErrors)
+          ? fieldErrors.join('\n')
+          : typeof fieldErrors === 'string'
+          ? fieldErrors
+          : '';
+        if (message) el.dataset.felteValidationMessage = message;
+        else delete el.dataset.felteValidationMessage;
+        config.useConstraintApi && el.setCustomValidity(message);
+      }
+    });
 
     return {
       destroy() {
@@ -243,7 +251,7 @@ export function createForm<Data extends Record<string, unknown>>(
         node.removeEventListener('change', handleChange);
         node.removeEventListener('focusout', handleBlur);
         node.removeEventListener('submit', handleSubmit);
-        unsubscribeErrors?.();
+        unsubscribeErrors();
       },
     };
   }
@@ -259,5 +267,6 @@ export function createForm<Data extends Record<string, unknown>>(
     setTouched,
     setError,
     setField,
+    reportValidity,
   };
 }

@@ -8,7 +8,12 @@ import { writableDerived } from './writable-derived';
 
 type Stores<Data extends Record<string, unknown>> = Omit<
   Form<Data>,
-  'handleSubmit' | 'form' | 'setTouched' | 'setError' | 'setField'
+  | 'handleSubmit'
+  | 'form'
+  | 'setTouched'
+  | 'setError'
+  | 'setField'
+  | 'reportValidity'
 >;
 
 export function createStores<Data extends Record<string, unknown>>(

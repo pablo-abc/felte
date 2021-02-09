@@ -74,6 +74,8 @@ export interface Form<Data extends Obj> {
   setTouched: (path: string) => void;
   /** Helper function to set an error to a specific field. */
   setError: (path: string, error: string | string[]) => void;
-  /** Helper function to set the value of a specific field. Set `touch` to `false` if you want to set the value without setting the field to touched. */
+  /** Helper function to set the value of a specific field. Set `touch` to `false` if you want to set the value without setting the field to touched. Note: In only for this to reflect in the field, you'll have to set the field value to its respective value in the data store. */
   setField: (path: string, value?: FieldValue, touch?: boolean) => void;
+  /** If using the constraint validation API, setting an error with `setError` will not trigger a report. Call this helper function to trigger this. This method will **only be available when using the `form` action.** */
+  reportValidity: () => void;
 }
