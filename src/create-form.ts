@@ -1,4 +1,3 @@
-import produce from 'immer';
 import _defaultsDeep from 'lodash/defaultsDeep';
 import _get from 'lodash/get';
 import _isPlainObject from 'lodash/isPlainObject';
@@ -102,23 +101,15 @@ export function createForm<Data extends Record<string, unknown>>(
   }
 
   function setTouched(fieldName: string): void {
-    touched.update(
-      produce((t) => {
-        _set(t, fieldName, true);
-      })
-    );
+    touched.update(($touched) => _set($touched, fieldName, true));
   }
 
   function setError(path: string, error: string | string[]): void {
-    errors.update(
-      produce(($errors) => {
-        _set($errors, path, error);
-      })
-    );
+    errors.update(($errors) => _set($errors, path, error));
   }
 
   function setField(path: string, value?: FieldValue, touch = true) {
-    data.update(produce(($data) => _set($data, path, value)));
+    data.update(($data) => _set($data, path, value));
     if (touch) setTouched(path);
   }
 
@@ -131,18 +122,16 @@ export function createForm<Data extends Record<string, unknown>>(
     function setCheckboxValues(target: HTMLInputElement) {
       const checkboxes = node.querySelectorAll(`[name="${target.name}"]`);
       if (checkboxes.length === 1)
-        return data.update(
-          produce(($data) => _set($data, getPath(target), target.checked))
+        return data.update(($data) =>
+          _set($data, getPath(target), target.checked)
         );
-      return data.update(
-        produce(($data) =>
-          _set(
-            $data,
-            getPath(target),
-            Array.from(checkboxes)
-              .filter((el: HTMLInputElement) => el.checked)
-              .map((el: HTMLInputElement) => el.value)
-          )
+      return data.update(($data) =>
+        _set(
+          $data,
+          getPath(target),
+          Array.from(checkboxes)
+            .filter((el: HTMLInputElement) => el.checked)
+            .map((el: HTMLInputElement) => el.value)
         )
       );
     }
@@ -152,17 +141,13 @@ export function createForm<Data extends Record<string, unknown>>(
       const checkedRadio = Array.from(radios).find(
         (el) => isInputElement(el) && el.checked
       ) as HTMLInputElement | undefined;
-      data.update(
-        produce((data) => _set(data, getPath(target), checkedRadio?.value))
-      );
+      data.update(($data) => _set($data, getPath(target), checkedRadio?.value));
     }
 
     function setFileValue(target: HTMLInputElement) {
       const files = target.files;
-      data.update(
-        produce((data) =>
-          _set(data, getPath(target), target.multiple ? files : files[0])
-        )
+      data.update(($data) =>
+        _set($data, getPath(target), target.multiple ? files : files[0])
       );
     }
 
@@ -172,13 +157,11 @@ export function createForm<Data extends Record<string, unknown>>(
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
       setTouched(getPath(target));
-      data.update(
-        produce((data) =>
-          _set(
-            data,
-            getPath(target),
-            target.type.match(/^(number|range)$/) ? +target.value : target.value
-          )
+      data.update(($data) =>
+        _set(
+          $data,
+          getPath(target),
+          target.type.match(/^(number|range)$/) ? +target.value : target.value
         )
       );
     }
@@ -205,11 +188,10 @@ export function createForm<Data extends Record<string, unknown>>(
     function unsetTaggedForRemove(formControls: FormControl[]) {
       for (const control of formControls) {
         if (control.dataset.unsetOnRemove !== 'true') continue;
-        data.update(
-          produce(($data) => {
-            _unset($data, getPath(control));
-          })
-        );
+        data.update(($data) => {
+          _unset($data, getPath(control));
+          return $data;
+        });
       }
     }
 
@@ -220,7 +202,7 @@ export function createForm<Data extends Record<string, unknown>>(
           const { defaultData: newDefaultData } = getFormDefaultValues<Data>(
             node
           );
-          data.update(produce(($data) => _defaultsDeep($data, newDefaultData)));
+          data.update(($data) => _defaultsDeep($data, newDefaultData));
         }
         if (mutation.removedNodes.length > 0) {
           for (const removedNode of mutation.removedNodes) {

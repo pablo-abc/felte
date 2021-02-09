@@ -1,4 +1,3 @@
-import produce from 'immer';
 import _cloneDeep from 'lodash/cloneDeep';
 import _isPlainObject from 'lodash/isPlainObject';
 import _mergeWith from 'lodash/mergeWith';
@@ -45,9 +44,7 @@ export function createStores<Data extends Record<string, unknown>>(
   const { subscribe: errorSubscribe } = derived(
     [errors, touched],
     ([$errors, $touched]) => {
-      return produce($errors, (draft) =>
-        _mergeWith(draft, $touched, errorFilterer)
-      );
+      return _mergeWith(_cloneDeep($errors), $touched, errorFilterer);
     }
   );
 

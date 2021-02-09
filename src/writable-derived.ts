@@ -1,6 +1,6 @@
+import _isFunction from 'lodash/isFunction';
 import type { Readable, Writable } from 'svelte/store';
 import { writable } from 'svelte/store';
-import _isFunction from 'lodash/isFunction';
 
 function subscribe(store: any, ...callbacks: any[]) {
   if (store == null) {
