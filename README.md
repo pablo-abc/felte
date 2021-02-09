@@ -42,7 +42,7 @@ interface FormConfig<D extends Record<string, unknown>> {
 - `validate` is a custom validation function that must return an object with the same props as initialValues, but with error messages or `undefined` as values.
 - `onSubmit` is the function that will be executed when the form is submited.
 - `onError` is a function that will run if the submit throws an exception. It will contain the error catched. This is optional and potential exceptions might as well be handled inside the `onSubmit` function.
-= `useConstraintApi` this tells **Felte** to use or not use the browser's Constraint Validation API to the report errors found in the `validate` function. By default it is `false`.
+- `useConstraintApi` this tells **Felte** to use or not use the browser's Constraint Validation API to the report errors found in the `validate` function. By default it is `false`.
 
 When called, `createForm` will return an object with the following interface:
 
