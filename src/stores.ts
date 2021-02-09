@@ -5,10 +5,11 @@ import _mergeWith from 'lodash/mergeWith';
 import { derived, writable } from 'svelte/store';
 import { deepSet, deepSome } from './helpers';
 import type { Errors, Form, FormConfig, Touched } from './types';
+import { writableDerived } from './writable-derived';
 
 type Stores<Data extends Record<string, unknown>> = Omit<
   Form<Data>,
-  'handleSubmit' | 'form'
+  'handleSubmit' | 'form' | 'setTouched' | 'setError' | 'setField'
 >;
 
 export function createStores<Data extends Record<string, unknown>>(
@@ -25,7 +26,7 @@ export function createStores<Data extends Record<string, unknown>>(
     config.initialValues ? _cloneDeep(config.initialValues) : undefined
   );
 
-  const errors = derived(
+  const errors = writableDerived(
     data,
     ($data: Data, set: (values: Errors<Data>) => void) => {
       (async () => {
@@ -64,7 +65,11 @@ export function createStores<Data extends Record<string, unknown>>(
     touched,
     isSubmitting,
     isValid,
-    errors: { subscribe: errorSubscribe },
+    errors: {
+      subscribe: errorSubscribe,
+      set: errors.set,
+      update: errors.update,
+    },
     data,
   };
 }

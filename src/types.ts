@@ -3,6 +3,9 @@ import type { Readable, Writable } from 'svelte/store';
 /** `Record<string, unknown>` */
 export type Obj = Record<string, unknown>;
 
+/** Possible field values. */
+export type FieldValue = string | string[] | boolean | number | File | File[];
+
 export type FormControl =
   | HTMLInputElement
   | HTMLTextAreaElement
@@ -57,8 +60,8 @@ export interface Form<Data extends Obj> {
   form: FormAction;
   /** Writable store that contains the form's data. */
   data: Writable<Data>;
-  /** Readable store that contains the form's validation errors. */
-  errors: Readable<Errors<Data>>;
+  /** Writable store that contains the form's validation errors. */
+  errors: Writable<Errors<Data>>;
   /** Writable store that denotes if any field has been touched. */
   touched: Writable<Touched<Data>>;
   /** Function to handle submit to be passed to the on:submit event. Not necessary if using the `form` action. */
@@ -67,4 +70,10 @@ export interface Form<Data extends Obj> {
   isValid: Readable<boolean>;
   /** Writable store containing only a boolean that represents if the form is submitting. */
   isSubmitting: Writable<boolean>;
+  /** Helper function to touch a specific field. */
+  setTouched: (path: string) => void;
+  /** Helper function to set an error to a specific field. */
+  setError: (path: string, error: string | string[]) => void;
+  /** Helper function to set the value of a specific field. Set `touch` to `false` if you want to set the value without setting the field to touched. */
+  setField: (path: string, value?: FieldValue, touch?: boolean) => void;
 }

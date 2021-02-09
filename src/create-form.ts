@@ -18,6 +18,7 @@ import {
 } from './helpers';
 import { createStores } from './stores';
 import type {
+  FieldValue,
   Form,
   FormConfig,
   FormConfigWithInitialValues,
@@ -100,30 +101,43 @@ export function createForm<Data extends Record<string, unknown>>(
     return data.set(values);
   }
 
+  function setTouched(fieldName: string): void {
+    touched.update(
+      produce((t) => {
+        _set(t, fieldName, true);
+      })
+    );
+  }
+
+  function setError(path: string, error: string | string[]): void {
+    errors.update(
+      produce(($errors) => {
+        _set($errors, path, error);
+      })
+    );
+  }
+
+  function setField(path: string, value?: FieldValue, touch = true) {
+    data.update(produce(($data) => _set($data, path, value)));
+    if (touch) setTouched(path);
+  }
+
   function form(node: HTMLFormElement) {
     node.noValidate = !!config.validate;
     const { defaultData, defaultTouched } = getFormDefaultValues<Data>(node);
     touched.set(defaultTouched);
     data.set(defaultData);
 
-    function touchField(fieldName: string) {
-      touched.update(
-        produce((t) => {
-          _set(t, fieldName, true);
-        })
-      );
-    }
-
     function setCheckboxValues(target: HTMLInputElement) {
       const checkboxes = node.querySelectorAll(`[name="${target.name}"]`);
       if (checkboxes.length === 1)
         return data.update(
-          produce((data) => _set(data, getPath(target), target.checked))
+          produce(($data) => _set($data, getPath(target), target.checked))
         );
       return data.update(
-        produce((data) =>
+        produce(($data) =>
           _set(
-            data,
+            $data,
             getPath(target),
             Array.from(checkboxes)
               .filter((el: HTMLInputElement) => el.checked)
@@ -157,7 +171,7 @@ export function createForm<Data extends Record<string, unknown>>(
       if (!isFormControl(target)) return;
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
-      touchField(getPath(target));
+      setTouched(getPath(target));
       data.update(
         produce((data) =>
           _set(
@@ -173,7 +187,7 @@ export function createForm<Data extends Record<string, unknown>>(
       const target = e.target;
       if (!isInputElement(target)) return;
       if (!target.name) return;
-      touchField(getPath(target));
+      setTouched(getPath(target));
       if (target.type === 'checkbox') setCheckboxValues(target);
       if (target.type === 'radio') setRadioValues(target);
       if (target.type === 'file') setFileValue(target);
@@ -183,7 +197,7 @@ export function createForm<Data extends Record<string, unknown>>(
       const target = e.target;
       if (!isFormControl(target)) return;
       if (!target.name) return;
-      touchField(getPath(target));
+      setTouched(getPath(target));
     }
 
     const mutationOptions = { childList: true, subtree: true };
@@ -260,5 +274,8 @@ export function createForm<Data extends Record<string, unknown>>(
     handleSubmit,
     isValid,
     isSubmitting,
+    setTouched,
+    setError,
+    setField,
   };
 }
