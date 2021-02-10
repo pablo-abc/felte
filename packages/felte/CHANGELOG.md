@@ -17,3 +17,7 @@ and this project will adhere to [Semantic Versioning](https://semver.org/spec/v2
 
 - `data-unset-on-remove` is now `data-felte-unset-on-remove`.
 - The `errors` store is now a writable store.
+
+### Removed
+
+- Removed built-in handling for constraint validation API. Moved to a `reporter` package.
