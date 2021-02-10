@@ -105,7 +105,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="formconfigwithoutinitialvalues.html#onerror" class="tsd-kind-icon">on<wbr>Error</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="formconfigwithoutinitialvalues.html#onsubmit" class="tsd-kind-icon">on<wbr>Submit</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="formconfigwithoutinitialvalues.html#useconstraintapi" class="tsd-kind-icon">use<wbr>Constraint<wbr>Api</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="formconfigwithoutinitialvalues.html#reporter" class="tsd-kind-icon">reporter</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="formconfigwithoutinitialvalues.html#validate" class="tsd-kind-icon">validate</a></li>
 							</ul>
 						</section>
@@ -120,7 +120,7 @@
 					<div class="tsd-signature tsd-kind-icon">on<wbr>Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>errors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:23</li>
+							<li>Defined in types.ts:46</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -156,7 +156,7 @@
 					<div class="tsd-signature tsd-kind-icon">on<wbr>Submit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:21</li>
+							<li>Defined in types.ts:44</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -187,17 +187,17 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="useconstraintapi" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> use<wbr>Constraint<wbr>Api</h3>
-					<div class="tsd-signature tsd-kind-icon">use<wbr>Constraint<wbr>Api<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="reporter" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> reporter</h3>
+					<div class="tsd-signature tsd-kind-icon">reporter<span class="tsd-signature-symbol">:</span> <a href="../modules.html#reporter" class="tsd-signature-type" data-tsd-kind="Type alias">Reporter</a><span class="tsd-signature-symbol"> | </span><a href="../modules.html#reporter" class="tsd-signature-type" data-tsd-kind="Type alias">Reporter</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:25</li>
+							<li>Defined in types.ts:48</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Optional boolean that tells Felte to use the Constraint Validation API to report validation errors.</p>
+							<p>Optional function/s to handle reporting errors.</p>
 						</div>
 					</div>
 				</section>
@@ -207,7 +207,7 @@
 					<div class="tsd-signature tsd-kind-icon">validate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="../modules.html#errors" class="tsd-signature-type" data-tsd-kind="Type alias">Errors</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules.html#errors" class="tsd-signature-type" data-tsd-kind="Type alias">Errors</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:19</li>
+							<li>Defined in types.ts:42</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -270,7 +270,7 @@
 								<a href="formconfigwithoutinitialvalues.html#onsubmit" class="tsd-kind-icon">on<wbr>Submit</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="formconfigwithoutinitialvalues.html#useconstraintapi" class="tsd-kind-icon">use<wbr>Constraint<wbr>Api</a>
+								<a href="formconfigwithoutinitialvalues.html#reporter" class="tsd-kind-icon">reporter</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="formconfigwithoutinitialvalues.html#validate" class="tsd-kind-icon">validate</a>
@@ -279,6 +279,9 @@
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="../modules.html#currentform" class="tsd-kind-icon">Current<wbr>Form</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="../modules.html#errors" class="tsd-kind-icon">Errors</a>
 					</li>
@@ -293,6 +296,15 @@
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="../modules.html#obj" class="tsd-kind-icon">Obj</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="../modules.html#onsubmiterrorstate" class="tsd-kind-icon">On<wbr>Submit<wbr>Error<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../modules.html#reporter" class="tsd-kind-icon">Reporter</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="../modules.html#reporterhandler" class="tsd-kind-icon">Reporter<wbr>Handler</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="../modules.html#touched" class="tsd-kind-icon">Touched</a>

@@ -101,7 +101,6 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="form.html#handlesubmit" class="tsd-kind-icon">handle<wbr>Submit</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="form.html#issubmitting" class="tsd-kind-icon">is<wbr>Submitting</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="form.html#isvalid" class="tsd-kind-icon">is<wbr>Valid</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="form.html#reportvalidity" class="tsd-kind-icon">report<wbr>Validity</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="form.html#seterror" class="tsd-kind-icon">set<wbr>Error</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="form.html#setfield" class="tsd-kind-icon">set<wbr>Field</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="form.html#settouched" class="tsd-kind-icon">set<wbr>Touched</a></li>
@@ -119,7 +118,7 @@
 					<div class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Writable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:62</li>
+							<li>Defined in types.ts:87</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -134,7 +133,7 @@
 					<div class="tsd-signature tsd-kind-icon">errors<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Writable</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules.html#errors" class="tsd-signature-type" data-tsd-kind="Type alias">Errors</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:64</li>
+							<li>Defined in types.ts:89</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -149,7 +148,7 @@
 					<div class="tsd-signature tsd-kind-icon">form<span class="tsd-signature-symbol">:</span> <a href="../modules.html#formaction" class="tsd-signature-type" data-tsd-kind="Type alias">FormAction</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:60</li>
+							<li>Defined in types.ts:85</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -164,7 +163,7 @@
 					<div class="tsd-signature tsd-kind-icon">handle<wbr>Submit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:68</li>
+							<li>Defined in types.ts:93</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -200,7 +199,7 @@
 					<div class="tsd-signature tsd-kind-icon">is<wbr>Submitting<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Writable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:72</li>
+							<li>Defined in types.ts:97</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -215,7 +214,7 @@
 					<div class="tsd-signature tsd-kind-icon">is<wbr>Valid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Readable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:70</li>
+							<li>Defined in types.ts:95</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -225,42 +224,12 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="reportvalidity" class="tsd-anchor"></a>
-					<h3>report<wbr>Validity</h3>
-					<div class="tsd-signature tsd-kind-icon">report<wbr>Validity<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in types.ts:80</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>If using the constraint validation API, setting an error with <code>setError</code> will not trigger a report. Call this helper function to trigger this. This method will <strong>only be available when using the <code>form</code> action.</strong></p>
-						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-signature">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="seterror" class="tsd-anchor"></a>
 					<h3>set<wbr>Error</h3>
 					<div class="tsd-signature tsd-kind-icon">set<wbr>Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:76</li>
+							<li>Defined in types.ts:101</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -299,7 +268,7 @@
 					<div class="tsd-signature tsd-kind-icon">set<wbr>Field<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">?: </span><a href="../modules.html#fieldvalue" class="tsd-signature-type" data-tsd-kind="Type alias">FieldValue</a>, touch<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:78</li>
+							<li>Defined in types.ts:103</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -341,7 +310,7 @@
 					<div class="tsd-signature tsd-kind-icon">set<wbr>Touched<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:74</li>
+							<li>Defined in types.ts:99</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -377,7 +346,7 @@
 					<div class="tsd-signature tsd-kind-icon">touched<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Writable</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules.html#touched" class="tsd-signature-type" data-tsd-kind="Type alias">Touched</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:66</li>
+							<li>Defined in types.ts:91</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -422,9 +391,6 @@
 								<a href="form.html#isvalid" class="tsd-kind-icon">is<wbr>Valid</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="form.html#reportvalidity" class="tsd-kind-icon">report<wbr>Validity</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="form.html#seterror" class="tsd-kind-icon">set<wbr>Error</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
@@ -450,6 +416,9 @@
 						<a href="formconfigwithoutinitialvalues.html" class="tsd-kind-icon">Form<wbr>Config<wbr>Without<wbr>Initial<wbr>Values</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="../modules.html#currentform" class="tsd-kind-icon">Current<wbr>Form</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="../modules.html#errors" class="tsd-kind-icon">Errors</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
@@ -463,6 +432,15 @@
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="../modules.html#obj" class="tsd-kind-icon">Obj</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="../modules.html#onsubmiterrorstate" class="tsd-kind-icon">On<wbr>Submit<wbr>Error<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../modules.html#reporter" class="tsd-kind-icon">Reporter</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="../modules.html#reporterhandler" class="tsd-kind-icon">Reporter<wbr>Handler</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="../modules.html#touched" class="tsd-kind-icon">Touched</a>

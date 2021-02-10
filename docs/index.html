@@ -63,7 +63,6 @@
 				</a>
 				<p><img src="https://github.com/pablo-abc/felte/workflows/Tests/badge.svg" alt="Tests">
 					<img src="https://img.shields.io/bundlephobia/min/felte" alt="Bundle size">
-					<img src="https://img.shields.io/github/package-json/v/pablo-abc/felte" alt="Version">
 				<img src="https://img.shields.io/npm/v/felte" alt="NPM Version"></p>
 				<p>Felte is a simple to use form library for Svelte. It is based on Svelte stores nd Selte actions for its functionality. No <code>Field</code> or <code>Form</code> components, just plain stores and actions to build your form however you like. You can see it in actino in this <a href="https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte">CodeSandbox demo</a>!</p>
 				<p><strong>WARNING:</strong> The API is not set in stone yet, so breaking changes may occur between minor versions until it is stable enough to be 1.0.0</p>
@@ -71,7 +70,7 @@
 					<h2>Why</h2>
 				</a>
 				<p>I felt that Svelte would allow to create a simple, almost configuration-less way to handle forms. Current libraries (at least that I have found) still make forms feel reliant on a lot of configuration, or custom Field and Form components which make it a little bit harder to customize styles. I wanted a library that would feel as simple as possible to make a form reactive, without relying on custom components, to make styling and handling forms as simple as possible. TypeScript is also a big plus.</p>
-				<p>In order to accomplish usage as simple as possible, Felte takes advantage of Svelte actions to be able to make a form reactive using only the <code>use</code> directive. Felte also has built-in error reporting capabilities by using the browser&#39;s Constraint Validation API. This means you can use the <code>:valid</code> and <code>:invalid</code> pseudo-classes to style your components and do not need to worry about reporting errors as long as you return appropriate messages from the <code>validate</code> function.</p>
+				<p>In order to accomplish usage as simple as possible, Felte takes advantage of Svelte actions to be able to make a form reactive using only the <code>use</code> directive. Felte also has built-in error reporting capabilities by using <code>reporters</code> such as <code>@felte/reporter-tippy</code> and <code>@felte/reporter-cvapi</code>.</p>
 				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
 					<h2>Installation</h2>
 				</a>
@@ -90,7 +89,7 @@
 <span style="color: #000000">  </span><span style="color: #795E26">validate</span><span style="color: #000000">?: (</span><span style="color: #001080">values</span><span style="color: #000000">: </span><span style="color: #267F99">D</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">Errors</span><span style="color: #000000">&lt;</span><span style="color: #267F99">D</span><span style="color: #000000">&gt;;</span>
 <span style="color: #000000">  </span><span style="color: #795E26">onSubmit</span><span style="color: #000000">: (</span><span style="color: #001080">values</span><span style="color: #000000">: </span><span style="color: #267F99">D</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
 <span style="color: #000000">  </span><span style="color: #795E26">onError</span><span style="color: #000000">?: (</span><span style="color: #001080">errors</span><span style="color: #000000">: </span><span style="color: #267F99">unknown</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
-<span style="color: #000000">  </span><span style="color: #001080">useConstraintApi</span><span style="color: #000000">?: </span><span style="color: #267F99">boolean</span><span style="color: #000000">;</span>
+<span style="color: #000000">  </span><span style="color: #001080">reporter</span><span style="color: #000000">?: </span><span style="color: #267F99">Reporter</span><span style="color: #000000"> | </span><span style="color: #267F99">Reporter</span><span style="color: #000000">[];</span>
 <span style="color: #000000">}</span>
 </code></pre>
 				<ul>
@@ -98,7 +97,7 @@
 					<li><code>validate</code> is a custom validation function that must return an object with the same props as initialValues, but with error messages or <code>undefined</code> as values.</li>
 					<li><code>onSubmit</code> is the function that will be executed when the form is submited.</li>
 					<li><code>onError</code> is a function that will run if the submit throws an exception. It will contain the error catched. This is optional and potential exceptions might as well be handled inside the <code>onSubmit</code> function.</li>
-					<li><code>useConstraintApi</code> this tells <strong>Felte</strong> to use or not use the browser&#39;s Constraint Validation API to the report errors found in the <code>validate</code> function. By default it is <code>false</code>.</li>
+					<li><code>reporter</code> a function or list of functions to handle error reporting. Currently there are two official packages: <code>@felte/reporter-tippy</code> to handle error reporting with <a href="https://atomiks.github.io/tippyjs/">Tippy.js</a> and <code>@felte/reporter-cvapi</code> to handle error reporting with the browser&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/Constraint_validation">Constraint Validation API</a>.</li>
 				</ul>
 				<p>When called, <code>createForm</code> will return an object with the following interface:</p>
 				<pre><code class="language-typescript"><span style="color: #0000FF">type</span><span style="color: #000000"> </span><span style="color: #267F99">FormAction</span><span style="color: #000000"> = (</span><span style="color: #001080">node</span><span style="color: #000000">: </span><span style="color: #267F99">HTMLFormElement</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> { </span><span style="color: #795E26">destroy</span><span style="color: #000000">: () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000"> };</span>
@@ -116,7 +115,6 @@
 <span style="color: #000000">  </span><span style="color: #795E26">setTouched</span><span style="color: #000000">: (</span><span style="color: #001080">path</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
 <span style="color: #000000">  </span><span style="color: #795E26">setError</span><span style="color: #000000">: (</span><span style="color: #001080">path</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000">, </span><span style="color: #001080">error</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000"> | </span><span style="color: #267F99">string</span><span style="color: #000000">[]) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
 <span style="color: #000000">  </span><span style="color: #795E26">setField</span><span style="color: #000000">: (</span><span style="color: #001080">path</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000">, </span><span style="color: #001080">value</span><span style="color: #000000">?: </span><span style="color: #267F99">FieldValue</span><span style="color: #000000">, </span><span style="color: #001080">touch</span><span style="color: #000000">?: </span><span style="color: #267F99">boolean</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
-<span style="color: #000000">  </span><span style="color: #795E26">reportValidity</span><span style="color: #000000">?: () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
 <span style="color: #000000">}</span>
 </code></pre>
 				<ul>
@@ -141,6 +139,8 @@
 				<p>The recommended way to use it is by using the <code>form</code> action from <code>createForm</code> and using it in the form element of your form.</p>
 				<pre><code class="language-html"><span style="color: #800000">&lt;script&gt;</span>
 <span style="color: #000000FF">  </span><span style="color: #AF00DB">import</span><span style="color: #000000FF"> { </span><span style="color: #001080">createForm</span><span style="color: #000000FF"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000FF"> </span><span style="color: #A31515">&#039;felte&#039;</span>
+<span style="color: #000000FF">  </span><span style="color: #008000">// install with `yarn add @felte/reporter-tippy`</span>
+<span style="color: #000000FF">  </span><span style="color: #AF00DB">import</span><span style="color: #000000FF"> </span><span style="color: #001080">reporter</span><span style="color: #000000FF"> </span><span style="color: #AF00DB">from</span><span style="color: #000000FF"> </span><span style="color: #A31515">&#039;@felte/reporter-tippy&#039;</span>
 
 <span style="color: #000000FF">  </span><span style="color: #0000FF">const</span><span style="color: #000000FF"> { </span><span style="color: #0070C1">form</span><span style="color: #000000FF">, </span><span style="color: #0070C1">data</span><span style="color: #000000FF">, </span><span style="color: #0070C1">errors</span><span style="color: #000000FF"> } </span><span style="color: #000000">=</span><span style="color: #000000FF"> </span><span style="color: #795E26">createForm</span><span style="color: #000000FF">({</span>
 <span style="color: #000000FF">    </span><span style="color: #795E26">validate</span><span style="color: #001080">:</span><span style="color: #000000FF"> (</span><span style="color: #001080">values</span><span style="color: #000000FF">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000FF"> {</span>
@@ -149,7 +149,7 @@
 <span style="color: #000000FF">    </span><span style="color: #795E26">onSubmit</span><span style="color: #001080">:</span><span style="color: #000000FF"> </span><span style="color: #0000FF">async</span><span style="color: #000000FF"> (</span><span style="color: #001080">values</span><span style="color: #000000FF">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000FF"> {</span>
 <span style="color: #000000FF">      </span><span style="color: #008000">/* call to an api */</span>
 <span style="color: #000000FF">    },</span>
-<span style="color: #000000FF">    </span><span style="color: #001080">useConstraintApi:</span><span style="color: #000000FF"> </span><span style="color: #0000FF">true</span><span style="color: #000000FF">,</span>
+<span style="color: #000000FF">    </span><span style="color: #001080">reporter</span><span style="color: #000000FF">,</span>
 <span style="color: #000000FF">  })</span>
 
 <span style="color: #000000FF">  </span><span style="color: #000000">$</span><span style="color: #000000FF">: </span><span style="color: #001080">console</span><span style="color: #000000FF">.</span><span style="color: #795E26">log</span><span style="color: #000000FF">(</span><span style="color: #001080">$data</span><span style="color: #000000FF">)</span>
@@ -163,7 +163,7 @@
 <span style="color: #800000">&lt;/form&gt;</span>
 </code></pre>
 				<p>That&#39;s all you need! With the example above you&#39;ll see <strong>Felte</strong> automatically updating the values of <code>data</code> when you type, as well as <code>errors</code> when finding an error. Note that the only required property for <code>createForm</code> is <code>onSubmit</code>.</p>
-				<p>Also note that using the <code>data</code> and <code>errors</code> store is completely optional in this method, since you already get access to the values of the form in the <code>onSubmit</code> function, and validation errors are reported with the browser&#39;s Constraint Validation API by setting <code>useConstraintApi</code> to <code>true</code>.</p>
+				<p>Also note that using the <code>data</code> and <code>errors</code> store is completely optional in this method, since you already get access to the values of the form in the <code>onSubmit</code> function, and validation errors are reported with the browser&#39;s Constraint Validation API by using the <code>@felte/reporter-cvapi</code> package.</p>
 				<blockquote>
 					<p>If using Felte this way, make sure to set the <code>name</code> attributes of your inputs since that is what Felte uses to map to the <code>data</code> store.</p>
 				</blockquote>
@@ -288,6 +288,9 @@
 						<a href="interfaces/formconfigwithoutinitialvalues.html" class="tsd-kind-icon">Form<wbr>Config<wbr>Without<wbr>Initial<wbr>Values</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#currentform" class="tsd-kind-icon">Current<wbr>Form</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="modules.html#errors" class="tsd-kind-icon">Errors</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
@@ -301,6 +304,15 @@
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="modules.html#obj" class="tsd-kind-icon">Obj</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#onsubmiterrorstate" class="tsd-kind-icon">On<wbr>Submit<wbr>Error<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#reporter" class="tsd-kind-icon">Reporter</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#reporterhandler" class="tsd-kind-icon">Reporter<wbr>Handler</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="modules.html#touched" class="tsd-kind-icon">Touched</a>

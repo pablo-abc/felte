@@ -73,11 +73,15 @@
 						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="modules.html#currentform" class="tsd-kind-icon">Current<wbr>Form</a></li>
 								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="modules.html#errors" class="tsd-kind-icon">Errors</a></li>
 								<li class="tsd-kind-type-alias"><a href="modules.html#fieldvalue" class="tsd-kind-icon">Field<wbr>Value</a></li>
 								<li class="tsd-kind-type-alias"><a href="modules.html#formaction" class="tsd-kind-icon">Form<wbr>Action</a></li>
 								<li class="tsd-kind-type-alias"><a href="modules.html#formcontrol" class="tsd-kind-icon">Form<wbr>Control</a></li>
 								<li class="tsd-kind-type-alias"><a href="modules.html#obj" class="tsd-kind-icon">Obj</a></li>
+								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="modules.html#onsubmiterrorstate" class="tsd-kind-icon">On<wbr>Submit<wbr>Error<wbr>State</a></li>
+								<li class="tsd-kind-type-alias"><a href="modules.html#reporter" class="tsd-kind-icon">Reporter</a></li>
+								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="modules.html#reporterhandler" class="tsd-kind-icon">Reporter<wbr>Handler</a></li>
 								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="modules.html#touched" class="tsd-kind-icon">Touched</a></li>
 							</ul>
 						</section>
@@ -93,12 +97,48 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Type aliases</h2>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
-					<a name="errors" class="tsd-anchor"></a>
-					<h3>Errors</h3>
-					<div class="tsd-signature tsd-kind-icon">Errors&lt;Data&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{</span><span class="tsd-signature-symbol">[ </span><span class="tsd-signature-type">key</span><span class="tsd-signature-symbol"> in </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="modules.html#errors" class="tsd-signature-type" data-tsd-kind="Type alias">Errors</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">key</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> }</span></div>
+					<a name="currentform" class="tsd-anchor"></a>
+					<h3>Current<wbr>Form</h3>
+					<div class="tsd-signature tsd-kind-icon">Current<wbr>Form&lt;Data&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>controls<span class="tsd-signature-symbol">: </span><a href="modules.html#formcontrol" class="tsd-signature-type" data-tsd-kind="Type alias">FormControl</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Writable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>errors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Writable</span><span class="tsd-signature-symbol">&lt;</span><a href="modules.html#errors" class="tsd-signature-type" data-tsd-kind="Type alias">Errors</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>form<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLFormElement</span><span class="tsd-signature-symbol">; </span>touched<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Writable</span><span class="tsd-signature-symbol">&lt;</span><a href="modules.html#touched" class="tsd-signature-type" data-tsd-kind="Type alias">Touched</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:46</li>
+							<li>Defined in types.ts:3</li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>Data<span class="tsd-signature-symbol">: </span><a href="modules.html#obj" class="tsd-signature-type" data-tsd-kind="Type alias">Obj</a></h4>
+						</li>
+					</ul>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>controls<span class="tsd-signature-symbol">: </span><a href="modules.html#formcontrol" class="tsd-signature-type" data-tsd-kind="Type alias">FormControl</a><span class="tsd-signature-symbol">[]</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Writable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>errors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Writable</span><span class="tsd-signature-symbol">&lt;</span><a href="modules.html#errors" class="tsd-signature-type" data-tsd-kind="Type alias">Errors</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>form<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLFormElement</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>touched<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Writable</span><span class="tsd-signature-symbol">&lt;</span><a href="modules.html#touched" class="tsd-signature-type" data-tsd-kind="Type alias">Touched</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
+					<a name="errors" class="tsd-anchor"></a>
+					<h3>Errors</h3>
+					<div class="tsd-signature tsd-kind-icon">Errors&lt;Data&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{</span><span class="tsd-signature-symbol">[ </span><span class="tsd-signature-type">key</span><span class="tsd-signature-symbol"> in </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">key</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> extends </span><a href="modules.html#obj" class="tsd-signature-type" data-tsd-kind="Type alias">Obj</a><span class="tsd-signature-symbol"> ? </span><a href="modules.html#errors" class="tsd-signature-type" data-tsd-kind="Type alias">Errors</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">key</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in types.ts:69</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -109,7 +149,7 @@
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
 					<ul class="tsd-type-parameters">
 						<li>
-							<h4>Data</h4>
+							<h4>Data<span class="tsd-signature-symbol">: </span><a href="modules.html#obj" class="tsd-signature-type" data-tsd-kind="Type alias">Obj</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -119,7 +159,7 @@
 					<div class="tsd-signature tsd-kind-icon">Field<wbr>Value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">File</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">File</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:7</li>
+							<li>Defined in types.ts:30</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -134,7 +174,7 @@
 					<div class="tsd-signature tsd-kind-icon">Form<wbr>Action<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLFormElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">{ </span>destroy<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:55</li>
+							<li>Defined in types.ts:80</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -182,7 +222,7 @@
 					<div class="tsd-signature tsd-kind-icon">Form<wbr>Control<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLInputElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">HTMLTextAreaElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">HTMLSelectElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:9</li>
+							<li>Defined in types.ts:32</li>
 						</ul>
 					</aside>
 				</section>
@@ -192,7 +232,7 @@
 					<div class="tsd-signature tsd-kind-icon">Obj<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:4</li>
+							<li>Defined in types.ts:27</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -202,12 +242,148 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
+					<a name="onsubmiterrorstate" class="tsd-anchor"></a>
+					<h3>On<wbr>Submit<wbr>Error<wbr>State</h3>
+					<div class="tsd-signature tsd-kind-icon">On<wbr>Submit<wbr>Error<wbr>State&lt;Data&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">; </span>errors<span class="tsd-signature-symbol">: </span><a href="modules.html#errors" class="tsd-signature-type" data-tsd-kind="Type alias">Errors</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in types.ts:11</li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>Data<span class="tsd-signature-symbol">: </span><a href="modules.html#obj" class="tsd-signature-type" data-tsd-kind="Type alias">Obj</a></h4>
+						</li>
+					</ul>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Data</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>errors<span class="tsd-signature-symbol">: </span><a href="modules.html#errors" class="tsd-signature-type" data-tsd-kind="Type alias">Errors</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="reporter" class="tsd-anchor"></a>
+					<h3>Reporter</h3>
+					<div class="tsd-signature tsd-kind-icon">Reporter<span class="tsd-signature-symbol">:</span> &lt;Data&gt;<span class="tsd-signature-symbol">(</span>currentForm<span class="tsd-signature-symbol">: </span><a href="modules.html#currentform" class="tsd-signature-type" data-tsd-kind="Type alias">CurrentForm</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="modules.html#reporterhandler" class="tsd-signature-type" data-tsd-kind="Type alias">ReporterHandler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in types.ts:22</li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-has-type-parameter">
+									<li class="tsd-signature tsd-kind-icon">&lt;Data&gt;<span class="tsd-signature-symbol">(</span>currentForm<span class="tsd-signature-symbol">: </span><a href="modules.html#currentform" class="tsd-signature-type" data-tsd-kind="Type alias">CurrentForm</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="modules.html#reporterhandler" class="tsd-signature-type" data-tsd-kind="Type alias">ReporterHandler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-type-parameters-title">Type parameters</h4>
+										<ul class="tsd-type-parameters">
+											<li>
+												<h4>Data<span class="tsd-signature-symbol">: </span><a href="modules.html#obj" class="tsd-signature-type" data-tsd-kind="Type alias">Obj</a></h4>
+											</li>
+										</ul>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>currentForm: <a href="modules.html#currentform" class="tsd-signature-type" data-tsd-kind="Type alias">CurrentForm</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <a href="modules.html#reporterhandler" class="tsd-signature-type" data-tsd-kind="Type alias">ReporterHandler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
+					<a name="reporterhandler" class="tsd-anchor"></a>
+					<h3>Reporter<wbr>Handler</h3>
+					<div class="tsd-signature tsd-kind-icon">Reporter<wbr>Handler&lt;Data&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>destroy<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">; </span>onSubmitError<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><a href="modules.html#onsubmiterrorstate" class="tsd-signature-type" data-tsd-kind="Type alias">OnSubmitErrorState</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">; </span>reportValidity<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in types.ts:16</li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>Data<span class="tsd-signature-symbol">: </span><a href="modules.html#obj" class="tsd-signature-type" data-tsd-kind="Type alias">Obj</a></h4>
+						</li>
+					</ul>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> destroy<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-literal">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>Submit<wbr>Error<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><a href="modules.html#onsubmiterrorstate" class="tsd-signature-type" data-tsd-kind="Type alias">OnSubmitErrorState</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-literal">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><a href="modules.html#onsubmiterrorstate" class="tsd-signature-type" data-tsd-kind="Type alias">OnSubmitErrorState</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>state: <a href="modules.html#onsubmiterrorstate" class="tsd-signature-type" data-tsd-kind="Type alias">OnSubmitErrorState</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span></h5>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> report<wbr>Validity<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-literal">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="touched" class="tsd-anchor"></a>
 					<h3>Touched</h3>
 					<div class="tsd-signature tsd-kind-icon">Touched&lt;Data&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{</span><span class="tsd-signature-symbol">[ </span><span class="tsd-signature-type">key</span><span class="tsd-signature-symbol"> in </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">key</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> extends </span><a href="modules.html#obj" class="tsd-signature-type" data-tsd-kind="Type alias">Obj</a><span class="tsd-signature-symbol"> ? </span><a href="modules.html#touched" class="tsd-signature-type" data-tsd-kind="Type alias">Touched</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">key</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:51</li>
+							<li>Defined in types.ts:76</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -236,7 +412,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in create-form.ts:35</li>
+									<li>Defined in create-form.ts:37</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -265,7 +441,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in create-form.ts:44</li>
+									<li>Defined in create-form.ts:46</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -318,6 +494,9 @@
 						<a href="interfaces/formconfigwithoutinitialvalues.html" class="tsd-kind-icon">Form<wbr>Config<wbr>Without<wbr>Initial<wbr>Values</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#currentform" class="tsd-kind-icon">Current<wbr>Form</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="modules.html#errors" class="tsd-kind-icon">Errors</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
@@ -331,6 +510,15 @@
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="modules.html#obj" class="tsd-kind-icon">Obj</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#onsubmiterrorstate" class="tsd-kind-icon">On<wbr>Submit<wbr>Error<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#reporter" class="tsd-kind-icon">Reporter</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#reporterhandler" class="tsd-kind-icon">Reporter<wbr>Handler</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="modules.html#touched" class="tsd-kind-icon">Touched</a>
