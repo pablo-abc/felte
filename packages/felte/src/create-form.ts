@@ -23,6 +23,8 @@ import type {
   FormConfigWithInitialValues,
   FormConfigWithoutInitialValues,
   FormControl,
+  Reporter,
+  ReporterHandler,
   Touched,
 } from './types';
 
@@ -48,6 +50,8 @@ export function createForm<Data extends Record<string, unknown>>(
   config: FormConfig<Data>
 ): Form<Data | undefined> {
   config.useConstraintApi ??= false;
+  config.reporter ??= [];
+  let currentReporters: ReporterHandler<Data>[] = [];
   const { isSubmitting, data, errors, touched, isValid } = createStores<Data>(
     config
   );
@@ -66,6 +70,9 @@ export function createForm<Data extends Record<string, unknown>>(
         if (hasErrors) {
           config.useConstraintApi &&
             (event.target as HTMLFormElement).reportValidity();
+          currentReporters.forEach((reporter) =>
+            reporter.onSubmitError({ data: currentData, errors: currentErrors })
+          );
           return;
         }
       }
@@ -121,6 +128,19 @@ export function createForm<Data extends Record<string, unknown>>(
   }
 
   function form(node: HTMLFormElement) {
+    function callReporter(reporter: Reporter) {
+      return reporter<Data>({
+        form: node,
+        controls: Array.from(node.elements).filter(isFormControl),
+        data,
+        errors,
+        touched,
+      });
+    }
+    const reporter = Array.isArray(config.reporter)
+      ? config.reporter
+      : [config.reporter];
+    currentReporters = reporter.map(callReporter);
     node.noValidate = !!config.validate;
     const { defaultData, defaultTouched } = getFormDefaultValues<Data>(node);
     formElement = node;
@@ -205,6 +225,8 @@ export function createForm<Data extends Record<string, unknown>>(
 
     function mutationCallback(mutationList: MutationRecord[]) {
       for (const mutation of mutationList) {
+        currentReporters.forEach((reporter) => reporter.destroy?.());
+        currentReporters = reporter.map(callReporter);
         if (mutation.type !== 'childList') continue;
         if (mutation.addedNodes.length > 0) {
           const { defaultData: newDefaultData } = getFormDefaultValues<Data>(
@@ -252,6 +274,7 @@ export function createForm<Data extends Record<string, unknown>>(
         node.removeEventListener('focusout', handleBlur);
         node.removeEventListener('submit', handleSubmit);
         unsubscribeErrors();
+        currentReporters.forEach((reporter) => reporter.destroy?.());
       },
     };
   }

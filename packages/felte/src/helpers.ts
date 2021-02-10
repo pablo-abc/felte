@@ -4,7 +4,7 @@ import _mapValues from 'lodash/mapValues';
 import _set from 'lodash/set';
 import _some from 'lodash/some';
 import _update from 'lodash/update';
-import type { Errors, FormControl, Obj, Touched } from './types';
+import type { FormControl, Obj, Touched } from './types';
 
 type DeepSetResult<Data extends Obj, Value> = {
   [key in keyof Data]: Data[key] extends Obj
@@ -24,12 +24,6 @@ export function deepSet<Data extends Obj, Value>(
 export function deepSome(obj: Obj, pred: (value: unknown) => boolean): boolean {
   return _some(obj, (value) =>
     _isPlainObject(value) ? deepSome(value as Obj, pred) : pred(value)
-  );
-}
-
-export function hasSomeErrors<Data extends Obj>(errors: Errors<Data>): boolean {
-  return _some(errors, (value) =>
-    _isPlainObject(value) ? hasSomeErrors(value as Obj) : !!value
   );
 }
 

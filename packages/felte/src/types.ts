@@ -1,5 +1,28 @@
 import type { Readable, Writable } from 'svelte/store';
 
+export type CurrentForm<Data extends Obj> = {
+  form: HTMLFormElement;
+  controls: FormControl[];
+  errors: Writable<Errors<Data>>;
+  data: Writable<Data>;
+  touched: Writable<Touched<Data>>;
+};
+
+export type OnSubmitErrorState<Data extends Obj> = {
+  data: Data;
+  errors: Errors<Data>;
+};
+
+export type ReporterHandler<Data extends Obj> = {
+  destroy?: () => void;
+  reportValidity?: () => void;
+  onSubmitError?: (state: OnSubmitErrorState<Data>) => void;
+};
+
+export type Reporter = <Data extends Obj>(
+  currentForm: CurrentForm<Data>
+) => ReporterHandler<Data>;
+
 /** `Record<string, unknown>` */
 export type Obj = Record<string, unknown>;
 
@@ -23,6 +46,8 @@ export interface FormConfigWithoutInitialValues<Data extends Obj> {
   onError?: (errors: unknown) => void;
   /** Optional boolean that tells Felte to use the Constraint Validation API to report validation errors. */
   useConstraintApi?: boolean;
+  /** Optional function/s to handle reporting errors. */
+  reporter?: Reporter | Reporter[];
 }
 
 /**
@@ -43,8 +68,10 @@ export interface FormConfig<Data extends Obj>
 }
 
 /** The errors object may contain either a string or array or string per key. */
-export type Errors<Data> = {
-  [key in keyof Data]?: string | string[] | Errors<Data[key]> | null;
+export type Errors<Data extends Obj> = {
+  [key in keyof Data]?: Data[key] extends Obj
+    ? Errors<Data[key]>
+    : string | string[] | null;
 };
 
 /** The touched object may only contain booleans per key. */
