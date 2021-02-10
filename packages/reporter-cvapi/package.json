@@ -8,7 +8,12 @@
   "types": "dist/index.d.ts",
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
-  "keywords": ["svelte", "forms", "validation", "felte"],
+  "keywords": [
+    "svelte",
+    "forms",
+    "validation",
+    "felte"
+  ],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -18,6 +23,6 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "felte": "^0.3.1"
+    "felte": "^0.4.0"
   }
 }
