@@ -25,5 +25,7 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
+    - run: yarn add global lerna
     - run: yarn
-    - run: yarn test:ci
+    - run: lerna bootstrap
+    - run: lerna exec --scope felte -- yarn test:ci
