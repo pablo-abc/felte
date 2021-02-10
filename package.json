@@ -2,7 +2,8 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "docs:build": "lerna exec --scope felte -- typedoc --out ../../docs"
+    "docs:build": "lerna exec --scope felte -- typedoc --out ../../docs",
+    "packages:build": "lerna run build"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
