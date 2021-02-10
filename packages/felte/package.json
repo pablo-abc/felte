@@ -30,8 +30,5 @@
   ],
   "dependencies": {
     "lodash": "^4.17.20"
-  },
-  "devDependencies": {
-    "typedoc": "^0.20.20"
   }
 }
