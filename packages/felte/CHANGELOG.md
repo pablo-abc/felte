@@ -7,9 +7,11 @@ and this project will adhere to [Semantic Versioning](https://semver.org/spec/v2
 
 ## [Unreleased]
 
+## [0.4.0] - 2021-10-02
+
 ### Added
 
-- Utility functions `setTouched`, `setError`, `setField` and `reportValidity` exported from `createForm`.
+- Utility functions `setTouched`, `setError` and `setField` exported from `createForm`.
 - Errors for each field are now stored in the `data-felte-validation-message` attribute.
 - Error reporting now can be handled using the `reporter` config option.
 
