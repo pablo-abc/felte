@@ -26,7 +26,7 @@ describe('Form action DOM mutations', () => {
     expect(formElement).toHaveAttribute('novalidate');
   });
 
-  test('Adds data-fieldset to children of fieldset', () => {
+  test('Adds data-felte-fieldset to children of fieldset', () => {
     const { form } = createForm({
       onSubmit: jest.fn(),
     });
@@ -38,7 +38,7 @@ describe('Form action DOM mutations', () => {
     fieldsetElement.appendChild(inputElement);
     formElement.appendChild(fieldsetElement);
     form(formElement);
-    expect(inputElement).toHaveAttribute('data-fieldset');
+    expect(inputElement).toHaveAttribute('data-felte-fieldset');
   });
 
   test('Fieldsets can be nested', () => {
@@ -60,10 +60,10 @@ describe('Form action DOM mutations', () => {
     formElement.appendChild(userFieldset);
     form(formElement);
     [emailInput, passwordInput, profileFieldset].forEach((el) => {
-      expect(el).toHaveAttribute('data-fieldset', 'user');
+      expect(el).toHaveAttribute('data-felte-fieldset', 'user');
     });
     [nameInput, bioInput].forEach((el) => {
-      expect(el).toHaveAttribute('data-fieldset', 'user.profile');
+      expect(el).toHaveAttribute('data-felte-fieldset', 'user.profile');
     });
   });
 

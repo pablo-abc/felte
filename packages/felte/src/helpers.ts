@@ -52,7 +52,7 @@ export function isElement(el: Node): el is Element {
 }
 
 export function getPath(el: FormControl): string {
-  const fieldSetName = el.dataset.fieldset;
+  const fieldSetName = el.dataset.felteFieldset;
   return fieldSetName ? `${fieldSetName}.${el.name}` : el.name;
 }
 
@@ -77,8 +77,8 @@ export function addAttrsFromFieldset(fieldSet: HTMLFieldSetElement): void {
   for (const element of fieldSet.elements) {
     if (!isFormControl(element) && !isFieldSetElement(element)) continue;
     if (fieldSet.name && element.name) {
-      element.dataset.fieldset = fieldSet.dataset.fieldset
-        ? `${fieldSet.dataset.fieldset}.${fieldSet.name}`
+      element.dataset.felteFieldset = fieldSet.dataset.felteFieldset
+        ? `${fieldSet.dataset.felteFieldset}.${fieldSet.name}`
         : fieldSet.name;
     }
     if (
