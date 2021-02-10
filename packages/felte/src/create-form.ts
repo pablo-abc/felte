@@ -49,7 +49,6 @@ export function createForm<Data extends Record<string, unknown>>(
 export function createForm<Data extends Record<string, unknown>>(
   config: FormConfig<Data>
 ): Form<Data | undefined> {
-  config.useConstraintApi ??= false;
   config.reporter ??= [];
   let currentReporters: ReporterHandler<Data>[] = [];
   const { isSubmitting, data, errors, touched, isValid } = createStores<Data>(
@@ -68,8 +67,6 @@ export function createForm<Data extends Record<string, unknown>>(
         const currentErrors = await config.validate(currentData);
         const hasErrors = deepSome(currentErrors, (error) => !!error);
         if (hasErrors) {
-          config.useConstraintApi &&
-            (event.target as HTMLFormElement).reportValidity();
           currentReporters.forEach((reporter) =>
             reporter.onSubmitError({ data: currentData, errors: currentErrors })
           );
@@ -121,12 +118,6 @@ export function createForm<Data extends Record<string, unknown>>(
     if (touch) setTouched(path);
   }
 
-  let formElement: HTMLFormElement | undefined;
-
-  function reportValidity(): void {
-    formElement?.reportValidity();
-  }
-
   function form(node: HTMLFormElement) {
     function callReporter(reporter: Reporter) {
       return reporter<Data>({
@@ -143,7 +134,6 @@ export function createForm<Data extends Record<string, unknown>>(
     currentReporters = reporter.map(callReporter);
     node.noValidate = !!config.validate;
     const { defaultData, defaultTouched } = getFormDefaultValues<Data>(node);
-    formElement = node;
     touched.set(defaultTouched);
     data.set(defaultData);
 
@@ -262,7 +252,6 @@ export function createForm<Data extends Record<string, unknown>>(
           : '';
         if (message) el.dataset.felteValidationMessage = message;
         else delete el.dataset.felteValidationMessage;
-        config.useConstraintApi && el.setCustomValidity(message);
       }
     });
 
@@ -290,6 +279,5 @@ export function createForm<Data extends Record<string, unknown>>(
     setTouched,
     setError,
     setField,
-    reportValidity,
   };
 }
