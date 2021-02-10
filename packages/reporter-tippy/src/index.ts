@@ -50,6 +50,10 @@ function tippyReporter<Data extends Obj = Obj>(
         '[data-felte-validation-message]'
       ) as FormControl;
       firstInvalidElement.focus();
+      const tippyInstance: Instance<Props> = (firstInvalidElement as any)
+        ?._tippy;
+      if (!tippyInstance || tippyInstance.state.isShown) return;
+      tippyInstance.show();
     },
   };
 }
