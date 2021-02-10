@@ -38,9 +38,11 @@
     "typescript": "^4.1.3"
   },
   "dependencies": {
+    "@felte/reporter-cvapi": "file:packages/reporter-cvapi",
     "@felte/reporter-tippy": "file:packages/reporter-tippy",
     "felte": "file:packages/felte"
   },
+  "workspaces": ["packages/*"],
   "volta": {
     "node": "14.15.5",
     "yarn": "1.22.10"
