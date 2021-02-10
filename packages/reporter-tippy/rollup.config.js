@@ -11,8 +11,8 @@ export default {
   input: './src/index.ts',
   external: ['tippy.js'],
   output: [
-    { file: pkg.browser, format: 'cjs', sourcemap: prod },
-    { file: pkg.module, format: 'esm', sourcemap: prod },
+    { file: pkg.browser, format: 'cjs', sourcemap: prod, exports: 'default' },
+    { file: pkg.module, format: 'esm', sourcemap: prod, exports: 'default' },
   ],
   plugins: [
     replace({

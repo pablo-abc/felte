@@ -8,21 +8,19 @@
   "types": "dist/index.d.ts",
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
-  "keywords": [
-    "svelte",
-    "forms",
-    "validation",
-    "felte"
-  ],
+  "keywords": ["svelte", "forms", "validation", "felte"],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
     "dev": "rollup -cw",
-    "prepublishOnly": "yarn test:ci && yarn build",
+    "prepublishOnly": "yarn build",
     "test:ci": "jest --ci"
   },
   "peerDependencies": {
     "tippy.js": "^6.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "felte": "^0.3.1"
+  }
 }
