@@ -26,14 +26,32 @@ function mutationCallback(mutationList: MutationRecord[]) {
   }
 }
 
+function isLabelElement(node: Node): node is HTMLLabelElement {
+  return node.nodeName === 'LABEL';
+}
+
+function getControlLabel(control: FormControl): HTMLLabelElement | undefined {
+  const labels = control.labels;
+  if (labels[0]) return labels[0];
+  const parentNode = control.parentNode;
+  if (isLabelElement(parentNode)) return parentNode;
+  if (!control.id) return;
+  const labelElement = document.querySelector(
+    `label[for=${control.id}]`
+  ) as HTMLLabelElement;
+  return labelElement || undefined;
+}
+
 function tippyReporter<Data extends Obj = Obj>(
   currentForm: CurrentForm<Data>
 ): ReporterHandler<Data> {
   const tippyInstances = currentForm.controls.map((control) => {
     const content = control.dataset.felteValidationMessage;
+    const triggerTarget = [control, getControlLabel(control)].filter(Boolean);
     const instance = tippy(control, {
       trigger: 'mouseenter click focusin',
       content,
+      triggerTarget,
     });
     if (!content) instance.disable();
     return instance;
