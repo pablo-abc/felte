@@ -76,6 +76,10 @@ function tippyReporter<Data extends Obj = Obj>(
       const tippyInstance: Instance<Props> = (firstInvalidElement as any)
         ?._tippy;
       if (!tippyInstance || tippyInstance.state.isShown) return;
+      tippyInstance.setContent(
+        firstInvalidElement.dataset.felteValidationMessage
+      );
+      if (!tippyInstance.state.isEnabled) tippyInstance.enable();
       tippyInstance.show();
     },
   };
