@@ -16,7 +16,6 @@
       "license": "MIT"
     },
     "version": {
-      "conventionalCommits": true,
       "message": "chore(release): %s"
     }
   }
