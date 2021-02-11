@@ -81,7 +81,6 @@ export function createForm<Data extends Record<string, unknown>>(
       const serverErrors = config.onError(e);
       if (serverErrors) {
         errors.set(serverErrors);
-        console.log('calling');
         currentReporters.forEach((reporter) =>
           reporter.onSubmitError({ data: currentData, errors: serverErrors })
         );
