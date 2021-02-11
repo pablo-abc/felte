@@ -10,11 +10,7 @@
   "license": "MIT",
   "homepage": "https://felte.berganza.dev",
   "repository": "github:pablo-abc/felte",
-  "keywords": [
-    "svelte",
-    "forms",
-    "validation"
-  ],
+  "keywords": ["svelte", "forms", "validation"],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -25,10 +21,11 @@
   "peerDependencies": {
     "svelte": "^3.0.0"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "dependencies": {
     "lodash": "^4.17.20"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
