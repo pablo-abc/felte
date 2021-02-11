@@ -64,13 +64,8 @@
 				<p><img src="https://github.com/pablo-abc/felte/workflows/Tests/badge.svg" alt="Tests">
 					<img src="https://img.shields.io/bundlephobia/min/felte" alt="Bundle size">
 				<img src="https://img.shields.io/npm/v/felte" alt="NPM Version"></p>
-				<p>Felte is a simple to use form library for Svelte. It is based on Svelte stores nd Selte actions for its functionality. No <code>Field</code> or <code>Form</code> components, just plain stores and actions to build your form however you like. You can see it in actino in this <a href="https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte">CodeSandbox demo</a>!</p>
+				<p>Felte is a simple to use form library for Svelte. It is based on Svelte stores and Svelte actions for its functionality. No <code>Field</code> or <code>Form</code> components, just plain stores and actions to build your form however you like. You can see it in actino in this <a href="https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte">CodeSandbox demo</a>!</p>
 				<p><strong>WARNING:</strong> The API is not set in stone yet, so breaking changes may occur between minor versions until it is stable enough to be 1.0.0</p>
-				<a href="#why" id="why" style="color: inherit; text-decoration: none;">
-					<h2>Why</h2>
-				</a>
-				<p>I felt that Svelte would allow to create a simple, almost configuration-less way to handle forms. Current libraries (at least that I have found) still make forms feel reliant on a lot of configuration, or custom Field and Form components which make it a little bit harder to customize styles. I wanted a library that would feel as simple as possible to make a form reactive, without relying on custom components, to make styling and handling forms as simple as possible. TypeScript is also a big plus.</p>
-				<p>In order to accomplish usage as simple as possible, Felte takes advantage of Svelte actions to be able to make a form reactive using only the <code>use</code> directive. Felte also has built-in error reporting capabilities by using <code>reporters</code> such as <code>@felte/reporter-tippy</code> and <code>@felte/reporter-cvapi</code>.</p>
 				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
 					<h2>Installation</h2>
 				</a>
@@ -96,7 +91,7 @@
 					<li><code>initialValues</code> refers to the initial values of the form.</li>
 					<li><code>validate</code> is a custom validation function that must return an object with the same props as initialValues, but with error messages or <code>undefined</code> as values.</li>
 					<li><code>onSubmit</code> is the function that will be executed when the form is submited.</li>
-					<li><code>onError</code> is a function that will run if the submit throws an exception. It will contain the error catched. This is optional and potential exceptions might as well be handled inside the <code>onSubmit</code> function.</li>
+					<li><code>onError</code> is a an optional function that will run if the submit throws an exception. It will contain the error catched. If you return an object with the same shape as <code>Errors</code>, these errors can be reported by a reporter.</li>
 					<li><code>reporter</code> a function or list of functions to handle error reporting. Currently there are two official packages: <code>@felte/reporter-tippy</code> to handle error reporting with <a href="https://atomiks.github.io/tippyjs/">Tippy.js</a> and <code>@felte/reporter-cvapi</code> to handle error reporting with the browser&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/Constraint_validation">Constraint Validation API</a>.</li>
 				</ul>
 				<p>When called, <code>createForm</code> will return an object with the following interface:</p>
@@ -319,6 +314,33 @@
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="modules.html#createform" class="tsd-kind-icon">create<wbr>Form</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#deepset" class="tsd-kind-icon">deep<wbr>Set</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#deepsome" class="tsd-kind-icon">deep<wbr>Some</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#getpath" class="tsd-kind-icon">get<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#iselement" class="tsd-kind-icon">is<wbr>Element</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#isfieldsetelement" class="tsd-kind-icon">is<wbr>Field<wbr>Set<wbr>Element</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#isformcontrol" class="tsd-kind-icon">is<wbr>Form<wbr>Control</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#isinputelement" class="tsd-kind-icon">is<wbr>Input<wbr>Element</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#isselectelement" class="tsd-kind-icon">is<wbr>Select<wbr>Element</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#istextareaelement" class="tsd-kind-icon">is<wbr>Text<wbr>Area<wbr>Element</a>
 					</li>
 				</ul>
 			</nav>

@@ -125,7 +125,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="onerror" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>Error</h3>
-					<div class="tsd-signature tsd-kind-icon">on<wbr>Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>errors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+					<div class="tsd-signature tsd-kind-icon">on<wbr>Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>errors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../modules.html#errors" class="tsd-signature-type" data-tsd-kind="Type alias">Errors</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="formconfigwithoutinitialvalues.html">FormConfigWithoutInitialValues</a>.<a href="formconfigwithoutinitialvalues.html#onerror">onError</a></p>
 						<ul>
@@ -134,7 +134,7 @@
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Optional function that accepts any thrown exceptions from the onSubmit function.</p>
+							<p>Optional function that accepts any thrown exceptions from the onSubmit function. You can return an object with the same shape <a href="../modules.html#errors"><code>Errors</code></a> for a reporter to use it.</p>
 						</div>
 					</div>
 					<div class="tsd-type-declaration">
@@ -142,7 +142,7 @@
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter-signature">
 								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>errors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>errors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../modules.html#errors" class="tsd-signature-type" data-tsd-kind="Type alias">Errors</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
@@ -152,7 +152,7 @@
 												<h5>errors: <span class="tsd-signature-type">unknown</span></h5>
 											</li>
 										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../modules.html#errors" class="tsd-signature-type" data-tsd-kind="Type alias">Errors</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">&gt;</span></h4>
 									</li>
 								</ul>
 							</li>
@@ -326,6 +326,33 @@
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="../modules.html#createform" class="tsd-kind-icon">create<wbr>Form</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="../modules.html#deepset" class="tsd-kind-icon">deep<wbr>Set</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../modules.html#deepsome" class="tsd-kind-icon">deep<wbr>Some</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../modules.html#getpath" class="tsd-kind-icon">get<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../modules.html#iselement" class="tsd-kind-icon">is<wbr>Element</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../modules.html#isfieldsetelement" class="tsd-kind-icon">is<wbr>Field<wbr>Set<wbr>Element</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../modules.html#isformcontrol" class="tsd-kind-icon">is<wbr>Form<wbr>Control</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../modules.html#isinputelement" class="tsd-kind-icon">is<wbr>Input<wbr>Element</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../modules.html#isselectelement" class="tsd-kind-icon">is<wbr>Select<wbr>Element</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../modules.html#istextareaelement" class="tsd-kind-icon">is<wbr>Text<wbr>Area<wbr>Element</a>
 					</li>
 				</ul>
 			</nav>
