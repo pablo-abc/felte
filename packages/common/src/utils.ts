@@ -21,13 +21,16 @@ function isFieldValue(value: unknown): value is FieldValue {
 }
 
 /** @ignore */
-function _some(obj: Obj, pred: (value: unknown) => boolean): boolean {
+export function _some(obj: Obj, pred: (value: unknown) => boolean): boolean {
   const keys = Object.keys(obj);
   return keys.some((key) => pred(obj[key]));
 }
 
 /** @ignore */
-function _mapValues(obj: Obj, updater: (value: unknown) => unknown): Obj {
+export function _mapValues(
+  obj: Obj,
+  updater: (value: unknown) => unknown
+): Obj {
   const keys = Object.keys(obj);
   return keys.reduce(
     (acc: Obj, key: string) => ({
@@ -39,7 +42,7 @@ function _mapValues(obj: Obj, updater: (value: unknown) => unknown): Obj {
 }
 
 /** @ignore */
-function _get<Data extends Obj, Default = undefined>(
+export function _get<Data extends Obj, Default = undefined>(
   obj: Data,
   path: string,
   defaultValue?: Default
@@ -57,7 +60,7 @@ function _get<Data extends Obj, Default = undefined>(
 }
 
 /** @ignore */
-function _set<Data extends Obj>(
+export function _set<Data extends Obj>(
   obj: Data,
   path: string,
   value: FieldValue
@@ -74,7 +77,20 @@ function _set<Data extends Obj>(
 }
 
 /** @ignore */
-function _update<Data extends Obj, Value = FieldValue>(
+export function _unset<Data extends Obj>(obj: Data, path: string): Data {
+  const a = path.split('.');
+  let o: any = obj;
+  while (a.length - 1) {
+    const n = a.shift();
+    if (!(n in o)) o[n] = {};
+    o = o[n];
+  }
+  delete o[a[0]];
+  return obj;
+}
+
+/** @ignore */
+export function _update<Data extends Obj, Value = FieldValue>(
   obj: Data,
   path: string,
   updater: (value: Value) => Value
@@ -91,7 +107,7 @@ function _update<Data extends Obj, Value = FieldValue>(
 }
 
 /** @ignore */
-function _isPlainObject(value: any): boolean {
+export function _isPlainObject(value: unknown): boolean {
   return Object.prototype.toString.call(value) === '[object Object]';
 }
 
