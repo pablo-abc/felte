@@ -35,7 +35,7 @@ interface FormConfig<D extends Record<string, unknown>> {
 - `initialValues` refers to the initial values of the form.
 - `validate` is a custom validation function that must return an object with the same props as initialValues, but with error messages or `undefined` as values.
 - `onSubmit` is the function that will be executed when the form is submited.
-- `onError` is a function that will run if the submit throws an exception. It will contain the error catched. This is optional and potential exceptions might as well be handled inside the `onSubmit` function.
+- `onError` is a an optional function that will run if the submit throws an exception. It will contain the error catched. If you return an object with the same shape as `Errors`, these errors can be reported by a reporter.
 - `reporter` a function or list of functions to handle error reporting. Currently there are two official packages: `@felte/reporter-tippy` to handle error reporting with [Tippy.js](https://atomiks.github.io/tippyjs/) and `@felte/reporter-cvapi` to handle error reporting with the browser's [Constraint Validation API](https://developer.mozilla.org/en-US/docs/Web/API/Constraint_validation).
 
 When called, `createForm` will return an object with the following interface:
