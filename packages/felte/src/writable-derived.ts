@@ -1,6 +1,6 @@
-import _isFunction from 'lodash/isFunction';
 import type { Readable, Writable } from 'svelte/store';
 import { writable } from 'svelte/store';
+import { is_function } from 'svelte/internal';
 
 function subscribe(store: any, ...callbacks: any[]) {
   if (store == null) {
@@ -74,7 +74,7 @@ export function writableDerived<T>(
       if (auto) {
         set(result as T);
       } else {
-        cleanup = _isFunction(result)
+        cleanup = is_function(result)
           ? (result as Unsubscriber)
           : () => undefined;
       }

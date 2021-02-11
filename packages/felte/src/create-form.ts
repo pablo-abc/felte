@@ -1,9 +1,5 @@
 import _defaultsDeep from 'lodash/defaultsDeep';
-import _get from 'lodash/get';
-import _isPlainObject from 'lodash/isPlainObject';
 import _mergeWith from 'lodash/mergeWith';
-import _set from 'lodash/set';
-import _unset from 'lodash/unset';
 import { get } from 'svelte/store';
 import {
   deepSet,
@@ -14,6 +10,10 @@ import {
   isElement,
   isFormControl,
   isInputElement,
+  _unset,
+  _set,
+  _isPlainObject,
+  _get,
 } from '@felte/common';
 import { createStores } from './stores';
 import type {
@@ -174,7 +174,11 @@ export function createForm<Data extends Record<string, unknown>>(
     function setFileValue(target: HTMLInputElement) {
       const files = target.files;
       data.update(($data) =>
-        _set($data, getPath(target), target.multiple ? files : files[0])
+        _set(
+          $data,
+          getPath(target),
+          target.multiple ? Array.from(files) : files[0]
+        )
       );
     }
 
