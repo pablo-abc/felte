@@ -33,6 +33,8 @@ import type {
  * In order to use auto-subscriptions with the stores, call this function at the top-level scope of the component.
  *
  * @param config - Configuration for the form itself. Since `initialValues` is set, `Data` will not be undefined
+ *
+ * @category Main
  */
 export function createForm<Data extends Record<string, unknown>>(
   config: FormConfigWithInitialValues<Data>
@@ -57,26 +59,33 @@ export function createForm<Data extends Record<string, unknown>>(
 
   async function handleSubmit(event: Event) {
     event.preventDefault();
-    try {
-      isSubmitting.set(true);
-      const currentData = get(data);
-      touched.update((t) => {
-        return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
-      });
-      if (config.validate) {
-        const currentErrors = await config.validate(currentData);
-        const hasErrors = deepSome(currentErrors, (error) => !!error);
-        if (hasErrors) {
-          currentReporters.forEach((reporter) =>
-            reporter.onSubmitError({ data: currentData, errors: currentErrors })
-          );
-          return;
-        }
+    isSubmitting.set(true);
+    const currentData = get(data);
+    const currentErrors = await config.validate?.(currentData);
+    touched.update((t) => {
+      return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
+    });
+    if (config.validate) {
+      const hasErrors = deepSome(currentErrors, (error) => !!error);
+      if (hasErrors) {
+        currentReporters.forEach((reporter) =>
+          reporter.onSubmitError({ data: currentData, errors: currentErrors })
+        );
+        return;
       }
+    }
+    try {
       await config.onSubmit(currentData);
     } catch (e) {
       if (!config.onError) throw e;
-      config.onError(e);
+      const serverErrors = config.onError(e);
+      if (serverErrors) {
+        errors.set(serverErrors);
+        console.log('calling');
+        currentReporters.forEach((reporter) =>
+          reporter.onSubmitError({ data: currentData, errors: serverErrors })
+        );
+      }
     } finally {
       isSubmitting.set(false);
     }
@@ -244,12 +253,12 @@ export function createForm<Data extends Record<string, unknown>>(
     const unsubscribeErrors = errors.subscribe(($errors) => {
       for (const el of node.elements) {
         if (!isFormControl(el) || !el.name) continue;
-        const fieldErrors = _get($errors, getPath(el), '');
+        const fieldErrors = _get($errors, getPath(el));
         const message = Array.isArray(fieldErrors)
           ? fieldErrors.join('\n')
           : typeof fieldErrors === 'string'
           ? fieldErrors
-          : '';
+          : undefined;
         if (message) el.dataset.felteValidationMessage = message;
         else delete el.dataset.felteValidationMessage;
       }
