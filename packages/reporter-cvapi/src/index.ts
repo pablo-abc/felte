@@ -4,8 +4,6 @@ import type {
   FormControl,
   Obj,
 } from '@felte/common';
-import { getPath } from '@felte/common';
-import _get from 'lodash/get';
 
 const mutationConfig: MutationObserverInit = {
   attributes: true,
@@ -31,16 +29,11 @@ function cvapiReporter<Data extends Obj = Obj>(
     destroy() {
       mutationObserver.disconnect();
     },
-    onSubmitError({ errors }) {
+    onSubmitError() {
       for (const control of currentForm.controls) {
         if (!control.name) continue;
-        const fieldErrors = _get(errors, getPath(control));
-        const message = Array.isArray(fieldErrors)
-          ? fieldErrors.join('\n')
-          : typeof fieldErrors === 'string'
-          ? fieldErrors
-          : '';
-        control.setCustomValidity(message);
+        const message = control.dataset.felteValidationMessage;
+        control.setCustomValidity(message || '');
         if (message) break;
       }
       currentForm.form.reportValidity();
