@@ -1,5 +1,10 @@
-import type { CurrentForm, ReporterHandler, FormControl, Obj } from 'felte';
-import { getPath } from 'felte';
+import type {
+  CurrentForm,
+  ReporterHandler,
+  FormControl,
+  Obj,
+} from '@felte/common';
+import { getPath } from '@felte/common';
 import _get from 'lodash/get';
 
 const mutationConfig: MutationObserverInit = {

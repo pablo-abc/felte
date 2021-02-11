@@ -1,0 +1,33 @@
+{
+  "name": "@felte/common",
+  "version": "0.1.0",
+  "description": "Common utilities for Felte packages",
+  "author": "Pablo Berganza <40573613+pablo-abc@users.noreply.github.com>",
+  "homepage": "https://github.com/pablo-abc/felte#readme",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "browser": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/pablo-abc/felte.git"
+  },
+  "scripts": {
+    "prebuild": "rimraf ./dist",
+    "build": "cross-env NODE_ENV=production rollup -c",
+    "dev": "rollup -cw",
+    "prepublishOnly": "yarn build",
+    "test:ci": "jest --ci"
+  },
+  "bugs": {
+    "url": "https://github.com/pablo-abc/felte/issues"
+  },
+  "dependencies": {
+    "lodash": "^4.17.20"
+  }
+}

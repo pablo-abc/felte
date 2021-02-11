@@ -14,7 +14,7 @@ import {
   isElement,
   isFormControl,
   isInputElement,
-} from './helpers';
+} from '@felte/common';
 import { createStores } from './stores';
 import type {
   FieldValue,
@@ -26,7 +26,7 @@ import type {
   Reporter,
   ReporterHandler,
   Touched,
-} from './types';
+} from '@felte/common';
 
 /**
  * Creates the stores and `form` action to make the form reactive.

@@ -1,5 +1,10 @@
 import tippy, { Instance, Props } from 'tippy.js';
-import type { CurrentForm, ReporterHandler, FormControl, Obj } from 'felte';
+import type {
+  CurrentForm,
+  ReporterHandler,
+  FormControl,
+  Obj,
+} from '@felte/common';
 
 const mutationConfig: MutationObserverInit = {
   attributes: true,
