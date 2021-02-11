@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-cvapi",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "An error reporter for Felte using the browser's Constraint Validation API",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -8,7 +8,12 @@
   "types": "dist/index.d.ts",
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
-  "keywords": ["svelte", "forms", "validation", "felte"],
+  "keywords": [
+    "svelte",
+    "forms",
+    "validation",
+    "felte"
+  ],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -18,7 +23,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@felte/common": "^0.1.0",
+    "@felte/common": "^0.1.1",
     "lodash": "^4.17.20"
   },
   "publishConfig": {
