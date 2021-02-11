@@ -1,4 +1,6 @@
 import type { CurrentForm, ReporterHandler, FormControl, Obj } from 'felte';
+import { getPath } from 'felte';
+import _get from 'lodash/get';
 
 const mutationConfig: MutationObserverInit = {
   attributes: true,
@@ -24,7 +26,18 @@ function cvapiReporter<Data extends Obj = Obj>(
     destroy() {
       mutationObserver.disconnect();
     },
-    onSubmitError() {
+    onSubmitError({ errors }) {
+      for (const control of currentForm.controls) {
+        if (!control.name) continue;
+        const fieldErrors = _get(errors, getPath(control));
+        const message = Array.isArray(fieldErrors)
+          ? fieldErrors.join('\n')
+          : typeof fieldErrors === 'string'
+          ? fieldErrors
+          : '';
+        control.setCustomValidity(message);
+        if (message) break;
+      }
       currentForm.form.reportValidity();
     },
   };
