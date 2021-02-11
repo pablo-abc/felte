@@ -1,5 +1,23 @@
 {
   "npmClient": "yarn",
   "version": "independent",
-  "useWorkspaces": true
+  "useWorkspaces": true,
+  "command": {
+    "create": {
+      "main": "dist/index.js",
+      "browser": "dist/index.js",
+      "module": "dist/index.mjs",
+      "types": "dist/index.d.ts",
+      "author": "Pablo Berganza <pablo@berganza.dev>",
+      "homepage": "https://github.com/pablo-abc/felte",
+      "repository": "github:pablo-abc/felte",
+      "keywords": ["svelte", "forms", "validation"],
+      "files": ["dist"],
+      "license": "MIT"
+    },
+    "version": {
+      "conventionalCommits": true,
+      "message": "chore(release): %s"
+    }
+  }
 }
