@@ -27,5 +27,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm i -g lerna
     - run: yarn
-    - run: lerna bootstrap
-    - run: lerna exec --scope felte -- yarn test:ci
+    - run: yarn workspaces run build
+    - run: yarn workspace felte run test:ci
