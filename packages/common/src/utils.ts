@@ -1,16 +1,99 @@
-import _get from 'lodash/get';
-import _isPlainObject from 'lodash/isPlainObject';
-import _mapValues from 'lodash/mapValues';
-import _set from 'lodash/set';
-import _some from 'lodash/some';
-import _update from 'lodash/update';
-import type { FormControl, Obj, Touched } from './types';
+import type { FormControl, Obj, Touched, FieldValue } from './types';
 
 type DeepSetResult<Data extends Obj, Value> = {
   [key in keyof Data]: Data[key] extends Obj
     ? DeepSetResult<Data[key], Value>
     : Value;
 };
+
+/** @category Helper */
+function isFieldValue(value: unknown): value is FieldValue {
+  if (Array.isArray(value)) {
+    if (value.length === 0) return true;
+    return value.some((v) => v instanceof File || typeof v === 'string');
+  }
+  return (
+    typeof value === 'string' ||
+    typeof value === 'number' ||
+    typeof value === 'boolean' ||
+    value instanceof File
+  );
+}
+
+/** @ignore */
+function _some(obj: Obj, pred: (value: unknown) => boolean): boolean {
+  const keys = Object.keys(obj);
+  return keys.some((key) => pred(obj[key]));
+}
+
+/** @ignore */
+function _mapValues(obj: Obj, updater: (value: unknown) => unknown): Obj {
+  const keys = Object.keys(obj);
+  return keys.reduce(
+    (acc: Obj, key: string) => ({
+      ...acc,
+      [key]: updater(obj[key]),
+    }),
+    {}
+  );
+}
+
+/** @ignore */
+function _get<Data extends Obj, Default = undefined>(
+  obj: Data,
+  path: string,
+  defaultValue?: Default
+): FieldValue | Default {
+  const keys = path.split('.');
+  let value: any = obj;
+  try {
+    for (const key of keys) {
+      value = value[key];
+    }
+  } catch {
+    return defaultValue;
+  }
+  return isFieldValue(value) ? value : defaultValue;
+}
+
+/** @ignore */
+function _set<Data extends Obj>(
+  obj: Data,
+  path: string,
+  value: FieldValue
+): Data {
+  const a = path.split('.');
+  let o: any = obj;
+  while (a.length - 1) {
+    const n = a.shift();
+    if (!(n in o)) o[n] = {};
+    o = o[n];
+  }
+  o[a[0]] = value;
+  return obj;
+}
+
+/** @ignore */
+function _update<Data extends Obj, Value = FieldValue>(
+  obj: Data,
+  path: string,
+  updater: (value: Value) => Value
+): Data {
+  const a = path.split('.');
+  let o: any = obj;
+  while (a.length - 1) {
+    const n = a.shift();
+    if (!(n in o)) o[n] = {};
+    o = o[n];
+  }
+  o[a[0]] = updater(o[a[0]]);
+  return obj;
+}
+
+/** @ignore */
+function _isPlainObject(value: any): boolean {
+  return Object.prototype.toString.call(value) === '[object Object]';
+}
 
 /**
  * @category Helper
@@ -147,7 +230,10 @@ export function getFormDefaultValues<Data extends Obj>(
         continue;
       }
       if (Array.isArray(_get(defaultData, elName)) && el.checked) {
-        _update(defaultData, elName, (value) => [...value, el.value]);
+        _update<Data, string[]>(defaultData, elName, (value) => [
+          ...value,
+          el.value,
+        ]);
       }
       continue;
     }
@@ -157,7 +243,11 @@ export function getFormDefaultValues<Data extends Obj>(
       continue;
     }
     if (isInputElement(el) && el.type === 'file') {
-      _set(defaultData, elName, el.multiple ? el.files : el.files[0]);
+      _set(
+        defaultData,
+        elName,
+        el.multiple ? Array.from(el.files) : el.files[0]
+      );
       continue;
     }
     _set(
