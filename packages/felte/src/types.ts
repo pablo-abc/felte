@@ -42,8 +42,8 @@ export interface FormConfigWithoutInitialValues<Data extends Obj> {
   validate?: (values: Data) => Errors<Data> | Promise<Errors<Data>>;
   /** Required function to handle the form data on submit. */
   onSubmit: (values: Data) => Promise<void> | void;
-  /** Optional function that accepts any thrown exceptions from the onSubmit function. */
-  onError?: (errors: unknown) => void;
+  /** Optional function that accepts any thrown exceptions from the onSubmit function. You can return an object with the same shape [[`Errors`]] for a reporter to use it. */
+  onError?: (errors: unknown) => void | Errors<Data>;
   /** Optional function/s to handle reporting errors. */
   reporter?: Reporter | Reporter[];
 }

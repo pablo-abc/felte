@@ -12,6 +12,9 @@ type DeepSetResult<Data extends Obj, Value> = {
     : Value;
 };
 
+/**
+ * @category Helper
+ */
 export function deepSet<Data extends Obj, Value>(
   obj: Data,
   value: Value
@@ -21,41 +24,68 @@ export function deepSet<Data extends Obj, Value>(
   ) as DeepSetResult<Data, Value>;
 }
 
+/**
+ * @category Helper
+ */
 export function deepSome(obj: Obj, pred: (value: unknown) => boolean): boolean {
   return _some(obj, (value) =>
     _isPlainObject(value) ? deepSome(value as Obj, pred) : pred(value)
   );
 }
 
+/**
+ * @category Helper
+ */
 export function isInputElement(el: EventTarget): el is HTMLInputElement {
   return (el as HTMLInputElement)?.nodeName === 'INPUT';
 }
 
+/**
+ * @category Helper
+ */
 export function isTextAreaElement(el: EventTarget): el is HTMLTextAreaElement {
   return (el as HTMLTextAreaElement)?.nodeName === 'TEXTAREA';
 }
 
+/**
+ * @category Helper
+ */
 export function isSelectElement(el: EventTarget): el is HTMLSelectElement {
   return (el as HTMLSelectElement)?.nodeName === 'SELECT';
 }
 
+/**
+ * @category Helper
+ */
 export function isFieldSetElement(el: EventTarget): el is HTMLFieldSetElement {
   return (el as HTMLFieldSetElement)?.nodeName === 'FIELDSET';
 }
 
+/**
+ * @category Helper
+ */
 export function isFormControl(el: EventTarget): el is FormControl {
   return isInputElement(el) || isTextAreaElement(el) || isSelectElement(el);
 }
 
+/**
+ * @category Helper
+ */
 export function isElement(el: Node): el is Element {
   return el.nodeType === Node.ELEMENT_NODE;
 }
 
+/**
+ * @category Helper
+ */
 export function getPath(el: FormControl): string {
   const fieldSetName = el.dataset.felteFieldset;
   return fieldSetName ? `${fieldSetName}.${el.name}` : el.name;
 }
 
+/**
+ * @ignore
+ */
 export function getFormControls(el: Element): FormControl[] {
   if (isFormControl(el)) return [el];
   if (el.childElementCount === 0) return [];
@@ -73,6 +103,9 @@ export function getFormControls(el: Element): FormControl[] {
   return foundControls;
 }
 
+/**
+ * @ignore
+ */
 export function addAttrsFromFieldset(fieldSet: HTMLFieldSetElement): void {
   for (const element of fieldSet.elements) {
     if (!isFormControl(element) && !isFieldSetElement(element)) continue;
@@ -90,6 +123,9 @@ export function addAttrsFromFieldset(fieldSet: HTMLFieldSetElement): void {
   }
 }
 
+/**
+ * @ignore
+ */
 export function getFormDefaultValues<Data extends Obj>(
   node: HTMLFormElement
 ): { defaultData: Data; defaultTouched: Touched<Data> } {
