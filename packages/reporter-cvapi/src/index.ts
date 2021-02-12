@@ -15,7 +15,7 @@ function mutationCallback(mutationList: MutationRecord[]) {
     if (mutation.type !== 'attributes') continue;
     if (mutation.attributeName !== 'data-felte-validation-message') continue;
     const target = mutation.target as FormControl;
-    const validationMessage: string = target.dataset.felteValidationMessage;
+    const validationMessage = target.dataset.felteValidationMessage;
     target.setCustomValidity(validationMessage || '');
   }
 }

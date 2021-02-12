@@ -127,8 +127,8 @@ export function createForm<Data extends Record<string, unknown>>(
   }
 
   function form(node: HTMLFormElement) {
-    function callReporter(reporter: Reporter) {
-      return reporter<Data>({
+    function callReporter(reporter: Reporter<Data>) {
+      return reporter({
         form: node,
         controls: Array.from(node.elements).filter(isFormControl),
         data,

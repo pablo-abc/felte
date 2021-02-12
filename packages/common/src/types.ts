@@ -19,7 +19,7 @@ export type ReporterHandler<Data extends Obj> = {
   onSubmitError?: (state: OnSubmitErrorState<Data>) => void;
 };
 
-export type Reporter = <Data extends Obj>(
+export type Reporter<Data extends Obj = Obj> = (
   currentForm: CurrentForm<Data>
 ) => ReporterHandler<Data>;
 
@@ -27,7 +27,14 @@ export type Reporter = <Data extends Obj>(
 export type Obj = Record<string, unknown>;
 
 /** Possible field values. */
-export type FieldValue = string | string[] | boolean | number | File | File[];
+export type FieldValue =
+  | string
+  | string[]
+  | boolean
+  | number
+  | File
+  | File[]
+  | undefined;
 
 export type FormControl =
   | HTMLInputElement

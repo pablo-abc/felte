@@ -46,7 +46,7 @@ export function _get<Data extends Obj, Default = undefined>(
   obj: Data,
   path: string,
   defaultValue?: Default
-): FieldValue | Default {
+): FieldValue | Default | undefined {
   const keys = path.split('.');
   let value: any = obj;
   try {
@@ -69,6 +69,7 @@ export function _set<Data extends Obj>(
   let o: any = obj;
   while (a.length - 1) {
     const n = a.shift();
+    if (!n) continue;
     if (!(n in o)) o[n] = {};
     o = o[n];
   }
@@ -82,6 +83,7 @@ export function _unset<Data extends Obj>(obj: Data, path: string): Data {
   let o: any = obj;
   while (a.length - 1) {
     const n = a.shift();
+    if (!n) continue;
     if (!(n in o)) o[n] = {};
     o = o[n];
   }
@@ -99,6 +101,7 @@ export function _update<Data extends Obj, Value = FieldValue>(
   let o: any = obj;
   while (a.length - 1) {
     const n = a.shift();
+    if (!n) continue;
     if (!(n in o)) o[n] = {};
     o = o[n];
   }
@@ -262,7 +265,7 @@ export function getFormDefaultValues<Data extends Obj>(
       _set(
         defaultData,
         elName,
-        el.multiple ? Array.from(el.files) : el.files[0]
+        el.multiple ? Array.from(el.files || []) : el.files?.[0]
       );
       continue;
     }

@@ -37,9 +37,9 @@ function isLabelElement(node: Node): node is HTMLLabelElement {
 
 function getControlLabel(control: FormControl): HTMLLabelElement | undefined {
   const labels = control.labels;
-  if (labels[0]) return labels[0];
+  if (labels?.[0]) return labels[0];
   const parentNode = control.parentNode;
-  if (isLabelElement(parentNode)) return parentNode;
+  if (parentNode && isLabelElement(parentNode)) return parentNode;
   if (!control.id) return;
   const labelElement = document.querySelector(
     `label[for=${control.id}]`
@@ -52,7 +52,9 @@ function tippyReporter<Data extends Obj = Obj>(
 ): ReporterHandler<Data> {
   const tippyInstances = currentForm.controls.map((control) => {
     const content = control.dataset.felteValidationMessage;
-    const triggerTarget = [control, getControlLabel(control)].filter(Boolean);
+    const triggerTarget = [control, getControlLabel(control)].filter(
+      Boolean
+    ) as HTMLElement[];
     const instance = tippy(control, {
       trigger: 'mouseenter click focusin',
       content,
@@ -77,7 +79,7 @@ function tippyReporter<Data extends Obj = Obj>(
         ?._tippy;
       if (!tippyInstance || tippyInstance.state.isShown) return;
       tippyInstance.setContent(
-        firstInvalidElement.dataset.felteValidationMessage
+        firstInvalidElement.dataset.felteValidationMessage || ''
       );
       if (!tippyInstance.state.isEnabled) tippyInstance.enable();
       tippyInstance.show();
