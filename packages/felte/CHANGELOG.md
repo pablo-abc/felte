@@ -1,15 +1,12 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+## 0.4.3
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project will adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) after 1.0.0. Before that, minor versions might contain breaking changes.
+### Patch Changes
 
-## [Unreleased]
-
-### Removed
-
-- Most of lodash functions have been replaced with `@felte/common` helpers.
+- d9f73e5: Removes most of lodash dependencies for functionality in @felte/common and adds @felte/reporter-dom
+- Updated dependencies [d9f73e5]
+  - @felte/common@0.1.2
 
 ## [0.4.2] - 2021-11-02
 
