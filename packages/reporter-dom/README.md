@@ -1,30 +1,57 @@
-# @felte/reporter-cvapi
+# @felte/reporter-dom
 
-![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-cvapi)
-![NPM Version](https://img.shields.io/npm/v/@felte/reporter-cvapi)
+![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-dom)
+![NPM Version](https://img.shields.io/npm/v/@felte/reporter-dom)
 
-A Felte reporter that uses the browser's [constraint validation API](https://developer.mozilla.org/en-US/docs/Web/API/Constraint_validation) to display your error messages.
+A Felte reporter that uses the DOM to display your error messages.
 
 ## Installation
 
 ```sh
-npm install --save @felte/reporter-cvapi
+npm install --save @felte/reporter-dom
 
 # Or, if you use yarn
 
-yarn add @felte/reporter-cvapi
+yarn add @felte/reporter-dom
 ```
 
 ## Usage
 
+The default export is a function you can pass options to that describe the behaviour. The current options are:
+
+```typescript
+interface DomReporterOptions {
+  listType?: 'ul' | 'ol';
+  single?: boolean;
+}
+```
+
+- `single` tells the reporter to display only a single message with a `span` element. If false, displays the messages in a list. Default: `false`.
+- `listType` defines the element to be used for the list. Default: `ul`.
+
 Add it to the `reporter` property of Felte's `createForm` configuration object.
 
 ```javascript
-import reporter from '@felte/reporter-cvapi';
+import reporterDom from '@felte/reporter-dom';
 
 const { form } = createForm({
   // ...
-  reporter,
+  reporter: reporterDom(),
   // ...
 });
 ```
+
+In order to show the errors for a field, you'll need to add a container for each of these elements. For example
+
+```html
+<input name="email">
+<div felte-reporter-dom-for="email" aria-live="polite">
+```
+
+## Styling
+
+This reporter will add the error messages inside of your container element.
+
+If the `single` option is `true`, then it will add a single message in a `span` element with the attribute `data-felte-reporter-dom-single-message`. You can style this with the CSS selector `[data-felte-reporter-dom-single-message]`.
+
+If `single` is `false` the it will add a single list (using the element defined in `listType`) with the attribute `data-felte-reporter-dom-list`. The list will containe a `li` element per message, each with the attribute `data-felte-reporter-dom-list-message`. You can style them using a similar CSS selector as described above.
