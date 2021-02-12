@@ -7,6 +7,26 @@ and this project will adhere to [Semantic Versioning](https://semver.org/spec/v2
 
 ## [Unreleased]
 
+### Removed
+
+- Most of lodash functions have been replaced with `@felte/common` helpers.
+
+## [0.4.2] - 2021-11-02
+
+### Changed
+
+- `felte` now deppends on `@felte/common` and removed its helpers.
+
+## [0.4.1] - 2021-10-02
+
+### Added
+
+- `commitlint` and `husky` added to lint commits.
+
+### Changed
+
+- The `onError` function can now return an object with the same shape as `Errors` that will be set on the `errors` store and can be used by reporters in the `onSubmitError` function.
+
 ## [0.4.0] - 2021-10-02
 
 ### Added
