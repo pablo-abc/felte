@@ -8,13 +8,13 @@
 - Updated dependencies [d9f73e5]
   - @felte/common@0.1.2
 
-## [0.4.2] - 2021-11-02
+## 0.4.2
 
 ### Changed
 
 - `felte` now deppends on `@felte/common` and removed its helpers.
 
-## [0.4.1] - 2021-10-02
+## 0.4.1
 
 ### Added
 
@@ -24,7 +24,7 @@
 
 - The `onError` function can now return an object with the same shape as `Errors` that will be set on the `errors` store and can be used by reporters in the `onSubmitError` function.
 
-## [0.4.0] - 2021-10-02
+## 0.4.0
 
 ### Added
 
