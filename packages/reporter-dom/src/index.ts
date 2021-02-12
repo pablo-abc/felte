@@ -1,0 +1,88 @@
+import type {
+  CurrentForm,
+  ReporterHandler,
+  FormControl,
+  Obj,
+  Reporter,
+} from '@felte/common';
+
+interface DomReporterOptions {
+  listType?: 'ul' | 'ol';
+  single?: boolean;
+}
+
+const mutationConfig: MutationObserverInit = {
+  attributes: true,
+  subtree: true,
+};
+
+function removeAllChildren(parent: Node): void {
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
+  }
+}
+
+function setValidationMessage(
+  target: FormControl,
+  { listType = 'ul', single }: DomReporterOptions
+) {
+  if (!target.name) return;
+  const validationMessage = target.dataset.felteValidationMessage;
+  const reporterElement = document.querySelector(
+    `[data-felte-reporter-dom-for=${target.name}]`
+  );
+  if (!reporterElement) return;
+  removeAllChildren(reporterElement);
+  if (!validationMessage) return;
+  if (single) {
+    const spanElement = document.createElement('span');
+    spanElement.dataset.felteReporterDomSingleMessage = '';
+    spanElement.innerText = validationMessage;
+    reporterElement.appendChild(spanElement);
+    return;
+  }
+  const messages = validationMessage.split('\n');
+  const listElement = document.createElement(listType);
+  listElement.dataset.felteReporterDomList = '';
+  for (const message of messages) {
+    const messageElement = document.createElement('li');
+    messageElement.dataset.felteReporterDomListMessage = '';
+    messageElement.innerText = message;
+    listElement.appendChild(messageElement);
+  }
+  reporterElement.appendChild(listElement);
+}
+
+function domReporter<Data extends Obj = Obj>(
+  options?: DomReporterOptions
+): Reporter<Data> {
+  function mutationCallback(mutationList: MutationRecord[]) {
+    for (const mutation of mutationList) {
+      if (mutation.type !== 'attributes') continue;
+      if (mutation.attributeName !== 'data-felte-validation-message') continue;
+      const target = mutation.target as FormControl;
+      setValidationMessage(target, options || {});
+    }
+  }
+
+  return (currentForm: CurrentForm<Data>): ReporterHandler<Data> => {
+    const mutationObserver = new MutationObserver(mutationCallback);
+    mutationObserver.observe(currentForm.form, mutationConfig);
+    return {
+      destroy() {
+        mutationObserver.disconnect();
+      },
+      onSubmitError() {
+        for (const control of currentForm.controls) {
+          if (!control.name) continue;
+          const message = control.dataset.felteValidationMessage;
+          control.setCustomValidity(message || '');
+          if (message) break;
+        }
+        currentForm.form.reportValidity();
+      },
+    };
+  };
+}
+
+export default domReporter;
