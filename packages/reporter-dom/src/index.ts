@@ -34,23 +34,30 @@ function setValidationMessage(
   if (!reporterElement) return;
   removeAllChildren(reporterElement);
   if (!validationMessage) return;
-  if (single) {
+  if (
+    single ||
+    reporterElement.hasAttribute('data-felte-reporter-dom-as-single')
+  ) {
     const spanElement = document.createElement('span');
     spanElement.dataset.felteReporterDomSingleMessage = '';
     spanElement.innerText = validationMessage;
     reporterElement.appendChild(spanElement);
-    return;
   }
-  const messages = validationMessage.split('\n');
-  const listElement = document.createElement(listType);
-  listElement.dataset.felteReporterDomList = '';
-  for (const message of messages) {
-    const messageElement = document.createElement('li');
-    messageElement.dataset.felteReporterDomListMessage = '';
-    messageElement.innerText = message;
-    listElement.appendChild(messageElement);
+  if (
+    !single ||
+    reporterElement.hasAttribute('data-felte-reporter-dom-as-list')
+  ) {
+    const messages = validationMessage.split('\n');
+    const listElement = document.createElement(listType);
+    listElement.dataset.felteReporterDomList = '';
+    for (const message of messages) {
+      const messageElement = document.createElement('li');
+      messageElement.dataset.felteReporterDomListMessage = '';
+      messageElement.innerText = message;
+      listElement.appendChild(messageElement);
+    }
+    reporterElement.appendChild(listElement);
   }
-  reporterElement.appendChild(listElement);
 }
 
 function domReporter<Data extends Obj = Obj>(
@@ -73,13 +80,10 @@ function domReporter<Data extends Obj = Obj>(
         mutationObserver.disconnect();
       },
       onSubmitError() {
-        for (const control of currentForm.controls) {
-          if (!control.name) continue;
-          const message = control.dataset.felteValidationMessage;
-          control.setCustomValidity(message || '');
-          if (message) break;
-        }
-        currentForm.form.reportValidity();
+        const firstInvalidElement = currentForm.form.querySelector(
+          '[data-felte-validation-message]'
+        ) as FormControl;
+        firstInvalidElement.focus();
       },
     };
   };
