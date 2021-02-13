@@ -1,5 +1,11 @@
 # felte
 
+## 0.4.4
+
+### Patch Changes
+
+- eaf4aae: Fix bug on which a reporter updating the DOM might cause an infinite loop
+
 ## 0.4.3
 
 ### Patch Changes
