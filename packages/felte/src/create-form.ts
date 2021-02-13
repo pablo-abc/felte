@@ -227,10 +227,11 @@ export function createForm<Data extends Record<string, unknown>>(
 
     function mutationCallback(mutationList: MutationRecord[]) {
       for (const mutation of mutationList) {
-        currentReporters.forEach((reporter) => reporter.destroy?.());
-        currentReporters = reporter.map(callReporter);
         if (mutation.type !== 'childList') continue;
         if (mutation.addedNodes.length > 0) {
+          if (!Array.from(mutation.addedNodes).some(isFormControl)) continue;
+          currentReporters.forEach((reporter) => reporter.destroy?.());
+          currentReporters = reporter.map(callReporter);
           const { defaultData: newDefaultData } = getFormDefaultValues<Data>(
             node
           );
@@ -240,6 +241,9 @@ export function createForm<Data extends Record<string, unknown>>(
           for (const removedNode of mutation.removedNodes) {
             if (!isElement(removedNode)) continue;
             const formControls = getFormControls(removedNode);
+            if (formControls.length === 0) continue;
+            currentReporters.forEach((reporter) => reporter.destroy?.());
+            currentReporters = reporter.map(callReporter);
             unsetTaggedForRemove(formControls);
           }
         }
