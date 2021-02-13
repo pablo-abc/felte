@@ -4,7 +4,7 @@
   "scripts": {
     "docs:build": "bolt w felte run typedoc --out ../../docs",
     "build": "bolt ws run build",
-    "dev": "bolt ws run dev",
+    "dev": "bolt ws --parallel run dev",
     "postinstall": "husky install",
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable"
