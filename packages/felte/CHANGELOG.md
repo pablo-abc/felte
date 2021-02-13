@@ -16,33 +16,24 @@
 
 ## 0.4.2
 
-### Changed
+### Patch Changes
 
 - `felte` now deppends on `@felte/common` and removed its helpers.
 
 ## 0.4.1
 
-### Added
+### Patch Changes
 
 - `commitlint` and `husky` added to lint commits.
-
-### Changed
-
 - The `onError` function can now return an object with the same shape as `Errors` that will be set on the `errors` store and can be used by reporters in the `onSubmitError` function.
 
 ## 0.4.0
 
-### Added
+### Minor Changes
 
 - Utility functions `setTouched`, `setError` and `setField` exported from `createForm`.
 - Errors for each field are now stored in the `data-felte-validation-message` attribute.
 - Error reporting now can be handled using the `reporter` config option.
-
-### Changed
-
 - `data-unset-on-remove` is now `data-felte-unset-on-remove`.
 - The `errors` store is now a writable store.
-
-### Removed
-
 - Removed built-in handling for constraint validation API. Moved to a `reporter` package.
