@@ -9,6 +9,7 @@
   - [`felte`](./packages/felte/README.md)
   - [`@felte/reporter-tippy`](./packages/reporter-tippy/README.md)
   - [`@felte/reporter-cvapi`](./packages/reporter-cvapi/README.md)
+  - [`@felte/reporter-dom`](./packages/reporter-dom/README.md)
   - [`@felte/common`](./packages/common/README.md)
 
 Felte is a simple to use form library for Svelte. It is based on Svelte stores and Svelte actions for its functionality. No `Field` or `Form` components, just plain stores and actions to build your form however you like. You can see it in actino in this [CodeSandbox demo](https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte)!
@@ -24,7 +25,7 @@ In order to accomplish usage as simple as possible, Felte takes advantage of Sve
 
 ## Packages
 
-This repository is a mono-repo containing multiple packages located in the `packages` directory. (Maintained using [Lerna](https://lerna.js.org/)).
+This repository is a mono-repo containing multiple packages located in the `packages` directory. Maintained using [Bolt](https://github.com/boltpkg/bolt) and [Changesets](https://github.com/atlassian/changesets).
 
 ### [felte](./packages/felte/README.md)
 
@@ -37,6 +38,10 @@ A reporter that uses [Tippy.js](https://atomiks.github.io/tippyjs/) to display y
 ### [@felte/reporter-cvapi](./packages/reporter-cvapi/README.md)
 
 A reporter that uses the browser's [constraint validation API](https://developer.mozilla.org/en-US/docs/Web/API/Constraint_validation) to display your validation messages.
+
+### [@felte/reporter-dom](./packages/reporter-dom/README.md)
+
+A reporter that displays the error messages in the DOM, either as a single element or a list of elements.
 
 ### [@felte/common](./packages/common/README.md)
 
