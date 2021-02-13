@@ -20,7 +20,7 @@ Felte is a simple to use form library for Svelte. It is based on Svelte stores a
 
 I felt that Svelte would allow to create a simple, almost configuration-less way to handle forms. Current libraries (at least that I have found) still make forms feel reliant on a lot of configuration, or custom Field and Form components which make it a little bit harder to customize styles. I wanted a library that would feel as simple as possible to make a form reactive, without relying on custom components, to make styling and handling forms as simple as possible. TypeScript is also a big plus.
 
-In order to accomplish usage as simple as possible, Felte takes advantage of Svelte actions to be able to make a form reactive using only the `use` directive. Felte also has built-in error reporting capabilities by using `reporters` such as `@felte/reporter-tippy` and `@felte/reporter-cvapi`.
+In order to accomplish usage as simple as possible, Felte takes advantage of Svelte actions to be able to make a form reactive using only the `use` directive. Felte also has built-in error reporting capabilities by using `reporters` such as `@felte/reporter-tippy`, `@felte/reporter-cvapi` and `@felte/reporter-dom`.
 
 
 ## Packages
@@ -29,7 +29,7 @@ This repository is a mono-repo containing multiple packages located in the `pack
 
 ### [felte](./packages/felte/README.md)
 
-This is the core package that contains all the basic functionality you need to handle your forms in Svelte. Felte optionally allows you to use error reporters (see them as plugins) to prevent you from needing to find a way to display your errors on your form manually. For this we provide already two packages `@felte/reporter-tippy` and `@felte/reporter-cvapi`.
+This is the core package that contains all the basic functionality you need to handle your forms in Svelte. Felte optionally allows you to use error reporters (see them as plugins) to prevent you from needing to find a way to display your errors on your form manually. For this we provide already some reporter packages contained in this same repo.
 
 ### [@felte/reporter-tippy](./packages/reporter-tippy/README.md)
 
