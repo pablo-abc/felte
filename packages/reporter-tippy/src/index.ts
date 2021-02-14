@@ -1,4 +1,5 @@
-import tippy, { Instance, Props } from 'tippy.js';
+import tippy from 'tippy.js';
+import type { Instance, Props } from 'tippy.js';
 import type {
   CurrentForm,
   ReporterHandler,
