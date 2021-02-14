@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.1.2
+
+### Patch Changes
+
+- Fix files included in package
+
 ## 0.1.1
 
 ### Patch Changes
