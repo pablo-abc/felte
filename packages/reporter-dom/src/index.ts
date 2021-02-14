@@ -73,14 +73,16 @@ function domReporter<Data extends Obj = Obj>(
   }
 
   return (currentForm: CurrentForm<Data>): ReporterHandler<Data> => {
+    const form = currentForm.form;
+    if (!form) return {};
     const mutationObserver = new MutationObserver(mutationCallback);
-    mutationObserver.observe(currentForm.form, mutationConfig);
+    mutationObserver.observe(form, mutationConfig);
     return {
       destroy() {
         mutationObserver.disconnect();
       },
       onSubmitError() {
-        const firstInvalidElement = currentForm.form.querySelector(
+        const firstInvalidElement = form.querySelector(
           '[data-felte-validation-message]'
         ) as FormControl;
         firstInvalidElement.focus();

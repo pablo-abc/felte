@@ -51,7 +51,9 @@ function getControlLabel(control: FormControl): HTMLLabelElement | undefined {
 function tippyReporter<Data extends Obj = Obj>(
   currentForm: CurrentForm<Data>
 ): ReporterHandler<Data> {
-  const tippyInstances = currentForm.controls.map((control) => {
+  const { controls, form } = currentForm;
+  if (!controls || !form) return {};
+  const tippyInstances = controls.map((control) => {
     const content = control.dataset.felteValidationMessage;
     const triggerTarget = [control, getControlLabel(control)].filter(
       Boolean
@@ -65,14 +67,14 @@ function tippyReporter<Data extends Obj = Obj>(
     return instance;
   });
   const mutationObserver = new MutationObserver(mutationCallback);
-  mutationObserver.observe(currentForm.form, mutationConfig);
+  mutationObserver.observe(form, mutationConfig);
   return {
     destroy() {
       mutationObserver.disconnect();
       tippyInstances.forEach((instance) => instance.destroy());
     },
     onSubmitError() {
-      const firstInvalidElement = currentForm.form.querySelector(
+      const firstInvalidElement = form.querySelector(
         '[data-felte-validation-message]'
       ) as FormControl;
       firstInvalidElement.focus();

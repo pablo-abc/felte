@@ -23,20 +23,23 @@ function mutationCallback(mutationList: MutationRecord[]) {
 function cvapiReporter<Data extends Obj = Obj>(
   currentForm: CurrentForm<Data>
 ): ReporterHandler<Data> {
+  const form = currentForm.form;
+  const controls = currentForm.controls;
+  if (!controls || !form) return {};
   const mutationObserver = new MutationObserver(mutationCallback);
-  mutationObserver.observe(currentForm.form, mutationConfig);
+  mutationObserver.observe(form, mutationConfig);
   return {
     destroy() {
       mutationObserver.disconnect();
     },
     onSubmitError() {
-      for (const control of currentForm.controls) {
+      for (const control of controls) {
         if (!control.name) continue;
         const message = control.dataset.felteValidationMessage;
         control.setCustomValidity(message || '');
         if (message) break;
       }
-      currentForm.form.reportValidity();
+      form.reportValidity();
     },
   };
 }

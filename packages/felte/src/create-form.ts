@@ -52,9 +52,19 @@ export function createForm<Data extends Record<string, unknown>>(
   config: FormConfig<Data>
 ): Form<Data | undefined> {
   config.reporter ??= [];
+  const reporter = Array.isArray(config.reporter)
+    ? config.reporter
+    : [config.reporter];
   let currentReporters: ReporterHandler<Data>[] = [];
   const { isSubmitting, data, errors, touched, isValid } = createStores<Data>(
     config
+  );
+  currentReporters = reporter.map((reporter) =>
+    reporter({
+      errors,
+      touched,
+      data,
+    })
   );
 
   async function handleSubmit(event: Event) {
@@ -136,9 +146,6 @@ export function createForm<Data extends Record<string, unknown>>(
         touched,
       });
     }
-    const reporter = Array.isArray(config.reporter)
-      ? config.reporter
-      : [config.reporter];
     currentReporters = reporter.map(callReporter);
     node.noValidate = !!config.validate;
     const { defaultData, defaultTouched } = getFormDefaultValues<Data>(node);

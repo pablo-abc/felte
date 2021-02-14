@@ -1,8 +1,8 @@
 import type { Readable, Writable } from 'svelte/store';
 
 export type CurrentForm<Data extends Obj> = {
-  form: HTMLFormElement;
-  controls: FormControl[];
+  form?: HTMLFormElement;
+  controls?: FormControl[];
   errors: Writable<Errors<Data>>;
   data: Writable<Data>;
   touched: Writable<Touched<Data>>;

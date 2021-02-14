@@ -5,6 +5,7 @@
   let errorFor;
   export { errorFor as for };
   const errors = getContext(formKey);
+  console.log(errors);
   let errorPath;
   onMount(() => {
     const control = document.getElementById(errorFor);
@@ -14,6 +15,6 @@
   $: messages = errorPath && _get($errors, errorPath)
 </script>
 
-{#if errorPath}
+{#if errorPath && messages}
   <slot {messages}></slot>
 {/if}
