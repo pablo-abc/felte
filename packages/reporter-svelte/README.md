@@ -1,60 +1,44 @@
-# @felte/reporter-dom
+# @felte/reporter-svelte
 
-![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-dom)
-![NPM Version](https://img.shields.io/npm/v/@felte/reporter-dom)
+![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-svelte)
+![NPM Version](https://img.shields.io/npm/v/@felte/reporter-svelte)
 
-A Felte reporter that uses the DOM to display your error messages.
+A Felte reporter that uses a custom Svelte component to report errors.
 
 ## Installation
 
 ```sh
-npm install --save @felte/reporter-dom
+npm install --save @felte/reporter-svelte
 
 # Or, if you use yarn
 
-yarn add @felte/reporter-dom
+yarn add @felte/reporter-svelte
 ```
 
 ## Usage
 
-The default export is a function you can pass options to that describe the behaviour. The current options are:
+The package exports a reporter function `svelteReporter` and a Svelte component `ValidationMessage`. These can be used in conjunction to report errors.
 
-```typescript
-interface DomReporterOptions {
-  listType?: 'ul' | 'ol';
-  single?: boolean;
-}
-```
-
-- `single` tells the reporter to display only a single message with a `span` element. If false, displays the messages in a list. Default: `false`.
-- `listType` defines the element to be used for the list. Default: `ul`.
-
-Add it to the `reporter` property of Felte's `createForm` configuration object.
+Add the reporter to the `reporter` property of `createForm` configuration.
 
 ```javascript
-import reporterDom from '@felte/reporter-dom';
+import { svelteReporter, ValidationMessage } from '@felte/reporter-svelte';
 
 const { form } = createForm({
   // ...
-  reporter: reporterDom(),
+  reporter: svelteReporter,
   // ...
 });
 ```
 
-In order to show the errors for a field, you'll need to add a container for each of these elements. For example
+In order to show the errors for a field, you'll need to use the reporter's component. For example
 
 ```html
 <label for="email">Email:</label>
 <input id="email" name="email" aria-describedby="email-validation">
-<div id="email-validation" felte-reporter-dom-for="email" aria-live="polite" />
+<ValidationMessage form="email" let:messages={messages}>
+  {messages}
+</ValidationMessage>
 ```
 
-You can choose individually if you want to show errors as a `span` or a list wit the attributes `data-felte-reporter-dom-as-single` and `data-felte-reporter-dom-as-list` respectively.
-
-## Styling
-
-This reporter will add the error messages inside of your container element.
-
-If the `single` option is `true`, then it will add a single message in a `span` element with the attribute `data-felte-reporter-dom-single-message`. You can style this with the CSS selector `[data-felte-reporter-dom-single-message]`.
-
-If `single` is `false` the it will add a single list (using the element defined in `listType`) with the attribute `data-felte-reporter-dom-list`. The list will containe a `li` element per message, each with the attribute `data-felte-reporter-dom-list-message`. You can style them using a similar CSS selector as described above.
+The `for` property refers to the ID of the input. The messages prop can be either an array of strings or a single string. If no error is reported, nothing will be rendered.
