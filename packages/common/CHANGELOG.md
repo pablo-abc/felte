@@ -1,5 +1,11 @@
 # @felte/common
 
+## 0.1.4
+
+### Patch Changes
+
+- Call reporters on component initialization
+
 ## 0.1.3
 
 ### Patch Changes

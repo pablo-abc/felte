@@ -1,5 +1,13 @@
 # @felte/reporter-dom
 
+## 0.1.3
+
+### Patch Changes
+
+- Call reporters on component initialization
+- Updated dependencies [undefined]
+  - @felte/common@0.1.4
+
 ## 0.1.2
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # felte
 
+## 0.4.6
+
+### Patch Changes
+
+- Call reporters on component initialization
+- Updated dependencies [undefined]
+  - @felte/common@0.1.4
+
 ## 0.4.5
 
 ### Patch Changes

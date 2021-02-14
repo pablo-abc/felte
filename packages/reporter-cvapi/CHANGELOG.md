@@ -1,5 +1,13 @@
 # @felte/reporter-cvapi
 
+## 0.1.5
+
+### Patch Changes
+
+- Call reporters on component initialization
+- Updated dependencies [undefined]
+  - @felte/common@0.1.4
+
 ## 0.1.4
 
 ### Patch Changes
