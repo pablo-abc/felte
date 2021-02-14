@@ -1,5 +1,13 @@
 # @felte/reporter-dom
 
+## 0.1.1
+
+### Patch Changes
+
+- 94b715c: Create reporter-svelte package
+- Updated dependencies [bca2c8e]
+  - @felte/common@0.1.3
+
 ## 0.1.2
 
 ### Patch Changes

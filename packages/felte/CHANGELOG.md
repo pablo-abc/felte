@@ -1,5 +1,13 @@
 # felte
 
+## 0.4.5
+
+### Patch Changes
+
+- bca2c8e: Change format exported from CJS to UMD
+- Updated dependencies [bca2c8e]
+  - @felte/common@0.1.3
+
 ## 0.4.4
 
 ### Patch Changes

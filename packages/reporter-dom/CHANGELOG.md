@@ -1,5 +1,13 @@
 # @felte/reporter-dom
 
+## 0.1.3
+
+### Patch Changes
+
+- bca2c8e: Change format exported from CJS to UMD
+- Updated dependencies [bca2c8e]
+  - @felte/common@0.1.3
+
 ## 0.1.2
 
 ### Patch Changes
