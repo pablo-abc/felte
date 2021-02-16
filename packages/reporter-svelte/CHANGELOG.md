@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- Change reporter dom to use id instead of name
+- Just updated the README for NPM
 
 ## 0.1.3
 
