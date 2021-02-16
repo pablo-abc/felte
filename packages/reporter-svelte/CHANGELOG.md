@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.1.6
+
+### Patch Changes
+
+- cdf13c1: Add placeholder slot for ValidationMessage component
+
 ## 0.1.5
 
 ### Patch Changes
