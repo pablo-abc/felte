@@ -26,10 +26,10 @@ function setValidationMessage(
   target: FormControl,
   { listType = 'ul', single }: DomReporterOptions
 ) {
-  if (!target.name) return;
+  if (!target.name || !target.id) return;
   const validationMessage = target.dataset.felteValidationMessage;
   const reporterElement = document.querySelector(
-    `[data-felte-reporter-dom-for=${target.name}]`
+    `[data-felte-reporter-dom-for=${target.id}]`
   );
   if (!reporterElement) return;
   removeAllChildren(reporterElement);

@@ -15,6 +15,8 @@ npm install --save @felte/reporter-svelte
 yarn add @felte/reporter-svelte
 ```
 
+If you're using sapper, you might want to add this reporter as a dev dependency. You can do this by adding the `-D` flag to any of the commands above.
+
 ## Usage
 
 The package exports a reporter function `svelteReporter` and a Svelte component `ValidationMessage`. These can be used in conjunction to report errors.

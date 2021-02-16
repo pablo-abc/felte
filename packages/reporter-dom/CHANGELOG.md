@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.1.5
+
+### Patch Changes
+
+- Change reporter dom to use id instead of name
+
 ## 0.1.4
 
 ### Patch Changes
