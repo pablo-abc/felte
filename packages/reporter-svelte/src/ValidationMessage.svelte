@@ -5,7 +5,6 @@
   let errorFor;
   export { errorFor as for };
   const errors = getContext(formKey);
-  console.log(errors);
   let errorPath;
   onMount(() => {
     const control = document.getElementById(errorFor);
