@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.1.5
+
+### Patch Changes
+
+- Remove a console.log
+
 ## 0.1.4
 
 ### Patch Changes
