@@ -16,4 +16,6 @@
 
 {#if errorPath && messages}
   <slot {messages}></slot>
+{:else if errorPath}
+  <slot name="placeholder"></slot>
 {/if}
