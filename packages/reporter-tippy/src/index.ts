@@ -22,10 +22,10 @@ function mutationCallback(mutationList: MutationRecord[]) {
     if (!tippyInstance) continue;
     if (validationMessage) {
       tippyInstance.setContent(validationMessage);
+      !tippyInstance.state.isEnabled && tippyInstance.enable();
       if (document.activeElement === target && !tippyInstance.state.isShown) {
         tippyInstance.show();
       }
-      !tippyInstance.state.isEnabled && tippyInstance.enable();
     } else {
       tippyInstance.disable();
     }
