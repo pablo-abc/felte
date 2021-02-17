@@ -1,5 +1,11 @@
 # @felte/reporter-tippy
 
+## 0.1.7
+
+### Patch Changes
+
+- 1f726c2: Enable tippy before calling 'show'
+
 ## 0.1.6
 
 ### Patch Changes
