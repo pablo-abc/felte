@@ -75,7 +75,7 @@ export function createForm<Data extends Record<string, unknown>>(
     touched.update((t) => {
       return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
     });
-    if (config.validate) {
+    if (currentErrors) {
       const hasErrors = deepSome(currentErrors, (error) => !!error);
       if (hasErrors) {
         currentReporters.forEach((reporter) =>
