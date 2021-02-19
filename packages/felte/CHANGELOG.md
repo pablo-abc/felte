@@ -1,5 +1,11 @@
 # felte
 
+## 0.4.7
+
+### Patch Changes
+
+- 61f0348: Handles `validate` possibly returning an undefined value
+
 ## 0.4.6
 
 ### Patch Changes
