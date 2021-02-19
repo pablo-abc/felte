@@ -36,7 +36,7 @@ export function createStores<Data extends Record<string, unknown>>(
       (async () => {
         let errors: Errors<Data> = {};
         if (config.validate && $data) errors = await config.validate($data);
-        set(errors);
+        set(errors || {});
       })();
     }
   );
