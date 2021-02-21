@@ -1,5 +1,6 @@
 import { setContext, hasContext } from 'svelte';
 import { formKey } from './key';
+
 /**
  *
  * @param {any} currentForm
@@ -7,5 +8,12 @@ import { formKey } from './key';
 export function svelteReporter(currentForm) {
   if (hasContext(formKey)) return {};
   setContext(formKey, currentForm.errors);
-  return {};
+  return {
+    onSubmitError() {
+      const firstInvalidElement = currentForm?.form.querySelector(
+        '[data-felte-validation-message]'
+      );
+      firstInvalidElement.focus();
+    },
+  };
 }
