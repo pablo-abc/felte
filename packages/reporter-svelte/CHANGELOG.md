@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.1.7
+
+### Patch Changes
+
+- bb08b1c: Focus first invalid element on submit
+
 ## 0.1.6
 
 ### Patch Changes
