@@ -276,6 +276,7 @@ export function createForm<Data extends Record<string, unknown>>(
           : typeof fieldErrors === 'string'
           ? fieldErrors
           : undefined;
+        if (message === el.dataset.felteValidationMessage) continue;
         if (message) el.dataset.felteValidationMessage = message;
         else delete el.dataset.felteValidationMessage;
       }
