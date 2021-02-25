@@ -33,20 +33,26 @@ function setValidationMessage(
   );
   if (!reporterElement) return;
   removeAllChildren(reporterElement);
-  if (!validationMessage) return;
-  if (
-    single ||
-    reporterElement.hasAttribute('data-felte-reporter-dom-as-single')
-  ) {
+  if (!validationMessage) {
+    target.removeAttribute('aria-invalid');
+    return;
+  }
+  target.setAttribute('aria-invalid', 'true');
+  const reportAsSingle =
+    (single &&
+      !reporterElement.hasAttribute('data-felte-reporter-dom-as-list')) ||
+    reporterElement.hasAttribute('data-felte-reporter-dom-as-single');
+  const reportAsList =
+    (!single &&
+      !reporterElement.hasAttribute('data-felte-reporter-dom-as-single')) ||
+    reporterElement.hasAttribute('data-felte-reporter-dom-as-list');
+  if (reportAsSingle) {
     const spanElement = document.createElement('span');
     spanElement.dataset.felteReporterDomSingleMessage = '';
     spanElement.innerText = validationMessage;
     reporterElement.appendChild(spanElement);
   }
-  if (
-    !single ||
-    reporterElement.hasAttribute('data-felte-reporter-dom-as-list')
-  ) {
+  if (reportAsList) {
     const messages = validationMessage.split('\n');
     const listElement = document.createElement(listType);
     listElement.dataset.felteReporterDomList = '';
