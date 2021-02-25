@@ -79,7 +79,10 @@ export function createForm<Data extends Record<string, unknown>>(
       const hasErrors = deepSome(currentErrors, (error) => !!error);
       if (hasErrors) {
         currentReporters.forEach((reporter) =>
-          reporter.onSubmitError({ data: currentData, errors: currentErrors })
+          reporter?.onSubmitError?.({
+            data: currentData,
+            errors: currentErrors,
+          })
         );
         return;
       }
@@ -92,7 +95,7 @@ export function createForm<Data extends Record<string, unknown>>(
       if (serverErrors) {
         errors.set(serverErrors);
         currentReporters.forEach((reporter) =>
-          reporter.onSubmitError({ data: currentData, errors: serverErrors })
+          reporter?.onSubmitError?.({ data: currentData, errors: serverErrors })
         );
       }
     } finally {
@@ -237,7 +240,7 @@ export function createForm<Data extends Record<string, unknown>>(
         if (mutation.type !== 'childList') continue;
         if (mutation.addedNodes.length > 0) {
           if (!Array.from(mutation.addedNodes).some(isFormControl)) continue;
-          currentReporters.forEach((reporter) => reporter.destroy?.());
+          currentReporters.forEach((reporter) => reporter?.destroy?.());
           currentReporters = reporter.map(callReporter);
           const { defaultData: newDefaultData } = getFormDefaultValues<Data>(
             node
@@ -249,7 +252,7 @@ export function createForm<Data extends Record<string, unknown>>(
             if (!isElement(removedNode)) continue;
             const formControls = getFormControls(removedNode);
             if (formControls.length === 0) continue;
-            currentReporters.forEach((reporter) => reporter.destroy?.());
+            currentReporters.forEach((reporter) => reporter?.destroy?.());
             currentReporters = reporter.map(callReporter);
             unsetTaggedForRemove(formControls);
           }
@@ -286,7 +289,7 @@ export function createForm<Data extends Record<string, unknown>>(
         node.removeEventListener('focusout', handleBlur);
         node.removeEventListener('submit', handleSubmit);
         unsubscribeErrors();
-        currentReporters.forEach((reporter) => reporter.destroy?.());
+        currentReporters.forEach((reporter) => reporter?.destroy?.());
       },
     };
   }
