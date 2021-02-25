@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.1.8
+
+### Patch Changes
+
+- 105cc69: Set aria-invalid on reporter-svelte
+
 ## 0.1.7
 
 ### Patch Changes

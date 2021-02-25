@@ -1,5 +1,11 @@
 # felte
 
+## 0.4.8
+
+### Patch Changes
+
+- a5bab38: Handle undefined reporter handler
+
 ## 0.4.7
 
 ### Patch Changes

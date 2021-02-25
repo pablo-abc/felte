@@ -1,5 +1,11 @@
 # @felte/reporter-tippy
 
+## 0.1.8
+
+### Patch Changes
+
+- 1879cf0: Set aria-invalid on reporter-tippy
+
 ## 0.1.7
 
 ### Patch Changes

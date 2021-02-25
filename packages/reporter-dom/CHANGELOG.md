@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.1.6
+
+### Patch Changes
+
+- ecbf490: Set aria-invalid on reporter-dom
+
 ## 0.1.5
 
 ### Patch Changes
