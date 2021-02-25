@@ -15,7 +15,6 @@ export type OnSubmitErrorState<Data extends Obj> = {
 
 export type ReporterHandler<Data extends Obj> = {
   destroy?: () => void;
-  reportValidity?: () => void;
   onSubmitError?: (state: OnSubmitErrorState<Data>) => void;
 };
 
