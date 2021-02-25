@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.1.7
+
+### Patch Changes
+
+- ac44dca: Add aria-live attribute to error container
+
 ## 0.1.6
 
 ### Patch Changes

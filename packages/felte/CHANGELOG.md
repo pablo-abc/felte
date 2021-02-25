@@ -1,5 +1,11 @@
 # felte
 
+## 0.4.9
+
+### Patch Changes
+
+- 117676d: Prevent unnecessary changes to felte-validation-message attribute if value hasn't changed
+
 ## 0.4.8
 
 ### Patch Changes

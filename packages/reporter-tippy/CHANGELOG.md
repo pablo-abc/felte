@@ -1,5 +1,11 @@
 # @felte/reporter-tippy
 
+## 0.1.9
+
+### Patch Changes
+
+- ac44dca: Add aria-live attribute to error container
+
 ## 0.1.8
 
 ### Patch Changes
