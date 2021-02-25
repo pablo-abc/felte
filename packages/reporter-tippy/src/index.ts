@@ -21,12 +21,14 @@ function mutationCallback(mutationList: MutationRecord[]) {
     const tippyInstance: Instance<Props> = target?._tippy;
     if (!tippyInstance) continue;
     if (validationMessage) {
+      target.setAttribute('aria-invalid', 'true');
       tippyInstance.setContent(validationMessage);
       !tippyInstance.state.isEnabled && tippyInstance.enable();
       if (document.activeElement === target && !tippyInstance.state.isShown) {
         tippyInstance.show();
       }
     } else {
+      target.removeAttribute('aria-invalid');
       tippyInstance.disable();
     }
   }
