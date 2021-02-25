@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 1879cf0: Set aria-invalid on reporter-tippy
+- 1879cf0: Set aria-invalid on error
 
 ## 0.1.7
 

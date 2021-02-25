@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- ecbf490: Set aria-invalid on reporter-dom
+- ecbf490: Set aria-invalid on error
 
 ## 0.1.5
 

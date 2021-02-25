@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 105cc69: Set aria-invalid on reporter-svelte
+- 105cc69: Set aria-invalid on error
 
 ## 0.1.7
 
