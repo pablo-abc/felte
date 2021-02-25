@@ -65,6 +65,7 @@ function tippyReporter<Data extends Obj = Obj>(
       content,
       triggerTarget,
     });
+    instance.popper.setAttribute('aria-live', 'polite');
     if (!content) instance.disable();
     return instance;
   });

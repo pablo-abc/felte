@@ -48,6 +48,7 @@ function setValidationMessage(
     reporterElement.hasAttribute('data-felte-reporter-dom-as-list');
   if (reportAsSingle) {
     const spanElement = document.createElement('span');
+    spanElement.setAttribute('aria-live', 'polite');
     spanElement.dataset.felteReporterDomSingleMessage = '';
     spanElement.innerText = validationMessage;
     reporterElement.appendChild(spanElement);
