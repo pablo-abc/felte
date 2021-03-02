@@ -39,8 +39,15 @@ In order to show the errors for a field, you'll need to use the reporter's compo
 <label for="email">Email:</label>
 <input id="email" name="email" aria-describedby="email-validation">
 <ValidationMessage form="email" let:messages={messages}>
-  {messages}
+  {messages || ''}
 </ValidationMessage>
 ```
 
-The `for` property refers to the ID of the input. The messages prop can be either an array of strings or a single string. If no error is reported, nothing will be rendered.
+The `for` property refers to the ID of the input. The `messages` prop will have whatever the current value of that field's error is. If you want to have a placeholder element be shown instead of handling falsy error values yourself, you can use the `placeholder` slot.
+
+```html
+<ValidationMessage for="email" let:messages={message}>
+  <span>{message}</span>
+  <span slot="placeholder">Some placeholder text</span>
+</ValidationMessage>
+```

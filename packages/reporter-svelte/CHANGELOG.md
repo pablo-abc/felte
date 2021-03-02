@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.1.9
+
+### Patch Changes
+
+- ceb92ad: Allow user to handle undefined/falsy values instead of using placeholder
+
 ## 0.1.8
 
 ### Patch Changes
