@@ -14,7 +14,7 @@
   $: messages = errorPath && _get($errors, errorPath)
 </script>
 
-{#if errorPath && messages}
+{#if errorPath && (messages || !$$slots.placeholder)}
   <slot {messages}></slot>
 {:else if errorPath}
   <slot name="placeholder"></slot>
