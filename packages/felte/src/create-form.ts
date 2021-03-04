@@ -14,6 +14,7 @@ import {
   _set,
   _isPlainObject,
   _get,
+  Errors,
 } from '@felte/common';
 import { createStores } from './stores';
 import type {
@@ -137,6 +138,16 @@ export function createForm<Data extends Record<string, unknown>>(
   function setField(path: string, value?: FieldValue, touch = true): void {
     data.update(($data) => _set($data, path, value));
     if (touch) setTouched(path);
+  }
+
+  async function validate(): Promise<Errors<Data> | void> {
+    const currentData = get(data);
+    const currentErrors = await config.validate?.(currentData);
+    errors.set(currentErrors || {});
+    touched.update((t) => {
+      return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
+    });
+    return currentErrors;
   }
 
   function form(node: HTMLFormElement) {
@@ -306,5 +317,6 @@ export function createForm<Data extends Record<string, unknown>>(
     setTouched,
     setError,
     setField,
+    validate,
   };
 }
