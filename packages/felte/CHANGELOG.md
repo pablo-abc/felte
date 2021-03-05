@@ -1,5 +1,15 @@
 # felte
 
+## 0.4.10
+
+### Patch Changes
+
+- 1c6017f: Add `reset` helper function that resets the whole form to its original values
+- 8a50ad7: Add a `validate` helper function to force validation of the whole form
+- Updated dependencies [1c6017f]
+- Updated dependencies [8a50ad7]
+  - @felte/common@0.1.5
+
 ## 0.4.9
 
 ### Patch Changes
