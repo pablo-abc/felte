@@ -57,6 +57,8 @@ export interface Form<D extends Record<string, unknown>> {
   setTouched: (path: string) => void;
   setError: (path: string, error: string | string[]) => void;
   setField: (path: string, value?: FieldValue, touch?: boolean) => void;
+  validate: () => Promise<Errors<Data> | undefined>;
+  reset: () => void;
 }
 ```
 
@@ -70,6 +72,8 @@ export interface Form<D extends Record<string, unknown>> {
 - `setTouched` is a helper function to touch a specific field.
 - `setError` is a helper function to set an error in a specific field.
 - `setField` is a helper function to set the data of a specific field. If undefined, it clears the field. If you set `touch` to `false` the field will not be touched with this change.
+- `validate` is a helper function that forces validation of the whole form, updating the `errors` store and touching every field. Similar to what happens on submit.
+- `reset` is a helper function that resets the form to its original values when the page was loaded.
 
 > If the helper functions are called before initialization of the form, whatever you set will be overwritten.
 
