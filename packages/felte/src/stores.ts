@@ -15,6 +15,7 @@ type Stores<Data extends Record<string, unknown>> = Omit<
   | 'setField'
   | 'reportValidity'
   | 'validate'
+  | 'reset'
 >;
 
 export function createStores<Data extends Record<string, unknown>>(

@@ -97,6 +97,8 @@ export interface Form<Data extends Obj> {
   touched: Writable<Touched<Data>>;
   /** Function to handle submit to be passed to the on:submit event. Not necessary if using the `form` action. */
   handleSubmit: (e: Event) => void;
+  /** Function that resets the form to its initial values */
+  reset: () => void;
   /** Readable store containing only a boolean that represents if the form is valid. */
   isValid: Readable<boolean>;
   /** Writable store containing only a boolean that represents if the form is submitting. */

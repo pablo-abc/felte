@@ -1,5 +1,6 @@
 import _defaultsDeep from 'lodash/defaultsDeep';
 import _mergeWith from 'lodash/mergeWith';
+import _cloneDeep from 'lodash/cloneDeep';
 import { get } from 'svelte/store';
 import {
   deepSet,
@@ -7,6 +8,7 @@ import {
   getFormControls,
   getFormDefaultValues,
   getPath,
+  setForm,
   isElement,
   isFormControl,
   isInputElement,
@@ -52,6 +54,8 @@ export function createForm<Data extends Record<string, unknown>>(
 export function createForm<Data extends Record<string, unknown>>(
   config: FormConfig<Data>
 ): Form<Data | undefined> {
+  let formNode: HTMLFormElement | undefined;
+  let initialValues = config.initialValues;
   config.reporter ??= [];
   const reporter = Array.isArray(config.reporter)
     ? config.reporter
@@ -150,6 +154,11 @@ export function createForm<Data extends Record<string, unknown>>(
     return currentErrors;
   }
 
+  function reset(): void {
+    data.set(_cloneDeep(initialValues));
+    if (formNode) setForm(formNode, initialValues);
+  }
+
   function form(node: HTMLFormElement) {
     function callReporter(reporter: Reporter<Data>) {
       return reporter({
@@ -163,8 +172,10 @@ export function createForm<Data extends Record<string, unknown>>(
     currentReporters = reporter.map(callReporter);
     node.noValidate = !!config.validate;
     const { defaultData, defaultTouched } = getFormDefaultValues<Data>(node);
+    initialValues = _cloneDeep(defaultData);
+    formNode = node;
     touched.set(defaultTouched);
-    data.set(defaultData);
+    data.set(_cloneDeep(defaultData));
 
     function setCheckboxValues(target: HTMLInputElement) {
       const checkboxes = node.querySelectorAll(`[name="${target.name}"]`);
@@ -312,6 +323,7 @@ export function createForm<Data extends Record<string, unknown>>(
     errors,
     touched,
     handleSubmit,
+    reset,
     isValid,
     isSubmitting,
     setTouched,

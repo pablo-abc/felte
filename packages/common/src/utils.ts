@@ -280,3 +280,45 @@ export function getFormDefaultValues<Data extends Obj>(
     defaultTouched,
   };
 }
+
+/** Sets the form inputs value to match the data object provided. */
+export function setForm<Data extends Obj>(
+  node: HTMLFormElement,
+  data: Data
+): void {
+  for (const el of node.elements) {
+    if (isFieldSetElement(el)) addAttrsFromFieldset(el);
+    if (!isFormControl(el) || !el.name) continue;
+    const elName = getPath(el);
+    if (isInputElement(el) && el.type === 'checkbox') {
+      const checkboxesDefaultData = _get(data, elName);
+      if (
+        typeof checkboxesDefaultData === 'undefined' ||
+        typeof checkboxesDefaultData === 'boolean'
+      ) {
+        el.checked = !!checkboxesDefaultData;
+        continue;
+      }
+      if (Array.isArray(checkboxesDefaultData)) {
+        if ((checkboxesDefaultData as string[]).includes(el.value)) {
+          el.checked = true;
+        } else {
+          el.checked = false;
+        }
+      }
+      continue;
+    }
+    if (isInputElement(el) && el.type === 'radio') {
+      const radioValue = _get(data, elName);
+      if (el.value === radioValue) el.checked = true;
+      else el.checked = false;
+      continue;
+    }
+    if (isInputElement(el) && el.type === 'file') {
+      el.files = null;
+      el.value = '';
+      continue;
+    }
+    el.value = String(_get(data, elName, ''));
+  }
+}
