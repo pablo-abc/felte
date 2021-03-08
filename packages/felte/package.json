@@ -1,6 +1,6 @@
 {
   "name": "felte",
-  "version": "0.4.10",
+  "version": "0.4.11",
   "description": "A form library for Svelte",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -29,7 +29,7 @@
     "dist"
   ],
   "dependencies": {
-    "@felte/common": "^0.1.5",
+    "@felte/common": "^0.1.6",
     "lodash": "^4.17.20"
   },
   "publishConfig": {

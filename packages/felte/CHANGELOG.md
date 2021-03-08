@@ -1,5 +1,13 @@
 # felte
 
+## 0.4.11
+
+### Patch Changes
+
+- bace787: Add createSubmitHandler helper function to allow to override submit handler
+- Updated dependencies [bace787]
+  - @felte/common@0.1.6
+
 ## 0.4.10
 
 ### Patch Changes
