@@ -16,6 +16,7 @@ type Stores<Data extends Record<string, unknown>> = Omit<
   | 'reportValidity'
   | 'validate'
   | 'reset'
+  | 'createSubmitHandler'
 >;
 
 export function createStores<Data extends Record<string, unknown>>(

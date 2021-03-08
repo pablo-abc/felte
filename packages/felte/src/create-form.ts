@@ -20,6 +20,7 @@ import {
 } from '@felte/common';
 import { createStores } from './stores';
 import type {
+  CreateSubmitHandlerConfig,
   FieldValue,
   Form,
   FormConfig,
@@ -54,8 +55,6 @@ export function createForm<Data extends Record<string, unknown>>(
 export function createForm<Data extends Record<string, unknown>>(
   config: FormConfig<Data>
 ): Form<Data | undefined> {
-  let formNode: HTMLFormElement | undefined;
-  let initialValues = config.initialValues;
   config.reporter ??= [];
   const reporter = Array.isArray(config.reporter)
     ? config.reporter
@@ -72,40 +71,48 @@ export function createForm<Data extends Record<string, unknown>>(
     })
   );
 
-  async function handleSubmit(event: Event) {
-    event.preventDefault();
-    isSubmitting.set(true);
-    const currentData = get(data);
-    const currentErrors = await config.validate?.(currentData);
-    touched.update((t) => {
-      return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
-    });
-    if (currentErrors) {
-      const hasErrors = deepSome(currentErrors, (error) => !!error);
-      if (hasErrors) {
-        currentReporters.forEach((reporter) =>
-          reporter?.onSubmitError?.({
-            data: currentData,
-            errors: currentErrors,
-          })
-        );
-        return;
+  function createSubmitHandler(altConfig?: CreateSubmitHandlerConfig<Data>) {
+    const onSubmit = altConfig?.onSubmit ?? config.onSubmit;
+    const validate = altConfig?.validate ?? config.validate;
+    const onError = altConfig?.onError ?? config.onError;
+    return async function handleSubmit(event?: Event) {
+      event?.preventDefault();
+      isSubmitting.set(true);
+      const currentData = get(data);
+      const currentErrors = await validate?.(currentData);
+      touched.update((t) => {
+        return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
+      });
+      if (currentErrors) {
+        const hasErrors = deepSome(currentErrors, (error) => !!error);
+        if (hasErrors) {
+          currentReporters.forEach((reporter) =>
+            reporter?.onSubmitError?.({
+              data: currentData,
+              errors: currentErrors,
+            })
+          );
+          return;
+        }
       }
-    }
-    try {
-      await config.onSubmit(currentData);
-    } catch (e) {
-      if (!config.onError) throw e;
-      const serverErrors = config.onError(e);
-      if (serverErrors) {
-        errors.set(serverErrors);
-        currentReporters.forEach((reporter) =>
-          reporter?.onSubmitError?.({ data: currentData, errors: serverErrors })
-        );
+      try {
+        await onSubmit(currentData);
+      } catch (e) {
+        if (!onError) throw e;
+        const serverErrors = onError(e);
+        if (serverErrors) {
+          errors.set(serverErrors);
+          currentReporters.forEach((reporter) =>
+            reporter?.onSubmitError?.({
+              data: currentData,
+              errors: serverErrors,
+            })
+          );
+        }
+      } finally {
+        isSubmitting.set(false);
       }
-    } finally {
-      isSubmitting.set(false);
-    }
+    };
   }
 
   function dataSetCustomizer(dataValue: unknown, initialValue: unknown) {
@@ -154,10 +161,15 @@ export function createForm<Data extends Record<string, unknown>>(
     return currentErrors;
   }
 
+  let formNode: HTMLFormElement | undefined;
+  let initialValues = config.initialValues;
+
   function reset(): void {
     data.set(_cloneDeep(initialValues));
     if (formNode) setForm(formNode, initialValues);
   }
+
+  const handleSubmit = createSubmitHandler();
 
   function form(node: HTMLFormElement) {
     function callReporter(reporter: Reporter<Data>) {
@@ -323,6 +335,7 @@ export function createForm<Data extends Record<string, unknown>>(
     errors,
     touched,
     handleSubmit,
+    createSubmitHandler,
     reset,
     isValid,
     isSubmitting,

@@ -9,6 +9,15 @@ Felte is a simple to use form library for Svelte. It is based on Svelte stores a
 
 **WARNING:** The API is not set in stone yet, so breaking changes may occur between minor versions until it is stable enough to be 1.0.0
 
+## Features
+
+- Single action to make your form reactive.
+- Use HTML5 native elements to create your form. (Only the `name` attribute is necessary).
+- Provides stores and helper functions to handle more complex use cases.
+- No assumptions on your validation strategy. Use any validation library you want or write your own strategy.
+- Handles addition and removal of form controls during runtime.
+- Official solutions for error reporting using `reporter` packages.
+
 ## Installation
 
 ```sh
@@ -26,9 +35,9 @@ Felte exports a single `createForm` function that accepts a config object with t
 ```typescript
 interface FormConfig<D extends Record<string, unknown>> {
   initialValues?: D;
-  validate?: (values: D) => Errors<D>;
+  validate?: (values: D) => Promise<Errors<D> | undefined>;
   onSubmit: (values: D) => void;
-  onError?: (errors: unknown) => void;
+  onError?: (errors: unknown) => void | Errors<D>;
   reporter?: Reporter | Reporter[];
 }
 ```
@@ -43,7 +52,12 @@ When called, `createForm` will return an object with the following interface:
 
 ```typescript
 type FormAction = (node: HTMLFormElement) => { destroy: () => void };
-export type FieldValue = string | string[] | boolean | number | File | File[];
+type FieldValue = string | string[] | boolean | number | File | File[];
+type CreateSubmitHandlerConfig<D> = {
+  onSubmit: (values: D) => void;
+  validate: (values: D) => Promise<Errors<D> | undefined>;
+  onError: (errors: unknown) => void | Errors<D>;
+}
 
 export interface Form<D extends Record<string, unknown>> {
   form: FormAction;
@@ -57,8 +71,9 @@ export interface Form<D extends Record<string, unknown>> {
   setTouched: (path: string) => void;
   setError: (path: string, error: string | string[]) => void;
   setField: (path: string, value?: FieldValue, touch?: boolean) => void;
-  validate: () => Promise<Errors<Data> | undefined>;
+  validate: (values: D) => Promise<Errors<D> | undefined>;
   reset: () => void;
+  createSubmitHandler: (config?: CreateSubmitHandlerConfig<D>) => (event?: Event) => void;
 }
 ```
 
@@ -74,6 +89,7 @@ export interface Form<D extends Record<string, unknown>> {
 - `setField` is a helper function to set the data of a specific field. If undefined, it clears the field. If you set `touch` to `false` the field will not be touched with this change.
 - `validate` is a helper function that forces validation of the whole form, updating the `errors` store and touching every field. Similar to what happens on submit.
 - `reset` is a helper function that resets the form to its original values when the page was loaded.
+- `createSubmitHandler` is a helper function that creates a submit handler with overriden `onSubmit`, `onError` and/or `validate` functions. If no config is passed it uses the default configuration from `createForm`.
 
 > If the helper functions are called before initialization of the form, whatever you set will be overwritten.
 

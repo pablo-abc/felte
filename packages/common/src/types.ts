@@ -1,5 +1,11 @@
 import type { Readable, Writable } from 'svelte/store';
 
+export type CreateSubmitHandlerConfig<Data extends Obj> = {
+  onSubmit?: FormConfig<Data>['onSubmit'];
+  validate?: FormConfig<Data>['validate'];
+  onError?: FormConfig<Data>['onError'];
+};
+
 export type CurrentForm<Data extends Obj> = {
   form?: HTMLFormElement;
   controls?: FormControl[];
@@ -96,7 +102,11 @@ export interface Form<Data extends Obj> {
   /** Writable store that denotes if any field has been touched. */
   touched: Writable<Touched<Data>>;
   /** Function to handle submit to be passed to the on:submit event. Not necessary if using the `form` action. */
-  handleSubmit: (e: Event) => void;
+  handleSubmit: (e?: Event) => void;
+  /** Function that creates a submit handler. If a function is passed as first argument it overrides the default `onSubmit` function set in the `createForm` config object. */
+  createSubmitHandler: (
+    altConfig?: CreateSubmitHandlerConfig<Data>
+  ) => (e?: Event) => void;
   /** Function that resets the form to its initial values */
   reset: () => void;
   /** Readable store containing only a boolean that represents if the form is valid. */
