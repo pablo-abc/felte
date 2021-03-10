@@ -3,21 +3,8 @@ import _isPlainObject from 'lodash/isPlainObject';
 import _mergeWith from 'lodash/mergeWith';
 import { derived, writable } from 'svelte/store';
 import { deepSet, deepSome } from '@felte/common';
-import type { Errors, Form, FormConfig, Touched } from '@felte/common';
+import type { Errors, FormConfig, Touched, Stores } from '@felte/common';
 import { writableDerived } from './writable-derived';
-
-type Stores<Data extends Record<string, unknown>> = Omit<
-  Form<Data>,
-  | 'handleSubmit'
-  | 'form'
-  | 'setTouched'
-  | 'setError'
-  | 'setField'
-  | 'reportValidity'
-  | 'validate'
-  | 'reset'
-  | 'createSubmitHandler'
->;
 
 export function createStores<Data extends Record<string, unknown>>(
   config: FormConfig<Data>

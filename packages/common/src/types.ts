@@ -91,16 +91,24 @@ export type Touched<Data extends Obj> = {
 
 export type FormAction = (node: HTMLFormElement) => { destroy: () => void };
 
-/** The return type for the `createForm` function. */
-export interface Form<Data extends Obj> {
-  /** Action function to be used with the `use` directive on your `form` elements. */
-  form: FormAction;
+/** The stores that `createForm` creates. */
+export type Stores<Data extends Obj> = {
   /** Writable store that contains the form's data. */
   data: Writable<Data>;
   /** Writable store that contains the form's validation errors. */
   errors: Writable<Errors<Data>>;
   /** Writable store that denotes if any field has been touched. */
   touched: Writable<Touched<Data>>;
+  /** Writable store containing only a boolean that represents if the form is submitting. */
+  isSubmitting: Writable<boolean>;
+  /** Readable store containing only a boolean that represents if the form is valid. */
+  isValid: Readable<boolean>;
+};
+
+/** The return type for the `createForm` function. */
+export type Form<Data extends Obj> = {
+  /** Action function to be used with the `use` directive on your `form` elements. */
+  form: FormAction;
   /** Function to handle submit to be passed to the on:submit event. Not necessary if using the `form` action. */
   handleSubmit: (e?: Event) => void;
   /** Function that creates a submit handler. If a function is passed as first argument it overrides the default `onSubmit` function set in the `createForm` config object. */
@@ -109,10 +117,6 @@ export interface Form<Data extends Obj> {
   ) => (e?: Event) => void;
   /** Function that resets the form to its initial values */
   reset: () => void;
-  /** Readable store containing only a boolean that represents if the form is valid. */
-  isValid: Readable<boolean>;
-  /** Writable store containing only a boolean that represents if the form is submitting. */
-  isSubmitting: Writable<boolean>;
   /** Helper function to touch a specific field. */
   setTouched: (path: string) => void;
   /** Helper function to set an error to a specific field. */
@@ -121,4 +125,4 @@ export interface Form<Data extends Obj> {
   setField: (path: string, value?: FieldValue, touch?: boolean) => void;
   /** Helper function that validates every fields and touches all of them. It updates the `errors` store. */
   validate: () => Promise<Errors<Data> | void>;
-}
+} & Stores<Data>;
