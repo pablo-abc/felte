@@ -92,4 +92,20 @@ describe('Form action DOM mutations', () => {
       expect(el).toHaveAttribute('data-felte-unset-on-remove', 'false');
     });
   });
+
+  test('Adds and removes event listeners', () => {
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const { form } = createForm({ onSubmit: jest.fn() });
+    const addEventListener = jest.fn();
+    const removeEventListener = jest.fn();
+    formElement.addEventListener = addEventListener;
+    formElement.removeEventListener = removeEventListener;
+    expect(addEventListener).not.toHaveBeenCalled();
+    expect(removeEventListener).not.toHaveBeenCalled();
+    const { destroy } = form(formElement);
+    expect(addEventListener).toHaveBeenCalledTimes(4);
+    expect(removeEventListener).not.toHaveBeenCalled();
+    destroy();
+    expect(removeEventListener).toHaveBeenCalledTimes(4);
+  });
 });

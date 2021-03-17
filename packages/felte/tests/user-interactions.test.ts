@@ -145,7 +145,7 @@ describe('User interactions with form', () => {
   });
 
   test('Sets custom default data correctly', () => {
-    const { form, data } = createForm({
+    const { form, data, isValid } = createForm({
       onSubmit: jest.fn(),
     });
     const {
@@ -185,6 +185,7 @@ describe('User interactions with form', () => {
         preferences: expect.arrayContaining(['technology']),
       })
     );
+    expect(get(isValid)).toBeTruthy();
   });
 
   test('Input and data object get same value', () => {
@@ -232,7 +233,7 @@ describe('User interactions with form', () => {
   test('Calls validation function on submit without calling onSubmit', async () => {
     const validate = jest.fn(() => ({ account: { email: 'Not email' } }));
     const onSubmit = jest.fn();
-    const { form } = createForm({
+    const { form, isValid } = createForm({
       onSubmit,
       validate,
     });
@@ -241,12 +242,13 @@ describe('User interactions with form', () => {
     formElement.submit();
     expect(validate).toHaveBeenCalled();
     await waitFor(() => expect(onSubmit).not.toHaveBeenCalled());
+    expect(get(isValid)).toBeFalsy();
   });
 
   test('Calls validate on input', async () => {
     const validate = jest.fn(() => ({}));
     const onSubmit = jest.fn();
-    const { form, errors } = createForm({
+    const { form, errors, isValid } = createForm({
       onSubmit,
       validate,
     });
@@ -255,5 +257,101 @@ describe('User interactions with form', () => {
     userEvent.type(emailInput, 'jacek@soplica.com');
     get(errors);
     await waitFor(() => expect(validate).toHaveBeenCalled());
+    expect(get(isValid)).toBeTruthy();
+  });
+
+  test('Handles user events', () => {
+    const { form, data } = createForm({
+      onSubmit: jest.fn(),
+    });
+    const {
+      formElement,
+      emailInput,
+      passwordInput,
+      confirmPasswordInput,
+      showPasswordInput,
+      publicEmailYesRadio,
+      firstNameInput,
+      lastNameInput,
+      bioInput,
+      techCheckbox,
+    } = createSignupForm();
+
+    form(formElement);
+
+    expect(get(data)).toEqual(
+      expect.objectContaining({
+        account: {
+          email: '',
+          password: '',
+          confirmPassword: '',
+          showPassword: false,
+          publicEmail: undefined,
+        },
+        profile: {
+          firstName: '',
+          lastName: '',
+          bio: '',
+          picture: undefined,
+        },
+        extra: {
+          pictures: expect.arrayContaining([]),
+        },
+        preferences: expect.arrayContaining([]),
+      })
+    );
+
+    userEvent.type(emailInput, 'jacek@soplica.com');
+    userEvent.type(passwordInput, 'password');
+    userEvent.type(confirmPasswordInput, 'password');
+    userEvent.click(showPasswordInput);
+    userEvent.click(publicEmailYesRadio);
+    userEvent.type(firstNameInput, 'Jacek');
+    userEvent.type(lastNameInput, 'Soplica');
+    const bioTest = 'Litwo! Ojczyzno moja! ty jesteś jak zdrowie';
+    userEvent.type(bioInput, bioTest);
+    userEvent.click(techCheckbox);
+
+    expect(get(data)).toEqual(
+      expect.objectContaining({
+        account: {
+          email: 'jacek@soplica.com',
+          password: 'password',
+          confirmPassword: 'password',
+          showPassword: true,
+          publicEmail: 'yes',
+        },
+        profile: {
+          firstName: 'Jacek',
+          lastName: 'Soplica',
+          bio: bioTest,
+          picture: undefined,
+        },
+        extra: {
+          pictures: expect.arrayContaining([]),
+        },
+        preferences: expect.arrayContaining(['technology']),
+      })
+    );
+  });
+
+  test('Sets default data with initialValues', () => {
+    const { data } = createForm({
+      onSubmit: jest.fn(),
+      initialValues: {
+        account: {
+          email: 'jacek@soplica.com',
+          password: 'password',
+        },
+      },
+    });
+    expect(get(data)).toEqual(
+      expect.objectContaining({
+        account: {
+          email: 'jacek@soplica.com',
+          password: 'password',
+        },
+      })
+    );
   });
 });
