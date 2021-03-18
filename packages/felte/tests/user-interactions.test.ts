@@ -354,4 +354,29 @@ describe('User interactions with form', () => {
       })
     );
   });
+
+  test('calls onError', async () => {
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const onError = jest.fn();
+    const mockErrors = { account: { email: 'Not email' } };
+    const onSubmit = jest.fn(() => {
+      throw mockErrors;
+    });
+
+    const { form } = createForm<any>({
+      onSubmit,
+      onError,
+    });
+
+    form(formElement);
+
+    expect(onError).not.toHaveBeenCalled();
+
+    formElement.submit();
+
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalled();
+      expect(onError).toHaveBeenCalledWith(mockErrors);
+    });
+  });
 });
