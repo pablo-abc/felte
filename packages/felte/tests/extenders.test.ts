@@ -4,7 +4,7 @@ import { createForm } from '../src';
 import { removeAllChildren, createDOM, createInputElement } from './common';
 import { get } from 'svelte/store';
 
-describe('Form action DOM mutations', () => {
+describe('Extenders', () => {
   beforeAll(() => {
     createDOM();
   });
