@@ -28,4 +28,9 @@ jobs:
     - run: npm i -g bolt
     - run: bolt
     - run: bolt ws run build
-    - run: bolt w felte run test:ci
+    - name: Run tests and generate coverage
+      run: bolt w felte run test:ci
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        directory: ./packages/felte/coverage

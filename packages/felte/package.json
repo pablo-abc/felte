@@ -10,24 +10,18 @@
   "license": "MIT",
   "homepage": "https://felte.dev",
   "repository": "github:pablo-abc/felte",
-  "keywords": [
-    "svelte",
-    "forms",
-    "validation"
-  ],
+  "keywords": ["svelte", "forms", "validation"],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
     "dev": "rollup -cw",
     "prepublishOnly": "yarn test:ci && yarn build",
-    "test:ci": "jest --ci"
+    "test:ci": "jest --ci --coverage"
   },
   "peerDependencies": {
     "svelte": "^3.0.0"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "dependencies": {
     "@felte/common": "^0.2.0",
     "lodash": "^4.17.20"
