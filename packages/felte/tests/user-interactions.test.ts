@@ -275,6 +275,8 @@ describe('User interactions with form', () => {
       lastNameInput,
       bioInput,
       techCheckbox,
+      pictureInput,
+      extraPicsInput,
     } = createSignupForm();
 
     form(formElement);
@@ -301,6 +303,7 @@ describe('User interactions with form', () => {
       })
     );
 
+    const mockFile = new File(['test file'], 'test.png', { type: 'image/png' });
     userEvent.type(emailInput, 'jacek@soplica.com');
     userEvent.type(passwordInput, 'password');
     userEvent.type(confirmPasswordInput, 'password');
@@ -311,6 +314,8 @@ describe('User interactions with form', () => {
     const bioTest = 'Litwo! Ojczyzno moja! ty jesteś jak zdrowie';
     userEvent.type(bioInput, bioTest);
     userEvent.click(techCheckbox);
+    userEvent.upload(pictureInput, mockFile);
+    userEvent.upload(extraPicsInput, [mockFile, mockFile]);
 
     expect(get(data)).toEqual(
       expect.objectContaining({
@@ -325,10 +330,10 @@ describe('User interactions with form', () => {
           firstName: 'Jacek',
           lastName: 'Soplica',
           bio: bioTest,
-          picture: undefined,
+          picture: mockFile,
         },
         extra: {
-          pictures: expect.arrayContaining([]),
+          pictures: expect.arrayContaining([mockFile, mockFile]),
         },
         preferences: expect.arrayContaining(['technology']),
       })
