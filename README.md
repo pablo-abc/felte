@@ -1,8 +1,8 @@
 # Felte: A form library for Svelte
 
-![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)
-![Bundle size](https://img.shields.io/bundlephobia/min/felte)
-![NPM Version](https://img.shields.io/npm/v/felte)
+[![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)](https://github.com/pablo-abc/felte/actions/workflows/test.yml)
+[![Bundle size](https://img.shields.io/bundlephobia/min/felte)](https://bundlephobia.com/result?p=felte)
+[![NPM Version](https://img.shields.io/npm/v/felte)](https://www.npmjs.com/package/felte)
 [![codecov](https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC)](https://codecov.io/gh/pablo-abc/felte)
 
 - [Why](#why)
