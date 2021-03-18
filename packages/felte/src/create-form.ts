@@ -27,9 +27,10 @@ import type {
   FormConfigWithInitialValues,
   FormConfigWithoutInitialValues,
   FormControl,
-  Reporter,
-  ReporterHandler,
+  Extender,
+  ExtenderHandler,
   Touched,
+  Obj,
 } from '@felte/common';
 
 /**
@@ -40,9 +41,10 @@ import type {
  *
  * @category Main
  */
-export function createForm<Data extends Record<string, unknown>>(
-  config: FormConfigWithInitialValues<Data>
-): Form<Data>;
+export function createForm<
+  Data extends Record<string, unknown>,
+  Ext extends Obj = Obj
+>(config: FormConfigWithInitialValues<Data> & Ext): Form<Data>;
 /**
  * Creates the stores and `form` action to make the form reactive.
  * In order to use auto-subscriptions with the stores, call this function at the top-level scope of the component.
@@ -56,15 +58,20 @@ export function createForm<Data extends Record<string, unknown>>(
   config: FormConfig<Data>
 ): Form<Data | undefined> {
   config.reporter ??= [];
+  config.extend ??= [];
   const reporter = Array.isArray(config.reporter)
     ? config.reporter
     : [config.reporter];
-  let currentReporters: ReporterHandler<Data>[] = [];
+  const extender = [
+    ...reporter,
+    ...(Array.isArray(config.extend) ? config.extend : [config.extend]),
+  ];
+  let currentExtenders: ExtenderHandler<Data>[] = [];
   const { isSubmitting, data, errors, touched, isValid } = createStores<Data>(
     config
   );
-  currentReporters = reporter.map((reporter) =>
-    reporter({
+  currentExtenders = extender.map((extender) =>
+    extender({
       errors,
       touched,
       data,
@@ -86,8 +93,8 @@ export function createForm<Data extends Record<string, unknown>>(
       if (currentErrors) {
         const hasErrors = deepSome(currentErrors, (error) => !!error);
         if (hasErrors) {
-          currentReporters.forEach((reporter) =>
-            reporter?.onSubmitError?.({
+          currentExtenders.forEach((extender) =>
+            extender?.onSubmitError?.({
               data: currentData,
               errors: currentErrors,
             })
@@ -102,8 +109,8 @@ export function createForm<Data extends Record<string, unknown>>(
         const serverErrors = onError(e);
         if (serverErrors) {
           errors.set(serverErrors);
-          currentReporters.forEach((reporter) =>
-            reporter?.onSubmitError?.({
+          currentExtenders.forEach((extender) =>
+            extender?.onSubmitError?.({
               data: currentData,
               errors: serverErrors,
             })
@@ -172,8 +179,8 @@ export function createForm<Data extends Record<string, unknown>>(
   const handleSubmit = createSubmitHandler();
 
   function form(node: HTMLFormElement) {
-    function callReporter(reporter: Reporter<Data>) {
-      return reporter({
+    function callExtender(extender: Extender<Data>) {
+      return extender({
         form: node,
         controls: Array.from(node.elements).filter(isFormControl),
         data,
@@ -181,7 +188,7 @@ export function createForm<Data extends Record<string, unknown>>(
         touched,
       });
     }
-    currentReporters = reporter.map(callReporter);
+    currentExtenders = extender.map(callExtender);
     node.noValidate = !!config.validate;
     const { defaultData, defaultTouched } = getFormDefaultValues<Data>(node);
     initialValues = _cloneDeep(defaultData);
@@ -274,8 +281,8 @@ export function createForm<Data extends Record<string, unknown>>(
         if (mutation.type !== 'childList') continue;
         if (mutation.addedNodes.length > 0) {
           if (!Array.from(mutation.addedNodes).some(isFormControl)) continue;
-          currentReporters.forEach((reporter) => reporter?.destroy?.());
-          currentReporters = reporter.map(callReporter);
+          currentExtenders.forEach((extender) => extender?.destroy?.());
+          currentExtenders = extender.map(callExtender);
           const { defaultData: newDefaultData } = getFormDefaultValues<Data>(
             node
           );
@@ -286,8 +293,8 @@ export function createForm<Data extends Record<string, unknown>>(
             if (!isElement(removedNode)) continue;
             const formControls = getFormControls(removedNode);
             if (formControls.length === 0) continue;
-            currentReporters.forEach((reporter) => reporter?.destroy?.());
-            currentReporters = reporter.map(callReporter);
+            currentExtenders.forEach((extender) => extender?.destroy?.());
+            currentExtenders = extender.map(callExtender);
             unsetTaggedForRemove(formControls);
           }
         }
@@ -324,7 +331,7 @@ export function createForm<Data extends Record<string, unknown>>(
         node.removeEventListener('focusout', handleBlur);
         node.removeEventListener('submit', handleSubmit);
         unsubscribeErrors();
-        currentReporters.forEach((reporter) => reporter?.destroy?.());
+        currentExtenders.forEach((extender) => extender?.destroy?.());
       },
     };
   }

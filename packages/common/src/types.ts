@@ -28,6 +28,15 @@ export type Reporter<Data extends Obj = Obj> = (
   currentForm: CurrentForm<Data>
 ) => ReporterHandler<Data>;
 
+export type ExtenderHandler<Data extends Obj> = {
+  destroy?: () => void;
+  onSubmitError?: (state: OnSubmitErrorState<Data>) => void;
+};
+
+export type Extender<Data extends Obj = Obj> = (
+  currentForm: CurrentForm<Data>
+) => ExtenderHandler<Data>;
+
 /** `Record<string, unknown>` */
 export type Obj = Record<string, unknown>;
 
@@ -58,6 +67,8 @@ export interface FormConfigWithoutInitialValues<Data extends Obj> {
   onError?: (errors: unknown) => void | Errors<Data>;
   /** Optional function/s to handle reporting errors. */
   reporter?: Reporter | Reporter[];
+  /** Optional function/s to extend Felte's functionality. */
+  extend?: Extender | Extender[];
 }
 
 /**
