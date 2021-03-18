@@ -3,6 +3,7 @@
 ![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)
 ![Bundle size](https://img.shields.io/bundlephobia/min/felte)
 ![NPM Version](https://img.shields.io/npm/v/felte)
+[![codecov](https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC)](https://codecov.io/gh/pablo-abc/felte)
 
 - [Why](#why)
 - [Packages](#packages)
