@@ -11,9 +11,18 @@
     "plugin:jest-dom/recommended",
     "prettier"
   ],
-  "plugins": ["@typescript-eslint", "testing-library", "jest-dom", "prettier"],
+  "plugins": [
+    "@typescript-eslint",
+    "jest",
+    "testing-library",
+    "jest-dom",
+    "prettier"
+  ],
   "parser": "@typescript-eslint/parser",
   "rules": {
     "@typescript-eslint/no-explicit-any": "off"
+  },
+  "env": {
+    "jest/globals": true
   }
 }

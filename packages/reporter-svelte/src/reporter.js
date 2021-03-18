@@ -7,8 +7,7 @@ import { getPath, _get } from '@felte/common';
  * @param {any} currentForm
  */
 export function svelteReporter(currentForm) {
-  if (hasContext(formKey)) return {};
-  setContext(formKey, currentForm.errors);
+  if (!hasContext(formKey)) setContext(formKey, currentForm.errors);
   if (!currentForm.form) return;
   const unsubscribe = currentForm.errors.subscribe(($errors) => {
     for (const control of currentForm.controls) {
