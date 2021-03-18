@@ -65,6 +65,7 @@ export function _set<Data extends Obj>(
   path: string,
   value: FieldValue
 ): Data {
+  obj = obj ?? {};
   const a = path.split('.');
   let o: any = obj;
   while (a.length - 1) {
