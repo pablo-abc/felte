@@ -135,12 +135,11 @@ export function createForm<Data extends Record<string, unknown>>(
   function newDataSet(values: Data) {
     touched.update((current) => {
       const changed = _mergeWith(
-        {},
-        values,
+        _cloneDeep(values),
         config.initialValues,
         dataSetCustomizer
       );
-      return _mergeWith({}, changed, current, dataSetTouchedCustomizer);
+      return _mergeWith(changed, current, dataSetTouchedCustomizer);
     });
     return data.set(values);
   }

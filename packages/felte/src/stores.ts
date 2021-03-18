@@ -4,7 +4,6 @@ import _mergeWith from 'lodash/mergeWith';
 import { derived, writable } from 'svelte/store';
 import { deepSet, deepSome } from '@felte/common';
 import type { Errors, FormConfig, Touched, Stores } from '@felte/common';
-import { writableDerived } from './writable-derived';
 
 export function createStores<Data extends Record<string, unknown>>(
   config: FormConfig<Data>
@@ -20,14 +19,15 @@ export function createStores<Data extends Record<string, unknown>>(
     config.initialValues ? _cloneDeep(config.initialValues) : undefined
   );
 
-  const errors = writableDerived(
-    data,
-    ($data: Data, set: (values: Errors<Data>) => void) => {
-      (async () => {
+  const errors = writable(
+    {} as Errors<Data>,
+    (set: (values: Errors<Data>) => void) => {
+      return data.subscribe(async ($data) => {
         let errors: Errors<Data> = {};
-        if (config.validate && $data) errors = await config.validate($data);
+        if (!config.validate || !$data) return;
+        errors = await config.validate($data);
         set(errors || {});
-      })();
+      });
     }
   );
 
