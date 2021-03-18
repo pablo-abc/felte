@@ -24,6 +24,9 @@
   "peerDependencies": {
     "tippy.js": "^6.0.0"
   },
+  "devDependencies": {
+    "felte": "^0.5.2"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"
