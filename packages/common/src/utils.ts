@@ -61,11 +61,11 @@ export function _get<Data extends Obj, Default = undefined>(
 
 /** @ignore */
 export function _set<Data extends Obj>(
-  obj: Data,
+  obj: Data | undefined,
   path: string,
   value: FieldValue
 ): Data {
-  obj = obj ?? {};
+  obj ??= {} as Data;
   const a = path.split('.');
   let o: any = obj;
   while (a.length - 1) {
