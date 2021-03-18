@@ -36,7 +36,7 @@ import reporterDom from '@felte/reporter-dom';
 
 const { form } = createForm({
   // ...
-  reporter: reporterDom(),
+  extend: reporterDom(),
   // ...
 });
 ```

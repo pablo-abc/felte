@@ -28,7 +28,7 @@ import { svelteReporter, ValidationMessage } from '@felte/reporter-svelte';
 
 const { form } = createForm({
   // ...
-  reporter: svelteReporter,
+  extend: svelteReporter,
   // ...
 });
 ```

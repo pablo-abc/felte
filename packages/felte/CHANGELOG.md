@@ -1,5 +1,17 @@
 # felte
 
+## 0.5.0
+
+### Minor Changes
+
+- f09b65b: BREAKING: `reporter` renamed to `extend` since its current API can be used to extende Felte's behaviour freely
+
+### Patch Changes
+
+- 8f90353: Add tests for helpers and fix bugs found
+- Updated dependencies [f09b65b]
+  - @felte/common@0.2.0
+
 ## 0.4.11
 
 ### Patch Changes

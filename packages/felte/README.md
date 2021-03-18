@@ -38,7 +38,7 @@ interface FormConfig<D extends Record<string, unknown>> {
   validate?: (values: D) => Promise<Errors<D> | undefined>;
   onSubmit: (values: D) => void;
   onError?: (errors: unknown) => void | Errors<D>;
-  reporter?: Reporter | Reporter[];
+  extend?: Extender | Extender[];
 }
 ```
 
@@ -46,7 +46,7 @@ interface FormConfig<D extends Record<string, unknown>> {
 - `validate` is a custom validation function that must return an object with the same props as initialValues, but with error messages or `undefined` as values.
 - `onSubmit` is the function that will be executed when the form is submited.
 - `onError` is a an optional function that will run if the submit throws an exception. It will contain the error catched. If you return an object with the same shape as `Errors`, these errors can be reported by a reporter.
-- `reporter` a function or list of functions to handle error reporting. Currently there are two official packages: `@felte/reporter-tippy` to handle error reporting with [Tippy.js](https://atomiks.github.io/tippyjs/) and `@felte/reporter-cvapi` to handle error reporting with the browser's [Constraint Validation API](https://developer.mozilla.org/en-US/docs/Web/API/Constraint_validation).
+- `extend` a function or list of functions to extend Felte's behaviour. Currently it can be used to add `reporters` to Felte, these can handle error reporting for you. You can read more about them in [Felte's documentation](https://felte.dev/docs#reporters).
 
 When called, `createForm` will return an object with the following interface:
 
@@ -112,7 +112,7 @@ The recommended way to use it is by using the `form` action from `createForm` an
     onSubmit: async (values) => {
       /* call to an api */
     },
-    reporter,
+    extend: reporter,
   })
 
   $: console.log($data)

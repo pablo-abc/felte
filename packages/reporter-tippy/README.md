@@ -24,7 +24,7 @@ import reporter from '@felte/reporter-tippy';
 
 const { form } = createForm({
   // ...
-  reporter,
+  extend: reporter,
   // ...
 });
 ```

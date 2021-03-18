@@ -24,7 +24,7 @@ import reporter from '@felte/reporter-cvapi';
 
 const { form } = createForm({
   // ...
-  reporter,
+  extend: reporter,
   // ...
 });
 ```

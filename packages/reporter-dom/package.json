@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-dom",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "An error reporter for Felte using the DOM",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -24,7 +24,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@felte/common": "^0.1.4"
+    "@felte/common": "^0.2.0"
   },
   "publishConfig": {
     "access": "public"

@@ -1,5 +1,12 @@
 # @felte/reporter-tippy
 
+## 0.1.10
+
+### Patch Changes
+
+- Updated dependencies [f09b65b]
+  - @felte/common@0.2.0
+
 ## 0.1.9
 
 ### Patch Changes

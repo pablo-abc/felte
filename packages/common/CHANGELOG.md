@@ -1,5 +1,11 @@
 # @felte/common
 
+## 0.2.0
+
+### Minor Changes
+
+- f09b65b: BREAKING: `reporter` renamed to `extend` since its current API can be used to extende Felte's behaviour freely
+
 ## 0.1.6
 
 ### Patch Changes
