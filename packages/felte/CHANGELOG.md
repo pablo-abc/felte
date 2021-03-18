@@ -1,5 +1,11 @@
 # felte
 
+## 0.5.2
+
+### Patch Changes
+
+- d8d39ef: Fix some minor bugs found while testing
+
 ## 0.5.0
 
 ### Minor Changes
