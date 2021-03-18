@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.1.11
+
+### Patch Changes
+
+- 84606cf: Fix minor bugs found while testing
+
 ## 0.1.10
 
 ### Patch Changes
