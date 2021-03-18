@@ -29,7 +29,7 @@ interface DomReporterOptions {
 - `single` tells the reporter to display only a single message with a `span` element. If false, displays the messages in a list. Default: `false`.
 - `listType` defines the element to be used for the list. Default: `ul`.
 
-Add it to the `reporter` property of Felte's `createForm` configuration object.
+Add it to the `extend` property of Felte's `createForm` configuration object.
 
 ```javascript
 import reporterDom from '@felte/reporter-dom';

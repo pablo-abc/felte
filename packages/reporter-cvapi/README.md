@@ -17,7 +17,7 @@ yarn add @felte/reporter-cvapi
 
 ## Usage
 
-Add it to the `reporter` property of Felte's `createForm` configuration object.
+Add it to the `extend` property of Felte's `createForm` configuration object.
 
 ```javascript
 import reporter from '@felte/reporter-cvapi';

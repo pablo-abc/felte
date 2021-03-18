@@ -21,7 +21,7 @@ If you're using sapper, you might want to add this reporter as a dev dependency.
 
 The package exports a reporter function `svelteReporter` and a Svelte component `ValidationMessage`. These can be used in conjunction to report errors.
 
-Add the reporter to the `reporter` property of `createForm` configuration.
+Add the reporter to the `extend` property of `createForm` configuration.
 
 ```javascript
 import { svelteReporter, ValidationMessage } from '@felte/reporter-svelte';
