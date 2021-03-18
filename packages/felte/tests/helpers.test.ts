@@ -149,6 +149,18 @@ describe('Helpers', () => {
         },
       });
     });
+
+    mockValidate.mockImplementation(() => ({} as any));
+    validate();
+    expect(mockValidate).toHaveBeenCalledTimes(4);
+    await waitFor(() => {
+      expect(get(errors)).toEqual({ account: { email: null } });
+      expect(get(touched)).toEqual({
+        account: {
+          email: true,
+        },
+      });
+    });
   });
 
   test('setting directly to data should touch value', () => {

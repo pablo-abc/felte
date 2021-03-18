@@ -159,11 +159,11 @@ export function createForm<Data extends Record<string, unknown>>(
 
   async function validate(): Promise<Errors<Data> | void> {
     const currentData = get(data);
-    const currentErrors = await config.validate?.(currentData);
-    errors.set(currentErrors || {});
     touched.update((t) => {
       return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
     });
+    const currentErrors = await config.validate?.(currentData);
+    errors.set(currentErrors || {});
     return currentErrors;
   }
 

@@ -32,7 +32,7 @@ export function createStores<Data extends Record<string, unknown>>(
   );
 
   function errorFilterer(errValue?: string, touchValue?: boolean) {
-    if (_isPlainObject(errValue)) return;
+    if (_isPlainObject(touchValue)) return;
     return (touchValue && errValue) || null;
   }
 

@@ -213,13 +213,16 @@ describe('Extenders', () => {
       onSubmitError: jest.fn(),
     };
     const mockExtender = jest.fn(() => mockExtenderHandler);
+    const validate = jest.fn();
     const mockErrors = { account: { email: 'Not email' } };
+    const onSubmit = jest.fn(() => {
+      throw mockErrors;
+    });
 
     const { form, data } = createForm<any>({
-      onSubmit: jest.fn(() => {
-        throw mockErrors;
-      }),
+      onSubmit,
       onError: () => mockErrors,
+      validate,
       extend: [mockExtender, mockExtender],
     });
 
@@ -243,6 +246,30 @@ describe('Extenders', () => {
         })
       );
       expect(mockExtenderHandler.onSubmitError).toHaveBeenCalledTimes(2);
+      expect(onSubmit).toHaveBeenCalledTimes(1);
+    });
+
+    validate.mockImplementation(() => mockErrors);
+
+    formElement.submit();
+
+    await waitFor(() => {
+      expect(mockExtenderHandler.onSubmitError).toHaveBeenNthCalledWith(
+        3,
+        expect.objectContaining({
+          data: get(data),
+          errors: mockErrors,
+        })
+      );
+      expect(mockExtenderHandler.onSubmitError).toHaveBeenNthCalledWith(
+        4,
+        expect.objectContaining({
+          data: get(data),
+          errors: mockErrors,
+        })
+      );
+      expect(mockExtenderHandler.onSubmitError).toHaveBeenCalledTimes(4);
+      expect(onSubmit).toHaveBeenCalledTimes(1);
     });
   });
 });

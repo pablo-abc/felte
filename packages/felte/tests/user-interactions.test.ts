@@ -384,4 +384,66 @@ describe('User interactions with form', () => {
       expect(onError).toHaveBeenCalledWith(mockErrors);
     });
   });
+
+  test('use createSubmitHandler to override submit', async () => {
+    const mockOnSubmit = jest.fn();
+    const mockValidate = jest.fn();
+    const mockOnError = jest.fn();
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const defaultConfig = {
+      onSubmit: jest.fn(),
+      validate: jest.fn(),
+      onError: jest.fn(),
+    };
+    const { form, createSubmitHandler } = createForm(defaultConfig);
+    const altOnSubmit = createSubmitHandler({
+      onSubmit: mockOnSubmit,
+      onError: mockOnError,
+      validate: mockValidate,
+    });
+
+    form(formElement);
+
+    const submitInput = createInputElement({
+      type: 'submit',
+      value: 'Alt Submit',
+    });
+
+    submitInput.addEventListener('click', altOnSubmit);
+
+    formElement.appendChild(submitInput);
+
+    userEvent.click(submitInput);
+
+    await waitFor(() => {
+      expect(mockValidate).toHaveBeenCalledTimes(1);
+      expect(defaultConfig.onSubmit).not.toHaveBeenCalled();
+      expect(mockOnSubmit).toHaveBeenCalledTimes(1);
+      expect(defaultConfig.onError).not.toHaveBeenCalled();
+      expect(mockOnError).not.toHaveBeenCalled();
+    });
+
+    const mockErrors = { account: { email: 'Not email' } };
+    mockOnSubmit.mockImplementationOnce(() => {
+      throw mockErrors;
+    });
+
+    userEvent.click(submitInput);
+
+    await waitFor(() => {
+      expect(mockOnError).toHaveBeenCalled();
+      expect(mockValidate).toHaveBeenCalledTimes(2);
+      expect(mockOnSubmit).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  test('calls submit handler without event', async () => {
+    const { createSubmitHandler } = createForm({ onSubmit: jest.fn() });
+    const mockOnSubmit = jest.fn();
+    const altOnSubmit = createSubmitHandler({ onSubmit: mockOnSubmit });
+    altOnSubmit();
+    await waitFor(() => {
+      expect(mockOnSubmit).toHaveBeenCalled();
+    });
+  });
 });
