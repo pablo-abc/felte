@@ -1,5 +1,5 @@
 import { screen, waitFor } from '@testing-library/dom';
-import { removeAllChildren, createInputElement, createDOM } from './common';
+import { cleanupDOM, createInputElement, createDOM } from './common';
 import { createForm } from '../src';
 import userEvent from '@testing-library/user-event';
 import { get } from 'svelte/store';
@@ -105,14 +105,9 @@ function createSignupForm() {
 }
 
 describe('User interactions with form', () => {
-  beforeAll(() => {
-    createDOM();
-  });
+  beforeEach(createDOM);
 
-  afterEach(() => {
-    const formElement = screen.getByRole('form');
-    removeAllChildren(formElement);
-  });
+  afterEach(cleanupDOM);
 
   test('Sets default data correctly', () => {
     const { form, data } = createForm({

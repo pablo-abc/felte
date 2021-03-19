@@ -1,17 +1,12 @@
 import '@testing-library/jest-dom/extend-expect';
 import { screen } from '@testing-library/dom';
 import { createForm } from '../src';
-import { removeAllChildren, createInputElement, createDOM } from './common';
+import { cleanupDOM, createInputElement, createDOM } from './common';
 
 describe('Form action DOM mutations', () => {
-  beforeAll(() => {
-    createDOM();
-  });
+  beforeEach(createDOM);
 
-  afterEach(() => {
-    const formElement = screen.getByRole('form');
-    removeAllChildren(formElement);
-  });
+  afterEach(cleanupDOM);
 
   test('Adds novalidate to form when using a validate function', () => {
     const { form } = createForm({

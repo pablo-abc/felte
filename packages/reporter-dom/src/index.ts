@@ -50,7 +50,8 @@ function setValidationMessage(
     const spanElement = document.createElement('span');
     spanElement.setAttribute('aria-live', 'polite');
     spanElement.dataset.felteReporterDomSingleMessage = '';
-    spanElement.innerText = validationMessage;
+    const textNode = document.createTextNode(validationMessage);
+    spanElement.appendChild(textNode);
     reporterElement.appendChild(spanElement);
   }
   if (reportAsList) {
@@ -60,7 +61,8 @@ function setValidationMessage(
     for (const message of messages) {
       const messageElement = document.createElement('li');
       messageElement.dataset.felteReporterDomListMessage = '';
-      messageElement.innerText = message;
+      const textNode = document.createTextNode(message);
+      messageElement.appendChild(textNode);
       listElement.appendChild(messageElement);
     }
     reporterElement.appendChild(listElement);

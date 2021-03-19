@@ -4,6 +4,10 @@ export function createDOM(): void {
   document.body.appendChild(formElement);
 }
 
+export function cleanupDOM(): void {
+  removeAllChildren(document.body);
+}
+
 export type InputAttributes = {
   type?: string;
   required?: boolean;

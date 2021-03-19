@@ -33,6 +33,7 @@ jobs:
         bolt w felte run test:ci
         bolt w @felte/reporter-tippy run test:ci
         bolt w @felte/reporter-svelte run test:ci
+        bolt w @felte/reporter-dom run test:ci
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
       with:

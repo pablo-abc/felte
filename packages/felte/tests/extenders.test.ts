@@ -1,18 +1,13 @@
 import '@testing-library/jest-dom/extend-expect';
 import { screen, waitFor } from '@testing-library/dom';
 import { createForm } from '../src';
-import { removeAllChildren, createDOM, createInputElement } from './common';
+import { cleanupDOM, createDOM, createInputElement } from './common';
 import { get } from 'svelte/store';
 
 describe('Extenders', () => {
-  beforeAll(() => {
-    createDOM();
-  });
+  beforeEach(createDOM);
 
-  afterEach(() => {
-    const formElement = screen.getByRole('form');
-    removeAllChildren(formElement);
-  });
+  afterEach(cleanupDOM);
 
   test('calls extender', async () => {
     const formElement = screen.getByRole('form') as HTMLFormElement;

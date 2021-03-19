@@ -23,6 +23,7 @@
     "@typescript-eslint/no-explicit-any": "off"
   },
   "env": {
-    "jest/globals": true
+    "jest/globals": true,
+    "node": true
   }
 }
