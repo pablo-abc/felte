@@ -1,6 +1,6 @@
 {
   "name": "@felte/common",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Common utilities for Felte packages",
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/common",
@@ -9,7 +9,9 @@
   "browser": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "public"
   },

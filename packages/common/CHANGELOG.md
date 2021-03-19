@@ -1,5 +1,11 @@
 # @felte/common
 
+## 0.2.1
+
+### Patch Changes
+
+- d7d43d3: Fix minor bugs found while testing
+
 ## 0.2.0
 
 ### Minor Changes

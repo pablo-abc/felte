@@ -24,7 +24,7 @@
   },
   "files": ["dist"],
   "dependencies": {
-    "@felte/common": "^0.2.0",
+    "@felte/common": "^0.2.1",
     "lodash": "^4.17.20"
   },
   "publishConfig": {

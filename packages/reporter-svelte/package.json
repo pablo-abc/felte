@@ -9,12 +9,7 @@
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/reporter-dom",
-  "keywords": [
-    "svelte",
-    "forms",
-    "validation",
-    "felte"
-  ],
+  "keywords": ["svelte", "forms", "validation", "felte"],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -25,7 +20,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@felte/common": "^0.2.0",
+    "@felte/common": "^0.2.1",
     "rollup-plugin-svelte": "^7.1.0",
     "svelte": "^3.0.0",
     "svelte-preprocess": "^4.6.9"
@@ -33,10 +28,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": [
-    "dist",
-    "src"
-  ],
+  "files": ["dist", "src"],
   "devDependencies": {
     "felte": "^0.5.2",
     "rollup-plugin-svelte": "^7.1.0",
