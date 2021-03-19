@@ -192,18 +192,18 @@ export function getPath(el: FormControl): string {
 export function getFormControls(el: Element): FormControl[] {
   if (isFormControl(el)) return [el];
   if (el.childElementCount === 0) return [];
-  const foundControls: FormControl[] = [];
+  const foundControls: Set<FormControl> = new Set();
   for (const child of el.children) {
-    if (isFormControl(child)) foundControls.push(child);
+    if (isFormControl(child)) foundControls.add(child);
     if (isFieldSetElement(child)) {
       for (const fieldsetChild of child.elements) {
-        if (isFormControl(fieldsetChild)) foundControls.push(fieldsetChild);
+        if (isFormControl(fieldsetChild)) foundControls.add(fieldsetChild);
       }
     }
     if (child.childElementCount > 0)
-      foundControls.push(...getFormControls(child));
+      getFormControls(child).forEach((value) => foundControls.add(value));
   }
-  return foundControls;
+  return Array.from(foundControls);
 }
 
 /**

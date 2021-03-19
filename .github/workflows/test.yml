@@ -29,12 +29,7 @@ jobs:
     - run: bolt
     - run: bolt ws run build
     - name: Run tests and generate coverage
-      run: |
-        bolt w felte run test:ci
-        bolt w @felte/reporter-tippy run test:ci
-        bolt w @felte/reporter-svelte run test:ci
-        bolt w @felte/reporter-dom run test:ci
-        bolt w @felte/reporter-cvapi run test:ci
+      run: bolt ws run test:ci
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
       with:

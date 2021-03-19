@@ -9,9 +9,7 @@
   "browser": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "publishConfig": {
     "access": "public"
   },
@@ -24,7 +22,8 @@
     "build": "cross-env NODE_ENV=production rollup -c",
     "dev": "rollup -cw",
     "prepublishOnly": "yarn build",
-    "test:ci": "jest --ci"
+    "test": "jest",
+    "test:ci": "jest --ci --coverage"
   },
   "bugs": {
     "url": "https://github.com/pablo-abc/felte/issues"
