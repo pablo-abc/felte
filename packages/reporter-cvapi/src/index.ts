@@ -33,13 +33,16 @@ function cvapiReporter<Data extends Obj = Obj>(
       mutationObserver.disconnect();
     },
     onSubmitError() {
+      let firstInvalidElement;
       for (const control of controls) {
         if (!control.name) continue;
         const message = control.dataset.felteValidationMessage;
         control.setCustomValidity(message || '');
+        if (message) firstInvalidElement = control;
         if (message) break;
       }
       form.reportValidity();
+      firstInvalidElement?.focus();
     },
   };
 }
