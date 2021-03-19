@@ -1,5 +1,13 @@
 # @felte/reporter-tippy
 
+## 0.1.12
+
+### Patch Changes
+
+- c747986: Bump dependency
+- Updated dependencies [c747986]
+  - @felte/common@0.2.2
+
 ## 0.1.11
 
 ### Patch Changes

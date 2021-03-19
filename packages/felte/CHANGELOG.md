@@ -1,5 +1,13 @@
 # felte
 
+## 0.5.3
+
+### Patch Changes
+
+- c747986: Bump dependency
+- Updated dependencies [c747986]
+  - @felte/common@0.2.2
+
 ## 0.5.2
 
 ### Patch Changes

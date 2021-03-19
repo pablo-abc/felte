@@ -1,5 +1,13 @@
 # @felte/reporter-cvapi
 
+## 0.1.7
+
+### Patch Changes
+
+- c747986: Bump dependency
+- Updated dependencies [c747986]
+  - @felte/common@0.2.2
+
 ## 0.1.6
 
 ### Patch Changes

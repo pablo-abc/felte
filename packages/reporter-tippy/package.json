@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-tippy",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "An error reporter for Felte using Tippy.js",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -9,7 +9,12 @@
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/reporter-tippy",
-  "keywords": ["svelte", "forms", "validation", "felte"],
+  "keywords": [
+    "svelte",
+    "forms",
+    "validation",
+    "felte"
+  ],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -19,13 +24,13 @@
     "test:ci": "jest --ci --coverage"
   },
   "dependencies": {
-    "@felte/common": "^0.2.1"
+    "@felte/common": "^0.2.2"
   },
   "peerDependencies": {
     "tippy.js": "^6.0.0"
   },
   "devDependencies": {
-    "felte": "^0.5.2"
+    "felte": "^0.5.3"
   },
   "license": "MIT",
   "publishConfig": {

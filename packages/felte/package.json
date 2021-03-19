@@ -1,6 +1,6 @@
 {
   "name": "felte",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "A form library for Svelte",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -10,6 +10,7 @@
   "license": "MIT",
   "homepage": "https://felte.dev",
   "repository": "github:pablo-abc/felte",
+  "funding": "https://www.buymeacoffee.com/pablo.abc",
   "keywords": ["svelte", "forms", "validation"],
   "scripts": {
     "prebuild": "rimraf ./dist",
@@ -24,7 +25,7 @@
   },
   "files": ["dist"],
   "dependencies": {
-    "@felte/common": "^0.2.1",
+    "@felte/common": "^0.2.2",
     "lodash": "^4.17.20"
   },
   "publishConfig": {
