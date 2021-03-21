@@ -23,7 +23,7 @@ export function createStores<Data extends Record<string, unknown>>(
     {} as Errors<Data>,
     (set: (values: Errors<Data>) => void) => {
       return data.subscribe(async ($data) => {
-        let errors: Errors<Data> = {};
+        let errors: Errors<Data> | undefined = {};
         if (!config.validate || !$data) return;
         errors = await config.validate($data);
         set(errors || {});

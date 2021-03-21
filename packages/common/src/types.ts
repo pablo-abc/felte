@@ -60,7 +60,9 @@ export type FormControl =
  */
 export interface FormConfigWithoutInitialValues<Data extends Obj> {
   /** Optional function to validate the data. */
-  validate?: (values: Data) => Errors<Data> | Promise<Errors<Data>>;
+  validate?: (
+    values: Data
+  ) => Errors<Data> | undefined | Promise<Errors<Data> | undefined>;
   /** Required function to handle the form data on submit. */
   onSubmit: (values: Data) => Promise<void> | void;
   /** Optional function that accepts any thrown exceptions from the onSubmit function. You can return an object with the same shape [[`Errors`]] for a reporter to use it. */
