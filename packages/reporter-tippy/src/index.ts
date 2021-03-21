@@ -28,7 +28,6 @@ function mutationCallback(mutationList: MutationRecord[]) {
         tippyInstance.show();
       }
     } else {
-      tippyInstance.setContent('');
       target.removeAttribute('aria-invalid');
       tippyInstance.disable();
     }

@@ -95,7 +95,6 @@ describe('Reporter Tippy', () => {
       const tippyInstance = getTippy(inputElement);
       expect(tippyInstance?.state.isEnabled).toBeFalsy();
       expect(tippyInstance?.state.isVisible).toBeFalsy();
-      expect(tippyInstance?.popper).not.toHaveTextContent(mockErrors.test);
     });
 
     destroy();
