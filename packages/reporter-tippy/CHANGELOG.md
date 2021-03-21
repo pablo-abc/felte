@@ -1,5 +1,13 @@
 # @felte/reporter-tippy
 
+## 0.1.13
+
+### Patch Changes
+
+- d0c60d1: Prevent flash when tippy is being removed
+- Updated dependencies [a664ef3]
+  - @felte/common@0.2.3
+
 ## 0.1.12
 
 ### Patch Changes

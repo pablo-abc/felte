@@ -1,5 +1,13 @@
 # felte
 
+## 0.5.4
+
+### Patch Changes
+
+- a664ef3: Update types to allow validator to return undefined
+- Updated dependencies [a664ef3]
+  - @felte/common@0.2.3
+
 ## 0.5.3
 
 ### Patch Changes

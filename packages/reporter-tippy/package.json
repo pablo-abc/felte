@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-tippy",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "An error reporter for Felte using Tippy.js",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -24,13 +24,13 @@
     "test:ci": "jest --ci --coverage"
   },
   "dependencies": {
-    "@felte/common": "^0.2.2"
+    "@felte/common": "^0.2.3"
   },
   "peerDependencies": {
     "tippy.js": "^6.0.0"
   },
   "devDependencies": {
-    "felte": "^0.5.3"
+    "felte": "^0.5.4"
   },
   "license": "MIT",
   "publishConfig": {
