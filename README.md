@@ -28,6 +28,26 @@ Felte is a simple to use form library for Svelte. It is based on Svelte stores a
 - Official solutions for error reporting using `reporter` packages.
 - Well tested. Currently at [99% code coverage](https://app.codecov.io/gh/pablo-abc/felte) and constantly working on improving test quality.
 
+## Simple usage example
+
+```html
+<script>
+  import { createForm } from 'felte'
+
+  const { form } = createForm({
+    onSubmit: async (values) => {
+      /* call to an api */
+    },
+  })
+</script>
+
+<form use:form>
+  <input type=text name=email>
+  <input type=password name=password>
+  <input type=submit value="Sign in">
+</form>
+```
+
 ## Why
 
 I felt that Svelte would allow to create a simple, almost configuration-less way to handle forms. Current libraries (at least that I have found) still make forms feel reliant on a lot of configuration, or custom Field and Form components which make it a little bit harder to customize styles. I wanted a library that would feel as simple as possible to make a form reactive, without relying on custom components, to make styling and handling forms as simple as possible. TypeScript is also a big plus.

@@ -8,7 +8,7 @@
 
 Felte is a simple to use form library for Svelte. It is based on Svelte stores and Svelte actions for its functionality. No `Field` or `Form` components, just plain stores and actions to build your form however you like. You can see it in action in this [CodeSandbox demo](https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte)!
 
-**WARNING:** The API is not set in stone yet, so breaking changes may occur between minor versions until it is stable enough to be 1.0.0
+**STATUS:** Useable. Felte's API is stable enough to be used. I feel the main API is solid enough to not need breaking changes that fast, but more usage input would be useful. If you're interested please give it a try and feel free to open an issue if there's anything missing!
 
 ## Features
 
@@ -18,6 +18,27 @@ Felte is a simple to use form library for Svelte. It is based on Svelte stores a
 - No assumptions on your validation strategy. Use any validation library you want or write your own strategy.
 - Handles addition and removal of form controls during runtime.
 - Official solutions for error reporting using `reporter` packages.
+- Well tested. Currently at [99% code coverage](https://app.codecov.io/gh/pablo-abc/felte) and constantly working on improving test quality.
+
+## Simple usage example
+
+```html
+<script>
+  import { createForm } from 'felte'
+
+  const { form } = createForm({
+    onSubmit: async (values) => {
+      /* call to an api */
+    },
+  })
+</script>
+
+<form use:form>
+  <input type=text name=email>
+  <input type=password name=password>
+  <input type=submit value="Sign in">
+</form>
+```
 
 ## Installation
 
