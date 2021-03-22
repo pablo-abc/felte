@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom/extend-expect';
-import { screen } from '@testing-library/dom';
+import { screen, waitFor } from '@testing-library/dom';
 import { createForm } from '../src';
 import { cleanupDOM, createInputElement, createDOM } from './common';
+import { get } from 'svelte/store';
 
 describe('Form action DOM mutations', () => {
   beforeEach(createDOM);
@@ -85,6 +86,78 @@ describe('Form action DOM mutations', () => {
     );
     [outerSecondaryInput, innerSecondaryinput].forEach((el) => {
       expect(el).toHaveAttribute('data-felte-unset-on-remove', 'false');
+    });
+  });
+
+  test('Unsets fields tagged with felte-unset-on-remove', async () => {
+    const { form, data } = createForm({ onSubmit: jest.fn() });
+    const outerFieldset = document.createElement('fieldset');
+    outerFieldset.dataset.felteUnsetOnRemove = 'true';
+    const outerTextInput = createInputElement({ name: 'outerText' });
+    const outerSecondaryInput = createInputElement({ name: 'outerSecondary' });
+    outerSecondaryInput.dataset.felteUnsetOnRemove = 'false';
+    const innerFieldset = document.createElement('fieldset');
+    innerFieldset.name = 'inner';
+    const innerTextInput = createInputElement({ name: 'innerText' });
+    const innerSecondaryinput = createInputElement({ name: 'innerSecondary' });
+    innerSecondaryinput.dataset.felteUnsetOnRemove = 'false';
+    innerFieldset.append(innerTextInput, innerSecondaryinput);
+    outerFieldset.append(outerTextInput, outerSecondaryInput, innerFieldset);
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    formElement.appendChild(outerFieldset);
+    form(formElement);
+    expect(get(data)).toEqual({
+      outerText: '',
+      outerSecondary: '',
+      inner: {
+        innerText: '',
+        innerSecondary: '',
+      },
+    });
+    formElement.removeChild(outerFieldset);
+    await waitFor(() => {
+      expect(get(data)).toEqual({
+        outerSecondary: '',
+        inner: {
+          innerSecondary: '',
+        },
+      });
+    });
+  });
+
+  test('Handles fields added after form load', async () => {
+    const { form, data } = createForm({ onSubmit: jest.fn() });
+    const outerFieldset = document.createElement('fieldset');
+    outerFieldset.dataset.felteUnsetOnRemove = 'true';
+    const outerTextInput = createInputElement({ name: 'outerText' });
+    const outerSecondaryInput = createInputElement({ name: 'outerSecondary' });
+    outerSecondaryInput.dataset.felteUnsetOnRemove = 'false';
+    const innerFieldset = document.createElement('fieldset');
+    innerFieldset.name = 'inner';
+    const innerTextInput = createInputElement({ name: 'innerText' });
+    const innerSecondaryinput = createInputElement({ name: 'innerSecondary' });
+    innerSecondaryinput.dataset.felteUnsetOnRemove = 'false';
+    innerFieldset.append(innerTextInput, innerSecondaryinput);
+    outerFieldset.append(outerTextInput, outerSecondaryInput);
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    formElement.appendChild(outerFieldset);
+    form(formElement);
+    expect(get(data)).toEqual({
+      outerText: '',
+      outerSecondary: '',
+    });
+
+    formElement.appendChild(innerFieldset);
+
+    await waitFor(() => {
+      expect(get(data)).toEqual({
+        outerText: '',
+        outerSecondary: '',
+        inner: {
+          innerText: '',
+          innerSecondary: '',
+        },
+      });
     });
   });
 

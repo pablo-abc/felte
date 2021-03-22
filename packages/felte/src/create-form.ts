@@ -280,7 +280,13 @@ export function createForm<Data extends Record<string, unknown>>(
       for (const mutation of mutationList) {
         if (mutation.type !== 'childList') continue;
         if (mutation.addedNodes.length > 0) {
-          if (!Array.from(mutation.addedNodes).some(isFormControl)) continue;
+          const shouldUpdate = Array.from(mutation.addedNodes).some((node) => {
+            if (!isElement(node)) return false;
+            if (isFormControl(node)) return true;
+            const formControls = getFormControls(node);
+            return formControls.length > 0;
+          });
+          if (!shouldUpdate) continue;
           currentExtenders.forEach((extender) => extender?.destroy?.());
           currentExtenders = extender.map(callExtender);
           const { defaultData: newDefaultData } = getFormDefaultValues<Data>(

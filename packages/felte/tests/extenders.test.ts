@@ -128,6 +128,7 @@ describe('Extenders', () => {
         controls: expect.arrayContaining([]),
       })
     );
+
     expect(mockExtender).toHaveBeenCalledTimes(4);
 
     const inputElement = createInputElement({
