@@ -99,6 +99,7 @@ export function createForm<Data extends Record<string, unknown>>(
               errors: currentErrors,
             })
           );
+          isSubmitting.set(false);
           return;
         }
       }

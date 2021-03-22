@@ -205,7 +205,7 @@ describe('User interactions with form', () => {
   test('Calls validation function on submit', async () => {
     const validate = jest.fn(() => ({}));
     const onSubmit = jest.fn();
-    const { form } = createForm({
+    const { form, isSubmitting } = createForm({
       onSubmit,
       validate,
     });
@@ -213,7 +213,7 @@ describe('User interactions with form', () => {
     form(formElement);
     formElement.submit();
     expect(validate).toHaveBeenCalled();
-    await waitFor(() =>
+    await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith(
         expect.objectContaining({
           account: {
@@ -221,14 +221,15 @@ describe('User interactions with form', () => {
             password: '',
           },
         })
-      )
-    );
+      );
+      expect(get(isSubmitting)).toBeFalsy();
+    });
   });
 
   test('Calls validation function on submit without calling onSubmit', async () => {
     const validate = jest.fn(() => ({ account: { email: 'Not email' } }));
     const onSubmit = jest.fn();
-    const { form, isValid } = createForm({
+    const { form, isValid, isSubmitting } = createForm({
       onSubmit,
       validate,
     });
@@ -238,6 +239,7 @@ describe('User interactions with form', () => {
     expect(validate).toHaveBeenCalled();
     await waitFor(() => expect(onSubmit).not.toHaveBeenCalled());
     expect(get(isValid)).toBeFalsy();
+    expect(get(isSubmitting)).toBeFalsy();
   });
 
   test('Calls validate on input', async () => {
@@ -363,7 +365,7 @@ describe('User interactions with form', () => {
       throw mockErrors;
     });
 
-    const { form } = createForm<any>({
+    const { form, isSubmitting } = createForm<any>({
       onSubmit,
       onError,
     });
@@ -377,6 +379,7 @@ describe('User interactions with form', () => {
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalled();
       expect(onError).toHaveBeenCalledWith(mockErrors);
+      expect(get(isSubmitting)).toBeFalsy();
     });
   });
 
@@ -390,7 +393,9 @@ describe('User interactions with form', () => {
       validate: jest.fn(),
       onError: jest.fn(),
     };
-    const { form, createSubmitHandler } = createForm(defaultConfig);
+    const { form, createSubmitHandler, isSubmitting } = createForm(
+      defaultConfig
+    );
     const altOnSubmit = createSubmitHandler({
       onSubmit: mockOnSubmit,
       onError: mockOnError,
@@ -416,6 +421,7 @@ describe('User interactions with form', () => {
       expect(mockOnSubmit).toHaveBeenCalledTimes(1);
       expect(defaultConfig.onError).not.toHaveBeenCalled();
       expect(mockOnError).not.toHaveBeenCalled();
+      expect(get(isSubmitting)).toBeFalsy();
     });
 
     const mockErrors = { account: { email: 'Not email' } };
@@ -429,16 +435,20 @@ describe('User interactions with form', () => {
       expect(mockOnError).toHaveBeenCalled();
       expect(mockValidate).toHaveBeenCalledTimes(2);
       expect(mockOnSubmit).toHaveBeenCalledTimes(2);
+      expect(get(isSubmitting)).toBeFalsy();
     });
   });
 
   test('calls submit handler without event', async () => {
-    const { createSubmitHandler } = createForm({ onSubmit: jest.fn() });
+    const { createSubmitHandler, isSubmitting } = createForm({
+      onSubmit: jest.fn(),
+    });
     const mockOnSubmit = jest.fn();
     const altOnSubmit = createSubmitHandler({ onSubmit: mockOnSubmit });
     altOnSubmit();
     await waitFor(() => {
       expect(mockOnSubmit).toHaveBeenCalled();
+      expect(get(isSubmitting)).toBeFalsy();
     });
   });
 });
