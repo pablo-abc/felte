@@ -215,7 +215,7 @@ describe('Helpers', () => {
         email: string;
       };
     };
-    const { data, reset, form } = createForm<Data>({
+    const { data, touched, reset, form } = createForm<Data>({
       initialValues: {
         account: {
           email: '',
@@ -240,6 +240,12 @@ describe('Helpers', () => {
       },
     });
 
+    expect(get(touched)).toEqual({
+      account: {
+        email: false,
+      },
+    });
+
     form(formElement);
 
     expect(get(data)).toEqual({
@@ -252,9 +258,16 @@ describe('Helpers', () => {
     expect(get(data).account.email).toBe('jacek@soplica.com');
 
     reset();
+
     expect(get(data)).toEqual({
       account: {
         email: '',
+      },
+    });
+
+    expect(get(touched)).toEqual({
+      account: {
+        email: false,
       },
     });
   });

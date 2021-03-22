@@ -173,6 +173,7 @@ export function createForm<Data extends Record<string, unknown>>(
   function reset(): void {
     data.set(_cloneDeep(initialValues));
     if (formNode) setForm(formNode, initialValues);
+    touched.update(($touched) => deepSet($touched, false) as Touched<Data>);
   }
 
   const handleSubmit = createSubmitHandler();
