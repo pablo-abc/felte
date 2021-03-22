@@ -1,5 +1,13 @@
 # felte
 
+## 0.5.5
+
+### Patch Changes
+
+- 756b244: Improve DOM mutation recognition
+- ebc474f: Fix #11 where `isSubmitting` was not setting back to `false` on client errors
+- f677349: Fix #10 by resetting the touched store when calling `reset()`
+
 ## 0.5.4
 
 ### Patch Changes
