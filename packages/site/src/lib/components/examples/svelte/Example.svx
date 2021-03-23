@@ -1,0 +1,96 @@
+<script>
+  import Form from './Form.svelte';
+</script>
+<div class=example>
+  <div class=form>
+    <h2>Using a Svelte component</h2>
+    <Form />
+  </div>
+
+  ```html
+  <script>
+    import { createForm } from 'felte';
+    import { svelteReporter as reporter, ValidationMessage } from '@felte/reporter-svelte';
+    import { checkPerKey, string, not, emptyString, email, enUS, object } from 'bueno';
+
+    const { form } = createForm({
+      onSubmit: () => {
+        throw {
+          password: 'This password already exists',
+        };
+      },
+      onError: error => error,
+      extend: reporter,
+      validate: (values) => {
+        return checkPerKey(
+          values,
+          object({
+            email: string(email),
+            password: string(not(emptyString)),
+          }),
+          enUS,
+        );
+      },
+    });
+  </script>
+
+  <form use:form>
+    <label>
+      <span>Email:</span>
+      <input id="email" name="email" type="email" aria-describedby="email-validation">
+    </label>
+    <!-- You can use a placeholder slot -->
+    <ValidationMessage for="email" let:messages={message}>
+      <span id="email-validation" class="validation-message" aria-live="polite">
+        {message}
+      </span>
+      <span slot="placeholder" id="email-validation" class="validation-message" />
+    </ValidationMessage>
+    <label>
+      <span>Password:</span>
+      <input id="password" name="password" type="password" aria-describedby="password-validation">
+    </label>
+    <!-- Or handle any undefined/falsy message yourself -->
+    <ValidationMessage for="password" let:messages={message}>
+      <span id="password-validation" class="validation-message" aria-live="polite">
+        {message || ''}
+      </span>
+    </ValidationMessage>
+    <button type="submit">Fail to sign in</button>
+  </form>
+  ```
+
+</div>
+
+<style>
+  .example {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 100%;
+  }
+
+  .example :global(pre) {
+    max-width: 90%;
+    margin: 1rem;
+    border: 2px solid var(--primary-color);
+    border-radius: 10px 30px;
+  }
+
+  @media (min-width: 966px) {
+    .example :global(pre) {
+      max-width: 60%;
+      height: 100%;
+      max-height: 95vh;
+    }
+
+    .form {
+      height: 100%;
+    }
+  }
+
+  .form {
+    margin: 1rem;
+  }
+</style>

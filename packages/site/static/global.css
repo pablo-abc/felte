@@ -1,0 +1,71 @@
+:root {
+  --primary-color: rgb(255, 62, 0);
+  --on-primary-color: #FFFFF9;
+  --primary-color-hover: rgb(255, 113, 51);
+  --primary-background: #FFFFF0;
+
+  --primary-font-color: #4D402B;
+  --primary-font-color-hover: #80735E;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--primary-font-color);
+  background: var(--primary-background);
+  font-size: 1.1rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cabin', sans-serif;
+  margin: 0 0 0.3em 0;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+p {
+  margin: 1.5rem 0;
+}
+
+h1 {
+  font-size: 2.1rem;
+}
+
+a {
+  color: var(--primary-font-color);
+  text-decoration: none;
+  transition: color 100ms;
+}
+
+a:hover {
+  color: var(--primary-font-color-hover);
+}
+
+code {
+  font-family: inconsolata, monospace;
+  font-size: calc(1em - 2px);
+  color: var(--primary-font-color);
+  background-color: #f0f0e0;
+  padding: 0.2em 0.4em;
+  border-radius: 2px;
+}
+
+input {
+  font-size: 1em;
+  border: 1px solid #aaa;
+  border-radius: 10px;
+  padding: 0.3em;
+  background: var(--on-primary-color);
+  height: 3rem;
+  width: 18rem;
+}
+
+input[aria-invalid="true"] {
+  border: 2px solid red;
+}

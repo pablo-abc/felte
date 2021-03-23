@@ -1,0 +1,10 @@
+<script>
+    export let count = 21;
+</script>
+
+# This is an example of an mdsvex component.
+
+You can `import` it as `$lib/Example.svx`.
+Just **delete** this file if you don't care.
+
+*By the way, the count is {count}.*
