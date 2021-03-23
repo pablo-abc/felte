@@ -3,6 +3,9 @@
   "private": true,
   "scripts": {
     "docs:build": "bolt w felte run typedoc --out ../../docs",
+    "site:build": "bolt w @felte/site run build",
+    "site:start": "bolt w @felte/site run start",
+    "site:dev": "bolt w @felte/site run dev",
     "test": "bolt ws run test",
     "test:ci": "bolt ws run test:ci",
     "build": "bolt ws run build",
@@ -63,9 +66,7 @@
     "yup": "^0.32.9"
   },
   "bolt": {
-    "workspaces": [
-      "packages/*"
-    ]
+    "workspaces": ["packages/*"]
   },
   "volta": {
     "node": "14.15.5",
