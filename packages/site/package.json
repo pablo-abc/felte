@@ -23,9 +23,6 @@
     "yup": "^0.32.9"
   },
   "type": "module",
-  "engines": {
-    "node": ">= 12.17.0"
-  },
   "dependencies": {
     "@felte/reporter-dom": "^0.1.9",
     "@felte/reporter-svelte": "^0.1.12",
