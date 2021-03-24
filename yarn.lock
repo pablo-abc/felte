@@ -2389,11 +2389,6 @@ bser@2.1.1:
   dependencies:
     node-int64 "^0.4.0"
 
-bueno@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/bueno/-/bueno-0.1.5.tgz#3ca2b0c5b0d79da4b5cef5cb94e5b466389364b6"
-  integrity sha512-DSyAwNjjxQqwy2XceFhRd4j9KWY1ue6mLhreGsv1Cio3IjyCFSwsarL0YMswiNu9UIfun6PcAVPyIzaF6i5quA==
-
 buffer-from@1.x, buffer-from@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.1.tgz#32713bc028f75c02fdb710d7c7bcec1f2c6070ef"
@@ -6416,7 +6411,7 @@ svelte-preprocess@^4.6.9:
     detect-indent "^6.0.0"
     strip-indent "^3.0.0"
 
-svelte@^3.0.0:
+svelte@^3.31.0:
   version "3.35.0"
   resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.35.0.tgz#e0d0ba60c4852181c2b4fd851194be6fda493e65"
   integrity sha512-gknlZkR2sXheu/X+B7dDImwANVvK1R0QGQLd8CNIfxxGPeXBmePnxfzb6fWwTQRsYQG7lYkZXvpXJvxvpsoB7g==
