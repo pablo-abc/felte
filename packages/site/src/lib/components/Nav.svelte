@@ -15,6 +15,7 @@
     </h1>
     <ul>
       <li><a aria-current="{$page.path === '/docs' ? 'page' : undefined}" href="docs">docs</a></li>
+      <li><a href="https://api.felte.dev">API</a></li>
       <li>
         <a
           class=icon-link
@@ -58,7 +59,8 @@
 
   h1 {
     margin: 0;
-    padding: 0 2rem;
+    padding: 0;
+    padding-left: 2rem;
   }
 
   h1 a {
@@ -73,7 +75,8 @@
     display: flex;
     align-items: center;
     margin: 0;
-    padding: 0 2rem;
+    padding: 0;
+    padding-right: 2rem;
   }
 
   /* clearfix */
