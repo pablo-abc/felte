@@ -61,11 +61,44 @@
 				<a href="#felte-a-form-library-for-svelte" id="felte-a-form-library-for-svelte" style="color: inherit; text-decoration: none;">
 					<h1>Felte: A form library for Svelte</h1>
 				</a>
-				<p><img src="https://github.com/pablo-abc/felte/workflows/Tests/badge.svg" alt="Tests">
-					<img src="https://img.shields.io/bundlephobia/min/felte" alt="Bundle size">
-				<img src="https://img.shields.io/npm/v/felte" alt="NPM Version"></p>
-				<p>Felte is a simple to use form library for Svelte. It is based on Svelte stores and Svelte actions for its functionality. No <code>Field</code> or <code>Form</code> components, just plain stores and actions to build your form however you like. You can see it in actino in this <a href="https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte">CodeSandbox demo</a>!</p>
-				<p><strong>WARNING:</strong> The API is not set in stone yet, so breaking changes may occur between minor versions until it is stable enough to be 1.0.0</p>
+				<p><a href="https://github.com/pablo-abc/felte/actions/workflows/test.yml"><img src="https://github.com/pablo-abc/felte/workflows/Tests/badge.svg" alt="Tests"></a>
+					<a href="https://bundlephobia.com/result?p=felte"><img src="https://img.shields.io/bundlephobia/min/felte" alt="Bundle size"></a>
+					<a href="https://www.npmjs.com/package/felte"><img src="https://img.shields.io/npm/v/felte" alt="NPM Version"></a>
+					<a href="https://www.npmjs.com/package/felte"><img src="https://img.shields.io/npm/dw/felte" alt="NPM Downloads"></a>
+				<a href="https://codecov.io/gh/pablo-abc/felte"><img src="https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC" alt="codecov"></a></p>
+				<p>Felte is a simple to use form library for Svelte. It is based on Svelte stores and Svelte actions for its functionality. No <code>Field</code> or <code>Form</code> components, just plain stores and actions to build your form however you like. You can see it in action in this <a href="https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte">CodeSandbox demo</a>!</p>
+				<p><strong>STATUS:</strong> Useable. Felte&#39;s API is stable enough to be used. I feel the main API is solid enough to not need breaking changes that fast, but more usage input would be useful. If you&#39;re interested please give it a try and feel free to open an issue if there&#39;s anything missing!</p>
+				<a href="#features" id="features" style="color: inherit; text-decoration: none;">
+					<h2>Features</h2>
+				</a>
+				<ul>
+					<li>Single action to make your form reactive.</li>
+					<li>Use HTML5 native elements to create your form. (Only the <code>name</code> attribute is necessary).</li>
+					<li>Provides stores and helper functions to handle more complex use cases.</li>
+					<li>No assumptions on your validation strategy. Use any validation library you want or write your own strategy.</li>
+					<li>Handles addition and removal of form controls during runtime.</li>
+					<li>Official solutions for error reporting using <code>reporter</code> packages.</li>
+					<li>Well tested. Currently at <a href="https://app.codecov.io/gh/pablo-abc/felte">99% code coverage</a> and constantly working on improving test quality.</li>
+				</ul>
+				<a href="#simple-usage-example" id="simple-usage-example" style="color: inherit; text-decoration: none;">
+					<h2>Simple usage example</h2>
+				</a>
+				<pre><code class="language-html"><span style="color: #800000">&lt;script&gt;</span>
+<span style="color: #000000FF">  </span><span style="color: #AF00DB">import</span><span style="color: #000000FF"> { </span><span style="color: #001080">createForm</span><span style="color: #000000FF"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000FF"> </span><span style="color: #A31515">&#039;felte&#039;</span>
+
+<span style="color: #000000FF">  </span><span style="color: #0000FF">const</span><span style="color: #000000FF"> { </span><span style="color: #0070C1">form</span><span style="color: #000000FF"> } </span><span style="color: #000000">=</span><span style="color: #000000FF"> </span><span style="color: #795E26">createForm</span><span style="color: #000000FF">({</span>
+<span style="color: #000000FF">    </span><span style="color: #795E26">onSubmit</span><span style="color: #001080">:</span><span style="color: #000000FF"> </span><span style="color: #0000FF">async</span><span style="color: #000000FF"> (</span><span style="color: #001080">values</span><span style="color: #000000FF">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000FF"> {</span>
+<span style="color: #000000FF">      </span><span style="color: #008000">/* call to an api */</span>
+<span style="color: #000000FF">    },</span>
+<span style="color: #000000FF">  })</span>
+<span style="color: #800000">&lt;/script&gt;</span>
+
+<span style="color: #800000">&lt;form</span><span style="color: #000000"> </span><span style="color: #FF0000">use:form</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">  </span><span style="color: #800000">&lt;input</span><span style="color: #000000"> </span><span style="color: #FF0000">type</span><span style="color: #000000">=</span><span style="color: #0000FF">text</span><span style="color: #000000"> </span><span style="color: #FF0000">name</span><span style="color: #000000">=</span><span style="color: #0000FF">email</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">  </span><span style="color: #800000">&lt;input</span><span style="color: #000000"> </span><span style="color: #FF0000">type</span><span style="color: #000000">=</span><span style="color: #0000FF">password</span><span style="color: #000000"> </span><span style="color: #FF0000">name</span><span style="color: #000000">=</span><span style="color: #0000FF">password</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">  </span><span style="color: #800000">&lt;input</span><span style="color: #000000"> </span><span style="color: #FF0000">type</span><span style="color: #000000">=</span><span style="color: #0000FF">submit</span><span style="color: #000000"> </span><span style="color: #FF0000">value</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;Sign in&quot;</span><span style="color: #800000">&gt;</span>
+<span style="color: #800000">&lt;/form&gt;</span>
+</code></pre>
 				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
 					<h2>Installation</h2>
 				</a>
@@ -81,10 +114,10 @@
 				<p>Felte exports a single <code>createForm</code> function that accepts a config object with the following interface:</p>
 				<pre><code class="language-typescript"><span style="color: #0000FF">interface</span><span style="color: #000000"> </span><span style="color: #267F99">FormConfig</span><span style="color: #000000">&lt;</span><span style="color: #267F99">D</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #267F99">Record</span><span style="color: #000000">&lt;</span><span style="color: #267F99">string</span><span style="color: #000000">, </span><span style="color: #267F99">unknown</span><span style="color: #000000">&gt;&gt; {</span>
 <span style="color: #000000">  </span><span style="color: #001080">initialValues</span><span style="color: #000000">?: </span><span style="color: #267F99">D</span><span style="color: #000000">;</span>
-<span style="color: #000000">  </span><span style="color: #795E26">validate</span><span style="color: #000000">?: (</span><span style="color: #001080">values</span><span style="color: #000000">: </span><span style="color: #267F99">D</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">Errors</span><span style="color: #000000">&lt;</span><span style="color: #267F99">D</span><span style="color: #000000">&gt;;</span>
+<span style="color: #000000">  </span><span style="color: #795E26">validate</span><span style="color: #000000">?: (</span><span style="color: #001080">values</span><span style="color: #000000">: </span><span style="color: #267F99">D</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">Promise</span><span style="color: #000000">&lt;</span><span style="color: #267F99">Errors</span><span style="color: #000000">&lt;</span><span style="color: #267F99">D</span><span style="color: #000000">&gt; | </span><span style="color: #267F99">undefined</span><span style="color: #000000">&gt;;</span>
 <span style="color: #000000">  </span><span style="color: #795E26">onSubmit</span><span style="color: #000000">: (</span><span style="color: #001080">values</span><span style="color: #000000">: </span><span style="color: #267F99">D</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
-<span style="color: #000000">  </span><span style="color: #795E26">onError</span><span style="color: #000000">?: (</span><span style="color: #001080">errors</span><span style="color: #000000">: </span><span style="color: #267F99">unknown</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
-<span style="color: #000000">  </span><span style="color: #001080">reporter</span><span style="color: #000000">?: </span><span style="color: #267F99">Reporter</span><span style="color: #000000"> | </span><span style="color: #267F99">Reporter</span><span style="color: #000000">[];</span>
+<span style="color: #000000">  </span><span style="color: #795E26">onError</span><span style="color: #000000">?: (</span><span style="color: #001080">errors</span><span style="color: #000000">: </span><span style="color: #267F99">unknown</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000"> | </span><span style="color: #267F99">Errors</span><span style="color: #000000">&lt;</span><span style="color: #267F99">D</span><span style="color: #000000">&gt;;</span>
+<span style="color: #000000">  </span><span style="color: #001080">extend</span><span style="color: #000000">?: </span><span style="color: #267F99">Extender</span><span style="color: #000000"> | </span><span style="color: #267F99">Extender</span><span style="color: #000000">[];</span>
 <span style="color: #000000">}</span>
 </code></pre>
 				<ul>
@@ -92,11 +125,16 @@
 					<li><code>validate</code> is a custom validation function that must return an object with the same props as initialValues, but with error messages or <code>undefined</code> as values.</li>
 					<li><code>onSubmit</code> is the function that will be executed when the form is submited.</li>
 					<li><code>onError</code> is a an optional function that will run if the submit throws an exception. It will contain the error catched. If you return an object with the same shape as <code>Errors</code>, these errors can be reported by a reporter.</li>
-					<li><code>reporter</code> a function or list of functions to handle error reporting. Currently there are two official packages: <code>@felte/reporter-tippy</code> to handle error reporting with <a href="https://atomiks.github.io/tippyjs/">Tippy.js</a> and <code>@felte/reporter-cvapi</code> to handle error reporting with the browser&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/Constraint_validation">Constraint Validation API</a>.</li>
+					<li><code>extend</code> a function or list of functions to extend Felte&#39;s behaviour. Currently it can be used to add <code>reporters</code> to Felte, these can handle error reporting for you. You can read more about them in <a href="https://felte.dev/docs#reporters">Felte&#39;s documentation</a>.</li>
 				</ul>
 				<p>When called, <code>createForm</code> will return an object with the following interface:</p>
 				<pre><code class="language-typescript"><span style="color: #0000FF">type</span><span style="color: #000000"> </span><span style="color: #267F99">FormAction</span><span style="color: #000000"> = (</span><span style="color: #001080">node</span><span style="color: #000000">: </span><span style="color: #267F99">HTMLFormElement</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> { </span><span style="color: #795E26">destroy</span><span style="color: #000000">: () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000"> };</span>
-<span style="color: #AF00DB">export</span><span style="color: #000000"> </span><span style="color: #0000FF">type</span><span style="color: #000000"> </span><span style="color: #267F99">FieldValue</span><span style="color: #000000"> = </span><span style="color: #267F99">string</span><span style="color: #000000"> | </span><span style="color: #267F99">string</span><span style="color: #000000">[] | </span><span style="color: #267F99">boolean</span><span style="color: #000000"> | </span><span style="color: #267F99">number</span><span style="color: #000000"> | </span><span style="color: #267F99">File</span><span style="color: #000000"> | </span><span style="color: #267F99">File</span><span style="color: #000000">[];</span>
+<span style="color: #0000FF">type</span><span style="color: #000000"> </span><span style="color: #267F99">FieldValue</span><span style="color: #000000"> = </span><span style="color: #267F99">string</span><span style="color: #000000"> | </span><span style="color: #267F99">string</span><span style="color: #000000">[] | </span><span style="color: #267F99">boolean</span><span style="color: #000000"> | </span><span style="color: #267F99">number</span><span style="color: #000000"> | </span><span style="color: #267F99">File</span><span style="color: #000000"> | </span><span style="color: #267F99">File</span><span style="color: #000000">[];</span>
+<span style="color: #0000FF">type</span><span style="color: #000000"> </span><span style="color: #267F99">CreateSubmitHandlerConfig</span><span style="color: #000000">&lt;</span><span style="color: #267F99">D</span><span style="color: #000000">&gt; = {</span>
+<span style="color: #000000">  </span><span style="color: #795E26">onSubmit</span><span style="color: #000000">: (</span><span style="color: #001080">values</span><span style="color: #000000">: </span><span style="color: #267F99">D</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
+<span style="color: #000000">  </span><span style="color: #795E26">validate</span><span style="color: #000000">: (</span><span style="color: #001080">values</span><span style="color: #000000">: </span><span style="color: #267F99">D</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">Promise</span><span style="color: #000000">&lt;</span><span style="color: #267F99">Errors</span><span style="color: #000000">&lt;</span><span style="color: #267F99">D</span><span style="color: #000000">&gt; | </span><span style="color: #267F99">undefined</span><span style="color: #000000">&gt;;</span>
+<span style="color: #000000">  </span><span style="color: #795E26">onError</span><span style="color: #000000">: (</span><span style="color: #001080">errors</span><span style="color: #000000">: </span><span style="color: #267F99">unknown</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000"> | </span><span style="color: #267F99">Errors</span><span style="color: #000000">&lt;</span><span style="color: #267F99">D</span><span style="color: #000000">&gt;;</span>
+<span style="color: #000000">}</span>
 
 <span style="color: #AF00DB">export</span><span style="color: #000000"> </span><span style="color: #0000FF">interface</span><span style="color: #000000"> </span><span style="color: #267F99">Form</span><span style="color: #000000">&lt;</span><span style="color: #267F99">D</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #267F99">Record</span><span style="color: #000000">&lt;</span><span style="color: #267F99">string</span><span style="color: #000000">, </span><span style="color: #267F99">unknown</span><span style="color: #000000">&gt;&gt; {</span>
 <span style="color: #000000">  </span><span style="color: #001080">form</span><span style="color: #000000">: </span><span style="color: #267F99">FormAction</span><span style="color: #000000">;</span>
@@ -110,6 +148,9 @@
 <span style="color: #000000">  </span><span style="color: #795E26">setTouched</span><span style="color: #000000">: (</span><span style="color: #001080">path</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
 <span style="color: #000000">  </span><span style="color: #795E26">setError</span><span style="color: #000000">: (</span><span style="color: #001080">path</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000">, </span><span style="color: #001080">error</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000"> | </span><span style="color: #267F99">string</span><span style="color: #000000">[]) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
 <span style="color: #000000">  </span><span style="color: #795E26">setField</span><span style="color: #000000">: (</span><span style="color: #001080">path</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000">, </span><span style="color: #001080">value</span><span style="color: #000000">?: </span><span style="color: #267F99">FieldValue</span><span style="color: #000000">, </span><span style="color: #001080">touch</span><span style="color: #000000">?: </span><span style="color: #267F99">boolean</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
+<span style="color: #000000">  </span><span style="color: #795E26">validate</span><span style="color: #000000">: (</span><span style="color: #001080">values</span><span style="color: #000000">: </span><span style="color: #267F99">D</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">Promise</span><span style="color: #000000">&lt;</span><span style="color: #267F99">Errors</span><span style="color: #000000">&lt;</span><span style="color: #267F99">D</span><span style="color: #000000">&gt; | </span><span style="color: #267F99">undefined</span><span style="color: #000000">&gt;;</span>
+<span style="color: #000000">  </span><span style="color: #795E26">reset</span><span style="color: #000000">: () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
+<span style="color: #000000">  </span><span style="color: #795E26">createSubmitHandler</span><span style="color: #000000">: (</span><span style="color: #001080">config</span><span style="color: #000000">?: </span><span style="color: #267F99">CreateSubmitHandlerConfig</span><span style="color: #000000">&lt;</span><span style="color: #267F99">D</span><span style="color: #000000">&gt;) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> (</span><span style="color: #001080">event</span><span style="color: #000000">?: </span><span style="color: #267F99">Event</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
 <span style="color: #000000">}</span>
 </code></pre>
 				<ul>
@@ -123,6 +164,9 @@
 					<li><code>setTouched</code> is a helper function to touch a specific field.</li>
 					<li><code>setError</code> is a helper function to set an error in a specific field.</li>
 					<li><code>setField</code> is a helper function to set the data of a specific field. If undefined, it clears the field. If you set <code>touch</code> to <code>false</code> the field will not be touched with this change.</li>
+					<li><code>validate</code> is a helper function that forces validation of the whole form, updating the <code>errors</code> store and touching every field. Similar to what happens on submit.</li>
+					<li><code>reset</code> is a helper function that resets the form to its original values when the page was loaded.</li>
+					<li><code>createSubmitHandler</code> is a helper function that creates a submit handler with overriden <code>onSubmit</code>, <code>onError</code> and/or <code>validate</code> functions. If no config is passed it uses the default configuration from <code>createForm</code>.</li>
 				</ul>
 				<blockquote>
 					<p>If the helper functions are called before initialization of the form, whatever you set will be overwritten.</p>
@@ -144,7 +188,7 @@
 <span style="color: #000000FF">    </span><span style="color: #795E26">onSubmit</span><span style="color: #001080">:</span><span style="color: #000000FF"> </span><span style="color: #0000FF">async</span><span style="color: #000000FF"> (</span><span style="color: #001080">values</span><span style="color: #000000FF">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000FF"> {</span>
 <span style="color: #000000FF">      </span><span style="color: #008000">/* call to an api */</span>
 <span style="color: #000000FF">    },</span>
-<span style="color: #000000FF">    </span><span style="color: #001080">reporter</span><span style="color: #000000FF">,</span>
+<span style="color: #000000FF">    </span><span style="color: #001080">extend:</span><span style="color: #000000FF"> </span><span style="color: #001080">reporter</span><span style="color: #000000FF">,</span>
 <span style="color: #000000FF">  })</span>
 
 <span style="color: #000000FF">  </span><span style="color: #000000">$</span><span style="color: #000000FF">: </span><span style="color: #001080">console</span><span style="color: #000000FF">.</span><span style="color: #795E26">log</span><span style="color: #000000FF">(</span><span style="color: #001080">$data</span><span style="color: #000000FF">)</span>
@@ -271,9 +315,6 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/form.html" class="tsd-kind-icon">Form</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
 						<a href="interfaces/formconfig.html" class="tsd-kind-icon">Form<wbr>Config</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
@@ -283,13 +324,25 @@
 						<a href="interfaces/formconfigwithoutinitialvalues.html" class="tsd-kind-icon">Form<wbr>Config<wbr>Without<wbr>Initial<wbr>Values</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#createsubmithandlerconfig" class="tsd-kind-icon">Create<wbr>Submit<wbr>Handler<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="modules.html#currentform" class="tsd-kind-icon">Current<wbr>Form</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="modules.html#errors" class="tsd-kind-icon">Errors</a>
 					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#extender" class="tsd-kind-icon">Extender</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#extenderhandler" class="tsd-kind-icon">Extender<wbr>Handler</a>
+					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="modules.html#fieldvalue" class="tsd-kind-icon">Field<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#form" class="tsd-kind-icon">Form</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="modules.html#formaction" class="tsd-kind-icon">Form<wbr>Action</a>
@@ -303,11 +356,14 @@
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="modules.html#onsubmiterrorstate" class="tsd-kind-icon">On<wbr>Submit<wbr>Error<wbr>State</a>
 					</li>
-					<li class=" tsd-kind-type-alias">
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="modules.html#reporter" class="tsd-kind-icon">Reporter</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="modules.html#reporterhandler" class="tsd-kind-icon">Reporter<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#stores" class="tsd-kind-icon">Stores</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="modules.html#touched" class="tsd-kind-icon">Touched</a>
@@ -341,6 +397,9 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#istextareaelement" class="tsd-kind-icon">is<wbr>Text<wbr>Area<wbr>Element</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#setform" class="tsd-kind-icon">set<wbr>Form</a>
 					</li>
 				</ul>
 			</nav>
