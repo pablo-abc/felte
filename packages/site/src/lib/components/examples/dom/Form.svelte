@@ -1,7 +1,13 @@
 <script>
   import { createForm } from 'felte';
   import reporter from '@felte/reporter-dom';
-  import { checkPerKey, string, not, emptyString, email, enUS, object } from 'bueno';
+  import { validateSchema } from '@felte/validator-yup';
+  import * as yup from 'yup';
+
+  const schema = yup.object({
+    email: yup.string().email().required(),
+    password: yup.string().required(),
+  });
 
   const { form } = createForm({
     onSubmit: () => {
@@ -11,16 +17,7 @@
     },
     onError: error => error,
     extend: reporter({ single: true }),
-    validate: (values) => {
-      return checkPerKey(
-        values,
-        object({
-          email: string(email),
-          password: string(not(emptyString)),
-        }),
-        enUS,
-      );
-    },
+    validate: validateSchema(schema),
   });
 </script>
 

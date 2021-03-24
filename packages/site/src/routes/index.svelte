@@ -5,6 +5,17 @@
   import DomExample from '$lib/components/examples/dom/Example.svx';
   import SvelteExample from '$lib/components/examples/svelte/Example.svx';
   import Head from '$lib/components/Head.svelte';
+  import { setLocale } from 'yup';
+
+  setLocale({
+    mixed: {
+      default: 'Not valid',
+      required: 'Must not be empty',
+    },
+    string: {
+      email: 'Must be a valid email address',
+    },
+  });
 </script>
 
 <Head section="A form library for Svelte" />
