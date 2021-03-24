@@ -1501,10 +1501,10 @@
   resolved "https://registry.yarnpkg.com/@sveltejs/adapter-static/-/adapter-static-1.0.0-next.4.tgz#5305a2fedf9d1ec40af6c25384b7542a0337ec4c"
   integrity sha512-Atri/5jyiVmAklqDKb/5czmLkHos6LQOag61k/C6qWozMb8UopvL3bTm62hFQXGKvGnuSRq2xIueDOKWHM/7rA==
 
-"@sveltejs/kit@1.0.0-next.55":
-  version "1.0.0-next.55"
-  resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-1.0.0-next.55.tgz#987110cc6f2ffcfe351a833ea738d646a0b78943"
-  integrity sha512-NB7zJgYCLpTxq2pXDqMx0uJZuMGI0cnXy3Q8+Mia1QVS6mZRwbKD3ZJ4R9bOT4M8u3TXgdL3LHfBPPzid/9ITg==
+"@sveltejs/kit@1.0.0-next.57":
+  version "1.0.0-next.57"
+  resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-1.0.0-next.57.tgz#f823d5294f20f2eb87cda4b97bbbe627af171453"
+  integrity sha512-tSaeU92NsvxElOXlQ62+QPooRf5fOWv2anQZ3JJ2NzntwWMY+gkBu+6Yjrt1ISG0ksMBnfW9dBriAFrnx0CsOA==
   dependencies:
     "@sveltejs/vite-plugin-svelte" "^1.0.0-next.5"
     cheap-watch "^1.0.3"
@@ -6389,10 +6389,10 @@ svelte-jester@^1.3.0:
   dependencies:
     cosmiconfig "^6.0.0"
 
-svelte-markdown@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/svelte-markdown/-/svelte-markdown-0.1.4.tgz#03bec6dcd8ff1c09126e7c62c8a5a481905881d7"
-  integrity sha512-PXr3R/EJ5cPpk/DZoLXG5dOsRoXqHO541KcH340UQojU5MdnFvfgGSif00WjAApuV1RpdkjujhzJ1Gy54r+5pg==
+svelte-markdown@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/svelte-markdown/-/svelte-markdown-0.1.5.tgz#012aaeb8b746aec5f7afcd40d7a3f9ca8fac276e"
+  integrity sha512-EZ5T24PiTTesLtO7co2f9yUFzyxgi5I/9B0pGhrhKYwyJM30c2IyFuIPUg3nxG40pdXYWQbs1N2qLDnrvwicFQ==
   dependencies:
     marked "^2.0.0"
 
@@ -6412,9 +6412,9 @@ svelte-preprocess@^4.6.9:
     strip-indent "^3.0.0"
 
 svelte@^3.0.0:
-  version "3.32.3"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.32.3.tgz#db0c50c65573ecffe4e2f4924e4862d8f9feda74"
-  integrity sha512-5etu/wDwtewhnYO/631KKTjSmFrKohFLWNm1sWErVHXqGZ8eJLqrW0qivDSyYTcN8GbUqsR4LkIhftNFsjNehg==
+  version "3.35.0"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.35.0.tgz#e0d0ba60c4852181c2b4fd851194be6fda493e65"
+  integrity sha512-gknlZkR2sXheu/X+B7dDImwANVvK1R0QGQLd8CNIfxxGPeXBmePnxfzb6fWwTQRsYQG7lYkZXvpXJvxvpsoB7g==
 
 symbol-tree@^3.2.4:
   version "3.2.4"
