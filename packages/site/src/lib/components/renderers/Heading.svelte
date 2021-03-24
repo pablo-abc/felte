@@ -7,7 +7,8 @@
 
 <span>
   {#if depth === 2 || depth === 3}
-    <a name={id} href={`docs#${id}`} aria-hidden=true>
+    <a class="anchor" {id}>&nbsp;</a>
+    <a href={`docs#${id}`} aria-hidden=true>
       <img src="icons/link.svg" alt="" />
     </a>
   {/if}
@@ -40,6 +41,10 @@
     position: absolute;
     left: -2rem;
     transition: opacity 300ms;
+  }
+
+  a.anchor {
+    top: -5vh;
   }
 
   img {
