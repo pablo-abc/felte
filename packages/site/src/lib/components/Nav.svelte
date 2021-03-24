@@ -14,7 +14,15 @@
       </a>
     </h1>
     <ul>
-      <li><a aria-current="{$page.path === '/docs' ? 'page' : undefined}" href="docs">docs</a></li>
+      <li>
+        <a
+          aria-current="{$page.path === '/docs' ? 'page' : undefined}"
+          href="docs"
+          sveltekit:prefetch
+          >
+          docs
+        </a>
+      </li>
       <li><a href="https://api.felte.dev">API</a></li>
       <li>
         <a
