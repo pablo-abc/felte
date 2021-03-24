@@ -11,6 +11,7 @@
     "@sveltejs/adapter-static": "1.0.0-next.4",
     "@sveltejs/kit": "1.0.0-next.57",
     "bueno": "^0.1.5",
+    "eslint-plugin-svelte3": "^3.1.2",
     "front-matter": "^4.0.2",
     "highlight.js": "^10.7.1",
     "html-entities": "^2.1.1",
