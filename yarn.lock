@@ -1501,10 +1501,10 @@
   resolved "https://registry.yarnpkg.com/@sveltejs/adapter-static/-/adapter-static-1.0.0-next.4.tgz#5305a2fedf9d1ec40af6c25384b7542a0337ec4c"
   integrity sha512-Atri/5jyiVmAklqDKb/5czmLkHos6LQOag61k/C6qWozMb8UopvL3bTm62hFQXGKvGnuSRq2xIueDOKWHM/7rA==
 
-"@sveltejs/kit@1.0.0-next.58":
-  version "1.0.0-next.58"
-  resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-1.0.0-next.58.tgz#fe7b307ec0c493b8fb4915feacbe3c6f4e527ff4"
-  integrity sha512-Ta4VY1Wxc533+hwnPwEVMgMn43L1lwafTLZHksXO3rpnl/+IcXV1v6j4cTTkQiqEslU4wMZyxIpzWzZGQAypPg==
+"@sveltejs/kit@1.0.0-next.60":
+  version "1.0.0-next.60"
+  resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-1.0.0-next.60.tgz#bd7dea4f26012648254ca05b8a17f669deedecfe"
+  integrity sha512-1dpec/fm6bMSOnMyJacboxiK3jLFF7h8pHp8xi+KXb7V4UAGtnjCvRPpk6fggmXQ40mCdrxf/my0fS+0Ci6x+g==
   dependencies:
     "@sveltejs/vite-plugin-svelte" "^1.0.0-next.5"
     cheap-watch "^1.0.3"
