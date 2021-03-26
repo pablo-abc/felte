@@ -34,36 +34,6 @@ It shouldn't be a hard task to use a third party library, as long as you transfo
 
 Note that the `validate` function **can be asynchronous**.
 
-### Validation with Yup
-
-[Yup](https://github.com/jquense/yup) is a really popular validation library. For this reason we've created [`@felte/validator-yup`](https://github.com/pablo-abc/felte/tree/main/packages/validator-yup). An official package to handle validation with Yup. To use it you'll need both `@felte/validator-yup` and `yup`.
-
-```sh
-npm install --save @felte/validator-yup yup
-
-# Or, if you use yarn
-
-yarn add @felte/validator-yup yup
-```
-
-It's usage would look something like:
-
-```javascript
-import { validateSchema } from '@felte/validator-yup';
-import * as yup from 'yup';
-
-const schema = yup.object({
-  email: yup.string().email().required(),
-  password: yup.string().required(),
-});
-
-const { form } = createForm({
-  // ...
-  validate: validateSchema(schema),
-  // ...
-});
-```
-
 Felte will validate whichever field it considers as `touched` as you fill the form, and it will validate all fields (and set them as `touched`) when submitting it.
 
 ### Server errors

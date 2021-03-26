@@ -28,6 +28,7 @@ export default async function getDocs({ lang = 'en', version = 'latest' }) {
     const sections = [
       'getting-started',
       'validation',
+      'validators',
       'default-data',
       'nested-forms',
       'dynamic-forms',
