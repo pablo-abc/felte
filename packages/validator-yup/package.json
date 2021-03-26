@@ -1,6 +1,6 @@
 {
   "name": "@felte/validator-yup",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A package to use Yup with Felte",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -9,7 +9,12 @@
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/validator-yup",
-  "keywords": ["svelte", "forms", "validation", "felte"],
+  "keywords": [
+    "svelte",
+    "forms",
+    "validation",
+    "felte"
+  ],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -20,10 +25,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@felte/common": "^0.2.2"
+    "@felte/common": "^0.2.4"
   },
   "devDependencies": {
-    "felte": "^0.5.3",
+    "felte": "^0.5.6",
     "yup": "^0.32.9"
   },
   "peerDependencies": {

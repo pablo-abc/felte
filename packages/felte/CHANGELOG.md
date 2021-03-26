@@ -1,5 +1,13 @@
 # felte
 
+## 0.5.6
+
+### Patch Changes
+
+- 53e5278: Pass config object to extender
+- Updated dependencies [53e5278]
+  - @felte/common@0.2.4
+
 ## 0.5.5
 
 ### Patch Changes
