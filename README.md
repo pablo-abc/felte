@@ -1,4 +1,6 @@
-# ![Felte](./packages/site/static/felte-logo-thin.png)
+![Felte](./packages/site/static/felte-logo-thin.png)
+
+# Felte: A form library for Svelte
 
 [![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)](https://github.com/pablo-abc/felte/actions/workflows/test.yml)
 [![Bundle size](https://img.shields.io/bundlephobia/min/felte)](https://bundlephobia.com/result?p=felte)
