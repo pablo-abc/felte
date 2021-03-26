@@ -8,8 +8,8 @@
     "site:dev": "bolt w @felte/site run dev",
     "test": "bolt ws run test",
     "test:ci": "bolt ws run test:ci",
-    "build": "bolt ws run build",
-    "dev": "bolt ws --parallel run dev",
+    "build": "bolt ws run build --ignore @felte/site",
+    "dev": "bolt ws --parallel run dev --ignore @felte/site",
     "postinstall": "husky install",
     "prepublishOnly": "pinst --disable",
     "publish": "yarn build && yarn changeset publish",
@@ -67,9 +67,7 @@
     "zod": "^1.11.13"
   },
   "bolt": {
-    "workspaces": [
-      "packages/*"
-    ]
+    "workspaces": ["packages/*"]
   },
   "volta": {
     "node": "14.15.5",
