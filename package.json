@@ -16,6 +16,7 @@
     "postpublish": "pinst --enable"
   },
   "devDependencies": {
+    "@changesets/changelog-git": "^0.1.6",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@rollup/plugin-commonjs": "^17.0.0",
@@ -67,7 +68,9 @@
     "zod": "^1.11.13"
   },
   "bolt": {
-    "workspaces": ["packages/*"]
+    "workspaces": [
+      "packages/*"
+    ]
   },
   "volta": {
     "node": "14.15.5",
