@@ -12,6 +12,7 @@ export type CurrentForm<Data extends Obj> = {
   errors: Writable<Errors<Data>>;
   data: Writable<Data>;
   touched: Writable<Touched<Data>>;
+  config: FormConfig<Data>;
 };
 
 export type OnSubmitErrorState<Data extends Obj> = {
@@ -71,6 +72,7 @@ export interface FormConfigWithoutInitialValues<Data extends Obj> {
   reporter?: Reporter | Reporter[];
   /** Optional function/s to extend Felte's functionality. */
   extend?: Extender | Extender[];
+  [key: string]: unknown;
 }
 
 /**
@@ -80,6 +82,7 @@ export interface FormConfigWithInitialValues<Data extends Obj>
   extends FormConfigWithoutInitialValues<Data> {
   /** Initial values for the form. To be used when not using the `form` action. */
   initialValues: Data;
+  [key: string]: unknown;
 }
 
 /**
@@ -88,6 +91,7 @@ export interface FormConfigWithInitialValues<Data extends Obj>
 export interface FormConfig<Data extends Obj>
   extends FormConfigWithoutInitialValues<Data> {
   initialValues?: Data;
+  [key: string]: unknown;
 }
 
 /** The errors object may contain either a string or array or string per key. */

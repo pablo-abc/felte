@@ -75,6 +75,7 @@ export function createForm<Data extends Record<string, unknown>>(
       errors,
       touched,
       data,
+      config,
     })
   );
 
@@ -187,6 +188,7 @@ export function createForm<Data extends Record<string, unknown>>(
         data,
         errors,
         touched,
+        config,
       });
     }
     currentExtenders = extender.map(callExtender);
