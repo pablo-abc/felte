@@ -1,7 +1,7 @@
 <script>
   import { createForm } from 'felte';
   import { svelteReporter as reporter, ValidationMessage } from '@felte/reporter-svelte';
-  import { validateSchema } from '@felte/validator-yup';
+  import { validator } from '@felte/validator-yup';
   import * as yup from 'yup';
 
   const schema = yup.object({
@@ -16,8 +16,8 @@
       };
     },
     onError: error => error,
-    extend: reporter,
-    validate: validateSchema(schema),
+    extend: [validator, reporter],
+    validateSchema: schema,
   });
 </script>
 

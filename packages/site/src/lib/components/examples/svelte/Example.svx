@@ -11,7 +11,7 @@
   <script>
     import { createForm } from 'felte';
     import { svelteReporter as reporter, ValidationMessage } from '@felte/reporter-svelte';
-    import { validateSchema } from '@felte/validator-yup';
+    import { validator } from '@felte/validator-yup';
     import * as yup from 'yup';
 
     const schema = yup.object({
@@ -26,8 +26,8 @@
         };
       },
       onError: error => error,
-      extend: reporter,
-      validate: validateSchema(schema),
+      extend: [validator, reporter],
+      validateSchema: schema,
     });
   </script>
 
@@ -70,6 +70,7 @@
 
   .example :global(pre) {
     max-width: 90%;
+    width: 90vw;
     margin: 1rem;
     border: 2px solid var(--primary-color);
     border-radius: 10px 30px;
@@ -78,6 +79,7 @@
   @media (min-width: 966px) {
     .example :global(pre) {
       max-width: 60%;
+      width: 60vw;
       height: 100%;
       max-height: 95vh;
     }

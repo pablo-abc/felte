@@ -1,7 +1,7 @@
 <script>
   import { createForm } from 'felte';
   import reporter from '@felte/reporter-dom';
-  import { validateSchema } from '@felte/validator-yup';
+  import { validator } from '@felte/validator-yup';
   import * as yup from 'yup';
 
   const schema = yup.object({
@@ -16,8 +16,8 @@
       };
     },
     onError: error => error,
-    extend: reporter({ single: true }),
-    validate: validateSchema(schema),
+    extend: [validator, reporter({ single: true })],
+    validateSchema: schema,
   });
 </script>
 
