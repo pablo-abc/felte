@@ -2,6 +2,7 @@
 section: Validators
 subsections:
   - Using Yup
+  - Using Zod
 ---
 
 ## Validators
@@ -31,6 +32,37 @@ import * as yup from 'yup';
 const schema = yup.object({
   email: yup.string().email().required(),
   password: yup.string().required(),
+});
+
+const { form } = createForm({
+  // ...
+  extend: validator, // OR `extend: [validator],`
+  validateSchema: schema,
+  // ...
+});
+```
+
+### Using Zod
+
+[Zod](https://github.com/colinhacks/zod) is a "TypeScript-first schema declaration and validation library", alternative to Yup with a similar API. We've also created [`@felte/validator-zod`](https://github.com/pablo-abc/felte/tree/main/packages/validator-zod) as an official package to handle validation with Zod. To use it you'll need both `@felte/validator-zod` and `zod` installed.
+
+```sh
+npm install --save @felte/validator-zod zod
+
+# Or, if you use yarn
+
+yarn add @felte/validator-zod zod
+```
+
+It's usage would look something like:
+
+```javascript
+import { validator } from '@felte/validator-zod';
+import * as zod from 'zod';
+
+const schema = zod.object({
+  email: zod.string().email().nonempty(),
+  password: zod.string().nonempty(),
 });
 
 const { form } = createForm({
