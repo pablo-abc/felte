@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom/extend-expect';
 import { createForm } from 'felte';
 import { validateSchema, validator } from '../src';
+import type { ValidatorConfig } from '../src';
 import * as yup from 'yup';
 import { get } from 'svelte/store';
 
@@ -96,7 +97,10 @@ describe('Validator yup', () => {
       email: '',
       password: '',
     };
-    const { validate, errors, data } = createForm({
+    const { validate, errors, data } = createForm<
+      typeof mockData,
+      ValidatorConfig
+    >({
       initialValues: mockData,
       onSubmit: jest.fn(),
       extend: validator,
@@ -137,7 +141,10 @@ describe('Validator yup', () => {
         password: '',
       },
     };
-    const { validate, errors, data } = createForm({
+    const { validate, errors, data } = createForm<
+      typeof mockData,
+      ValidatorConfig
+    >({
       initialValues: mockData,
       onSubmit: jest.fn(),
       extend: validator,

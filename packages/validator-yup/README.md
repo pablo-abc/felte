@@ -53,3 +53,13 @@ const { form } = createForm({
   // ...
 });
 ```
+
+## Typescript
+
+For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
+
+```typescript
+import type { ValidatorConfig } from '@felte/validator-yup';
+
+const { form } = createForm<YourDataType, ValidatorConfig>(/* ... */);
+```

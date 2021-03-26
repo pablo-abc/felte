@@ -3,6 +3,10 @@ import type { ValidateOptions } from 'yup/lib/types';
 import type { Obj, Errors, FormConfig, ExtenderHandler } from '@felte/common';
 import { _set, CurrentForm } from '@felte/common';
 
+export type ValidatorConfig = {
+  validateSchema: AnySchema;
+};
+
 export function validateSchema<Data extends Obj>(
   schema: AnySchema,
   options?: ValidateOptions
