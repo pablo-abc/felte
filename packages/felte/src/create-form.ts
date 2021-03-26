@@ -51,12 +51,14 @@ export function createForm<
  *
  * @param config - Configuration for the form itself. Since `initialValues` is not set (when only using the `form` action), `Data` will be undefined until the `form` element loads.
  */
-export function createForm<Data extends Record<string, unknown>>(
-  config: FormConfigWithoutInitialValues<Data>
-): Form<Data | undefined>;
-export function createForm<Data extends Record<string, unknown>>(
-  config: FormConfig<Data>
-): Form<Data | undefined> {
+export function createForm<
+  Data extends Record<string, unknown>,
+  Ext extends Obj = Obj
+>(config: FormConfigWithoutInitialValues<Data> & Ext): Form<Data | undefined>;
+export function createForm<
+  Data extends Record<string, unknown>,
+  Ext extends Obj = Obj
+>(config: FormConfig<Data> & Ext): Form<Data | undefined> {
   config.reporter ??= [];
   config.extend ??= [];
   const reporter = Array.isArray(config.reporter)
