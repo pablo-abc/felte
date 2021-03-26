@@ -1,7 +1,7 @@
 import type { AnySchema, ValidationError } from 'yup';
 import type { ValidateOptions } from 'yup/lib/types';
-import type { Obj, Errors, FormConfig } from '@felte/common';
-import { _set } from '@felte/common';
+import type { Obj, Errors, FormConfig, ExtenderHandler } from '@felte/common';
+import { _set, CurrentForm } from '@felte/common';
 
 export function validateSchema<Data extends Obj>(
   schema: AnySchema,
@@ -21,4 +21,14 @@ export function validateSchema<Data extends Obj>(
       .then(() => undefined)
       .catch(shapeErrors);
   };
+}
+
+export function validator<Data extends Obj = Obj>(
+  currentForm: CurrentForm<Data>
+): ExtenderHandler<Data> {
+  if (currentForm.form) return {};
+  currentForm.config.validate = validateSchema(
+    currentForm.config.validateSchema as AnySchema
+  );
+  return {};
 }

@@ -17,7 +17,26 @@ yarn add @felte/validator-yup yup
 
 ## Usage
 
-Use it in the `validate` option of `createForm`.
+Extend Felte with the `validator` extender and add your schema to the `validateSchema` property of `createForm`'s config.
+
+```javascript
+import { validator } from '@felte/validator-yup';
+import * as yup from 'yup';
+
+const schema = yup.object({
+  email: yup.string().email().required(),
+  password: yup.string().required(),
+});
+
+const { form } = createForm({
+  // ...
+  extend: validator, // or `extend: [validator],`
+  validateSchema: schema,
+  // ...
+});
+```
+
+OR use the `validateSchema` function directly in the `validate` option of `createForm`. (No need to extend Felte).
 
 ```javascript
 import { validateSchema } from '@felte/validator-yup';
