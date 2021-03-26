@@ -5,12 +5,11 @@ subsections:
   - Using the DOM
   - Using a Svelte component
   - Using the constraint validation API
-  - Build your own
 ---
 
 ## Reporters
 
-This is the most "unique" part about Felte. Felte offers an easy _plugin-like_ way of reporting your errors by using what we call `reporters`. Their job is to handle errors for you. The degree to which they do that depends on how each reporter is build. For example they can report your errors using a tooltip, or modifying the DOM itself to add your validation messages. We provide some official reporters you can use:
+Felte offers an easy _plugin-like_ way of reporting your errors by using what we call `reporters`. Making use of Felte's extensibility, their job is to handle errors for you. The degree to which they do that depends on how each reporter is build. For example they can report your errors using a tooltip, or modifying the DOM itself to add your validation messages. You may use any of the official packages we provide, or [you can build your own](docs#extending-felte).
 
 ### Using Tippy.js
 
@@ -182,38 +181,4 @@ const { form } = createForm({
 
 And that's it!
 
-Note: This might not be recommended since it might not be friendly for mobile users.
-
-### Build your own
-
-A `reporter` is a simple function that gets called when `createForm` is called, when the `form` action is called and whenever the form changes.
-
-```javascript
-function reporter({
-  form,
-  controls,
-  data,
-  errors,
-  touched,
-}) {
-  // ...
-  return {
-    destroy() {
-      // ...
-    },
-    onSubmitError(errors) {
-      // ...
-    },
-  }
-}
-```
-
-- `form` refers to the [HTMLFormElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement) of the form you're handling. The first time the reporter is called, this will be `undefined`. Whenever the `form` action is called (and on any subsequent call) this will contain the appropriate element.
-- `controls` refer to the the form controls of the form that are handled by Felte. The first time the reporter is called, this will be `undefined`. Whenever the `form` action is called (and on any subsequent call) this will contain the appropriate elements.
-- `data` is the same `data` store that `createForm` returns.
-- `errors` is the same `errors` store that `createForm` returns.
-- `touched` is the same `touched` store that `createForm` returns.
-
-If you're subscribing to any store, or adding any event listeners in the reporter, you will want to unsubscribe and/or remove any event listeners in the `destroy` function that you can return from the reporter. If you're not using any events or subscribing to any store, you don't need to set this.
-
-If you want to perform an action whenever there are errors on a `submit` event (e.g. server validation), you can handle them in the `onSubmitError` function. This will receive the current values contained in the `errors` store.
+> **NOTE**: This might not be recommended since it might not be friendly for mobile users.

@@ -75,3 +75,5 @@ A function that creates a submit handler with overriden `onSubmit`, `onError` an
   <button type="submit" on:click={altOnSubmit}>Call alternative submit handler</button>
 </form>
 ```
+
+> **NOTE**: The returned submit handler **can** be used outside of the `<form>` tag or be called programatically.

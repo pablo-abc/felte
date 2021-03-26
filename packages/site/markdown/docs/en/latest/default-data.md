@@ -20,4 +20,4 @@ const { form } = createForm({
 });
 ```
 
-Note that if you set a value for a "controlled" input, Felte will override it with whatever value it deems appropriate from the input itself. But the `initialValues` property can be useful to have an initial shape for the `data` store before the form element loads.
+> **NOTE**: If you set a value for a "controlled" input, Felte will override it with whatever value it deems appropriate from the input itself. But the `initialValues` property can be useful to have an initial shape for the `data` store before the form element loads.

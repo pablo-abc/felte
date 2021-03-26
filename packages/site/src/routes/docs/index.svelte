@@ -25,6 +25,7 @@
 <script>
   import SvelteMarkdown from 'svelte-markdown';
   import Heading from '$lib/components/renderers/Heading.svelte';
+  import Blockquote from '$lib/components/renderers/Blockquote.svelte';
   import Code from '$lib/components/renderers/Code.svelte';
   import DocsAside from '$lib/components/DocsAside.svelte';
   import Link from '$lib/components/renderers/Link.svelte';
@@ -38,6 +39,7 @@
     code: Code,
     link: Link,
     list: List,
+    blockquote: Blockquote,
   };
 
   let asideItems = data.map(section => ({

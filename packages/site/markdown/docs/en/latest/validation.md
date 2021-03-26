@@ -32,7 +32,7 @@ const { form } = createForm({
 
 It shouldn't be a hard task to use a third party library, as long as you transform their result into something that Felte understands.
 
-Note that the `validate` function **can be asynchronous**.
+> Note that the `validate` function **can be asynchronous**.
 
 Felte will validate whichever field it considers as `touched` as you fill the form, and it will validate all fields (and set them as `touched`) when submitting it.
 
