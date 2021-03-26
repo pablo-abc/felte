@@ -1,5 +1,11 @@
 # felte
 
+## 0.5.7
+
+### Patch Changes
+
+- 7f92eb3: Fix typings for config extension
+
 ## 0.5.6
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "felte",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "description": "A form library for Svelte",
   "main": "dist/index.js",
   "browser": "dist/index.js",
