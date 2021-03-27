@@ -6353,6 +6353,11 @@ strip-json-comments@^3.1.0, strip-json-comments@^3.1.1:
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
+superstruct@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/superstruct/-/superstruct-0.15.0.tgz#6c7bb272170a80712ccd143f060a455e7f89d5bd"
+  integrity sha512-1dGrPtMZHCdZyh/xtomKL6+AVOQnHmnIpR70GEkvXl5DyRiLMChOPLBzRcT8C0TN1dxAfG2zGmrKUom4SQ3uSQ==
+
 supports-color@^5.3.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.5.0.tgz#e2e69a44ac8772f78a1ec0b35b689df6530efc8f"

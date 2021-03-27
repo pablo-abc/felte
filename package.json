@@ -53,6 +53,7 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.38.0",
     "rollup-plugin-terser": "^7.0.2",
+    "superstruct": "^0.15.0",
     "svelte": "^3.31.0",
     "svelte-focus-on": "^0.1.4",
     "svelte-jester": "^1.3.0",
