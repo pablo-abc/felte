@@ -14,7 +14,7 @@ npm i -S felte
 yarn add felte
 ```
 
-Then, inside of the Svelte component where you have your form, import the `createForm` function and call it with an `onSubmit` action. The `createForm` function returns an action that you can use in any form. This is all you need to make your form reactive.
+Then, inside of the Svelte component where you have your form, import the `createForm` function and call it with a configuration object containing an `onSubmit` function. The `createForm` function returns an action that you can use in any form. This is all you need to make your form reactive.
 
 ```html
 <script>
@@ -34,6 +34,6 @@ Then, inside of the Svelte component where you have your form, import the `creat
 </form>
 ```
 
-Felte does not export any components for `Form` of `Field` or anything like that, but you need to make felte aware of your inputs by assigning a **name** to them.
+Felte does not export any components like `Form`, `Field` or anything like that, but you do need to make felte aware of your inputs by assigning a **name** to them.
 
-Felte also offers valildation handling and error reporting but this is all you need for the most basic, validation-less form.
+Felte also offers [validation handling](docs#validation) and [error reporting](docs#reporters) but this is all you need for the most basic, validation-less form.

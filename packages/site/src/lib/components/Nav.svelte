@@ -158,8 +158,17 @@
   }
 
   [aria-current] {
-    display: inline-block;
-    border-bottom: 2px solid rgba(255, 62, 0);
+    position: relative;
+  }
+
+  [aria-current]::before {
+    position: absolute;
+    content: '';
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: rgba(255, 62, 0);
   }
 
   a {
@@ -169,7 +178,6 @@
   }
 
   a, button {
-    box-sizing: border-box;
     height: var(--header-height);
     transition: background 0.1s;
   }
