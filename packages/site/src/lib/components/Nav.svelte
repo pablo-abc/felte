@@ -181,14 +181,9 @@
     display: block;
   }
 
-  .icon-link {
+  .icon-link, .moon-button {
     margin-top: 0.3rem;
-    padding: 0 0.5em;
-  }
-
-  .moon-button {
-    margin-top: 0.3rem;
-    padding: 0 0.5em;
+    padding: 0 0.6em;
   }
 
   .moon-button:hover {
