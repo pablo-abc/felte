@@ -97,6 +97,11 @@
 </header>
 
 <style>
+  svg {
+    height: 1.5rem;
+    width: auto;
+  }
+
   .sr-only {
     clip: rect(0 0 0 0);
     clip-path: inset(50%);
@@ -108,11 +113,8 @@
   }
 
   header {
-    border-bottom: 1px solid rgba(255, 62, 0, 0.1);
-    z-index: 99999;
     width: 100%;
-    background: var(--header-background);
-    min-height: 57px;
+    height: var(--header-height);
   }
 
   nav {
@@ -130,12 +132,9 @@
   }
 
   h1 a {
-    padding: 0;
-    transition: background 0.1s;
-  }
-
-  h1 a:hover {
-    background: var(--header-background-hover);
+    display: grid;
+    place-items: center;
+    padding: 0 0.5rem;
   }
 
   ul {
@@ -159,20 +158,8 @@
   }
 
   [aria-current] {
-    position: relative;
     display: inline-block;
-  }
-
-  [aria-current]::after {
-    position: absolute;
-    content: '';
-    width: calc(100%);
-    height: 2px;
-    background-color: rgb(255,62,0);
-    display: block;
-    left: 0;
-    right: 0;
-    bottom: -1px;
+    border-bottom: 2px solid rgba(255, 62, 0);
   }
 
   a {
@@ -181,12 +168,21 @@
     display: block;
   }
 
+  a, button {
+    box-sizing: border-box;
+    height: var(--header-height);
+    transition: background 0.1s;
+  }
+
   .icon-link, .moon-button {
-    margin-top: 0.3rem;
+    display: grid;
+    place-items: center;
     padding: 0 0.6em;
   }
 
-  .moon-button:hover {
-    color: var(--primary-font-color-hover);
+  a:hover, button:hover {
+    color: var(--primary-font-color);
+    background: var(--header-background-hover);
   }
+
 </style>

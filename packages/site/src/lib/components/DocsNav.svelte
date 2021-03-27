@@ -72,9 +72,11 @@
     padding-left: 1.5rem;
     width: 100%;
     height: 100%;
+    transition: background 0.1s;
   }
 
   a:hover {
+    color: var(--primary-font-color);
     background: var(--header-background-hover);
   }
 </style>

@@ -15,6 +15,8 @@
 
   --primary-font-color: #4D402B;
   --primary-font-color-hover: #80735E;
+
+  --header-height: 3.8rem;
 }
 
 body.dark {
