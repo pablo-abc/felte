@@ -2,7 +2,7 @@
 
 <style>
   blockquote {
-    background: var(--on-primary-color);
+    background: var(--header-background);
     padding: 0.5rem 1rem;
     border-left: 4px solid var(--primary-color);
     width: 95%;

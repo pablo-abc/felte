@@ -7,11 +7,11 @@
 
 <style>
   a, a :global(code) {
-    color: #0F73A0;
+    color: var(--link-color);
     transition: color 100ms;
   }
 
   a:hover, a :global(code):hover {
-    color: #0DB4FF;
+    color: var(--link-color-hover);
   }
 </style>

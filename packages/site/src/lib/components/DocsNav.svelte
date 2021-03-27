@@ -75,6 +75,6 @@
   }
 
   a:hover {
-    background: #f0f0e0;
+    background: var(--header-background-hover);
   }
 </style>

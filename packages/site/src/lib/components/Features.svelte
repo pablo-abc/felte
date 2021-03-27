@@ -34,15 +34,15 @@
     min-height: 250px;
     margin: 1rem;
     padding: 2rem;
-    background: rgba(255, 62, 0, 0.2);
+    background: var(--feature-background-1);
     border-radius: 10px 30px;
   }
 
   .feat-center {
-    background: rgba(13, 255, 62, 0.2);
+    background: var(--feature-background-2);
   }
 
   .feat-final {
-    background: rgba(13, 180, 255, 0.2);
+    background: var(--feature-background-3);
   }
 </style>

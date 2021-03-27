@@ -39,7 +39,7 @@
   form {
     display: inline-block;
     font-size: 1.2em;
-    background: rgba(255, 62, 0, 0.2);
+    background: var(--example-background);
     padding: 2rem;
     border-radius: 10px 30px;
   }
@@ -76,6 +76,6 @@
   [data-felte-reporter-dom-for] {
     min-height: 1.5rem;
     font-size: 1rem;
-    color: red;
+    color: var(--error-color);
   }
 </style>
