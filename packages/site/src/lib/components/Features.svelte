@@ -2,7 +2,7 @@
   <section class=feat>
     <h2>Validation!</h2>
     <p>
-      Use your favorite validation library (or create your own strategy). As long as the validation messages are in the shape Felte expects, you'll be able to use it.
+      Use your favorite validation library (or create your own strategy). Officially supporting Yup, Zod and Superstruct!
     </p>
   </section>
   <section class="feat feat-center">

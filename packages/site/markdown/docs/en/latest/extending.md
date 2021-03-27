@@ -45,3 +45,5 @@ If you're subscribing to any store, or adding any event listeners in the extende
 If you want to perform an action whenever there are errors on a `submit` event (e.g. server validation), you can handle them in the `onSubmitError` function. This will receive the current values contained in the `errors` store.
 
 You may check [Felte's repo](https://github.com/pablo-abc/felte) and go over any validator or reporter source code. You'll find they're quite simple.
+
+> **NOTE**: If you check the `validator` packages you'll notice that you **can** change the signature of the configuration object for `createForm` in order for it to be used by your extender.

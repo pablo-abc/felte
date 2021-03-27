@@ -18,13 +18,15 @@
   });
 </script>
 
-<Head section="A form library for Svelte" />
+<Head section="An extensible form library for Svelte" />
 
 <main>
   <div class=row>
     <section class=title>
       <h1>FELTE</h1>
-      <h2>A form library for Svelte with simple validation reporting.</h2>
+      <h2>
+        An extensible <span class=bold>f</span>orm library for Sv<span class=bold>elte</span>
+      </h2>
     </section>
     <section>
       <HomeExample />
@@ -76,6 +78,10 @@
 
   h2 {
     font-weight: 400;
+  }
+
+  .bold {
+    font-weight: 700;
   }
 
   @media (min-width: 971px) {
