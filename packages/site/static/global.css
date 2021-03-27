@@ -1,4 +1,4 @@
-:root {
+:root, body.light {
   --primary-color: rgb(255, 62, 0);
   --on-primary-color: #FFFFF9;
   --primary-color-hover: rgb(255, 113, 51);
@@ -15,6 +15,21 @@
 
   --primary-font-color: #4D402B;
   --primary-font-color-hover: #80735E;
+}
+
+body.dark {
+  --error-color: #FF3A43;
+  --primary-background: #111111;
+  --primary-font-color: #FFFFF0;
+  --primary-font-color-hover: #BFBFB0;
+  --header-background: #222222;
+  --header-background-hover: #323232;
+  --feature-background-1: rgba(255, 62, 0, 0.5);
+  --feature-background-2: rgba(13, 255, 62, 0.5);
+  --feature-background-3: rgba(13, 180, 255, 0.5);
+  --example-background: var(--header-background);
+  --link-color: #00A8F4;
+  --link-color-hover: #3CC2FF;
 }
 
 @media (prefers-color-scheme: dark) {
