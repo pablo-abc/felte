@@ -16,6 +16,7 @@
   - [`@felte/reporter-svelte`](./packages/reporter-svelte/README.md)
   - [`@felte/validator-yup`](./packages/validator-yup/README.md)
   - [`@felte/validator-zod`](./packages/validator-zod/README.md)
+  - [`@felte/validator-superstruct`](./packages/validator-superstruct/README.md)
   - [`@felte/common`](./packages/common/README.md)
 
 Felte is a simple to use form library for Svelte. It is based on Svelte stores and Svelte actions for its functionality. No `Field` or `Form` components, just plain stores and actions to build your form however you like. You can see it in action in this [CodeSandbox demo](https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte)!
@@ -31,7 +32,7 @@ Felte is a simple to use form library for Svelte. It is based on Svelte stores a
 - Handles addition and removal of form controls during runtime.
 - Official solutions for error reporting using `reporter` packages.
 - Well tested. Currently at [99% code coverage](https://app.codecov.io/gh/pablo-abc/felte) and constantly working on improving test quality.
-- Supports [yup](./packages/validator-yup/README.md), [zod](./packages/validator-zod/README.md) and [superstruct](./packages/validator-superstruct/README.md).
+- Supports validation with [yup](./packages/validator-yup/README.md), [zod](./packages/validator-zod/README.md) and [superstruct](./packages/validator-superstruct/README.md).
 
 ## Simple usage example
 
