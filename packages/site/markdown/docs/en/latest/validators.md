@@ -3,6 +3,7 @@ section: Validators
 subsections:
   - Using Yup
   - Using Zod
+  - Using Superstruct
 ---
 
 ## Validators
@@ -71,4 +72,45 @@ const { form } = createForm({
   validateSchema: schema,
   // ...
 });
+```
+
+### Using Superstruct
+
+[Superstruct](https://docs.superstructjs.org) is another popular validation library that follows a more _functional_ style. We've created [`@felte/validator-superstruct`](https://github.com/pablo-abc/felte/tree/main/packages/validator-superstruct) as an official package to handle validation with Superstruct. To use it you'll need both `@felte/validator-superstruct` and `superstruct` installed.
+
+```sh
+npm install --save @felte/validator-superstruct superstruct
+
+# Or, if you use yarn
+
+yarn add @felte/validator-superstruct superstruct
+```
+
+It's usage would look something like:
+
+```javascript
+import { createValidator } from '@felte/validator-superstruct';
+import { object, string, size } from 'superstruct';
+
+const struct = object({
+  email: size(string(), 1, Infinity),
+  password: size(string(), 1, Infinity),
+});
+
+const { form } = createForm({
+  // ...
+  extend: createValidator(), // or `extend: [createValidator()],`
+  validateStruct: struct,
+  // ...
+});
+```
+
+The first argument of `createValidator` is a function that will receive each [`failure`](https://docs.superstructjs.org/api-reference/errors) from Superstruct, you can check the failure there and return an appropriate custom error message.
+
+```javascript
+import { createValidator } from '@felte/validator-superstruct';
+
+const validator = createValidator((value) =>
+  value.type === 'string' ? 'Must not be empty' : 'Not valid'
+);
 ```

@@ -93,6 +93,10 @@ A utility package to help you validate your form with [Yup](https://github.com/j
 
 A utility package to help you validate your form with [Zod](https://github.com/colinhacks/zod).
 
+### [@felte/validator-superstruct](./packages/validator-superstruct/README.md)
+
+A utility package to help you validate your form with [Superstruct](https://docs.superstructjs.org).
+
 ### [@felte/common](./packages/common/README.md)
 
 Common utilities that can be used for any felte package.
