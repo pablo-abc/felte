@@ -20,6 +20,7 @@ Felte is a simple to use form library for Svelte. It is based on Svelte stores a
 - Official solutions for error reporting using `reporter` packages.
 - Well tested. Currently at [99% code coverage](https://app.codecov.io/gh/pablo-abc/felte) and constantly working on improving test quality.
 - Supports validation with [yup](./packages/validator-yup/README.md), [zod](./packages/validator-zod/README.md) and [superstruct](./packages/validator-superstruct/README.md).
+- Easily [extend its functionality](https://felte.dev/docs#extending-felte)
 
 ## Simple usage example
 

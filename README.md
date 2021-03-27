@@ -9,15 +9,18 @@
 
 - [Why](#why)
 - [Packages](#packages)
-  - [`felte`](./packages/felte/README.md)
-  - [`@felte/reporter-tippy`](./packages/reporter-tippy/README.md)
-  - [`@felte/reporter-cvapi`](./packages/reporter-cvapi/README.md)
-  - [`@felte/reporter-dom`](./packages/reporter-dom/README.md)
-  - [`@felte/reporter-svelte`](./packages/reporter-svelte/README.md)
-  - [`@felte/validator-yup`](./packages/validator-yup/README.md)
-  - [`@felte/validator-zod`](./packages/validator-zod/README.md)
-  - [`@felte/validator-superstruct`](./packages/validator-superstruct/README.md)
-  - [`@felte/common`](./packages/common/README.md)
+  - [Core](#core)
+    - [`felte`](./packages/felte/README.md)
+    - [`@felte/common`](./packages/common/README.md)
+  - [Validators](#validators)
+    - [`@felte/validator-yup`](./packages/validator-yup/README.md)
+    - [`@felte/validator-zod`](./packages/validator-zod/README.md)
+    - [`@felte/validator-superstruct`](./packages/validator-superstruct/README.md)
+  - [Reporters](#reporters)
+    - [`@felte/reporter-tippy`](./packages/reporter-tippy/README.md)
+    - [`@felte/reporter-cvapi`](./packages/reporter-cvapi/README.md)
+    - [`@felte/reporter-dom`](./packages/reporter-dom/README.md)
+    - [`@felte/reporter-svelte`](./packages/reporter-svelte/README.md)
 
 Felte is a simple to use form library for Svelte. It is based on Svelte stores and Svelte actions for its functionality. No `Field` or `Form` components, just plain stores and actions to build your form however you like. You can see it in action in this [CodeSandbox demo](https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte)!
 
@@ -33,6 +36,7 @@ Felte is a simple to use form library for Svelte. It is based on Svelte stores a
 - Official solutions for error reporting using `reporter` packages.
 - Well tested. Currently at [99% code coverage](https://app.codecov.io/gh/pablo-abc/felte) and constantly working on improving test quality.
 - Supports validation with [yup](./packages/validator-yup/README.md), [zod](./packages/validator-zod/README.md) and [superstruct](./packages/validator-superstruct/README.md).
+- Easily [extend its functionality](https://felte.dev/docs#extending-felte)
 
 ## Simple usage example
 
@@ -65,41 +69,47 @@ In order to accomplish usage as simple as possible, Felte takes advantage of Sve
 
 This repository is a mono-repo containing multiple packages located in the `packages` directory. Maintained using [Bolt](https://github.com/boltpkg/bolt) and [Changesets](https://github.com/atlassian/changesets).
 
-### [felte](./packages/felte/README.md)
+### Core
+
+#### [felte](./packages/felte/README.md)
 
 This is the core package that contains all the basic functionality you need to handle your forms in Svelte. Felte optionally allows you to use error reporters (see them as plugins) to prevent you from needing to find a way to display your errors on your form manually. For this we provide already some reporter packages contained in this same repo.
-
-### [@felte/reporter-tippy](./packages/reporter-tippy/README.md)
-
-A reporter that uses [Tippy.js](https://atomiks.github.io/tippyjs/) to display your validation messages without needing any extra work.
-
-### [@felte/reporter-cvapi](./packages/reporter-cvapi/README.md)
-
-A reporter that uses the browser's [constraint validation API](https://developer.mozilla.org/en-US/docs/Web/API/Constraint_validation) to display your validation messages.
-
-### [@felte/reporter-dom](./packages/reporter-dom/README.md)
-
-A reporter that displays the error messages in the DOM, either as a single element or a list of elements.
-
-### [@felte/reporter-svelte](./packages/reporter-svelte/README.md)
-
-A reporter that uses a Svelte component to pass the validation messages for you to display.
-
-### [@felte/validator-yup](./packages/validator-yup/README.md)
-
-A utility package to help you validate your form with [Yup](https://github.com/jquense/yup).
-
-### [@felte/validator-zod](./packages/validator-zod/README.md)
-
-A utility package to help you validate your form with [Zod](https://github.com/colinhacks/zod).
-
-### [@felte/validator-superstruct](./packages/validator-superstruct/README.md)
-
-A utility package to help you validate your form with [Superstruct](https://docs.superstructjs.org).
 
 ### [@felte/common](./packages/common/README.md)
 
 Common utilities that can be used for any felte package.
+
+### Validators
+
+#### [@felte/validator-yup](./packages/validator-yup/README.md)
+
+A utility package to help you validate your form with [Yup](https://github.com/jquense/yup).
+
+#### [@felte/validator-zod](./packages/validator-zod/README.md)
+
+A utility package to help you validate your form with [Zod](https://github.com/colinhacks/zod).
+
+#### [@felte/validator-superstruct](./packages/validator-superstruct/README.md)
+
+A utility package to help you validate your form with [Superstruct](https://docs.superstructjs.org).
+
+### Reporters
+
+#### [@felte/reporter-tippy](./packages/reporter-tippy/README.md)
+
+A reporter that uses [Tippy.js](https://atomiks.github.io/tippyjs/) to display your validation messages without needing any extra work.
+
+#### [@felte/reporter-cvapi](./packages/reporter-cvapi/README.md)
+
+A reporter that uses the browser's [constraint validation API](https://developer.mozilla.org/en-US/docs/Web/API/Constraint_validation) to display your validation messages.
+
+#### [@felte/reporter-dom](./packages/reporter-dom/README.md)
+
+A reporter that displays the error messages in the DOM, either as a single element or a list of elements.
+
+#### [@felte/reporter-svelte](./packages/reporter-svelte/README.md)
+
+A reporter that uses a Svelte component to pass the validation messages for you to display.
 
 ## License
 
