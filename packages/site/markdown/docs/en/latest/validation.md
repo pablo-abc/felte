@@ -3,6 +3,7 @@ section: Validation
 subsections:
   - Server errors
   - Error handling
+  - Multiple validations
 ---
 
 ## Validation
@@ -38,7 +39,7 @@ Felte will validate whichever field it considers as `touched` as you fill the fo
 
 ### Server errors
 
-You can add an `onError` function to the `createForm` that will be called if the `onSubmit` function throws an error. It will be called with the value thrown from the `onSubmit` function. You can use the `onError` function to shape your server errors into the same shape that the `validate` function expect and return them from the same function for them to be handled.
+You can add an `onError` function to the `createForm` configuration that will be called if the `onSubmit` function throws an error. It will be called with the value thrown from the `onSubmit` function. You can use the `onError` function to shape your server errors into the same shape that the `validate` function expects and return them from the same function for them to be handled.
 
 ```javascript
 const { form } = createForm({
@@ -74,3 +75,7 @@ const { form } = createForm({
 You can read more above them in the [stores](docs#stores) section.
 
 You don't need to manually handle this errors. Felte provides four official packages to handle your errors for you, either using Tippy, directly mutating the DOM, providing a Svelte component or using the browser's built-in constraint validation API. You can read more about this in the [reporters](docs#reporters) section.
+
+### Multiple validations
+
+The `validate` property of the configuration object can also be an array of validation functions. The resulting errors from running each validation function will be merged into a single object. If a single property was assigned two or more errors from the validation functions, the property will be an array of strings. This might not be useful for common scenarios, but it will come useful when using any of our [validator packages](docs#validators).
