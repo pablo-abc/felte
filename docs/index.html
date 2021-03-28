@@ -79,6 +79,8 @@
 					<li>Handles addition and removal of form controls during runtime.</li>
 					<li>Official solutions for error reporting using <code>reporter</code> packages.</li>
 					<li>Well tested. Currently at <a href="https://app.codecov.io/gh/pablo-abc/felte">99% code coverage</a> and constantly working on improving test quality.</li>
+					<li>Supports validation with <a href="./packages/validator-yup/README.md">yup</a>, <a href="./packages/validator-zod/README.md">zod</a> and <a href="./packages/validator-superstruct/README.md">superstruct</a>.</li>
+					<li>Easily <a href="https://felte.dev/docs#extending-felte">extend its functionality</a>.</li>
 				</ul>
 				<a href="#simple-usage-example" id="simple-usage-example" style="color: inherit; text-decoration: none;">
 					<h2>Simple usage example</h2>
@@ -112,9 +114,13 @@
 					<h2>Usage</h2>
 				</a>
 				<p>Felte exports a single <code>createForm</code> function that accepts a config object with the following interface:</p>
-				<pre><code class="language-typescript"><span style="color: #0000FF">interface</span><span style="color: #000000"> </span><span style="color: #267F99">FormConfig</span><span style="color: #000000">&lt;</span><span style="color: #267F99">D</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #267F99">Record</span><span style="color: #000000">&lt;</span><span style="color: #267F99">string</span><span style="color: #000000">, </span><span style="color: #267F99">unknown</span><span style="color: #000000">&gt;&gt; {</span>
+				<pre><code class="language-typescript"><span style="color: #AF00DB">export</span><span style="color: #000000"> </span><span style="color: #0000FF">type</span><span style="color: #000000"> </span><span style="color: #267F99">ValidationFunction</span><span style="color: #000000">&lt;</span><span style="color: #267F99">Data</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #267F99">Obj</span><span style="color: #000000">&gt; = (</span>
+<span style="color: #000000">  </span><span style="color: #001080">values</span><span style="color: #000000">: </span><span style="color: #267F99">Data</span>
+<span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">Errors</span><span style="color: #000000">&lt;</span><span style="color: #267F99">Data</span><span style="color: #000000">&gt; | </span><span style="color: #267F99">undefined</span><span style="color: #000000"> | </span><span style="color: #267F99">Promise</span><span style="color: #000000">&lt;</span><span style="color: #267F99">Errors</span><span style="color: #000000">&lt;</span><span style="color: #267F99">Data</span><span style="color: #000000">&gt; | </span><span style="color: #267F99">undefined</span><span style="color: #000000">&gt;;</span>
+
+<span style="color: #0000FF">interface</span><span style="color: #000000"> </span><span style="color: #267F99">FormConfig</span><span style="color: #000000">&lt;</span><span style="color: #267F99">D</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #267F99">Record</span><span style="color: #000000">&lt;</span><span style="color: #267F99">string</span><span style="color: #000000">, </span><span style="color: #267F99">unknown</span><span style="color: #000000">&gt;&gt; {</span>
 <span style="color: #000000">  </span><span style="color: #001080">initialValues</span><span style="color: #000000">?: </span><span style="color: #267F99">D</span><span style="color: #000000">;</span>
-<span style="color: #000000">  </span><span style="color: #795E26">validate</span><span style="color: #000000">?: (</span><span style="color: #001080">values</span><span style="color: #000000">: </span><span style="color: #267F99">D</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">Promise</span><span style="color: #000000">&lt;</span><span style="color: #267F99">Errors</span><span style="color: #000000">&lt;</span><span style="color: #267F99">D</span><span style="color: #000000">&gt; | </span><span style="color: #267F99">undefined</span><span style="color: #000000">&gt;;</span>
+<span style="color: #000000">  </span><span style="color: #001080">validate</span><span style="color: #000000">?: </span><span style="color: #267F99">ValidationFunction</span><span style="color: #000000">&lt;</span><span style="color: #267F99">Data</span><span style="color: #000000">&gt; | </span><span style="color: #267F99">ValidationFunction</span><span style="color: #000000">&lt;</span><span style="color: #267F99">Data</span><span style="color: #000000">&gt;[];</span>
 <span style="color: #000000">  </span><span style="color: #795E26">onSubmit</span><span style="color: #000000">: (</span><span style="color: #001080">values</span><span style="color: #000000">: </span><span style="color: #267F99">D</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
 <span style="color: #000000">  </span><span style="color: #795E26">onError</span><span style="color: #000000">?: (</span><span style="color: #001080">errors</span><span style="color: #000000">: </span><span style="color: #267F99">unknown</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000"> | </span><span style="color: #267F99">Errors</span><span style="color: #000000">&lt;</span><span style="color: #267F99">D</span><span style="color: #000000">&gt;;</span>
 <span style="color: #000000">  </span><span style="color: #001080">extend</span><span style="color: #000000">?: </span><span style="color: #267F99">Extender</span><span style="color: #000000"> | </span><span style="color: #267F99">Extender</span><span style="color: #000000">[];</span>
@@ -122,7 +128,7 @@
 </code></pre>
 				<ul>
 					<li><code>initialValues</code> refers to the initial values of the form.</li>
-					<li><code>validate</code> is a custom validation function that must return an object with the same props as initialValues, but with error messages or <code>undefined</code> as values.</li>
+					<li><code>validate</code> is a custom validation function that must return an object with the same props as initialValues, but with error messages or <code>undefined</code> as values. It can be an array of functions whose validation errors will be merged.</li>
 					<li><code>onSubmit</code> is the function that will be executed when the form is submited.</li>
 					<li><code>onError</code> is a an optional function that will run if the submit throws an exception. It will contain the error catched. If you return an object with the same shape as <code>Errors</code>, these errors can be reported by a reporter.</li>
 					<li><code>extend</code> a function or list of functions to extend Felte&#39;s behaviour. Currently it can be used to add <code>reporters</code> to Felte, these can handle error reporting for you. You can read more about them in <a href="https://felte.dev/docs#reporters">Felte&#39;s documentation</a>.</li>
@@ -368,6 +374,9 @@
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="modules.html#touched" class="tsd-kind-icon">Touched</a>
 					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#validationfunction" class="tsd-kind-icon">Validation<wbr>Function</a>
+					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="modules.html#createform" class="tsd-kind-icon">create<wbr>Form</a>
 					</li>
@@ -376,6 +385,9 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#deepsome" class="tsd-kind-icon">deep<wbr>Some</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#executevalidation" class="tsd-kind-icon">execute<wbr>Validation</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#getpath" class="tsd-kind-icon">get<wbr>Path</a>
