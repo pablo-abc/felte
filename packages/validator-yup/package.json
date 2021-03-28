@@ -1,6 +1,6 @@
 {
   "name": "@felte/validator-yup",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A package to use Yup with Felte",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -25,10 +25,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@felte/common": "^0.2.4"
+    "@felte/common": "^0.3.0"
   },
   "devDependencies": {
-    "felte": "^0.5.6",
+    "felte": "^0.6.0",
     "yup": "^0.32.9"
   },
   "peerDependencies": {

@@ -1,5 +1,11 @@
 # @felte/common
 
+## 0.3.0
+
+### Minor Changes
+
+- 52f9043: Allow `validate` configuration option to be an array of functions
+
 ## 0.2.4
 
 ### Patch Changes
