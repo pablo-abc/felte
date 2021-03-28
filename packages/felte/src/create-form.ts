@@ -1,6 +1,6 @@
-import _defaultsDeep from 'lodash/defaultsDeep';
-import _mergeWith from 'lodash/mergeWith';
-import _cloneDeep from 'lodash/cloneDeep';
+import _defaultsDeep from 'lodash-es/defaultsDeep';
+import _mergeWith from 'lodash-es/mergeWith';
+import _cloneDeep from 'lodash-es/cloneDeep';
 import { get } from 'svelte/store';
 import {
   deepSet,
@@ -17,6 +17,7 @@ import {
   _isPlainObject,
   _get,
   Errors,
+  executeValidation,
 } from '@felte/common';
 import { createStores } from './stores';
 import type {
@@ -61,6 +62,8 @@ export function createForm<
 >(config: FormConfig<Data> & Ext): Form<Data | undefined> {
   config.reporter ??= [];
   config.extend ??= [];
+  if (config.validate && !Array.isArray(config.validate))
+    config.validate = [config.validate];
   const reporter = Array.isArray(config.reporter)
     ? config.reporter
     : [config.reporter];
@@ -89,7 +92,7 @@ export function createForm<
       event?.preventDefault();
       isSubmitting.set(true);
       const currentData = get(data);
-      const currentErrors = await validate?.(currentData);
+      const currentErrors = await executeValidation(currentData, validate);
       touched.update((t) => {
         return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
       });
@@ -166,7 +169,7 @@ export function createForm<
     touched.update((t) => {
       return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
     });
-    const currentErrors = await config.validate?.(currentData);
+    const currentErrors = await executeValidation(currentData, config.validate);
     errors.set(currentErrors || {});
     return currentErrors;
   }

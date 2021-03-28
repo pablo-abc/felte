@@ -1,6 +1,11 @@
 import type { AnySchema, ValidationError } from 'yup';
 import type { ValidateOptions } from 'yup/lib/types';
-import type { Obj, Errors, FormConfig, ExtenderHandler } from '@felte/common';
+import type {
+  Obj,
+  Errors,
+  ValidationFunction,
+  ExtenderHandler,
+} from '@felte/common';
 import { _set, CurrentForm } from '@felte/common';
 
 export type ValidatorConfig = {
@@ -10,7 +15,7 @@ export type ValidatorConfig = {
 export function validateSchema<Data extends Obj>(
   schema: AnySchema,
   options?: ValidateOptions
-): FormConfig<Data>['validate'] {
+): ValidationFunction<Data> {
   function shapeErrors(errors: ValidationError): Errors<Data> {
     return errors.inner.reduce((err, value) => {
       if (!value.path) return err;
@@ -31,8 +36,13 @@ export function validator<Data extends Obj = Obj>(
   currentForm: CurrentForm<Data>
 ): ExtenderHandler<Data> {
   if (currentForm.form) return {};
-  currentForm.config.validate = validateSchema(
+  const validate = currentForm.config.validate;
+  const validateFn = validateSchema<Data>(
     currentForm.config.validateSchema as AnySchema
   );
+  if (validate && Array.isArray(validate))
+    currentForm.config.validate = [...validate, validateFn];
+  else if (validate) currentForm.config.validate = [validate, validateFn];
+  else currentForm.config.validate = [validateFn];
   return {};
 }

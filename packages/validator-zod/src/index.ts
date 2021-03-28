@@ -1,4 +1,9 @@
-import type { Obj, Errors, FormConfig, ExtenderHandler } from '@felte/common';
+import type {
+  Obj,
+  Errors,
+  ValidationFunction,
+  ExtenderHandler,
+} from '@felte/common';
 import { _set, CurrentForm } from '@felte/common';
 import type { ZodError, ZodTypeAny } from 'zod';
 
@@ -8,7 +13,7 @@ export type ValidatorConfig = {
 
 export function validateSchema<Data extends Obj>(
   schema: ZodTypeAny
-): FormConfig<Data>['validate'] {
+): ValidationFunction<Data> {
   function shapeErrors(errors: ZodError): Errors<Data> {
     return errors.errors.reduce((err, value) => {
       if (!value.path) return err;
@@ -30,8 +35,13 @@ export function validator<Data extends Obj = Obj>(
   currentForm: CurrentForm<Data>
 ): ExtenderHandler<Data> {
   if (currentForm.form) return {};
-  currentForm.config.validate = validateSchema(
+  const validate = currentForm.config.validate;
+  const validateFn = validateSchema<Data>(
     currentForm.config.validateSchema as ZodTypeAny
   );
+  if (validate && Array.isArray(validate))
+    currentForm.config.validate = [...validate, validateFn];
+  else if (validate) currentForm.config.validate = [validate, validateFn];
+  else currentForm.config.validate = [validateFn];
   return {};
 }

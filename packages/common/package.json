@@ -29,5 +29,12 @@
   },
   "bugs": {
     "url": "https://github.com/pablo-abc/felte/issues"
+  },
+  "dependencies": {
+    "lodash-es": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.4",
+    "lodash": "^4.17.21"
   }
 }

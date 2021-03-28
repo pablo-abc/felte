@@ -56,22 +56,23 @@ export type FormControl =
   | HTMLTextAreaElement
   | HTMLSelectElement;
 
+export type ValidationFunction<Data extends Obj> = (
+  values: Data
+) => Errors<Data> | undefined | Promise<Errors<Data> | undefined>;
 /**
  * Configuration object when `initialValues` is not set. Used when using the `form` action.
  */
 export interface FormConfigWithoutInitialValues<Data extends Obj> {
   /** Optional function to validate the data. */
-  validate?: (
-    values: Data
-  ) => Errors<Data> | undefined | Promise<Errors<Data> | undefined>;
+  validate?: ValidationFunction<Data> | ValidationFunction<Data>[];
   /** Required function to handle the form data on submit. */
   onSubmit: (values: Data) => Promise<void> | void;
   /** Optional function that accepts any thrown exceptions from the onSubmit function. You can return an object with the same shape [[`Errors`]] for a reporter to use it. */
   onError?: (errors: unknown) => void | Errors<Data>;
   /** Optional function/s to handle reporting errors. */
-  reporter?: Reporter | Reporter[];
+  reporter?: Reporter<Data> | Reporter<Data>[];
   /** Optional function/s to extend Felte's functionality. */
-  extend?: Extender | Extender[];
+  extend?: Extender<Data> | Extender<Data>[];
   [key: string]: unknown;
 }
 

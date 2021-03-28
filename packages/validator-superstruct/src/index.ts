@@ -1,7 +1,7 @@
 import type {
   Obj,
   Errors,
-  FormConfig,
+  ValidationFunction,
   ExtenderHandler,
   Extender,
 } from '@felte/common';
@@ -15,7 +15,7 @@ export type ValidatorConfig = {
 export function validateStruct<Data extends Obj>(
   struct: Struct<any, any>,
   transform: (failures: Failure) => string = (failure) => failure.message
-): FormConfig<Data>['validate'] {
+): ValidationFunction<Data> {
   function shapeErrors(errors: StructError): Errors<Data> {
     return errors.failures().reduce((err, value) => {
       if (!value.path) return err;
@@ -38,10 +38,15 @@ export function createValidator<Data extends Obj = Obj>(
     currentForm: CurrentForm<Data>
   ): ExtenderHandler<Data> {
     if (currentForm.form) return {};
-    currentForm.config.validate = validateStruct(
+    const validate = currentForm.config.validate;
+    const validateFn = validateStruct<Data>(
       currentForm.config.validateStruct as Struct<any, any>,
       transform
     );
+    if (validate && Array.isArray(validate))
+      currentForm.config.validate = [...validate, validateFn];
+    else if (validate) currentForm.config.validate = [validate, validateFn];
+    else currentForm.config.validate = [validateFn];
     return {};
   };
 }

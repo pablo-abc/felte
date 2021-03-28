@@ -19,6 +19,7 @@ import {
   addAttrsFromFieldset,
   getFormDefaultValues,
   setForm,
+  executeValidation,
 } from '../src';
 
 function createLoginForm() {
@@ -372,5 +373,41 @@ describe('Utils', () => {
     const { defaultData } = getFormDefaultValues(formElement);
     expect(defaultData).toEqual(formData);
     cleanupDOM();
+  });
+
+  test('executeValidation', async () => {
+    const mockValues = {
+      account: {
+        email: '',
+      },
+    };
+    const validate = jest.fn(
+      () =>
+        ({
+          account: {
+            email: 'required',
+            password: null,
+            confirmPassword: undefined,
+          },
+        } as any)
+    );
+
+    validate.mockReturnValueOnce({
+      account: {
+        email: 'not an email',
+        password: 'required',
+        confirmPassword: 'required',
+      },
+    });
+
+    const errors = await executeValidation(mockValues, [validate, validate]);
+
+    expect(errors).toEqual({
+      account: {
+        email: ['not an email', 'required'],
+        password: 'required',
+        confirmPassword: 'required',
+      },
+    });
   });
 });

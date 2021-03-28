@@ -239,7 +239,9 @@ describe('User interactions with form', () => {
     expect(validate).toHaveBeenCalled();
     await waitFor(() => expect(onSubmit).not.toHaveBeenCalled());
     expect(get(isValid)).toBeFalsy();
-    expect(get(isSubmitting)).toBeFalsy();
+    await waitFor(() => {
+      expect(get(isSubmitting)).toBeFalsy();
+    });
   });
 
   test('Calls validate on input', async () => {

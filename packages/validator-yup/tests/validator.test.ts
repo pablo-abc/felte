@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { createForm } from 'felte';
+import type { ValidationFunction } from '@felte/common';
 import { validateSchema, validator } from '../src';
 import type { ValidatorConfig } from '../src';
 import * as yup from 'yup';
@@ -173,6 +174,61 @@ describe('Validator yup', () => {
     expect(get(errors)).toEqual({
       account: {
         email: null,
+        password: null,
+      },
+    });
+  });
+
+  test('correctly validates deep form with other validate', async () => {
+    const schema = yup.object({
+      account: yup.object({
+        email: yup.string().email().required(),
+        password: yup.string().required(),
+      }),
+    });
+    const mockData = {
+      account: {
+        email: '',
+        password: '',
+      },
+    };
+    const { validate, errors, data } = createForm<
+      typeof mockData,
+      ValidatorConfig
+    >({
+      initialValues: mockData,
+      onSubmit: jest.fn(),
+      extend: validator,
+      validateSchema: schema,
+      validate: jest.fn(() => ({
+        account: {
+          email: 'not an email',
+        },
+      })) as ValidationFunction<any>,
+    });
+
+    await validate();
+
+    expect(get(data)).toEqual(mockData);
+    expect(get(errors)).toEqual({
+      account: {
+        email: ['not an email', 'account.email is a required field'],
+        password: 'account.password is a required field',
+      },
+    });
+
+    data.set({
+      account: {
+        email: 'test@email.com',
+        password: 'test',
+      },
+    });
+
+    await validate();
+
+    expect(get(errors)).toEqual({
+      account: {
+        email: 'not an email',
         password: null,
       },
     });

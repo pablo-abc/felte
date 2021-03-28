@@ -1,8 +1,8 @@
-import _cloneDeep from 'lodash/cloneDeep';
-import _isPlainObject from 'lodash/isPlainObject';
-import _mergeWith from 'lodash/mergeWith';
+import _cloneDeep from 'lodash-es/cloneDeep';
+import _isPlainObject from 'lodash-es/isPlainObject';
+import _mergeWith from 'lodash-es/mergeWith';
 import { derived, writable } from 'svelte/store';
-import { deepSet, deepSome } from '@felte/common';
+import { deepSet, deepSome, executeValidation } from '@felte/common';
 import type { Errors, FormConfig, Touched, Stores } from '@felte/common';
 
 export function createStores<Data extends Record<string, unknown>>(
@@ -25,7 +25,7 @@ export function createStores<Data extends Record<string, unknown>>(
       return data.subscribe(async ($data) => {
         let errors: Errors<Data> | undefined = {};
         if (!config.validate || !$data) return;
-        errors = await config.validate($data);
+        errors = await executeValidation($data, config.validate);
         set(errors || {});
       });
     }
