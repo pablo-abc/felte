@@ -6,6 +6,7 @@
   let prefersDarkScheme = false;
   let matchesPrefersDarkScheme;
   let observer;
+  let mqList;
 
   function mutationCallback(mutationsList) {
     for (const mutation of mutationsList) {
@@ -14,11 +15,34 @@
     }
   }
 
+  function setLightMode() {
+      prefersDarkScheme = false;
+      document.body.classList.remove('dark');
+      document.body.classList.add('light');
+      if (matchesPrefersDarkScheme) localStorage.setItem('colorScheme', 'light')
+      else localStorage.removeItem('colorScheme');
+  }
+
+  function setDarkMode() {
+      prefersDarkScheme = true;
+      document.body.classList.add('dark');
+      document.body.classList.remove('light');
+      if (!matchesPrefersDarkScheme) localStorage.setItem('colorScheme', 'dark')
+      else localStorage.removeItem('colorScheme');
+  }
+
+  function watchMedia(e) {
+    if (!e.matches) setLightMode();
+    else setDarkMode();
+  }
+
   onMount(() => {
     observer = new MutationObserver(mutationCallback);
     observer.observe(document.body, { attributes: true });
     const colorScheme = localStorage.getItem('colorScheme');
-    matchesPrefersDarkScheme = matchMedia('(prefers-color-scheme: dark)').matches;
+    mqList = matchMedia('(prefers-color-scheme: dark)')
+    matchesPrefersDarkScheme = mqList.matches;
+    mqList.addEventListener('change', watchMedia);
     if (colorScheme) prefersDarkScheme = colorScheme === 'dark';
     else prefersDarkScheme = matchesPrefersDarkScheme;
     if (prefersDarkScheme) document.body.classList.add('dark');
@@ -27,22 +51,12 @@
 
   onDestroy(() => {
     observer?.disconnect();
+    mqList?.removeEventListener('change', watchMedia);
   });
 
   function toggleDarkMode() {
-    if (prefersDarkScheme) {
-      prefersDarkScheme = false;
-      document.body.classList.remove('dark');
-      document.body.classList.add('light');
-      if (matchesPrefersDarkScheme) localStorage.setItem('colorScheme', 'light')
-      else localStorage.removeItem('colorScheme');
-    } else {
-      prefersDarkScheme = true;
-      document.body.classList.add('dark');
-      document.body.classList.remove('light');
-      if (!matchesPrefersDarkScheme) localStorage.setItem('colorScheme', 'dark')
-      else localStorage.removeItem('colorScheme');
-    }
+    if (prefersDarkScheme) setLightMode();
+    else setDarkMode();
   }
 </script>
 
