@@ -53,7 +53,7 @@ bolt w @felte/common run dev
 
 ### Testing
 
-We care about test coverage and test quality, if you add new code/new features, it would be really nice if you add tests to it. All packages except for Felte's documentation site have testst that aim to >90% code coverage. You can run tests for all packages using:
+We care about test coverage and test quality, if you add new code/new features, it would be really nice if you add tests to it. All packages except for Felte's documentation site have tests that aim to >90% code coverage. You can run tests for all packages using:
 
 ```sh
 # runs all tests
