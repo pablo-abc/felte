@@ -99,6 +99,14 @@ Adding a new section to the docs page would require adding a new markdown file n
 
 We are using [Commitlint](https://commitlint.js.org/) to make sure our commits adhere to a standard. We are following [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) standards. If your commit does not follow this standard it will fail. When making a pull request, also make sure to make your PR title follow this standard.
 
+When commiting or making a PR for a specific package, please scope your commit/PR title. The scopes we use right now are the same as the directory names inside of the `packages/` directory. An example would be:
+
+```
+feat(validator-yup): some change description
+```
+
+If your changes touch multiple packages, it's ok to not scope it.
+
 ## "I'm not quite sure how to document/test my changes"
 
 That's OK! Any help is better than no help, if you're not sure what the best approach would be to add tests/documentation to your changes, I can get around to it. Adding these would just help me a lot with the work.
