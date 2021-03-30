@@ -95,15 +95,15 @@ If you're making changes to any package that require documentation, it would be 
 
 Adding a new section to the docs page would require adding a new markdown file next to the other docs files with the same format as the rest. Then adding the file name (without the extension) to the `sections` array in line 28 of `packages/site/src/routes/docs/_docs.js`. Add the file name where you want the section to be related to the others.
 
+## Commit messages
+
+We are using [Commitlint](https://commitlint.js.org/) to make sure our commits adhere to a standard. We are following [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) standards. If your commit does not follow this standard it will fail. When making a pull request, also make sure to make your PR title follow this standard.
+
 ## "I'm not quite sure how to document/test my changes"
 
 That's OK! Any help is better than no help, if you're not sure what the best approach would be to add tests/documentation to your changes, I can get around to it. Adding these would just help me a lot with the work.
 
 The only documentation requirement I really ask for is to add the `changeset` as described in the next section.
-
-## Commit messages
-
-We are using [Commitlint](https://commitlint.js.org/) to make sure our commits adhere to a standard. We are following [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) standards. If your commit does not follow this standard it will fail. When making a pull request, also make sure to make your PR title follow this standard.
 
 ## Making a pull request
 
