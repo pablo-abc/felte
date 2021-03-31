@@ -6,7 +6,7 @@ import type {
   Reporter,
 } from '@felte/common';
 
-interface DomReporterOptions {
+export interface DomReporterOptions {
   listType?: 'ul' | 'ol';
   single?: boolean;
 }
