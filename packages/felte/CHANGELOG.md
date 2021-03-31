@@ -1,5 +1,13 @@
 # felte
 
+## 0.6.1
+
+### Patch Changes
+
+- f5a52e1: Return `setFields` function from `createForm` to set all fields of the form
+- Updated dependencies [f5a52e1]
+  - @felte/common@0.3.1
+
 ## 0.6.0
 
 ### Minor Changes

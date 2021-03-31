@@ -1,5 +1,11 @@
 # @felte/common
 
+## 0.3.1
+
+### Patch Changes
+
+- f5a52e1: Return `setFields` function from `createForm` to set all fields of the form
+
 ## 0.3.0
 
 ### Minor Changes
