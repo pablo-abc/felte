@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.1.11
+
+### Patch Changes
+
+- 26c98b7: Export DomReporterOptions type
+
 ## 0.1.10
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @felte/reporter-tippy
 
+## 0.2.0
+
+### Minor Changes
+
+- f87a55c: BREAKING: The exported reporter is now a function that accepts options. This allows to pass options to tippy, as well as adds a `setContent` function as an option to dynamically modify Tippy's content to allow for HTML content to be displayed.
+
 ## 0.1.14
 
 ### Patch Changes

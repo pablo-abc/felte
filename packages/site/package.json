@@ -1,6 +1,6 @@
 {
   "name": "@felte/site",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
   "scripts": {
     "dev": "svelte-kit dev",
@@ -24,9 +24,9 @@
   },
   "type": "module",
   "dependencies": {
-    "@felte/reporter-dom": "^0.1.10",
+    "@felte/reporter-dom": "^0.1.11",
     "@felte/reporter-svelte": "^0.1.13",
-    "@felte/reporter-tippy": "^0.1.14",
+    "@felte/reporter-tippy": "^0.2.0",
     "@felte/validator-yup": "^0.2.0",
     "felte": "^0.6.0",
     "svelte-markdown": "^0.1.5",

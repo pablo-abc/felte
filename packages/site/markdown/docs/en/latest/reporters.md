@@ -37,13 +37,33 @@ import { createForm } from 'felte';
 
 const { form } = createForm({
   // ...
-  extend: reporter,
+  extend: reporter(),
   // ...
 });
 ```
 
 And that's it! Your validation messages will be shown by Tippy without any more work.
 
+For a more complex use case, you can pass [options](https://atomiks.github.io/tippyjs/v6/all-props/) to Tippy when calling the reporter like so:
+
+```javascript
+reporter({
+  tippyProps: {/* tippy options */},
+})
+```
+
+You can also pass a `setContent` function that will receive the current validation messages. Here you can modify your validation messages, which can come in useful if you want to display HTML content inside of Tippy. The `messages` argument will either by an array of strings (it can be more than one message depending on your validation strategy) or undefined.
+
+```javascript
+reporter({
+  setContent: (messages) => {
+    return messages?.map(message => `<p>${message}</p>`);
+  },
+  tippyProps: {
+    allowHTML: true,
+  },
+})
+```
 ### Using a Svelte component
 
 The `@felte/reporter-svelte` package will fill like a more traditional way to handle your validation messages.

@@ -1,6 +1,16 @@
 # @felte/site
 
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies [26c98b7]
+- Updated dependencies [f87a55c]
+  - @felte/reporter-dom@0.1.11
+  - @felte/reporter-tippy@0.2.0
+
 ## 0.0.2
+
 ### Patch Changes
 
 - Updated dependencies [52f9043]

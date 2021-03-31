@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-dom",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "An error reporter for Felte using the DOM",
   "main": "dist/index.js",
   "browser": "dist/index.js",
