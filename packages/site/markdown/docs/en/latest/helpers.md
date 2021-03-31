@@ -2,6 +2,7 @@
 section: Helper functions
 subsections:
   - setField
+  - setFields
   - setTouched
   - setError
   - validate
