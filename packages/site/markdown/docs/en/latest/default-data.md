@@ -12,7 +12,7 @@ Felte will take as default values whatever is set first in the HTML as a value/c
 </form>
 ```
 
-In this case, Felte will take "default@email.com" as a default value for the "email" field.
+In this case, Felte will take `default@email.com` as a default value for the "email" field.
 
 If the form is not controlled by Felte and you're binding directly to the `data` store, you can use the `initialValues` property of `createForm`'s configuration to set some default values.
 
