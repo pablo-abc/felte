@@ -21,7 +21,7 @@ describe('Reporter Tippy', () => {
     const { form, validate } = createForm({
       onSubmit: jest.fn(),
       validate: mockValidate,
-      extend: reporter,
+      extend: reporter(),
     });
 
     const formElement = screen.getByRole('form') as HTMLFormElement;
@@ -54,7 +54,7 @@ describe('Reporter Tippy', () => {
     const { form, validate } = createForm({
       onSubmit: jest.fn(),
       validate: mockValidate,
-      extend: reporter,
+      extend: reporter(),
     });
 
     const formElement = screen.getByRole('form') as HTMLFormElement;
@@ -106,7 +106,7 @@ describe('Reporter Tippy', () => {
     const { form, validate } = createForm({
       onSubmit: jest.fn(),
       validate: mockValidate,
-      extend: reporter,
+      extend: reporter(),
     });
 
     const formElement = screen.getByRole('form') as HTMLFormElement;
@@ -137,7 +137,7 @@ describe('Reporter Tippy', () => {
     const { form } = createForm({
       onSubmit: jest.fn(),
       validate: mockValidate,
-      extend: reporter,
+      extend: reporter(),
     });
 
     const formElement = screen.getByRole('form') as HTMLFormElement;
@@ -157,6 +157,43 @@ describe('Reporter Tippy', () => {
       expect(tippyInstance?.state.isEnabled).toBeTruthy();
       expect(tippyInstance?.state.isVisible).toBeTruthy();
       expect(tippyInstance?.popper).toHaveTextContent(mockErrors.test);
+    });
+  });
+
+  test('sets custom content', async () => {
+    const mockErrors = { test: 'An error' };
+    const mockValidate = jest.fn(() => mockErrors);
+    const { form, validate } = createForm({
+      onSubmit: jest.fn(),
+      validate: mockValidate,
+      extend: reporter({
+        setContent: (messages) => {
+          return messages?.map((message) => `<p>${message}</p>`).join('');
+        },
+      }),
+    });
+
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const inputElement = createInputElement({
+      name: 'test',
+      type: 'text',
+      id: 'test',
+    });
+    formElement.appendChild(inputElement);
+
+    inputElement.focus();
+
+    form(formElement);
+
+    await validate();
+
+    await waitFor(() => {
+      const tippyInstance = getTippy(inputElement);
+      expect(tippyInstance?.state.isEnabled).toBeTruthy();
+      expect(tippyInstance?.state.isVisible).toBeTruthy();
+      expect(tippyInstance?.popper).toHaveTextContent(
+        `<p>${mockErrors.test}</p>`
+      );
     });
   });
 });

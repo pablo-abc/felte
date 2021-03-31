@@ -5,34 +5,13 @@ import type {
   ReporterHandler,
   FormControl,
   Obj,
+  Extender,
 } from '@felte/common';
 
 const mutationConfig: MutationObserverInit = {
   attributes: true,
   subtree: true,
 };
-
-function mutationCallback(mutationList: MutationRecord[]) {
-  for (const mutation of mutationList) {
-    if (mutation.type !== 'attributes') continue;
-    if (mutation.attributeName !== 'data-felte-validation-message') continue;
-    const target: any = mutation.target;
-    const validationMessage: string = target.dataset.felteValidationMessage;
-    const tippyInstance: Instance<Props> = target?._tippy;
-    if (!tippyInstance) continue;
-    if (validationMessage) {
-      target.setAttribute('aria-invalid', 'true');
-      tippyInstance.setContent(validationMessage);
-      !tippyInstance.state.isEnabled && tippyInstance.enable();
-      if (document.activeElement === target && !tippyInstance.state.isShown) {
-        tippyInstance.show();
-      }
-    } else {
-      target.removeAttribute('aria-invalid');
-      tippyInstance.disable();
-    }
-  }
-}
 
 function isLabelElement(node: Node): node is HTMLLabelElement {
   return node.nodeName === 'LABEL';
@@ -50,46 +29,81 @@ function getControlLabel(control: FormControl): HTMLLabelElement | undefined {
   return labelElement || undefined;
 }
 
-function tippyReporter<Data extends Obj = Obj>(
-  currentForm: CurrentForm<Data>
-): ReporterHandler<Data> {
-  const { controls, form } = currentForm;
-  if (!controls || !form) return {};
-  const tippyInstances = controls.map((control) => {
-    const content = control.dataset.felteValidationMessage;
-    const triggerTarget = [control, getControlLabel(control)].filter(
-      Boolean
-    ) as HTMLElement[];
-    const instance = tippy(control, {
-      trigger: 'mouseenter click focusin',
-      content,
-      triggerTarget,
+export type TippyReporterOptions = {
+  setContent?: (messages?: string[]) => string | undefined;
+  tippyProps?: Partial<Props>;
+};
+
+function tippyReporter<Data extends Obj = Obj>({
+  setContent,
+  tippyProps,
+}: TippyReporterOptions = {}): Extender<Data> {
+  function mutationCallback(mutationList: MutationRecord[]) {
+    for (const mutation of mutationList) {
+      if (mutation.type !== 'attributes') continue;
+      if (mutation.attributeName !== 'data-felte-validation-message') continue;
+      const target: any = mutation.target;
+      const validationMessage: string = setContent
+        ? setContent(target.dataset.felteValidationMessage?.split('\n'))
+        : target.dataset.felteValidationMessage;
+      const tippyInstance: Instance<Props> = target?._tippy;
+      if (!tippyInstance) continue;
+      if (validationMessage) {
+        target.setAttribute('aria-invalid', 'true');
+        tippyInstance.setContent(validationMessage);
+        !tippyInstance.state.isEnabled && tippyInstance.enable();
+        if (document.activeElement === target && !tippyInstance.state.isShown) {
+          tippyInstance.show();
+        }
+      } else {
+        target.removeAttribute('aria-invalid');
+        tippyInstance.disable();
+      }
+    }
+  }
+
+  return function reporter<Data extends Obj = Obj>(
+    currentForm: CurrentForm<Data>
+  ): ReporterHandler<Data> {
+    const { controls, form } = currentForm;
+    if (!controls || !form) return {};
+    const tippyInstances = controls.map((control) => {
+      const content = control.dataset.felteValidationMessage;
+      const triggerTarget = [control, getControlLabel(control)].filter(
+        Boolean
+      ) as HTMLElement[];
+      const instance = tippy(control, {
+        trigger: 'mouseenter click focusin',
+        content: setContent ? setContent(content?.split('\n')) : content,
+        triggerTarget,
+        ...tippyProps,
+      });
+      instance.popper.setAttribute('aria-live', 'polite');
+      if (!content) instance.disable();
+      return instance;
     });
-    instance.popper.setAttribute('aria-live', 'polite');
-    if (!content) instance.disable();
-    return instance;
-  });
-  const mutationObserver = new MutationObserver(mutationCallback);
-  mutationObserver.observe(form, mutationConfig);
-  return {
-    destroy() {
-      mutationObserver.disconnect();
-      tippyInstances.forEach((instance) => instance.destroy());
-    },
-    onSubmitError() {
-      const firstInvalidElement = form.querySelector(
-        '[data-felte-validation-message]'
-      ) as FormControl;
-      firstInvalidElement.focus();
-      const tippyInstance: Instance<Props> = (firstInvalidElement as any)
-        ?._tippy;
-      if (!tippyInstance || tippyInstance.state.isShown) return;
-      tippyInstance.setContent(
-        firstInvalidElement.dataset.felteValidationMessage || ''
-      );
-      if (!tippyInstance.state.isEnabled) tippyInstance.enable();
-      tippyInstance.show();
-    },
+    const mutationObserver = new MutationObserver(mutationCallback);
+    mutationObserver.observe(form, mutationConfig);
+    return {
+      destroy() {
+        mutationObserver.disconnect();
+        tippyInstances.forEach((instance) => instance.destroy());
+      },
+      onSubmitError() {
+        const firstInvalidElement = form.querySelector(
+          '[data-felte-validation-message]'
+        ) as FormControl;
+        firstInvalidElement.focus();
+        const tippyInstance: Instance<Props> = (firstInvalidElement as any)
+          ?._tippy;
+        if (!tippyInstance || tippyInstance.state.isShown) return;
+        tippyInstance.setContent(
+          firstInvalidElement.dataset.felteValidationMessage || ''
+        );
+        if (!tippyInstance.state.isEnabled) tippyInstance.enable();
+        tippyInstance.show();
+      },
+    };
   };
 }
 
