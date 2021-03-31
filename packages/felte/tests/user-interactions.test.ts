@@ -139,6 +139,69 @@ describe('User interactions with form', () => {
     );
   });
 
+  test('Validates default data correctly', async () => {
+    const { form, data, errors, setTouched } = createForm({
+      onSubmit: jest.fn(),
+      validate: (values: any) => {
+        const errors: {
+          account: { password?: string; email?: string };
+        } = { account: {} };
+        if (!values.account.email) errors.account.email = 'Must not be empty';
+        if (!values.account.password)
+          errors.account.password = 'Must not be empty';
+        return errors;
+      },
+    });
+    const { formElement } = createSignupForm();
+    form(formElement);
+    const $data = get(data);
+    expect($data).toEqual(
+      expect.objectContaining({
+        account: {
+          email: '',
+          password: '',
+          confirmPassword: '',
+          showPassword: false,
+          publicEmail: undefined,
+        },
+        profile: {
+          firstName: '',
+          lastName: '',
+          bio: '',
+          picture: undefined,
+        },
+        extra: {
+          pictures: expect.arrayContaining([]),
+        },
+        preferences: expect.arrayContaining([]),
+      })
+    );
+    expect(get(errors)).toMatchObject({
+      account: {
+        email: null,
+        password: null,
+      },
+    });
+    setTouched('account.email');
+    await waitFor(() => {
+      expect(get(errors)).toMatchObject({
+        account: {
+          email: 'Must not be empty',
+          password: null,
+        },
+      });
+    });
+    setTouched('account.password');
+    await waitFor(() => {
+      expect(get(errors)).toMatchObject({
+        account: {
+          email: 'Must not be empty',
+          password: 'Must not be empty',
+        },
+      });
+    });
+  });
+
   test('Sets custom default data correctly', () => {
     const { form, data, isValid } = createForm({
       onSubmit: jest.fn(),
@@ -354,6 +417,69 @@ describe('User interactions with form', () => {
         account: {
           email: 'jacek@soplica.com',
           password: 'password',
+        },
+      })
+    );
+  });
+
+  test('Validates initial values correctly', async () => {
+    const { data, errors, setTouched, touched } = createForm({
+      onSubmit: jest.fn(),
+      validate: (values) => {
+        const errors: {
+          account: { password?: string; email?: string };
+        } = { account: {} };
+        if (!values.account.email) errors.account.email = 'Must not be empty';
+        if (!values.account.password)
+          errors.account.password = 'Must not be empty';
+        return errors;
+      },
+      initialValues: {
+        account: {
+          email: 'jacek@soplica.com',
+          password: '',
+        },
+      },
+    });
+    expect(get(errors)).toEqual({
+      account: {
+        email: null,
+        password: null,
+      },
+    });
+    setTouched('account.email');
+    expect(get(touched)).toEqual({
+      account: {
+        email: true,
+        password: false,
+      },
+    });
+    expect(get(errors)).toEqual({
+      account: {
+        email: null,
+        password: null,
+      },
+    });
+    setTouched('account.password');
+    expect(get(touched)).toEqual({
+      account: {
+        email: true,
+        password: true,
+      },
+    });
+    await waitFor(() => {
+      expect(get(errors)).toEqual({
+        account: {
+          email: null,
+          password: 'Must not be empty',
+        },
+      });
+    });
+    expect(get(data)).toEqual(
+      expect.objectContaining({
+        account: {
+          email: 'jacek@soplica.com',
+          password: '',
         },
       })
     );
