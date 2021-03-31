@@ -289,6 +289,39 @@ export function getFormDefaultValues<Data extends Obj>(
   };
 }
 
+export function setControlValue(el: FormControl, value: FieldValue): void {
+  if (isInputElement(el) && el.type === 'checkbox') {
+    const checkboxesDefaultData = value;
+    if (
+      typeof checkboxesDefaultData === 'undefined' ||
+      typeof checkboxesDefaultData === 'boolean'
+    ) {
+      el.checked = !!checkboxesDefaultData;
+      return;
+    }
+    if (Array.isArray(checkboxesDefaultData)) {
+      if ((checkboxesDefaultData as string[]).includes(el.value)) {
+        el.checked = true;
+      } else {
+        el.checked = false;
+      }
+    }
+    return;
+  }
+  if (isInputElement(el) && el.type === 'radio') {
+    const radioValue = value;
+    if (el.value === radioValue) el.checked = true;
+    else el.checked = false;
+    return;
+  }
+  if (isInputElement(el) && el.type === 'file') {
+    el.files = null;
+    el.value = '';
+    return;
+  }
+  el.value = String(value || '');
+}
+
 /** Sets the form inputs value to match the data object provided. */
 export function setForm<Data extends Obj>(
   node: HTMLFormElement,
@@ -298,36 +331,7 @@ export function setForm<Data extends Obj>(
     if (isFieldSetElement(el)) addAttrsFromFieldset(el);
     if (!isFormControl(el) || !el.name) continue;
     const elName = getPath(el);
-    if (isInputElement(el) && el.type === 'checkbox') {
-      const checkboxesDefaultData = _get(data, elName);
-      if (
-        typeof checkboxesDefaultData === 'undefined' ||
-        typeof checkboxesDefaultData === 'boolean'
-      ) {
-        el.checked = !!checkboxesDefaultData;
-        continue;
-      }
-      if (Array.isArray(checkboxesDefaultData)) {
-        if ((checkboxesDefaultData as string[]).includes(el.value)) {
-          el.checked = true;
-        } else {
-          el.checked = false;
-        }
-      }
-      continue;
-    }
-    if (isInputElement(el) && el.type === 'radio') {
-      const radioValue = _get(data, elName);
-      if (el.value === radioValue) el.checked = true;
-      else el.checked = false;
-      continue;
-    }
-    if (isInputElement(el) && el.type === 'file') {
-      el.files = null;
-      el.value = '';
-      continue;
-    }
-    el.value = String(_get(data, elName, ''));
+    setControlValue(el, _get(data, elName));
   }
 }
 

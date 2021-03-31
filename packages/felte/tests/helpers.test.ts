@@ -1,17 +1,31 @@
 import { waitFor, screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { createForm } from '../src';
-import { createInputElement, createDOM } from './common';
+import { createInputElement, createDOM, cleanupDOM } from './common';
 import { get } from 'svelte/store';
 
 describe('Helpers', () => {
+  beforeEach(createDOM);
+
+  afterEach(cleanupDOM);
+
   test('setField should update and touch field', () => {
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const fieldsetElement = document.createElement('fieldset');
+    fieldsetElement.name = 'account';
+    const inputElement = createInputElement({
+      name: 'email',
+      value: '',
+      type: 'text',
+    });
+    fieldsetElement.appendChild(inputElement);
+    formElement.appendChild(fieldsetElement);
     type Data = {
       account: {
         email: string;
       };
     };
-    const { data, touched, setField } = createForm<Data>({
+    const { form, data, touched, setField } = createForm<Data>({
       initialValues: {
         account: {
           email: '',
@@ -33,6 +47,19 @@ describe('Helpers', () => {
         email: true,
       },
     });
+
+    form(formElement);
+
+    expect(get(data).account.email).toBe('');
+    expect(inputElement.value).toBe('');
+
+    setField('account.email', 'jacek@soplica.com');
+    expect(get(data)).toEqual({
+      account: {
+        email: 'jacek@soplica.com',
+      },
+    });
+    expect(inputElement.value).toBe('jacek@soplica.com');
   });
 
   test('setField should update without touching field', () => {
@@ -63,6 +90,62 @@ describe('Helpers', () => {
         email: false,
       },
     });
+  });
+
+  test('setFields should set all fields', () => {
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const fieldsetElement = document.createElement('fieldset');
+    fieldsetElement.name = 'account';
+    const inputElement = createInputElement({
+      name: 'email',
+      value: '',
+      type: 'text',
+    });
+    fieldsetElement.appendChild(inputElement);
+    formElement.appendChild(fieldsetElement);
+    type Data = {
+      account: {
+        email: string;
+      };
+    };
+    const { form, data, touched, setFields } = createForm<Data>({
+      initialValues: {
+        account: {
+          email: '',
+        },
+      },
+      onSubmit: jest.fn(),
+    });
+
+    expect(get(data).account.email).toBe('');
+    expect(get(touched).account.email).toBe(false);
+    setFields({
+      account: {
+        email: 'jacek@soplica.com',
+      },
+    });
+    expect(get(data)).toEqual({
+      account: {
+        email: 'jacek@soplica.com',
+      },
+    });
+
+    form(formElement);
+
+    expect(get(data).account.email).toBe('');
+    expect(inputElement.value).toBe('');
+
+    setFields({
+      account: {
+        email: 'jacek@soplica.com',
+      },
+    });
+    expect(get(data)).toEqual({
+      account: {
+        email: 'jacek@soplica.com',
+      },
+    });
+    expect(inputElement.value).toBe('jacek@soplica.com');
   });
 
   test('setTouched should touch field', () => {
@@ -199,7 +282,6 @@ describe('Helpers', () => {
   });
 
   test('reset should reset form to default values', () => {
-    createDOM();
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const accountFieldset = document.createElement('fieldset');
     accountFieldset.name = 'account';

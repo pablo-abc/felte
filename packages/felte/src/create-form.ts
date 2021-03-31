@@ -18,6 +18,7 @@ import {
   _get,
   Errors,
   executeValidation,
+  setControlValue,
 } from '@felte/common';
 import { createStores } from './stores';
 import type {
@@ -162,6 +163,19 @@ export function createForm<
   function setField(path: string, value?: FieldValue, touch = true): void {
     data.update(($data) => _set($data, path, value));
     if (touch) setTouched(path);
+    if (!formNode) return;
+    for (const control of formNode.elements) {
+      if (!isFormControl(control) || !control.name) continue;
+      const elName = getPath(control);
+      if (path !== elName) continue;
+      setControlValue(control, value);
+      return;
+    }
+  }
+
+  function setFields(newValues: Data): void {
+    data.set(newValues);
+    if (formNode) setForm(formNode, newValues);
   }
 
   async function validate(): Promise<Errors<Data> | void> {
@@ -178,8 +192,7 @@ export function createForm<
   let initialValues = config.initialValues;
 
   function reset(): void {
-    data.set(_cloneDeep(initialValues));
-    if (formNode) setForm(formNode, initialValues);
+    setFields(_cloneDeep(initialValues));
     touched.update(($touched) => deepSet($touched, false) as Touched<Data>);
   }
 
@@ -363,6 +376,7 @@ export function createForm<
     setTouched,
     setError,
     setField,
+    setFields,
     validate,
   };
 }

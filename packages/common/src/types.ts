@@ -139,8 +139,10 @@ export type Form<Data extends Obj> = {
   setTouched: (path: string) => void;
   /** Helper function to set an error to a specific field. */
   setError: (path: string, error: string | string[]) => void;
-  /** Helper function to set the value of a specific field. Set `touch` to `false` if you want to set the value without setting the field to touched. Note: In only for this to reflect in the field, you'll have to set the field value to its respective value in the data store. */
+  /** Helper function to set the value of a specific field. Set `touch` to `false` if you want to set the value without setting the field to touched. */
   setField: (path: string, value?: FieldValue, touch?: boolean) => void;
+  /** Helper function to set all values of the form. Useful for "initializing" values after the form has loaded. */
+  setFields: (values: Data) => void;
   /** Helper function that validates every fields and touches all of them. It updates the `errors` store. */
   validate: () => Promise<Errors<Data> | void>;
 } & Stores<Data>;

@@ -17,23 +17,9 @@ The `createForm` function also returns some additional helpers that can help wit
 
 A function that accepts a `string` path for the `data` store, the value to be set and an optional boolean argument defining if this operation should _touch_ the field (defaults to `true`).
 
-Note that in order for this change to be reflected on your form you'll need to assign the store's value to the input's value.
+### setFields
 
-```html
-<script>
-  const { form, setField, data } = createForm(/* ... */);
-
-  // At some moment call the setField function.
-  // The `false` argument tells Felte not to touch the field.
-  setField('account.email', 'default@email.dev', false);
-</script>
-
-<form use:form>
-  <fieldset name="account">
-    <input name="email" value={$data.account.email}>
-  </fieldset>
-</form>
-```
+A function that accepts an object with the same shape as your data, it will set this data to your `data` store as well as to every field of the form.
 
 ### setTouched
 
