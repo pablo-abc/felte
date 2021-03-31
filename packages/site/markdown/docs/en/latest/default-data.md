@@ -6,7 +6,7 @@ section: Default data
 
 Felte will take as default values whatever is set first in the HTML as a value/checked attribute (if the input is "controlled" by Felte).
 
-```
+```html
 <form use:form>
     <input name="email" type="email" value="default@email.com">
 </form>
