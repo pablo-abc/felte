@@ -27,7 +27,7 @@
     "@felte/reporter-svelte": "^0.1.13",
     "@felte/reporter-tippy": "^0.2.0",
     "@felte/validator-yup": "^0.2.0",
-    "felte": "^0.6.1",
+    "felte": "^0.6.3",
     "svelte-markdown": "^0.1.5",
     "svelte-portal": "^2.1.1"
   },

@@ -1,5 +1,11 @@
 # @felte/common
 
+## 0.3.2
+
+### Patch Changes
+
+- f5c7cdf: Fix issue where NaN was being parsed as 0 in an `input[type=number]`
+
 ## 0.3.1
 
 ### Patch Changes
