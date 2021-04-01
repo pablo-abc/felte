@@ -20,6 +20,7 @@ import {
   getFormDefaultValues,
   setForm,
   executeValidation,
+  getInputTextOrNumber,
 } from '../src';
 
 function createLoginForm() {
@@ -409,5 +410,27 @@ describe('Utils', () => {
         confirmPassword: 'required',
       },
     });
+  });
+
+  test('getInputTextOrNumber', () => {
+    const textElement = createInputElement({
+      name: 'text',
+      value: '',
+    });
+    const numberElement = createInputElement({
+      name: 'number',
+      type: 'number',
+    });
+
+    expect(getInputTextOrNumber(textElement)).toBe('');
+    expect(getInputTextOrNumber(numberElement)).toBe(undefined);
+
+    textElement.value = 'test';
+    numberElement.value = 'test';
+    expect(getInputTextOrNumber(textElement)).toBe('test');
+    expect(getInputTextOrNumber(numberElement)).toBe(undefined);
+
+    numberElement.value = '42';
+    expect(getInputTextOrNumber(numberElement)).toBe(42);
   });
 });
