@@ -233,6 +233,17 @@ export function addAttrsFromFieldset(fieldSet: HTMLFieldSetElement): void {
   }
 }
 
+/** @ignore */
+export function getInputTextOrNumber(
+  el: FormControl
+): string | number | undefined {
+  if (el.type.match(/^(number|range)$/)) {
+    return !el.value ? undefined : +el.value;
+  } else {
+    return el.value;
+  }
+}
+
 /**
  * @ignore
  */
@@ -277,11 +288,8 @@ export function getFormDefaultValues<Data extends Obj>(
       );
       continue;
     }
-    _set(
-      defaultData,
-      elName,
-      el.type.match(/^(number|range)$/) ? +el.value : el.value
-    );
+    const inputValue = getInputTextOrNumber(el);
+    _set(defaultData, elName, inputValue);
   }
   return {
     defaultData,

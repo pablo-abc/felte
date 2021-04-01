@@ -20,6 +20,7 @@ import {
   Errors,
   executeValidation,
   setControlValue,
+  getInputTextOrNumber,
 } from '@felte/common';
 import { createStores } from './stores';
 import type {
@@ -265,13 +266,8 @@ export function createForm<
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
       setTouched(getPath(target));
-      data.update(($data) =>
-        _set(
-          $data,
-          getPath(target),
-          target.type.match(/^(number|range)$/) ? +target.value : target.value
-        )
-      );
+      const inputValue = getInputTextOrNumber(target);
+      data.update(($data) => _set($data, getPath(target), inputValue));
     }
 
     function handleChange(e: Event) {
