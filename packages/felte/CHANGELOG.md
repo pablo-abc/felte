@@ -1,5 +1,11 @@
 # felte
 
+## 0.6.2
+
+### Patch Changes
+
+- d8fdb4b: Make `initialValues` be able to set default data for controlled inputs
+
 ## 0.6.1
 
 ### Patch Changes
