@@ -1,5 +1,6 @@
 import _defaultsDeep from 'lodash-es/defaultsDeep';
 import _mergeWith from 'lodash-es/mergeWith';
+import _merge from 'lodash-es/merge';
 import _cloneDeep from 'lodash-es/cloneDeep';
 import { get } from 'svelte/store';
 import {
@@ -173,9 +174,9 @@ export function createForm<
     }
   }
 
-  function setFields(newValues: Data): void {
-    data.set(newValues);
-    if (formNode) setForm(formNode, newValues);
+  function setFields(values: Data): void {
+    data.set(_cloneDeep(values));
+    if (formNode) setForm(formNode, values);
   }
 
   async function validate(): Promise<Errors<Data> | void> {
@@ -212,10 +213,15 @@ export function createForm<
     currentExtenders = extender.map(callExtender);
     node.noValidate = !!config.validate;
     const { defaultData, defaultTouched } = getFormDefaultValues<Data>(node);
-    initialValues = _cloneDeep(defaultData);
     formNode = node;
+    if (initialValues) {
+      initialValues = _merge(_cloneDeep(defaultData), initialValues);
+      setFields(initialValues);
+    } else {
+      initialValues = _cloneDeep(defaultData);
+      data.set(_cloneDeep(defaultData));
+    }
     touched.set(defaultTouched);
-    data.set(_cloneDeep(defaultData));
 
     function setCheckboxValues(target: HTMLInputElement) {
       const checkboxes = node.querySelectorAll(`[name="${target.name}"]`);

@@ -403,7 +403,8 @@ describe('User interactions with form', () => {
   });
 
   test('Sets default data with initialValues', () => {
-    const { data } = createForm({
+    const { emailInput, passwordInput, formElement } = createLoginForm();
+    const { data, form } = createForm({
       onSubmit: jest.fn(),
       initialValues: {
         account: {
@@ -420,6 +421,11 @@ describe('User interactions with form', () => {
         },
       })
     );
+
+    form(formElement);
+
+    expect(emailInput.value).toBe('jacek@soplica.com');
+    expect(passwordInput.value).toBe('password');
   });
 
   test('Validates initial values correctly', async () => {
