@@ -1,5 +1,4 @@
 <script context="module">
-  import { decode } from 'html-entities';
 
   export async function load({ fetch }) {
     const res = await fetch('docs.json');
@@ -7,10 +6,7 @@
     if (res.ok) {
       return {
         props: {
-          data: data.map(section =>({
-            ...section,
-            body: decode(section.body),
-          })),
+          data
         },
       };
     } else {

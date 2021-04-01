@@ -1,7 +1,6 @@
 import fm from 'front-matter';
 import path from 'path';
 import fs from 'fs/promises';
-import { encode } from 'html-entities';
 
 function idfy(value) {
   return value.toLowerCase().replace(/[^a-zA-Z0-9]/g, '-');
@@ -20,7 +19,6 @@ export default async function getDocs({ lang = 'en', version = 'latest' }) {
     data.attributes.subsections = data.attributes.subsections?.map(
       (subsection) => ({ id: idfy(subsection), name: subsection })
     );
-    data.body = encode(data.body);
     return data;
   }
 

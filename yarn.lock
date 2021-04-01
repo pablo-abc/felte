@@ -1508,10 +1508,10 @@
   resolved "https://registry.yarnpkg.com/@sveltejs/adapter-static/-/adapter-static-1.0.0-next.4.tgz#5305a2fedf9d1ec40af6c25384b7542a0337ec4c"
   integrity sha512-Atri/5jyiVmAklqDKb/5czmLkHos6LQOag61k/C6qWozMb8UopvL3bTm62hFQXGKvGnuSRq2xIueDOKWHM/7rA==
 
-"@sveltejs/kit@1.0.0-next.64":
-  version "1.0.0-next.64"
-  resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-1.0.0-next.64.tgz#d666c6bd0368ed1ecabcfb3e3bbfe34cd2042d14"
-  integrity sha512-ccLesgGBDEkbYnz9j+xHfwkO6EF/oka9sPS+OEsveN5gmYF3o7j13Q8lZQgyXOTuUnnB+WDsklHL36ihWZzNkw==
+"@sveltejs/kit@1.0.0-next.66":
+  version "1.0.0-next.66"
+  resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-1.0.0-next.66.tgz#bf4b7c1c1f79956aba67bd358674c3b926a08216"
+  integrity sha512-IVC4Ssey7aA9ddtkyHGXucxG4TQFsYiJIXVzXXLDI4JNyjZQ0aXraFZQ/S+yOecPprHd1xulk5iZPpM9YnKzIQ==
   dependencies:
     "@sveltejs/vite-plugin-svelte" "^1.0.0-next.5"
     cheap-watch "^1.0.3"
@@ -3845,11 +3845,6 @@ html-encoding-sniffer@^2.0.1:
   integrity sha512-D5JbOMBIR/TVZkubHT+OyT2705QvogUW4IBn6nHd756OwieSF9aDYFj4dv6HHEVGYbHaLETa3WggZYWWMyy3ZQ==
   dependencies:
     whatwg-encoding "^1.0.5"
-
-html-entities@^2.3.2:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/html-entities/-/html-entities-2.3.2.tgz#760b404685cb1d794e4f4b744332e3b00dcfe488"
-  integrity sha512-c3Ab/url5ksaT0WyleslpBEthOzWhrjQbg75y7XUsfSzi3Dgzt0l8w5e7DylRn15MTlMMD58dTfzddNS2kcAjQ==
 
 html-escaper@^2.0.0:
   version "2.0.2"
