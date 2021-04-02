@@ -6,10 +6,10 @@
 </script>
 
 <span>
-  {#if depth === 2 || depth === 3}
-    <a class="anchor" {id}>&nbsp;</a>
-    <a href={`docs#${id}`} aria-hidden=true>
-      <img src="icons/link.svg" alt="" />
+  {#if depth === 3}
+    <a class="anchor" tabindex="-1" aria-hidden="true" {id}>&nbsp;</a>
+    <a href={`#${id}`} tabindex="-1" aria-hidden=true>
+      <img src="/icons/link.svg" alt="" />
     </a>
   {/if}
   {#if depth === 1}

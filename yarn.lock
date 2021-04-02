@@ -1508,10 +1508,10 @@
   resolved "https://registry.yarnpkg.com/@sveltejs/adapter-static/-/adapter-static-1.0.0-next.4.tgz#5305a2fedf9d1ec40af6c25384b7542a0337ec4c"
   integrity sha512-Atri/5jyiVmAklqDKb/5czmLkHos6LQOag61k/C6qWozMb8UopvL3bTm62hFQXGKvGnuSRq2xIueDOKWHM/7rA==
 
-"@sveltejs/kit@1.0.0-next.66":
-  version "1.0.0-next.66"
-  resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-1.0.0-next.66.tgz#bf4b7c1c1f79956aba67bd358674c3b926a08216"
-  integrity sha512-IVC4Ssey7aA9ddtkyHGXucxG4TQFsYiJIXVzXXLDI4JNyjZQ0aXraFZQ/S+yOecPprHd1xulk5iZPpM9YnKzIQ==
+"@sveltejs/kit@1.0.0-next.67":
+  version "1.0.0-next.67"
+  resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-1.0.0-next.67.tgz#23716e3ad40672170f03dfead6a7da62fa8d6e36"
+  integrity sha512-c/UN8PWRI2eu0IoJywZ9D+adtDyGM0r9fN/1WwQnzyYUk/fLzASaxSZa1TLtgOzzY2MV8u4WzbgGLgG1JHTy0w==
   dependencies:
     "@sveltejs/vite-plugin-svelte" "^1.0.0-next.5"
     cheap-watch "^1.0.3"
@@ -6408,10 +6408,10 @@ svelte-jester@^1.3.0:
   dependencies:
     cosmiconfig "^6.0.0"
 
-svelte-markdown@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/svelte-markdown/-/svelte-markdown-0.1.5.tgz#012aaeb8b746aec5f7afcd40d7a3f9ca8fac276e"
-  integrity sha512-EZ5T24PiTTesLtO7co2f9yUFzyxgi5I/9B0pGhrhKYwyJM30c2IyFuIPUg3nxG40pdXYWQbs1N2qLDnrvwicFQ==
+svelte-markdown@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/svelte-markdown/-/svelte-markdown-0.1.6.tgz#270aba681d40a8c68323119298144b04d9c9c622"
+  integrity sha512-oUZyPqglQtrYySlnjctjtPZ0WiJP2xU9VcRWKYWjhbpTU4b7i7UPjF4FEmnDM8dMvLC5/aFC3kULKwOaW0gzug==
   dependencies:
     marked "^2.0.0"
 

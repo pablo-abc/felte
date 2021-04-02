@@ -93,7 +93,7 @@ All documentation files for the site are made using Markdown, and they're contai
 
 If you're making changes to any package that require documentation, it would be nice if you could update this as well.
 
-Adding a new section to the docs page would require adding a new markdown file next to the other docs files with the same format as the rest. Then adding the file name (without the extension) to the `sections` array in line 28 of `packages/site/src/routes/docs/_docs.js`. Add the file name where you want the section to be related to the others.
+Adding a new section to the docs page would require adding a new markdown file next to the other docs files with the same format as the rest. Then adding the file name (without the extension) to the `sections` array in line 9 of `packages/site/src/routes/docs/_docs.js`. Add the file name where you want the section to be related to the others.
 
 ## Commit messages
 

@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher, onMount, onDestroy } from 'svelte';
   import { browser } from '$app/env';
+  import { page } from '$app/stores';
   export let items;
 
   const dispatch = createEventDispatcher();
@@ -28,7 +29,10 @@
   <ul class=sections>
     {#each items as item (item.id)}
       <li>
-        <a href={`docs#${item.id}`}>
+        <a
+          href={`/docs/${item.id}`}
+          aria-current="{$page.path === `/docs/${item.id}`}"
+          >
           {item.section}
         </a>
       </li>
@@ -36,7 +40,7 @@
         <ul class=subsections>
           {#each item.subsections as subsection (subsection.id)}
             <li>
-              <a href={`docs#${subsection.id}`}>
+              <a href={`/docs/${item.id}#${subsection.id}`}>
                 {subsection.name}
               </a>
             </li>
@@ -78,5 +82,9 @@
   a:hover {
     color: var(--primary-font-color);
     background: var(--header-background-hover);
+  }
+
+  a[aria-current=true] {
+    text-decoration: underline solid var(--primary-color);
   }
 </style>

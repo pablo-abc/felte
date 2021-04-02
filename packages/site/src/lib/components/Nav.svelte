@@ -75,7 +75,7 @@
       <li>
         <a
           aria-current="{$page.path === '/docs' ? 'page' : undefined}"
-          href="docs"
+          href="/docs"
           sveltekit:prefetch
           >
           docs

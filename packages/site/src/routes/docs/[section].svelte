@@ -1,6 +1,6 @@
 <script context="module">
-  export async function load({ fetch }) {
-    const res = await fetch(`/docs.json`);
+  export async function load({ fetch, page }) {
+    const res = await fetch(`/docs/${page.params.section}.json`);
     const section = await res.json();
     if (res.ok) {
       return {
@@ -38,6 +38,6 @@
 
 </script>
 
-<Head section="Documentation" />
+<Head section={section.attributes.section} />
 
 <SvelteMarkdown source={section.body} {renderers} />

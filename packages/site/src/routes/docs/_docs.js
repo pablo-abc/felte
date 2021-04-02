@@ -6,7 +6,26 @@ function idfy(value) {
   return value.toLowerCase().replace(/[^a-zA-Z0-9]/g, '-');
 }
 
-export default async function getDocs({ lang = 'en', version = 'latest' }) {
+const sections = [
+  'getting-started',
+  'validation',
+  'validators',
+  'default-data',
+  'nested-forms',
+  'dynamic-forms',
+  'stores',
+  'helper-functions',
+  'reporters',
+  'custom-form-controls',
+  'accessibility',
+  'extending-felte',
+];
+
+export default async function getDocs({
+  lang = 'en',
+  version = 'latest',
+  section,
+}) {
   const getFilePath = (fileName) =>
     path.resolve(`./markdown/docs/${lang}/${version}/${fileName}.md`);
 
@@ -23,22 +42,11 @@ export default async function getDocs({ lang = 'en', version = 'latest' }) {
   }
 
   try {
-    const sections = [
-      'getting-started',
-      'validation',
-      'validators',
-      'default-data',
-      'nested-forms',
-      'dynamic-forms',
-      'stores',
-      'helpers',
-      'reporters',
-      'custom-controls',
-      'accessibility',
-      'extending',
-    ];
-    return Promise.all(sections.map(readMd));
-  } catch {
+    if (section === 'all')
+      return await Promise.all(sections.map((section) => readMd(section)));
+    if (section) return await readMd(section);
+    return await readMd('introduction');
+  } catch (err) {
     return;
   }
 }

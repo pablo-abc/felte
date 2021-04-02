@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "1.0.0-next.4",
-    "@sveltejs/kit": "1.0.0-next.66",
+    "@sveltejs/kit": "1.0.0-next.67",
     "eslint-plugin-svelte3": "^3.1.2",
     "front-matter": "^4.0.2",
     "highlight.js": "^10.7.1",
@@ -28,7 +28,7 @@
     "@felte/reporter-tippy": "^0.2.0",
     "@felte/validator-yup": "^0.2.0",
     "felte": "^0.6.3",
-    "svelte-markdown": "^0.1.5",
+    "svelte-markdown": "^0.1.6",
     "svelte-portal": "^2.1.1"
   },
   "volta": {
