@@ -32,6 +32,7 @@
         <a
           href={`/docs/${item.id}`}
           aria-current="{$page.path === `/docs/${item.id}`}"
+          sveltekit:prefetch
           >
           {item.section}
         </a>
@@ -40,7 +41,10 @@
         <ul class=subsections>
           {#each item.subsections as subsection (subsection.id)}
             <li>
-              <a href={`/docs/${item.id}#${subsection.id}`}>
+              <a
+                sveltekit:prefetch
+                href={`/docs/${item.id}#${subsection.id}`}
+                >
                 {subsection.name}
               </a>
             </li>
