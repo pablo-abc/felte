@@ -19,8 +19,11 @@
 
 <script>
   import DocsAside from '$lib/components/DocsAside.svelte';
+  import { setContext } from 'svelte';
 
-  export let data = [];
+  export let data;
+
+  setContext('items', data);
 
   let asideItems = data.map(section => ({
     id: section.attributes.id,
