@@ -47,7 +47,7 @@
 <div class=mobile-menu>
   {#if open && !isDesktop}
     <div use:focusOn use:portal class=overlay on:click="{() => (open = false)}" transition:fade >
-      <div class=sidebar transition:menuTransition>
+      <div class=sidebar aria-label="Side menu" transition:menuTransition>
         <div class=actions>
           <button
             class=close-button
