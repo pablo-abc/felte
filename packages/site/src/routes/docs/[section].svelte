@@ -51,14 +51,14 @@
 
 <div>
   {#if prev}
-    <a class="prev" href="/docs/{prev.attributes.id}">
+    <a class="prev" href="/docs/{prev.attributes.id}" sveltekit:prefetch>
       <svg role="img" aria-hidden="true" height="25" width="25" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
       <span class="sr-only">Previous section:</span>
       {prev.attributes.section}
     </a>
   {/if}
   {#if next}
-    <a class="next" href="/docs/{next.attributes.id}">
+    <a class="next" href="/docs/{next.attributes.id}" sveltekit:prefetch>
       <span class="sr-only">Next section:</span>
       {next.attributes.section}
       <svg role="img" aria-hidden="true" height="25" width="25" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
