@@ -89,6 +89,7 @@
   }
 
   a[aria-current=true] {
+    -webkit-text-decoration: underline solid var(--primary-color);
     text-decoration: underline solid var(--primary-color);
   }
 </style>
