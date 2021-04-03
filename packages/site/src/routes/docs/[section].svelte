@@ -70,6 +70,7 @@
   div {
     position: relative;
     margin: 3rem auto;
+    margin-bottom: 6rem;
   }
 
   a {
