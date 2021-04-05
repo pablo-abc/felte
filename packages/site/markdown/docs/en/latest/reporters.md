@@ -64,6 +64,13 @@ reporter({
   },
 })
 ```
+
+You may also opt-out of this package reporting your errors for a specific field by adding `data-felte-reporter-tippy-ignore` to the input:
+
+```html
+<input name="email" data-felte-reporter-tippy-ignore>
+```
+
 ### Using a Svelte component
 
 The `@felte/reporter-svelte` package will fill like a more traditional way to handle your validation messages.

@@ -57,3 +57,11 @@ reporter({
   },
 })
 ```
+
+## Opting out
+
+If this package does not satisfy your needs for all cases, do know we are working on improving this, but you may as well opt-out of reporting a specific field's error by adding `data-felte-reporter-tippy-ignore` as an attribute to your input.
+
+```html
+<input name="email" data-felte-reporter-tippy-ignore>
+```
