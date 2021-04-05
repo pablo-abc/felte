@@ -67,21 +67,24 @@ function tippyReporter<Data extends Obj = Obj>({
   ): ReporterHandler<Data> {
     const { controls, form } = currentForm;
     if (!controls || !form) return {};
-    const tippyInstances = controls.map((control) => {
-      const content = control.dataset.felteValidationMessage;
-      const triggerTarget = [control, getControlLabel(control)].filter(
-        Boolean
-      ) as HTMLElement[];
-      const instance = tippy(control, {
-        trigger: 'mouseenter click focusin',
-        content: setContent ? setContent(content?.split('\n')) : content,
-        triggerTarget,
-        ...tippyProps,
-      });
-      instance.popper.setAttribute('aria-live', 'polite');
-      if (!content) instance.disable();
-      return instance;
-    });
+    const tippyInstances = controls
+      .map((control) => {
+        const content = control.dataset.felteValidationMessage;
+        const triggerTarget = [control, getControlLabel(control)].filter(
+          Boolean
+        ) as HTMLElement[];
+        if (control.hasAttribute('data-felte-reporter-tippy-ignore')) return;
+        const instance = tippy(control, {
+          trigger: 'mouseenter click focusin',
+          content: setContent ? setContent(content?.split('\n')) : content,
+          triggerTarget,
+          ...tippyProps,
+        });
+        instance.popper.setAttribute('aria-live', 'polite');
+        if (!content) instance.disable();
+        return instance;
+      })
+      .filter(Boolean) as Instance<Props>[];
     const mutationObserver = new MutationObserver(mutationCallback);
     mutationObserver.observe(form, mutationConfig);
     return {
