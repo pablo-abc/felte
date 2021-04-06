@@ -31,6 +31,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "abhijit-kar",
+      "name": "Abhijit Kar ツ",
+      "avatar_url": "https://avatars.githubusercontent.com/u/25662120?v=4",
+      "profile": "https://github.com/abhijit-kar",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7
