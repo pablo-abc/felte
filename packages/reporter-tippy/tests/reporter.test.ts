@@ -196,4 +196,50 @@ describe('Reporter Tippy', () => {
       );
     });
   });
+
+  test('sets custom props per field', async () => {
+    const mockErrors = { test: 'An error' };
+    const mockValidate = jest.fn(() => mockErrors);
+    type TestData = {
+      test: string;
+    };
+    const { form, validate } = createForm<TestData>({
+      onSubmit: jest.fn(),
+      validate: mockValidate,
+      extend: reporter<TestData>({
+        tippyPropsMap: {
+          test: {
+            hideOnClick: false,
+          },
+        },
+      }),
+    });
+
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const inputElement = createInputElement({
+      name: 'test',
+      type: 'text',
+      id: 'test',
+    });
+    formElement.appendChild(inputElement);
+
+    inputElement.focus();
+
+    form(formElement);
+
+    await validate();
+
+    await waitFor(() => {
+      const tippyInstance = getTippy(inputElement);
+      expect(tippyInstance?.state.isEnabled).toBeTruthy();
+      expect(tippyInstance?.state.isVisible).toBeTruthy();
+    });
+
+    userEvent.click(formElement);
+    await waitFor(() => {
+      const tippyInstance = getTippy(inputElement);
+      expect(tippyInstance?.state.isEnabled).toBeTruthy();
+      expect(tippyInstance?.state.isVisible).toBeTruthy();
+    });
+  });
 });

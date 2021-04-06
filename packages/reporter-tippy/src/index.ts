@@ -7,6 +7,7 @@ import type {
   Obj,
   Extender,
 } from '@felte/common';
+import { getPath, _get } from '@felte/common';
 
 const mutationConfig: MutationObserverInit = {
   attributes: true,
@@ -16,6 +17,14 @@ const mutationConfig: MutationObserverInit = {
 function isLabelElement(node: Node): node is HTMLLabelElement {
   return node.nodeName === 'LABEL';
 }
+
+type TippyFieldProps = Partial<Omit<Props, 'content'>>;
+
+type TippyPropsMap<Data extends Obj> = {
+  [key in keyof Data]?: Data[key] extends Obj
+    ? TippyPropsMap<Data[key]>
+    : TippyFieldProps;
+};
 
 function getControlLabel(control: FormControl): HTMLLabelElement | undefined {
   const labels = control.labels;
@@ -29,22 +38,28 @@ function getControlLabel(control: FormControl): HTMLLabelElement | undefined {
   return labelElement || undefined;
 }
 
-export type TippyReporterOptions = {
-  setContent?: (messages?: string[]) => string | undefined;
-  tippyProps?: Partial<Props>;
+export type TippyReporterOptions<Data extends Obj> = {
+  setContent?: (
+    messages: string[] | undefined,
+    path: string
+  ) => string | undefined;
+  tippyProps?: TippyFieldProps;
+  tippyPropsMap?: TippyPropsMap<Data>;
 };
 
 function tippyReporter<Data extends Obj = Obj>({
   setContent,
   tippyProps,
-}: TippyReporterOptions = {}): Extender<Data> {
+  tippyPropsMap = {},
+}: TippyReporterOptions<Data> = {}): Extender<Data> {
   function mutationCallback(mutationList: MutationRecord[]) {
     for (const mutation of mutationList) {
       if (mutation.type !== 'attributes') continue;
       if (mutation.attributeName !== 'data-felte-validation-message') continue;
       const target: any = mutation.target;
+      const elPath = getPath(target);
       const validationMessage: string = setContent
-        ? setContent(target.dataset.felteValidationMessage?.split('\n'))
+        ? setContent(target.dataset.felteValidationMessage?.split('\n'), elPath)
         : target.dataset.felteValidationMessage;
       const tippyInstance: Instance<Props> = target?._tippy;
       if (!tippyInstance) continue;
@@ -74,11 +89,20 @@ function tippyReporter<Data extends Obj = Obj>({
           Boolean
         ) as HTMLElement[];
         if (control.hasAttribute('data-felte-reporter-tippy-ignore')) return;
+        const elPath = getPath(control);
+        const tippyFieldProps = _get(
+          tippyPropsMap,
+          elPath,
+          {}
+        ) as TippyFieldProps;
         const instance = tippy(control, {
           trigger: 'mouseenter click focusin',
-          content: setContent ? setContent(content?.split('\n')) : content,
+          content: setContent
+            ? setContent(content?.split('\n'), elPath)
+            : content,
           triggerTarget,
           ...tippyProps,
+          ...tippyFieldProps,
         });
         instance.popper.setAttribute('aria-live', 'polite');
         if (!content) instance.disable();
