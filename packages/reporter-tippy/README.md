@@ -45,15 +45,30 @@ reporter({
 })
 ```
 
-You can also pass a `setContent` function that will receive the current validation messages. Here you can modify your validation messages, which can come in useful if you want to display HTML content inside of Tippy. The `messages` argument will either by an array of strings (it can be more than one message depending on your validation strategy) or undefined.
+You can also pass a `setContent` function that will receive the current validation messages and the field path. Here you can modify your validation messages, which can come in useful if you want to display HTML content inside of Tippy. The `messages` argument will either by an array of strings (it can be more than one message depending on your validation strategy) or undefined. The `path` argument will be a string with the full path of your field (e.g. `email`, `account.email`, etc).
 
 ```javascript
 reporter({
-  setContent: (messages) => {
+  setContent: (messages, path) => {
     return messages?.map(message => `<p>${message}</p>`);
   },
   tippyProps: {
     allowHTML: true,
+  },
+})
+```
+
+You may also pass options to a specific Tippy instance using the `tippyPropsMap` property. It expects an object with the same shape as your data:
+
+```javascript
+reporter({
+  tippyPropsMap: {
+    account: {
+      email: {
+        allowHTML: true,
+        /* other tippy props */
+      },
+    },
   },
 })
 ```
@@ -64,4 +79,29 @@ If this package does not satisfy your needs for all cases, do know we are workin
 
 ```html
 <input name="email" data-felte-reporter-tippy-ignore>
+```
+
+## Custom controls
+
+If you're using a custom control not managed by Felte, you can still make use of `@felte/reporter-tippy`. For this you can use two data attributes:
+
+- `data-felte-reporter-tippy-for`: tells this package to use the element with this attribute as a control for the specified field.
+- `data-felte-reporter-tippy-trigger-for`: tells this package to use the element(s) with this attribute as a trigger to show Tippy for the specified field.
+
+The custom control will always be a trigger for tippy, the second argument is useful if you want to trigger Tippy with another element such as a label to mimic this package's default behaviour.
+
+```html
+<span id="email-label" data-felte-reporter-tippy-trigger-for="email">Email:</span>
+<div contenteditable data-felte-reporter-tippy-for="email" aria-labelledby="email-label" />
+```
+
+## Custom positioning
+
+If you need to show your Tippy in a different position, you may use the `data-felte-reporter-tippy-position-for` attribute. This would be useful if you're using a custom control that does use a valid HTML input behind the scenes but hides it:
+
+```html
+<!-- Tippy will be shown on top of this div -->
+<div data-felte-reporter-tippy-position-for="email" />
+<!-- Not on top of this input -->
+<input name="email" type="email">
 ```
