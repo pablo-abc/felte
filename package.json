@@ -23,7 +23,7 @@
     "@rollup/plugin-node-resolve": "^11.1.0",
     "@rollup/plugin-replace": "^2.3.4",
     "@sveltejs/adapter-static": "1.0.0-next.4",
-    "@sveltejs/kit": "1.0.0-next.68",
+    "@sveltejs/kit": "1.0.0-next.71",
     "@testing-library/dom": "^7.29.4",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/svelte": "^3.0.3",
@@ -71,9 +71,7 @@
     "zod": "^1.11.13"
   },
   "bolt": {
-    "workspaces": [
-      "packages/*"
-    ]
+    "workspaces": ["packages/*"]
   },
   "volta": {
     "node": "14.15.5",
