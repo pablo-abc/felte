@@ -1,5 +1,11 @@
 # @felte/reporter-tippy
 
+## 0.2.3
+
+### Patch Changes
+
+- 3c8115b: Fix reporter not working with nested forms
+
 ## 0.2.2
 
 ### Patch Changes
