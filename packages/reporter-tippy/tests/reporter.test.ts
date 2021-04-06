@@ -242,4 +242,26 @@ describe('Reporter Tippy', () => {
       expect(tippyInstance?.state.isVisible).toBeTruthy();
     });
   });
+
+  test('ignores tippy', async () => {
+    const { form } = createForm({
+      onSubmit: jest.fn(),
+      extend: reporter(),
+    });
+
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const inputElement = createInputElement({
+      name: 'test',
+      type: 'text',
+    });
+    inputElement.dataset.felteReporterTippyIgnore = '';
+    formElement.appendChild(inputElement);
+
+    form(formElement);
+
+    await waitFor(() => {
+      const tippyInstance = getTippy(inputElement);
+      expect(tippyInstance).toBeFalsy();
+    });
+  });
 });

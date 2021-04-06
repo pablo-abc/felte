@@ -260,4 +260,29 @@ describe('Reporter Tippy Custom Position', () => {
       expect(tippyInstance?.state.isVisible).toBeTruthy();
     });
   });
+
+  test('ignores tippy', async () => {
+    const { form } = createForm({
+      onSubmit: jest.fn(),
+      extend: reporter(),
+    });
+
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const inputElement = createInputElement({
+      name: 'test',
+      type: 'text',
+    });
+    inputElement.dataset.felteReporterTippyIgnore = '';
+    const labelElement = document.createElement('label');
+    labelElement.dataset.felteReporterTippyPositionFor = 'test';
+    formElement.appendChild(labelElement);
+    formElement.appendChild(inputElement);
+
+    form(formElement);
+
+    await waitFor(() => {
+      const tippyInstance = getTippy(labelElement);
+      expect(tippyInstance).toBeFalsy();
+    });
+  });
 });
