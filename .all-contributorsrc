@@ -40,6 +40,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "websocket98765",
+      "name": "websocket98765",
+      "avatar_url": "https://avatars.githubusercontent.com/u/41795874?v=4",
+      "profile": "https://github.com/websocket98765",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7
