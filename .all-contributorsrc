@@ -22,6 +22,15 @@
         "maintenance",
         "test"
       ]
+    },
+    {
+      "login": "avimar",
+      "name": "avimar",
+      "avatar_url": "https://avatars.githubusercontent.com/u/314077?v=4",
+      "profile": "https://github.com/avimar",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7
