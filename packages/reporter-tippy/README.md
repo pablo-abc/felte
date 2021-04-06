@@ -92,7 +92,7 @@ The custom control will always be a trigger for tippy, the second argument is us
 
 ```html
 <span id="email-label" data-felte-reporter-tippy-trigger-for="email">Email:</span>
-<div contenteditable data-felte-reporter-tippy-for="email" aria-labelledby="email-label" />
+<div contenteditable data-felte-reporter-tippy-for="email" aria-labelledby="email-label" tabindex="0" />
 ```
 
 ## Custom positioning

@@ -95,7 +95,7 @@ The custom control will always be a trigger for tippy, the second argument is us
 
 ```html
 <span id="email-label" data-felte-reporter-tippy-trigger-for="email">Email:</span>
-<div contenteditable data-felte-reporter-tippy-for="email" aria-labelledby="email-label" />
+<div contenteditable data-felte-reporter-tippy-for="email" aria-labelledby="email-label" tabindex="0" />
 ```
 
 If you need to show your Tippy in a different position, you may use the `data-felte-reporter-tippy-position-for` attribute. This would be useful if you're using a custom control that does use a valid HTML input behind the scenes but hides it:
