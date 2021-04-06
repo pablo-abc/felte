@@ -29,7 +29,7 @@ function getTippyInstance(
   const elPath = isFormControl(el) && getPath(el);
   const customPosition = elPath
     ? (form.querySelector(
-        `[data-felte-reporter-tippy-position-for=${elPath}]`
+        `[data-felte-reporter-tippy-position-for="${elPath}"]`
       ) as HTMLElement | null)
     : null;
   return (el as any)?._tippy ?? (customPosition as any)?._tippy;
@@ -42,7 +42,7 @@ function getControlLabel(control: FormControl): HTMLLabelElement | undefined {
   if (parentNode && isLabelElement(parentNode)) return parentNode;
   if (!control.id) return;
   const labelElement = document.querySelector(
-    `label[for=${control.id}]`
+    `label[for="${control.id}"]`
   ) as HTMLLabelElement | null;
   return labelElement || undefined;
 }
@@ -114,14 +114,15 @@ function tippyReporter<Data extends Obj = Obj>({
       tippyInstances = controls
         .map((control) => {
           const content = control.dataset.felteValidationMessage;
+          if (!isFormControl(control) || !control.name) return;
           const elPath = getPath(control);
           const customTriggerTarget = Array.from(
             form.querySelectorAll(
-              `[data-felte-reporter-tippy-trigger-for=${elPath}]`
+              `[data-felte-reporter-tippy-trigger-for="${elPath}"]`
             )
           ) as HTMLElement[];
           const customPosition = form.querySelector(
-            `[data-felte-reporter-tippy-position-for=${elPath}]`
+            `[data-felte-reporter-tippy-position-for="${elPath}"]`
           ) as HTMLElement | null;
           const triggerTarget = [
             control,
@@ -147,11 +148,11 @@ function tippyReporter<Data extends Obj = Obj>({
           if (!elPath) return;
           const triggerTarget = Array.from(
             form.querySelectorAll(
-              `[data-felte-reporter-tippy-trigger-for=${elPath}]`
+              `[data-felte-reporter-tippy-trigger-for="${elPath}"]`
             )
           ) as HTMLElement[];
           const customPosition = form.querySelector(
-            `[data-felte-reporter-tippy-position-for=${elPath}]`
+            `[data-felte-reporter-tippy-position-for="${elPath}"]`
           ) as HTMLElement | null;
           return setTippyInstance(
             customPosition ?? control,
