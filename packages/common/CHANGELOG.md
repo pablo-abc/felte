@@ -1,5 +1,11 @@
 # @felte/common
 
+## 0.3.3
+
+### Patch Changes
+
+- 5df429d: Fix \_get not being able to retrieve objects
+
 ## 0.3.2
 
 ### Patch Changes

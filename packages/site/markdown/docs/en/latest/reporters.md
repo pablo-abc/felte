@@ -65,10 +65,46 @@ reporter({
 })
 ```
 
+You may also pass options to a specific Tippy instance using the `tippyPropsMap` property. It expects an object with the same shape as your data:
+
+```javascript
+reporter({
+  tippyPropsMap: {
+    account: {
+      email: {
+        allowHTML: true,
+        /* other tippy props */
+      },
+    },
+  },
+})
+```
+
 You may also opt-out of this package reporting your errors for a specific field by adding `data-felte-reporter-tippy-ignore` to the input:
 
 ```html
 <input name="email" data-felte-reporter-tippy-ignore>
+```
+
+If you're using a custom control not managed by Felte, you can still make use of `@felte/reporter-tippy`. For this you can use two data attributes:
+
+- `data-felte-reporter-tippy-for`: tells this package to use the element with this attribute as a control for the specified field.
+- `data-felte-reporter-tippy-trigger-for`: tells this package to use the element(s) with this attribute as a trigger to show Tippy for the specified field.
+
+The custom control will always be a trigger for tippy, the second argument is useful if you want to trigger Tippy with another element such as a label to mimic this package's default behaviour.
+
+```html
+<span id="email-label" data-felte-reporter-tippy-trigger-for="email">Email:</span>
+<div contenteditable data-felte-reporter-tippy-for="email" aria-labelledby="email-label" />
+```
+
+If you need to show your Tippy in a different position, you may use the `data-felte-reporter-tippy-position-for` attribute. This would be useful if you're using a custom control that does use a valid HTML input behind the scenes but hides it:
+
+```html
+<!-- Tippy will be shown on top of this div -->
+<div data-felte-reporter-tippy-position-for="email" />
+<!-- Not on top of this input -->
+<input name="email" type="email">
 ```
 
 ### Using a Svelte component

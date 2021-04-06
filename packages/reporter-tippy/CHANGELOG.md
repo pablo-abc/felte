@@ -1,5 +1,16 @@
 # @felte/reporter-tippy
 
+## 0.2.2
+
+### Patch Changes
+
+- 1160cd3: Allow to use reporter on custom controls
+- 1160cd3: Allow to set custom position element for tippy
+- 4183fcc: Allow to pass props per field with tippyPropsMap
+- 4183fcc: Pass path as second argument to setContent
+- Updated dependencies [5df429d]
+  - @felte/common@0.3.3
+
 ## 0.2.1
 
 ### Patch Changes
