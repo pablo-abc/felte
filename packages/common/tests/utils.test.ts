@@ -12,6 +12,7 @@ import {
   deepSet,
   deepSome,
   isFieldSetElement,
+  isFieldValue,
   isFormControl,
   isElement,
   getPath,
@@ -165,6 +166,13 @@ describe('Utils', () => {
     expect(_get(testObj, 'account.username')).toBe('test');
     expect(_get(testObj, 'account.nonExistent')).toBe(undefined);
     expect(_get(testObj, 'account.nonExistent', 'default')).toBe('default');
+    expect(_get(testObj, 'account.deep.nonExistent', 'default')).toBe(
+      'default'
+    );
+    expect(_get(testObj, 'account')).toEqual({
+      username: 'test',
+      password: '',
+    });
   });
 
   test('_set', () => {
@@ -432,5 +440,15 @@ describe('Utils', () => {
 
     numberElement.value = '42';
     expect(getInputTextOrNumber(numberElement)).toBe(42);
+  });
+
+  test('isFieldValue', () => {
+    expect(isFieldValue([])).toBe(true);
+    expect(isFieldValue(['test'])).toBe(true);
+    expect(isFieldValue([new File([], 'test')])).toBe(true);
+    expect(isFieldValue('test')).toBe(true);
+    expect(isFieldValue(2)).toBe(true);
+    expect(isFieldValue(false)).toBe(true);
+    expect(isFieldValue(new File([], 'test'))).toBe(true);
   });
 });

@@ -14,7 +14,7 @@ type DeepSetResult<Data extends Obj, Value> = {
 };
 
 /** @category Helper */
-function isFieldValue(value: unknown): value is FieldValue {
+export function isFieldValue(value: unknown): value is FieldValue {
   if (Array.isArray(value)) {
     if (value.length === 0) return true;
     return value.some((v) => v instanceof File || typeof v === 'string');
@@ -63,7 +63,7 @@ export function _get<Data extends Obj, Default = undefined>(
   } catch {
     return defaultValue;
   }
-  return isFieldValue(value) ? value : defaultValue;
+  return typeof value === 'undefined' ? defaultValue : value;
 }
 
 /** @ignore */
