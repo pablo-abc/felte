@@ -9,6 +9,7 @@ import {
   _unset,
   _update,
   _isPlainObject,
+  _cloneDeep,
   deepSet,
   deepSome,
   isFieldSetElement,
@@ -229,6 +230,8 @@ describe('Utils', () => {
     expect(_isPlainObject(() => undefined)).toBeFalsy();
     expect(_isPlainObject(1)).toBeFalsy();
     expect(_isPlainObject(true)).toBeFalsy();
+    expect(_isPlainObject(new File([], 'test'))).toBeFalsy();
+    expect(_isPlainObject([])).toBeFalsy();
   });
 
   test('deepSet', () => {
@@ -450,5 +453,22 @@ describe('Utils', () => {
     expect(isFieldValue(2)).toBe(true);
     expect(isFieldValue(false)).toBe(true);
     expect(isFieldValue(new File([], 'test'))).toBe(true);
+  });
+
+  test('_cloneDeep', () => {
+    const obj = {
+      account: {
+        email: 'test',
+        password: 'password',
+      },
+    };
+    expect(_cloneDeep(obj)).toEqual({
+      account: {
+        email: 'test',
+        password: 'password',
+      },
+    });
+    expect(_cloneDeep(obj)).not.toBe(obj);
+    expect(_cloneDeep(obj).account).not.toBe(obj.account);
   });
 });

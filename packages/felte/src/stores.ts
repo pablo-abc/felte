@@ -1,8 +1,12 @@
-import _cloneDeep from 'lodash-es/cloneDeep';
-import _isPlainObject from 'lodash-es/isPlainObject';
 import _mergeWith from 'lodash-es/mergeWith';
 import { derived, writable } from 'svelte/store';
-import { deepSet, deepSome, executeValidation } from '@felte/common';
+import {
+  deepSet,
+  deepSome,
+  executeValidation,
+  _cloneDeep,
+  _isPlainObject,
+} from '@felte/common';
 import type { Errors, FormConfig, Touched, Stores } from '@felte/common';
 
 export function createStores<Data extends Record<string, unknown>>(

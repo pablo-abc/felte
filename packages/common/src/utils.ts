@@ -49,6 +49,17 @@ export function _mapValues(
 }
 
 /** @ignore */
+export function _cloneDeep<T extends Record<string, unknown>>(obj: T): T {
+  return Object.keys(obj || {}).reduce(
+    (res, key) => ({
+      ...res,
+      [key]: _isPlainObject(obj[key]) ? _cloneDeep(obj[key] as T) : obj[key],
+    }),
+    {}
+  ) as T;
+}
+
+/** @ignore */
 export function _get<Data extends Obj, Default = undefined>(
   obj: Data,
   path: string,

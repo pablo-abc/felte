@@ -1,7 +1,6 @@
 import _defaultsDeep from 'lodash-es/defaultsDeep';
 import _mergeWith from 'lodash-es/mergeWith';
 import _merge from 'lodash-es/merge';
-import _cloneDeep from 'lodash-es/cloneDeep';
 import { get } from 'svelte/store';
 import {
   deepSet,
@@ -17,6 +16,7 @@ import {
   _set,
   _isPlainObject,
   _get,
+  _cloneDeep,
   Errors,
   executeValidation,
   setControlValue,
