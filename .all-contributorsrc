@@ -3,9 +3,7 @@
   "projectOwner": "pablo-abc",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "files": [
-    "README.md"
-  ],
+  "files": ["README.md"],
   "imageSize": 100,
   "commit": true,
   "commitConvention": "angular",
@@ -15,40 +13,28 @@
       "name": "Pablo Berganza",
       "avatar_url": "https://avatars.githubusercontent.com/u/40573613?v=4",
       "profile": "https://github.com/pablo-abc",
-      "contributions": [
-        "code",
-        "doc",
-        "ideas",
-        "maintenance",
-        "test"
-      ]
-    },
-    {
-      "login": "avimar",
-      "name": "avimar",
-      "avatar_url": "https://avatars.githubusercontent.com/u/314077?v=4",
-      "profile": "https://github.com/avimar",
-      "contributions": [
-        "doc"
-      ]
+      "contributions": ["code", "doc", "ideas", "maintenance", "test"]
     },
     {
       "login": "abhijit-kar",
       "name": "Abhijit Kar ツ",
       "avatar_url": "https://avatars.githubusercontent.com/u/25662120?v=4",
       "profile": "https://github.com/abhijit-kar",
-      "contributions": [
-        "bug"
-      ]
+      "contributions": ["bug"]
     },
     {
       "login": "websocket98765",
       "name": "websocket98765",
       "avatar_url": "https://avatars.githubusercontent.com/u/41795874?v=4",
       "profile": "https://github.com/websocket98765",
-      "contributions": [
-        "bug"
-      ]
+      "contributions": ["bug"]
+    },
+    {
+      "login": "avimar",
+      "name": "avimar",
+      "avatar_url": "https://avatars.githubusercontent.com/u/314077?v=4",
+      "profile": "https://github.com/avimar",
+      "contributions": ["doc"]
     }
   ],
   "contributorsPerLine": 7
