@@ -52,11 +52,11 @@ reporter({
 })
 ```
 
-You can also pass a `setContent` function that will receive the current validation messages. Here you can modify your validation messages, which can come in useful if you want to display HTML content inside of Tippy. The `messages` argument will either by an array of strings (it can be more than one message depending on your validation strategy) or undefined.
+You can also pass a `setContent` function that will receive the current validation messages for the field and its path. Here you can modify your validation messages, which can come in useful if you want to display HTML content inside of Tippy. The `messages` argument will either by an array of strings (it can be more than one message depending on your validation strategy) or undefined. The `path` argument will be a string with the full path of your field (e.g. `email`, `account.email`, etc).
 
 ```javascript
 reporter({
-  setContent: (messages) => {
+  setContent: (messages, path) => {
     return messages?.map(message => `<p>${message}</p>`);
   },
   tippyProps: {
