@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.1.15
+
+### Patch Changes
+
+- 76fc715: Mark as side-effect free
+
 ## 0.1.14
 
 ### Patch Changes

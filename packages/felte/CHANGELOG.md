@@ -1,5 +1,11 @@
 # felte
 
+## 0.6.5
+
+### Patch Changes
+
+- 76fc715: Mark as side-effect free
+
 ## 0.6.4
 
 ### Patch Changes

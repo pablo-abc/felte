@@ -1,5 +1,11 @@
 # @felte/reporter-tippy
 
+## 0.2.6
+
+### Patch Changes
+
+- 76fc715: Mark as side-effect free
+
 ## 0.2.5
 
 ### Patch Changes

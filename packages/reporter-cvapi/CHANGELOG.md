@@ -1,5 +1,11 @@
 # @felte/reporter-cvapi
 
+## 0.1.10
+
+### Patch Changes
+
+- 76fc715: Mark as side-effect free
+
 ## 0.1.9
 
 ### Patch Changes
