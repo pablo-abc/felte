@@ -89,6 +89,16 @@ export function _merge<T extends Obj>(...args: any[]): T {
   return _mergeWith(...args, () => undefined);
 }
 
+function defaultsCustomizer(objValue: any, srcValue: any) {
+  if (_isPlainObject(objValue) && _isPlainObject(srcValue)) return;
+  if (typeof objValue !== 'undefined') return objValue;
+}
+
+/** @ignore */
+export function _defaultsDeep<T extends Obj>(...args: any[]): T {
+  return _mergeWith(...args, defaultsCustomizer);
+}
+
 /** @ignore */
 export function _get<Data extends Obj, Default = undefined>(
   obj: Data,

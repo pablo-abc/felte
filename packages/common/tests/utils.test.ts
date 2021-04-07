@@ -12,6 +12,7 @@ import {
   _cloneDeep,
   _mergeWith,
   _merge,
+  _defaultsDeep,
   deepSet,
   deepSome,
   isFieldSetElement,
@@ -573,6 +574,44 @@ describe('Utils', () => {
       },
       email: null,
       password: null,
+    });
+  });
+
+  test('_defaultsDeep', () => {
+    const obj = {
+      account: {
+        email: 'test',
+        password: 'password',
+        leftAlone: 'original',
+      },
+      leftAlone: 'original',
+    };
+    const source1 = {
+      account: {
+        email: 'overriden',
+        password: {
+          type: 'overriden',
+          value: 'password',
+        },
+        added: 'value',
+        addedObj: {
+          prop: 'test',
+        },
+      },
+      added: 'value',
+    };
+    expect(_defaultsDeep(obj, source1)).toEqual({
+      account: {
+        email: 'test',
+        password: 'password',
+        leftAlone: 'original',
+        added: 'value',
+        addedObj: {
+          prop: 'test',
+        },
+      },
+      added: 'value',
+      leftAlone: 'original',
     });
   });
 });

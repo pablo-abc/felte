@@ -31,15 +31,12 @@
     "dist"
   ],
   "dependencies": {
-    "@felte/common": "^0.3.2",
-    "lodash-es": "^4.17.21"
+    "@felte/common": "^0.3.2"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
-    "@types/lodash-es": "^4.17.4",
-    "lodash": "^4.17.21",
     "ts-jest": "^26.5.0"
   }
 }

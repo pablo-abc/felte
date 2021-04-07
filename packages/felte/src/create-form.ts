@@ -1,4 +1,3 @@
-import _defaultsDeep from 'lodash-es/defaultsDeep';
 import { get } from 'svelte/store';
 import {
   deepSet,
@@ -17,6 +16,7 @@ import {
   _cloneDeep,
   _mergeWith,
   _merge,
+  _defaultsDeep,
   Errors,
   executeValidation,
   setControlValue,
@@ -319,7 +319,7 @@ export function createForm<
           const { defaultData: newDefaultData } = getFormDefaultValues<Data>(
             node
           );
-          data.update(($data) => _defaultsDeep($data, newDefaultData));
+          data.update(($data) => _defaultsDeep<Data>($data, newDefaultData));
         }
         if (mutation.removedNodes.length > 0) {
           for (const removedNode of mutation.removedNodes) {
