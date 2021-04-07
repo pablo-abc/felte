@@ -1,5 +1,11 @@
 # @felte/common
 
+## 0.3.5
+
+### Patch Changes
+
+- d2d79cb: Make package tree shakeable
+
 ## 0.3.4
 
 ### Patch Changes
