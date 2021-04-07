@@ -1,6 +1,4 @@
 import _defaultsDeep from 'lodash-es/defaultsDeep';
-import _mergeWith from 'lodash-es/mergeWith';
-import _merge from 'lodash-es/merge';
 import { get } from 'svelte/store';
 import {
   deepSet,
@@ -17,6 +15,8 @@ import {
   _isPlainObject,
   _get,
   _cloneDeep,
+  _mergeWith,
+  _merge,
   Errors,
   executeValidation,
   setControlValue,
@@ -144,12 +144,16 @@ export function createForm<
 
   function newDataSet(values: Data) {
     touched.update((current) => {
-      const changed = _mergeWith(
+      const changed = _mergeWith<Touched<Data>>(
         _cloneDeep(values),
         config.initialValues,
         dataSetCustomizer
       );
-      return _mergeWith(changed, current, dataSetTouchedCustomizer);
+      return _mergeWith<Touched<Data>>(
+        changed,
+        current,
+        dataSetTouchedCustomizer
+      );
     });
     return data.set(values);
   }

@@ -1,10 +1,10 @@
-import _mergeWith from 'lodash-es/mergeWith';
 import type {
   FormControl,
   Obj,
   Touched,
   FieldValue,
   ValidationFunction,
+  Errors,
 } from './types';
 
 type DeepSetResult<Data extends Obj, Value> = {
@@ -57,6 +57,36 @@ export function _cloneDeep<T extends Record<string, unknown>>(obj: T): T {
     }),
     {}
   ) as T;
+}
+
+/** @ignore */
+export function _mergeWith<T extends Obj>(...args: any[]): T {
+  const customizer = args.pop();
+  const obj = _cloneDeep(args.shift());
+  if (args.length === 0) return obj;
+  for (const source of args) {
+    if (!source) continue;
+    const keys = Object.keys(source);
+    for (const key of keys) {
+      const rsValue = customizer(obj[key], source[key]);
+      if (typeof rsValue !== 'undefined') {
+        obj[key] = rsValue;
+      } else if (_isPlainObject(source[key]) && _isPlainObject(obj[key])) {
+        obj[key] = _mergeWith(obj[key], source[key], customizer);
+      } else if (_isPlainObject(source[key])) {
+        const defaultObj = deepSet(_cloneDeep(source[key]), undefined);
+        obj[key] = _mergeWith(defaultObj, source[key], customizer);
+      } else if (typeof source[key] !== 'undefined') {
+        obj[key] = source[key];
+      }
+    }
+  }
+  return obj;
+}
+
+/** @ignore */
+export function _merge<T extends Obj>(...args: any[]): T {
+  return _mergeWith(...args, () => undefined);
 }
 
 /** @ignore */
@@ -373,5 +403,5 @@ export async function executeValidation<Data extends Obj>(
   if (!validations) return;
   if (!Array.isArray(validations)) return validations(values);
   const errorArray = await Promise.all(validations.map((v) => v(values)));
-  return _mergeWith({}, ...errorArray, executeCustomizer);
+  return _mergeWith<Errors<Data>>(...errorArray, executeCustomizer);
 }

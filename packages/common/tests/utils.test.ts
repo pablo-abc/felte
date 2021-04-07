@@ -10,6 +10,8 @@ import {
   _update,
   _isPlainObject,
   _cloneDeep,
+  _mergeWith,
+  _merge,
   deepSet,
   deepSome,
   isFieldSetElement,
@@ -470,5 +472,107 @@ describe('Utils', () => {
     });
     expect(_cloneDeep(obj)).not.toBe(obj);
     expect(_cloneDeep(obj).account).not.toBe(obj.account);
+  });
+
+  test('_merge', () => {
+    const obj = {
+      account: {
+        email: 'test',
+        password: 'password',
+        leftAlone: 'original',
+      },
+      leftAlone: 'original',
+    };
+    const source1 = {
+      account: {
+        email: 'overriden',
+        password: {
+          type: 'overriden',
+          value: 'password',
+        },
+      },
+      added: 'value',
+    };
+    expect(_merge(obj, source1)).toEqual({
+      account: {
+        email: 'overriden',
+        password: {
+          type: 'overriden',
+          value: 'password',
+        },
+        leftAlone: 'original',
+      },
+      added: 'value',
+      leftAlone: 'original',
+    });
+    expect(_merge({}, obj, source1)).toEqual({
+      account: {
+        email: 'overriden',
+        password: {
+          type: 'overriden',
+          value: 'password',
+        },
+        leftAlone: 'original',
+      },
+      added: 'value',
+      leftAlone: 'original',
+    });
+    expect(obj).toEqual({
+      account: {
+        email: 'test',
+        password: 'password',
+        leftAlone: 'original',
+      },
+      leftAlone: 'original',
+    });
+    expect(source1).toEqual({
+      account: {
+        email: 'overriden',
+        password: {
+          type: 'overriden',
+          value: 'password',
+        },
+      },
+      added: 'value',
+    });
+  });
+
+  test('_mergeWith', () => {
+    const touched = {
+      account: {
+        email: true,
+        password: false,
+      },
+      email: true,
+      password: false,
+    };
+    const errors = {
+      account: {
+        email: 'Not valid',
+        password: 'Not valid',
+      },
+      email: 'Not valid',
+      password: 'Not valid',
+    };
+    function errorFilterer(errValue?: string, touchValue?: boolean) {
+      if (_isPlainObject(touchValue)) return;
+      return (touchValue && errValue) || null;
+    }
+    expect(_mergeWith(errors, touched, errorFilterer)).toEqual({
+      account: {
+        email: 'Not valid',
+        password: null,
+      },
+      email: 'Not valid',
+      password: null,
+    });
+    expect(_mergeWith({}, touched, errorFilterer)).toEqual({
+      account: {
+        email: null,
+        password: null,
+      },
+      email: null,
+      password: null,
+    });
   });
 });

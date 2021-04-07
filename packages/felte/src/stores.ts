@@ -1,4 +1,3 @@
-import _mergeWith from 'lodash-es/mergeWith';
 import { derived, writable } from 'svelte/store';
 import {
   deepSet,
@@ -6,6 +5,7 @@ import {
   executeValidation,
   _cloneDeep,
   _isPlainObject,
+  _mergeWith,
 } from '@felte/common';
 import type { Errors, FormConfig, Touched, Stores } from '@felte/common';
 
@@ -43,7 +43,7 @@ export function createStores<Data extends Record<string, unknown>>(
   const { subscribe: errorSubscribe } = derived(
     [errors, touched],
     ([$errors, $touched]) => {
-      return _mergeWith(_cloneDeep($errors), $touched, errorFilterer);
+      return _mergeWith<Errors<Data>>($errors, $touched, errorFilterer);
     }
   );
 
