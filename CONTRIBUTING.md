@@ -139,4 +139,3 @@ There are a few minor things I haven't gotten around to solve yet. If you have a
 
 - `@felte/common` is not tree-shakeable yet. This makes some extender packages slightly bigger than I'd like them to be but I haven't quite figured out how to do this yet.
 - The current API for extending Felte is not so great. While it's "easy" to use, it's not "simple". It's quite easy to break Felte accidentally. I still haven't figured out how a simple and safe API would look like for this.
-- For some features we rely on `lodash`, I'm currently trying to replace each dependency for a locally developed one in `@felte/common`. I still have not replaced `mergeWith`, `cloneDeep`, and `defaultsDeep`.
