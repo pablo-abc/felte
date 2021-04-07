@@ -8,10 +8,24 @@ import {
   Extender,
   isFormControl,
 } from '@felte/common';
-import { getPath, _get } from '@felte/common';
+import { _get, isFieldSetElement } from '@felte/common';
 
 function isLabelElement(node: Node): node is HTMLLabelElement {
   return node.nodeName === 'LABEL';
+}
+
+function getPath(el: FormControl) {
+  let path = el.name;
+  let parent = el.parentNode;
+  if (!parent) return path;
+  while (parent && parent.nodeName !== 'FORM') {
+    if (isFieldSetElement(parent) && parent.name) {
+      const fieldsetName = parent.name;
+      path = `${fieldsetName}.${path}`;
+    }
+    parent = parent.parentNode;
+  }
+  return path;
 }
 
 type TippyFieldProps = Partial<Omit<Props, 'content'>>;

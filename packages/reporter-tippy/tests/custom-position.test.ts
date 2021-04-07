@@ -285,4 +285,33 @@ describe('Reporter Tippy Custom Position', () => {
       expect(tippyInstance).toBeFalsy();
     });
   });
+
+  test('shows custom position properly on nested forms', async () => {
+    const { form } = createForm({
+      onSubmit: jest.fn(),
+      extend: reporter(),
+    });
+
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const inputElement = createInputElement({
+      name: 'test',
+      type: 'text',
+      id: 'group-test',
+    });
+    const fieldsetElement = document.createElement('fieldset');
+    fieldsetElement.name = 'group';
+    const labelElement = document.createElement('label');
+    labelElement.dataset.felteReporterTippyPositionFor = 'group.test';
+    labelElement.htmlFor = 'group-test';
+    fieldsetElement.appendChild(labelElement);
+    fieldsetElement.appendChild(inputElement);
+    formElement.appendChild(fieldsetElement);
+
+    form(formElement);
+
+    await waitFor(() => {
+      expect(getTippy(labelElement)).toBeTruthy();
+      expect(getTippy(inputElement)).toBeFalsy();
+    });
+  });
 });
