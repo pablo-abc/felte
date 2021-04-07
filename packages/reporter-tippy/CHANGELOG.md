@@ -1,5 +1,11 @@
 # @felte/reporter-tippy
 
+## 0.2.5
+
+### Patch Changes
+
+- 3f68e48: Fix position not working on nested forms
+
 ## 0.2.4
 
 ### Patch Changes
