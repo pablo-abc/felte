@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-svelte",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "An error reporter for Felte using a Svelte component",
   "main": "dist/index.js",
   "svelte": "src/index.js",
@@ -25,7 +25,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@felte/common": "^0.3.0",
+    "@felte/common": "^0.3.4",
     "rollup-plugin-svelte": "^7.1.0",
     "svelte": "^3.31.0",
     "svelte-preprocess": "^4.6.9"
@@ -38,7 +38,7 @@
     "src"
   ],
   "devDependencies": {
-    "felte": "^0.6.0",
+    "felte": "^0.6.4",
     "rollup-plugin-svelte": "^7.1.0",
     "svelte-preprocess": "^4.6.9"
   }

@@ -1,5 +1,12 @@
 # @felte/common
 
+## 0.3.4
+
+### Patch Changes
+
+- 55c1f90: Remove lodash dependency
+- 99354f1: Removes merge and mergeWith dependency from lodash
+
 ## 0.3.3
 
 ### Patch Changes
