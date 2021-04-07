@@ -51,6 +51,7 @@
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
     "rollup": "^2.38.0",
+    "rollup-plugin-bundle-size": "^1.0.3",
     "rollup-plugin-terser": "^7.0.2",
     "superstruct": "^0.15.0",
     "svelte": "^3.31.0",
@@ -68,7 +69,9 @@
     "zod": "^1.11.13"
   },
   "bolt": {
-    "workspaces": ["packages/*"]
+    "workspaces": [
+      "packages/*"
+    ]
   },
   "volta": {
     "node": "14.15.5",
