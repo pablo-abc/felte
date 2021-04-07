@@ -1,7 +1,7 @@
 # @felte/reporter-cvapi
 
-![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-cvapi)
-![NPM Version](https://img.shields.io/npm/v/@felte/reporter-cvapi)
+[![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-cvapi)](https://bundlephobia.com/result?p=@felte/reporter-cvapi)
+[![NPM Version](https://img.shields.io/npm/v/@felte/reporter-cvapi)](https://www.npmjs.com/package/@felte/reporter-cvapi)
 
 A Felte reporter that uses the browser's [constraint validation API](https://developer.mozilla.org/en-US/docs/Web/API/Constraint_validation) to display your error messages.
 

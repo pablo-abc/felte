@@ -1,7 +1,7 @@
 # @felte/validator-superstruct
 
-![Bundle size](https://img.shields.io/bundlephobia/min/@felte/validator-superstruct)
-![NPM Version](https://img.shields.io/npm/v/@felte/validator-superstruct)
+[![Bundle size](https://img.shields.io/bundlephobia/min/@felte/validator-superstruct)](https://bundlephobia.com/result?p=@felte/validator-superstruct)
+[![NPM Version](https://img.shields.io/npm/v/@felte/validator-superstruct)](https://www.npmjs.com/package/@felte/validator-superstruct)
 
 A package to help you handle validation with Superstruct in Felte.
 

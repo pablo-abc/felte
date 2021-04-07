@@ -1,7 +1,7 @@
 # @felte/validator-yup
 
-![Bundle size](https://img.shields.io/bundlephobia/min/@felte/validator-yup)
-![NPM Version](https://img.shields.io/npm/v/@felte/validator-yup)
+[![Bundle size](https://img.shields.io/bundlephobia/min/@felte/validator-yup)](https://bundlephobia.com/result?p=@felte/validator-yup)
+[![NPM Version](https://img.shields.io/npm/v/@felte/validator-yup)](https://www.npmjs.com/package/@felte/validator-yup)
 
 A package to help you handle validation with Yup in Felte.
 

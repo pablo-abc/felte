@@ -1,7 +1,7 @@
 # @felte/reporter-svelte
 
-![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-svelte)
-![NPM Version](https://img.shields.io/npm/v/@felte/reporter-svelte)
+[![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-svelte)](https://bundlephobia.com/result?p=@felte/reporter-svelte)
+[![NPM Version](https://img.shields.io/npm/v/@felte/reporter-svelte)](https://www.npmjs.com/package/@felte/reporter-svelte)
 
 A Felte reporter that uses a custom Svelte component to report errors.
 

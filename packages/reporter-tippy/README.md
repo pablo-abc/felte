@@ -1,7 +1,7 @@
 # @felte/reporter-tippy
 
-![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-tippy)
-![NPM Version](https://img.shields.io/npm/v/@felte/reporter-tippy)
+[![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-tippy)](https://bundlephobia.com/result?p=@felte/reporter-tippy)
+[![NPM Version](https://img.shields.io/npm/v/@felte/reporter-tippy)](https://www.npmjs.com/package/@felte/reporter-tippy)
 
 A Felte reporter that uses [Tippy.js](https://atomiks.github.io/tippyjs/) to display your error messages.
 

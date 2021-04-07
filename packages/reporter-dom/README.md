@@ -1,7 +1,7 @@
 # @felte/reporter-dom
 
-![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-dom)
-![NPM Version](https://img.shields.io/npm/v/@felte/reporter-dom)
+[![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-dom)](https://bundlephobia.com/result?p=@felte/reporter-dom)
+[![NPM Version](https://img.shields.io/npm/v/@felte/reporter-dom)](https://www.npmjs.com/package/@felte/reporter-dom)
 
 A Felte reporter that uses the DOM to display your error messages.
 

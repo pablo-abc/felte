@@ -1,7 +1,7 @@
 # @felte/validator-zod
 
-![Bundle size](https://img.shields.io/bundlephobia/min/@felte/validator-zod)
-![NPM Version](https://img.shields.io/npm/v/@felte/validator-zod)
+[![Bundle size](https://img.shields.io/bundlephobia/min/@felte/validator-zod)](https://bundlephobia.com/result?p=@felte/validator-zod)
+[![NPM Version](https://img.shields.io/npm/v/@felte/validator-zod)](https://www.npmjs.com/package/@felte/validator-zod)
 
 A package to help you handle validation with Zod in Felte.
 
