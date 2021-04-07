@@ -1,5 +1,11 @@
 import type { Readable, Writable } from 'svelte/store';
 
+export type DeepSetResult<Data extends Obj, Value> = {
+  [key in keyof Data]: Data[key] extends Obj
+    ? DeepSetResult<Data[key], Value>
+    : Value;
+};
+
 export type CreateSubmitHandlerConfig<Data extends Obj> = {
   onSubmit?: FormConfig<Data>['onSubmit'];
   validate?: FormConfig<Data>['validate'];

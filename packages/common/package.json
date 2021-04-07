@@ -7,11 +7,10 @@
   "license": "MIT",
   "main": "dist/index.js",
   "browser": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "sideEffects": false,
+  "files": ["dist"],
   "publishConfig": {
     "access": "public"
   },
@@ -31,5 +30,10 @@
     "url": "https://github.com/pablo-abc/felte/issues"
   },
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {},
+  "exports": {
+    ".": "./dist/esm/index.js",
+    "./dist/utils/*": "./dist/esm/utils/*.js",
+    "./package.json": "./package.json"
+  }
 }
