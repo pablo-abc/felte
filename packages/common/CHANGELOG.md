@@ -1,5 +1,11 @@
 # @felte/common
 
+## 0.3.6
+
+### Patch Changes
+
+- aabce0d: Add require exports
+
 ## 0.3.5
 
 ### Patch Changes
