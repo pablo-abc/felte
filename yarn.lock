@@ -6576,7 +6576,7 @@ svelte-markdown@^0.1.6:
   dependencies:
     marked "^2.0.0"
 
-svelte-portal@^2.1.1:
+svelte-portal@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/svelte-portal/-/svelte-portal-2.1.2.tgz#5a355c18c9782149f94cbb1649ecbdf3d3667293"
   integrity sha512-u1ONI4ZJDNhVJPDW7tH6RH1ZIzALt6kJZbF00Hz9bgNIVRlzvzimsnwf35rGFMtPFA+FYenvsTHUR815yYNc9A==
