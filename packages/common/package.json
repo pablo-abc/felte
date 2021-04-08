@@ -10,9 +10,8 @@
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
   "sideEffects": false,
-  "files": [
-    "dist"
-  ],
+  "keywords": ["svelte", "forms", "utility"],
+  "files": ["dist"],
   "publishConfig": {
     "access": "public"
   },
@@ -34,7 +33,10 @@
   "dependencies": {},
   "devDependencies": {},
   "exports": {
-    ".": "./dist/esm/index.js",
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/index.js"
+    },
     "./dist/utils/*": "./dist/esm/utils/*.js",
     "./package.json": "./package.json"
   }
