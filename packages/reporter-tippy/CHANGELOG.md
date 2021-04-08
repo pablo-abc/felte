@@ -1,5 +1,11 @@
 # @felte/reporter-tippy
 
+## 0.2.7
+
+### Patch Changes
+
+- f10e84b: Add exports map
+
 ## 0.2.6
 
 ### Patch Changes

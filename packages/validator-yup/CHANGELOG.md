@@ -1,5 +1,11 @@
 # @felte/validator-yup
 
+## 0.2.3
+
+### Patch Changes
+
+- f10e84b: Add exports map
+
 ## 0.2.2
 
 ### Patch Changes

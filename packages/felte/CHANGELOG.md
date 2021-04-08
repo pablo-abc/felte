@@ -1,5 +1,11 @@
 # felte
 
+## 0.6.6
+
+### Patch Changes
+
+- f10e84b: Add exports map
+
 ## 0.6.5
 
 ### Patch Changes

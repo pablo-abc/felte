@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.1.14
+
+### Patch Changes
+
+- f10e84b: Add exports map
+
 ## 0.1.13
 
 ### Patch Changes

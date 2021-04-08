@@ -1,5 +1,11 @@
 # @felte/reporter-cvapi
 
+## 0.1.11
+
+### Patch Changes
+
+- f10e84b: Add exports map
+
 ## 0.1.10
 
 ### Patch Changes
