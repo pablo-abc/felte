@@ -10,12 +10,7 @@
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/reporter-dom",
-  "keywords": [
-    "svelte",
-    "forms",
-    "validation",
-    "felte"
-  ],
+  "keywords": ["svelte", "forms", "validation", "felte"],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -38,6 +33,7 @@
     ".": {
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
-    }
+    },
+    "./package.json": "./package.json"
   }
 }

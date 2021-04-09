@@ -12,11 +12,7 @@
   "homepage": "https://felte.dev",
   "repository": "github:pablo-abc/felte",
   "funding": "https://www.buymeacoffee.com/pablo.abc",
-  "keywords": [
-    "svelte",
-    "forms",
-    "validation"
-  ],
+  "keywords": ["svelte", "forms", "validation"],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -28,9 +24,7 @@
   "peerDependencies": {
     "svelte": "^3.31.0"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "dependencies": {
     "@felte/common": "^0.3.4"
   },
@@ -44,6 +38,7 @@
     ".": {
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
-    }
+    },
+    "./package.json": "./package.json"
   }
 }
