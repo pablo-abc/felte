@@ -1,5 +1,14 @@
 # felte
 
+## 0.6.7
+
+### Patch Changes
+
+- d362670: Export package.json
+- 3343a02: Fix touched handling for custom controls
+- Updated dependencies [3343a02]
+  - @felte/common@0.3.7
+
 ## 0.6.6
 
 ### Patch Changes

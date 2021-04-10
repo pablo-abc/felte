@@ -1,5 +1,13 @@
 # @felte/validator-zod
 
+## 0.2.4
+
+### Patch Changes
+
+- d362670: Export package.json
+- Updated dependencies [3343a02]
+  - @felte/common@0.3.7
+
 ## 0.2.3
 
 ### Patch Changes

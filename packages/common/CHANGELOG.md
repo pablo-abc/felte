@@ -1,5 +1,11 @@
 # @felte/common
 
+## 0.3.7
+
+### Patch Changes
+
+- 3343a02: Fix touched handling for custom controls
+
 ## 0.3.6
 
 ### Patch Changes

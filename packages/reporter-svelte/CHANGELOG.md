@@ -1,5 +1,13 @@
 # @felte/reporter-dom
 
+## 0.1.17
+
+### Patch Changes
+
+- d362670: Export package.json
+- Updated dependencies [3343a02]
+  - @felte/common@0.3.7
+
 ## 0.1.16
 
 ### Patch Changes

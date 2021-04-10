@@ -1,5 +1,14 @@
 # @felte/reporter-tippy
 
+## 0.2.8
+
+### Patch Changes
+
+- 7f0eb9a: Fix handling of DOM mutations
+- d362670: Export package.json
+- Updated dependencies [3343a02]
+  - @felte/common@0.3.7
+
 ## 0.2.7
 
 ### Patch Changes

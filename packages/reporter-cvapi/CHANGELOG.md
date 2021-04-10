@@ -1,5 +1,13 @@
 # @felte/reporter-cvapi
 
+## 0.1.12
+
+### Patch Changes
+
+- d362670: Export package.json
+- Updated dependencies [3343a02]
+  - @felte/common@0.3.7
+
 ## 0.1.11
 
 ### Patch Changes
