@@ -217,7 +217,7 @@ export function createForm<
     }
     currentExtenders = extender.map(callExtender);
     node.noValidate = !!config.validate;
-    const { defaultData, defaultTouched } = getFormDefaultValues<Data>(node);
+    const { defaultData } = getFormDefaultValues<Data>(node);
     formNode = node;
     if (initialValues) {
       initialValues = _merge(_cloneDeep(defaultData), initialValues);
@@ -226,7 +226,7 @@ export function createForm<
       initialValues = _cloneDeep(defaultData);
       data.set(_cloneDeep(defaultData));
     }
-    touched.set(defaultTouched);
+    touched.set(deepSet(initialValues, false));
 
     function setCheckboxValues(target: HTMLInputElement) {
       const checkboxes = node.querySelectorAll(`[name="${target.name}"]`);
@@ -319,7 +319,11 @@ export function createForm<
           const { defaultData: newDefaultData } = getFormDefaultValues<Data>(
             node
           );
+          const newDefaultTouched = _defaultsDeep(deepSet(defaultData, false));
           data.update(($data) => _defaultsDeep<Data>($data, newDefaultData));
+          touched.update(($touched) =>
+            _defaultsDeep($touched, newDefaultTouched)
+          );
         }
         if (mutation.removedNodes.length > 0) {
           for (const removedNode of mutation.removedNodes) {

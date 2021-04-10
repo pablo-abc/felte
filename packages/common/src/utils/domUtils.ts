@@ -70,14 +70,12 @@ export function getInputTextOrNumber(
  */
 export function getFormDefaultValues<Data extends Obj>(
   node: HTMLFormElement
-): { defaultData: Data; defaultTouched: Touched<Data> } {
+): { defaultData: Data } {
   const defaultData = {} as Data;
-  const defaultTouched = {} as Touched<Data>;
   for (const el of node.elements) {
     if (isFieldSetElement(el)) addAttrsFromFieldset(el);
     if (!isFormControl(el) || !el.name) continue;
     const elName = getPath(el);
-    _set(defaultTouched, elName, false);
     if (isInputElement(el) && el.type === 'checkbox') {
       if (typeof _get(defaultData, elName) === 'undefined') {
         const checkboxes = node.querySelectorAll(`[name="${el.name}"]`);
@@ -112,10 +110,7 @@ export function getFormDefaultValues<Data extends Obj>(
     const inputValue = getInputTextOrNumber(el);
     _set(defaultData, elName, inputValue);
   }
-  return {
-    defaultData,
-    defaultTouched,
-  };
+  return { defaultData };
 }
 
 export function setControlValue(el: FormControl, value: FieldValue): void {
