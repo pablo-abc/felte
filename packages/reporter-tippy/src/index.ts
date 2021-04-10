@@ -5,10 +5,12 @@ import {
   ReporterHandler,
   FormControl,
   Obj,
+  Errors,
   Extender,
   isFormControl,
 } from '@felte/common';
 import { _get, isFieldSetElement } from '@felte/common';
+import { get } from 'svelte/store';
 
 function isLabelElement(node: Node): node is HTMLLabelElement {
   return node.nodeName === 'LABEL';
@@ -120,63 +122,96 @@ function tippyReporter<Data extends Obj = Obj>({
     const { controls, form } = currentForm;
     if (!form) return {};
     let tippyInstances: Instance<Props>[] = [];
-    const customControls = Array.from(
+    let customControls = Array.from(
       form.querySelectorAll('[data-felte-reporter-tippy-for]')
     ) as HTMLElement[];
 
+    function createControlInstance(control: HTMLElement) {
+      if (!form) return;
+      const content = control.dataset.felteValidationMessage;
+      if (!isFormControl(control) || !control.name) return;
+      const elPath = getPath(control);
+      const customTriggerTarget = Array.from(
+        form.querySelectorAll(
+          `[data-felte-reporter-tippy-trigger-for="${elPath}"]`
+        )
+      ) as HTMLElement[];
+      const customPosition = form.querySelector(
+        `[data-felte-reporter-tippy-position-for="${elPath}"]`
+      ) as HTMLElement | null;
+      const triggerTarget = [
+        control,
+        getControlLabel(control),
+        ...customTriggerTarget,
+      ].filter(Boolean) as HTMLElement[];
+      if (control.hasAttribute('data-felte-reporter-tippy-ignore')) return;
+      return setTippyInstance(
+        customPosition ?? control,
+        triggerTarget,
+        elPath,
+        content
+      );
+    }
+
+    function createCustomControlInstance(errors: Errors<Data>) {
+      return function (control: HTMLElement) {
+        if (!form) return;
+        const elPath = control.dataset.felteReporterTippyFor;
+        if (!elPath) return;
+        const content = _get(errors, elPath) as string | undefined;
+        const triggerTarget = Array.from(
+          form.querySelectorAll(
+            `[data-felte-reporter-tippy-trigger-for="${elPath}"]`
+          )
+        ) as HTMLElement[];
+        const customPosition = form.querySelector(
+          `[data-felte-reporter-tippy-position-for="${elPath}"]`
+        ) as HTMLElement | null;
+        return setTippyInstance(
+          customPosition ?? control,
+          [control, ...triggerTarget],
+          elPath,
+          content
+        );
+      };
+    }
+
+    function mutationCallback(mutationList: MutationRecord[]) {
+      for (const mutation of mutationList) {
+        if (form && mutation.type === 'childList') {
+          customControls = Array.from(
+            form.querySelectorAll('[data-felte-reporter-tippy-for]')
+          ) as HTMLElement[];
+          tippyInstances.forEach((instance) => instance.destroy());
+          tippyInstances = [
+            ...(controls
+              ? (controls
+                  .map(createControlInstance)
+                  .filter(Boolean) as Instance<Props>[])
+              : []),
+            ...(customControls
+              .map(createCustomControlInstance(get(currentForm.errors)))
+              .filter(Boolean) as Instance<Props>[]),
+          ];
+        }
+      }
+    }
+
     if (controls) {
       tippyInstances = controls
-        .map((control) => {
-          const content = control.dataset.felteValidationMessage;
-          if (!isFormControl(control) || !control.name) return;
-          const elPath = getPath(control);
-          const customTriggerTarget = Array.from(
-            form.querySelectorAll(
-              `[data-felte-reporter-tippy-trigger-for="${elPath}"]`
-            )
-          ) as HTMLElement[];
-          const customPosition = form.querySelector(
-            `[data-felte-reporter-tippy-position-for="${elPath}"]`
-          ) as HTMLElement | null;
-          const triggerTarget = [
-            control,
-            getControlLabel(control),
-            ...customTriggerTarget,
-          ].filter(Boolean) as HTMLElement[];
-          if (control.hasAttribute('data-felte-reporter-tippy-ignore')) return;
-          return setTippyInstance(
-            customPosition ?? control,
-            triggerTarget,
-            elPath,
-            content
-          );
-        })
+        .map(createControlInstance)
         .filter(Boolean) as Instance<Props>[];
     }
 
     tippyInstances = [
       ...tippyInstances,
       ...(customControls
-        .map((control: HTMLElement) => {
-          const elPath = control.dataset.felteReporterTippyFor;
-          if (!elPath) return;
-          const triggerTarget = Array.from(
-            form.querySelectorAll(
-              `[data-felte-reporter-tippy-trigger-for="${elPath}"]`
-            )
-          ) as HTMLElement[];
-          const customPosition = form.querySelector(
-            `[data-felte-reporter-tippy-position-for="${elPath}"]`
-          ) as HTMLElement | null;
-          return setTippyInstance(
-            customPosition ?? control,
-            [control, ...triggerTarget],
-            elPath
-          );
-        })
+        .map(createCustomControlInstance(get(currentForm.errors)))
         .filter(Boolean) as Instance<Props>[]),
     ];
 
+    const observer = new MutationObserver(mutationCallback);
+    observer.observe(form, { childList: true });
     const unsubscribe = currentForm.errors.subscribe(($errors) => {
       for (const control of customControls) {
         const elPath = control.dataset.felteReporterTippyFor;

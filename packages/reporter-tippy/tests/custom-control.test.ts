@@ -250,4 +250,40 @@ describe('Reporter Tippy Custom Control', () => {
       expect(tippyInstance?.state.isVisible).toBeTruthy();
     });
   });
+
+  test('handles mutation of DOM', async () => {
+    const mockErrors = { test: 'An error' };
+    const mockValidate = jest.fn(() => mockErrors);
+    type TestData = {
+      test: string;
+    };
+    const { form } = createForm<TestData>({
+      onSubmit: jest.fn(),
+      validate: mockValidate,
+      extend: reporter<TestData>({
+        tippyPropsMap: {
+          test: {
+            hideOnClick: false,
+          },
+        },
+      }),
+    });
+
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const inputElement = createContentEditableInput({
+      name: 'test',
+      id: 'test',
+    });
+
+    expect(getTippy(inputElement)).toBeFalsy();
+
+    form(formElement);
+
+    formElement.appendChild(inputElement);
+
+    await waitFor(() => {
+      const tippyInstance = getTippy(inputElement);
+      expect(tippyInstance).toBeTruthy();
+    });
+  });
 });
