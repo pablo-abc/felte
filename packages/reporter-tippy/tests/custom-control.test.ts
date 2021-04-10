@@ -30,9 +30,15 @@ describe('Reporter Tippy Custom Control', () => {
   afterEach(cleanupDOM);
 
   test('sets aria-invalid to input and removes if valid', async () => {
-    const mockErrors = { test: 'An error' };
+    type Data = {
+      test: string;
+      deep: {
+        value: string;
+      };
+    };
+    const mockErrors = { test: 'An error', deep: { value: 'Deep error' } };
     const mockValidate = jest.fn(() => mockErrors);
-    const { form, validate } = createForm({
+    const { form, validate } = createForm<Data>({
       onSubmit: jest.fn(),
       validate: mockValidate,
       extend: reporter(),
@@ -42,14 +48,27 @@ describe('Reporter Tippy Custom Control', () => {
     const inputElement = createContentEditableInput({
       name: 'test',
     });
+    const valueElement = createContentEditableInput({
+      name: 'value',
+    });
+    const fieldsetElement = document.createElement('fieldset');
+    fieldsetElement.name = 'deep';
+    fieldsetElement.appendChild(valueElement);
     formElement.appendChild(inputElement);
+    formElement.appendChild(fieldsetElement);
 
     form(formElement);
 
     await validate();
 
     await waitFor(() => {
+      const inputInstance = getTippy(inputElement);
+      expect(inputInstance?.popper).toHaveTextContent(mockErrors.test);
       expect(inputElement).toHaveAttribute('aria-invalid');
+      const valueInstance = getTippy(valueElement);
+      expect(valueInstance).toBeTruthy();
+      expect(valueInstance?.popper).toHaveTextContent(mockErrors.deep.value);
+      expect(valueElement).toHaveAttribute('aria-invalid');
     });
 
     mockValidate.mockImplementation(() => ({} as any));
@@ -58,6 +77,7 @@ describe('Reporter Tippy Custom Control', () => {
 
     await waitFor(() => {
       expect(inputElement).not.toHaveAttribute('aria-invalid');
+      expect(valueElement).not.toHaveAttribute('aria-invalid');
     });
   });
 
@@ -143,9 +163,15 @@ describe('Reporter Tippy Custom Control', () => {
   });
 
   test('focuses first invalid input and shows tippy on submit', async () => {
-    const mockErrors = { test: 'A test error' };
+    type Data = {
+      test: string;
+      deep: {
+        value: string;
+      };
+    };
+    const mockErrors = { test: 'An error', deep: { value: 'Deep error' } };
     const mockValidate = jest.fn(() => mockErrors);
-    const { form } = createForm({
+    const { form } = createForm<Data>({
       onSubmit: jest.fn(),
       validate: mockValidate,
       extend: reporter(),
@@ -155,6 +181,13 @@ describe('Reporter Tippy Custom Control', () => {
     const inputElement = createContentEditableInput({
       name: 'test',
     });
+    const valueElement = createContentEditableInput({
+      name: 'value',
+    });
+    const fieldsetElement = document.createElement('fieldset');
+    fieldsetElement.name = 'deep';
+    fieldsetElement.appendChild(valueElement);
+    formElement.appendChild(fieldsetElement);
     formElement.appendChild(inputElement);
 
     form(formElement);
@@ -162,10 +195,13 @@ describe('Reporter Tippy Custom Control', () => {
     formElement.submit();
 
     await waitFor(() => {
-      expect(inputElement).toHaveFocus();
-      const tippyInstance = getTippy(inputElement);
+      expect(valueElement).toHaveFocus();
+      let tippyInstance = getTippy(valueElement);
       expect(tippyInstance?.state.isEnabled).toBeTruthy();
       expect(tippyInstance?.state.isVisible).toBeTruthy();
+      expect(tippyInstance?.popper).toHaveTextContent(mockErrors.deep.value);
+      tippyInstance = getTippy(inputElement);
+      expect(tippyInstance?.state.isEnabled).toBeTruthy();
       expect(tippyInstance?.popper).toHaveTextContent(mockErrors.test);
     });
   });

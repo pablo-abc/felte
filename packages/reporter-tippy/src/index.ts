@@ -16,8 +16,8 @@ function isLabelElement(node: Node): node is HTMLLabelElement {
   return node.nodeName === 'LABEL';
 }
 
-function getPath(el: FormControl) {
-  let path = el.name;
+function getPath(el: HTMLElement | FormControl) {
+  let path = isFormControl(el) ? el.name : el.dataset.felteReporterTippyFor;
   let parent = el.parentNode;
   if (!parent) return path;
   while (parent && parent.nodeName !== 'FORM') {
@@ -131,6 +131,7 @@ function tippyReporter<Data extends Obj = Obj>({
       const content = control.dataset.felteValidationMessage;
       if (!isFormControl(control) || !control.name) return;
       const elPath = getPath(control);
+      if (!elPath) return;
       const customTriggerTarget = Array.from(
         form.querySelectorAll(
           `[data-felte-reporter-tippy-trigger-for="${elPath}"]`
@@ -156,7 +157,7 @@ function tippyReporter<Data extends Obj = Obj>({
     function createCustomControlInstance(errors: Errors<Data>) {
       return function (control: HTMLElement) {
         if (!form) return;
-        const elPath = control.dataset.felteReporterTippyFor;
+        const elPath = getPath(control);
         if (!elPath) return;
         const content = _get(errors, elPath) as string | undefined;
         const triggerTarget = Array.from(
@@ -214,7 +215,7 @@ function tippyReporter<Data extends Obj = Obj>({
     observer.observe(form, { childList: true });
     const unsubscribe = currentForm.errors.subscribe(($errors) => {
       for (const control of customControls) {
-        const elPath = control.dataset.felteReporterTippyFor;
+        const elPath = getPath(control);
         if (!elPath) continue;
         const message = _get($errors, elPath) as string | string[] | undefined;
         const transformedMessage =
@@ -229,6 +230,7 @@ function tippyReporter<Data extends Obj = Obj>({
       if (!controls) return;
       for (const control of controls) {
         const elPath = getPath(control);
+        if (!elPath) continue;
         const message = _get($errors, elPath) as string | string[] | undefined;
         const transformedMessage =
           typeof message !== 'undefined' && !Array.isArray(message)
@@ -255,7 +257,7 @@ function tippyReporter<Data extends Obj = Obj>({
           ? getTippyInstance(form, firstInvalidElement)
           : undefined;
         if (!tippyInstance || tippyInstance.state.isShown) return;
-        const reporterFor = firstInvalidElement?.dataset.felteReporterTippyFor;
+        const reporterFor = firstInvalidElement && getPath(firstInvalidElement);
         const validationMessage =
           firstInvalidElement?.dataset.felteValidationMessage ??
           (reporterFor ? (_get(errors, reporterFor, '') as string) : '');
