@@ -1,5 +1,11 @@
 # @felte/reporter-tippy
 
+## 0.2.9
+
+### Patch Changes
+
+- a6acca7: Fix nested custom controls
+
 ## 0.2.8
 
 ### Patch Changes
