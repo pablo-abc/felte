@@ -10,6 +10,8 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
+- [Features](#features)
+- [Simple usage example](#simple-usage-example)
 - [Why](#why)
 - [Packages](#packages)
   - [Core](#core)
