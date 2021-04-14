@@ -72,7 +72,7 @@ In order to accomplish usage as simple as possible, Felte takes advantage of Sve
 
 ## Packages
 
-This repository is a mono-repo containing multiple packages located in the `packages` directory. Maintained using [Bolt](https://github.com/boltpkg/bolt) and [Changesets](https://github.com/atlassian/changesets).
+This repository is a mono-repo containing multiple packages located in the `packages` directory. Maintained using [pnpm](https://pnpm.io) and [Changesets](https://github.com/atlassian/changesets).
 
 ### Core
 

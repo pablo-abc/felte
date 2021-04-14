@@ -4,25 +4,25 @@ Thank you so much for even considering contributing to this project! If you wish
 
 ## About the project
 
-This project is a monorepo containing all the packages related to Felte, as well as its documentation site. These are all contained within the `packages/` directory. We are currently using [Bolt](https://github.com/boltpkg/bolt) and yarn to manage this repo's dependencies and [Changesets](https://github.com/atlassian/changesets) to maintain versioning and changelogs.
+This project is a monorepo containing all the packages related to Felte, as well as its documentation site. These are all contained within the `packages/` directory. We are currently using [pnpm](https://pnpm.io) to manage this repo's dependencies and [Changesets](https://github.com/atlassian/changesets) to maintain versioning and changelogs.
 
 Most of the packages use TypeScript for type safety, and all of them use [Rollup](https://rollupjs.org) for bundling.
 
 
 ## Local package development
 
-In order to run this locally, fork this repo and clone it to your machine. You then will install dependencies using `Bolt`. This an all other commands we show in this guide will be run in the root folder of the monorepo.
+In order to run this locally, fork this repo and clone it to your machine. You then will install dependencies using `pnpm`. This an all other commands we show in this guide will be run in the root folder of the monorepo.
 
 ```sh
-bolt
+pnpm i
 ```
 
 ### All packages
 
-In order build all packages you can use `yarn`.
+In order build all packages you can also use `pnpm`.
 
 ```sh
-yarn build
+pnpm build
 ```
 
 This will build all packages except for the docs site.
@@ -30,25 +30,25 @@ This will build all packages except for the docs site.
 If you want to watch your changes so Rollup makes a new build everytime you change a file, use:
 
 ```sh
-yarn dev
+pnpm dev
 ```
 
 This will watch ALL packages.
 
-> Note that if you change any TypeScript types you will need to run `yarn build` for them to be re-bundled. For now, dev mode does not generate new types. This should only be a issue if you're modyfing `@felte/common`, though.
+> Note that if you change any TypeScript types you will need to run `pnpm build` for them to be re-bundled. For now, dev mode does not generate new types. This should only be a issue if you're modyfing `@felte/common`, though.
 
 ### Per package
 
-If you want to scope your commands to a single package you can use Bolt. The following would build only the `@felte/common` package. The `w` (or `workspace`) scopes the command to a single package. The workspace name is the name inside each of the packages' `package.json` (a.k.a. the name they're published as).
+If you want to scope your commands to a single package you can filter per-package with `pnpm`. The following would build only the `@felte/common` package. The `w` (or `workspace`) scopes the command to a single package. The workspace name is the name inside each of the packages' `package.json` (a.k.a. the name they're published as).
 
 ```sh
-bolt w @felte/common run build
+pnpm -r --filter='@felte/common' build
 ```
 
 Something similar would be done if you want to watch your changes:
 
 ```sh
-bolt w @felte/common run dev
+pnpm -r --filter='@felte/common' dev
 ```
 
 ### Testing
@@ -57,20 +57,20 @@ We care about test coverage and test quality, if you add new code/new features, 
 
 ```sh
 # runs all tests
-yarn test
+pnpm test
 
 # runs all tests with coverage
-yarn test:ci
+pnpm test:ci
 ```
 
-If you want to run tests for a single package, we can use `Bolt` again to scope the command:
+If you want to run tests for a single package, we can use `pnpm` again to scope the command:
 
 ```sh
 # runs tests
-bolt w @felte/common run test
+pnpm -r --filter='@felte/common' test
 
 # runs tests with coverage
-bolt w @felte/common run test:ci
+pnpm -r --filter='@felte/common' test:ci
 ```
 
 ## Local documentation site development
@@ -78,15 +78,15 @@ bolt w @felte/common run test:ci
 We are using [SvelteKit](https://github.com/sveltejs/kit) for the documentation site. You can run a development build of it with:
 
 ```sh
-yarn site:dev
+pnpm site:dev
 ```
 
 Or you can run a production build using:
 
 ```sh
-yarn site:build # makes a production build
+pnpm site:build # makes a production build
 
-yarn site:start # runs the production build
+pnpm site:start # runs the production build
 ```
 
 All documentation files for the site are made using Markdown, and they're contained in the `packages/site/markdown/docs/` directory. Its structure right now was made for future i18n and multiple versioning, but right now there's only documentation in the `packages/site/markdown/docs/en/latest` directory.
@@ -118,7 +118,7 @@ The only documentation requirement I really ask for is to add the `changeset` as
 When making a pull request, we want any changes you make to be documented. This is where `Changesets` comes in. `Changesets` will help you document which changes you're making. For this you can run:
 
 ```sh
-yarn changeset
+pnpx changeset
 ```
 
 And go to the prompts it'll give you.

@@ -2,17 +2,18 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "docs:build": "bolt w felte run typedoc --out ../../docs",
-    "site:build": "bolt w @felte/site run build",
-    "site:start": "bolt w @felte/site run start",
-    "site:dev": "bolt w @felte/site run dev",
-    "test": "bolt ws run test",
-    "test:ci": "bolt ws run test:ci",
-    "build": "bolt ws run build --ignore @felte/site",
-    "dev": "bolt ws --parallel run dev --ignore @felte/site",
+    "docs:build": "pnpm -r --filter='felte' docs:build",
+    "site:build": "pnpm -r --filter='@felte/site' build",
+    "site:start": "pnpm -r --filter='@felte/site' start",
+    "site:dev": "pnpm -r --filter='@felte/site' dev",
+    "test": "pnpm -r test",
+    "test:ci": "pnpm -r test:ci",
+    "build": "pnpm -r build --filter='!@felte/site'",
+    "dev": "pnpm -r --parallel dev --filter='!@felte/site'",
+    "preinstall": "npx -y only-allow pnpm",
     "postinstall": "husky install",
     "prepublishOnly": "pinst --disable",
-    "publish": "yarn build && yarn changeset publish",
+    "publish": "pnpm i && pnpm build && pnpm -r publish",
     "postpublish": "pinst --enable"
   },
   "devDependencies": {
@@ -68,12 +69,8 @@
     "yup": "^0.32.9",
     "zod": "^1.11.13"
   },
-  "bolt": {
-    "workspaces": ["packages/*"]
-  },
   "volta": {
-    "node": "14.15.5",
-    "yarn": "1.22.10"
+    "node": "14.15.5"
   },
   "dependencies": {
     "@changesets/cli": "^2.14.1",
