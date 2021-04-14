@@ -67,7 +67,7 @@
 					<a href="https://www.npmjs.com/package/felte"><img src="https://img.shields.io/npm/dw/felte" alt="NPM Downloads"></a>
 				<a href="https://codecov.io/gh/pablo-abc/felte"><img src="https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC" alt="codecov"></a></p>
 				<p>Felte is a simple to use form library for Svelte. It is based on Svelte stores and Svelte actions for its functionality. No <code>Field</code> or <code>Form</code> components, just plain stores and actions to build your form however you like. You can see it in action in this <a href="https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte">CodeSandbox demo</a>!</p>
-				<p><strong>STATUS:</strong> Useable. Felte&#39;s API is stable enough to be used. I feel the main API is solid enough to not need breaking changes that fast, but more usage input would be useful. If you&#39;re interested please give it a try and feel free to open an issue if there&#39;s anything missing!</p>
+				<p><strong>STATUS:</strong> Useable. Felte&#39;s API is stable enough to be used. I feel the main API is solid enough to not need breaking changes that fast, but more usage input would be useful. Reporter packages migh have breaking changes more often. If you&#39;re interested please give it a try and feel free to open an issue if there&#39;s anything missing! We would still recommend pinning the version of Felte or any of its packages and checking the changelogs whenever you want to upgrade.</p>
 				<a href="#features" id="features" style="color: inherit; text-decoration: none;">
 					<h2>Features</h2>
 				</a>
@@ -154,6 +154,7 @@
 <span style="color: #000000">  </span><span style="color: #795E26">setTouched</span><span style="color: #000000">: (</span><span style="color: #001080">path</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
 <span style="color: #000000">  </span><span style="color: #795E26">setError</span><span style="color: #000000">: (</span><span style="color: #001080">path</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000">, </span><span style="color: #001080">error</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000"> | </span><span style="color: #267F99">string</span><span style="color: #000000">[]) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
 <span style="color: #000000">  </span><span style="color: #795E26">setField</span><span style="color: #000000">: (</span><span style="color: #001080">path</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000">, </span><span style="color: #001080">value</span><span style="color: #000000">?: </span><span style="color: #267F99">FieldValue</span><span style="color: #000000">, </span><span style="color: #001080">touch</span><span style="color: #000000">?: </span><span style="color: #267F99">boolean</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
+<span style="color: #000000">  </span><span style="color: #795E26">setFields</span><span style="color: #000000">: (</span><span style="color: #001080">values</span><span style="color: #000000">: </span><span style="color: #267F99">Data</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
 <span style="color: #000000">  </span><span style="color: #795E26">validate</span><span style="color: #000000">: (</span><span style="color: #001080">values</span><span style="color: #000000">: </span><span style="color: #267F99">D</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">Promise</span><span style="color: #000000">&lt;</span><span style="color: #267F99">Errors</span><span style="color: #000000">&lt;</span><span style="color: #267F99">D</span><span style="color: #000000">&gt; | </span><span style="color: #267F99">undefined</span><span style="color: #000000">&gt;;</span>
 <span style="color: #000000">  </span><span style="color: #795E26">reset</span><span style="color: #000000">: () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
 <span style="color: #000000">  </span><span style="color: #795E26">createSubmitHandler</span><span style="color: #000000">: (</span><span style="color: #001080">config</span><span style="color: #000000">?: </span><span style="color: #267F99">CreateSubmitHandlerConfig</span><span style="color: #000000">&lt;</span><span style="color: #267F99">D</span><span style="color: #000000">&gt;) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> (</span><span style="color: #001080">event</span><span style="color: #000000">?: </span><span style="color: #267F99">Event</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">;</span>
@@ -170,6 +171,7 @@
 					<li><code>setTouched</code> is a helper function to touch a specific field.</li>
 					<li><code>setError</code> is a helper function to set an error in a specific field.</li>
 					<li><code>setField</code> is a helper function to set the data of a specific field. If undefined, it clears the field. If you set <code>touch</code> to <code>false</code> the field will not be touched with this change.</li>
+					<li><code>setFields</code> is a helper function to set the data of all fields.</li>
 					<li><code>validate</code> is a helper function that forces validation of the whole form, updating the <code>errors</code> store and touching every field. Similar to what happens on submit.</li>
 					<li><code>reset</code> is a helper function that resets the form to its original values when the page was loaded.</li>
 					<li><code>createSubmitHandler</code> is a helper function that creates a submit handler with overriden <code>onSubmit</code>, <code>onError</code> and/or <code>validate</code> functions. If no config is passed it uses the default configuration from <code>createForm</code>.</li>
@@ -336,6 +338,9 @@
 						<a href="modules.html#currentform" class="tsd-kind-icon">Current<wbr>Form</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#deepsetresult" class="tsd-kind-icon">Deep<wbr>Set<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="modules.html#errors" class="tsd-kind-icon">Errors</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
@@ -399,6 +404,9 @@
 						<a href="modules.html#isfieldsetelement" class="tsd-kind-icon">is<wbr>Field<wbr>Set<wbr>Element</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="modules.html#isfieldvalue" class="tsd-kind-icon">is<wbr>Field<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="modules.html#isformcontrol" class="tsd-kind-icon">is<wbr>Form<wbr>Control</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -409,6 +417,9 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#istextareaelement" class="tsd-kind-icon">is<wbr>Text<wbr>Area<wbr>Element</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#setcontrolvalue" class="tsd-kind-icon">set<wbr>Control<wbr>Value</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="modules.html#setform" class="tsd-kind-icon">set<wbr>Form</a>
