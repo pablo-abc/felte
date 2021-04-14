@@ -10,7 +10,6 @@
     "test:ci": "pnpm -r test:ci",
     "build": "pnpm -r build --filter='!@felte/site'",
     "dev": "pnpm -r --parallel dev --filter='!@felte/site'",
-    "preinstall": "npx -y only-allow pnpm",
     "postinstall": "husky install",
     "prepublishOnly": "pinst --disable",
     "publish": "pnpm i && pnpm build && pnpm -r publish",
