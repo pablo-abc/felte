@@ -9,6 +9,7 @@ import type {
 export interface DomReporterOptions {
   listType?: 'ul' | 'ol';
   single?: boolean;
+  singleClass?: string;
 }
 
 const mutationConfig: MutationObserverInit = {
@@ -24,7 +25,7 @@ function removeAllChildren(parent: Node): void {
 
 function setValidationMessage(
   target: FormControl,
-  { listType = 'ul', single }: DomReporterOptions
+  { listType = 'ul', single, singleClass = '' }: DomReporterOptions
 ) {
   if (!target.name || !target.id) return;
   const validationMessage = target.dataset.felteValidationMessage;
@@ -52,6 +53,7 @@ function setValidationMessage(
     spanElement.dataset.felteReporterDomSingleMessage = '';
     const textNode = document.createTextNode(validationMessage);
     spanElement.appendChild(textNode);
+    spanElement.classList.add(singleClass);
     reporterElement.appendChild(spanElement);
   }
   if (reportAsList) {
