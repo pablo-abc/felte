@@ -58,11 +58,11 @@ export function createForm<
 export function createForm<
   Data extends Record<string, unknown>,
   Ext extends Obj = Obj
->(config: FormConfigWithoutInitialValues<Data> & Ext): Form<Data | undefined>;
+>(config: FormConfigWithoutInitialValues<Data> & Ext): Form<Data>;
 export function createForm<
   Data extends Record<string, unknown>,
   Ext extends Obj = Obj
->(config: FormConfig<Data> & Ext): Form<Data | undefined> {
+>(config: FormConfig<Data> & Ext): Form<Data> {
   config.reporter ??= [];
   config.extend ??= [];
   if (config.validate && !Array.isArray(config.validate))
@@ -195,7 +195,7 @@ export function createForm<
   }
 
   let formNode: HTMLFormElement | undefined;
-  let initialValues = config.initialValues;
+  let initialValues = config.initialValues ?? ({} as Data);
 
   function reset(): void {
     setFields(_cloneDeep(initialValues));
@@ -239,6 +239,7 @@ export function createForm<
           $data,
           getPath(target),
           Array.from(checkboxes)
+            .filter(isInputElement)
             .filter((el: HTMLInputElement) => el.checked)
             .map((el: HTMLInputElement) => el.value)
         )
@@ -259,24 +260,23 @@ export function createForm<
         _set(
           $data,
           getPath(target),
-          target.multiple ? Array.from(files) : files[0]
+          target.multiple ? Array.from(files ?? []) : files?.[0]
         )
       );
     }
 
-    function handleInput(e: InputEvent) {
+    function handleInput(e: Event) {
       const target = e.target;
-      if (!isFormControl(target)) return;
+      if (!target || !isFormControl(target)) return;
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
-      setTouched(getPath(target));
       const inputValue = getInputTextOrNumber(target);
       data.update(($data) => _set($data, getPath(target), inputValue));
     }
 
     function handleChange(e: Event) {
       const target = e.target;
-      if (!isInputElement(target)) return;
+      if (!target || !isInputElement(target)) return;
       if (!target.name) return;
       setTouched(getPath(target));
       if (target.type === 'checkbox') setCheckboxValues(target);
@@ -286,7 +286,7 @@ export function createForm<
 
     function handleBlur(e: Event) {
       const target = e.target;
-      if (!isFormControl(target)) return;
+      if (!target || !isFormControl(target)) return;
       if (!target.name) return;
       setTouched(getPath(target));
     }
