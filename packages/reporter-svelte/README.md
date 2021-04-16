@@ -38,7 +38,7 @@ In order to show the errors for a field, you'll need to use the reporter's compo
 ```html
 <label for="email">Email:</label>
 <input id="email" name="email" aria-describedby="email-validation">
-<ValidationMessage form="email" let:messages={messages}>
+<ValidationMessage for="email" let:messages={messages}>
   {messages || ''}
 </ValidationMessage>
 ```
