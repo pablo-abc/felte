@@ -26,6 +26,8 @@
     - [`@felte/reporter-cvapi`](./packages/reporter-cvapi/README.md)
     - [`@felte/reporter-dom`](./packages/reporter-dom/README.md)
     - [`@felte/reporter-svelte`](./packages/reporter-svelte/README.md)
+- [Contributing](#contributing)
+- [Contributors](#contributors-)
 
 Felte is a simple to use form library for Svelte. It is based on Svelte stores and Svelte actions for its functionality. No `Field` or `Form` components, just plain stores and actions to build your form however you like. You can see it in action in this [CodeSandbox demo](https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte)!
 
@@ -116,9 +118,9 @@ A reporter that displays the error messages in the DOM, either as a single eleme
 
 A reporter that uses a Svelte component to pass the validation messages for you to display.
 
-## License
+## Contributing
 
-MIT
+If you want to contribute to this project you may check [`CONTRIBUTING.md`](./CONTRIBUTING.md) for instructions on how to contribute.
 
 ## Contributors ✨
 
@@ -142,3 +144,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+## License
+
+MIT
