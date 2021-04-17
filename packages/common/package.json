@@ -10,14 +10,8 @@
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
   "sideEffects": false,
-  "keywords": [
-    "svelte",
-    "forms",
-    "utility"
-  ],
-  "files": [
-    "dist"
-  ],
+  "keywords": ["svelte", "forms", "utility"],
+  "files": ["dist"],
   "publishConfig": {
     "access": "public"
   },
@@ -29,7 +23,7 @@
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
     "dev": "rollup -cw",
-    "prepublishOnly": "yarn build",
+    "prepublishOnly": "pnpm build && pnpm test",
     "test": "jest",
     "test:ci": "jest --ci --coverage"
   },
