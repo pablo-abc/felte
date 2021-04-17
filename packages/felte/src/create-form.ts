@@ -65,6 +65,7 @@ export function createForm<
 >(config: FormConfig<Data> & Ext): Form<Data> {
   config.reporter ??= [];
   config.extend ??= [];
+  config.touchTriggerEvents ??= { change: true, blur: true };
   if (config.validate && !Array.isArray(config.validate))
     config.validate = [config.validate];
   const reporter = Array.isArray(config.reporter)
@@ -270,6 +271,7 @@ export function createForm<
       if (!target || !isFormControl(target)) return;
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
+      if (config.touchTriggerEvents?.input) setTouched(getPath(target));
       const inputValue = getInputTextOrNumber(target);
       data.update(($data) => _set($data, getPath(target), inputValue));
     }
@@ -278,7 +280,7 @@ export function createForm<
       const target = e.target;
       if (!target || !isInputElement(target)) return;
       if (!target.name) return;
-      setTouched(getPath(target));
+      if (config.touchTriggerEvents?.change) setTouched(getPath(target));
       if (target.type === 'checkbox') setCheckboxValues(target);
       if (target.type === 'radio') setRadioValues(target);
       if (target.type === 'file') setFileValue(target);
@@ -288,7 +290,7 @@ export function createForm<
       const target = e.target;
       if (!target || !isFormControl(target)) return;
       if (!target.name) return;
-      setTouched(getPath(target));
+      if (config.touchTriggerEvents?.blur) setTouched(getPath(target));
     }
 
     const mutationOptions = { childList: true, subtree: true };
