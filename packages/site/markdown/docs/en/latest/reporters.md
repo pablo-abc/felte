@@ -202,7 +202,7 @@ In order to show the errors for a field, you'll need to add a container for each
 
 ```html
 <label for="email">Email:</label>
-<input id="email" name="email" aria-describedby="email-validation">
+<input name="email" aria-describedby="email-validation">
 <div id="email-validation" data-felte-reporter-dom-for="email" aria-live="polite" />
 ```
 
