@@ -4,7 +4,9 @@ import type {
   FormControl,
   Obj,
   Reporter,
+  Errors,
 } from '@felte/common';
+import { isFormControl, isFieldSetElement, _get } from '@felte/common';
 
 export interface DomReporterOptions {
   listType?: 'ul' | 'ol';
@@ -22,22 +24,36 @@ function removeAllChildren(parent: Node): void {
   }
 }
 
-function setValidationMessage(
-  target: FormControl,
+function getPath(el: HTMLElement | FormControl) {
+  let path = isFormControl(el) ? el.name : el.dataset.felteReporterDomFor;
+  let parent = el.parentNode;
+  if (!parent) return path;
+  while (parent && parent.nodeName !== 'FORM') {
+    if (isFieldSetElement(parent) && parent.name) {
+      const fieldsetName = parent.name;
+      path = `${fieldsetName}.${path}`;
+    }
+    parent = parent.parentNode;
+  }
+  return path;
+}
+
+function setInvalidState(target: FormControl) {
+  const validationMessage = target.dataset.felteValidationMessage;
+  if (!validationMessage) target.removeAttribute('aria-invalid');
+  else target.setAttribute('aria-invalid', 'true');
+}
+
+function setValidationMessage<Data extends Obj>(
+  reporterElement: HTMLElement,
+  errors: Errors<Data>,
   { listType = 'ul', single }: DomReporterOptions
 ) {
-  if (!target.name || !target.id) return;
-  const validationMessage = target.dataset.felteValidationMessage;
-  const reporterElement = document.querySelector(
-    `[data-felte-reporter-dom-for=${target.id}]`
-  );
-  if (!reporterElement) return;
+  const elPath = getPath(reporterElement);
+  if (!elPath) return;
+  const validationMessage = _get(errors, elPath, '') as string | string[];
   removeAllChildren(reporterElement);
-  if (!validationMessage) {
-    target.removeAttribute('aria-invalid');
-    return;
-  }
-  target.setAttribute('aria-invalid', 'true');
+  if (!validationMessage) return;
   const reportAsSingle =
     (single &&
       !reporterElement.hasAttribute('data-felte-reporter-dom-as-list')) ||
@@ -50,12 +66,18 @@ function setValidationMessage(
     const spanElement = document.createElement('span');
     spanElement.setAttribute('aria-live', 'polite');
     spanElement.dataset.felteReporterDomSingleMessage = '';
-    const textNode = document.createTextNode(validationMessage);
+    const textNode = document.createTextNode(
+      Array.isArray(validationMessage)
+        ? validationMessage[0] ?? ''
+        : validationMessage
+    );
     spanElement.appendChild(textNode);
     reporterElement.appendChild(spanElement);
   }
   if (reportAsList) {
-    const messages = validationMessage.split('\n');
+    const messages = Array.isArray(validationMessage)
+      ? validationMessage
+      : [validationMessage];
     const listElement = document.createElement(listType);
     listElement.dataset.felteReporterDomList = '';
     for (const message of messages) {
@@ -77,7 +99,7 @@ function domReporter<Data extends Obj = Obj>(
       if (mutation.type !== 'attributes') continue;
       if (mutation.attributeName !== 'data-felte-validation-message') continue;
       const target = mutation.target as FormControl;
-      setValidationMessage(target, options || {});
+      setInvalidState(target);
     }
   }
 
@@ -86,9 +108,16 @@ function domReporter<Data extends Obj = Obj>(
     if (!form) return {};
     const mutationObserver = new MutationObserver(mutationCallback);
     mutationObserver.observe(form, mutationConfig);
+    const unsubscribe = currentForm.errors.subscribe(($errors) => {
+      const elements = form.querySelectorAll('[data-felte-reporter-dom-for]');
+      for (const element of elements) {
+        setValidationMessage(element as HTMLElement, $errors, options ?? {});
+      }
+    });
     return {
       destroy() {
         mutationObserver.disconnect();
+        unsubscribe();
       },
       onSubmitError() {
         const firstInvalidElement = form.querySelector(
