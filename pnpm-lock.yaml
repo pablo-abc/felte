@@ -191,7 +191,7 @@ importers:
       vite: ^2.1.2
       yup: ^0.32.9
     dependencies:
-      '@felte/reporter-dom': link:../reporter-dom
+      '@felte/reporter-dom': 0.1.15
       '@felte/reporter-svelte': link:../reporter-svelte
       '@felte/reporter-tippy': link:../reporter-tippy
       '@felte/validator-yup': link:../validator-yup
@@ -1702,6 +1702,16 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@felte/common/0.3.7:
+    resolution: {integrity: sha512-xVmyA9nQig3BkOusPwJj+XatXWlgsL4b7IJhT8V0GSfiekpFtEzlV2KL9g7w+EQ75x//Bm7fj839nVW8hwHlZA==}
+    dev: false
+
+  /@felte/reporter-dom/0.1.15:
+    resolution: {integrity: sha512-bLKxhRhJAjmzUDoX2x9yfPbahKj/sPnUh2uEJTU26p+y4+yCrZ+x16zjErRKRslZ4IVXZtcciw/lBp2xCtVeAw==}
+    dependencies:
+      '@felte/common': 0.3.7
+    dev: false
 
   /@istanbuljs/load-nyc-config/1.1.0:
     resolution: {integrity: sha512-VjeHSlIzpv/NyD3N0YuHfXOPDIixcA1q2ZV98wsMqcYlPmv2n3Yb2lYP9XMElnaFVXg5A7YLTeLu6V84uQDjmQ==}
