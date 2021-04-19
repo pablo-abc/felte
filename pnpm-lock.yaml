@@ -171,21 +171,21 @@ importers:
 
   packages/site:
     specifiers:
-      '@felte/reporter-dom': ^0.1.14
+      '@felte/reporter-dom': ^0.2.0
       '@felte/reporter-svelte': ^0.1.16
       '@felte/reporter-tippy': ^0.2.7
       '@felte/validator-yup': ^0.2.3
       '@sveltejs/adapter-static': 1.0.0-next.4
       '@sveltejs/kit': 1.0.0-next.71
       eslint-plugin-svelte3: ^3.1.2
-      felte: ^0.6.6
+      felte: ^0.6.8
       front-matter: ^4.0.2
       highlight.js: ^10.7.1
       mdsvex: ^0.9.0
       prettier: ^2.2.1
       svelte: ^3.31.0
       svelte-focus-on: ^0.1.4
-      svelte-markdown: ^0.1.6
+      svelte-markdown: ^0.1.7
       svelte-portal: ^2.1.2
       tippy.js: ^6.0.0
       vite: ^2.1.2
@@ -196,7 +196,7 @@ importers:
       '@felte/reporter-tippy': link:../reporter-tippy
       '@felte/validator-yup': link:../validator-yup
       felte: link:../felte
-      svelte-markdown: 0.1.6_svelte@3.37.0
+      svelte-markdown: 0.1.7_svelte@3.37.0
       svelte-portal: 2.1.2
     devDependencies:
       '@sveltejs/adapter-static': 1.0.0-next.4
@@ -7073,6 +7073,16 @@ packages:
     dependencies:
       marked: 2.0.3
       svelte: 3.37.0
+    dev: true
+
+  /svelte-markdown/0.1.7_svelte@3.37.0:
+    resolution: {integrity: sha512-9CUMbxoVkAJoAycXkqXRRzLJrX1mUGEiqmk9jdbKXDlEoKppJN/ftuOyb7/2UhCvxKhpUPWLZ7GQ2YInrZaDOg==}
+    peerDependencies:
+      svelte: ^3.0.0
+    dependencies:
+      marked: 2.0.3
+      svelte: 3.37.0
+    dev: false
 
   /svelte-portal/2.1.2:
     resolution: {integrity: sha512-u1ONI4ZJDNhVJPDW7tH6RH1ZIzALt6kJZbF00Hz9bgNIVRlzvzimsnwf35rGFMtPFA+FYenvsTHUR815yYNc9A==}

@@ -20,18 +20,19 @@ export function createStores<Data extends Record<string, unknown>>(
   const touched = writable(initialTouched);
 
   const data = writable(
-    config.initialValues ? _cloneDeep(config.initialValues) : undefined
+    config.initialValues ? _cloneDeep(config.initialValues) : ({} as Data)
   );
 
   const errors = writable(
     {} as Errors<Data>,
     (set: (values: Errors<Data>) => void) => {
-      return data.subscribe(async ($data) => {
+      async function validate($data?: Data) {
         let errors: Errors<Data> | undefined = {};
         if (!config.validate || !$data) return;
         errors = await executeValidation($data, config.validate);
         set(errors || {});
-      });
+      }
+      return data.subscribe(validate);
     }
   );
 
@@ -47,12 +48,15 @@ export function createStores<Data extends Record<string, unknown>>(
     }
   );
 
-  const isValid = derived([errors, touched], ([$errors, $touched]) => {
+  let firstCalled = false;
+  const isValid = derived(errors, ($errors) => {
     if (!config.validate) return true;
-    const formTouched = deepSome($touched, (touch) => !!touch);
+    if (!firstCalled) {
+      firstCalled = true;
+      return false;
+    }
     const hasErrors = deepSome($errors, (error) => !!error);
-    if (!formTouched || hasErrors) return false;
-    return true;
+    return !hasErrors;
   });
 
   const isSubmitting = writable(false);

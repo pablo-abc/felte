@@ -34,12 +34,12 @@
   <form use:form>
     <label>
       <span>Email:</span>
-      <input id="email" name="email" type="email" aria-describedby="email-validation">
+      <input name="email" type="email" aria-describedby="email-validation">
     </label>
     <div id="email-validation" data-felte-reporter-dom-for="email" />
     <label>
       <span>Password:</span>
-      <input id="password" name="password" type="password" aria-describedby="password-validation">
+      <input name="password" type="password" aria-describedby="password-validation">
     </label>
     <div id="password-validation" data-felte-reporter-dom-for="password" />
     <button type="submit">Fail to sign in</button>

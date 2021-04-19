@@ -4,7 +4,7 @@
     "target": "es2017",
     "importsNotUsedAsValues": "error",
     "isolatedModules": true,
-    "strict": false,
+    "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,

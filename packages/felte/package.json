@@ -1,6 +1,6 @@
 {
   "name": "felte",
-  "version": "0.6.7",
+  "version": "0.6.8",
   "description": "An extensible form library for Svelte",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -18,7 +18,7 @@
     "build": "cross-env NODE_ENV=production rollup -c",
     "docs:build": "typedoc --out ../../docs",
     "dev": "rollup -cw",
-    "prepublishOnly": "yarn test:ci && yarn build",
+    "prepublishOnly": "pnpm build && pnpm test",
     "test": "jest",
     "test:ci": "jest --ci --coverage"
   },

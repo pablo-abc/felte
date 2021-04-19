@@ -10,18 +10,12 @@
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/validator-zod",
-  "keywords": [
-    "svelte",
-    "forms",
-    "validation",
-    "felte",
-    "zod"
-  ],
+  "keywords": ["svelte", "forms", "validation", "felte", "zod"],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
     "dev": "rollup -cw",
-    "prepublishOnly": "yarn build",
+    "prepublishOnly": "pnpm build && pnpm test",
     "test": "jest",
     "test:ci": "jest --ci --coverage"
   },

@@ -45,8 +45,8 @@ In order to show the errors for a field, you'll need to add a container for each
 
 ```html
 <label for="email">Email:</label>
-<input id="email" name="email" aria-describedby="email-validation">
-<div id="email-validation" data-felte-reporter-dom-for="email" aria-live="polite" />
+<input name="email" aria-describedby="email-validation">
+<div id="email-validation" data-felte-reporter-dom-for="email" />
 ```
 
 You can choose individually if you want to show errors as a `span` or a list wit the attributes `data-felte-reporter-dom-as-single` and `data-felte-reporter-dom-as-list` respectively.

@@ -53,9 +53,14 @@ describe('Reporter DOM', () => {
   });
 
   test('sets error message in list if invalid and removes it if valid', async () => {
-    const mockErrors = { test: 'An error' };
+    type Data = {
+      container: {
+        test: string;
+      };
+    };
+    const mockErrors = { container: { test: 'An error' } };
     const mockValidate = jest.fn(() => mockErrors);
-    const { form, validate } = createForm({
+    const { form, validate } = createForm<Data>({
       onSubmit: jest.fn(),
       validate: mockValidate,
       extend: reporter(),
@@ -72,8 +77,11 @@ describe('Reporter DOM', () => {
       'data-felte-reporter-dom-for',
       'test'
     );
-    formElement.appendChild(inputElement);
-    formElement.appendChild(validationMessageElement);
+    const fieldsetElement = document.createElement('fieldset');
+    fieldsetElement.name = 'container';
+    fieldsetElement.appendChild(inputElement);
+    fieldsetElement.appendChild(validationMessageElement);
+    formElement.appendChild(fieldsetElement);
 
     form(formElement);
 

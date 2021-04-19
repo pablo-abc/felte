@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.2.0
+
+### Minor Changes
+
+- bb8c1b3: BREAKING: `data-felte-reporter-dom-for` now behaves just like `name` for form controls
+
 ## 0.1.15
 
 ### Patch Changes

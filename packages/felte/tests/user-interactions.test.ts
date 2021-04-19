@@ -300,7 +300,9 @@ describe('User interactions with form', () => {
     form(formElement);
     formElement.submit();
     expect(validate).toHaveBeenCalled();
-    await waitFor(() => expect(onSubmit).not.toHaveBeenCalled());
+    await waitFor(() => {
+      expect(onSubmit).not.toHaveBeenCalled();
+    });
     expect(get(isValid)).toBeFalsy();
     await waitFor(() => {
       expect(get(isSubmitting)).toBeFalsy();
@@ -310,20 +312,40 @@ describe('User interactions with form', () => {
   test('Calls validate on input', async () => {
     const validate = jest.fn(() => ({}));
     const onSubmit = jest.fn();
-    const { form, errors, isValid } = createForm({
+    const { form, isValid } = createForm({
       onSubmit,
       validate,
     });
     const { formElement, emailInput } = createLoginForm();
     form(formElement);
     userEvent.type(emailInput, 'jacek@soplica.com');
-    get(errors);
-    await waitFor(() => expect(validate).toHaveBeenCalled());
-    expect(get(isValid)).toBeTruthy();
+    await waitFor(() => {
+      expect(validate).toHaveBeenCalled();
+      expect(get(isValid)).toBeTruthy();
+    });
   });
 
   test('Handles user events', () => {
-    const { form, data } = createForm({
+    type Data = {
+      account: {
+        email: string;
+        password: string;
+        confirmPassword: string;
+        showPassword: boolean;
+        publicEmail?: 'yes' | 'no';
+      };
+      profile: {
+        firstName: string;
+        lastName: string;
+        bio: string;
+        picture: any;
+      };
+      extra: {
+        pictures: any[];
+      };
+      preferences: any[];
+    };
+    const { form, touched, data } = createForm<Data>({
       onSubmit: jest.fn(),
     });
     const {
@@ -367,7 +389,9 @@ describe('User interactions with form', () => {
 
     const mockFile = new File(['test file'], 'test.png', { type: 'image/png' });
     userEvent.type(emailInput, 'jacek@soplica.com');
+    expect(get(touched).account.email).toBe(false);
     userEvent.type(passwordInput, 'password');
+    expect(get(touched).account.email).toBe(true);
     userEvent.type(confirmPasswordInput, 'password');
     userEvent.click(showPasswordInput);
     userEvent.click(publicEmailYesRadio);
