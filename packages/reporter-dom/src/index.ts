@@ -8,7 +8,14 @@ import type {
 
 export interface DomReporterOptions {
   listType?: 'ul' | 'ol';
+  listAttributes?: {
+    class?: string | string[];
+    itemClass?: string | string[];
+  };
   single?: boolean;
+  singleAttributes?: {
+    class?: string | string[];
+  };
 }
 
 const mutationConfig: MutationObserverInit = {
@@ -24,7 +31,7 @@ function removeAllChildren(parent: Node): void {
 
 function setValidationMessage(
   target: FormControl,
-  { listType = 'ul', single }: DomReporterOptions
+  { listType = 'ul', listAttributes, single, singleAttributes }: DomReporterOptions
 ) {
   if (!target.name || !target.id) return;
   const validationMessage = target.dataset.felteValidationMessage;
@@ -52,6 +59,13 @@ function setValidationMessage(
     spanElement.dataset.felteReporterDomSingleMessage = '';
     const textNode = document.createTextNode(validationMessage);
     spanElement.appendChild(textNode);
+    let classes = singleAttributes?.class
+    if(classes) {
+      if (!Array.isArray(classes)) {
+        classes = classes.split(' ')
+      }
+      spanElement.classList.add(...classes)
+    }
     reporterElement.appendChild(spanElement);
   }
   if (reportAsList) {
@@ -63,7 +77,21 @@ function setValidationMessage(
       messageElement.dataset.felteReporterDomListMessage = '';
       const textNode = document.createTextNode(message);
       messageElement.appendChild(textNode);
+      let classes = listAttributes?.itemClass
+      if(classes) {
+        if (!Array.isArray(classes)) {
+          classes = classes.split(' ')
+        }
+        listElement.classList.add(...classes)
+      }
       listElement.appendChild(messageElement);
+    }
+    let classes = listAttributes?.class
+    if(classes) {
+      if (!Array.isArray(classes)) {
+        classes = classes.split(' ')
+      }
+      reporterElement.classList.add(...classes)
     }
     reporterElement.appendChild(listElement);
   }
