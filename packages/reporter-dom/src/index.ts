@@ -12,7 +12,9 @@ export interface DomReporterOptions {
   listType?: 'ul' | 'ol';
   listAttributes?: {
     class?: string | string[];
-    itemClass?: string | string[];
+  };
+  listItemAttributes?: {
+    class?: string | string[];
   };
   single?: boolean;
   singleAttributes?: {
@@ -54,7 +56,7 @@ function setInvalidState(target: FormControl) {
 function setValidationMessage<Data extends Obj>(
   reporterElement: HTMLElement,
   errors: Errors<Data>,
-  { listType = 'ul', listAttributes, single, singleAttributes }: DomReporterOptions
+  { listType = 'ul', listAttributes, listItemAttributes, single, singleAttributes }: DomReporterOptions
 ) {
   const elPath = getPath(reporterElement);
   if (!elPath) return;
@@ -99,7 +101,7 @@ function setValidationMessage<Data extends Obj>(
       messageElement.dataset.felteReporterDomListMessage = '';
       const textNode = document.createTextNode(message);
       messageElement.appendChild(textNode);
-      let classes = listAttributes?.itemClass
+      let classes = listItemAttributes?.class
       if(classes) {
         if (!Array.isArray(classes)) {
           classes = classes.split(' ')
