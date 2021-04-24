@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.2.1
+
+### Patch Changes
+
+- 9dc2567: Allow defining CSS classes for dynamic created elements
+
 ## 0.2.0
 
 ### Minor Changes
