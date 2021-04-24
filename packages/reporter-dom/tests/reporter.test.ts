@@ -180,4 +180,120 @@ describe('Reporter DOM', () => {
       expect(validationMessageElement).toHaveTextContent('A test error');
     });
   });
+
+  test('sets classes for reporter list elements', async () => {
+    type Data = {
+      container: {
+        test: string;
+      };
+    };
+    const mockErrors = { container: { test: 'An error' } };
+    const mockValidate = jest.fn(() => mockErrors);
+    const { form, validate } = createForm<Data>({
+      onSubmit: jest.fn(),
+      validate: mockValidate,
+      extend: reporter({
+        listItemAttributes: {
+          class: 'li-class',
+        },
+        listAttributes: {
+          class: 'ul-class',
+        },
+      }),
+    });
+
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const inputElement = createInputElement({
+      name: 'test',
+      type: 'text',
+      id: 'test',
+    });
+    const validationMessageElement = document.createElement('div');
+    validationMessageElement.setAttribute(
+      'data-felte-reporter-dom-for',
+      'test'
+    );
+    const fieldsetElement = document.createElement('fieldset');
+    fieldsetElement.name = 'container';
+    fieldsetElement.appendChild(inputElement);
+    fieldsetElement.appendChild(validationMessageElement);
+    formElement.appendChild(fieldsetElement);
+
+    form(formElement);
+
+    await validate();
+    userEvent.click(inputElement);
+    userEvent.click(formElement);
+
+    await waitFor(() => {
+      const listElement = validationMessageElement.querySelector('ul');
+      const messageElement = validationMessageElement.querySelector('li');
+      expect(listElement).toHaveClass('ul-class');
+      expect(messageElement).toHaveClass('li-class');
+    });
+
+    mockValidate.mockImplementation(() => ({} as any));
+
+    await validate();
+
+    await waitFor(() => {
+      expect(validationMessageElement).not.toHaveTextContent('An error');
+    });
+  });
+
+  test('sets classes for reporter single elements', async () => {
+    type Data = {
+      container: {
+        test: string;
+      };
+    };
+    const mockErrors = { container: { test: 'An error' } };
+    const mockValidate = jest.fn(() => mockErrors);
+    const { form, validate } = createForm<Data>({
+      onSubmit: jest.fn(),
+      validate: mockValidate,
+      extend: reporter({
+        single: true,
+        singleAttributes: {
+          class: 'span-class',
+        },
+      }),
+    });
+
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const inputElement = createInputElement({
+      name: 'test',
+      type: 'text',
+      id: 'test',
+    });
+    const validationMessageElement = document.createElement('div');
+    validationMessageElement.setAttribute(
+      'data-felte-reporter-dom-for',
+      'test'
+    );
+    const fieldsetElement = document.createElement('fieldset');
+    fieldsetElement.name = 'container';
+    fieldsetElement.appendChild(inputElement);
+    fieldsetElement.appendChild(validationMessageElement);
+    formElement.appendChild(fieldsetElement);
+
+    form(formElement);
+
+    await validate();
+    userEvent.click(inputElement);
+    userEvent.click(formElement);
+
+    await waitFor(() => {
+      const messageElement = validationMessageElement.querySelector('span');
+      expect(messageElement).toHaveClass('span-class');
+    });
+
+    mockValidate.mockImplementation(() => ({} as any));
+
+    await validate();
+
+    await waitFor(() => {
+      expect(validationMessageElement).not.toHaveTextContent('An error');
+    });
+  });
 });

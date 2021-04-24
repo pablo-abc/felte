@@ -56,7 +56,13 @@ function setInvalidState(target: FormControl) {
 function setValidationMessage<Data extends Obj>(
   reporterElement: HTMLElement,
   errors: Errors<Data>,
-  { listType = 'ul', listAttributes, listItemAttributes, single, singleAttributes }: DomReporterOptions
+  {
+    listType = 'ul',
+    listAttributes,
+    listItemAttributes,
+    single,
+    singleAttributes,
+  }: DomReporterOptions
 ) {
   const elPath = getPath(reporterElement);
   if (!elPath) return;
@@ -81,12 +87,12 @@ function setValidationMessage<Data extends Obj>(
         : validationMessage
     );
     spanElement.appendChild(textNode);
-    let classes = singleAttributes?.class
-    if(classes) {
+    let classes = singleAttributes?.class;
+    if (classes) {
       if (!Array.isArray(classes)) {
-        classes = classes.split(' ')
+        classes = classes.split(' ');
       }
-      spanElement.classList.add(...classes)
+      spanElement.classList.add(...classes);
     }
     reporterElement.appendChild(spanElement);
   }
@@ -95,27 +101,27 @@ function setValidationMessage<Data extends Obj>(
       ? validationMessage
       : [validationMessage];
     const listElement = document.createElement(listType);
+    let classes = listAttributes?.class;
+    if (classes) {
+      if (!Array.isArray(classes)) {
+        classes = classes.split(' ');
+      }
+      listElement.classList.add(...classes);
+    }
     listElement.dataset.felteReporterDomList = '';
     for (const message of messages) {
       const messageElement = document.createElement('li');
       messageElement.dataset.felteReporterDomListMessage = '';
       const textNode = document.createTextNode(message);
       messageElement.appendChild(textNode);
-      let classes = listItemAttributes?.class
-      if(classes) {
+      let classes = listItemAttributes?.class;
+      if (classes) {
         if (!Array.isArray(classes)) {
-          classes = classes.split(' ')
+          classes = classes.split(' ');
         }
-        listElement.classList.add(...classes)
+        messageElement.classList.add(...classes);
       }
       listElement.appendChild(messageElement);
-    }
-    let classes = listAttributes?.class
-    if(classes) {
-      if (!Array.isArray(classes)) {
-        classes = classes.split(' ')
-      }
-      reporterElement.classList.add(...classes)
     }
     reporterElement.appendChild(listElement);
   }
