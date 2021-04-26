@@ -118,6 +118,15 @@ importers:
   packages/common:
     specifiers: {}
 
+  packages/extender-persist:
+    specifiers:
+      '@felte/common': workspace:*
+      felte: workspace:*
+    dependencies:
+      '@felte/common': link:../common
+    devDependencies:
+      felte: link:../felte
+
   packages/felte:
     specifiers:
       '@felte/common': ^0.3.7
