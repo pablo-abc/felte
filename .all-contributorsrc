@@ -20,7 +20,14 @@
       "name": "Abhijit Kar ツ",
       "avatar_url": "https://avatars.githubusercontent.com/u/25662120?v=4",
       "profile": "https://github.com/abhijit-kar",
-      "contributions": ["bug"]
+      "contributions": ["bug", "ideas"]
+    },
+    {
+      "login": "hmaesta",
+      "name": "Hugo Maestá",
+      "avatar_url": "https://avatars.githubusercontent.com/u/741969?v=4",
+      "profile": "https://convertpack.io/",
+      "contributions": ["code", "ideas"]
     },
     {
       "login": "websocket98765",
