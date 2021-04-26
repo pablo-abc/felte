@@ -31,7 +31,10 @@ describe('Extender persist', () => {
         },
       },
       onSubmit: jest.fn(),
-      extend: extender({ id: 'test-update', ignore: ['account.someSecret'] }),
+      extend: extender({
+        id: 'test-update',
+        ignore: ['account.someSecret', 'account.password'],
+      }),
     });
 
     const fieldsetElement = document.createElement('fieldset');

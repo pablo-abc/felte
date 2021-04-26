@@ -42,7 +42,6 @@ export function extender(config: ExtenderConfig) {
         const path = getPath(control);
         if (
           control.type === 'file' ||
-          control.type === 'password' ||
           control.hasAttribute('data-felte-extender-persist-ignore') ||
           config.ignore?.includes(path)
         ) {
