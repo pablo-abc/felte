@@ -1,3 +1,9 @@
+<script context="module">
+  export function load(props) {
+    return { props };
+  }
+</script>
+
 <script>
   import Head from '$lib/components/Head.svelte';
   export let status;
