@@ -94,8 +94,10 @@ export function createHelpers<Data extends Obj>({
     };
   }
 
-  function setTouched(fieldName: string): void {
-    touched.update(($touched) => _set($touched, fieldName, true));
+  function setTouched(fieldName: string, index?: number): void {
+    const path =
+      typeof index === 'undefined' ? fieldName : `${fieldName}[${index}]`;
+    touched.update(($touched) => _set($touched, path, true));
   }
 
   function setError(path: string, error: string | string[]): void {
@@ -244,8 +246,8 @@ export function createHelpers<Data extends Obj>({
       if (!target || !isFormControl(target)) return;
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
-      if (config.touchTriggerEvents?.input) setTouched(getPath(target));
       const index = getIndex(target);
+      if (config.touchTriggerEvents?.input) setTouched(getPath(target), index);
       const inputValue = getInputTextOrNumber(target);
       data.update(($data) => {
         if (typeof index !== 'undefined') {
@@ -267,7 +269,8 @@ export function createHelpers<Data extends Obj>({
       const target = e.target;
       if (!target || !isInputElement(target)) return;
       if (!target.name) return;
-      if (config.touchTriggerEvents?.change) setTouched(getPath(target));
+      const index = getIndex(target);
+      if (config.touchTriggerEvents?.change) setTouched(getPath(target), index);
       if (target.type === 'checkbox') setCheckboxValues(target);
       if (target.type === 'radio') setRadioValues(target);
       if (target.type === 'file') setFileValue(target);
@@ -277,7 +280,8 @@ export function createHelpers<Data extends Obj>({
       const target = e.target;
       if (!target || !isFormControl(target)) return;
       if (!target.name) return;
-      if (config.touchTriggerEvents?.blur) setTouched(getPath(target));
+      const index = getIndex(target);
+      if (config.touchTriggerEvents?.blur) setTouched(getPath(target), index);
     }
 
     const mutationOptions = { childList: true, subtree: true };
@@ -337,7 +341,11 @@ export function createHelpers<Data extends Obj>({
     const unsubscribeErrors = errors.subscribe(($errors) => {
       for (const el of node.elements) {
         if (!isFormControl(el) || !el.name) continue;
-        const fieldErrors = _get($errors, getPath(el));
+        const index = getIndex(el);
+        const fieldErrors =
+          typeof index === 'undefined'
+            ? _get($errors, getPath(el))
+            : ((_get($errors, getPath(el)) ?? []) as FieldValue[])[index];
         const message = Array.isArray(fieldErrors)
           ? fieldErrors.join('\n')
           : typeof fieldErrors === 'string'
