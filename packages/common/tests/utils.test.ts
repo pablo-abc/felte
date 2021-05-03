@@ -31,6 +31,7 @@ import {
   setForm,
   executeValidation,
   getInputTextOrNumber,
+  getIndex,
 } from '../src';
 
 function createLoginForm() {
@@ -690,5 +691,15 @@ describe('Utils', () => {
       added: 'value',
       leftAlone: 'original',
     });
+  });
+
+  test('getIndex', () => {
+    const input = createInputElement({ type: 'text', name: 'test' });
+    expect(getIndex(input)).toBe(undefined);
+    const multipleInput = createMultipleInputElements(
+      { type: 'text', name: 'test' },
+      1
+    );
+    expect(getIndex(multipleInput[0])).toBe(0);
   });
 });

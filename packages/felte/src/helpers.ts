@@ -30,6 +30,7 @@ import {
   _merge,
   _set,
   _unset,
+  getIndex,
 } from '@felte/common';
 import { get } from 'svelte/store';
 
@@ -164,9 +165,7 @@ export function createHelpers<Data extends Obj>({
     touched.set(deepSet(initialValues, false));
 
     function setCheckboxValues(target: HTMLInputElement) {
-      const index = target.hasAttribute('data-felte-index')
-        ? Number(target.dataset.felteIndex)
-        : undefined;
+      const index = getIndex(target);
       const checkboxes = Array.from(
         node.querySelectorAll(`[name="${target.name}"]`)
       ).filter((checkbox) => {
@@ -224,9 +223,7 @@ export function createHelpers<Data extends Obj>({
 
     function setFileValue(target: HTMLInputElement) {
       const files = target.files;
-      const index = target.hasAttribute('data-felte-index')
-        ? Number(target.dataset.felteIndex)
-        : undefined;
+      const index = getIndex(target);
       data.update(($data) => {
         if (typeof index === 'undefined')
           return _set(
@@ -248,9 +245,7 @@ export function createHelpers<Data extends Obj>({
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
       if (config.touchTriggerEvents?.input) setTouched(getPath(target));
-      const index = target.hasAttribute('data-felte-index')
-        ? Number(target.dataset.felteIndex)
-        : undefined;
+      const index = getIndex(target);
       const inputValue = getInputTextOrNumber(target);
       data.update(($data) => {
         if (typeof index !== 'undefined') {

@@ -16,6 +16,15 @@ import { getPath } from './getPath';
 /**
  * @ignore
  */
+export function getIndex(el: HTMLElement) {
+  return el.hasAttribute('data-felte-index')
+    ? Number(el.dataset.felteIndex)
+    : undefined;
+}
+
+/**
+ * @ignore
+ */
 export function getFormControls(el: Element): FormControl[] {
   if (isFormControl(el)) return [el];
   if (el.childElementCount === 0) return [];
@@ -75,9 +84,7 @@ export function getFormDefaultValues<Data extends Obj>(
     if (isFieldSetElement(el)) addAttrsFromFieldset(el);
     if (!isInputElement(el) || !isFormControl(el) || !el.name) continue;
     const elName = getPath(el);
-    const index = el.hasAttribute('data-felte-index')
-      ? Number(el.dataset.felteIndex)
-      : undefined;
+    const index = getIndex(el);
     if (el.type === 'checkbox') {
       const uninitiatedMultiple =
         typeof index !== 'undefined' &&
@@ -186,9 +193,7 @@ export function setControlValue(
   value: FieldValue | FieldValue[]
 ): void {
   if (!isInputElement(el)) return;
-  const index = el.hasAttribute('data-felte-index')
-    ? Number(el.dataset.felteIndex)
-    : undefined;
+  const index = getIndex(el);
   const fieldValue =
     typeof index !== 'undefined' && Array.isArray(value) ? value[index] : value;
   if (el.type === 'checkbox') {
