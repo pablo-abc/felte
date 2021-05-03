@@ -1,4 +1,4 @@
-import type {
+import {
   CreateSubmitHandlerConfig,
   Errors,
   Extender,
@@ -9,6 +9,7 @@ import type {
   Obj,
   Stores,
   Touched,
+  _update,
 } from '@felte/common';
 import {
   deepSet,
@@ -163,21 +164,54 @@ export function createHelpers<Data extends Obj>({
     touched.set(deepSet(initialValues, false));
 
     function setCheckboxValues(target: HTMLInputElement) {
-      const checkboxes = node.querySelectorAll(`[name="${target.name}"]`);
-      if (checkboxes.length === 1)
-        return data.update(($data) =>
-          _set($data, getPath(target), target.checked)
-        );
-      return data.update(($data) =>
-        _set(
-          $data,
-          getPath(target),
-          Array.from(checkboxes)
+      const index = target.hasAttribute('data-felte-index')
+        ? Number(target.dataset.felteIndex)
+        : undefined;
+      const checkboxes = Array.from(
+        node.querySelectorAll(`[name="${target.name}"]`)
+      ).filter((checkbox) => {
+        if (typeof index !== 'undefined') {
+          const felteIndex = Number(
+            (checkbox as HTMLInputElement).dataset.felteIndex
+          );
+          return felteIndex === index;
+        }
+        return true;
+      });
+      if (checkboxes.length === 1) {
+        return data.update(($data) => {
+          if (typeof index === 'undefined')
+            return _set($data, getPath(target), target.checked);
+          return _update<Data, FieldValue[]>(
+            $data,
+            getPath(target),
+            (value) => {
+              if (!Array.isArray(value)) value = [];
+              value[index] = target.checked;
+              return value;
+            }
+          );
+        });
+      }
+      return data.update(($data) => {
+        if (typeof index === 'undefined')
+          return _set(
+            $data,
+            getPath(target),
+            checkboxes
+              .filter(isInputElement)
+              .filter((el: HTMLInputElement) => el.checked)
+              .map((el: HTMLInputElement) => el.value)
+          );
+        return _update<Data, FieldValue[]>($data, getPath(target), (value) => {
+          if (!Array.isArray(value)) value = [];
+          value[index] = checkboxes
             .filter(isInputElement)
             .filter((el: HTMLInputElement) => el.checked)
-            .map((el: HTMLInputElement) => el.value)
-        )
-      );
+            .map((el: HTMLInputElement) => el.value);
+          return value;
+        });
+      });
     }
 
     function setRadioValues(target: HTMLInputElement) {
@@ -190,13 +224,22 @@ export function createHelpers<Data extends Obj>({
 
     function setFileValue(target: HTMLInputElement) {
       const files = target.files;
-      data.update(($data) =>
-        _set(
-          $data,
-          getPath(target),
-          target.multiple ? Array.from(files ?? []) : files?.[0]
-        )
-      );
+      const index = target.hasAttribute('data-felte-index')
+        ? Number(target.dataset.felteIndex)
+        : undefined;
+      data.update(($data) => {
+        if (typeof index === 'undefined')
+          return _set(
+            $data,
+            getPath(target),
+            target.multiple ? Array.from(files ?? []) : files?.[0]
+          );
+        return _update<Data, FieldValue[]>($data, getPath(target), (value) => {
+          if (!Array.isArray(value)) value = [];
+          value[index] = target.multiple ? Array.from(files ?? []) : files?.[0];
+          return value;
+        });
+      });
     }
 
     function handleInput(e: Event) {
@@ -205,8 +248,24 @@ export function createHelpers<Data extends Obj>({
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
       if (config.touchTriggerEvents?.input) setTouched(getPath(target));
+      const index = target.hasAttribute('data-felte-index')
+        ? Number(target.dataset.felteIndex)
+        : undefined;
       const inputValue = getInputTextOrNumber(target);
-      data.update(($data) => _set($data, getPath(target), inputValue));
+      data.update(($data) => {
+        if (typeof index !== 'undefined') {
+          return _update<Data, FieldValue[]>(
+            $data,
+            getPath(target),
+            (value) => {
+              if (!Array.isArray(value)) value = [];
+              value[index] = inputValue;
+              return value;
+            }
+          );
+        }
+        return _set($data, getPath(target), inputValue);
+      });
     }
 
     function handleChange(e: Event) {

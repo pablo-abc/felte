@@ -5,7 +5,7 @@ export function _get<Data extends Obj, Default = undefined>(
   obj: Data,
   path: string,
   defaultValue?: Default
-): FieldValue | Default | undefined {
+): FieldValue | FieldValue[] | Default | undefined {
   const keys = path.split('.');
   let value: any = obj;
   try {

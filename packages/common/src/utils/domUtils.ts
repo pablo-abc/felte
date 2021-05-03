@@ -1,7 +1,6 @@
 import type {
   FormControl,
   Obj,
-  Touched,
   FieldValue,
   ValidationFunction,
   Errors,
@@ -74,36 +73,105 @@ export function getFormDefaultValues<Data extends Obj>(
   const defaultData = {} as Data;
   for (const el of node.elements) {
     if (isFieldSetElement(el)) addAttrsFromFieldset(el);
-    if (!isFormControl(el) || !el.name) continue;
+    if (!isInputElement(el) || !isFormControl(el) || !el.name) continue;
     const elName = getPath(el);
-    if (isInputElement(el) && el.type === 'checkbox') {
-      if (typeof _get(defaultData, elName) === 'undefined') {
-        const checkboxes = node.querySelectorAll(`[name="${el.name}"]`);
+    const index = el.hasAttribute('data-felte-index')
+      ? Number(el.dataset.felteIndex)
+      : undefined;
+    if (el.type === 'checkbox') {
+      const uninitiatedMultiple =
+        typeof index !== 'undefined' &&
+        typeof (_get(defaultData, elName, []) as FieldValue[])[index] ===
+          'undefined';
+      if (
+        typeof _get(defaultData, elName) === 'undefined' ||
+        uninitiatedMultiple
+      ) {
+        const checkboxes = Array.from(
+          node.querySelectorAll(`[name="${el.name}"]`)
+        ).filter((checkbox) => {
+          if (typeof index !== 'undefined') {
+            const felteIndex = Number(
+              (checkbox as HTMLInputElement).dataset.felteIndex
+            );
+            return felteIndex === index;
+          }
+          return true;
+        });
         if (checkboxes.length === 1) {
+          if (typeof index !== 'undefined') {
+            _update<Data, boolean[]>(defaultData, elName, (value) => {
+              if (!Array.isArray(value)) value = [];
+              value[index] = el.checked;
+              return value;
+            });
+            continue;
+          }
           _set(defaultData, elName, el.checked);
+          continue;
+        }
+        if (typeof index !== 'undefined') {
+          _update<Data, FieldValue[]>(defaultData, elName, (currentValue) => {
+            if (!Array.isArray(currentValue)) currentValue = [];
+            currentValue[index] = el.checked ? [el.value] : [];
+            return currentValue;
+          });
           continue;
         }
         _set(defaultData, elName, el.checked ? [el.value] : []);
         continue;
       }
       if (Array.isArray(_get(defaultData, elName)) && el.checked) {
-        _update<Data, string[]>(defaultData, elName, (value) => [
-          ...value,
-          el.value,
-        ]);
+        if (typeof index === 'undefined') {
+          _update<Data, string[]>(defaultData, elName, (value) => {
+            return [...value, el.value];
+          });
+        } else {
+          _update<Data, string[][]>(defaultData, elName, (value) => {
+            const newValue = [...value];
+            newValue[index] = [...newValue[index], el.value];
+            return newValue;
+          });
+        }
       }
       continue;
     }
-    if (isInputElement(el) && el.type === 'radio') {
+    if (el.type === 'radio') {
       if (_get(defaultData, elName)) continue;
       _set(defaultData, elName, el.checked ? el.value : undefined);
       continue;
     }
-    if (isInputElement(el) && el.type === 'file') {
+    if (el.type === 'file') {
+      if (typeof index !== 'undefined') {
+        _update<Data, (File | File[] | undefined)[]>(
+          defaultData,
+          elName,
+          (value) => {
+            if (!Array.isArray(value)) value = [];
+            value[index] = el.multiple
+              ? Array.from(el.files || [])
+              : el.files?.[0];
+            return value;
+          }
+        );
+        continue;
+      }
       _set(
         defaultData,
         elName,
         el.multiple ? Array.from(el.files || []) : el.files?.[0]
+      );
+      continue;
+    }
+    if (typeof index !== 'undefined') {
+      _update<Data, (string | number | undefined)[]>(
+        defaultData,
+        elName,
+        (value) => {
+          if (!Array.isArray(value)) value = [];
+          value[index] = getInputTextOrNumber(el);
+          return value;
+        }
       );
       continue;
     }
@@ -113,9 +181,18 @@ export function getFormDefaultValues<Data extends Obj>(
   return { defaultData };
 }
 
-export function setControlValue(el: FormControl, value: FieldValue): void {
-  if (isInputElement(el) && el.type === 'checkbox') {
-    const checkboxesDefaultData = value;
+export function setControlValue(
+  el: FormControl,
+  value: FieldValue | FieldValue[]
+): void {
+  if (!isInputElement(el)) return;
+  const index = el.hasAttribute('data-felte-index')
+    ? Number(el.dataset.felteIndex)
+    : undefined;
+  const fieldValue =
+    typeof index !== 'undefined' && Array.isArray(value) ? value[index] : value;
+  if (el.type === 'checkbox') {
+    const checkboxesDefaultData = fieldValue;
     if (
       typeof checkboxesDefaultData === 'undefined' ||
       typeof checkboxesDefaultData === 'boolean'
@@ -132,18 +209,18 @@ export function setControlValue(el: FormControl, value: FieldValue): void {
     }
     return;
   }
-  if (isInputElement(el) && el.type === 'radio') {
-    const radioValue = value;
+  if (el.type === 'radio') {
+    const radioValue = fieldValue;
     if (el.value === radioValue) el.checked = true;
     else el.checked = false;
     return;
   }
-  if (isInputElement(el) && el.type === 'file') {
+  if (el.type === 'file') {
     el.files = null;
     el.value = '';
     return;
   }
-  el.value = String(value || '');
+  el.value = String(fieldValue || '');
 }
 
 /** Sets the form inputs value to match the data object provided. */

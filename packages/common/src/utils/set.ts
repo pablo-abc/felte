@@ -4,7 +4,7 @@ import type { Obj, FieldValue } from '../types';
 export function _set<Data extends Obj>(
   obj: Data | undefined,
   path: string,
-  value: FieldValue
+  value: FieldValue | FieldValue[]
 ): Data {
   obj ??= {} as Data;
   const a = path.split('.');

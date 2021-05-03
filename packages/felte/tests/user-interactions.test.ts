@@ -1,5 +1,10 @@
 import { screen, waitFor } from '@testing-library/dom';
-import { cleanupDOM, createInputElement, createDOM } from './common';
+import {
+  cleanupDOM,
+  createInputElement,
+  createDOM,
+  InputAttributes,
+} from './common';
 import { createForm } from '../src';
 import userEvent from '@testing-library/user-event';
 import { get } from 'svelte/store';
@@ -17,6 +22,16 @@ function createLoginForm() {
   accountFieldset.append(emailInput, passwordInput);
   formElement.append(accountFieldset, submitInput);
   return { formElement, emailInput, passwordInput, submitInput };
+}
+
+function createMultipleInputElements(attr: InputAttributes, amount = 3) {
+  const inputs = [];
+  for (let i = 0; i < amount; i++) {
+    const input = createInputElement(attr);
+    input.dataset.felteIndex = String(i);
+    inputs.push(input);
+  }
+  return inputs;
 }
 
 function createSignupForm() {
@@ -85,6 +100,44 @@ function createSignupForm() {
     value: 'films',
   });
   formElement.append(techCheckbox, filmsCheckbox, submitInput);
+  const multipleFieldsetElement = document.createElement('fieldset');
+  multipleFieldsetElement.name = 'multiple';
+  const extraTextInputs = createMultipleInputElements({
+    type: 'text',
+    name: 'extraText',
+  });
+  const extraNumberInputs = createMultipleInputElements({
+    type: 'number',
+    name: 'extraNumber',
+  });
+  const extraFileInputs = createMultipleInputElements({
+    type: 'file',
+    name: 'extraFiles',
+  });
+  const extraCheckboxes = createMultipleInputElements({
+    type: 'checkbox',
+    name: 'extraCheckbox',
+  });
+  const extraPreferences1 = createMultipleInputElements({
+    type: 'checkbox',
+    name: 'extraPreference',
+    value: 'preference1',
+  });
+  const extraPreferences2 = createMultipleInputElements({
+    type: 'checkbox',
+    name: 'extraPreference',
+    value: 'preference2',
+  });
+  multipleFieldsetElement.append(
+    ...extraTextInputs,
+    ...extraNumberInputs,
+    ...extraFileInputs,
+    ...extraCheckboxes,
+    ...extraPreferences1,
+    ...extraPreferences2
+  );
+  formElement.appendChild(multipleFieldsetElement);
+
   return {
     formElement,
     emailInput,
@@ -101,6 +154,12 @@ function createSignupForm() {
     techCheckbox,
     filmsCheckbox,
     submitInput,
+    extraTextInputs,
+    extraNumberInputs,
+    extraFileInputs,
+    extraCheckboxes,
+    extraPreferences1,
+    extraPreferences2,
   };
 }
 
@@ -174,6 +233,17 @@ describe('User interactions with form', () => {
           pictures: expect.arrayContaining([]),
         },
         preferences: expect.arrayContaining([]),
+        multiple: {
+          extraText: expect.arrayContaining(['', '', '']),
+          extraNumber: expect.arrayContaining([
+            undefined,
+            undefined,
+            undefined,
+          ]),
+          extraFiles: expect.arrayContaining([undefined, undefined, undefined]),
+          extraCheckbox: expect.arrayContaining([false, false, false]),
+          extraPreference: expect.arrayContaining([[], [], []]),
+        },
       })
     );
     expect(get(errors)).toMatchObject({
@@ -213,6 +283,10 @@ describe('User interactions with form', () => {
       publicEmailYesRadio,
       showPasswordInput,
       techCheckbox,
+      extraTextInputs,
+      extraNumberInputs,
+      extraCheckboxes,
+      extraPreferences1,
     } = createSignupForm();
     emailInput.value = 'jacek@soplica.com';
     const bioTest = 'Litwo! Ojczyzno moja! ty jesteś jak zdrowie';
@@ -220,6 +294,10 @@ describe('User interactions with form', () => {
     publicEmailYesRadio.checked = true;
     showPasswordInput.checked = true;
     techCheckbox.checked = true;
+    extraTextInputs[1].value = 'demo text';
+    extraNumberInputs[1].value = '1';
+    extraCheckboxes[1].checked = true;
+    extraPreferences1[1].checked = true;
     form(formElement);
     const $data = get(data);
     expect($data).toEqual(
@@ -241,6 +319,13 @@ describe('User interactions with form', () => {
           pictures: expect.arrayContaining([]),
         },
         preferences: expect.arrayContaining(['technology']),
+        multiple: {
+          extraText: expect.arrayContaining(['', 'demo text', '']),
+          extraNumber: expect.arrayContaining([undefined, 1, undefined]),
+          extraFiles: expect.arrayContaining([undefined, undefined, undefined]),
+          extraCheckbox: expect.arrayContaining([false, true, false]),
+          extraPreference: expect.arrayContaining([[], ['preference1'], []]),
+        },
       })
     );
     expect(get(isValid)).toBeTruthy();
@@ -361,6 +446,11 @@ describe('User interactions with form', () => {
       techCheckbox,
       pictureInput,
       extraPicsInput,
+      extraTextInputs,
+      extraNumberInputs,
+      extraCheckboxes,
+      extraPreferences1,
+      extraFileInputs,
     } = createSignupForm();
 
     form(formElement);
@@ -384,6 +474,17 @@ describe('User interactions with form', () => {
           pictures: expect.arrayContaining([]),
         },
         preferences: expect.arrayContaining([]),
+        multiple: {
+          extraText: expect.arrayContaining(['', '', '']),
+          extraNumber: expect.arrayContaining([
+            undefined,
+            undefined,
+            undefined,
+          ]),
+          extraFiles: expect.arrayContaining([undefined, undefined, undefined]),
+          extraCheckbox: expect.arrayContaining([false, false, false]),
+          extraPreference: expect.arrayContaining([[], [], []]),
+        },
       })
     );
 
@@ -402,6 +503,11 @@ describe('User interactions with form', () => {
     userEvent.click(techCheckbox);
     userEvent.upload(pictureInput, mockFile);
     userEvent.upload(extraPicsInput, [mockFile, mockFile]);
+    userEvent.type(extraTextInputs[1], 'demo text');
+    userEvent.type(extraNumberInputs[1], '1');
+    userEvent.click(extraCheckboxes[1]);
+    userEvent.click(extraPreferences1[1]);
+    userEvent.upload(extraFileInputs[1], mockFile);
 
     expect(get(data)).toEqual(
       expect.objectContaining({
@@ -422,6 +528,13 @@ describe('User interactions with form', () => {
           pictures: expect.arrayContaining([mockFile, mockFile]),
         },
         preferences: expect.arrayContaining(['technology']),
+        multiple: {
+          extraText: expect.arrayContaining(['', 'demo text', '']),
+          extraNumber: expect.arrayContaining([undefined, 1, undefined]),
+          extraFiles: expect.arrayContaining([undefined, mockFile, undefined]),
+          extraCheckbox: expect.arrayContaining([false, true, false]),
+          extraPreference: expect.arrayContaining([[], ['preference1'], []]),
+        },
       })
     );
   });

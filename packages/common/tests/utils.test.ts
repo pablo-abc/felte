@@ -1,6 +1,11 @@
 import '@testing-library/jest-dom/extend-expect';
 import { screen } from '@testing-library/dom';
-import { createInputElement, createDOM, cleanupDOM } from './common';
+import {
+  createInputElement,
+  createDOM,
+  cleanupDOM,
+  InputAttributes,
+} from './common';
 import {
   _some,
   _mapValues,
@@ -41,6 +46,16 @@ function createLoginForm() {
   accountFieldset.append(emailInput, passwordInput);
   formElement.append(accountFieldset, submitInput);
   return { formElement, emailInput, passwordInput, submitInput };
+}
+
+function createMultipleInputElements(attr: InputAttributes, amount = 3) {
+  const inputs = [];
+  for (let i = 0; i < amount; i++) {
+    const input = createInputElement(attr);
+    input.dataset.felteIndex = String(i);
+    inputs.push(input);
+  }
+  return inputs;
 }
 
 function createSignupForm() {
@@ -109,6 +124,44 @@ function createSignupForm() {
     value: 'films',
   });
   formElement.append(techCheckbox, filmsCheckbox, submitInput);
+  const multipleFieldsetElement = document.createElement('fieldset');
+  multipleFieldsetElement.name = 'multiple';
+  const extraTextInputs = createMultipleInputElements({
+    type: 'text',
+    name: 'extraText',
+  });
+  const extraNumberInputs = createMultipleInputElements({
+    type: 'number',
+    name: 'extraNumber',
+  });
+  const extraFileInputs = createMultipleInputElements({
+    type: 'file',
+    name: 'extraFiles',
+  });
+  const extraCheckboxes = createMultipleInputElements({
+    type: 'checkbox',
+    name: 'extraCheckbox',
+  });
+  const extraPreferences1 = createMultipleInputElements({
+    type: 'checkbox',
+    name: 'extraPreference',
+    value: 'preference1',
+  });
+  const extraPreferences2 = createMultipleInputElements({
+    type: 'checkbox',
+    name: 'extraPreference',
+    value: 'preference2',
+  });
+  multipleFieldsetElement.append(
+    ...extraTextInputs,
+    ...extraNumberInputs,
+    ...extraFileInputs,
+    ...extraCheckboxes,
+    ...extraPreferences1,
+    ...extraPreferences2
+  );
+  formElement.appendChild(multipleFieldsetElement);
+
   return {
     formElement,
     emailInput,
@@ -125,6 +178,12 @@ function createSignupForm() {
     techCheckbox,
     filmsCheckbox,
     submitInput,
+    extraTextInputs,
+    extraNumberInputs,
+    extraFileInputs,
+    extraCheckboxes,
+    extraPreferences1,
+    extraPreferences2,
   };
 }
 
@@ -356,6 +415,17 @@ describe('Utils', () => {
           pictures: expect.arrayContaining([]),
         },
         preferences: expect.arrayContaining([]),
+        multiple: {
+          extraText: expect.arrayContaining(['', '', '']),
+          extraNumber: expect.arrayContaining([
+            undefined,
+            undefined,
+            undefined,
+          ]),
+          extraFiles: expect.arrayContaining([undefined, undefined, undefined]),
+          extraCheckbox: expect.arrayContaining([false, false, false]),
+          extraPreference: expect.arrayContaining([[], [], []]),
+        },
       })
     );
     cleanupDOM();
@@ -380,7 +450,14 @@ describe('Utils', () => {
       extra: {
         pictures: [],
       },
-      preferences: ['technology'],
+      preferences: ['technology', 'films'],
+      multiple: {
+        extraText: ['text1', 'text2', 'text3'],
+        extraNumber: [1, 2, 3],
+        extraFiles: [undefined, undefined, undefined],
+        extraCheckbox: [true, false, true],
+        extraPreference: [['preference1'], ['preference1', 'preference2'], []],
+      },
     };
     const { formElement } = createSignupForm();
 
