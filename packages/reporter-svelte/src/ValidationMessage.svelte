@@ -3,7 +3,7 @@
   import { formKey } from './key';
   import { _get, isFieldSetElement } from '@felte/common';
 
-  export let index;
+  export let index = undefined;
   let errorFor;
   export { errorFor as for };
 
