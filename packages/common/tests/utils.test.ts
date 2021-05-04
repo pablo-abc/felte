@@ -254,6 +254,9 @@ describe('Utils', () => {
       'value'
     );
     expect(
+      _set(testObj, ['account', 'toExist'], 'otherValue').account.toExist
+    ).toBe('otherValue');
+    expect(
       _set(undefined as any, 'account.toExist', 'value').account.toExist
     ).toBe('value');
   });
@@ -284,6 +287,10 @@ describe('Utils', () => {
     ).toBe('password');
     expect(
       _update(testObj, 'account.toExist', () => 'value').account.toExist
+    ).toBe('value');
+    expect(
+      _update(undefined as any, 'account.toExist', () => 'value').account
+        .toExist
     ).toBe('value');
   });
 
