@@ -1,4 +1,4 @@
-import {
+import type {
   CreateSubmitHandlerConfig,
   Errors,
   Extender,
@@ -180,38 +180,19 @@ export function createHelpers<Data extends Obj>({
         return true;
       });
       if (checkboxes.length === 1) {
-        return data.update(($data) => {
-          if (typeof index === 'undefined')
-            return _set($data, getPath(target), target.checked);
-          return _update<Data, FieldValue[]>(
-            $data,
-            getPath(target),
-            (value) => {
-              if (!Array.isArray(value)) value = [];
-              value[index] = target.checked;
-              return value;
-            }
-          );
-        });
+        return data.update(($data) =>
+          _set($data, getPath(target), target.checked)
+        );
       }
       return data.update(($data) => {
-        if (typeof index === 'undefined')
-          return _set(
-            $data,
-            getPath(target),
-            checkboxes
-              .filter(isInputElement)
-              .filter((el: HTMLInputElement) => el.checked)
-              .map((el: HTMLInputElement) => el.value)
-          );
-        return _update<Data, FieldValue[]>($data, getPath(target), (value) => {
-          if (!Array.isArray(value)) value = [];
-          value[index] = checkboxes
+        return _set(
+          $data,
+          getPath(target),
+          checkboxes
             .filter(isInputElement)
             .filter((el: HTMLInputElement) => el.checked)
-            .map((el: HTMLInputElement) => el.value);
-          return value;
-        });
+            .map((el: HTMLInputElement) => el.value)
+        );
       });
     }
 
@@ -225,19 +206,12 @@ export function createHelpers<Data extends Obj>({
 
     function setFileValue(target: HTMLInputElement) {
       const files = target.files;
-      const index = getIndex(target);
       data.update(($data) => {
-        if (typeof index === 'undefined')
-          return _set(
-            $data,
-            getPath(target),
-            target.multiple ? Array.from(files ?? []) : files?.[0]
-          );
-        return _update<Data, FieldValue[]>($data, getPath(target), (value) => {
-          if (!Array.isArray(value)) value = [];
-          value[index] = target.multiple ? Array.from(files ?? []) : files?.[0];
-          return value;
-        });
+        return _set(
+          $data,
+          getPath(target),
+          target.multiple ? Array.from(files ?? []) : files?.[0]
+        );
       });
     }
 
@@ -246,21 +220,9 @@ export function createHelpers<Data extends Obj>({
       if (!target || !isFormControl(target)) return;
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
-      const index = getIndex(target);
-      if (config.touchTriggerEvents?.input) setTouched(getPath(target), index);
+      if (config.touchTriggerEvents?.input) setTouched(getPath(target));
       const inputValue = getInputTextOrNumber(target);
       data.update(($data) => {
-        if (typeof index !== 'undefined') {
-          return _update<Data, FieldValue[]>(
-            $data,
-            getPath(target),
-            (value) => {
-              if (!Array.isArray(value)) value = [];
-              value[index] = inputValue;
-              return value;
-            }
-          );
-        }
         return _set($data, getPath(target), inputValue);
       });
     }
@@ -269,8 +231,7 @@ export function createHelpers<Data extends Obj>({
       const target = e.target;
       if (!target || !isInputElement(target)) return;
       if (!target.name) return;
-      const index = getIndex(target);
-      if (config.touchTriggerEvents?.change) setTouched(getPath(target), index);
+      if (config.touchTriggerEvents?.change) setTouched(getPath(target));
       if (target.type === 'checkbox') setCheckboxValues(target);
       if (target.type === 'radio') setRadioValues(target);
       if (target.type === 'file') setFileValue(target);
@@ -280,8 +241,7 @@ export function createHelpers<Data extends Obj>({
       const target = e.target;
       if (!target || !isFormControl(target)) return;
       if (!target.name) return;
-      const index = getIndex(target);
-      if (config.touchTriggerEvents?.blur) setTouched(getPath(target), index);
+      if (config.touchTriggerEvents?.blur) setTouched(getPath(target));
     }
 
     const mutationOptions = { childList: true, subtree: true };
@@ -341,11 +301,7 @@ export function createHelpers<Data extends Obj>({
     const unsubscribeErrors = errors.subscribe(($errors) => {
       for (const el of node.elements) {
         if (!isFormControl(el) || !el.name) continue;
-        const index = getIndex(el);
-        const fieldErrors =
-          typeof index === 'undefined'
-            ? _get($errors, getPath(el))
-            : ((_get($errors, getPath(el)) ?? []) as FieldValue[])[index];
+        const fieldErrors = _get($errors, getPath(el));
         const message = Array.isArray(fieldErrors)
           ? fieldErrors.join('\n')
           : typeof fieldErrors === 'string'

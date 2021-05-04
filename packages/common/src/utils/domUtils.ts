@@ -12,15 +12,7 @@ import { _get } from './get';
 import { _set } from './set';
 import { _update } from './update';
 import { getPath } from './getPath';
-
-/**
- * @ignore
- */
-export function getIndex(el: HTMLElement) {
-  return el.hasAttribute('data-felte-index')
-    ? Number(el.dataset.felteIndex)
-    : undefined;
-}
+import { getIndex } from './getIndex';
 
 /**
  * @ignore
@@ -86,14 +78,7 @@ export function getFormDefaultValues<Data extends Obj>(
     const elName = getPath(el);
     const index = getIndex(el);
     if (el.type === 'checkbox') {
-      const uninitiatedMultiple =
-        typeof index !== 'undefined' &&
-        typeof (_get(defaultData, elName, []) as FieldValue[])[index] ===
-          'undefined';
-      if (
-        typeof _get(defaultData, elName) === 'undefined' ||
-        uninitiatedMultiple
-      ) {
+      if (typeof _get(defaultData, elName) === 'undefined') {
         const checkboxes = Array.from(
           node.querySelectorAll(`[name="${el.name}"]`)
         ).filter((checkbox) => {
@@ -106,40 +91,17 @@ export function getFormDefaultValues<Data extends Obj>(
           return true;
         });
         if (checkboxes.length === 1) {
-          if (typeof index !== 'undefined') {
-            _update<Data, boolean[]>(defaultData, elName, (value) => {
-              if (!Array.isArray(value)) value = [];
-              value[index] = el.checked;
-              return value;
-            });
-            continue;
-          }
           _set(defaultData, elName, el.checked);
-          continue;
-        }
-        if (typeof index !== 'undefined') {
-          _update<Data, FieldValue[]>(defaultData, elName, (currentValue) => {
-            if (!Array.isArray(currentValue)) currentValue = [];
-            currentValue[index] = el.checked ? [el.value] : [];
-            return currentValue;
-          });
           continue;
         }
         _set(defaultData, elName, el.checked ? [el.value] : []);
         continue;
       }
       if (Array.isArray(_get(defaultData, elName)) && el.checked) {
-        if (typeof index === 'undefined') {
-          _update<Data, string[]>(defaultData, elName, (value) => {
-            return [...value, el.value];
-          });
-        } else {
-          _update<Data, string[][]>(defaultData, elName, (value) => {
-            const newValue = [...value];
-            newValue[index] = [...newValue[index], el.value];
-            return newValue;
-          });
-        }
+        _update<Data, string[]>(defaultData, elName, (value) => {
+          if (typeof index !== 'undefined' && !Array.isArray(value)) value = [];
+          return [...value, el.value];
+        });
       }
       continue;
     }
@@ -149,36 +111,10 @@ export function getFormDefaultValues<Data extends Obj>(
       continue;
     }
     if (el.type === 'file') {
-      if (typeof index !== 'undefined') {
-        _update<Data, (File | File[] | undefined)[]>(
-          defaultData,
-          elName,
-          (value) => {
-            if (!Array.isArray(value)) value = [];
-            value[index] = el.multiple
-              ? Array.from(el.files || [])
-              : el.files?.[0];
-            return value;
-          }
-        );
-        continue;
-      }
       _set(
         defaultData,
         elName,
         el.multiple ? Array.from(el.files || []) : el.files?.[0]
-      );
-      continue;
-    }
-    if (typeof index !== 'undefined') {
-      _update<Data, (string | number | undefined)[]>(
-        defaultData,
-        elName,
-        (value) => {
-          if (!Array.isArray(value)) value = [];
-          value[index] = getInputTextOrNumber(el);
-          return value;
-        }
       );
       continue;
     }
@@ -193,9 +129,7 @@ export function setControlValue(
   value: FieldValue | FieldValue[]
 ): void {
   if (!isInputElement(el)) return;
-  const index = getIndex(el);
-  const fieldValue =
-    typeof index !== 'undefined' && Array.isArray(value) ? value[index] : value;
+  const fieldValue = value;
   if (el.type === 'checkbox') {
     const checkboxesDefaultData = fieldValue;
     if (
