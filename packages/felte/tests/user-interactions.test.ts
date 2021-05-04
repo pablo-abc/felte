@@ -3,7 +3,7 @@ import {
   cleanupDOM,
   createInputElement,
   createDOM,
-  InputAttributes,
+  createMultipleInputElements,
 } from './common';
 import { createForm } from '../src';
 import userEvent from '@testing-library/user-event';
@@ -22,16 +22,6 @@ function createLoginForm() {
   accountFieldset.append(emailInput, passwordInput);
   formElement.append(accountFieldset, submitInput);
   return { formElement, emailInput, passwordInput, submitInput };
-}
-
-function createMultipleInputElements(attr: InputAttributes, amount = 3) {
-  const inputs = [];
-  for (let i = 0; i < amount; i++) {
-    const input = createInputElement(attr);
-    input.dataset.felteIndex = String(i);
-    inputs.push(input);
-  }
-  return inputs;
 }
 
 function createSignupForm() {

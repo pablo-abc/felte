@@ -31,3 +31,16 @@ export function removeAllChildren(parent: Node): void {
     parent.removeChild(parent.firstChild);
   }
 }
+
+export function createMultipleInputElements(
+  attr: InputAttributes,
+  amount = 3
+): HTMLInputElement[] {
+  const inputs = [];
+  for (let i = 0; i < amount; i++) {
+    const input = createInputElement(attr);
+    input.dataset.felteIndex = String(i);
+    inputs.push(input);
+  }
+  return inputs;
+}

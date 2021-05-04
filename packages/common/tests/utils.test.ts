@@ -372,6 +372,8 @@ describe('Utils', () => {
     expect(getPath(inputElement)).toBe('test');
     inputElement.setAttribute('data-felte-fieldset', 'container');
     expect(getPath(inputElement)).toBe('container.test');
+    inputElement.setAttribute('data-felte-index', '1');
+    expect(getPath(inputElement)).toBe('container.test[1]');
   });
 
   test('getFormControls', () => {
