@@ -1,7 +1,7 @@
 <script>
   import { getContext, onMount } from 'svelte';
   import { formKey } from './key';
-  import { _get, isFieldSetElement } from '@felte/common';
+  import { _get, isFieldSetElement, getIndex } from '@felte/common';
 
   export let index = undefined;
   let errorFor;
@@ -18,7 +18,9 @@
     if (!parent) return path;
     while (parent && parent.nodeName !== 'FORM') {
       if (isFieldSetElement(parent) && parent.name) {
-        const fieldsetName = parent.name;
+        const index = getIndex(parent);
+        const fieldsetName =
+              typeof index === 'undefined' ? parent.name : `${parent.name}[${index}]`;
         path = `${fieldsetName}.${path}`;
       }
       parent = parent.parentNode;

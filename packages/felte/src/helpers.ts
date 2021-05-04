@@ -168,16 +168,18 @@ export function createHelpers<Data extends Obj>({
 
     function setCheckboxValues(target: HTMLInputElement) {
       const index = getIndex(target);
+      const elPath = getPath(target);
       const checkboxes = Array.from(
         node.querySelectorAll(`[name="${target.name}"]`)
       ).filter((checkbox) => {
+        if (!isFormControl(checkbox)) return false;
         if (typeof index !== 'undefined') {
           const felteIndex = Number(
             (checkbox as HTMLInputElement).dataset.felteIndex
           );
           return felteIndex === index;
         }
-        return true;
+        return elPath === getPath(checkbox);
       });
       if (checkboxes.length === 1) {
         return data.update(($data) =>

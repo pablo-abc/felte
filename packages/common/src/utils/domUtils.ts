@@ -41,9 +41,14 @@ export function addAttrsFromFieldset(fieldSet: HTMLFieldSetElement): void {
   for (const element of fieldSet.elements) {
     if (!isFormControl(element) && !isFieldSetElement(element)) continue;
     if (fieldSet.name && element.name) {
+      const index = getIndex(fieldSet);
+      const fieldsetName =
+        typeof index === 'undefined'
+          ? fieldSet.name
+          : `${fieldSet.name}[${index}]`;
       element.dataset.felteFieldset = fieldSet.dataset.felteFieldset
-        ? `${fieldSet.dataset.felteFieldset}.${fieldSet.name}`
-        : fieldSet.name;
+        ? `${fieldSet.dataset.felteFieldset}.${fieldsetName}`
+        : fieldsetName;
     }
     if (
       fieldSet.dataset.felteUnsetOnRemove === 'true' &&
@@ -82,13 +87,14 @@ export function getFormDefaultValues<Data extends Obj>(
         const checkboxes = Array.from(
           node.querySelectorAll(`[name="${el.name}"]`)
         ).filter((checkbox) => {
+          if (!isFormControl(checkbox)) return false;
           if (typeof index !== 'undefined') {
             const felteIndex = Number(
               (checkbox as HTMLInputElement).dataset.felteIndex
             );
             return felteIndex === index;
           }
-          return true;
+          return elName === getPath(checkbox);
         });
         if (checkboxes.length === 1) {
           _set(defaultData, elName, el.checked);
