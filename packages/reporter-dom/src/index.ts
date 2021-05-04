@@ -6,7 +6,12 @@ import type {
   Reporter,
   Errors,
 } from '@felte/common';
-import { isFormControl, isFieldSetElement, _get } from '@felte/common';
+import {
+  isFormControl,
+  isFieldSetElement,
+  _get,
+  getIndex,
+} from '@felte/common';
 
 export interface DomReporterOptions {
   listType?: 'ul' | 'ol';
@@ -34,7 +39,9 @@ function removeAllChildren(parent: Node): void {
 }
 
 function getPath(el: HTMLElement | FormControl) {
+  const index = getIndex(el);
   let path = isFormControl(el) ? el.name : el.dataset.felteReporterDomFor;
+  path = typeof index === 'undefined' ? path : `${path}[${index}]`;
   let parent = el.parentNode;
   if (!parent) return path;
   while (parent && parent.nodeName !== 'FORM') {
