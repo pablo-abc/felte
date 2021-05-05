@@ -1,5 +1,11 @@
 # @felte/common
 
+## 0.4.1
+
+### Patch Changes
+
+- 04fd142: Fix adding from array not adding defautl value
+
 ## 0.4.0
 
 ### Minor Changes
