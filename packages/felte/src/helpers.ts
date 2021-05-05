@@ -9,6 +9,7 @@ import type {
   Obj,
   Stores,
   Touched,
+  _update,
 } from '@felte/common';
 import {
   deepSet,
@@ -29,6 +30,7 @@ import {
   _merge,
   _set,
   _unset,
+  getIndex,
 } from '@felte/common';
 import { get } from 'svelte/store';
 
@@ -92,8 +94,10 @@ export function createHelpers<Data extends Obj>({
     };
   }
 
-  function setTouched(fieldName: string): void {
-    touched.update(($touched) => _set($touched, fieldName, true));
+  function setTouched(fieldName: string, index?: number): void {
+    const path =
+      typeof index === 'undefined' ? fieldName : `${fieldName}[${index}]`;
+    touched.update(($touched) => _set($touched, path, true));
   }
 
   function setError(path: string, error: string | string[]): void {
@@ -153,31 +157,40 @@ export function createHelpers<Data extends Obj>({
     node.noValidate = !!config.validate;
     const { defaultData } = getFormDefaultValues<Data>(node);
     formNode = node;
-    if (initialValues) {
-      initialValues = _merge(_cloneDeep(defaultData), initialValues);
-      setFields(initialValues);
-    } else {
-      initialValues = _cloneDeep(defaultData);
-      data.set(_cloneDeep(defaultData));
-    }
+    initialValues = _merge(_cloneDeep(defaultData), initialValues);
+    setFields(initialValues);
     touched.set(deepSet(initialValues, false));
 
     function setCheckboxValues(target: HTMLInputElement) {
-      const checkboxes = node.querySelectorAll(`[name="${target.name}"]`);
-      if (checkboxes.length === 1)
+      const index = getIndex(target);
+      const elPath = getPath(target);
+      const checkboxes = Array.from(
+        node.querySelectorAll(`[name="${target.name}"]`)
+      ).filter((checkbox) => {
+        if (!isFormControl(checkbox)) return false;
+        if (typeof index !== 'undefined') {
+          const felteIndex = Number(
+            (checkbox as HTMLInputElement).dataset.felteIndex
+          );
+          return felteIndex === index;
+        }
+        return elPath === getPath(checkbox);
+      });
+      if (checkboxes.length === 1) {
         return data.update(($data) =>
           _set($data, getPath(target), target.checked)
         );
-      return data.update(($data) =>
-        _set(
+      }
+      return data.update(($data) => {
+        return _set(
           $data,
           getPath(target),
-          Array.from(checkboxes)
+          checkboxes
             .filter(isInputElement)
             .filter((el: HTMLInputElement) => el.checked)
             .map((el: HTMLInputElement) => el.value)
-        )
-      );
+        );
+      });
     }
 
     function setRadioValues(target: HTMLInputElement) {
@@ -190,13 +203,13 @@ export function createHelpers<Data extends Obj>({
 
     function setFileValue(target: HTMLInputElement) {
       const files = target.files;
-      data.update(($data) =>
-        _set(
+      data.update(($data) => {
+        return _set(
           $data,
           getPath(target),
           target.multiple ? Array.from(files ?? []) : files?.[0]
-        )
-      );
+        );
+      });
     }
 
     function handleInput(e: Event) {
@@ -206,7 +219,9 @@ export function createHelpers<Data extends Obj>({
       if (!target.name) return;
       if (config.touchTriggerEvents?.input) setTouched(getPath(target));
       const inputValue = getInputTextOrNumber(target);
-      data.update(($data) => _set($data, getPath(target), inputValue));
+      data.update(($data) => {
+        return _set($data, getPath(target), inputValue);
+      });
     }
 
     function handleChange(e: Event) {

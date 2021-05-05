@@ -5,11 +5,11 @@
   "scripts": {
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
-    "start": "svelte-kit start"
+    "preview": "svelte-kit preview"
   },
   "devDependencies": {
-    "@sveltejs/adapter-static": "1.0.0-next.4",
-    "@sveltejs/kit": "1.0.0-next.71",
+    "@sveltejs/adapter-static": "1.0.0-next.7",
+    "@sveltejs/kit": "1.0.0-next.90",
     "eslint-plugin-svelte3": "^3.1.2",
     "front-matter": "^4.0.2",
     "highlight.js": "^10.7.1",

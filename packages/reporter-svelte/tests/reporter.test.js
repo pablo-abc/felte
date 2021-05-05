@@ -2,6 +2,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, screen, waitFor } from '@testing-library/svelte';
 import NoPlaceholder from './NoPlaceholder.svelte';
 import Placeholder from './Placeholder.svelte';
+import Multiple from './Multiple.svelte';
 
 describe('Reporter Svelte', () => {
   test('sets aria-invalid to input', async () => {
@@ -33,5 +34,21 @@ describe('Reporter Svelte', () => {
       expect(placeholderElement).toBeInTheDocument();
       expect(placeholderElement.innerHTML).toContain('Placeholder text');
     });
+  });
+
+  test('renders multiple errors', async () => {
+    render(Multiple);
+    const formElement = screen.getByRole('form');
+    formElement.submit();
+    for (const index of [0, 1, 2]) {
+      const validationMessageElement = screen.getByTestId(
+        `validation-message-${index}`
+      );
+      await waitFor(() => {
+        expect(validationMessageElement.innerHTML).toContain(
+          'An error message'
+        );
+      });
+    }
   });
 });

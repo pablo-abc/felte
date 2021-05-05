@@ -1,6 +1,11 @@
 import '@testing-library/jest-dom/extend-expect';
 import { screen } from '@testing-library/dom';
-import { createInputElement, createDOM, cleanupDOM } from './common';
+import {
+  createInputElement,
+  createDOM,
+  cleanupDOM,
+  InputAttributes,
+} from './common';
 import {
   _some,
   _mapValues,
@@ -26,6 +31,7 @@ import {
   setForm,
   executeValidation,
   getInputTextOrNumber,
+  getIndex,
 } from '../src';
 
 function createLoginForm() {
@@ -41,6 +47,16 @@ function createLoginForm() {
   accountFieldset.append(emailInput, passwordInput);
   formElement.append(accountFieldset, submitInput);
   return { formElement, emailInput, passwordInput, submitInput };
+}
+
+function createMultipleInputElements(attr: InputAttributes, amount = 3) {
+  const inputs = [];
+  for (let i = 0; i < amount; i++) {
+    const input = createInputElement(attr);
+    input.dataset.felteIndex = String(i);
+    inputs.push(input);
+  }
+  return inputs;
 }
 
 function createSignupForm() {
@@ -109,6 +125,53 @@ function createSignupForm() {
     value: 'films',
   });
   formElement.append(techCheckbox, filmsCheckbox, submitInput);
+  const multipleFieldsetElement = document.createElement('fieldset');
+  multipleFieldsetElement.name = 'multiple';
+  const extraTextInputs = createMultipleInputElements({
+    type: 'text',
+    name: 'extraText',
+  });
+  const extraNumberInputs = createMultipleInputElements({
+    type: 'number',
+    name: 'extraNumber',
+  });
+  const extraFileInputs = createMultipleInputElements({
+    type: 'file',
+    name: 'extraFiles',
+  });
+  const extraCheckboxes = createMultipleInputElements({
+    type: 'checkbox',
+    name: 'extraCheckbox',
+  });
+  const extraPreferences1 = createMultipleInputElements({
+    type: 'checkbox',
+    name: 'extraPreference',
+    value: 'preference1',
+  });
+  const extraPreferences2 = createMultipleInputElements({
+    type: 'checkbox',
+    name: 'extraPreference',
+    value: 'preference2',
+  });
+  multipleFieldsetElement.append(
+    ...extraTextInputs,
+    ...extraNumberInputs,
+    ...extraFileInputs,
+    ...extraCheckboxes,
+    ...extraPreferences1,
+    ...extraPreferences2
+  );
+  const fieldsets = [0, 1, 2].map((index) => {
+    const input = createInputElement({ name: 'otherText' });
+    const fieldset = document.createElement('fieldset');
+    fieldset.name = 'fieldsets';
+    fieldset.dataset.felteIndex = String(index);
+    fieldset.appendChild(input);
+    return fieldset;
+  });
+  formElement.appendChild(multipleFieldsetElement);
+  formElement.append(...fieldsets);
+
   return {
     formElement,
     emailInput,
@@ -125,6 +188,12 @@ function createSignupForm() {
     techCheckbox,
     filmsCheckbox,
     submitInput,
+    extraTextInputs,
+    extraNumberInputs,
+    extraFileInputs,
+    extraCheckboxes,
+    extraPreferences1,
+    extraPreferences2,
   };
 }
 
@@ -194,7 +263,10 @@ describe('Utils', () => {
       'value'
     );
     expect(
-      _set(undefined as any, 'account.toExist', 'value').account.toExist
+      _set(testObj, ['account', 'toExist'], 'otherValue').account.toExist
+    ).toBe('otherValue');
+    expect(
+      _set(undefined as any, 'account[0].toExist', 'value').account[0].toExist
     ).toBe('value');
   });
 
@@ -203,6 +275,8 @@ describe('Utils', () => {
       account: {
         username: 'test',
         password: '',
+        confirm: '',
+        preferences: ['tech'],
       },
     };
 
@@ -210,6 +284,11 @@ describe('Utils', () => {
       undefined
     );
     expect(_unset(testObj, 'account.noExist').account.noExist).toBe(undefined);
+    expect(_unset(testObj, ['account', 'confirm']).account.confirm).toBe(
+      undefined
+    );
+    expect(_unset(undefined, 'account.noExist')).toBe(undefined);
+    expect(_unset({}, 'account.noExist')).toEqual({});
   });
 
   test('_update', () => {
@@ -224,6 +303,10 @@ describe('Utils', () => {
     ).toBe('password');
     expect(
       _update(testObj, 'account.toExist', () => 'value').account.toExist
+    ).toBe('value');
+    expect(
+      _update(undefined as any, 'account[0].toExist', () => 'value').account[0]
+        .toExist
     ).toBe('value');
   });
 
@@ -242,6 +325,7 @@ describe('Utils', () => {
       account: {
         username: 'test',
         password: '',
+        preferences: ['tech', 'film'],
       },
     };
 
@@ -249,6 +333,7 @@ describe('Utils', () => {
       account: {
         username: true,
         password: true,
+        preferences: [true, true],
       },
     });
   });
@@ -298,6 +383,8 @@ describe('Utils', () => {
     expect(getPath(inputElement)).toBe('test');
     inputElement.setAttribute('data-felte-fieldset', 'container');
     expect(getPath(inputElement)).toBe('container.test');
+    inputElement.setAttribute('data-felte-index', '1');
+    expect(getPath(inputElement)).toBe('container.test[1]');
   });
 
   test('getFormControls', () => {
@@ -356,6 +443,22 @@ describe('Utils', () => {
           pictures: expect.arrayContaining([]),
         },
         preferences: expect.arrayContaining([]),
+        multiple: {
+          extraText: expect.arrayContaining(['', '', '']),
+          extraNumber: expect.arrayContaining([
+            undefined,
+            undefined,
+            undefined,
+          ]),
+          extraFiles: expect.arrayContaining([undefined, undefined, undefined]),
+          extraCheckbox: expect.arrayContaining([false, false, false]),
+          extraPreference: expect.arrayContaining([[], [], []]),
+        },
+        fieldsets: expect.arrayContaining([
+          { otherText: '' },
+          { otherText: '' },
+          { otherText: '' },
+        ]),
       })
     );
     cleanupDOM();
@@ -380,7 +483,19 @@ describe('Utils', () => {
       extra: {
         pictures: [],
       },
-      preferences: ['technology'],
+      preferences: ['technology', 'films'],
+      multiple: {
+        extraText: ['text1', 'text2', 'text3'],
+        extraNumber: [1, 2, 3],
+        extraFiles: [undefined, undefined, undefined],
+        extraCheckbox: [true, false, true],
+        extraPreference: [['preference1'], ['preference1', 'preference2'], []],
+      },
+      fieldsets: [
+        { otherText: 'text' },
+        { otherText: 'other' },
+        { otherText: 'more' },
+      ],
     };
     const { formElement } = createSignupForm();
 
@@ -483,6 +598,7 @@ describe('Utils', () => {
         leftAlone: 'original',
       },
       leftAlone: 'original',
+      objectArray: [{ value: 'test' }, { value: 'test' }],
     };
     const source1 = {
       account: {
@@ -493,6 +609,7 @@ describe('Utils', () => {
         },
       },
       added: 'value',
+      objectArray: [{ otherValue: 'test' }, { otherValue: 'test' }],
     };
     expect(_merge(obj, source1)).toEqual({
       account: {
@@ -505,6 +622,10 @@ describe('Utils', () => {
       },
       added: 'value',
       leftAlone: 'original',
+      objectArray: [
+        { otherValue: 'test', value: 'test' },
+        { otherValue: 'test', value: 'test' },
+      ],
     });
     expect(_merge({}, obj, source1)).toEqual({
       account: {
@@ -517,6 +638,10 @@ describe('Utils', () => {
       },
       added: 'value',
       leftAlone: 'original',
+      objectArray: [
+        { otherValue: 'test', value: 'test' },
+        { otherValue: 'test', value: 'test' },
+      ],
     });
     expect(obj).toEqual({
       account: {
@@ -525,6 +650,7 @@ describe('Utils', () => {
         leftAlone: 'original',
       },
       leftAlone: 'original',
+      objectArray: [{ value: 'test' }, { value: 'test' }],
     });
     expect(source1).toEqual({
       account: {
@@ -535,6 +661,7 @@ describe('Utils', () => {
         },
       },
       added: 'value',
+      objectArray: [{ otherValue: 'test' }, { otherValue: 'test' }],
     });
   });
 
@@ -613,5 +740,15 @@ describe('Utils', () => {
       added: 'value',
       leftAlone: 'original',
     });
+  });
+
+  test('getIndex', () => {
+    const input = createInputElement({ type: 'text', name: 'test' });
+    expect(getIndex(input)).toBe(undefined);
+    const multipleInput = createMultipleInputElements(
+      { type: 'text', name: 'test' },
+      1
+    );
+    expect(getIndex(multipleInput[0])).toBe(0);
   });
 });

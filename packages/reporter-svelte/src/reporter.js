@@ -27,7 +27,7 @@ export function svelteReporter(currentForm) {
       const firstInvalidElement = currentForm?.form.querySelector(
         '[data-felte-validation-message]'
       );
-      firstInvalidElement.focus();
+      firstInvalidElement?.focus();
     },
   };
 }
