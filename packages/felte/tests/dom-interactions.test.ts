@@ -1,7 +1,12 @@
 import '@testing-library/jest-dom/extend-expect';
 import { screen, waitFor } from '@testing-library/dom';
 import { createForm } from '../src';
-import { cleanupDOM, createInputElement, createDOM } from './common';
+import {
+  cleanupDOM,
+  createInputElement,
+  createDOM,
+  createMultipleInputElements,
+} from './common';
 import { get } from 'svelte/store';
 
 describe('Form action DOM mutations', () => {
@@ -96,19 +101,29 @@ describe('Form action DOM mutations', () => {
     const outerTextInput = createInputElement({ name: 'outerText' });
     const outerSecondaryInput = createInputElement({ name: 'outerSecondary' });
     outerSecondaryInput.dataset.felteUnsetOnRemove = 'false';
+    const multipleOuterInputs = createMultipleInputElements({
+      name: 'multiple',
+    });
+    multipleOuterInputs[1].dataset.felteUnsetOnRemove = 'false';
     const innerFieldset = document.createElement('fieldset');
     innerFieldset.name = 'inner';
     const innerTextInput = createInputElement({ name: 'innerText' });
     const innerSecondaryinput = createInputElement({ name: 'innerSecondary' });
     innerSecondaryinput.dataset.felteUnsetOnRemove = 'false';
     innerFieldset.append(innerTextInput, innerSecondaryinput);
-    outerFieldset.append(outerTextInput, outerSecondaryInput, innerFieldset);
+    outerFieldset.append(
+      ...multipleOuterInputs,
+      outerTextInput,
+      outerSecondaryInput,
+      innerFieldset
+    );
     const formElement = screen.getByRole('form') as HTMLFormElement;
     formElement.appendChild(outerFieldset);
     form(formElement);
     expect(get(data)).toEqual({
       outerText: '',
       outerSecondary: '',
+      multiple: ['', '', ''],
       inner: {
         innerText: '',
         innerSecondary: '',
@@ -118,6 +133,7 @@ describe('Form action DOM mutations', () => {
     await waitFor(() => {
       expect(get(data)).toEqual({
         outerSecondary: '',
+        multiple: [undefined, '', undefined],
         inner: {
           innerSecondary: '',
         },

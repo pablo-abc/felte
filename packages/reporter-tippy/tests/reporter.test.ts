@@ -3,7 +3,12 @@ import { screen, waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import type { Instance, Props } from 'tippy.js';
 import { createForm } from 'felte';
-import { createDOM, cleanupDOM, createInputElement } from './common';
+import {
+  createDOM,
+  cleanupDOM,
+  createInputElement,
+  createMultipleInputElements,
+} from './common';
 import reporter from '../src';
 
 function getTippy(element: any): Instance<Props> | undefined {
@@ -16,7 +21,10 @@ describe('Reporter Tippy', () => {
   afterEach(cleanupDOM);
 
   test('sets aria-invalid to input and removes if valid', async () => {
-    const mockErrors = { test: 'An error' };
+    const mockErrors = {
+      test: 'An error',
+      multiple: new Array(3).fill('An error'),
+    };
     const mockValidate = jest.fn(() => mockErrors);
     const { form, validate } = createForm({
       onSubmit: jest.fn(),
@@ -29,7 +37,18 @@ describe('Reporter Tippy', () => {
       name: 'test',
       type: 'text',
     });
+    const multipleInputs = createMultipleInputElements({
+      name: 'multiple',
+      type: 'text',
+    });
+    const multipleMessages = multipleInputs.map((el, index) => {
+      const mes = document.createElement('div');
+      mes.setAttribute('data-felte-reporter-dom-for', el.name);
+      mes.setAttribute('data-felte-index', String(index));
+      return mes;
+    });
     formElement.appendChild(inputElement);
+    formElement.append(...multipleInputs, ...multipleMessages);
 
     form(formElement);
 
@@ -37,6 +56,9 @@ describe('Reporter Tippy', () => {
 
     await waitFor(() => {
       expect(inputElement).toHaveAttribute('aria-invalid');
+      multipleInputs.forEach((input) =>
+        expect(input).toHaveAttribute('aria-invalid')
+      );
     });
 
     mockValidate.mockImplementation(() => ({} as any));
@@ -45,11 +67,17 @@ describe('Reporter Tippy', () => {
 
     await waitFor(() => {
       expect(inputElement).not.toHaveAttribute('aria-invalid');
+      multipleInputs.forEach((input) =>
+        expect(input).not.toHaveAttribute('aria-invalid')
+      );
     });
   });
 
   test('show tippy on hover and hide on unhover', async () => {
-    const mockErrors = { test: 'A test error' };
+    const mockErrors = {
+      test: 'A test error',
+      multiple: new Array(3).fill('An error'),
+    };
     const mockValidate = jest.fn(() => mockErrors);
     const { form, validate } = createForm({
       onSubmit: jest.fn(),
@@ -62,7 +90,18 @@ describe('Reporter Tippy', () => {
       name: 'test',
       type: 'text',
     });
+    const multipleInputs = createMultipleInputElements({
+      name: 'multiple',
+      type: 'text',
+    });
+    const multipleMessages = multipleInputs.map((el, index) => {
+      const mes = document.createElement('div');
+      mes.setAttribute('data-felte-reporter-dom-for', el.name);
+      mes.setAttribute('data-felte-index', String(index));
+      return mes;
+    });
     formElement.appendChild(inputElement);
+    formElement.append(...multipleInputs, ...multipleMessages);
 
     const { destroy } = form(formElement);
 
@@ -87,6 +126,27 @@ describe('Reporter Tippy', () => {
       expect(tippyInstance?.state.isVisible).toBeFalsy();
     });
 
+    for (const input of multipleInputs) {
+      expect(getTippy(input)).toBeTruthy();
+
+      userEvent.hover(input);
+
+      await waitFor(() => {
+        const tippyInstance = getTippy(input);
+        expect(tippyInstance?.state.isEnabled).toBeTruthy();
+        expect(tippyInstance?.state.isVisible).toBeTruthy();
+        expect(tippyInstance?.popper).toHaveTextContent(mockErrors.multiple[0]);
+      });
+
+      userEvent.unhover(input);
+
+      await waitFor(() => {
+        const tippyInstance = getTippy(input);
+        expect(tippyInstance?.state.isEnabled).toBeTruthy();
+        expect(tippyInstance?.state.isVisible).toBeFalsy();
+      });
+    }
+
     mockValidate.mockImplementation(() => ({} as any));
 
     await validate();
@@ -95,6 +155,14 @@ describe('Reporter Tippy', () => {
       const tippyInstance = getTippy(inputElement);
       expect(tippyInstance?.state.isEnabled).toBeFalsy();
       expect(tippyInstance?.state.isVisible).toBeFalsy();
+    });
+
+    await waitFor(() => {
+      for (const input of multipleInputs) {
+        const tippyInstance = getTippy(input);
+        expect(tippyInstance?.state.isEnabled).toBeFalsy();
+        expect(tippyInstance?.state.isVisible).toBeFalsy();
+      }
     });
 
     destroy();

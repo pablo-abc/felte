@@ -8,6 +8,7 @@ import {
   Errors,
   Extender,
   isFormControl,
+  getIndex,
 } from '@felte/common';
 import { _get, isFieldSetElement } from '@felte/common';
 import { get } from 'svelte/store';
@@ -17,12 +18,16 @@ function isLabelElement(node: Node): node is HTMLLabelElement {
 }
 
 function getPath(el: HTMLElement | FormControl) {
+  const index = getIndex(el);
   let path = isFormControl(el) ? el.name : el.dataset.felteReporterTippyFor;
+  path = typeof index === 'undefined' ? path : `${path}[${index}]`;
   let parent = el.parentNode;
   if (!parent) return path;
   while (parent && parent.nodeName !== 'FORM') {
     if (isFieldSetElement(parent) && parent.name) {
-      const fieldsetName = parent.name;
+      const index = getIndex(parent);
+      const fieldsetName =
+        typeof index === 'undefined' ? parent.name : `${parent.name}[${index}]`;
       path = `${fieldsetName}.${path}`;
     }
     parent = parent.parentNode;

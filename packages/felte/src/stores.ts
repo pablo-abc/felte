@@ -36,8 +36,18 @@ export function createStores<Data extends Record<string, unknown>>(
     }
   );
 
-  function errorFilterer(errValue?: string, touchValue?: boolean) {
+  function errorFilterer(
+    errValue?: string | string[],
+    touchValue?: boolean | boolean[]
+  ) {
     if (_isPlainObject(touchValue)) return;
+    if (Array.isArray(touchValue)) {
+      if (touchValue.some(_isPlainObject)) return;
+      const errArray = Array.isArray(errValue) ? errValue : [];
+      return touchValue.map(
+        (value, index) => (value && errArray[index]) || null
+      );
+    }
     return (touchValue && errValue) || null;
   }
 
