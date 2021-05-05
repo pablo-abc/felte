@@ -246,10 +246,7 @@ export function createHelpers<Data extends Obj>({
     function unsetTaggedForRemove(formControls: FormControl[]) {
       for (const control of formControls) {
         if (control.dataset.felteUnsetOnRemove !== 'true') continue;
-        data.update(($data) => {
-          _unset($data, getPath(control));
-          return $data;
-        });
+        data.update(($data) => _unset($data, getPath(control)));
       }
     }
 

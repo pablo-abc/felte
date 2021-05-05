@@ -712,6 +712,7 @@ describe('Utils', () => {
         leftAlone: 'original',
       },
       leftAlone: 'original',
+      preferences: [null, 'leftAlone'],
     };
     const source1 = {
       account: {
@@ -726,6 +727,7 @@ describe('Utils', () => {
         },
       },
       added: 'value',
+      preferences: ['added', 'ignored', 'added'],
     };
     expect(_defaultsDeep(obj, source1)).toEqual({
       account: {
@@ -739,6 +741,7 @@ describe('Utils', () => {
       },
       added: 'value',
       leftAlone: 'original',
+      preferences: ['added', 'leftAlone', 'added'],
     });
   });
 
