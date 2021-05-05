@@ -1,5 +1,16 @@
 # felte
 
+## 0.7.0
+
+### Minor Changes
+
+- 230e76d: Handle inputs generated with an array
+
+### Patch Changes
+
+- Updated dependencies [230e76d]
+  - @felte/common@0.4.0
+
 ## 0.6.8
 
 ### Patch Changes

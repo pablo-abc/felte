@@ -1,5 +1,16 @@
 # @felte/reporter-dom
 
+## 0.2.0
+
+### Minor Changes
+
+- 230e76d: Support array inputs
+
+### Patch Changes
+
+- Updated dependencies [230e76d]
+  - @felte/common@0.4.0
+
 ## 0.1.17
 
 ### Patch Changes

@@ -12,7 +12,7 @@
     "dev": "pnpm -r --parallel dev --filter='!@felte/site'",
     "postinstall": "husky install",
     "prepublishOnly": "pinst --disable",
-    "publish": "pnpm i && pnpm -r publish --publish-branch main",
+    "publish": "pnpm i && pnpm -r publish --no-git-checks --publish-branch main",
     "postpublish": "pinst --enable"
   },
   "devDependencies": {

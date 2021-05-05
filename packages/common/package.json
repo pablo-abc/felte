@@ -36,8 +36,6 @@
   "bugs": {
     "url": "https://github.com/pablo-abc/felte/issues"
   },
-  "dependencies": {},
-  "devDependencies": {},
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
