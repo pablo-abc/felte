@@ -157,13 +157,8 @@ export function createHelpers<Data extends Obj>({
     node.noValidate = !!config.validate;
     const { defaultData } = getFormDefaultValues<Data>(node);
     formNode = node;
-    if (initialValues) {
-      initialValues = _merge(_cloneDeep(defaultData), initialValues);
-      setFields(initialValues);
-    } else {
-      initialValues = _cloneDeep(defaultData);
-      data.set(_cloneDeep(defaultData));
-    }
+    initialValues = _merge(_cloneDeep(defaultData), initialValues);
+    setFields(initialValues);
     touched.set(deepSet(initialValues, false));
 
     function setCheckboxValues(target: HTMLInputElement) {

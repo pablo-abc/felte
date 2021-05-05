@@ -1,8 +1,10 @@
 import type { Readable, Writable } from 'svelte/store';
 
-export type DeepSetResult<Data extends Obj, Value> = {
+export type DeepSetResult<Data extends Obj | Obj[], Value> = {
   [key in keyof Data]: Data[key] extends Obj
     ? DeepSetResult<Data[key], Value>
+    : Data[key] extends Obj[]
+    ? DeepSetResult<Data[key], Value>[]
     : Value;
 };
 
@@ -108,15 +110,21 @@ export interface FormConfig<Data extends Obj>
 }
 
 /** The errors object may contain either a string or array or string per key. */
-export type Errors<Data extends Obj> = {
+export type Errors<Data extends Obj | Obj[]> = {
   [key in keyof Data]?: Data[key] extends Obj
     ? Errors<Data[key]>
+    : Data[key] extends Obj[]
+    ? Errors<Data[key]>[]
     : string | string[] | null;
 };
 
 /** The touched object may only contain booleans per key. */
-export type Touched<Data extends Obj> = {
-  [key in keyof Data]: Data[key] extends Obj ? Touched<Data[key]> : boolean;
+export type Touched<Data extends Obj | Obj[]> = {
+  [key in keyof Data]: Data[key] extends Obj
+    ? Touched<Data[key]>
+    : Data[key] extends Obj[]
+    ? Touched<Data[key]>[]
+    : boolean | boolean[];
 };
 
 export type FormAction = (node: HTMLFormElement) => { destroy: () => void };

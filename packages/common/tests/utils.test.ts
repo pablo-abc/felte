@@ -161,7 +161,16 @@ function createSignupForm() {
     ...extraPreferences1,
     ...extraPreferences2
   );
+  const fieldsets = [0, 1, 2].map((index) => {
+    const input = createInputElement({ name: 'otherText' });
+    const fieldset = document.createElement('fieldset');
+    fieldset.name = 'fieldsets';
+    fieldset.dataset.felteIndex = String(index);
+    fieldset.appendChild(input);
+    return fieldset;
+  });
   formElement.appendChild(multipleFieldsetElement);
+  formElement.append(...fieldsets);
 
   return {
     formElement,
@@ -443,6 +452,11 @@ describe('Utils', () => {
           extraCheckbox: expect.arrayContaining([false, false, false]),
           extraPreference: expect.arrayContaining([[], [], []]),
         },
+        fieldsets: expect.arrayContaining([
+          { otherText: '' },
+          { otherText: '' },
+          { otherText: '' },
+        ]),
       })
     );
     cleanupDOM();
@@ -475,6 +489,11 @@ describe('Utils', () => {
         extraCheckbox: [true, false, true],
         extraPreference: [['preference1'], ['preference1', 'preference2'], []],
       },
+      fieldsets: [
+        { otherText: 'text' },
+        { otherText: 'other' },
+        { otherText: 'more' },
+      ],
     };
     const { formElement } = createSignupForm();
 
@@ -577,6 +596,7 @@ describe('Utils', () => {
         leftAlone: 'original',
       },
       leftAlone: 'original',
+      objectArray: [{ value: 'test' }, { value: 'test' }],
     };
     const source1 = {
       account: {
@@ -587,6 +607,7 @@ describe('Utils', () => {
         },
       },
       added: 'value',
+      objectArray: [{ otherValue: 'test' }, { otherValue: 'test' }],
     };
     expect(_merge(obj, source1)).toEqual({
       account: {
@@ -599,6 +620,10 @@ describe('Utils', () => {
       },
       added: 'value',
       leftAlone: 'original',
+      objectArray: [
+        { otherValue: 'test', value: 'test' },
+        { otherValue: 'test', value: 'test' },
+      ],
     });
     expect(_merge({}, obj, source1)).toEqual({
       account: {
@@ -611,6 +636,10 @@ describe('Utils', () => {
       },
       added: 'value',
       leftAlone: 'original',
+      objectArray: [
+        { otherValue: 'test', value: 'test' },
+        { otherValue: 'test', value: 'test' },
+      ],
     });
     expect(obj).toEqual({
       account: {
@@ -619,6 +648,7 @@ describe('Utils', () => {
         leftAlone: 'original',
       },
       leftAlone: 'original',
+      objectArray: [{ value: 'test' }, { value: 'test' }],
     });
     expect(source1).toEqual({
       account: {
@@ -629,6 +659,7 @@ describe('Utils', () => {
         },
       },
       added: 'value',
+      objectArray: [{ otherValue: 'test' }, { otherValue: 'test' }],
     });
   });
 

@@ -42,6 +42,7 @@ export function createStores<Data extends Record<string, unknown>>(
   ) {
     if (_isPlainObject(touchValue)) return;
     if (Array.isArray(touchValue)) {
+      if (touchValue.some(_isPlainObject)) return;
       const errArray = Array.isArray(errValue) ? errValue : [];
       return touchValue.map(
         (value, index) => (value && errArray[index]) || null
