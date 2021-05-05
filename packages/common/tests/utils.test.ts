@@ -325,6 +325,7 @@ describe('Utils', () => {
       account: {
         username: 'test',
         password: '',
+        preferences: ['tech', 'film'],
       },
     };
 
@@ -332,6 +333,7 @@ describe('Utils', () => {
       account: {
         username: true,
         password: true,
+        preferences: [true, true],
       },
     });
   });
