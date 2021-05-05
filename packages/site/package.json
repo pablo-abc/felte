@@ -1,6 +1,6 @@
 {
   "name": "@felte/site",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "scripts": {
     "dev": "svelte-kit dev",
@@ -23,11 +23,11 @@
   },
   "type": "module",
   "dependencies": {
-    "@felte/reporter-dom": "^0.2.0",
-    "@felte/reporter-svelte": "^0.1.16",
-    "@felte/reporter-tippy": "^0.2.7",
-    "@felte/validator-yup": "^0.2.3",
-    "felte": "^0.6.8",
+    "@felte/reporter-dom": "^0.3.0",
+    "@felte/reporter-svelte": "^0.2.0",
+    "@felte/reporter-tippy": "^0.3.0",
+    "@felte/validator-yup": "^0.2.5",
+    "felte": "^0.7.0",
     "svelte-markdown": "^0.1.7",
     "svelte-portal": "^2.1.2"
   },

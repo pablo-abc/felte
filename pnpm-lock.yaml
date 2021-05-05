@@ -129,7 +129,7 @@ importers:
 
   packages/felte:
     specifiers:
-      '@felte/common': ^0.3.7
+      '@felte/common': ^0.4.0
       ts-jest: ^26.5.0
     dependencies:
       '@felte/common': link:../common
@@ -138,8 +138,8 @@ importers:
 
   packages/reporter-cvapi:
     specifiers:
-      '@felte/common': ^0.3.7
-      felte: ^0.6.7
+      '@felte/common': ^0.4.0
+      felte: ^0.7.0
     dependencies:
       '@felte/common': link:../common
     devDependencies:
@@ -147,8 +147,8 @@ importers:
 
   packages/reporter-dom:
     specifiers:
-      '@felte/common': ^0.3.7
-      felte: ^0.6.7
+      '@felte/common': ^0.4.0
+      felte: ^0.7.0
     dependencies:
       '@felte/common': link:../common
     devDependencies:
@@ -156,8 +156,8 @@ importers:
 
   packages/reporter-svelte:
     specifiers:
-      '@felte/common': ^0.3.7
-      felte: ^0.6.7
+      '@felte/common': ^0.4.0
+      felte: ^0.7.0
       rollup-plugin-svelte: ^7.1.0
       svelte: ^3.31.0
       svelte-preprocess: ^4.6.9
@@ -171,8 +171,8 @@ importers:
 
   packages/reporter-tippy:
     specifiers:
-      '@felte/common': ^0.3.7
-      felte: ^0.6.7
+      '@felte/common': ^0.4.0
+      felte: ^0.7.0
     dependencies:
       '@felte/common': link:../common
     devDependencies:
@@ -200,11 +200,11 @@ importers:
       vite: ^2.1.2
       yup: ^0.32.9
     dependencies:
-      '@felte/reporter-dom': link:../reporter-dom
-      '@felte/reporter-svelte': link:../reporter-svelte
-      '@felte/reporter-tippy': link:../reporter-tippy
+      '@felte/reporter-dom': 0.2.1
+      '@felte/reporter-svelte': 0.1.17
+      '@felte/reporter-tippy': 0.2.9_tippy.js@6.3.1
       '@felte/validator-yup': link:../validator-yup
-      felte: link:../felte
+      felte: 0.6.8_svelte@3.37.0
       svelte-markdown: 0.1.7_svelte@3.37.0
       svelte-portal: 2.1.2
     devDependencies:
@@ -223,8 +223,8 @@ importers:
 
   packages/validator-superstruct:
     specifiers:
-      '@felte/common': ^0.3.7
-      felte: ^0.6.7
+      '@felte/common': ^0.4.0
+      felte: ^0.7.0
       superstruct: ^0.15.0
     dependencies:
       '@felte/common': link:../common
@@ -234,8 +234,8 @@ importers:
 
   packages/validator-yup:
     specifiers:
-      '@felte/common': ^0.3.7
-      felte: ^0.6.7
+      '@felte/common': ^0.4.0
+      felte: ^0.7.0
       yup: ^0.32.9
     dependencies:
       '@felte/common': link:../common
@@ -245,8 +245,8 @@ importers:
 
   packages/validator-zod:
     specifiers:
-      '@felte/common': ^0.3.7
-      felte: ^0.6.7
+      '@felte/common': ^0.4.0
+      felte: ^0.7.0
       zod: ^1.11.13
     dependencies:
       '@felte/common': link:../common
@@ -1711,6 +1711,47 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@felte/common/0.3.7:
+    resolution: {integrity: sha512-xVmyA9nQig3BkOusPwJj+XatXWlgsL4b7IJhT8V0GSfiekpFtEzlV2KL9g7w+EQ75x//Bm7fj839nVW8hwHlZA==}
+    dev: false
+
+  /@felte/reporter-dom/0.2.1:
+    resolution: {integrity: sha512-fuMOm7cynhE9e3KyAgFnXGDBL+qiuCxFhfCU+Zb73dZLUiuE0KnAPdhFvdgZqJEdEMqXKF0/gwCMIOZBKsJs9A==}
+    dependencies:
+      '@felte/common': 0.3.7
+    dev: false
+
+  /@felte/reporter-svelte/0.1.17:
+    resolution: {integrity: sha512-cbxLHUR9KNKlZsEazWWxLdWxgsc7SOo98v8alEuQ8Fe9MpzYoAN/BtQ0sOgs7NG8YdWkiqMXbe+NMAb5+oZHJw==}
+    dependencies:
+      '@felte/common': 0.3.7
+      rollup-plugin-svelte: 7.1.0_svelte@3.37.0
+      svelte: 3.37.0
+      svelte-preprocess: 4.7.0_svelte@3.37.0
+    transitivePeerDependencies:
+      - '@babel/core'
+      - coffeescript
+      - less
+      - node-sass
+      - postcss
+      - postcss-load-config
+      - pug
+      - rollup
+      - sass
+      - stylus
+      - sugarss
+      - typescript
+    dev: false
+
+  /@felte/reporter-tippy/0.2.9_tippy.js@6.3.1:
+    resolution: {integrity: sha512-fOxzuwfMHNYTZzWNEe/fgoR5pJteuHoIdQtM1a0E3nPjTV1h7GmyF5nUynyIY28p6JUe97fMchmFQXUJ6GO7oQ==}
+    peerDependencies:
+      tippy.js: ^6.0.0
+    dependencies:
+      '@felte/common': 0.3.7
+      tippy.js: 6.3.1
+    dev: false
 
   /@istanbuljs/load-nyc-config/1.1.0:
     resolution: {integrity: sha512-VjeHSlIzpv/NyD3N0YuHfXOPDIixcA1q2ZV98wsMqcYlPmv2n3Yb2lYP9XMElnaFVXg5A7YLTeLu6V84uQDjmQ==}
@@ -4045,6 +4086,15 @@ packages:
     dependencies:
       bser: 2.1.1
     dev: true
+
+  /felte/0.6.8_svelte@3.37.0:
+    resolution: {integrity: sha512-c9FD9AvGJKncdxcIqGS3+RMRt2alfhp+SqXB/Bt9r6Zb9LuilPlsxz29niUGb+MPdfxxGuowW+rymxwSjbUuwg==}
+    peerDependencies:
+      svelte: ^3.31.0
+    dependencies:
+      '@felte/common': 0.3.7
+      svelte: 3.37.0
+    dev: false
 
   /figures/1.7.0:
     resolution: {integrity: sha1-y+Hjr/zxzUS4DK3+0o3Hk6lwHS4=}
