@@ -1,5 +1,11 @@
 # @felte/common
 
+## 0.4.0
+
+### Minor Changes
+
+- 230e76d: Handle inputs generated with an array
+
 ## 0.3.7
 
 ### Patch Changes
