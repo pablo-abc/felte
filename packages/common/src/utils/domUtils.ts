@@ -5,7 +5,13 @@ import type {
   ValidationFunction,
   Errors,
 } from '../types';
-import { isFormControl, isFieldSetElement, isInputElement } from './typeGuards';
+import {
+  isFormControl,
+  isFieldSetElement,
+  isInputElement,
+  isSelectElement,
+  isTextAreaElement,
+} from './typeGuards';
 import { _mergeWith } from './mergeWith';
 import { _isPlainObject } from './isPlainObject';
 import { _get } from './get';
@@ -134,37 +140,41 @@ export function setControlValue(
   el: FormControl,
   value: FieldValue | FieldValue[]
 ): void {
-  if (!isInputElement(el)) return;
+  if (!isFormControl(el)) return;
   const fieldValue = value;
-  if (el.type === 'checkbox') {
-    const checkboxesDefaultData = fieldValue;
-    if (
-      typeof checkboxesDefaultData === 'undefined' ||
-      typeof checkboxesDefaultData === 'boolean'
-    ) {
-      el.checked = !!checkboxesDefaultData;
+
+  if (isInputElement(el)) {
+    if (el.type === 'checkbox') {
+      const checkboxesDefaultData = fieldValue;
+      if (
+        typeof checkboxesDefaultData === 'undefined' ||
+        typeof checkboxesDefaultData === 'boolean'
+      ) {
+        el.checked = !!checkboxesDefaultData;
+        return;
+      }
+      if (Array.isArray(checkboxesDefaultData)) {
+        if ((checkboxesDefaultData as string[]).includes(el.value)) {
+          el.checked = true;
+        } else {
+          el.checked = false;
+        }
+      }
       return;
     }
-    if (Array.isArray(checkboxesDefaultData)) {
-      if ((checkboxesDefaultData as string[]).includes(el.value)) {
-        el.checked = true;
-      } else {
-        el.checked = false;
-      }
+    if (el.type === 'radio') {
+      const radioValue = fieldValue;
+      if (el.value === radioValue) el.checked = true;
+      else el.checked = false;
+      return;
     }
-    return;
+    if (el.type === 'file') {
+      el.files = null;
+      el.value = '';
+      return;
+    }
   }
-  if (el.type === 'radio') {
-    const radioValue = fieldValue;
-    if (el.value === radioValue) el.checked = true;
-    else el.checked = false;
-    return;
-  }
-  if (el.type === 'file') {
-    el.files = null;
-    el.value = '';
-    return;
-  }
+
   el.value = String(fieldValue || '');
 }
 
