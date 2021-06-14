@@ -1,6 +1,6 @@
 ---
-'@felte/common': minor
-'felte': minor
+'@felte/common': patch
+'felte': patch
 ---
 
 Fixed initialValues not being set for select and textarea elements
