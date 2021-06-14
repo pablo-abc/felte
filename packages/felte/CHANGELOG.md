@@ -1,5 +1,13 @@
 # felte
 
+## 0.7.2
+
+### Patch Changes
+
+- d20c7b8: Fixed initialValues not being set for select and textarea elements
+- Updated dependencies [d20c7b8]
+  - @felte/common@0.4.2
+
 ## 0.7.1
 
 ### Patch Changes
