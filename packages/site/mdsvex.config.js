@@ -1,4 +1,4 @@
-const hljs = require('highlight.js');
+import hljs from 'highlight.js';
 
 function highlighter(code, language) {
   const highlighted = hljs.highlight(code, { language });
@@ -12,9 +12,11 @@ function highlighter(code, language) {
   );
 }
 
-module.exports = {
-  extensions: [".svx", ".md"],
+const config = {
+  extensions: ['.svx', '.md'],
   highlight: {
     highlighter,
   },
 };
+
+export default config;
