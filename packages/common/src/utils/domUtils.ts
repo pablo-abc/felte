@@ -85,50 +85,53 @@ export function getFormDefaultValues<Data extends Obj>(
   const defaultData = {} as Data;
   for (const el of node.elements) {
     if (isFieldSetElement(el)) addAttrsFromFieldset(el);
-    if (!isInputElement(el) || !isFormControl(el) || !el.name) continue;
+    if (!isFormControl(el) || !el.name) continue;
     const elName = getPath(el);
     const index = getIndex(el);
-    if (el.type === 'checkbox') {
-      if (typeof _get(defaultData, elName) === 'undefined') {
-        const checkboxes = Array.from(
-          node.querySelectorAll(`[name="${el.name}"]`)
-        ).filter((checkbox) => {
-          if (!isFormControl(checkbox)) return false;
-          if (typeof index !== 'undefined') {
-            const felteIndex = Number(
-              (checkbox as HTMLInputElement).dataset.felteIndex
-            );
-            return felteIndex === index;
+    if (isInputElement(el)) {
+      if (el.type === 'checkbox') {
+        if (typeof _get(defaultData, elName) === 'undefined') {
+          const checkboxes = Array.from(
+            node.querySelectorAll(`[name="${el.name}"]`)
+          ).filter((checkbox) => {
+            if (!isFormControl(checkbox)) return false;
+            if (typeof index !== 'undefined') {
+              const felteIndex = Number(
+                (checkbox as HTMLInputElement).dataset.felteIndex
+              );
+              return felteIndex === index;
+            }
+            return elName === getPath(checkbox);
+          });
+          if (checkboxes.length === 1) {
+            _set(defaultData, elName, el.checked);
+            continue;
           }
-          return elName === getPath(checkbox);
-        });
-        if (checkboxes.length === 1) {
-          _set(defaultData, elName, el.checked);
+          _set(defaultData, elName, el.checked ? [el.value] : []);
           continue;
         }
-        _set(defaultData, elName, el.checked ? [el.value] : []);
+        if (Array.isArray(_get(defaultData, elName)) && el.checked) {
+          _update<Data, string[]>(defaultData, elName, (value) => {
+            if (typeof index !== 'undefined' && !Array.isArray(value))
+              value = [];
+            return [...value, el.value];
+          });
+        }
         continue;
       }
-      if (Array.isArray(_get(defaultData, elName)) && el.checked) {
-        _update<Data, string[]>(defaultData, elName, (value) => {
-          if (typeof index !== 'undefined' && !Array.isArray(value)) value = [];
-          return [...value, el.value];
-        });
+      if (el.type === 'radio') {
+        if (_get(defaultData, elName)) continue;
+        _set(defaultData, elName, el.checked ? el.value : undefined);
+        continue;
       }
-      continue;
-    }
-    if (el.type === 'radio') {
-      if (_get(defaultData, elName)) continue;
-      _set(defaultData, elName, el.checked ? el.value : undefined);
-      continue;
-    }
-    if (el.type === 'file') {
-      _set(
-        defaultData,
-        elName,
-        el.multiple ? Array.from(el.files || []) : el.files?.[0]
-      );
-      continue;
+      if (el.type === 'file') {
+        _set(
+          defaultData,
+          elName,
+          el.multiple ? Array.from(el.files || []) : el.files?.[0]
+        );
+        continue;
+      }
     }
     const inputValue = getInputTextOrNumber(el);
     _set(defaultData, elName, inputValue);

@@ -9,7 +9,6 @@ import type {
   Obj,
   Stores,
   Touched,
-  _update,
 } from '@felte/common';
 import {
   deepSet,
@@ -31,6 +30,7 @@ import {
   _set,
   _unset,
   getIndex,
+  isSelectElement,
 } from '@felte/common';
 import { get } from 'svelte/store';
 
@@ -214,7 +214,7 @@ export function createHelpers<Data extends Obj>({
 
     function handleInput(e: Event) {
       const target = e.target;
-      if (!target || !isFormControl(target)) return;
+      if (!target || !isInputElement(target)) return;
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
       if (config.touchTriggerEvents?.input) setTouched(getPath(target));
@@ -226,9 +226,15 @@ export function createHelpers<Data extends Obj>({
 
     function handleChange(e: Event) {
       const target = e.target;
-      if (!target || !isInputElement(target)) return;
+      if (!target || !isFormControl(target)) return;
       if (!target.name) return;
       if (config.touchTriggerEvents?.change) setTouched(getPath(target));
+      if (isSelectElement(target)) {
+        data.update(($data) => {
+          return _set($data, getPath(target), target.value);
+        });
+      }
+      if (!isInputElement(target)) return;
       if (target.type === 'checkbox') setCheckboxValues(target);
       if (target.type === 'radio') setRadioValues(target);
       if (target.type === 'file') setFileValue(target);
