@@ -129,7 +129,7 @@ importers:
 
   packages/felte:
     specifiers:
-      '@felte/common': ^0.4.2
+      '@felte/common': ^0.4.3
       ts-jest: ^26.5.0
     dependencies:
       '@felte/common': link:../common
