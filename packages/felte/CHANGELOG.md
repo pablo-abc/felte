@@ -1,5 +1,13 @@
 # felte
 
+## 0.7.3
+
+### Patch Changes
+
+- c31e1cc: Fix select element being validate on start
+- Updated dependencies [c31e1cc]
+  - @felte/common@0.4.3
+
 ## 0.7.2
 
 ### Patch Changes
