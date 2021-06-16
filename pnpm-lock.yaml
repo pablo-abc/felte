@@ -36,7 +36,7 @@ importers:
       jest: ^26.6.3
       mdsvex: ^0.9.0
       pinst: ^2.1.4
-      pnpm: ^6.2.3
+      pnpm: ^6.7.6
       prettier: ^2.2.1
       rimraf: ^3.0.2
       rollup: ^2.38.0
@@ -94,7 +94,7 @@ importers:
       jest: 26.6.3
       mdsvex: 0.9.0_svelte@3.37.0
       pinst: 2.1.6
-      pnpm: 6.2.3
+      pnpm: 6.7.6
       prettier: 2.2.1
       rimraf: 3.0.2
       rollup: 2.45.2
@@ -6169,8 +6169,8 @@ packages:
     dependencies:
       find-up: 4.1.0
 
-  /pnpm/6.2.3:
-    resolution: {integrity: sha512-qYRrxYyN14tqeMGu7E3P+INXDiYbGojn5mitVfUxidO9OsSnTGSqT85nkslfKW8YfChlzFVN0XdG+1Tj86tKhA==}
+  /pnpm/6.7.6:
+    resolution: {integrity: sha512-VhO6zVIuhVkKXP3kWMZs9W5b3rhcztq524WoAc9OEwjmj7SiKyp0UNltaaLR0VRjFGJPuQOcqDbNkWwzao6dUw==}
     engines: {node: '>=12.17'}
     hasBin: true
     dev: true
