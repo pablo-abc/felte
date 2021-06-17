@@ -214,7 +214,7 @@ export function createHelpers<Data extends Obj>({
 
     function handleInput(e: Event) {
       const target = e.target;
-      if (!target || !isInputElement(target)) return;
+      if (!target || !isFormControl(target) || isSelectElement(target)) return;
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
       if (config.touchTriggerEvents?.input) setTouched(getPath(target));
