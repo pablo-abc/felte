@@ -51,7 +51,6 @@ describe('Multi Step', () => {
 
     form1.formElement.submit();
 
-    step.subscribe(console.log);
     await waitFor(() => {
       expect(get(step)).toBe(1);
     });
