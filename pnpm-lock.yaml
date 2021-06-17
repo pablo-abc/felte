@@ -136,6 +136,15 @@ importers:
     devDependencies:
       ts-jest: 26.5.4
 
+  packages/multi-step:
+    specifiers:
+      '@felte/common': ^0.4.3
+      felte: ^0.7.0
+    dependencies:
+      '@felte/common': link:../common
+    devDependencies:
+      felte: link:../felte
+
   packages/reporter-cvapi:
     specifiers:
       '@felte/common': ^0.4.0
