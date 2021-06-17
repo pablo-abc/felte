@@ -140,9 +140,8 @@ importers:
     specifiers:
       '@felte/common': ^0.4.3
       felte: ^0.7.0
-    dependencies:
-      '@felte/common': link:../common
     devDependencies:
+      '@felte/common': link:../common
       felte: link:../felte
 
   packages/reporter-cvapi:

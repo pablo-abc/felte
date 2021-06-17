@@ -10,7 +10,11 @@
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/multi-step",
-  "keywords": ["svelte", "forms", "felte"],
+  "keywords": [
+    "svelte",
+    "forms",
+    "felte"
+  ],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
