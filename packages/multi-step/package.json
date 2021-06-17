@@ -1,6 +1,6 @@
 {
   "name": "@felte/multi-step",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A helper package to handle multistep forms",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -20,10 +20,8 @@
     "test:ci": "jest --ci --coverage"
   },
   "license": "MIT",
-  "dependencies": {
-    "@felte/common": "^0.4.3"
-  },
   "devDependencies": {
+    "@felte/common": "^0.4.3",
     "felte": "^0.7.0"
   },
   "peerDependencies": {
