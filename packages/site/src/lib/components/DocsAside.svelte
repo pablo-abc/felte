@@ -94,6 +94,7 @@
     bottom: 0;
     background: var(--primary-background);
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
     box-shadow:
       0 2.8px 2.2px rgba(0, 0, 0, 0.034),
       0 6.7px 5.3px rgba(0, 0, 0, 0.048),
