@@ -26,6 +26,8 @@
     - [`@felte/reporter-cvapi`](./packages/reporter-cvapi/README.md)
     - [`@felte/reporter-dom`](./packages/reporter-dom/README.md)
     - [`@felte/reporter-svelte`](./packages/reporter-svelte/README.md)
+  - [Extras](#extras)
+    - [`@felte/multi-step`](./packages/multi-step/README.md)
 - [Contributing](#contributing)
 - [Contributors](#contributors-)
 
@@ -117,6 +119,12 @@ A reporter that displays the error messages in the DOM, either as a single eleme
 #### [@felte/reporter-svelte](./packages/reporter-svelte/README.md)
 
 A reporter that uses a Svelte component to pass the validation messages for you to display.
+
+### Extras
+
+#### [@felte/multi-step)(./packages/multi-step/README.md)
+
+A package to help you handle multi step forms.
 
 ## Contributing
 

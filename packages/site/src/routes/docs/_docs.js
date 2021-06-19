@@ -17,6 +17,7 @@ const sections = [
   'helper-functions',
   'reporters',
   'custom-form-controls',
+  'multi-page-forms',
   'accessibility',
   'extending-felte',
 ];
