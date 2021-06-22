@@ -95,7 +95,7 @@ code {
   border-radius: 2px;
 }
 
-input {
+label input {
   font-size: 1em;
   border: 1px solid #aaa;
   border-radius: 10px;
@@ -105,7 +105,7 @@ input {
   width: 18rem;
 }
 
-input[aria-invalid="true"] {
+label input[aria-invalid="true"] {
   border: 2px solid var(--error-color);
 }
 
