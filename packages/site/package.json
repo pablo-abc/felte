@@ -3,7 +3,7 @@
   "version": "0.0.4",
   "private": true,
   "scripts": {
-    "dev": "svelte-kit dev",
+    "dev": "svelte-kit dev --host",
     "build": "svelte-kit build",
     "preview": "svelte-kit preview"
   },
