@@ -84,7 +84,7 @@ This repository is a mono-repo containing multiple packages located in the `pack
 
 This is the core package that contains all the basic functionality you need to handle your forms in Svelte. Felte optionally allows you to use error reporters (see them as plugins) to prevent you from needing to find a way to display your errors on your form manually. For this we provide already some reporter packages contained in this same repo.
 
-### [@felte/common](./packages/common/README.md)
+#### [@felte/common](./packages/common/README.md)
 
 Common utilities that can be used for any felte package.
 
