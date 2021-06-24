@@ -122,7 +122,7 @@ A reporter that uses a Svelte component to pass the validation messages for you 
 
 ### Extras
 
-#### [@felte/multi-step)(./packages/multi-step/README.md)
+#### [@felte/multi-step](./packages/multi-step/README.md)
 
 A package to help you handle multi step forms.
 
