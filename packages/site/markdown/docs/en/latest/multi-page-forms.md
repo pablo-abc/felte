@@ -55,6 +55,8 @@ The object returned by `createForms` contains the following properties:
 - `step`: A writable store that contains the current step.
 - `pages`: An array of objects, the same object returned by Felte's `createForm` for each form.
 
+A more complete and functional example can be found on [CodeSandbox](https://codesandbox.io/s/felte-multi-step-demo-vyxh6?file=/App.svelte).
+
 ## Typescript
 
 `createForms` accepts a generic argument, it should be a tuple that contains the `Data` shape for each form. Typescript support is still spotty, though. And there's no way to add an "extended" signature as you can do with Felte's `createForm`.
