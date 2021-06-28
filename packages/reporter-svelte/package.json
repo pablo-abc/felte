@@ -38,8 +38,8 @@
   "devDependencies": {
     "felte": "^0.7.0",
     "rollup-plugin-svelte": "^7.1.0",
-    "svelte-preprocess": "^4.6.9",
-    "svelte": "^3.31.0"
+    "svelte": "^3.31.0",
+    "svelte-preprocess": "^4.6.9"
   },
   "peerDependencies": {
     "svelte": "^3.31.0"

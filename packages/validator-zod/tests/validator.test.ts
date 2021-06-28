@@ -26,8 +26,8 @@ describe('Validator zod', () => {
 
     expect(get(data)).toEqual(mockData);
     expect(get(errors)).toEqual({
-      email: 'Should be at least 1 characters',
-      password: 'Should be at least 1 characters',
+      email: ['Invalid email', 'Should be at least 1 characters'],
+      password: ['Should be at least 1 characters'],
     });
 
     data.set({
@@ -67,8 +67,8 @@ describe('Validator zod', () => {
     expect(get(data)).toEqual(mockData);
     expect(get(errors)).toEqual({
       account: {
-        email: 'Should be at least 1 characters',
-        password: 'Should be at least 1 characters',
+        email: ['Invalid email', 'Should be at least 1 characters'],
+        password: ['Should be at least 1 characters'],
       },
     });
 
@@ -112,8 +112,8 @@ describe('Validator zod', () => {
 
     expect(get(data)).toEqual(mockData);
     expect(get(errors)).toEqual({
-      email: 'Should be at least 1 characters',
-      password: 'Should be at least 1 characters',
+      email: ['Invalid email', 'Should be at least 1 characters'],
+      password: ['Should be at least 1 characters'],
     });
 
     data.set({
@@ -157,8 +157,8 @@ describe('Validator zod', () => {
     expect(get(data)).toEqual(mockData);
     expect(get(errors)).toEqual({
       account: {
-        email: 'Should be at least 1 characters',
-        password: 'Should be at least 1 characters',
+        email: ['Invalid email', 'Should be at least 1 characters'],
+        password: ['Should be at least 1 characters'],
       },
     });
 
@@ -212,8 +212,12 @@ describe('Validator zod', () => {
     expect(get(data)).toEqual(mockData);
     expect(get(errors)).toEqual({
       account: {
-        email: ['not an email', 'Should be at least 1 characters'],
-        password: 'Should be at least 1 characters',
+        email: [
+          'not an email',
+          'Invalid email',
+          'Should be at least 1 characters',
+        ],
+        password: ['Should be at least 1 characters'],
       },
     });
 

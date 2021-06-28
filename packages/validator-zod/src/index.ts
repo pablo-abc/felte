@@ -5,6 +5,7 @@ import type {
   ExtenderHandler,
   CurrentForm,
 } from '@felte/common';
+import { _update } from '@felte/common';
 import type { ZodError, ZodTypeAny } from 'zod';
 
 export type ValidatorConfig = {
@@ -15,7 +16,18 @@ export function validateSchema<Data extends Obj>(
   schema: ZodTypeAny
 ): ValidationFunction<Data> {
   function shapeErrors(errors: ZodError): Errors<Data> {
-    return errors.flatten().fieldErrors as Errors<Data>;
+    return errors.issues.reduce((err, value) => {
+      if (!value.path) return err;
+      return _update(
+        err,
+        value.path.join('.'),
+        (currentValue: undefined | string[]) => {
+          if (!currentValue || !Array.isArray(currentValue))
+            return [value.message];
+          return [...currentValue, value.message];
+        }
+      );
+    }, {});
   }
   return async function validate(
     values: Data

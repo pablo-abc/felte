@@ -5,6 +5,7 @@
 ### Minor Changes
 
 - Upgrade to support Zod 3
+- BREAKING: Field errors are now an array of errors instead of a single string
 
 ## 0.2.5
 
