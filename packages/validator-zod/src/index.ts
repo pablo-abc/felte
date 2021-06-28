@@ -3,8 +3,8 @@ import type {
   Errors,
   ValidationFunction,
   ExtenderHandler,
+  CurrentForm,
 } from '@felte/common';
-import { _set, CurrentForm } from '@felte/common';
 import type { ZodError, ZodTypeAny } from 'zod';
 
 export type ValidatorConfig = {
@@ -15,10 +15,7 @@ export function validateSchema<Data extends Obj>(
   schema: ZodTypeAny
 ): ValidationFunction<Data> {
   function shapeErrors(errors: ZodError): Errors<Data> {
-    return errors.errors.reduce((err, value) => {
-      if (!value.path) return err;
-      return _set(err, value.path.join('.'), value.message);
-    }, {});
+    return errors.flatten().fieldErrors as Errors<Data>;
   }
   return async function validate(
     values: Data

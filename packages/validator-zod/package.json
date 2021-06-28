@@ -1,6 +1,6 @@
 {
   "name": "@felte/validator-zod",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "description": "A package to use Zod validation with Felte",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -31,10 +31,10 @@
   },
   "devDependencies": {
     "felte": "^0.7.0",
-    "zod": "^1.11.13"
+    "zod": "^3.2.0"
   },
   "peerDependencies": {
-    "zod": "^1.11.13"
+    "zod": "^3.2.0"
   },
   "publishConfig": {
     "access": "public"

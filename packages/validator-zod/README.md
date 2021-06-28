@@ -24,8 +24,8 @@ import { validator } from '@felte/validator-zod';
 import * as zod from 'zod';
 
 const schema = zod.object({
-  email: zod.string().email().required(),
-  password: zod.string().required(),
+  email: zod.string().email().nonempty(),
+  password: zod.string().nonempty(),
 });
 
 const { form } = createForm({
@@ -43,8 +43,8 @@ import { validateSchema } from '@felte/validator-zod';
 import * as zod from 'zod';
 
 const schema = zod.object({
-  email: zod.string().email().required(),
-  password: zod.string().required(),
+  email: zod.string().email().nonempty(),
+  password: zod.string().nonempty(),
 });
 
 const { form } = createForm({
