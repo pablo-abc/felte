@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.2.1
+
+### Patch Changes
+
+- Remove build dependencies from "dependencies"
+
 ## 0.2.0
 
 ### Minor Changes
