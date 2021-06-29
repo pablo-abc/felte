@@ -4,7 +4,7 @@ section: Custom form controls
 
 ## Custom form controls
 
-If for some reason you're not using an HTML5 input or textarea as an input, you can always bind to the `data` store in order to let Felte manage your custom controls.
+If for some reason you're not using an HTML5 input, select or textarea element as an input, you can always bind to the `data` store in order to let Felte manage your custom controls.
 
 ```html
 <script>
@@ -18,7 +18,7 @@ If for some reason you're not using an HTML5 input or textarea as an input, you 
 </form>
 ```
 
-You may also use any of the returned helpers from `createForm` for this as well.
+You may also use any of the returned [helpers from `createForm`](/docs/helper-functions) for this as well.
 
 ```html
 <script>
