@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.3.2
+
+### Patch Changes
+
+- Fix external dependencies on build
+
 ## 0.3.1
 
 ### Patch Changes

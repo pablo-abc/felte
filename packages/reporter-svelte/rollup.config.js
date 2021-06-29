@@ -15,7 +15,7 @@ const name = pkg.name
 
 export default {
   input: './src/index.js',
-  external: ['tippy.js'],
+  external: ['svelte', 'svelte/store'],
   output: [
     { file: pkg.browser, format: 'umd', sourcemap: prod, name },
     { file: pkg.module, format: 'esm', sourcemap: prod },

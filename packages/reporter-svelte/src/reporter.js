@@ -1,4 +1,3 @@
-import { setContext, hasContext } from 'svelte';
 import { getPath, _get } from '@felte/common';
 import { errorStores } from './stores';
 

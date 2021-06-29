@@ -1,5 +1,11 @@
 # felte
 
+## 0.7.5
+
+### Patch Changes
+
+- Fix external dependencies on build
+
 ## 0.7.4
 
 ### Patch Changes
