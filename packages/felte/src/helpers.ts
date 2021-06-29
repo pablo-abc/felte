@@ -10,6 +10,7 @@ import type {
   Stores,
   Touched,
 } from '@felte/common';
+import type { DispatchEvent } from './custom-events';
 import {
   deepSet,
   deepSome,
@@ -40,6 +41,11 @@ type CreateHelpersOptions<Data extends Obj> = {
   currentExtenders: ExtenderHandler<Data>[];
   extender: Extender<Data>[];
 };
+
+function isDispatchEvent(event: DispatchEvent | Event): event is DispatchEvent {
+  const detail = (event as DispatchEvent).detail;
+  return !!detail && !!detail.path;
+}
 
 export function createHelpers<Data extends Obj>({
   stores,
@@ -212,39 +218,63 @@ export function createHelpers<Data extends Obj>({
       });
     }
 
-    function handleInput(e: Event) {
-      const target = e.target;
-      if (!target || !isFormControl(target) || isSelectElement(target)) return;
-      if (['checkbox', 'radio', 'file'].includes(target.type)) return;
-      if (!target.name) return;
-      if (config.touchTriggerEvents?.input) setTouched(getPath(target));
-      const inputValue = getInputTextOrNumber(target);
+    function handleInput(e: DispatchEvent | Event) {
+      let path: string;
+      let inputValue: FieldValue;
+      if (!isDispatchEvent(e)) {
+        const target = e.target;
+        if (!target || !isFormControl(target) || isSelectElement(target))
+          return;
+        if (['checkbox', 'radio', 'file'].includes(target.type)) return;
+        if (!target.name) return;
+        inputValue = getInputTextOrNumber(target);
+        path = getPath(target);
+      } else {
+        inputValue = e.detail.value;
+        path = e.detail.path;
+      }
+      if (config.touchTriggerEvents?.input) setTouched(path);
       data.update(($data) => {
-        return _set($data, getPath(target), inputValue);
+        return _set($data, path, inputValue);
       });
     }
 
-    function handleChange(e: Event) {
-      const target = e.target;
-      if (!target || !isFormControl(target)) return;
-      if (!target.name) return;
-      if (config.touchTriggerEvents?.change) setTouched(getPath(target));
-      if (isSelectElement(target)) {
+    function handleChange(e: DispatchEvent | Event) {
+      let path: string;
+      if (!isDispatchEvent(e)) {
+        const target = e.target;
+        if (!target || !isFormControl(target)) return;
+        if (!target.name) return;
+        path = getPath(target);
+        if (isSelectElement(target)) {
+          data.update(($data) => {
+            return _set($data, path, target.value);
+          });
+        }
+        if (!isInputElement(target)) return;
+        if (target.type === 'checkbox') setCheckboxValues(target);
+        if (target.type === 'radio') setRadioValues(target);
+        if (target.type === 'file') setFileValue(target);
+      } else {
+        path = e.detail.path;
         data.update(($data) => {
-          return _set($data, getPath(target), target.value);
+          return _set($data, path, e.detail.value);
         });
       }
-      if (!isInputElement(target)) return;
-      if (target.type === 'checkbox') setCheckboxValues(target);
-      if (target.type === 'radio') setRadioValues(target);
-      if (target.type === 'file') setFileValue(target);
+      if (config.touchTriggerEvents?.change) setTouched(path);
     }
 
-    function handleBlur(e: Event) {
-      const target = e.target;
-      if (!target || !isFormControl(target)) return;
-      if (!target.name) return;
-      if (config.touchTriggerEvents?.blur) setTouched(getPath(target));
+    function handleBlur(e: Event | DispatchEvent) {
+      let path: string;
+      if (!isDispatchEvent(e)) {
+        const target = e.target;
+        if (!target || !isFormControl(target)) return;
+        if (!target.name) return;
+        path = getPath(target);
+      } else {
+        path = e.detail.path;
+      }
+      if (config.touchTriggerEvents?.blur) setTouched(path);
     }
 
     const mutationOptions = { childList: true, subtree: true };
