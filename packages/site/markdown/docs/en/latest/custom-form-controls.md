@@ -14,6 +14,24 @@ If for some reason you're not using an HTML5 input or textarea as an input, you 
 </script>
 
 <form use:form>
-  <SomeCustomControl bind:value={$data.customControlValue} />
+  <SomeCustomControl bind:value={$data.customControlName} />
+</form>
+```
+
+You may also use any of the returned helpers from `createForm` for this as well.
+
+```html
+<script>
+  import { createForm } from 'felte';
+
+  const { form, setField } = createForm({ /* ... */ });
+
+  function handleChange(event) {
+    setField('customControlName', event.detail.value);
+  }
+</script>
+
+<form use:form>
+  <SomeCustomControl on:customChangeEvent="{handleChange}" />
 </form>
 ```
