@@ -15,7 +15,7 @@ const name = pkg.name
 
 export default {
   input: './src/index.js',
-  external: ['svelte', 'svelte/store'],
+  external: ['svelte', 'svelte/store', 'svelte/internal'],
   output: [
     { file: pkg.browser, format: 'umd', sourcemap: prod, name },
     { file: pkg.module, format: 'esm', sourcemap: prod },
