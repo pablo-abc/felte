@@ -35,3 +35,5 @@ You may also use any of the returned helpers from `createForm` for this as well.
   <SomeCustomControl on:customChangeEvent="{handleChange}" />
 </form>
 ```
+
+> **NOTE**: If your custom form control uses an `input` or other native form control behind the scenes, you may dispatch an `input` or `change` event from it when the value of it changes (if your control does not do this already). Felte listens to `change` events for `<input type="checkbox">`, `<input type="radio">`, `<select>` and `<input type="file">` elements; and for `input` events on any other type of `input`.
