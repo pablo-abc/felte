@@ -193,7 +193,7 @@ importers:
       '@felte/reporter-tippy': ^0.3.0
       '@felte/validator-yup': ^0.2.5
       '@sveltejs/adapter-static': 1.0.0-next.13
-      '@sveltejs/kit': 1.0.0-next.118
+      '@sveltejs/kit': 1.0.0-next.116
       eslint-plugin-svelte3: ^3.1.2
       felte: ^0.7.5
       front-matter: ^4.0.2
@@ -218,7 +218,7 @@ importers:
       svelte-portal: 2.1.2
     devDependencies:
       '@sveltejs/adapter-static': 1.0.0-next.13
-      '@sveltejs/kit': 1.0.0-next.118_rollup@2.45.2+svelte@3.37.0
+      '@sveltejs/kit': 1.0.0-next.116_rollup@2.45.2+svelte@3.37.0
       eslint-plugin-svelte3: 3.1.2_eslint@7.24.0+svelte@3.37.0
       front-matter: 4.0.2
       highlight.js: 10.7.2
@@ -2495,12 +2495,12 @@ packages:
     resolution: {integrity: sha512-Atri/5jyiVmAklqDKb/5czmLkHos6LQOag61k/C6qWozMb8UopvL3bTm62hFQXGKvGnuSRq2xIueDOKWHM/7rA==}
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.118_rollup@2.45.2+svelte@3.37.0:
-    resolution: {integrity: sha512-z72d8p/Csamg+TLf5Vb3ewAo9WhiEgPmGUA/m5ot2qppzLo36+ys109HVsdVoFg2B7wbYB56stbocHr7gF/QuA==}
+  /@sveltejs/kit/1.0.0-next.116_rollup@2.45.2+svelte@3.37.0:
+    resolution: {integrity: sha512-BpqiZMgCjxZUpDYnRZ3Z2H0PQtj7ak+EHOTJYOCUzDUK4iT4Jd36ljlzTEQgEJKrBTKZJgs0yFH1Zc9AAdftoA==}
     engines: {node: ^12.20 || >=14.13}
     hasBin: true
     peerDependencies:
-      svelte: ^3.34.0
+      svelte: ^3.38.2
     dependencies:
       '@sveltejs/vite-plugin-svelte': 1.0.0-next.11_36d1fdd2d82eaa75856f6106faa2e669
       cheap-watch: 1.0.3
