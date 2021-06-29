@@ -1,14 +1,24 @@
 import { setContext, hasContext } from 'svelte';
-import { formKey } from './key';
 import { getPath, _get } from '@felte/common';
+import { nanoid } from 'nanoid';
+import { errorStores } from './stores';
 
 /**
  *
  * @param {any} currentForm
  */
 export function svelteReporter(currentForm) {
-  if (!hasContext(formKey)) setContext(formKey, currentForm.errors);
+  const config = currentForm.config;
+  if (!config.__felteReporterSvelteId) {
+    const id = nanoid();
+    config.__felteReporterSvelteId = id;
+    errorStores[id] = currentForm.errors;
+  }
   if (!currentForm.form) return;
+  if (!currentForm.form.hasAttribute('data-felte-reporter-svelte-id')) {
+    currentForm.form.dataset.felteReporterSvelteId =
+      config.__felteReporterSvelteId;
+  }
   const unsubscribe = currentForm.errors.subscribe(($errors) => {
     for (const control of currentForm.controls) {
       const controlError = _get($errors, getPath(control));

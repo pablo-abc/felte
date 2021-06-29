@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.3.0
+
+### Minor Changes
+
+- Use a global store instead of context for communicating with ValidationMessage
+
 ## 0.2.1
 
 ### Patch Changes

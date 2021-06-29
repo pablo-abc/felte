@@ -1,6 +1,6 @@
 {
   "name": "@felte/site",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": true,
   "scripts": {
     "dev": "svelte-kit dev --host",
@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "1.0.0-next.13",
-    "@sveltejs/kit": "1.0.0-next.116",
+    "@sveltejs/kit": "1.0.0-next.118",
     "eslint-plugin-svelte3": "^3.1.2",
     "front-matter": "^4.0.2",
     "highlight.js": "^10.7.1",
@@ -23,7 +23,7 @@
   "type": "module",
   "dependencies": {
     "@felte/reporter-dom": "^0.3.0",
-    "@felte/reporter-svelte": "^0.2.0",
+    "@felte/reporter-svelte": "^0.3.0",
     "@felte/reporter-tippy": "^0.3.0",
     "@felte/validator-yup": "^0.2.5",
     "felte": "^0.7.4",

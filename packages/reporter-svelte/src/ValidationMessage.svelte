@@ -1,15 +1,25 @@
 <script>
-  import { getContext, onMount } from 'svelte';
-  import { formKey } from './key';
+  import { onMount } from 'svelte';
+  import { writable } from 'svelte/store';
   import { _get, isFieldSetElement, getIndex } from '@felte/common';
+  import { errorStores } from './stores';
 
   export let index = undefined;
   let errorFor;
   export { errorFor as for };
 
-  const errors = getContext(formKey);
+  let errors;
   let errorPath;
   let element;
+
+  function getFormElement() {
+    let form = element.parentNode;
+    if (!form) return;
+    while (form && form.nodeName !== 'FORM') {
+      form = form.parentNode;
+    }
+    return form;
+  }
 
   function getPath() {
     let path = errorFor;
@@ -27,7 +37,12 @@
     }
     return path;
   }
-  onMount(() => (errorPath = getPath()));
+  onMount(() => {
+    errorPath = getPath();
+    const formElement = getFormElement();
+    if (!formElement) errors = writable({});
+    else errors = errorStores[formElement.dataset.felteReporterSvelteId];
+  });
   $: messages = errorPath && _get($errors, errorPath)
 </script>
 
