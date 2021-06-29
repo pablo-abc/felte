@@ -23,7 +23,7 @@
   "type": "module",
   "dependencies": {
     "@felte/reporter-dom": "^0.3.0",
-    "@felte/reporter-svelte": "^0.3.0",
+    "@felte/reporter-svelte": "^0.3.1",
     "@felte/reporter-tippy": "^0.3.0",
     "@felte/validator-yup": "^0.2.5",
     "felte": "^0.7.4",

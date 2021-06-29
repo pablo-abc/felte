@@ -1,7 +1,15 @@
 import { setContext, hasContext } from 'svelte';
 import { getPath, _get } from '@felte/common';
-import { nanoid } from 'nanoid';
 import { errorStores } from './stores';
+
+function createId(length = 8) {
+  let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let str = '';
+  for (let i = 0; i < length; i++) {
+    str += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return str;
+}
 
 /**
  *
@@ -10,7 +18,7 @@ import { errorStores } from './stores';
 export function svelteReporter(currentForm) {
   const config = currentForm.config;
   if (!config.__felteReporterSvelteId) {
-    const id = nanoid();
+    const id = createId(21);
     config.__felteReporterSvelteId = id;
     errorStores[id] = currentForm.errors;
   }

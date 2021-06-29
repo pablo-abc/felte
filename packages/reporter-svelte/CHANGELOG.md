@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.3.1
+
+### Patch Changes
+
+- Use own random ID generator
+
 ## 0.3.0
 
 ### Minor Changes

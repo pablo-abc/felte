@@ -166,13 +166,11 @@ importers:
     specifiers:
       '@felte/common': ^0.4.0
       felte: ^0.7.0
-      nanoid: ^3.1.23
       rollup-plugin-svelte: ^7.1.0
       svelte: ^3.31.0
       svelte-preprocess: ^4.6.9
     dependencies:
       '@felte/common': link:../common
-      nanoid: 3.1.23
     devDependencies:
       felte: link:../felte
       rollup-plugin-svelte: 7.1.0_rollup@2.45.2+svelte@3.37.0
@@ -6234,6 +6232,7 @@ packages:
     resolution: {integrity: sha512-FiB0kzdP0FFVGDKlRLEQ1BgDzU87dy5NnzjeW9YZNt+/c3+q82EQDUwniSAUxp/F0gFNI1ZhKU1FqYsMuqZVnw==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+    dev: true
 
   /nanomatch/1.2.13:
     resolution: {integrity: sha512-fpoe2T0RbHwBTBUOftAfBPaDEi06ufaUai0mE6Yn1kacc3SnTErfb/h+X94VXzI64rKFHYImXSvdwGGCmwOqCA==}
