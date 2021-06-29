@@ -12,4 +12,8 @@
   blockquote > :global(*) {
     margin: 0.5rem 0;
   }
+
+  blockquote :global(code) {
+    background: var(--header-background-hover);
+  }
 </style>
