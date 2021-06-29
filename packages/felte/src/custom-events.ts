@@ -29,26 +29,35 @@ export type DispatchEvent = CustomEvent<{
   path: string;
 }>;
 
-function dispatchEventOnChange(node: HTMLElement, eventType: string) {
+function dispatchEventOnChange(
+  node: HTMLElement,
+  eventType: string,
+  defaultValue?: FieldValue
+) {
   const name = node.dataset.felteName;
   if (!name) return;
+  function dispatchEvent(value: FieldValue, eventType: string) {
+    const customEvent = new CustomEvent(eventType, {
+      detail: { value, path: getPath(node, name) },
+      bubbles: true,
+    });
+    node.dispatchEvent(customEvent);
+  }
+
+  if (defaultValue) dispatchEvent(defaultValue, 'input');
   return {
     update(value: FieldValue) {
-      const customEvent = new CustomEvent(eventType, {
-        detail: { value, path: getPath(node, name) },
-        bubbles: true,
-      });
-      node.dispatchEvent(customEvent);
+      dispatchEvent(value, eventType);
     },
   };
 }
 
-export function dispatchInput(node: HTMLElement) {
-  return dispatchEventOnChange(node, 'input');
+export function dispatchInput(node: HTMLElement, defaultValue?: FieldValue) {
+  return dispatchEventOnChange(node, 'input', defaultValue);
 }
 
-export function dispatchChange(node: HTMLElement) {
-  return dispatchEventOnChange(node, 'change');
+export function dispatchChange(node: HTMLElement, defaultValue?: FieldValue) {
+  return dispatchEventOnChange(node, 'change', defaultValue);
 }
 
 export function dispatchBlur(node: HTMLElement) {
