@@ -44,7 +44,8 @@ function dispatchEventOnChange(
     node.dispatchEvent(customEvent);
   }
 
-  if (defaultValue) dispatchEvent(defaultValue, 'input');
+  if (typeof defaultValue !== 'undefined')
+    setTimeout(() => dispatchEvent(defaultValue, 'felteLoadField'));
   return {
     update(value: FieldValue) {
       dispatchEvent(value, eventType);

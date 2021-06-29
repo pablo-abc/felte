@@ -218,6 +218,16 @@ export function createHelpers<Data extends Obj>({
       });
     }
 
+    function handleLoadField(e: DispatchEvent | Event) {
+      if (!isDispatchEvent(e)) return;
+      touched.update(($touched) => {
+        return _set($touched, e.detail.path, false);
+      });
+      data.update(($data) => {
+        return _set($data, e.detail.path, e.detail.value);
+      });
+    }
+
     function handleInput(e: DispatchEvent | Event) {
       let path: string;
       let inputValue: FieldValue;
@@ -328,6 +338,7 @@ export function createHelpers<Data extends Obj>({
     node.addEventListener('change', handleChange);
     node.addEventListener('focusout', handleBlur);
     node.addEventListener('submit', handleSubmit);
+    node.addEventListener('felteLoadField', handleLoadField);
     const unsubscribeErrors = errors.subscribe(($errors) => {
       for (const el of node.elements) {
         if (!isFormControl(el) || !el.name) continue;
@@ -350,6 +361,7 @@ export function createHelpers<Data extends Obj>({
         node.removeEventListener('change', handleChange);
         node.removeEventListener('focusout', handleBlur);
         node.removeEventListener('submit', handleSubmit);
+        node.removeEventListener('felteLoadField', handleLoadField);
         unsubscribeErrors();
         currentExtenders.forEach((extender) => extender?.destroy?.());
       },

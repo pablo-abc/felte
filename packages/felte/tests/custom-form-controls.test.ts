@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/dom';
+import { screen, waitFor } from '@testing-library/dom';
 import { cleanupDOM, createDOM } from './common';
 import {
   createForm,
@@ -27,7 +27,7 @@ describe('Custom controls', () => {
 
   afterEach(cleanupDOM);
 
-  test('Sends events correctly', () => {
+  test('Sends events correctly', async () => {
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const fieldsetElement = document.createElement('fieldset');
     fieldsetElement.name = 'fieldset';
@@ -38,33 +38,29 @@ describe('Custom controls', () => {
     formElement.appendChild(fieldsetElement);
 
     const { form, data, touched } = createForm({
-      initialValues: {
-        fieldset: {
-          testInput: '',
-          testChange: '',
-        },
-      },
       onSubmit: jest.fn(),
     });
 
     form(formElement);
 
-    const inputResult = dispatchInput(inputEditable);
+    const inputResult = dispatchInput(inputEditable, '');
     const blurResult = dispatchBlur(inputEditable);
-    const changeResult = dispatchChange(changeEditable);
+    const changeResult = dispatchChange(changeEditable, '');
 
-    expect(get(data)).toEqual({
-      fieldset: {
-        testInput: '',
-        testChange: '',
-      },
-    });
+    await waitFor(() => {
+      expect(get(data)).toEqual({
+        fieldset: {
+          testInput: '',
+          testChange: '',
+        },
+      });
 
-    expect(get(touched)).toEqual({
-      fieldset: {
-        testInput: false,
-        testChange: false,
-      },
+      expect(get(touched)).toEqual({
+        fieldset: {
+          testInput: false,
+          testChange: false,
+        },
+      });
     });
 
     inputResult!.update('test value');
