@@ -8,7 +8,7 @@ function getPath(el: HTMLElement, name?: string) {
     path = name;
   } else if (isFormControl(el) && el.name) {
     path = el.name;
-  } else return;
+  }
   path = typeof index === 'undefined' ? path : `${path}[${index}]`;
   let parent = el.parentNode;
   if (!parent) return path;
@@ -35,7 +35,7 @@ function dispatchEventOnChange(
   defaultValue?: FieldValue
 ) {
   const name = node.dataset.felteName;
-  if (!name) return;
+  if (!name && !(isFormControl(node) && node.name)) return;
   function dispatchEvent(value: FieldValue, eventType: string) {
     const customEvent = new CustomEvent(eventType, {
       detail: { value, path: getPath(node, name) },
