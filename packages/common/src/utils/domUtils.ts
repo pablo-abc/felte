@@ -5,13 +5,7 @@ import type {
   ValidationFunction,
   Errors,
 } from '../types';
-import {
-  isFormControl,
-  isFieldSetElement,
-  isInputElement,
-  isSelectElement,
-  isTextAreaElement,
-} from './typeGuards';
+import { isFormControl, isFieldSetElement, isInputElement } from './typeGuards';
 import { _mergeWith } from './mergeWith';
 import { _isPlainObject } from './isPlainObject';
 import { _get } from './get';
