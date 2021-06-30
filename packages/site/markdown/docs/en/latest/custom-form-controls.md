@@ -62,6 +62,8 @@ If your component behaves like a checkbox, select or any other kind of input tha
 
 This will set the field to `touched` as soon as the value changes.
 
+> **NOTE**: If the value passed to `dispatchChange` or `dispatchInput` is not `undefined` initially, it'll be used as a default value. Since there's no way to know how custom controls may store their values, setting these fields on the `initialValues` property of the configuration object of `createForm` won't set the value of the field in the DOM.
+
 ### Data binding
 
 You can always bind to the `data` store in order to let Felte manage your custom controls.
