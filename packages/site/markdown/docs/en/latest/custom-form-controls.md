@@ -21,7 +21,7 @@ If you're using a third-party component or a custom component created by you tha
 
 And to let felte know the name of the field you can add the attribute `data-felte-name` with the appropriate name to the element you're using.
 
-Felte does not "touch" a field on an `input` event (to avoid rapidly changing error messages while typing), it'll only set the field to `touched` when the user focuses out of the field. If your custom control behaves like a `textarea` you may want to use a combination of `dispatchInput` and `dispatchBlur` on it.
+Felte does not "touch" a field on an `input` event (to avoid rapidly changing error messages while typing), it'll only set the field to `touched` when the user focuses out of the field. If your custom control behaves like a `textarea` you may want to use a combination of `dispatchInput` and `dispatchBlur` on it. The following two examples show only the custom control component that would be used within a Felte form.
 
 ```html
 <script>
@@ -64,9 +64,11 @@ This will set the field to `touched` as soon as the value changes.
 
 > **NOTE**: If the value passed to `dispatchChange` or `dispatchInput` is not `undefined` initially, it'll be used as a default value. Since there's no way to know how custom controls may store their values, setting these fields on the `initialValues` property of the configuration object of `createForm` won't set the value of the field in the DOM.
 
+The main benefit of this approach is not needing to pass props down the component tree to your custom control components.
+
 ### Data binding
 
-You can always bind to the `data` store in order to let Felte manage your custom controls.
+Another way of handling this scenario is by binding directly the value of the input to the `data` store from Felte.
 
 ```html
 <script>
