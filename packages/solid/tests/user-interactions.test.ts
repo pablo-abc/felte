@@ -189,14 +189,14 @@ describe('User interactions with form', () => {
   });
 
   test('Validates default data correctly', async () => {
-    const { form, data, errors, setTouched } = createForm({
+    const { form, data, errors, touched, setTouched } = createForm({
       onSubmit: jest.fn(),
       validate: (values: any) => {
         const errors: {
           account: { password?: string; email?: string };
         } = { account: {} };
-        if (!values.account.email) errors.account.email = 'Must not be empty';
-        if (!values.account.password)
+        if (!values?.account?.email) errors.account.email = 'Must not be empty';
+        if (!values?.account?.password)
           errors.account.password = 'Must not be empty';
         return errors;
       },
@@ -243,6 +243,15 @@ describe('User interactions with form', () => {
       },
     });
     setTouched('account.email');
+    await waitFor(() => {
+      expect(get(touched)).toMatchObject({
+        account: {
+          email: true,
+          password: false,
+        },
+      });
+    });
+
     await waitFor(() => {
       expect(get(errors)).toMatchObject({
         account: {

@@ -42,8 +42,11 @@ export function createStores<Data extends Record<string, unknown>>(
     let errors: Errors<Data> | undefined = {};
     if (!config.validate || !$data) return;
     errors = await executeValidation($data, config.validate);
+    updateResultErrorsStore(errors || {}, touchedStore);
     setErrorStore(reconcile((errors as any) || {}));
   }
+
+  validate(dataStore);
 
   function errorFilterer(
     errValue?: string | string[],
@@ -66,50 +69,29 @@ export function createStores<Data extends Record<string, unknown>>(
     return function subscribe(fn: (data: T) => void) {
       const value = typeof store === 'function' ? store() : store;
       fn(value);
-      let disposer;
+      let disposer: () => void | undefined;
       createRoot((dispose) => {
         disposer = dispose;
         createEffect(() => {
           fn(value);
         });
       });
-      return disposer ?? (() => undefined);
+      return () => disposer?.();
     };
   }
 
-  let firstCalled = false;
-  createEffect(() => {
-    if (!config.validate) return setIsValidStore(true);
-    if (!firstCalled) {
-      firstCalled = true;
-      return setIsValidStore(false);
-    }
-    const hasErrors = deepSome(resultErrors, (error) => !!error);
-    setIsValidStore(!hasErrors);
-  });
-
-  createEffect(() => {
-    const errors = _mergeWith<Errors<Data>>(
-      errorStore,
-      touchedStore,
-      errorFilterer
-    ) as any;
-    setResultErrors(errors);
-  });
-
   const [isSubmittingStore, setIsSubmittingStore] = createSignal(false);
-
-  createEffect(() => {
-    validate(dataStore);
-  });
 
   const subscribeData = createSubscriber<Data>(dataStore);
 
   function setData(data: Data) {
+    validate(data);
     setDataStore(reconcile(data));
   }
 
   function updateData(updater: (data: Data) => Data) {
+    const data = updater(_cloneDeep(dataStore));
+    validate(data);
     setDataStore(reconcile(updater(_cloneDeep(dataStore))));
   }
 
@@ -117,25 +99,52 @@ export function createStores<Data extends Record<string, unknown>>(
     resultErrors as Errors<Data>
   );
 
+  let firstCalled = false;
+  function updateIsValidStore(errors: Errors<Data>) {
+    if (!config.validate) return setIsValidStore(true);
+    if (!firstCalled) {
+      firstCalled = true;
+      return setIsValidStore(false);
+    }
+    const hasErrors = deepSome(errors, (error) => !!error);
+    setIsValidStore(!hasErrors);
+  }
+
+  function updateResultErrorsStore(
+    errors: Errors<Data>,
+    touched: Touched<Data>
+  ) {
+    const mergedErrors = _mergeWith<Errors<Data>>(
+      errors,
+      touched,
+      errorFilterer
+    ) as any;
+    updateIsValidStore(mergedErrors);
+    setResultErrors(mergedErrors);
+  }
+
   function setErrors(errors: Errors<Data>) {
+    updateResultErrorsStore(errors, touchedStore);
     setErrorStore(reconcile(errors as any));
   }
 
   function updateErrors(updater: (data: Errors<Data>) => Errors<Data>) {
     const errors = updater(_cloneDeep(errorStore as Errors<Data>)) as any;
+    updateResultErrorsStore(errors, touchedStore);
     setErrorStore(reconcile(errors));
   }
 
   const subscribeTouched = createSubscriber<Touched<Data>>(touchedStore);
 
   function setTouched(touched: Touched<Data>) {
+    updateResultErrorsStore(errorStore as Errors<Data>, touched);
     setTouchedStore(reconcile(touched as any) as any);
   }
 
   function updateTouched(updater: (data: Touched<Data>) => Touched<Data>) {
-    setTouchedStore(
-      reconcile(updater(_cloneDeep(touchedStore as Touched<Data>)) as any)
-    );
+    const touched = updater(_cloneDeep(touchedStore as Touched<Data>)) as any;
+    updateResultErrorsStore(errorStore as Errors<Data>, touched);
+    setTouchedStore(reconcile(touched));
   }
 
   const subscribeIsValid = createSubscriber<boolean>(isValidStore);

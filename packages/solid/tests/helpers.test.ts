@@ -178,7 +178,7 @@ describe('Helpers', () => {
     });
   });
 
-  test.only('setError should set a field error when touched', async () => {
+  test('setError should set a field error when touched', async () => {
     type Data = {
       account: {
         email: string;
@@ -229,9 +229,9 @@ describe('Helpers', () => {
       onSubmit: jest.fn(),
     });
 
-    expect(mockValidate).not.toHaveBeenCalled();
+    expect(mockValidate).toHaveBeenCalledTimes(1);
     validate();
-    expect(mockValidate).toHaveBeenCalled();
+    expect(mockValidate).toHaveBeenCalledTimes(2);
     await waitFor(() => {
       expect(get(errors)).toEqual(mockErrors);
       expect(get(touched)).toEqual({
@@ -243,7 +243,7 @@ describe('Helpers', () => {
 
     mockValidate.mockImplementation(() => ({} as any));
     validate();
-    expect(mockValidate).toHaveBeenCalledTimes(4);
+    expect(mockValidate).toHaveBeenCalledTimes(3);
     await waitFor(() => {
       expect(get(errors)).toEqual({ account: { email: null } });
       expect(get(touched)).toEqual({
