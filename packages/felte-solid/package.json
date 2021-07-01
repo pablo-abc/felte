@@ -1,0 +1,46 @@
+{
+  "name": "@felte/solid-js",
+  "version": "0.1.0",
+  "description": "An extensible form library for SolidJS",
+  "main": "dist/index.js",
+  "browser": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "author": "Pablo Berganza <pablo@berganza.dev>",
+  "license": "MIT",
+  "homepage": "https://felte.dev",
+  "repository": "github:pablo-abc/felte",
+  "funding": "https://www.buymeacoffee.com/pablo.abc",
+  "keywords": ["solidjs", "solid", "forms", "validation"],
+  "scripts": {
+    "prebuild": "rimraf ./dist",
+    "build": "cross-env NODE_ENV=production rollup -c",
+    "docs:build": "typedoc --out ../../docs",
+    "dev": "rollup -cw",
+    "prepublishOnly": "pnpm build && pnpm test",
+    "test": "jest",
+    "test:ci": "jest --ci --coverage"
+  },
+  "peerDependencies": {
+    "solid-js": "^1.0.0"
+  },
+  "files": ["dist"],
+  "dependencies": {
+    "@felte/common": "^0.4.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "solid-js": "^1.0.0",
+    "ts-jest": "^26.5.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  }
+}
