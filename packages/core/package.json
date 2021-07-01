@@ -1,7 +1,7 @@
 {
-  "name": "felte",
-  "version": "0.7.5",
-  "description": "An extensible form library for Svelte",
+  "name": "@felte/core",
+  "version": "0.0.1",
+  "description": "Core package for FelteJS",
   "main": "dist/index.js",
   "browser": "dist/index.js",
   "module": "dist/index.mjs",
@@ -12,7 +12,7 @@
   "homepage": "https://felte.dev",
   "repository": "github:pablo-abc/felte",
   "funding": "https://www.buymeacoffee.com/pablo.abc",
-  "keywords": ["svelte", "forms", "validation"],
+  "keywords": ["solidjs", "solid", "forms", "validation"],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -23,17 +23,17 @@
     "test:ci": "jest --ci --coverage"
   },
   "peerDependencies": {
-    "svelte": "^3.31.0"
+    "solid-js": "^1.0.0"
   },
   "files": ["dist"],
   "dependencies": {
-    "@felte/core": "workspace:^0.0.1"
+    "@felte/common": "^0.4.3"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
-    "@felte/common": "workspace:^0.4.3",
+    "solid-js": "^1.0.0",
     "ts-jest": "^26.5.0"
   },
   "exports": {

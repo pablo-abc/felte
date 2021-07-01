@@ -118,6 +118,17 @@ importers:
   packages/common:
     specifiers: {}
 
+  packages/core:
+    specifiers:
+      '@felte/common': ^0.4.3
+      solid-js: ^1.0.0
+      ts-jest: ^26.5.0
+    dependencies:
+      '@felte/common': link:../common
+    devDependencies:
+      solid-js: 1.0.0
+      ts-jest: 26.5.4_jest@26.6.3+typescript@4.2.4
+
   packages/extender-persist:
     specifiers:
       '@felte/common': workspace:*
@@ -129,11 +140,13 @@ importers:
 
   packages/felte:
     specifiers:
-      '@felte/common': ^0.4.3
+      '@felte/common': workspace:^0.4.3
+      '@felte/core': workspace:^0.0.1
       ts-jest: ^26.5.0
     dependencies:
-      '@felte/common': link:../common
+      '@felte/core': link:../core
     devDependencies:
+      '@felte/common': link:../common
       ts-jest: 26.5.4_jest@26.6.3+typescript@4.2.4
 
   packages/multi-step:
