@@ -27,12 +27,13 @@
   },
   "files": ["dist"],
   "dependencies": {
-    "@felte/common": "^0.4.3"
+    "@felte/core": "workspace:^0.0.1"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
+    "@felte/common": "workspace:^0.4.3",
     "solid-js": "^1.0.0",
     "ts-jest": "^26.5.0"
   },

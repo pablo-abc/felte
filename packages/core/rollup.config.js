@@ -14,7 +14,6 @@ const name = pkg.name
 
 export default {
   input: './src/index.ts',
-  external: ['solid-js/store', 'solid-js'],
   output: [
     { file: pkg.browser, format: 'umd', sourcemap: prod, name },
     { file: pkg.module, format: 'esm', sourcemap: prod },

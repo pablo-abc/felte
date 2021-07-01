@@ -101,7 +101,7 @@ export function createStores<Data extends Record<string, unknown>>(
 
   let firstCalled = false;
   function updateIsValidStore(errors: Errors<Data>) {
-    if (!config.validate) return setIsValidStore(true);
+    if (!config.validate) return;
     if (!firstCalled) {
       firstCalled = true;
       return setIsValidStore(false);
@@ -119,7 +119,7 @@ export function createStores<Data extends Record<string, unknown>>(
       touched,
       errorFilterer
     ) as any;
-    updateIsValidStore(mergedErrors);
+    updateIsValidStore(errors);
     setResultErrors(mergedErrors);
   }
 
