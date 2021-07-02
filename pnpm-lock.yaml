@@ -139,7 +139,7 @@ importers:
   packages/felte:
     specifiers:
       '@felte/common': workspace:^0.4.3
-      '@felte/core': workspace:^0.0.1
+      '@felte/core': workspace:^0.1.0
       ts-jest: ^26.5.0
     dependencies:
       '@felte/core': link:../core
@@ -176,7 +176,7 @@ importers:
   packages/reporter-svelte:
     specifiers:
       '@felte/common': ^0.4.0
-      felte: ^0.7.5
+      felte: ^0.7.6
       rollup-plugin-svelte: ^7.1.0
       svelte: ^3.31.0
       svelte-preprocess: ^4.6.9
@@ -200,13 +200,13 @@ importers:
   packages/site:
     specifiers:
       '@felte/reporter-dom': ^0.3.0
-      '@felte/reporter-svelte': ^0.3.2
+      '@felte/reporter-svelte': ^0.3.3
       '@felte/reporter-tippy': ^0.3.0
       '@felte/validator-yup': ^0.2.5
       '@sveltejs/adapter-static': 1.0.0-next.13
       '@sveltejs/kit': 1.0.0-next.116
       eslint-plugin-svelte3: ^3.1.2
-      felte: ^0.7.5
+      felte: ^0.7.6
       front-matter: ^4.0.2
       highlight.js: ^10.7.1
       html-minifier: ^4.0.0
@@ -243,7 +243,7 @@ importers:
   packages/solid:
     specifiers:
       '@felte/common': workspace:^0.4.3
-      '@felte/core': workspace:^0.0.1
+      '@felte/core': workspace:^0.1.0
       solid-js: ^1.0.0
       ts-jest: ^26.5.0
     dependencies:
