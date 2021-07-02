@@ -1,6 +1,6 @@
 <script context="module">
   export async function load({ fetch, page }) {
-    const framework = page.query.get('framework') ?? 'svelte';
+    const framework = page.params.framework;
     const res = await fetch(`/docs/${page.params.section}.json?framework=${framework}`);
     const section = await res.json();
     if (res.ok) {

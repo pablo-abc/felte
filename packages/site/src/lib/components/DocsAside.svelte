@@ -1,10 +1,14 @@
 <script>
   import { onDestroy, onMount } from 'svelte';
+  import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
   import { cubicIn } from 'svelte/easing';
   import { fade } from 'svelte/transition';
   import DocsNav from './DocsNav.svelte';
   import { portal } from 'svelte-portal';
   import { useFocusOn } from 'svelte-focus-on';
+
+  export let framework;
 
   const focusOn = useFocusOn();
 
@@ -36,10 +40,22 @@
   onDestroy(() => {
     mqList?.removeEventListener('change', watchMedia);
   });
+
+  function handleChange(e) {
+    let path = $page.path.split('/');
+    path[2] = e.currentTarget.value;
+    path = path.join('/')
+    goto(path);
+  }
 </script>
 
 <div class=desktop-menu>
   <div class=sidebar>
+    <label for="framework-select">Choose your framework:</label>
+    <select id="framework-select" on:input={handleChange} value="{framework}">
+      <option value="svelte">Svelte</option>
+      <option value="solid">Solid</option>
+    </select>
     <DocsNav {items} />
   </div>
 </div>
@@ -173,5 +189,24 @@
     right: 0;
     background: rgba(0, 0, 0, 0.2);
     overflow: hidden;
+  }
+
+  label {
+    margin: 16px;
+  }
+
+  select {
+    display: block;
+    color: #111111;
+    width: 18ch;
+    max-width: 30ch;
+    border: 1px solid var(--primary-color);
+    appearance: auto;
+    border-radius: 0.25em;
+    padding: 0.25em 0.5em;
+    cursor: pointer;
+    line-height: 1.1;
+    background-color: #fff;
+    margin: 8px 16px;
   }
 </style>

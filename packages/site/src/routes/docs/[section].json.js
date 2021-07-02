@@ -3,6 +3,7 @@ import getDocs from './_docs.js';
 export async function get({ query, params }) {
   const docs = await getDocs({
     lang: query.get('lang') ?? 'en',
+    framework: query.get('framework') ?? 'svelte',
     version: query.get('version') ?? 'latest',
     section: params.section,
   });

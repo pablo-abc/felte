@@ -25,10 +25,13 @@ const sections = [
 export default async function getDocs({
   lang = 'en',
   version = 'latest',
+  framework = 'svelte',
   section,
 }) {
   const getFilePath = (fileName) =>
-    path.resolve(`./markdown/docs/${lang}/${version}/${fileName}.md`);
+    path.resolve(
+      `./markdown/docs/${framework}/${lang}/${version}/${fileName}.md`
+    );
 
   async function readMd(fileName) {
     const filePath = getFilePath(fileName);

@@ -1,11 +1,13 @@
 <script context="module">
-  export async function load({ fetch }) {
-    const res = await fetch('/docs/all.json');
+  export async function load({ fetch, page }) {
+    const framework = page.params.framework ?? 'svelte';
+    const res = await fetch(`/docs/all.json?framework=${framework}`);
     const data = await res.json();
     if (res.ok) {
       return {
         props: {
-          data
+          framework,
+          data,
         },
       };
     } else {
@@ -21,6 +23,7 @@
   import DocsAside from '$lib/components/DocsAside.svelte';
   import { setContext } from 'svelte';
 
+  export let framework;
   export let data;
 
   setContext('items', data);
@@ -36,7 +39,7 @@
   <main>
     <slot></slot>
   </main>
-  <DocsAside items={asideItems} />
+  <DocsAside {framework} items={asideItems} />
 </div>
 
 <style>
