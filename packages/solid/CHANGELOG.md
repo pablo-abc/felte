@@ -1,5 +1,11 @@
 # @felte/solid
 
+## 0.1.2
+
+### Patch Changes
+
+- Fix store behaviour on multi inputs
+
 ## 0.1.1
 
 ### Patch Changes

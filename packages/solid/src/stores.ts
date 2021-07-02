@@ -9,7 +9,7 @@ import {
 import type { Store } from 'solid-js/store';
 import type { Accessor } from 'solid-js';
 import type { Errors, FormConfig, Touched, Obj } from '@felte/common';
-import { createEffect, createSignal, createRoot } from 'solid-js';
+import { createEffect, createSignal, createRoot, batch } from 'solid-js';
 import { createStore, reconcile } from 'solid-js/store';
 
 type Observable<T> = {
@@ -67,7 +67,10 @@ export function createStores<Data extends Record<string, unknown>>(
     if (!config.validate || !$data) return;
     errors = await executeValidation($data, config.validate);
     updateResultErrorsStore(errors || {}, touchedStore);
-    setErrorStore(reconcile((errors as any) || {}));
+    batch(() => {
+      setErrorStore(errors || {});
+      setErrorStore(reconcile((errors as any) || {}));
+    });
   }
 
   validate(dataStore);
@@ -108,13 +111,19 @@ export function createStores<Data extends Record<string, unknown>>(
 
   function setData(data: Data) {
     validate(data);
-    setDataStore(reconcile(data));
+    batch(() => {
+      setDataStore(data);
+      setDataStore(reconcile(data));
+    });
   }
 
   function updateData(updater: (data: Data) => Data) {
-    const data = _cloneDeep(updater(dataStore));
+    const data = updater(dataStore);
     validate(data);
-    setDataStore(reconcile(data));
+    batch(() => {
+      setDataStore(data);
+      setDataStore(reconcile(data));
+    });
   }
 
   const subscribeErrors = createSubscriber<Errors<Data>>(
@@ -147,26 +156,38 @@ export function createStores<Data extends Record<string, unknown>>(
 
   function setErrors(errors: Errors<Data>) {
     updateResultErrorsStore(errors, touchedStore);
-    setErrorStore(reconcile(errors as any));
+    batch(() => {
+      setErrorStore(errors);
+      setErrorStore(reconcile(errors as any));
+    });
   }
 
   function updateErrors(updater: (data: Errors<Data>) => Errors<Data>) {
-    const errors = updater(_cloneDeep(errorStore as Errors<Data>)) as any;
+    const errors = updater(errorStore as Errors<Data>) as any;
     updateResultErrorsStore(errors, touchedStore);
-    setErrorStore(reconcile(errors));
+    batch(() => {
+      setErrorStore(errors);
+      setErrorStore(reconcile(errors));
+    });
   }
 
   const subscribeTouched = createSubscriber<Touched<Data>>(touchedStore);
 
   function setTouched(touched: Touched<Data>) {
     updateResultErrorsStore(errorStore as Errors<Data>, touched);
-    setTouchedStore(reconcile<Touched<Data>>(touched));
+    batch(() => {
+      setTouchedStore(touched);
+      setTouchedStore(reconcile<Touched<Data>>(touched));
+    });
   }
 
   function updateTouched(updater: (data: Touched<Data>) => Touched<Data>) {
-    const touched = _cloneDeep(updater(touchedStore as Touched<Data>)) as any;
+    const touched = updater(touchedStore as Touched<Data>) as any;
     updateResultErrorsStore(errorStore as Errors<Data>, touched);
-    setTouchedStore(reconcile<Touched<Data>>(touched));
+    batch(() => {
+      setTouchedStore(touched);
+      setTouchedStore(reconcile<Touched<Data>>(touched));
+    });
   }
 
   const subscribeIsValid = createSubscriber<boolean>(isValidStore);
