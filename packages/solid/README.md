@@ -1,14 +1,12 @@
-# Felte: A form library for Svelte
+# @felte/solid
 
-[![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)](https://github.com/pablo-abc/felte/actions/workflows/test.yml)
-[![Bundle size](https://img.shields.io/bundlephobia/min/felte)](https://bundlephobia.com/result?p=felte)
-[![NPM Version](https://img.shields.io/npm/v/felte)](https://www.npmjs.com/package/felte)
-[![NPM Downloads](https://img.shields.io/npm/dw/felte)](https://www.npmjs.com/package/felte)
-[![codecov](https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC)](https://codecov.io/gh/pablo-abc/felte)
+[![Bundle size](https://img.shields.io/bundlephobia/min/@felte/solid)](https://bundlephobia.com/result?p=@felte/solid)
+[![NPM Version](https://img.shields.io/npm/v/@felte/solid)](https://www.npmjs.com/package/@felte/solid)
 
-Felte is a simple to use form library for Svelte. It is based on Svelte stores and Svelte actions for its functionality. No `Field` or `Form` components, just plain stores and actions to build your form however you like. You can see it in action in this [CodeSandbox demo](https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte)!
 
-**STATUS:** Useable. Felte's API is stable enough to be used. I feel the main API is solid enough to not need breaking changes that fast, but more usage input would be useful. Reporter packages migh have breaking changes more often. If you're interested please give it a try and feel free to open an issue if there's anything missing! We would still recommend pinning the version of Felte or any of its packages and checking the changelogs whenever you want to upgrade.
+Felte is a simple to use form library originally built for Svelte but only needing a light wrapper to work with Solid. For Solid its functionality is based on the `use` directive. No `Field` or `Form` components, just plain stores and actions to build your form however you like. You can see it in action in this [CodeSandbox demo](https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte)!
+
+**STATUS:** Early development. While Felte itself is stable enough to be useable, the Solid implementation currently is just a light wrapper that still uses Svelte's stores under the hood (although the overhead from that is minimal). It should be compatible with every extender package for Felte, except `@felte/reporter-svelte` for obvious reasons.
 
 ## Features
 
@@ -24,32 +22,33 @@ Felte is a simple to use form library for Svelte. It is based on Svelte stores a
 
 ## Simple usage example
 
-```html
-<script>
-  import { createForm } from 'felte'
+```jsx
+import { createForm } from '@felte/solid';
 
+const Form = () => {
   const { form } = createForm({
-    onSubmit: async (values) => {
-      /* call to an api */
-    },
-  })
-</script>
-
-<form use:form>
-  <input type=text name=email>
-  <input type=password name=password>
-  <input type=submit value="Sign in">
-</form>
+    // ...
+    onSubmit: (values) => console.log(values),
+    // ...
+  });
+  return (
+    <form use:form>
+      <input type="text" name="email" />
+      <input type="password" name="password" />
+      <input type="submit" value="Sign in" />
+    </form>
+  )
+}
 ```
 
 ## Installation
 
 ```sh
-npm install --save felte
+npm install --save @felte/solid
 
-# Or if you use yarn
+# Or, if you use yarn
 
-yarn add felte
+yarn add @felte/solid
 ```
 
 ## Usage
@@ -89,12 +88,11 @@ type CreateSubmitHandlerConfig<D> = {
 
 export interface Form<D extends Record<string, unknown>> {
   form: FormAction;
-  data: Writable<D>;
-  errors: Readable<Errors<D>>;
-  touched: Writable<Touched<D>>;
-  handleSubmit: (e: Event) => void;
-  isValid: Readable<boolean>;
-  isSubmitting: Writable<boolean>;
+  data: Store<Data>;
+  errors: Store<Errors<Data>>;
+  touched: Store<Touched<Data>>;
+  isSubmitting: Accessor<boolean>;
+  isValid: Accessor<boolean>;
   // Helper functions:
   setTouched: (path: string) => void;
   setError: (path: string, error: string | string[]) => void;
@@ -106,13 +104,13 @@ export interface Form<D extends Record<string, unknown>> {
 }
 ```
 
-- `form` is a function to be used with the `use:` directive for Svelte.
-- `data` is a writable store with the current values from the form.
-- `errors` is a readable store with the current errors.
-- `touched` is a readable store that defines if the fields have been touched. It's an object with the same keys as data, but with boolean values.
+- `form` is a function to be used with the `use:` directive for Solid.
+- `data` is a Solid readonly store with the current values from the form.
+- `errors` is a Solid readonly store with the current errors.
+- `touched` is a Solid readonly store that defines if the fields have been touched. It's an object with the same keys as data, but with boolean values.
 - `handleSubmit` is the event handler to be passed to `on:submit`.
-- `isValid` is a readable store that only holds a boolean denoting if the form has any errors or not.
-- `isSubmitting` is a writable store that only holds a boolean denoting if the form is submitting or not.
+- `isValid` is a Solid signal that only holds a boolean denoting if the form has any errors or not.
+- `isSubmitting` is a Solid signal that only holds a boolean denoting if the form is submitting or not.
 - `setTouched` is a helper function to touch a specific field.
 - `setError` is a helper function to set an error in a specific field.
 - `setField` is a helper function to set the data of a specific field. If undefined, it clears the field. If you set `touch` to `false` the field will not be touched with this change.
@@ -129,12 +127,12 @@ If a `validate` function is provided, Felte will add a `novalidate` to the form 
 
 The recommended way to use it is by using the `form` action from `createForm` and using it in the form element of your form.
 
-```html
-<script>
-  import { createForm } from 'felte'
-  // install with `yarn add @felte/reporter-tippy`
-  import reporter from '@felte/reporter-tippy'
+```jsx
+import { createForm } from '@felte/solid'
+// install with `yarn add @felte/reporter-tippy`
+import reporter from '@felte/reporter-tippy'
 
+const Form = () => {
   const { form, data, errors } = createForm({
     validate: (values) => {
       /* validate and return errors found */
@@ -142,29 +140,27 @@ The recommended way to use it is by using the `form` action from `createForm` an
     onSubmit: async (values) => {
       /* call to an api */
     },
+    /* extends Felte to report errors with Tippy.js */
     extend: reporter,
   })
 
-  $: console.log($data)
-  $: console.log($errors)
-</script>
-
-<form use:form>
-  <input type=text name=email>
-  <input type=password name=password>
-  <input type=submit value="Sign in">
-</form>
+  return (
+    <form use:form>
+      <input type="text" name="email" />
+      <input type="password" name="password" />
+      <input type="submit" value="Sign in" />
+    </form>
+  );
+}
 ```
 
 That's all you need! With the example above you'll see **Felte** automatically updating the values of `data` when you type, as well as `errors` when finding an error. Note that the only required property for `createForm` is `onSubmit`.
 
 Also note that using the `data` and `errors` store is completely optional in this method, since you already get access to the values of the form in the `onSubmit` function, and validation errors are reported with the browser's Constraint Validation API by using the `@felte/reporter-cvapi` package.
 
-> If using Felte this way, make sure to set the `name` attributes of your inputs since that is what Felte uses to map to the `data` store.
+> Make sure to set the `name` attributes of your inputs since that is what Felte uses to map to the `data` store.
 
-> Default values are taken from the fields' `value` and/or `checked` attributes. `initialValues` is ignored if you use this approach.
-
-Using this approach `data` will be undefined until the form element loads.
+> Since Solid does not favor two-way data binding, `@felte/solid` does not provide this approach in this case.
 
 #### Nested forms
 
@@ -172,11 +168,11 @@ Felte supports the usage of nested objects for forms by setting the name of an i
 
 ```html
 <form use:form>
-  <input name="account.email">
-  <input name="account.password">
-  <input name="profile.firstName">
-  <input name="profile.lastName">
-  <input type="submit" value="Create account">
+  <input name="account.email" />
+  <input name="account.password" />
+  <input name="profile.firstName" />
+  <input name="profile.lastName" />
+  <input type="submit" value="Create account" />
 </form>
 ```
 
@@ -185,14 +181,14 @@ You can also "namespace" the inputs using the `fieldset` tag like this:
 ```html
 <form use:form>
   <fieldset name="account">
-    <input name="email">
-    <input name="password">
+    <input name="email" />
+    <input name="password" />
   </fieldset>
   <fieldset name="profile">
-    <input name="firstName">
-    <input name="lastName">
+    <input name="firstName" />
+    <input name="lastName" />
   </fieldset>
-  <input type="submit" value="Create account">
+  <input type="submit" value="Create account" />
 </form>
 ```
 
@@ -211,8 +207,6 @@ Both of these would result in a data object with this shape:
 }
 ```
 
-Again, be mindful of the fact that `data` will be undefined until the form element loads.
-
 #### Dynamic forms
 
 You can freely add/remove fields from the form and Felte will handle it.
@@ -223,12 +217,12 @@ You can freely add/remove fields from the form and Felte will handle it.
     <input name="email">
     <input name="password">
   </fieldset>
-  {#if condition}
+  <Show when={condition()}>
     <fieldset name="profile" data-felte-unset-on-remove=true>
       <input name="firstName">
       <input name="lastName" data-felte-unset-on-remove=false>
     </fieldset>
-  {/if}
+  </Show>
   <input type="submit" value="Create account">
 </form>
 ```
@@ -238,37 +232,3 @@ The `data-felte-unset-on-remove=true` tells Felte to remove the property from th
 You can set the `data-felte-unset-on-remove=true` attribute to a `fieldset` element and all the elements contained within the fieldset will be unset on removal of the node, unless any element within the fieldset element have `data-felte-unset-on-remove` set to false.
 
 > Felte takes any value that is not `true` as `false` on the `data-felte-unset-on-remove` attribute.
-
-## Binding to inputs
-
-Since `data` is a writable store, you can also bind the data properties to your inputs instead of using the `form` action.
-
-```html
-<script>
-  import { createForm } from 'felte'
-
-  const { handleSubmit, data, errors } = createForm({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validate: (values) => {
-      /* validate and return errors found */
-    },
-    onSubmit: async (values) => {
-      /* call to an api */
-    },
-  })
-
-  $: console.log($data)
-  $: console.log($errors)
-</script>
-
-<form on:submit="{handleSubmit}">
-  <input type=text bind:value="{$data.email}">
-  <input type=password bind:value="{$data.password}">
-  <input type=submit value="Sign in">
-</form>
-```
-
-With this approach you should see a similar behaviour to the previous way of using this. Note that the `name` attribute is optional here, but the `initialValues` property for `createForm` is required. It is a bit more verbose, so it's recommended to use the previous way of handling forms.
