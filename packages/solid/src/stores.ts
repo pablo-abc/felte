@@ -9,7 +9,7 @@ import {
 import type { Store } from 'solid-js/store';
 import type { Accessor } from 'solid-js';
 import type { Errors, FormConfig, Touched, Obj } from '@felte/common';
-import { createEffect, createSignal, createRoot } from 'solid-js';
+import { createEffect, createSignal } from 'solid-js';
 import { createStore, reconcile } from 'solid-js/store';
 
 type Observable<T> = {
@@ -93,14 +93,8 @@ export function createStores<Data extends Record<string, unknown>>(
     return function subscribe(fn: (data: T) => void) {
       const value = typeof store === 'function' ? store() : store;
       fn(value);
-      let disposer: () => void | undefined;
-      createRoot((dispose) => {
-        disposer = dispose;
-        createEffect(() => {
-          fn(value);
-        });
-      });
-      return () => disposer?.();
+      createEffect(() => fn(value));
+      return () => undefined;
     };
   }
 
