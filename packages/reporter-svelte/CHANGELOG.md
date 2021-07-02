@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.3.3
+
+### Patch Changes
+
+- f6049ad: Add `svelte/internal` as external dependency on rollup
+
 ## 0.3.2
 
 ### Patch Changes

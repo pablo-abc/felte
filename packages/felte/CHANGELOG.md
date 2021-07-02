@@ -1,5 +1,13 @@
 # felte
 
+## 0.7.6
+
+### Patch Changes
+
+- 809f9af: Refactor to use a common core
+- Updated dependencies [809f9af]
+  - @felte/core@0.1.0
+
 ## 0.7.5
 
 ### Patch Changes
