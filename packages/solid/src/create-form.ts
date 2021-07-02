@@ -74,7 +74,7 @@ export function createForm<
   Ext extends Obj = Obj
 >(config: FormConfig<Data> & Ext): Form<Data> {
   const stores = createStores(config);
-  const { form: formAction, ...rest } = coreCreateForm({ ...config, stores });
+  const { form: formAction, ...rest } = coreCreateForm(config, { stores });
   function form(node: HTMLFormElement) {
     const { destroy } = formAction(node);
     onCleanup(destroy);

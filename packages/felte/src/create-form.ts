@@ -35,5 +35,5 @@ export function createForm<
   Ext extends Obj = Obj
 >(config: FormConfig<Data> & Ext): Form<Data> {
   const stores = createStores(config);
-  return coreCreateForm({ ...config, stores });
+  return coreCreateForm(config, { stores });
 }

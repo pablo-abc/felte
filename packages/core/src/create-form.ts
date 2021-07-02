@@ -35,7 +35,10 @@ export type Adapters<Data extends Obj> = {
 export function createForm<
   Data extends Record<string, unknown>,
   Ext extends Obj = Obj
->(config: FormConfigWithInitialValues<Data> & Ext & Adapters<Data>): Form<Data>;
+>(
+  config: FormConfigWithInitialValues<Data> & Ext,
+  adapters: Adapters<Data>
+): Form<Data>;
 /**
  * Creates the stores and `form` action to make the form reactive.
  * In order to use auto-subscriptions with the stores, call this function at the top-level scope of the component.
@@ -46,12 +49,13 @@ export function createForm<
   Data extends Record<string, unknown>,
   Ext extends Obj = Obj
 >(
-  config: FormConfigWithoutInitialValues<Data> & Ext & Adapters<Data>
+  config: FormConfigWithoutInitialValues<Data> & Ext,
+  adapters: Adapters<Data>
 ): Form<Data>;
 export function createForm<
   Data extends Record<string, unknown>,
   Ext extends Obj = Obj
->(config: FormConfig<Data> & Ext & Adapters<Data>): Form<Data> {
+>(config: FormConfig<Data> & Ext, adapters: Adapters<Data>): Form<Data> {
   config.reporter ??= [];
   config.extend ??= [];
   config.touchTriggerEvents ??= { change: true, blur: true };
@@ -65,7 +69,7 @@ export function createForm<
     ...(Array.isArray(config.extend) ? config.extend : [config.extend]),
   ];
   let currentExtenders: ExtenderHandler<Data>[] = [];
-  const { isSubmitting, data, errors, touched, isValid } = config.stores;
+  const { isSubmitting, data, errors, touched, isValid } = adapters.stores;
 
   currentExtenders = extender.map((extender) =>
     extender({
