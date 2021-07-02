@@ -7,7 +7,6 @@ import {
 } from './common';
 import { createForm } from '../src';
 import userEvent from '@testing-library/user-event';
-import { get } from 'svelte/store';
 
 function createLoginForm() {
   const formElement = screen.getByRole('form') as HTMLFormElement;
@@ -164,7 +163,7 @@ describe('User interactions with form', () => {
     });
     const { formElement } = createSignupForm();
     form(formElement);
-    const $data = get(data);
+    const $data = data;
     expect($data).toEqual(
       expect.objectContaining({
         account: {
@@ -203,7 +202,7 @@ describe('User interactions with form', () => {
     });
     const { formElement } = createSignupForm();
     form(formElement);
-    const $data = get(data);
+    const $data = data;
     expect($data).toEqual(
       expect.objectContaining({
         account: {
@@ -236,7 +235,7 @@ describe('User interactions with form', () => {
         },
       })
     );
-    expect(get(errors)).toMatchObject({
+    expect(errors).toMatchObject({
       account: {
         email: null,
         password: null,
@@ -244,7 +243,7 @@ describe('User interactions with form', () => {
     });
     setTouched('account.email');
     await waitFor(() => {
-      expect(get(touched)).toMatchObject({
+      expect(touched).toMatchObject({
         account: {
           email: true,
           password: false,
@@ -253,7 +252,7 @@ describe('User interactions with form', () => {
     });
 
     await waitFor(() => {
-      expect(get(errors)).toMatchObject({
+      expect(errors).toMatchObject({
         account: {
           email: 'Must not be empty',
           password: null,
@@ -262,7 +261,7 @@ describe('User interactions with form', () => {
     });
     setTouched('account.password');
     await waitFor(() => {
-      expect(get(errors)).toMatchObject({
+      expect(errors).toMatchObject({
         account: {
           email: 'Must not be empty',
           password: 'Must not be empty',
@@ -298,7 +297,7 @@ describe('User interactions with form', () => {
     extraCheckboxes[1].checked = true;
     extraPreferences1[1].checked = true;
     form(formElement);
-    const $data = get(data);
+    const $data = data;
     expect($data).toEqual(
       expect.objectContaining({
         account: {
@@ -327,7 +326,7 @@ describe('User interactions with form', () => {
         },
       })
     );
-    expect(get(isValid)).toBeTruthy();
+    expect(isValid()).toBeTruthy();
   });
 
   test('Input and data object get same value', () => {
@@ -338,7 +337,7 @@ describe('User interactions with form', () => {
     form(formElement);
     userEvent.type(emailInput, 'jacek@soplica.com');
     userEvent.type(passwordInput, 'password');
-    const $data = get(data);
+    const $data = data;
     expect($data).toEqual(
       expect.objectContaining({
         account: {
@@ -369,7 +368,7 @@ describe('User interactions with form', () => {
           },
         })
       );
-      expect(get(isSubmitting)).toBeFalsy();
+      expect(isSubmitting()).toBeFalsy();
     });
   });
 
@@ -387,9 +386,9 @@ describe('User interactions with form', () => {
     await waitFor(() => {
       expect(onSubmit).not.toHaveBeenCalled();
     });
-    expect(get(isValid)).toBeFalsy();
+    expect(isValid()).toBeFalsy();
     await waitFor(() => {
-      expect(get(isSubmitting)).toBeFalsy();
+      expect(isSubmitting()).toBeFalsy();
     });
   });
 
@@ -405,7 +404,7 @@ describe('User interactions with form', () => {
     userEvent.type(emailInput, 'jacek@soplica.com');
     await waitFor(() => {
       expect(validate).toHaveBeenCalled();
-      expect(get(isValid)).toBeTruthy();
+      expect(isValid()).toBeTruthy();
     });
   });
 
@@ -454,7 +453,7 @@ describe('User interactions with form', () => {
 
     form(formElement);
 
-    expect(get(data)).toEqual(
+    expect(data).toEqual(
       expect.objectContaining({
         account: {
           email: '',
@@ -489,9 +488,9 @@ describe('User interactions with form', () => {
 
     const mockFile = new File(['test file'], 'test.png', { type: 'image/png' });
     userEvent.type(emailInput, 'jacek@soplica.com');
-    expect(get(touched).account.email).toBe(false);
+    expect(touched.account.email).toBe(false);
     userEvent.type(passwordInput, 'password');
-    expect(get(touched).account.email).toBe(true);
+    expect(touched.account.email).toBe(true);
     userEvent.type(confirmPasswordInput, 'password');
     userEvent.click(showPasswordInput);
     userEvent.click(publicEmailYesRadio);
@@ -508,7 +507,7 @@ describe('User interactions with form', () => {
     userEvent.click(extraPreferences1[1]);
     userEvent.upload(extraFileInputs[1], mockFile);
 
-    expect(get(data)).toEqual(
+    expect(data).toEqual(
       expect.objectContaining({
         account: {
           email: 'jacek@soplica.com',
@@ -549,7 +548,7 @@ describe('User interactions with form', () => {
         },
       },
     });
-    expect(get(data)).toEqual(
+    expect(data).toEqual(
       expect.objectContaining({
         account: {
           email: 'jacek@soplica.com',
@@ -583,41 +582,41 @@ describe('User interactions with form', () => {
         },
       },
     });
-    expect(get(errors)).toEqual({
+    expect(errors).toEqual({
       account: {
         email: null,
         password: null,
       },
     });
     setTouched('account.email');
-    expect(get(touched)).toEqual({
+    expect(touched).toEqual({
       account: {
         email: true,
         password: false,
       },
     });
-    expect(get(errors)).toEqual({
+    expect(errors).toEqual({
       account: {
         email: null,
         password: null,
       },
     });
     setTouched('account.password');
-    expect(get(touched)).toEqual({
+    expect(touched).toEqual({
       account: {
         email: true,
         password: true,
       },
     });
     await waitFor(() => {
-      expect(get(errors)).toEqual({
+      expect(errors).toEqual({
         account: {
           email: null,
           password: 'Must not be empty',
         },
       });
     });
-    expect(get(data)).toEqual(
+    expect(data).toEqual(
       expect.objectContaining({
         account: {
           email: 'jacek@soplica.com',
@@ -649,7 +648,7 @@ describe('User interactions with form', () => {
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalled();
       expect(onError).toHaveBeenCalledWith(mockErrors);
-      expect(get(isSubmitting)).toBeFalsy();
+      expect(isSubmitting()).toBeFalsy();
     });
   });
 
@@ -691,7 +690,7 @@ describe('User interactions with form', () => {
       expect(mockOnSubmit).toHaveBeenCalledTimes(1);
       expect(defaultConfig.onError).not.toHaveBeenCalled();
       expect(mockOnError).not.toHaveBeenCalled();
-      expect(get(isSubmitting)).toBeFalsy();
+      expect(isSubmitting()).toBeFalsy();
     });
 
     const mockErrors = { account: { email: 'Not email' } };
@@ -705,7 +704,7 @@ describe('User interactions with form', () => {
       expect(mockOnError).toHaveBeenCalled();
       expect(mockValidate).toHaveBeenCalledTimes(2);
       expect(mockOnSubmit).toHaveBeenCalledTimes(2);
-      expect(get(isSubmitting)).toBeFalsy();
+      expect(isSubmitting()).toBeFalsy();
     });
   });
 
@@ -718,7 +717,7 @@ describe('User interactions with form', () => {
     altOnSubmit();
     await waitFor(() => {
       expect(mockOnSubmit).toHaveBeenCalled();
-      expect(get(isSubmitting)).toBeFalsy();
+      expect(isSubmitting()).toBeFalsy();
     });
   });
 });

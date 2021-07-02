@@ -2,7 +2,6 @@ import '@testing-library/jest-dom/extend-expect';
 import { screen, waitFor } from '@testing-library/dom';
 import { createForm } from '../src';
 import { cleanupDOM, createDOM, createInputElement } from './common';
-import { get } from 'svelte/store';
 
 describe('Extenders', () => {
   beforeEach(createDOM);
@@ -15,21 +14,16 @@ describe('Extenders', () => {
       destroy: jest.fn(),
     };
     const mockExtender = jest.fn(() => mockExtenderHandler);
-    const {
-      form,
-      data: { set, ...data },
-      errors,
-      touched,
-    } = createForm({
+    const config = {
       onSubmit: jest.fn(),
       extend: mockExtender,
-    });
+    };
+    const { form, data, errors, touched, observables } = createForm(config);
 
     expect(mockExtender).toHaveBeenLastCalledWith(
       expect.objectContaining({
-        data: expect.objectContaining(data),
-        errors,
-        touched,
+        errors: observables.errors,
+        touched: observables.touched,
       })
     );
 
@@ -39,9 +33,8 @@ describe('Extenders', () => {
 
     expect(mockExtender).toHaveBeenLastCalledWith(
       expect.objectContaining({
-        data: expect.objectContaining(data),
-        errors,
-        touched,
+        errors: observables.errors,
+        touched: observables.touched,
         form: formElement,
         controls: expect.arrayContaining([]),
       })
@@ -59,9 +52,8 @@ describe('Extenders', () => {
     await waitFor(() => {
       expect(mockExtender).toHaveBeenLastCalledWith(
         expect.objectContaining({
-          data: expect.objectContaining(data),
-          errors,
-          touched,
+          errors: observables.errors,
+          touched: observables.touched,
           form: formElement,
           controls: expect.arrayContaining([inputElement]),
         })
@@ -77,9 +69,8 @@ describe('Extenders', () => {
     await waitFor(() => {
       expect(mockExtender).toHaveBeenLastCalledWith(
         expect.objectContaining({
-          data: expect.objectContaining(data),
-          errors,
-          touched,
+          errors: observables.errors,
+          touched: observables.touched,
           form: formElement,
           controls: expect.arrayContaining([]),
         })
@@ -97,21 +88,16 @@ describe('Extenders', () => {
       destroy: jest.fn(),
     };
     const mockExtender = jest.fn(() => mockExtenderHandler);
-    const {
-      form,
-      data: { set, ...data },
-      errors,
-      touched,
-    } = createForm({
+    const config = {
       onSubmit: jest.fn(),
       extend: [mockExtender, mockExtender],
-    });
+    };
+    const { form, data, errors, touched, observables } = createForm(config);
 
     expect(mockExtender).toHaveBeenLastCalledWith(
       expect.objectContaining({
-        data: expect.objectContaining(data),
-        errors,
-        touched,
+        errors: observables.errors,
+        touched: observables.touched,
       })
     );
 
@@ -121,9 +107,8 @@ describe('Extenders', () => {
 
     expect(mockExtender).toHaveBeenLastCalledWith(
       expect.objectContaining({
-        data: expect.objectContaining(data),
-        errors,
-        touched,
+        errors: observables.errors,
+        touched: observables.touched,
         form: formElement,
         controls: expect.arrayContaining([]),
       })
@@ -141,9 +126,8 @@ describe('Extenders', () => {
     await waitFor(() => {
       expect(mockExtender).toHaveBeenLastCalledWith(
         expect.objectContaining({
-          data: expect.objectContaining(data),
-          errors,
-          touched,
+          errors: observables.errors,
+          touched: observables.touched,
           form: formElement,
           controls: expect.arrayContaining([inputElement]),
         })
@@ -159,9 +143,8 @@ describe('Extenders', () => {
     await waitFor(() => {
       expect(mockExtender).toHaveBeenLastCalledWith(
         expect.objectContaining({
-          data: expect.objectContaining(data),
-          errors,
-          touched,
+          errors: observables.errors,
+          touched: observables.touched,
           form: formElement,
           controls: expect.arrayContaining([]),
         })
@@ -196,7 +179,7 @@ describe('Extenders', () => {
     await waitFor(() => {
       expect(mockExtenderHandler.onSubmitError).toHaveBeenCalledWith(
         expect.objectContaining({
-          data: get(data),
+          data: data,
           errors: mockErrors,
         })
       );
@@ -230,14 +213,14 @@ describe('Extenders', () => {
       expect(mockExtenderHandler.onSubmitError).toHaveBeenNthCalledWith(
         1,
         expect.objectContaining({
-          data: get(data),
+          data: data,
           errors: mockErrors,
         })
       );
       expect(mockExtenderHandler.onSubmitError).toHaveBeenNthCalledWith(
         2,
         expect.objectContaining({
-          data: get(data),
+          data: data,
           errors: mockErrors,
         })
       );
@@ -253,14 +236,14 @@ describe('Extenders', () => {
       expect(mockExtenderHandler.onSubmitError).toHaveBeenNthCalledWith(
         3,
         expect.objectContaining({
-          data: get(data),
+          data: data,
           errors: mockErrors,
         })
       );
       expect(mockExtenderHandler.onSubmitError).toHaveBeenNthCalledWith(
         4,
         expect.objectContaining({
-          data: get(data),
+          data: data,
           errors: mockErrors,
         })
       );

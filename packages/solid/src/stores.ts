@@ -6,13 +6,37 @@ import {
   _isPlainObject,
   _mergeWith,
 } from '@felte/common';
+import type { Store } from 'solid-js/store';
+import type { Accessor } from 'solid-js';
 import type { Errors, FormConfig, Touched, Obj } from '@felte/common';
 import { createEffect, createSignal, createRoot } from 'solid-js';
 import { createStore, reconcile } from 'solid-js/store';
 
+type Observable<T> = {
+  subscribe: (fn: (value: T) => void) => () => void;
+  update: (updater: (value: T) => T) => void;
+  set: (value: T) => void;
+};
+
+type StoreObservable<T> = {
+  get: () => Store<T>;
+} & Observable<T>;
+
+type AccessorObservable<T> = {
+  get: () => Accessor<T>;
+} & Observable<T>;
+
+export type Observables<Data extends Obj> = {
+  data: StoreObservable<Data>;
+  errors: StoreObservable<Errors<Data>>;
+  touched: StoreObservable<Touched<Data>>;
+  isValid: AccessorObservable<boolean>;
+  isSubmitting: AccessorObservable<boolean>;
+};
+
 export function createStores<Data extends Record<string, unknown>>(
   config: FormConfig<Data>
-) {
+): Observables<Data> {
   const initialTouched: Touched<Data> = deepSet<Data, boolean>(
     config.initialValues || ({} as Data),
     false
@@ -167,7 +191,7 @@ export function createStores<Data extends Record<string, unknown>>(
     setIsSubmittingStore(updater(isSubmittingStore()));
   }
 
-  const stores = {
+  return {
     data: {
       subscribe: subscribeData,
       set: setData,
@@ -190,15 +214,13 @@ export function createStores<Data extends Record<string, unknown>>(
       subscribe: subscribeIsValid,
       set: setIsValid,
       update: updateIsValid,
-      get: () => isValidStore(),
+      get: () => isValidStore,
     },
     isSubmitting: {
       subscribe: subscribeIsSubmitting,
       set: setIsSubmitting,
       update: updateIsSubmitting,
-      get: () => isSubmittingStore(),
+      get: () => isSubmittingStore,
     },
   };
-
-  return stores;
 }
