@@ -1,6 +1,6 @@
 {
   "name": "@felte/solid",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An extensible form library for SolidJS",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -34,13 +34,13 @@
     "dist"
   ],
   "dependencies": {
-    "@felte/core": "workspace:^0.1.0"
+    "@felte/core": "workspace:^0.1.1"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
-    "@felte/common": "workspace:^0.4.3",
+    "@felte/common": "workspace:^0.4.4",
     "solid-js": "^1.0.0",
     "ts-jest": "^26.5.0"
   },

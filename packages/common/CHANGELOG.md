@@ -1,5 +1,11 @@
 # @felte/common
 
+## 0.4.4
+
+### Patch Changes
+
+- Fix issues due to mutability of common functions
+
 ## 0.4.3
 
 ### Patch Changes

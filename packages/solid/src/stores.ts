@@ -9,7 +9,7 @@ import {
 import type { Store } from 'solid-js/store';
 import type { Accessor } from 'solid-js';
 import type { Errors, FormConfig, Touched, Obj } from '@felte/common';
-import { createEffect, createSignal } from 'solid-js';
+import { createEffect, createSignal, createRoot } from 'solid-js';
 import { createStore, reconcile } from 'solid-js/store';
 
 type Observable<T> = {
@@ -93,8 +93,12 @@ export function createStores<Data extends Record<string, unknown>>(
     return function subscribe(fn: (data: T) => void) {
       const value = typeof store === 'function' ? store() : store;
       fn(value);
-      createEffect(() => fn(value));
-      return () => undefined;
+      let disposer: () => void | undefined;
+      createRoot((dispose) => {
+        disposer = dispose;
+        createEffect(() => fn(value));
+      });
+      return () => disposer?.();
     };
   }
 
@@ -108,9 +112,9 @@ export function createStores<Data extends Record<string, unknown>>(
   }
 
   function updateData(updater: (data: Data) => Data) {
-    const data = updater(_cloneDeep(dataStore));
+    const data = _cloneDeep(updater(dataStore));
     validate(data);
-    setDataStore(reconcile(updater(_cloneDeep(dataStore))));
+    setDataStore(reconcile(data));
   }
 
   const subscribeErrors = createSubscriber<Errors<Data>>(
@@ -156,13 +160,13 @@ export function createStores<Data extends Record<string, unknown>>(
 
   function setTouched(touched: Touched<Data>) {
     updateResultErrorsStore(errorStore as Errors<Data>, touched);
-    setTouchedStore(reconcile(touched as any) as any);
+    setTouchedStore(reconcile<Touched<Data>>(touched));
   }
 
   function updateTouched(updater: (data: Touched<Data>) => Touched<Data>) {
-    const touched = updater(_cloneDeep(touchedStore as Touched<Data>)) as any;
+    const touched = _cloneDeep(updater(touchedStore as Touched<Data>)) as any;
     updateResultErrorsStore(errorStore as Errors<Data>, touched);
-    setTouchedStore(reconcile(touched));
+    setTouchedStore(reconcile<Touched<Data>>(touched));
   }
 
   const subscribeIsValid = createSubscriber<boolean>(isValidStore);

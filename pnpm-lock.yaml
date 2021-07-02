@@ -120,7 +120,7 @@ importers:
 
   packages/core:
     specifiers:
-      '@felte/common': ^0.4.3
+      '@felte/common': ^0.4.4
       ts-jest: ^26.5.0
     dependencies:
       '@felte/common': link:../common
@@ -138,8 +138,8 @@ importers:
 
   packages/felte:
     specifiers:
-      '@felte/common': workspace:^0.4.3
-      '@felte/core': workspace:^0.1.0
+      '@felte/common': workspace:^0.4.4
+      '@felte/core': workspace:*
       ts-jest: ^26.5.0
     dependencies:
       '@felte/core': link:../core
@@ -206,7 +206,7 @@ importers:
       '@sveltejs/adapter-static': 1.0.0-next.13
       '@sveltejs/kit': 1.0.0-next.116
       eslint-plugin-svelte3: ^3.1.2
-      felte: ^0.7.6
+      felte: ^0.7.7
       front-matter: ^4.0.2
       highlight.js: ^10.7.1
       html-minifier: ^4.0.0
@@ -242,8 +242,8 @@ importers:
 
   packages/solid:
     specifiers:
-      '@felte/common': workspace:^0.4.3
-      '@felte/core': workspace:^0.1.0
+      '@felte/common': workspace:^0.4.4
+      '@felte/core': workspace:^0.1.1
       solid-js: ^1.0.0
       ts-jest: ^26.5.0
     dependencies:

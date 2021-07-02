@@ -1,5 +1,13 @@
 # felte
 
+## 0.7.7
+
+### Patch Changes
+
+- Fix issues due to mutability of common functions
+- Updated dependencies [undefined]
+  - @felte/core@0.1.1
+
 ## 0.7.6
 
 ### Patch Changes

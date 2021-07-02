@@ -8,6 +8,7 @@ function handleArray<Value>(value: Value) {
     return value;
   };
 }
+
 /**
  * @category Helper
  */
