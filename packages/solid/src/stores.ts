@@ -30,7 +30,7 @@ export type Observables<Data extends Obj> = {
   data: StoreObservable<Data>;
   errors: StoreObservable<Errors<Data>>;
   touched: StoreObservable<Touched<Data>>;
-  isValid: AccessorObservable<boolean>;
+  isValid: Pick<AccessorObservable<boolean>, 'subscribe' | 'get'>;
   isSubmitting: AccessorObservable<boolean>;
 };
 
@@ -173,14 +173,6 @@ export function createStores<Data extends Record<string, unknown>>(
 
   const subscribeIsValid = createSubscriber<boolean>(isValidStore);
 
-  function setIsValid(data: boolean) {
-    setIsValidStore(data);
-  }
-
-  function updateIsValid(updater: (data: boolean) => boolean) {
-    setIsValidStore(updater(isValidStore()));
-  }
-
   const subscribeIsSubmitting = createSubscriber<boolean>(isSubmittingStore);
 
   function setIsSubmitting(data: boolean) {
@@ -212,8 +204,6 @@ export function createStores<Data extends Record<string, unknown>>(
     },
     isValid: {
       subscribe: subscribeIsValid,
-      set: setIsValid,
-      update: updateIsValid,
       get: () => isValidStore,
     },
     isSubmitting: {
