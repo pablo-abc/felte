@@ -1,0 +1,75 @@
+<script>
+  import Head from '$lib/components/Head.svelte';
+  import { session } from '$app/stores';
+</script>
+
+<Head section="Documentation" />
+
+<h1>Felte</h1>
+
+Felte is a simple and extensible form library for [Solid](https://solidjs.com) and [Svelte](https://svelte.dev). Its purpose is to let you handle form reactivity as easily as possible without having to use any components such as `Form` or `Field` to let you style your fields easily. Its extensibility also allows to build solutions for common issues such as error reporting or validation.
+
+Thanks a lot for considering Felte for your project! We hope it's an enjoyable experience!
+
+<div class="frameworks">
+  <div class="framework-link">
+    <a
+      on:click="{() => ($session.framework = 'svelte')}"
+      aria-label="Section: Getting started with Svelte"
+      href="/docs/svelte/getting-started"
+      sveltekit:prefetch
+      >
+      Get started with Svelte
+      <svg role="img" aria-hidden="true" height="25" width="25" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+    </a>
+  </div>
+  <div class="framework-link">
+    <a
+      on:click="{() => ($session.framework = 'solid')}"
+      aria-label="Section: Getting started with Solid"
+      href="/docs/solid/getting-started"
+      sveltekit:prefetch
+      >
+      Get started with Solid
+      <svg role="img" aria-hidden="true" height="25" width="25" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+    </a>
+  </div>
+</div>
+
+<style>
+  h1 {
+    font-size: 3rem;
+  }
+
+  .framework-link {
+    position: relative;
+  }
+
+  .framework-link a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    color: var(--primary-font-color);
+  }
+
+  .framework-link a:hover {
+    color: var(--primary-font-color);
+    background: var(--header-background-hover);
+  }
+
+  svg {
+    color: var(--primary-color);
+    height: 2.5rem;
+    width: 2.5rem;
+  }
+
+  a, a :global(code) {
+    color: var(--link-color);
+    transition: color 100ms;
+  }
+
+  a:hover, a :global(code):hover {
+    color: var(--link-color-hover);
+  }
+</style>

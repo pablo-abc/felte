@@ -9,7 +9,7 @@ subsections:
 
 ## Reporters
 
-Felte offers an easy _plugin-like_ way of reporting your errors by using what we call `reporters`. Making use of Felte's extensibility, their job is to handle errors for you. The degree to which they do that depends on how each reporter is build. For example they can report your errors using a tooltip, or modifying the DOM itself to add your validation messages. You may use any of the official packages we provide, or [you can build your own](/docs/extending-felte).
+Felte offers an easy _plugin-like_ way of reporting your errors by using what we call `reporters`. Making use of Felte's extensibility, their job is to handle errors for you. The degree to which they do that depends on how each reporter is build. For example they can report your errors using a tooltip, or modifying the DOM itself to add your validation messages. You may use any of the official packages we provide, or [you can build your own](/docs/svelte/extending-felte).
 
 ### Using Tippy.js
 
@@ -131,7 +131,7 @@ yarn add -D @felte/reporter-svelte
 
 It exports a `svelteReporter` function and a `ValidationMessage` component. Pass the `svelteReporter` function to the `extend` option of `createForm` and add the `ValidationMessage` component wherever you want your validation messages to be displayed.
 
-The `ValidationMessage` component needs a `for` prop set with the **id** of the input it corresponds to, the error messages will be passed to you via the `messages` slot prop. The default slot will be rendered when there are errors, and the `placeholder` slot when there aren't any. The `placeholder` slot is optional and if not used, you'll need to handle any falsy values for `messages` yourself.
+The `ValidationMessage` component needs a `for` prop set with the **name** of the input it corresponds to, the error messages will be passed to you via the `messages` slot prop. The default slot will be rendered when there are errors, and the `placeholder` slot when there aren't any. The `placeholder` slot is optional and if not used, you'll need to handle any falsy values for `messages` yourself.
 
 ```html
 <script>
