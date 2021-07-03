@@ -1,5 +1,11 @@
 # @felte/common
 
+## 0.4.6
+
+### Patch Changes
+
+- fc42f8d: Fix getPath
+
 ## 0.4.5
 
 ### Patch Changes
