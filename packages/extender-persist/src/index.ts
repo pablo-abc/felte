@@ -4,33 +4,14 @@ import {
   _get,
   CurrentForm,
   setForm,
-  isFieldSetElement,
   _cloneDeep,
-  getIndex,
+  getPath,
 } from '@felte/common';
 
 type ExtenderConfig = {
   ignore?: string[];
   id: string;
 };
-
-function getPath(el: FormControl) {
-  const index = getIndex(el);
-  let path = el.name;
-  path = typeof index === 'undefined' ? path : `${path}[${index}]`;
-  let parent = el.parentNode;
-  if (!parent) return path;
-  while (parent && parent.nodeName !== 'FORM') {
-    if (isFieldSetElement(parent) && parent.name) {
-      const index = getIndex(parent);
-      const fieldsetName =
-        typeof index === 'undefined' ? parent.name : `${parent.name}[${index}]`;
-      path = `${fieldsetName}.${path}`;
-    }
-    parent = parent.parentNode;
-  }
-  return path;
-}
 
 const loaded: { [key: string]: boolean } = {};
 

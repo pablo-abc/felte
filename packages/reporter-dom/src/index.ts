@@ -6,12 +6,7 @@ import type {
   Reporter,
   Errors,
 } from '@felte/common';
-import {
-  isFormControl,
-  isFieldSetElement,
-  _get,
-  getIndex,
-} from '@felte/common';
+import { _get, getPath } from '@felte/common';
 
 export interface DomReporterOptions {
   listType?: 'ul' | 'ol';
@@ -38,24 +33,6 @@ function removeAllChildren(parent: Node): void {
   }
 }
 
-function getPath(el: HTMLElement | FormControl) {
-  const index = getIndex(el);
-  let path = isFormControl(el) ? el.name : el.dataset.felteReporterDomFor;
-  path = typeof index === 'undefined' ? path : `${path}[${index}]`;
-  let parent = el.parentNode;
-  if (!parent) return path;
-  while (parent && parent.nodeName !== 'FORM') {
-    if (isFieldSetElement(parent) && parent.name) {
-      const index = getIndex(parent);
-      const fieldsetName =
-        typeof index === 'undefined' ? parent.name : `${parent.name}[${index}]`;
-      path = `${fieldsetName}.${path}`;
-    }
-    parent = parent.parentNode;
-  }
-  return path;
-}
-
 function setInvalidState(target: FormControl) {
   const validationMessage = target.dataset.felteValidationMessage;
   if (!validationMessage) target.removeAttribute('aria-invalid');
@@ -73,7 +50,10 @@ function setValidationMessage<Data extends Obj>(
     singleAttributes,
   }: DomReporterOptions
 ) {
-  const elPath = getPath(reporterElement);
+  const elPath = getPath(
+    reporterElement,
+    reporterElement.dataset.felteReporterDomFor
+  );
   if (!elPath) return;
   const validationMessage = _get(errors, elPath, '') as string | string[];
   removeAllChildren(reporterElement);

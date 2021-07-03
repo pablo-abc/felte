@@ -1,6 +1,6 @@
 import type { Errors, Obj } from '@felte/common';
 import type { JSX } from 'solid-js';
-import { _get, isFieldSetElement, getIndex } from '@felte/common';
+import { _get, isFieldSetElement, getPath } from '@felte/common';
 import { onMount, createSignal, Show, createEffect, onCleanup } from 'solid-js';
 import { errorStores } from './stores';
 
@@ -24,25 +24,11 @@ export function ValidationMessage<Data extends Obj = Obj>(props: ValidationMessa
     return form;
   }
 
-  function getPath() {
-    let path = props.for;
-    path = typeof props.index === 'undefined' ? path : `${path}[${props.index}]`;
-    let parent = element?.parentNode;
-    if (!parent) return path;
-    while (parent && parent.nodeName !== 'FORM') {
-      if (isFieldSetElement(parent) && parent.name) {
-        const index = getIndex(parent);
-        const fieldsetName =
-              typeof index === 'undefined' ? parent.name : `${parent.name}[${index}]`;
-        path = `${fieldsetName}.${path}`;
-      }
-      parent = parent.parentNode;
-    }
-    return path;
-  }
   let unsubscribe: (() => void) | undefined;
   onMount(() => {
-    setErrorPath(getPath());
+    const path = props.index ? `${props.for}[${props.index}]` : props.for;
+    if (!element) return;
+    setErrorPath(getPath(element, path));
     const formElement = getFormElement() as HTMLFormElement;
     const reporterId = formElement?.dataset.felteReporterSvelteId;
     if (!reporterId) return;

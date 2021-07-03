@@ -230,6 +230,8 @@
     width: 18ch;
     max-width: 30ch;
     border: 1px solid var(--primary-color);
+    -webkit-appearance: menulist;
+    -moz-appearance: auto;
     appearance: auto;
     border-radius: 0.25em;
     padding: 0.25em 0.5em;

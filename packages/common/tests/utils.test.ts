@@ -381,10 +381,13 @@ describe('Utils', () => {
     const inputElement = document.createElement('input');
     inputElement.name = 'test';
     expect(getPath(inputElement)).toBe('test');
-    inputElement.setAttribute('data-felte-fieldset', 'container');
+    const fieldsetElement = document.createElement('fieldset');
+    fieldsetElement.name = 'container';
+    fieldsetElement.appendChild(inputElement);
     expect(getPath(inputElement)).toBe('container.test');
     inputElement.setAttribute('data-felte-index', '1');
     expect(getPath(inputElement)).toBe('container.test[1]');
+    expect(getPath(inputElement, 'overriden')).toBe('container.overriden[1]');
   });
 
   test('getFormControls', () => {
