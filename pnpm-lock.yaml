@@ -120,7 +120,7 @@ importers:
 
   packages/core:
     specifiers:
-      '@felte/common': workspace:*
+      '@felte/common': ^0.4.4
       ts-jest: ^26.5.0
     dependencies:
       '@felte/common': link:../common
