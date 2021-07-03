@@ -10,21 +10,15 @@ function getIndex(el: HTMLElement) {
 /**
  * @category Helper
  */
-export function getPath(el: FormControl, name?: string | undefined): string;
-export function getPath(
-  el: HTMLElement,
-  name?: string | undefined
-): string | undefined;
-export function getPath(el: HTMLElement | FormControl, name: string): string;
 export function getPath(
   el: HTMLElement | FormControl,
   name?: string | undefined
-): string | undefined {
+): string {
   const index = getIndex(el);
-  let path;
+  let path = '';
   if (name) {
     path = name;
-  } else if (isFormControl(el) && el.name) {
+  } else if (isFormControl(el)) {
     path = el.name;
   }
   path = typeof index === 'undefined' ? path : `${path}[${index}]`;

@@ -12,12 +12,7 @@
   "homepage": "https://felte.dev",
   "repository": "github:pablo-abc/felte",
   "funding": "https://www.buymeacoffee.com/pablo.abc",
-  "keywords": [
-    "solidjs",
-    "solid",
-    "forms",
-    "validation"
-  ],
+  "keywords": ["solidjs", "solid", "forms", "validation"],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -30,9 +25,7 @@
   "peerDependencies": {
     "solid-js": "^1.0.0"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "dependencies": {
     "@felte/core": "workspace:^0.1.1"
   },
@@ -40,7 +33,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@felte/common": "workspace:^0.4.4",
+    "@felte/common": "workspace:*",
     "solid-js": "^1.0.0",
     "ts-jest": "^26.5.0"
   },
