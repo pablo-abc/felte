@@ -5,23 +5,23 @@
 
 <svelte:head>
   <title>Felte | {section}</title>
-  <meta name="description" content="A form library for Svelte with simple error reporting.">
+  <meta name="description" content="An extensible form library for Svelte and Solid.">
 
   <!-- Google / Search Engine Tags -->
   <meta itemprop="name" content="Felte | Home">
-  <meta itemprop="description" content="A form library for Svelte with simple error reporting.">
+  <meta itemprop="description" content="An extensible form library for Svelte and Solid.">
   <meta itemprop="image" content="https://felte.dev/felte-logo-filled.png">
 
   <!-- Facebook Meta Tags -->
   <meta property="og:url" content="https://felte.dev">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Felte | Home">
-  <meta property="og:description" content="A form library for Svelte with simple error reporting.">
+  <meta property="og:description" content="An extensible form library for Svelte and Solid.">
   <meta property="og:image" content="https://felte.dev/felte-logo-filled.png">
 
   <!-- Twitter Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Felte | Home">
-  <meta name="twitter:description" content="A form library for Svelte with simple error reporting.">
+  <meta name="twitter:description" content="An extensible form library for Svelte and Solid.">
   <meta name="twitter:image" content="https://felte.dev/felte-logo-filled.png">
 </svelte:head>

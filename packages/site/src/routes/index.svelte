@@ -18,14 +18,14 @@
   });
 </script>
 
-<Head section="An extensible form library for Svelte" />
+<Head section="An extensible form library for Svelte and Solid" />
 
 <main>
   <div class=row>
     <section class=title>
       <h1>FELTE</h1>
       <h2>
-        An extensible <span class=bold>f</span>orm library for Sv<span class=bold>elte</span>
+        An extensible <span class=bold>f</span>orm library for Sv<span class=bold>elte</span> and Solid
       </h2>
     </section>
     <section>
