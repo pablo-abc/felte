@@ -1,5 +1,11 @@
 # @felte/common
 
+## 0.4.5
+
+### Patch Changes
+
+- 56ee618: Refactor to use getPath from `@felte/common`
+
 ## 0.4.4
 
 ### Patch Changes

@@ -22,9 +22,9 @@
   },
   "type": "module",
   "dependencies": {
-    "@felte/reporter-dom": "^0.3.0",
-    "@felte/reporter-svelte": "^0.3.4",
-    "@felte/reporter-tippy": "^0.3.0",
+    "@felte/reporter-dom": "^0.3.1",
+    "@felte/reporter-svelte": "^0.3.6",
+    "@felte/reporter-tippy": "^0.3.1",
     "@felte/validator-yup": "^0.2.5",
     "felte": "^0.7.8",
     "html-minifier": "^4.0.0",

@@ -1,5 +1,13 @@
 # @felte/reporter-tippy
 
+## 0.3.1
+
+### Patch Changes
+
+- 56ee618: Refactor to use getPath from `@felte/common`
+- Updated dependencies [56ee618]
+  - @felte/common@0.4.5
+
 ## 0.3.0
 
 ### Minor Changes

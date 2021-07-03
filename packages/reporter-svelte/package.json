@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-svelte",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "An error reporter for Felte using a Svelte component",
   "main": "dist/index.js",
   "svelte": "src/index.js",
@@ -26,7 +26,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@felte/common": "^0.4.4"
+    "@felte/common": "^0.4.5"
   },
   "publishConfig": {
     "access": "public"

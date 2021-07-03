@@ -164,7 +164,7 @@ importers:
 
   packages/reporter-dom:
     specifiers:
-      '@felte/common': ^0.4.0
+      '@felte/common': ^0.4.5
       felte: ^0.7.0
     dependencies:
       '@felte/common': link:../common
@@ -200,7 +200,7 @@ importers:
 
   packages/reporter-svelte:
     specifiers:
-      '@felte/common': ^0.4.4
+      '@felte/common': ^0.4.5
       felte: ^0.7.8
       rollup-plugin-svelte: ^7.1.0
       svelte: ^3.31.0
@@ -215,7 +215,7 @@ importers:
 
   packages/reporter-tippy:
     specifiers:
-      '@felte/common': ^0.4.0
+      '@felte/common': ^0.4.5
       felte: ^0.7.0
     dependencies:
       '@felte/common': link:../common
@@ -224,9 +224,9 @@ importers:
 
   packages/site:
     specifiers:
-      '@felte/reporter-dom': ^0.3.0
-      '@felte/reporter-svelte': ^0.3.4
-      '@felte/reporter-tippy': ^0.3.0
+      '@felte/reporter-dom': ^0.3.1
+      '@felte/reporter-svelte': ^0.3.6
+      '@felte/reporter-tippy': ^0.3.1
       '@felte/validator-yup': ^0.2.5
       '@sveltejs/adapter-static': 1.0.0-next.13
       '@sveltejs/kit': 1.0.0-next.116
