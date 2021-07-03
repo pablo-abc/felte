@@ -1,5 +1,14 @@
 # @felte/site
 
+## 0.0.6
+
+### Patch Changes
+
+- Updated dependencies [3118b72]
+- Updated dependencies [3118b72]
+  - felte@0.7.8
+  - @felte/reporter-svelte@0.3.4
+
 ## 0.0.5
 
 ### Patch Changes
