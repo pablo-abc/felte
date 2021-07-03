@@ -50,7 +50,9 @@
 
 <Head section={section.attributes.section} />
 
-<SvelteMarkdown source={section.body} {renderers} />
+{#key section}
+  <SvelteMarkdown source={section.body} {renderers} />
+{/key}
 
 <div>
   {#if prev}
