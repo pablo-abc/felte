@@ -12,7 +12,8 @@
   const focusOn = useFocusOn();
 
   export let framework = 'svelte';
-  const items = getContext('items');
+  const itemsStore = getContext('items');
+  let items = $itemsStore;
   let open = false;
   let mqList;
   let isDesktop;
@@ -29,7 +30,7 @@
 
   async function updateItems(framework) {
     const res = await fetch(`/docs/${framework}/all.json`);
-     $items = await res.json();
+    items = await res.json();
   }
 
   function watchMedia(e) {
@@ -62,13 +63,13 @@
     if (event.currentTarget === event.target) open = false;
   }
 
-  $: asideItems = $items.map(section => ({
+  $: $session.framework && $session.framework !== framework && updateItems($session.framework);
+
+  $: asideItems = items.map(section => ({
     id: section.attributes.id,
     section: section.attributes.section,
     subsections: section.attributes.subsections,
   }));
-
-  $: $session.framework && $session.framework !== framework && updateItems($session.framework);
 </script>
 
 <div class=desktop-menu>
