@@ -6,6 +6,7 @@ import {
   setForm,
   isFieldSetElement,
   _cloneDeep,
+  getIndex,
 } from '@felte/common';
 
 type ExtenderConfig = {
@@ -14,12 +15,16 @@ type ExtenderConfig = {
 };
 
 function getPath(el: FormControl) {
+  const index = getIndex(el);
   let path = el.name;
+  path = typeof index === 'undefined' ? path : `${path}[${index}]`;
   let parent = el.parentNode;
   if (!parent) return path;
   while (parent && parent.nodeName !== 'FORM') {
     if (isFieldSetElement(parent) && parent.name) {
-      const fieldsetName = parent.name;
+      const index = getIndex(parent);
+      const fieldsetName =
+        typeof index === 'undefined' ? parent.name : `${parent.name}[${index}]`;
       path = `${fieldsetName}.${path}`;
     }
     parent = parent.parentNode;
