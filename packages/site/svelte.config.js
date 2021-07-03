@@ -1,25 +1,10 @@
 import { mdsvex } from 'mdsvex';
 import mdsvexConfig from './mdsvex.config.js';
 import adapter from '@sveltejs/adapter-static';
-
-const sections = [
-  'getting-started',
-  'validation',
-  'validators',
-  'default-data',
-  'nested-forms',
-  'dynamic-forms',
-  'stores',
-  'helper-functions',
-  'reporters',
-  'custom-form-controls',
-  'multi-page-forms',
-  'accessibility',
-  'extending-felte',
-];
+import { sections } from './src/routes/docs/_docs.js';
 
 function getFrameworkRoutes(framework) {
-  return sections.map((section) => {
+  return sections[framework].map((section) => {
     return `/docs/${framework}/${section}`;
   });
 }

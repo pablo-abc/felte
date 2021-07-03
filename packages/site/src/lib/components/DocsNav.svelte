@@ -2,7 +2,7 @@
   import { createEventDispatcher, onMount, onDestroy } from 'svelte';
   import { browser } from '$app/env';
   import { page } from '$app/stores';
-  export let items;
+  export let items = [];
   export let framework;
 
   const dispatch = createEventDispatcher();

@@ -1,5 +1,5 @@
 <script>
-  import { onDestroy, onMount } from 'svelte';
+  import { onDestroy, onMount, getContext } from 'svelte';
   import { session } from '$app/stores';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
@@ -12,7 +12,7 @@
   const focusOn = useFocusOn();
 
   export let framework = 'svelte';
-  export let items = []
+  const items = getContext('items');
   let open = false;
   let mqList;
   let isDesktop;
@@ -27,12 +27,17 @@
     };
   }
 
+  async function updateItems(framework) {
+    const res = await fetch(`/docs/${framework}/all.json`);
+     $items = await res.json();
+  }
+
   function watchMedia(e) {
     isDesktop = e.matches;
   }
 
   onMount(() => {
-    $session.framework = framework;
+    if (!$session.framework) $session.framework = framework;
     mqList = matchMedia('(min-width: 966px)');
     isDesktop = mqList.matches;
     mqList.addEventListener('change', watchMedia);
@@ -45,6 +50,7 @@
   function handleChange(e) {
     const framework = e.currentTarget.value;
     $session.framework = framework;
+    updateItems(framework);
     let path = $page.path.split('/');
     if (path.length === 2) return;
     path[2] = framework;
@@ -55,6 +61,12 @@
   function handleClickOutside(event) {
     if (event.currentTarget === event.target) open = false;
   }
+
+  $: asideItems = $items.map(section => ({
+    id: section.attributes.id,
+    section: section.attributes.section,
+    subsections: section.attributes.subsections,
+  }));
 </script>
 
 <div class=desktop-menu>
@@ -64,7 +76,7 @@
       <option value="svelte">Svelte</option>
       <option value="solid">Solid</option>
     </select>
-    <DocsNav framework={$session.framework ?? 'svelte'} {items} />
+    <DocsNav framework={$session.framework ?? 'svelte'} items={asideItems} />
   </div>
 </div>
 
@@ -88,7 +100,7 @@
           <option value="svelte">Svelte</option>
           <option value="solid">Solid</option>
         </select>
-        <DocsNav framework={$session.framework ?? 'svelte'} on:close="{() => (open = false)}" {items} />
+        <DocsNav framework={$session.framework ?? 'svelte'} on:close="{() => (open = false)}" items={asideItems} />
       </div>
     </div>
   {:else}

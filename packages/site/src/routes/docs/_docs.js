@@ -2,25 +2,41 @@ import fm from 'front-matter';
 import path from 'path';
 import fs from 'fs/promises';
 
+export const sections = {
+  svelte: [
+    'getting-started',
+    'validation',
+    'validators',
+    'default-data',
+    'nested-forms',
+    'dynamic-forms',
+    'stores',
+    'helper-functions',
+    'reporters',
+    'custom-form-controls',
+    'multi-page-forms',
+    'accessibility',
+    'extending-felte',
+  ],
+  solid: [
+    'getting-started',
+    'validation',
+    'validators',
+    'default-data',
+    'nested-forms',
+    'dynamic-forms',
+    'stores',
+    'helper-functions',
+    'reporters',
+    'custom-form-controls',
+    'accessibility',
+    'extending-felte',
+  ],
+};
+
 function idfy(value) {
   return value.toLowerCase().replace(/[^a-zA-Z0-9]/g, '-');
 }
-
-const sections = [
-  'getting-started',
-  'validation',
-  'validators',
-  'default-data',
-  'nested-forms',
-  'dynamic-forms',
-  'stores',
-  'helper-functions',
-  'reporters',
-  'custom-form-controls',
-  'multi-page-forms',
-  'accessibility',
-  'extending-felte',
-];
 
 export default async function getDocs({
   lang = 'en',
@@ -47,7 +63,9 @@ export default async function getDocs({
 
   try {
     if (section === 'all')
-      return await Promise.all(sections.map((section) => readMd(section)));
+      return await Promise.all(
+        sections[framework].map((section) => readMd(section))
+      );
     if (section) return await readMd(section);
     return await readMd('introduction');
   } catch (err) {

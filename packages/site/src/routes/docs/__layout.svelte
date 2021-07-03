@@ -22,24 +22,23 @@
 <script>
   import DocsAside from '$lib/components/DocsAside.svelte';
   import { setContext } from 'svelte';
+  import { writable } from 'svelte/store';
 
   export let framework;
   export let data;
 
-  setContext('items', data);
+  const items = writable(data);
 
-  let asideItems = data.map(section => ({
-    id: section.attributes.id,
-    section: section.attributes.section,
-    subsections: section.attributes.subsections,
-  }));
+  setContext('items', items);
+
+  $: $items = data;
 </script>
 
 <div class=main-container>
   <main>
     <slot></slot>
   </main>
-  <DocsAside {framework} items={asideItems} />
+  <DocsAside {framework} />
 </div>
 
 <style>

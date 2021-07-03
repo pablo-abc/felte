@@ -55,27 +55,30 @@ const { form } = createForm({
 
 `createForm` returns also its `errors` and `touched` fields as stores.
 
-```html
-<script>
-  import { createForm } from 'felte';
+```tsx
+import { createForm } from '@felte/solid';
 
+export function Form() {
   const { form, errors, touched } = createForm({ \*...*\ });
-</script>
 
-<pre>
-  <!-- Prettify the errors and display them in HTML -->
-  {JSON.stringify($errors, null, 2)}
-</pre>
-
-<pre>
-  {JSON.stringify($touched, null, 2)}
-</pre>
+  return (
+    <>
+      <pre>
+        {/* Prettify the errors and display them in HTML */}
+        {JSON.stringify($errors, null, 2)}
+      </pre>
+      <pre>
+        {JSON.stringify($touched, null, 2)}
+      </pre>
+    </>
+  );
+}
 ```
 
-You can read more above them in the [stores](/docs/svelte/stores) section.
+You can read more above them in the [stores](/docs/solid/stores) section.
 
-You don't need to manually handle this errors. Felte provides four official packages to handle your errors for you, either using Tippy, directly mutating the DOM, providing a Svelte component or using the browser's built-in constraint validation API. You can read more about this in the [reporters](/docs/svelte/reporters) section.
+You don't need to manually handle this errors. Felte provides four official packages to handle your errors for you, either using Tippy, directly mutating the DOM, providing a Solid component or using the browser's built-in constraint validation API. You can read more about this in the [reporters](/docs/solid/reporters) section.
 
 ### Multiple validations
 
-The `validate` property of the configuration object can also be an array of validation functions. The resulting errors from running each validation function will be merged into a single object. If a single property was assigned two or more errors from the validation functions, the property will be an array of strings. This might not be useful for common scenarios, but it will come useful when using any of our [validator packages](/docs/svelte/validators).
+The `validate` property of the configuration object can also be an array of validation functions. The resulting errors from running each validation function will be merged into a single object. If a single property was assigned two or more errors from the validation functions, the property will be an array of strings. This might not be useful for common scenarios, but it will come useful when using any of our [validator packages](/docs/solid/validators).

@@ -3,13 +3,13 @@ section: Reporters
 subsections:
   - Using Tippy.js
   - Using the DOM
-  - Using a Svelte component
+  - Using a Solid component
   - Using the constraint validation API
 ---
 
 ## Reporters
 
-Felte offers an easy _plugin-like_ way of reporting your errors by using what we call `reporters`. Making use of Felte's extensibility, their job is to handle errors for you. The degree to which they do that depends on how each reporter is build. For example they can report your errors using a tooltip, or modifying the DOM itself to add your validation messages. You may use any of the official packages we provide, or [you can build your own](/docs/svelte/extending-felte).
+Felte offers an easy _plugin-like_ way of reporting your errors by using what we call `reporters`. Making use of Felte's extensibility, their job is to handle errors for you. The degree to which they do that depends on how each reporter is build. For example they can report your errors using a tooltip, or modifying the DOM itself to add your validation messages. You may use any of the official packages we provide, or [you can build your own](/docs/solid/extending-felte).
 
 ### Using Tippy.js
 
@@ -107,29 +107,19 @@ If you need to show your Tippy in a different position, you may use the `data-fe
 <input name="email" type="email">
 ```
 
-### Using a Svelte component
+### Using a Solid component
 
-The `@felte/reporter-svelte` package will fill like a more traditional way to handle your validation messages.
-
-```sh
-# npm
-npm i -S @felte/reporter-svelte
-
-# yarn
-yarn add @felte/reporter-svelte
-```
-
-If you're using **[Sapper](https://sapper.svelte.dev)** you might want to add it as a dev dependency.
+The `@felte/reporter-solid` package will fill like a more traditional way to handle your validation messages.
 
 ```sh
 # npm
-npm i -D @felte/reporter-svelte
+npm i -S @felte/reporter-solid
 
 # yarn
-yarn add -D @felte/reporter-svelte
+yarn add @felte/reporter-solid
 ```
 
-It exports a `svelteReporter` function and a `ValidationMessage` component. Pass the `svelteReporter` function to the `extend` option of `createForm` and add the `ValidationMessage` component wherever you want your validation messages to be displayed.
+It exports a `solidReporter` function and a `ValidationMessage` component. Pass the `solidReporter` function to the `extend` option of `createForm` and add the `ValidationMessage` component wherever you want your validation messages to be displayed.
 
 The `ValidationMessage` component needs a `for` prop set with the **id** of the input it corresponds to, the error messages will be passed to you via the `messages` slot prop. The default slot will be rendered when there are errors, and the `placeholder` slot when there aren't any. The `placeholder` slot is optional and if not used, you'll need to handle any falsy values for `messages` yourself.
 
@@ -164,7 +154,7 @@ The `ValidationMessage` component needs a `for` prop set with the **id** of the 
 
 ### Using the DOM
 
-The `@felte/reporter-dom` is similar to the `@felte/reporter-svelte` package, but it modifies the dom directly for you.
+The `@felte/reporter-dom` is similar to the `@felte/reporter-solid` package, but it modifies the dom directly for you.
 
 ```sh
 # npm
