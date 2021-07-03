@@ -14,7 +14,7 @@ npm i -S @felte/solid
 yarn add @felte/solid
 ```
 
-Then, inside of the Solid component where you have your form, import the `createForm` function and call it with a configuration object containing an `onSubmit` function. The `createForm` function returns an action that you can use in any form. This is all you need to make your form reactive.
+Then, inside of the Solid component where you have your form, import the `createForm` function and call it with a configuration object containing an `onSubmit` function. The `createForm` function returns a function that you can use in any form as a directive or passing it to `ref`. This is all you need to make your form reactive.
 
 ```tsx
 import { createForm } from '@felte/solid';
