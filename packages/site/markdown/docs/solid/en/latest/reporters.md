@@ -130,7 +130,7 @@ import { createForm } from '@felte/solid';
 export function Form() {
   const { form } = createForm({
       // ...
-      extend: svelteReporter,
+      extend: reporter,
       // ...
     },
   })

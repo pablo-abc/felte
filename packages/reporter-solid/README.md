@@ -1,65 +1,52 @@
-# Solid App Router
+# @felte/reporter-solid
 
-> Solid 1.0 use 0.0.50 or greater
-> Solid 0.x use 0.0.46
+[![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-solid)](https://bundlephobia.com/result?p=@felte/reporter-solid)
+[![NPM Version](https://img.shields.io/npm/v/@felte/reporter-solid)](https://www.npmjs.com/package/@felte/reporter-solid)
 
-Small, config-driven router inspired by Ember Router. While less dynamic than the common React Router approach which I would recommend for most SPAs, this approach is good for file system based routing. For things like you'd find in isomorphic metaframeworks.
+A Felte reporter that uses a custom Solid component to report errors.
 
-So far this is just the basic isomorphic shell. Lots more to do.
+## Installation
 
-```jsx
-import { lazy } from "solid-js";
-import { render } from "solid-js/web";
-import { Router, Route, Link } from "solid-app-router";
+```sh
+# npm
+npm i -S @felte/reporter-solid
 
-const routes = [
-  {
-    path: "/users",
-    component: lazy(() => import("/pages/users.js"))
-  },
-  {
-    path: "/users/:id",
-    component: lazy(() => import("/pages/users/[id].js")),
-    children: [
-      { path: "/", component: lazy(() => import("/pages/users/[id]/index.js")) },
-      { path: "/settings", component: lazy(() => import("/pages/users/[id]/settings.js")) },
-      { path: "*all", component: lazy(() => import("/pages/users/[id]/[...all].js")) }
-    ]
-  },
-  {
-    path: "/",
-    component: lazy(() => import("/pages/index.js"))
-  },
-  {
-    path: "*all",
-    component: lazy(() => import("/pages/[...all].js"))
-  }
-];
-
-function App() {
-  return (
-    <>
-      <h1>Awesome Site</h1>
-      <Link class="nav" href="/">
-        Home
-      </Link>
-      <Link class="nav" href="/users">
-        Users
-      </Link>
-      {/* route will be inserted here */}
-      <Route />
-    </>
-  );
-}
-
-render(
-  () => (
-    <Router routes={routes}>
-      <App />
-    </Router>
-  ),
-  document.getElementById("app")
-);
+# yarn
+yarn add @felte/reporter-solid
 ```
 
-TODO: Docs
+## Usage
+
+The package exports a `reporter` function and a `ValidationMessage` component. Pass the `reporter` function to the `extend` option of `createForm` and add the `ValidationMessage` component wherever you want your validation messages to be displayed.
+
+The `ValidationMessage` component needs a `for` prop set with the **name** of the input it corresponds to, the child of `ValidationMessage` is a function that takes the error messages as an argument. This can be either a `string`, an array of `strings`, or `undefined`.
+
+```tsx
+import { reporter, ValidationMessage } from '@felte/reporter-solid';
+import { createForm } from '@felte/solid';
+
+export function Form() {
+  const { form } = createForm({
+      // ...
+      extend: reporter,
+      // ...
+    },
+  })
+
+  return (
+    <form use:form>
+      <input id="email" type="text" name="email" />
+      <ValidationMessage for="email">
+        <!-- We assume a single string will be passed as a validation message -->
+        <!-- This can be an array of strings depending on your validation strategy -->
+        {(message) => <span>{message}</span>}
+      </ValidationMessage>
+      <input type="password" name="password" />
+      <ValidationMessage for="password">
+        {(message) => <span>{message}</span>}
+      </ValidationMessage>
+      <input type="submit" value="Sign in" />
+    </form>
+  );
+}
+```
