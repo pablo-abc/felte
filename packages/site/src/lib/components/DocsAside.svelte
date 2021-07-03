@@ -64,7 +64,7 @@
       <option value="svelte">Svelte</option>
       <option value="solid">Solid</option>
     </select>
-    <DocsNav framework={$session.framework} {items} />
+    <DocsNav framework={$session.framework ?? 'svelte'} {items} />
   </div>
 </div>
 
@@ -88,7 +88,7 @@
           <option value="svelte">Svelte</option>
           <option value="solid">Solid</option>
         </select>
-        <DocsNav framework={$session.framework} on:close="{() => (open = false)}" {items} />
+        <DocsNav framework={$session.framework ?? 'svelte'} on:close="{() => (open = false)}" {items} />
       </div>
     </div>
   {:else}
