@@ -4,10 +4,10 @@ section: Custom form controls
 
 ## Custom form controls
 
-If for some reason you're not using an HTML5 input, select or textarea element as an input, you can always use any of the returned [helpers from `createForm`](/docs/svelte/helper-functions) for handling inputs.
+If for some reason you're not using an HTML5 input, select or textarea element as an input, you can always use any of the returned [helpers from `createForm`](/docs/solid/helper-functions) for handling inputs.
 
 ```tsx
-import { createForm } from 'felte';
+import { createForm } from '@felte/solid';
 
 export function Form() {
   const { form, setField } = createForm({ /* ... */ });
