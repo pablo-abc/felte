@@ -1,0 +1,49 @@
+{
+  "name": "@felte/reporter-solid",
+  "version": "0.0.1",
+  "description": "An error reporter for Felte using a Svelte component",
+  "main": "dist/index.js",
+  "svelte": "src/index.js",
+  "browser": "dist/index.js",
+  "module": "dist/index.mjs",
+  "sideEffects": false,
+  "author": "Pablo Berganza <pablo@berganza.dev>",
+  "repository": "github:pablo-abc/felte",
+  "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/reporter-solid",
+  "keywords": ["solidjs", "solid", "forms", "validation", "felte"],
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "solid": "./dist/index.jsx",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": ["dist"],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc && rollup -c",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@felte/common": "workspace:*"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-typescript": "^7.14.5",
+    "@rollup/plugin-babel": "5.3.0",
+    "@rollup/plugin-node-resolve": "13.0.0",
+    "@types/node": "^15.12.4",
+    "babel-preset-solid": "^1.0.0",
+    "rollup": "^2.52.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "solid-js": "^1.0.0",
+    "typescript": "~4.3.4"
+  },
+  "peerDependencies": {
+    "solid-js": "^1.0.0"
+  }
+}

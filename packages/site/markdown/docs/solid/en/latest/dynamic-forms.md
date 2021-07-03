@@ -7,7 +7,7 @@ section: Dynamic forms
 Felte watches for any added or removed form controls in your form, updating the `data`, `errors` and `touched` stores accordingly.
 
 ```tsx
-import { createForm } from 'felte';
+import { createForm } from '@felte/solid';
 
 function Form() {
   const { form } = createForm({ /* ... */ });
