@@ -10,7 +10,7 @@ import type {
   Touched,
   CreateSubmitHandlerConfig,
   FieldValue,
-} from '@felte/common';
+} from '@felte/core';
 import type { Accessor } from 'solid-js';
 import type { Store } from 'solid-js/store';
 import type { Observables } from './stores';
