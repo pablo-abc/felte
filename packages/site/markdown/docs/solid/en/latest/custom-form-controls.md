@@ -18,7 +18,7 @@ If for some reason you're not using an HTML5 input, select or textarea element a
 </form>
 ```
 
-You may also use any of the returned [helpers from `createForm`](/docs/helper-functions) for this as well.
+You may also use any of the returned [helpers from `createForm`](/docs/svelte/helper-functions) for this as well.
 
 ```html
 <script>

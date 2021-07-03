@@ -1,5 +1,6 @@
 <script>
   import { onDestroy, onMount } from 'svelte';
+  import { session } from '$app/stores';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import { cubicIn } from 'svelte/easing';
@@ -8,10 +9,9 @@
   import { portal } from 'svelte-portal';
   import { useFocusOn } from 'svelte-focus-on';
 
-  export let framework;
-
   const focusOn = useFocusOn();
 
+  export let framework = 'svelte';
   export let items = []
   let open = false;
   let mqList;
@@ -32,6 +32,7 @@
   }
 
   onMount(() => {
+    $session.framework = framework;
     mqList = matchMedia('(min-width: 966px)');
     isDesktop = mqList.matches;
     mqList.addEventListener('change', watchMedia);
@@ -42,27 +43,34 @@
   });
 
   function handleChange(e) {
+    const framework = e.currentTarget.value;
+    $session.framework = framework;
     let path = $page.path.split('/');
-    path[2] = e.currentTarget.value;
+    if (path.length === 2) return;
+    path[2] = framework;
     path = path.join('/')
     goto(path);
+  }
+
+  function handleClickOutside(event) {
+    if (event.currentTarget === event.target) open = false;
   }
 </script>
 
 <div class=desktop-menu>
   <div class=sidebar>
     <label for="framework-select">Choose your framework:</label>
-    <select id="framework-select" on:input={handleChange} value="{framework}">
+    <select id="framework-select" on:input={handleChange} value="{$session.framework}">
       <option value="svelte">Svelte</option>
       <option value="solid">Solid</option>
     </select>
-    <DocsNav {items} />
+    <DocsNav framework={$session.framework} {items} />
   </div>
 </div>
 
 <div class=mobile-menu>
   {#if open && !isDesktop}
-    <div use:portal class=overlay on:click="{() => (open = false)}" transition:fade >
+    <div use:portal class=overlay on:click="{handleClickOutside}" transition:fade >
       <div use:focusOn class=sidebar aria-label="Side menu" transition:menuTransition>
         <div class=actions>
           <button
@@ -75,7 +83,12 @@
             </svg>
           </button>
         </div>
-        <DocsNav on:close="{() => (open = false)}" {items} />
+        <label for="framework-select">Choose your framework:</label>
+        <select id="framework-select" on:input={handleChange} value="{$session.framework}">
+          <option value="svelte">Svelte</option>
+          <option value="solid">Solid</option>
+        </select>
+        <DocsNav framework={$session.framework} on:close="{() => (open = false)}" {items} />
       </div>
     </div>
   {:else}
