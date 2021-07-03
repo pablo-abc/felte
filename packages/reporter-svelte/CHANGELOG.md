@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.3.4
+
+### Patch Changes
+
+- 3118b72: Upgrade deps
+
 ## 0.3.3
 
 ### Patch Changes

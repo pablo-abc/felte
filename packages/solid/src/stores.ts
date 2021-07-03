@@ -5,10 +5,10 @@ import {
   _cloneDeep,
   _isPlainObject,
   _mergeWith,
-} from '@felte/common';
+} from '@felte/core';
 import type { Store } from 'solid-js/store';
 import type { Accessor } from 'solid-js';
-import type { Errors, FormConfig, Touched, Obj } from '@felte/common';
+import type { Errors, FormConfig, Touched, Obj } from '@felte/core';
 import { createEffect, createSignal, createRoot, batch } from 'solid-js';
 import { createStore, reconcile } from 'solid-js/store';
 

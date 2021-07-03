@@ -1,6 +1,6 @@
 {
   "name": "felte",
-  "version": "0.7.7",
+  "version": "0.7.8",
   "description": "An extensible form library for Svelte",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -39,7 +39,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "@felte/common": "workspace:^0.4.4",
     "ts-jest": "^26.5.0"
   },
   "exports": {

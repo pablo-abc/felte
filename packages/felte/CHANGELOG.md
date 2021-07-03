@@ -1,5 +1,11 @@
 # felte
 
+## 0.7.8
+
+### Patch Changes
+
+- 3118b72: Use @felte/core instead of @felte/common
+
 ## 0.7.7
 
 ### Patch Changes

@@ -6,7 +6,7 @@ import type {
   FormConfigWithInitialValues,
   FormConfigWithoutInitialValues,
   Obj,
-} from '@felte/common';
+} from '@felte/core';
 
 /**
  * Creates the stores and `form` action to make the form reactive.
