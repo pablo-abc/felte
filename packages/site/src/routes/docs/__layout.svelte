@@ -30,8 +30,6 @@
   const items = writable(data);
 
   setContext('items', items);
-
-  $: $items = data;
 </script>
 
 <div class=main-container>

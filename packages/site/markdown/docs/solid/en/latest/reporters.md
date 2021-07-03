@@ -83,7 +83,7 @@ reporter({
 You may also opt-out of this package reporting your errors for a specific field by adding `data-felte-reporter-tippy-ignore` to the input:
 
 ```html
-<input name="email" data-felte-reporter-tippy-ignore>
+<input name="email" data-felte-reporter-tippy-ignore />
 ```
 
 If you're using a custom control not managed by Felte, you can still make use of `@felte/reporter-tippy`. For this you can use two data attributes:
@@ -104,7 +104,7 @@ If you need to show your Tippy in a different position, you may use the `data-fe
 <!-- Tippy will be shown on top of this div -->
 <div data-felte-reporter-tippy-position-for="email" />
 <!-- Not on top of this input -->
-<input name="email" type="email">
+<input name="email" type="email" />
 ```
 
 ### Using a Solid component
@@ -193,7 +193,7 @@ In order to show the errors for a field, you'll need to add a container for each
 
 ```html
 <label for="email">Email:</label>
-<input name="email" aria-describedby="email-validation">
+<input name="email" aria-describedby="email-validation" />
 <div id="email-validation" data-felte-reporter-dom-for="email" aria-live="polite" />
 ```
 

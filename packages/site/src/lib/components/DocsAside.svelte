@@ -31,6 +31,7 @@
   async function updateItems(framework) {
     const res = await fetch(`/docs/${framework}/all.json`);
     items = await res.json();
+    $itemsStore = items;
   }
 
   function watchMedia(e) {

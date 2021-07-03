@@ -30,7 +30,7 @@ export function Form() {
     <form use:form>
       <input type="text" name="email" />
       <input type="password" name="password" />
-      <input type="submit" value="Sign in">
+      <input type="submit" value="Sign in" />
     </form>
   );
 }

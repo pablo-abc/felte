@@ -65,10 +65,10 @@ export function Form() {
     <>
       <pre>
         {/* Prettify the errors and display them in HTML */}
-        {JSON.stringify($errors, null, 2)}
+        {JSON.stringify(errors, null, 2)}
       </pre>
       <pre>
-        {JSON.stringify($touched, null, 2)}
+        {JSON.stringify(touched, null, 2)}
       </pre>
     </>
   );
