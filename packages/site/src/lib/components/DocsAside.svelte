@@ -67,6 +67,8 @@
     section: section.attributes.section,
     subsections: section.attributes.subsections,
   }));
+
+  $: $session.framework && $session.framework !== framework && updateItems($session.framework);
 </script>
 
 <div class=desktop-menu>
