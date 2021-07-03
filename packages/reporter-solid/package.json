@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-solid",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "An error reporter for Felte using a Solid component",
   "main": "dist/index.js",
   "svelte": "src/index.js",
@@ -10,10 +10,15 @@
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/reporter-solid",
-  "keywords": ["solidjs", "solid", "forms", "validation", "felte"],
+  "keywords": [
+    "solidjs",
+    "solid",
+    "forms",
+    "validation",
+    "felte"
+  ],
   "license": "MIT",
   "type": "module",
-  "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
@@ -22,8 +27,9 @@
     },
     "./package.json": "./package.json"
   },
-  "files": ["dist"],
-  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc && rollup -c",
     "prepublishOnly": "pnpm run build"

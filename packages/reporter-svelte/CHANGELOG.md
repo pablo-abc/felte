@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.3.5
+
+### Patch Changes
+
+- 3feb1f8: Update deps
+
 ## 0.3.4
 
 ### Patch Changes

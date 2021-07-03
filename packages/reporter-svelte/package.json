@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-svelte",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "An error reporter for Felte using a Svelte component",
   "main": "dist/index.js",
   "svelte": "src/index.js",
@@ -10,7 +10,12 @@
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/reporter-svelte",
-  "keywords": ["svelte", "forms", "validation", "felte"],
+  "keywords": [
+    "svelte",
+    "forms",
+    "validation",
+    "felte"
+  ],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -26,7 +31,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "devDependencies": {
     "felte": "^0.7.8",
     "rollup-plugin-svelte": "^7.1.0",
