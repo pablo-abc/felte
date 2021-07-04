@@ -1,6 +1,6 @@
 ![Felte](./packages/site/static/felte-logo-thin.png)
 
-# Felte: A form library for Svelte
+# Felte: A form library for Svelte and Solid
 
 [![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)](https://github.com/pablo-abc/felte/actions/workflows/test.yml)
 [![Bundle size](https://img.shields.io/bundlephobia/min/felte)](https://bundlephobia.com/result?p=felte)
@@ -68,13 +68,6 @@ Felte is a simple to use form library for Svelte and Solid. No `Field` or `Form`
   <input type=submit value="Sign in">
 </form>
 ```
-
-## Why
-
-I felt that Svelte would allow to create a simple, almost configuration-less way to handle forms. Current libraries (at least that I have found) still make forms feel reliant on a lot of configuration, or custom Field and Form components which make it a little bit harder to customize styles. I wanted a library that would feel as simple as possible to make a form reactive, without relying on custom components, to make styling and handling forms as simple as possible, and while still aknowledging some configuration is necessary to handle more complex use-cases. TypeScript is also a big plus.
-
-In order to accomplish usage as simple as possible, Felte takes advantage of Svelte actions to be able to make a form reactive using only the `use` directive. Felte also has built-in error reporting capabilities by using `reporters` such as `@felte/reporter-tippy`, `@felte/reporter-cvapi` and `@felte/reporter-dom`.
-
 
 ## Packages
 
