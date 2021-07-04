@@ -50,24 +50,32 @@ This form would create a `data` store with the same shape as above.
 Names may also contain an `index` (e.g. `"email[0]"`) to indicate that the value should be set in that specific index of an array. This is useful when handling multiple values or generating inputs from an array. This works in both a `fieldset` element and controls.
 
 ```tsx
+import { For } from 'solid-js';
+
 function Form() {
   const { form } = createForm({ \*...*\ });
 
   return (
     <form use:form>
       {/* Using a fieldset element */}
-      {[0, 1, 2].map(index => (
-        <fieldset name={`account[${index}]`}>
-          <input name="email" type="email" />
-          <input name="password" type="password" />
-        </fieldset>
-      ))}
+      <For each={[0, 1, 2]}>
+        {(index) => (
+          <fieldset name={`account[${index}]`}>
+            <input name="email" type="email" />
+            <input name="password" type="password" />
+          </fieldset>
+        )}
+      </For>
       <fieldset name="profile">
         {/* Using the inputs directly */}
-        {[0, 1, 2].map(index => (
-          <input name={`firstName[${index}]`} />
-          <input name={`lastName[${index}]`} />
-        ))}
+        <For each={[0, 1, 2]}>
+          {(index) => (
+            <>
+              <input name={`firstName[${index}]`} />
+              <input name={`lastName[${index}]`} />
+            </>
+          )}
+        </For>
       </fieldset>
     </form>
   )
@@ -77,24 +85,32 @@ function Form() {
 If for any reason you want to keep the name without the index, you may also set the index using the `data-felte-index` property. This works for `input`, `textarea` and `fieldset` as well.
 
 ```tsx
+import { For } from 'solid-js';
+
 function Form() {
   const { form } = createForm({ \*...*\ });
 
   return (
     <form use:form>
       {/* Using a fieldset element */}
-      {[0, 1, 2].map(index => (
-        <fieldset name="account" data-felte-index={index}>
-          <input name="email" type="email" />
-          <input name="password" type="password" />
-        </fieldset>
-      ))}
+      <For each={[0, 1, 2]}>
+        {(index) => (
+          <fieldset name="account" data-felte-index={index}>
+            <input name="email" type="email" />
+            <input name="password" type="password" />
+          </fieldset>
+        )}
+      </For>
       <fieldset name="profile">
         {/* Using the inputs directly */}
-        {[0, 1, 2].map(index => (
-          <input name="firstName" data-felte-index={index} />
-          <input name="lastName" data-felte-index={index} />
-        ))}
+        <For each={[0, 1, 2]}>
+          {(index) => (
+            <>
+              <input name="firstName" data-felte-index={index} />
+              <input name="lastName" data-felte-index={index} />
+            </>
+          )}
+        </For>
       </fieldset>
     </form>
   )
