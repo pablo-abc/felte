@@ -83,11 +83,11 @@ export function createForm<
   return {
     ...rest,
     form,
-    data: stores.data.get(),
-    errors: stores.errors.get(),
-    touched: stores.touched.get(),
-    isSubmitting: stores.isSubmitting.get(),
-    isValid: stores.isValid.get(),
+    data: stores.data.getter(),
+    errors: stores.errors.getter(),
+    touched: stores.touched.getter(),
+    isSubmitting: stores.isSubmitting.getter(),
+    isValid: stores.isValid.getter(),
     observables: stores,
   };
 }

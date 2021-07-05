@@ -6,7 +6,7 @@ import {
   _isPlainObject,
   _mergeWith,
 } from '@felte/core';
-import type { Store } from 'solid-js/store';
+import type { SetStoreFunction, Store } from 'solid-js/store';
 import type { Accessor } from 'solid-js';
 import type { Errors, FormConfig, Touched, Obj } from '@felte/core';
 import { createEffect, createSignal, createRoot, batch } from 'solid-js';
@@ -19,18 +19,20 @@ type Observable<T> = {
 };
 
 type StoreObservable<T> = {
-  get: () => Store<T>;
+  getter: () => Store<T>;
+  setter: SetStoreFunction<T>;
 } & Observable<T>;
 
 type AccessorObservable<T> = {
-  get: () => Accessor<T>;
+  getter: () => Accessor<T>;
+  setter?: ((v: T) => void) | ((fn: (v: T) => T) => void);
 } & Observable<T>;
 
 export type Observables<Data extends Obj> = {
   data: StoreObservable<Data>;
   errors: StoreObservable<Errors<Data>>;
   touched: StoreObservable<Touched<Data>>;
-  isValid: Pick<AccessorObservable<boolean>, 'subscribe' | 'get'>;
+  isValid: Pick<AccessorObservable<boolean>, 'subscribe' | 'getter'>;
   isSubmitting: AccessorObservable<boolean>;
 };
 
@@ -46,31 +48,23 @@ export function createStores<Data extends Record<string, unknown>>(
     null
   );
 
-  const [dataStore, setDataStore] = createStore<Data>(
+  const [dataStore, setData] = createStore<Data>(
     config.initialValues ? _cloneDeep(config.initialValues) : ({} as Data)
   );
 
-  const [errorStore, setErrorStore] = createStore<Errors<Data>>(
-    {} as Errors<Data>
-  );
+  const [errorStore, setErrors] = createStore<Errors<Data>>({} as Errors<Data>);
 
   const [resultErrors, setResultErrors] = createStore<Errors<Data>>(
     initialErrors
   );
 
-  const [touchedStore, setTouchedStore] = createStore<Touched<Data>>(
-    initialTouched
-  );
+  const [touchedStore, setTouched] = createStore<Touched<Data>>(initialTouched);
 
   async function validate($data?: Data) {
     let errors: Errors<Data> | undefined = {};
     if (!config.validate || !$data) return;
     errors = await executeValidation($data, config.validate);
-    updateResultErrorsStore(errors || {}, touchedStore);
-    batch(() => {
-      setErrorStore(errors || {});
-      setErrorStore(reconcile((errors as any) || {}));
-    });
+    errorsSetter(errors || {});
   }
 
   validate(dataStore);
@@ -105,25 +99,25 @@ export function createStores<Data extends Record<string, unknown>>(
     };
   }
 
-  const [isSubmittingStore, setIsSubmittingStore] = createSignal(false);
+  const [isSubmittingStore, setIsSubmitting] = createSignal(false);
 
   const subscribeData = createSubscriber<Data>(dataStore);
 
-  function setData(data: Data) {
-    validate(data);
+  function dataSetter(data: Data) {
     batch(() => {
-      setDataStore(data);
-      setDataStore(reconcile(data));
+      setData(data);
+      setData(reconcile(data));
     });
+    validate(data);
   }
 
-  function updateData(updater: (data: Data) => Data) {
+  function dataUpdater(updater: (data: Data) => Data) {
     const data = updater(dataStore);
-    validate(data);
     batch(() => {
-      setDataStore(data);
-      setDataStore(reconcile(data));
+      setData(data);
+      setData(reconcile(data));
     });
+    validate(data);
   }
 
   const subscribeErrors = createSubscriber<Errors<Data>>(
@@ -150,86 +144,91 @@ export function createStores<Data extends Record<string, unknown>>(
       touched,
       errorFilterer
     ) as any;
-    updateIsValidStore(errors);
     setResultErrors(mergedErrors);
   }
 
-  function setErrors(errors: Errors<Data>) {
-    updateResultErrorsStore(errors, touchedStore);
+  function errorsSetter(errors: Errors<Data>) {
     batch(() => {
-      setErrorStore(errors);
-      setErrorStore(reconcile(errors as any));
+      setErrors(errors);
+      setErrors(reconcile(errors as any));
     });
+    updateIsValidStore(errors);
+    updateResultErrorsStore(errors, touchedStore);
   }
 
-  function updateErrors(updater: (data: Errors<Data>) => Errors<Data>) {
+  function errorsUpdater(updater: (data: Errors<Data>) => Errors<Data>) {
     const errors = updater(errorStore as Errors<Data>) as any;
-    updateResultErrorsStore(errors, touchedStore);
     batch(() => {
-      setErrorStore(errors);
-      setErrorStore(reconcile(errors));
+      setErrors(errors);
+      setErrors(reconcile(errors));
     });
+    updateIsValidStore(errors);
+    updateResultErrorsStore(errors, touchedStore);
   }
 
   const subscribeTouched = createSubscriber<Touched<Data>>(touchedStore);
 
-  function setTouched(touched: Touched<Data>) {
-    updateResultErrorsStore(errorStore as Errors<Data>, touched);
+  function touchedSetter(touched: Touched<Data>) {
     batch(() => {
-      setTouchedStore(touched);
-      setTouchedStore(reconcile<Touched<Data>>(touched));
+      setTouched(touched);
+      setTouched(reconcile<Touched<Data>>(touched));
     });
+    updateResultErrorsStore(errorStore as Errors<Data>, touched);
   }
 
-  function updateTouched(updater: (data: Touched<Data>) => Touched<Data>) {
+  function touchedUpdater(updater: (data: Touched<Data>) => Touched<Data>) {
     const touched = updater(touchedStore as Touched<Data>) as any;
-    updateResultErrorsStore(errorStore as Errors<Data>, touched);
     batch(() => {
-      setTouchedStore(touched);
-      setTouchedStore(reconcile<Touched<Data>>(touched));
+      setTouched(touched);
+      setTouched(reconcile<Touched<Data>>(touched));
     });
+    updateResultErrorsStore(errorStore as Errors<Data>, touched);
   }
 
   const subscribeIsValid = createSubscriber<boolean>(isValidStore);
 
   const subscribeIsSubmitting = createSubscriber<boolean>(isSubmittingStore);
 
-  function setIsSubmitting(data: boolean) {
-    setIsSubmittingStore(data);
+  function isSubmittingSetter(data: boolean) {
+    setIsSubmitting(data);
   }
 
-  function updateIsSubmitting(updater: (data: boolean) => boolean) {
-    setIsSubmittingStore(updater(isSubmittingStore()));
+  function isSubmittingUpdater(updater: (data: boolean) => boolean) {
+    setIsSubmitting(updater(isSubmittingStore()));
   }
 
   return {
     data: {
       subscribe: subscribeData,
-      set: setData,
-      update: updateData,
-      get: () => dataStore,
+      set: dataSetter,
+      update: dataUpdater,
+      getter: () => dataStore,
+      setter: setData,
     },
     errors: {
       subscribe: subscribeErrors,
-      set: setErrors,
-      update: updateErrors,
-      get: () => resultErrors,
+      set: errorsSetter,
+      update: errorsUpdater,
+      getter: () => resultErrors,
+      setter: setErrors,
     },
     touched: {
       subscribe: subscribeTouched,
-      set: setTouched,
-      update: updateTouched,
-      get: () => touchedStore,
+      set: touchedSetter,
+      update: touchedUpdater,
+      getter: () => touchedStore,
+      setter: setTouched,
     },
     isValid: {
       subscribe: subscribeIsValid,
-      get: () => isValidStore,
+      getter: () => isValidStore,
     },
     isSubmitting: {
       subscribe: subscribeIsSubmitting,
-      set: setIsSubmitting,
-      update: updateIsSubmitting,
-      get: () => isSubmittingStore,
+      set: isSubmittingSetter,
+      update: isSubmittingUpdater,
+      getter: () => isSubmittingStore,
+      setter: setIsSubmitting,
     },
   };
 }
