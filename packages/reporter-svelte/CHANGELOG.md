@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.3.8
+
+### Patch Changes
+
+- cb83dee: Fix index fields
+
 ## 0.3.7
 
 ### Patch Changes

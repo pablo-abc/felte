@@ -1,5 +1,11 @@
 # @felte/reporter-solid
 
+## 0.1.3
+
+### Patch Changes
+
+- cb83dee: Fix index fields
+
 ## 0.1.2
 
 ### Patch Changes

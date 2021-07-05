@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-svelte",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "An error reporter for Felte using a Svelte component",
   "main": "dist/index.js",
   "svelte": "src/index.js",

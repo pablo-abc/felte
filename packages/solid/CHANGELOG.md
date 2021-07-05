@@ -1,5 +1,11 @@
 # @felte/solid
 
+## 0.1.4
+
+### Patch Changes
+
+- 4e28835: Fix isValid setter
+
 ## 0.1.3
 
 ### Patch Changes
