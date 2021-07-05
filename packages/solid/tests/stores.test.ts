@@ -6,7 +6,7 @@ describe('Stores', () => {
   test('Updates value of isSubmitting', () => {
     const stores = createStores({ onSubmit: jest.fn() });
 
-    const isSubmitting = stores.isSubmitting.get();
+    const isSubmitting = stores.isSubmitting.getter();
     expect(isSubmitting()).toBe(false);
     stores.isSubmitting.update((v) => !v);
     expect(isSubmitting()).toBe(true);
