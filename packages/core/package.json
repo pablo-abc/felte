@@ -1,6 +1,6 @@
 {
   "name": "@felte/core",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Core package for FelteJS",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -12,10 +12,7 @@
   "homepage": "https://felte.dev",
   "repository": "github:pablo-abc/felte",
   "funding": "https://www.buymeacoffee.com/pablo.abc",
-  "keywords": [
-    "forms",
-    "validation"
-  ],
+  "keywords": ["forms", "validation"],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -23,11 +20,9 @@
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "dependencies": {
-    "@felte/common": "^0.4.4"
+    "@felte/common": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

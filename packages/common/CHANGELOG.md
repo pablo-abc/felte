@@ -1,5 +1,11 @@
 # @felte/common
 
+## 0.4.7
+
+### Patch Changes
+
+- 8049209: Fix Felte not removing the field from the data store when the input has a fieldset and the fieldset is not removed alongside the input.
+
 ## 0.4.6
 
 ### Patch Changes

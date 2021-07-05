@@ -1,5 +1,12 @@
 # @felte/solid
 
+## 0.1.5
+
+### Patch Changes
+
+- Updated dependencies [8049209]
+  - @felte/core@0.1.2
+
 ## 0.1.4
 
 ### Patch Changes

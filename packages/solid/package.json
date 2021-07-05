@@ -1,6 +1,6 @@
 {
   "name": "@felte/solid",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "An extensible form library for SolidJS",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -12,12 +12,7 @@
   "homepage": "https://felte.dev",
   "repository": "github:pablo-abc/felte",
   "funding": "https://www.buymeacoffee.com/pablo.abc",
-  "keywords": [
-    "solidjs",
-    "solid",
-    "forms",
-    "validation"
-  ],
+  "keywords": ["solidjs", "solid", "forms", "validation"],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -30,11 +25,9 @@
   "peerDependencies": {
     "solid-js": "^1.0.0"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "dependencies": {
-    "@felte/core": "workspace:^0.1.1"
+    "@felte/core": "workspace:*"
   },
   "publishConfig": {
     "access": "public"
