@@ -24,11 +24,10 @@
     },
     "./package.json": "./package.json"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "tsc && rollup -c",
+    "dev": "tsc-watch --onSuccess 'rollup -c'",
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
@@ -44,6 +43,7 @@
     "rollup": "^2.52.1",
     "rollup-plugin-terser": "^7.0.2",
     "solid-js": "^1.0.0",
+    "tsc-watch": "^4.4.0",
     "typescript": "~4.3.4"
   },
   "peerDependencies": {
