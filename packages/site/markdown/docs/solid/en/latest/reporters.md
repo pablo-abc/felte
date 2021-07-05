@@ -1,15 +1,61 @@
 ---
 section: Reporters
 subsections:
-  - Using Tippy.js
-  - Using the DOM
   - Using a Solid component
+  - Using the DOM
+  - Using Tippy.js
   - Using the constraint validation API
 ---
 
 ## Reporters
 
 Felte offers an easy _plugin-like_ way of reporting your errors by using what we call `reporters`. Making use of Felte's extensibility, their job is to handle errors for you. The degree to which they do that depends on how each reporter is build. For example they can report your errors using a tooltip, or modifying the DOM itself to add your validation messages. You may use any of the official packages we provide, or [you can build your own](/docs/solid/extending-felte).
+
+### Using a Solid component
+
+The `@felte/reporter-solid` package will most likely be the preferred option to report errors.
+
+```sh
+# npm
+npm i -S @felte/reporter-solid
+
+# yarn
+yarn add @felte/reporter-solid
+```
+
+It exports a `reporter` function and a `ValidationMessage` component. Pass the `reporter` function to the `extend` option of `createForm` and add the `ValidationMessage` component wherever you want your validation messages to be displayed.
+
+The `ValidationMessage` component needs a `for` prop set with the **name** of the input it corresponds to, the child of `ValidationMessage` is a function that takes the error messages as an argument. This can be either a `string`, an array of `strings`, or `undefined`.
+
+```tsx
+import { reporter, ValidationMessage } from '@felte/reporter-solid';
+import { createForm } from '@felte/solid';
+
+export function Form() {
+  const { form } = createForm({
+      // ...
+      extend: reporter, // or [reporter]
+      // ...
+    },
+  })
+
+  return (
+    <form use:form>
+      <input id="email" type="text" name="email" />
+      <ValidationMessage for="email">
+        <!-- We assume a single string will be passed as a validation message -->
+        <!-- This can be an array of strings depending on your validation strategy -->
+        {(message) => <span>{message}</span>}
+      </ValidationMessage>
+      <input type="password" name="password" />
+      <ValidationMessage for="password">
+        {(message) => <span>{message}</span>}
+      </ValidationMessage>
+      <input type="submit" value="Sign in" />
+    </form>
+  );
+}
+```
 
 ### Using Tippy.js
 
@@ -105,52 +151,6 @@ If you need to show your Tippy in a different position, you may use the `data-fe
 <div data-felte-reporter-tippy-position-for="email" />
 <!-- Not on top of this input -->
 <input name="email" type="email" />
-```
-
-### Using a Solid component
-
-The `@felte/reporter-solid` package will fill like a more traditional way to handle your validation messages.
-
-```sh
-# npm
-npm i -S @felte/reporter-solid
-
-# yarn
-yarn add @felte/reporter-solid
-```
-
-It exports a `reporter` function and a `ValidationMessage` component. Pass the `reporter` function to the `extend` option of `createForm` and add the `ValidationMessage` component wherever you want your validation messages to be displayed.
-
-The `ValidationMessage` component needs a `for` prop set with the **name** of the input it corresponds to, the child of `ValidationMessage` is a function that takes the error messages as an argument. This can be either a `string`, an array of `strings`, or `undefined`.
-
-```tsx
-import { reporter, ValidationMessage } from '@felte/reporter-solid';
-import { createForm } from '@felte/solid';
-
-export function Form() {
-  const { form } = createForm({
-      // ...
-      extend: reporter,
-      // ...
-    },
-  })
-
-  return (
-    <form use:form>
-      <input id="email" type="text" name="email" />
-      <ValidationMessage for="email">
-        <!-- We assume a single string will be passed as a validation message -->
-        <!-- This can be an array of strings depending on your validation strategy -->
-        {(message) => <span>{message}</span>}
-      </ValidationMessage>
-      <input type="password" name="password" />
-      <ValidationMessage for="password">
-        {(message) => <span>{message}</span>}
-      </ValidationMessage>
-      <input type="submit" value="Sign in" />
-    </form>
-  );
-}
 ```
 
 ### Using the DOM
