@@ -12,7 +12,10 @@
   "homepage": "https://felte.dev",
   "repository": "github:pablo-abc/felte",
   "funding": "https://www.buymeacoffee.com/pablo.abc",
-  "keywords": ["forms", "validation"],
+  "keywords": [
+    "forms",
+    "validation"
+  ],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -20,7 +23,9 @@
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@felte/common": "workspace:*"
   },
