@@ -1,6 +1,6 @@
 import type { Errors, Obj } from '@felte/common';
 import type { JSX } from 'solid-js';
-import { _get, isFieldSetElement, getPath } from '@felte/common';
+import { _get, getPath } from '@felte/common';
 import { onMount, createSignal, Show, createEffect, onCleanup } from 'solid-js';
 import { errorStores } from './stores';
 
@@ -26,7 +26,7 @@ export function ValidationMessage<Data extends Obj = Obj>(props: ValidationMessa
 
   let unsubscribe: (() => void) | undefined;
   onMount(() => {
-    const path = props.index ? `${props.for}[${props.index}]` : props.for;
+    const path = typeof props.index !== 'undefined' ? `${props.for}[${props.index}]` : props.for;
     if (!element) return;
     setErrorPath(getPath(element, path));
     const formElement = getFormElement() as HTMLFormElement;

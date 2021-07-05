@@ -22,7 +22,7 @@
   }
 
   onMount(() => {
-    const path = index ? `${errorFor}[${index}]` : errorFor;
+    const path = typeof index !== 'undefined' ? `${errorFor}[${index}]` : errorFor;
     errorPath = getPath(element, path);
     const formElement = getFormElement();
     if (!formElement) errors = writable({});
