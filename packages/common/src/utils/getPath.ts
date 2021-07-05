@@ -1,11 +1,6 @@
 import type { FormControl } from '../types';
 import { isFieldSetElement, isFormControl } from './typeGuards';
-
-function getIndex(el: HTMLElement) {
-  return el.hasAttribute('data-felte-index')
-    ? Number(el.dataset.felteIndex)
-    : undefined;
-}
+import { getIndex } from './getIndex';
 
 /**
  * @category Helper

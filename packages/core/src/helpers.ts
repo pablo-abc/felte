@@ -31,6 +31,7 @@ import {
   _unset,
   getIndex,
   isSelectElement,
+  getPathFromDataset,
 } from '@felte/common';
 import { get } from 'svelte/store';
 
@@ -253,7 +254,7 @@ export function createHelpers<Data extends Obj>({
       for (const control of formControls) {
         if (control.dataset.felteUnsetOnRemove !== 'true') continue;
         data.update(($data) => {
-          return _unset($data, getPath(control));
+          return _unset($data, getPathFromDataset(control));
         });
       }
     }
