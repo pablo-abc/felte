@@ -1,5 +1,8 @@
 <script>
-  import { onDestroy, onMount } from 'svelte';
+  import { onDestroy, onMount, getContext } from 'svelte';
+  import { session } from '$app/stores';
+  import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
   import { cubicIn } from 'svelte/easing';
   import { fade } from 'svelte/transition';
   import DocsNav from './DocsNav.svelte';
@@ -8,7 +11,9 @@
 
   const focusOn = useFocusOn();
 
-  export let items = []
+  export let framework = 'svelte';
+  const itemsStore = getContext('items');
+  let items = $itemsStore;
   let open = false;
   let mqList;
   let isDesktop;
@@ -23,11 +28,18 @@
     };
   }
 
+  async function updateItems(framework) {
+    const res = await fetch(`/docs/${framework}/all.json`);
+    items = await res.json();
+    $itemsStore = items;
+  }
+
   function watchMedia(e) {
     isDesktop = e.matches;
   }
 
   onMount(() => {
+    if (!$session.framework) $session.framework = framework;
     mqList = matchMedia('(min-width: 966px)');
     isDesktop = mqList.matches;
     mqList.addEventListener('change', watchMedia);
@@ -36,17 +48,45 @@
   onDestroy(() => {
     mqList?.removeEventListener('change', watchMedia);
   });
+
+  function handleChange(e) {
+    const framework = e.currentTarget.value;
+    $session.framework = framework;
+    updateItems(framework);
+    let path = $page.path.split('/');
+    if (path.length === 2) return;
+    path[2] = framework;
+    path = path.join('/')
+    goto(path);
+  }
+
+  function handleClickOutside(event) {
+    if (event.currentTarget === event.target) open = false;
+  }
+
+  $: $session.framework && $session.framework !== framework && updateItems($session.framework);
+
+  $: asideItems = items.map(section => ({
+    id: section.attributes.id,
+    section: section.attributes.section,
+    subsections: section.attributes.subsections,
+  }));
 </script>
 
 <div class=desktop-menu>
   <div class=sidebar>
-    <DocsNav {items} />
+    <label for="framework-select">Choose your framework:</label>
+    <select id="framework-select" on:input={handleChange} value="{$session.framework}">
+      <option value="svelte">Svelte</option>
+      <option value="solid">Solid</option>
+    </select>
+    <DocsNav framework={$session.framework ?? 'svelte'} items={asideItems} />
   </div>
 </div>
 
 <div class=mobile-menu>
   {#if open && !isDesktop}
-    <div use:portal class=overlay on:click="{() => (open = false)}" transition:fade >
+    <div use:portal class=overlay on:click="{handleClickOutside}" transition:fade >
       <div use:focusOn class=sidebar aria-label="Side menu" transition:menuTransition>
         <div class=actions>
           <button
@@ -59,7 +99,12 @@
             </svg>
           </button>
         </div>
-        <DocsNav on:close="{() => (open = false)}" {items} />
+        <label for="framework-select">Choose your framework:</label>
+        <select id="framework-select" on:input={handleChange} value="{$session.framework}">
+          <option value="svelte">Svelte</option>
+          <option value="solid">Solid</option>
+        </select>
+        <DocsNav framework={$session.framework ?? 'svelte'} on:close="{() => (open = false)}" items={asideItems} />
       </div>
     </div>
   {:else}
@@ -173,5 +218,26 @@
     right: 0;
     background: rgba(0, 0, 0, 0.2);
     overflow: hidden;
+  }
+
+  label {
+    margin: 16px;
+  }
+
+  select {
+    display: block;
+    color: #111111;
+    width: 18ch;
+    max-width: 30ch;
+    border: 1px solid var(--primary-color);
+    -webkit-appearance: menulist;
+    -moz-appearance: auto;
+    appearance: auto;
+    border-radius: 0.25em;
+    padding: 0.25em 0.5em;
+    cursor: pointer;
+    line-height: 1.1;
+    background-color: #fff;
+    margin: 8px 16px;
   }
 </style>

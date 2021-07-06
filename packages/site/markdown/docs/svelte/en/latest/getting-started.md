@@ -36,4 +36,4 @@ Then, inside of the Svelte component where you have your form, import the `creat
 
 Felte does not export any components like `Form`, `Field` or anything like that, but you do need to make felte aware of your inputs by assigning a **name** to them.
 
-Felte also offers [validation handling](/docs/validation) and [error reporting](/docs/reporters) but this is all you need for the most basic, validation-less form.
+Felte also offers [validation handling](/docs/svelte/validation) and [error reporting](/docs/svelte/reporters) but this is all you need for the most basic, validation-less form.

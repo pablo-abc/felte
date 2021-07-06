@@ -1,15 +1,16 @@
 {
   "name": "@felte/reporter-svelte",
-  "version": "0.3.2",
+  "version": "0.3.10",
   "description": "An error reporter for Felte using a Svelte component",
   "main": "dist/index.js",
   "svelte": "src/index.js",
   "browser": "dist/index.js",
   "module": "dist/index.mjs",
+  "types": "types/index.d.ts",
   "sideEffects": false,
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
-  "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/reporter-dom",
+  "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/reporter-svelte",
   "keywords": [
     "svelte",
     "forms",
@@ -26,17 +27,18 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@felte/common": "^0.4.0"
+    "@felte/common": "workspace:*"
   },
   "publishConfig": {
     "access": "public"
   },
   "files": [
     "dist",
-    "src"
+    "src",
+    "types"
   ],
   "devDependencies": {
-    "felte": "^0.7.5",
+    "felte": "^0.7.9",
     "rollup-plugin-svelte": "^7.1.0",
     "svelte": "^3.31.0",
     "svelte-preprocess": "^4.6.9"

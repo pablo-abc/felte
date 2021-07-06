@@ -1,5 +1,34 @@
 # @felte/validator-yup
 
+## 0.1.8
+
+### Patch Changes
+
+- Updated dependencies [8049209]
+  - @felte/common@0.4.7
+
+## 0.1.7
+
+### Patch Changes
+
+- Updated dependencies [fc42f8d]
+  - @felte/common@0.4.6
+
+## 0.1.6
+
+### Patch Changes
+
+- 56ee618: Refactor to use getPath from `@felte/common`
+- Updated dependencies [56ee618]
+  - @felte/common@0.4.5
+
+## 0.1.5
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @felte/common@0.4.4
+
 ## 0.1.4
 
 ### Patch Changes

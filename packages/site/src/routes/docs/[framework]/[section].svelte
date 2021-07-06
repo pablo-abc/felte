@@ -1,10 +1,12 @@
 <script context="module">
   export async function load({ fetch, page }) {
-    const res = await fetch(`/docs/${page.params.section}.json`);
+    const framework = page.params.framework;
+    const res = await fetch(`/docs/${framework}/${page.params.section}.json`);
     const section = await res.json();
     if (res.ok) {
       return {
         props: {
+          framework,
           section
         },
       };
@@ -27,13 +29,14 @@
   import Head from '$lib/components/Head.svelte';
   import { getContext } from 'svelte';
 
+  export let framework;
   export let section;
 
   const items = getContext('items');
 
-  $: index = items.findIndex((item) => item.attributes.id === section.attributes.id);
-  $: next = index < (items.length - 1) ? items[index + 1] : undefined;
-  $: prev = index > 0 ? items[index - 1] : undefined;
+  $: index = $items?.findIndex((item) => item.attributes.id === section.attributes.id);
+  $: next = index < ($items.length - 1) ? $items[index + 1] : undefined;
+  $: prev = index > 0 ? $items[index - 1] : undefined;
 
   const renderers = {
     heading: Heading,
@@ -47,13 +50,15 @@
 
 <Head section={section.attributes.section} />
 
-<SvelteMarkdown source={section.body} {renderers} />
+{#key section}
+  <SvelteMarkdown source={section.body} {renderers} />
+{/key}
 
 <div>
   {#if prev}
     <a
       class="prev"
-      href="/docs/{prev.attributes.id}"
+      href="/docs/{framework}/{prev.attributes.id}"
       sveltekit:prefetch
       aria-label="Previous section: {prev.attributes.section}"
       >
@@ -74,7 +79,7 @@
   {#if next}
     <a
       class="next"
-      href="/docs/{next.attributes.id}"
+      href="/docs/{framework}/{next.attributes.id}"
       sveltekit:prefetch
       aria-label="Next section: {next.attributes.section}"
       >

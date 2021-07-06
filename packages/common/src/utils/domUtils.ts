@@ -76,7 +76,7 @@ export function getInputTextOrNumber(
 export function getFormDefaultValues<Data extends Obj>(
   node: HTMLFormElement
 ): { defaultData: Data } {
-  const defaultData = {} as Data;
+  let defaultData = {} as Data;
   for (const el of node.elements) {
     if (isFieldSetElement(el)) addAttrsFromFieldset(el);
     if (!isFormControl(el) || !el.name) continue;
@@ -98,10 +98,10 @@ export function getFormDefaultValues<Data extends Obj>(
             return elName === getPath(checkbox);
           });
           if (checkboxes.length === 1) {
-            _set(defaultData, elName, el.checked);
+            defaultData = _set(defaultData, elName, el.checked);
             continue;
           }
-          _set(defaultData, elName, el.checked ? [el.value] : []);
+          defaultData = _set(defaultData, elName, el.checked ? [el.value] : []);
           continue;
         }
         if (Array.isArray(_get(defaultData, elName)) && el.checked) {
@@ -115,11 +115,15 @@ export function getFormDefaultValues<Data extends Obj>(
       }
       if (el.type === 'radio') {
         if (_get(defaultData, elName)) continue;
-        _set(defaultData, elName, el.checked ? el.value : undefined);
+        defaultData = _set(
+          defaultData,
+          elName,
+          el.checked ? el.value : undefined
+        );
         continue;
       }
       if (el.type === 'file') {
-        _set(
+        defaultData = _set(
           defaultData,
           elName,
           el.multiple ? Array.from(el.files || []) : el.files?.[0]
@@ -128,7 +132,7 @@ export function getFormDefaultValues<Data extends Obj>(
       }
     }
     const inputValue = getInputTextOrNumber(el);
-    _set(defaultData, elName, inputValue);
+    defaultData = _set(defaultData, elName, inputValue);
   }
   return { defaultData };
 }

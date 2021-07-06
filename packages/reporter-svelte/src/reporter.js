@@ -10,10 +10,6 @@ function createId(length = 8) {
   return str;
 }
 
-/**
- *
- * @param {any} currentForm
- */
 export function svelteReporter(currentForm) {
   const config = currentForm.config;
   if (!config.__felteReporterSvelteId) {

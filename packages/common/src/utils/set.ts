@@ -1,4 +1,5 @@
 import type { Obj, FieldValue } from '../types';
+import { _cloneDeep } from './cloneDeep';
 
 /* From: https://stackoverflow.com/a/54733755 */
 
@@ -8,7 +9,9 @@ export function _set<Data extends Obj>(
   path: string | string[],
   value: FieldValue | FieldValue[]
 ) {
-  if (Object(obj) !== obj) obj = {} as Data; // When obj is not an object
+  if (Object(obj) !== obj) obj = {} as Data;
+  // When obj is not an object
+  else if (typeof obj !== 'undefined') obj = _cloneDeep<Data>(obj);
   // If not yet an array, get the keys from the string-path
   let newPath = !Array.isArray(path)
     ? path.toString().match(/[^.[\]]+/g) || []

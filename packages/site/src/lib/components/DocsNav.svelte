@@ -2,7 +2,8 @@
   import { createEventDispatcher, onMount, onDestroy } from 'svelte';
   import { browser } from '$app/env';
   import { page } from '$app/stores';
-  export let items;
+  export let items = [];
+  export let framework;
 
   const dispatch = createEventDispatcher();
 
@@ -30,8 +31,8 @@
     {#each items as item (item.id)}
       <li>
         <a
-          href={`/docs/${item.id}`}
-          aria-current="{$page.path === `/docs/${item.id}`}"
+          href={`/docs/${framework}/${item.id}`}
+          aria-current="{$page.path === `/docs/${framework}/${item.id}`}"
           sveltekit:prefetch
           >
           {item.section}
@@ -43,7 +44,7 @@
             <li>
               <a
                 sveltekit:prefetch
-                href={`/docs/${item.id}#${subsection.id}`}
+                href={`/docs/${framework}/${item.id}#${subsection.id}`}
                 >
                 {subsection.name}
               </a>

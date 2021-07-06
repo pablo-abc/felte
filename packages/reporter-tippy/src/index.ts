@@ -8,31 +8,13 @@ import {
   Errors,
   Extender,
   isFormControl,
-  getIndex,
+  getPath,
 } from '@felte/common';
-import { _get, isFieldSetElement } from '@felte/common';
+import { _get } from '@felte/common';
 import { get } from 'svelte/store';
 
 function isLabelElement(node: Node): node is HTMLLabelElement {
   return node.nodeName === 'LABEL';
-}
-
-function getPath(el: HTMLElement | FormControl) {
-  const index = getIndex(el);
-  let path = isFormControl(el) ? el.name : el.dataset.felteReporterTippyFor;
-  path = typeof index === 'undefined' ? path : `${path}[${index}]`;
-  let parent = el.parentNode;
-  if (!parent) return path;
-  while (parent && parent.nodeName !== 'FORM') {
-    if (isFieldSetElement(parent) && parent.name) {
-      const index = getIndex(parent);
-      const fieldsetName =
-        typeof index === 'undefined' ? parent.name : `${parent.name}[${index}]`;
-      path = `${fieldsetName}.${path}`;
-    }
-    parent = parent.parentNode;
-  }
-  return path;
 }
 
 type TippyFieldProps = Partial<Omit<Props, 'content'>>;
@@ -47,7 +29,8 @@ function getTippyInstance(
   form: HTMLFormElement,
   el: HTMLElement
 ): Instance<Props> | undefined {
-  const elPath = isFormControl(el) && getPath(el);
+  const elPath =
+    isFormControl(el) && getPath(el, el.dataset.felteReporterTippyFor);
   const customPosition = elPath
     ? (form.querySelector(
         `[data-felte-reporter-tippy-position-for="${elPath}"]`
@@ -135,7 +118,7 @@ function tippyReporter<Data extends Obj = Obj>({
       if (!form) return;
       const content = control.dataset.felteValidationMessage;
       if (!isFormControl(control) || !control.name) return;
-      const elPath = getPath(control);
+      const elPath = getPath(control, control.dataset.felteReporterTippyFor);
       if (!elPath) return;
       const customTriggerTarget = Array.from(
         form.querySelectorAll(
@@ -162,7 +145,7 @@ function tippyReporter<Data extends Obj = Obj>({
     function createCustomControlInstance(errors: Errors<Data>) {
       return function (control: HTMLElement) {
         if (!form) return;
-        const elPath = getPath(control);
+        const elPath = getPath(control, control.dataset.felteReporterTippyFor);
         if (!elPath) return;
         const content = _get(errors, elPath) as string | undefined;
         const triggerTarget = Array.from(
@@ -220,7 +203,7 @@ function tippyReporter<Data extends Obj = Obj>({
     observer.observe(form, { childList: true });
     const unsubscribe = currentForm.errors.subscribe(($errors) => {
       for (const control of customControls) {
-        const elPath = getPath(control);
+        const elPath = getPath(control, control.dataset.felteReporterTippyFor);
         if (!elPath) continue;
         const message = _get($errors, elPath) as string | string[] | undefined;
         const transformedMessage =
@@ -234,7 +217,7 @@ function tippyReporter<Data extends Obj = Obj>({
       }
       if (!controls) return;
       for (const control of controls) {
-        const elPath = getPath(control);
+        const elPath = getPath(control, control.dataset.felteReporterTippyFor);
         if (!elPath) continue;
         const message = _get($errors, elPath) as string | string[] | undefined;
         const transformedMessage =
@@ -262,7 +245,12 @@ function tippyReporter<Data extends Obj = Obj>({
           ? getTippyInstance(form, firstInvalidElement)
           : undefined;
         if (!tippyInstance || tippyInstance.state.isShown) return;
-        const reporterFor = firstInvalidElement && getPath(firstInvalidElement);
+        const reporterFor =
+          firstInvalidElement &&
+          getPath(
+            firstInvalidElement,
+            firstInvalidElement.dataset.felteReporterTippyFor
+          );
         const validationMessage =
           firstInvalidElement?.dataset.felteValidationMessage ??
           (reporterFor ? (_get(errors, reporterFor, '') as string) : '');

@@ -1,0 +1,45 @@
+{
+  "name": "@felte/core",
+  "version": "0.1.2",
+  "description": "Core package for FelteJS",
+  "main": "dist/index.js",
+  "browser": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "author": "Pablo Berganza <pablo@berganza.dev>",
+  "license": "MIT",
+  "homepage": "https://felte.dev",
+  "repository": "github:pablo-abc/felte",
+  "funding": "https://www.buymeacoffee.com/pablo.abc",
+  "keywords": [
+    "forms",
+    "validation"
+  ],
+  "scripts": {
+    "prebuild": "rimraf ./dist",
+    "build": "cross-env NODE_ENV=production rollup -c",
+    "docs:build": "typedoc --out ../../docs",
+    "dev": "rollup -cw",
+    "prepublishOnly": "pnpm build"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@felte/common": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "ts-jest": "^26.5.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  }
+}

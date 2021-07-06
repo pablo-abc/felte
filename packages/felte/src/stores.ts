@@ -6,8 +6,8 @@ import {
   _cloneDeep,
   _isPlainObject,
   _mergeWith,
-} from '@felte/common';
-import type { Errors, FormConfig, Touched, Stores } from '@felte/common';
+} from '@felte/core';
+import type { Errors, FormConfig, Touched, Stores } from '@felte/core';
 
 export function createStores<Data extends Record<string, unknown>>(
   config: FormConfig<Data>

@@ -1,5 +1,29 @@
 # @felte/common
 
+## 0.4.7
+
+### Patch Changes
+
+- 8049209: Fix Felte not removing the field from the data store when the input has a fieldset and the fieldset is not removed alongside the input.
+
+## 0.4.6
+
+### Patch Changes
+
+- fc42f8d: Fix getPath
+
+## 0.4.5
+
+### Patch Changes
+
+- 56ee618: Refactor to use getPath from `@felte/common`
+
+## 0.4.4
+
+### Patch Changes
+
+- Fix issues due to mutability of common functions
+
 ## 0.4.3
 
 ### Patch Changes

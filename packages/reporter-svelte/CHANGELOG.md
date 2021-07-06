@@ -1,5 +1,57 @@
 # @felte/reporter-dom
 
+## 0.3.10
+
+### Patch Changes
+
+- 540352c: Add TypeScript types
+
+## 0.3.9
+
+### Patch Changes
+
+- Updated dependencies [8049209]
+  - @felte/common@0.4.7
+
+## 0.3.8
+
+### Patch Changes
+
+- cb83dee: Fix index fields
+
+## 0.3.7
+
+### Patch Changes
+
+- Updated dependencies [fc42f8d]
+  - @felte/common@0.4.6
+
+## 0.3.6
+
+### Patch Changes
+
+- 56ee618: Refactor to use getPath from `@felte/common`
+- Updated dependencies [56ee618]
+  - @felte/common@0.4.5
+
+## 0.3.5
+
+### Patch Changes
+
+- 3feb1f8: Update deps
+
+## 0.3.4
+
+### Patch Changes
+
+- 3118b72: Upgrade deps
+
+## 0.3.3
+
+### Patch Changes
+
+- f6049ad: Add `svelte/internal` as external dependency on rollup
+
 ## 0.3.2
 
 ### Patch Changes

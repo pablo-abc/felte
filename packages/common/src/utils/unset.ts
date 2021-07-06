@@ -1,4 +1,5 @@
 import type { Obj } from '../types';
+import { _cloneDeep } from './cloneDeep';
 
 /** @ignore */
 export function _unset(obj: undefined, path: string | string[]): undefined;
@@ -10,7 +11,9 @@ export function _unset<Data extends Obj>(
   obj: Data | undefined,
   path: string | string[]
 ): Data | undefined {
-  if (Object(obj) !== obj) return; // When obj is not an object
+  if (Object(obj) !== obj) return;
+  // When obj is not an object
+  else if (typeof obj !== 'undefined') obj = _cloneDeep<Data>(obj);
   // If not yet an array, get the keys from the string-path
   let newPath = !Array.isArray(path)
     ? path.toString().match(/[^.[\]]+/g) || []

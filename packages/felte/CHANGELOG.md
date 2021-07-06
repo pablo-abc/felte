@@ -1,5 +1,34 @@
 # felte
 
+## 0.7.9
+
+### Patch Changes
+
+- Updated dependencies [8049209]
+  - @felte/core@0.1.2
+
+## 0.7.8
+
+### Patch Changes
+
+- 3118b72: Use @felte/core instead of @felte/common
+
+## 0.7.7
+
+### Patch Changes
+
+- Fix issues due to mutability of common functions
+- Updated dependencies [undefined]
+  - @felte/core@0.1.1
+
+## 0.7.6
+
+### Patch Changes
+
+- 809f9af: Refactor to use a common core
+- Updated dependencies [809f9af]
+  - @felte/core@0.1.0
+
 ## 0.7.5
 
 ### Patch Changes

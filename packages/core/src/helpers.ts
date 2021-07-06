@@ -32,6 +32,7 @@ import {
   _unset,
   getIndex,
   isSelectElement,
+  getPathFromDataset,
 } from '@felte/common';
 import { get } from 'svelte/store';
 
@@ -292,7 +293,9 @@ export function createHelpers<Data extends Obj>({
     function unsetTaggedForRemove(formControls: FormControl[]) {
       for (const control of formControls) {
         if (control.dataset.felteUnsetOnRemove !== 'true') continue;
-        data.update(($data) => _unset($data, getPath(control)));
+        data.update(($data) => {
+          return _unset($data, getPathFromDataset(control));
+        });
       }
     }
 
@@ -312,11 +315,11 @@ export function createHelpers<Data extends Obj>({
           const { defaultData: newDefaultData } = getFormDefaultValues<Data>(
             node
           );
-          const newDefaultTouched = _defaultsDeep(deepSet(defaultData, false));
+          const newDefaultTouched = deepSet(newDefaultData, false);
           data.update(($data) => _defaultsDeep<Data>($data, newDefaultData));
-          touched.update(($touched) =>
-            _defaultsDeep($touched, newDefaultTouched)
-          );
+          touched.update(($touched) => {
+            return _defaultsDeep($touched, newDefaultTouched);
+          });
         }
         if (mutation.removedNodes.length > 0) {
           for (const removedNode of mutation.removedNodes) {

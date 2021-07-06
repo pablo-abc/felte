@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
-  import { _get, isFieldSetElement, getIndex } from '@felte/common';
+  import { _get, getPath } from '@felte/common';
   import { errorStores } from './stores';
 
   export let index = undefined;
@@ -21,24 +21,9 @@
     return form;
   }
 
-  function getPath() {
-    let path = errorFor;
-    path = typeof index === 'undefined' ? path : `${path}[${index}]`;
-    let parent = element.parentNode;
-    if (!parent) return path;
-    while (parent && parent.nodeName !== 'FORM') {
-      if (isFieldSetElement(parent) && parent.name) {
-        const index = getIndex(parent);
-        const fieldsetName =
-              typeof index === 'undefined' ? parent.name : `${parent.name}[${index}]`;
-        path = `${fieldsetName}.${path}`;
-      }
-      parent = parent.parentNode;
-    }
-    return path;
-  }
   onMount(() => {
-    errorPath = getPath();
+    const path = typeof index !== 'undefined' ? `${errorFor}[${index}]` : errorFor;
+    errorPath = getPath(element, path);
     const formElement = getFormElement();
     if (!formElement) errors = writable({});
     else errors = errorStores[formElement.dataset.felteReporterSvelteId];
