@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.3.10
+
+### Patch Changes
+
+- 540352c: Add TypeScript types
+
 ## 0.3.9
 
 ### Patch Changes
