@@ -1,33 +1,5 @@
-import type { FieldValue } from '@felte/common';
-import { getIndex, isFormControl, isFieldSetElement } from '@felte/common';
-
-function getPath(el: HTMLElement, name?: string) {
-  const index = getIndex(el);
-  let path;
-  if (name) {
-    path = name;
-  } else if (isFormControl(el) && el.name) {
-    path = el.name;
-  }
-  path = typeof index === 'undefined' ? path : `${path}[${index}]`;
-  let parent = el.parentNode;
-  if (!parent) return path;
-  while (parent && parent.nodeName !== 'FORM') {
-    if (isFieldSetElement(parent) && parent.name) {
-      const index = getIndex(parent);
-      const fieldsetName =
-        typeof index === 'undefined' ? parent.name : `${parent.name}[${index}]`;
-      path = `${fieldsetName}.${path}`;
-    }
-    parent = parent.parentNode;
-  }
-  return path;
-}
-
-export type DispatchEvent = CustomEvent<{
-  value: FieldValue;
-  path: string;
-}>;
+import type { FieldValue, DispatchEvent } from '@felte/core';
+import { isFormControl, getPath } from '@felte/core';
 
 function dispatchEventOnChange(
   node: HTMLElement,
@@ -37,7 +9,7 @@ function dispatchEventOnChange(
   const name = node.dataset.felteName;
   if (!name && !(isFormControl(node) && node.name)) return;
   function dispatchEvent(value: FieldValue, eventType: string) {
-    const customEvent = new CustomEvent(eventType, {
+    const customEvent: DispatchEvent = new CustomEvent(eventType, {
       detail: { value, path: getPath(node, name) },
       bubbles: true,
     });
