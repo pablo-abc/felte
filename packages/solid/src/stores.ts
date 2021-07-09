@@ -88,12 +88,12 @@ export function createStores<Data extends Record<string, unknown>>(
 
   function createSubscriber<T extends Obj | boolean>(store: T | (() => T)) {
     return function subscribe(fn: (data: T) => void) {
-      const value = typeof store === 'function' ? store() : store;
-      fn(value);
+      const value = typeof store === 'function' ? store : () => store;
+      fn(value());
       let disposer: () => void | undefined;
       createRoot((dispose) => {
         disposer = dispose;
-        createEffect(() => fn(value));
+        createEffect(() => fn(value()));
       });
       return () => disposer?.();
     };

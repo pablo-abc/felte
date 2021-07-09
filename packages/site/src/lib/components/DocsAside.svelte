@@ -66,11 +66,11 @@
 
   $: $session.framework && $session.framework !== framework && updateItems($session.framework);
 
-  $: asideItems = items.map(section => ({
+  $: asideItems = items?.map(section => ({
     id: section.attributes.id,
     section: section.attributes.section,
     subsections: section.attributes.subsections,
-  }));
+  })) ?? [];
 </script>
 
 <div class=desktop-menu>

@@ -49,6 +49,13 @@ function createSignupForm() {
     value: 'no',
     type: 'radio',
   });
+  const selectElement = document.createElement('select');
+  const optionNormal = document.createElement('option');
+  optionNormal.value = 'normal';
+  const optionSpecial = document.createElement('option');
+  optionSpecial.value = 'special';
+  selectElement.name = 'type';
+  selectElement.append(optionNormal, optionSpecial);
   const accountFieldset = document.createElement('fieldset');
   accountFieldset.name = 'account';
   accountFieldset.append(
@@ -57,7 +64,8 @@ function createSignupForm() {
     showPasswordInput,
     publicEmailYesRadio,
     publicEmailNoRadio,
-    confirmPasswordInput
+    confirmPasswordInput,
+    selectElement
   );
   formElement.appendChild(accountFieldset);
   const profileFieldset = document.createElement('fieldset');
@@ -150,6 +158,7 @@ function createSignupForm() {
     extraCheckboxes,
     extraPreferences1,
     extraPreferences2,
+    selectElement,
   };
 }
 
@@ -173,6 +182,7 @@ describe('User interactions with form', () => {
           confirmPassword: '',
           showPassword: false,
           publicEmail: undefined,
+          type: 'normal',
         },
         profile: {
           firstName: '',
@@ -212,6 +222,7 @@ describe('User interactions with form', () => {
           confirmPassword: '',
           showPassword: false,
           publicEmail: undefined,
+          type: 'normal',
         },
         profile: {
           firstName: '',
@@ -277,6 +288,7 @@ describe('User interactions with form', () => {
       extraNumberInputs,
       extraCheckboxes,
       extraPreferences1,
+      selectElement,
     } = createSignupForm();
     emailInput.value = 'jacek@soplica.com';
     const bioTest = 'Litwo! Ojczyzno moja! ty jesteś jak zdrowie';
@@ -288,6 +300,7 @@ describe('User interactions with form', () => {
     extraNumberInputs[1].value = '1';
     extraCheckboxes[1].checked = true;
     extraPreferences1[1].checked = true;
+    selectElement.value = 'special';
     form(formElement);
     const $data = get(data);
     expect($data).toEqual(
@@ -298,6 +311,7 @@ describe('User interactions with form', () => {
           confirmPassword: '',
           showPassword: true,
           publicEmail: 'yes',
+          type: 'special',
         },
         profile: {
           firstName: '',
@@ -441,6 +455,7 @@ describe('User interactions with form', () => {
       extraCheckboxes,
       extraPreferences1,
       extraFileInputs,
+      selectElement,
     } = createSignupForm();
 
     form(formElement);
@@ -453,6 +468,7 @@ describe('User interactions with form', () => {
           confirmPassword: '',
           showPassword: false,
           publicEmail: undefined,
+          type: 'normal',
         },
         profile: {
           firstName: '',
@@ -498,6 +514,7 @@ describe('User interactions with form', () => {
     userEvent.click(extraCheckboxes[1]);
     userEvent.click(extraPreferences1[1]);
     userEvent.upload(extraFileInputs[1], mockFile);
+    userEvent.selectOptions(selectElement, ['special']);
 
     expect(get(data)).toEqual(
       expect.objectContaining({
@@ -507,6 +524,7 @@ describe('User interactions with form', () => {
           confirmPassword: 'password',
           showPassword: true,
           publicEmail: 'yes',
+          type: 'special',
         },
         profile: {
           firstName: 'Jacek',
