@@ -35,8 +35,8 @@
   const items = getContext('items');
 
   $: index = $items?.findIndex((item) => item.attributes.id === section.attributes.id);
-  $: next = index < ($items.length - 1) ? $items[index + 1] : undefined;
-  $: prev = index > 0 ? $items[index - 1] : undefined;
+  $: next = $items && (index < ($items.length - 1)) ? $items[index + 1] : undefined;
+  $: prev = $items && (index > 0) ? $items[index - 1] : undefined;
 
   const renderers = {
     heading: Heading,
