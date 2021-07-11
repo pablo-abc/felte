@@ -11,7 +11,6 @@ importers:
       '@rollup/plugin-commonjs': ^18.0.0
       '@rollup/plugin-node-resolve': ^11.1.0
       '@rollup/plugin-replace': ^2.4.2
-      '@sveltejs/adapter-static': 1.0.0-next.4
       '@testing-library/dom': ^7.29.4
       '@testing-library/jest-dom': ^5.11.9
       '@testing-library/svelte': ^3.0.3
@@ -69,7 +68,6 @@ importers:
       '@rollup/plugin-commonjs': 18.0.0_rollup@2.45.2
       '@rollup/plugin-node-resolve': 11.2.1_rollup@2.45.2
       '@rollup/plugin-replace': 2.4.2_rollup@2.45.2
-      '@sveltejs/adapter-static': 1.0.0-next.4
       '@testing-library/dom': 7.30.3
       '@testing-library/jest-dom': 5.11.10
       '@testing-library/svelte': 3.0.3_svelte@3.37.0
@@ -2632,10 +2630,6 @@ packages:
 
   /@sveltejs/adapter-static/1.0.0-next.13:
     resolution: {integrity: sha512-zaXJlWK9JfrjrE6nG5etB8kf4DSkbE3H8Ql6gmCk3WjdvpY85a60TMYBU9OK2iunkqpHnPYiMUGEnOGYmWlLYA==}
-    dev: true
-
-  /@sveltejs/adapter-static/1.0.0-next.4:
-    resolution: {integrity: sha512-Atri/5jyiVmAklqDKb/5czmLkHos6LQOag61k/C6qWozMb8UopvL3bTm62hFQXGKvGnuSRq2xIueDOKWHM/7rA==}
     dev: true
 
   /@sveltejs/kit/1.0.0-next.123_rollup@2.45.2+svelte@3.37.0:
