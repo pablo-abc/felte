@@ -101,7 +101,8 @@ function createSignupForm() {
   const firstNameInput = createInputElement({ name: 'firstName' });
   const lastNameInput = createInputElement({ name: 'lastName' });
   const bioInput = createInputElement({ name: 'bio' });
-  profileFieldset.append(firstNameInput, lastNameInput, bioInput);
+  const ageInput = createInputElement({ name: 'age', type: 'number' });
+  profileFieldset.append(firstNameInput, lastNameInput, bioInput, ageInput);
   formElement.appendChild(profileFieldset);
   const pictureInput = createInputElement({
     name: 'profile.picture',
@@ -184,6 +185,7 @@ function createSignupForm() {
     firstNameInput,
     lastNameInput,
     bioInput,
+    ageInput,
     pictureInput,
     extraPicsInput,
     techCheckbox,
@@ -493,6 +495,7 @@ describe('Utils', () => {
         lastName: 'Soplica',
         bio: 'bio',
         picture: undefined,
+        age: 0,
       },
       extra: {
         pictures: [],
