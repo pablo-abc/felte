@@ -182,7 +182,7 @@ export function setControlValue(
     }
   }
 
-  el.value = String(fieldValue || '');
+  el.value = String(fieldValue ?? '');
 }
 
 /** Sets the form inputs value to match the data object provided. */
