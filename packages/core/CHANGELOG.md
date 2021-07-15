@@ -1,5 +1,14 @@
 # @felte/core
 
+## 0.1.3
+
+### Patch Changes
+
+- e6034c0: Use `Record<string, any>` for config type in order to allow interfaces to be passed as types
+- Updated dependencies [af4b183]
+- Updated dependencies [e6034c0]
+  - @felte/common@0.4.8
+
 ## 0.1.2
 
 ### Patch Changes

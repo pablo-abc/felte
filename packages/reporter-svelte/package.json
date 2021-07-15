@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-svelte",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "description": "An error reporter for Felte using a Svelte component",
   "main": "dist/index.js",
   "svelte": "src/index.js",
@@ -38,7 +38,7 @@
     "types"
   ],
   "devDependencies": {
-    "felte": "^0.7.9",
+    "felte": "^0.7.10",
     "rollup-plugin-svelte": "^7.1.0",
     "svelte": "^3.31.0",
     "svelte-preprocess": "^4.6.9"

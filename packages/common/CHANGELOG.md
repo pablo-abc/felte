@@ -1,5 +1,12 @@
 # @felte/common
 
+## 0.4.8
+
+### Patch Changes
+
+- af4b183: fix falsy initial values are ignored
+- e6034c0: Use `Record<string, any>` for config type in order to allow interfaces to be passed as types
+
 ## 0.4.7
 
 ### Patch Changes

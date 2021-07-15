@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-solid",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "An error reporter for Felte using a Solid component",
   "main": "dist/index.js",
   "sideEffects": false,
