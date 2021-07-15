@@ -32,10 +32,7 @@ export type Adapters<Data extends Obj> = {
  *
  * @category Main
  */
-export function createForm<
-  Data extends Record<string, unknown>,
-  Ext extends Obj = Obj
->(
+export function createForm<Data extends Obj, Ext extends Obj = Obj>(
   config: FormConfigWithInitialValues<Data> & Ext,
   adapters: Adapters<Data>
 ): Form<Data>;
@@ -45,17 +42,14 @@ export function createForm<
  *
  * @param config - Configuration for the form itself. Since `initialValues` is not set (when only using the `form` action), `Data` will be undefined until the `form` element loads.
  */
-export function createForm<
-  Data extends Record<string, unknown>,
-  Ext extends Obj = Obj
->(
+export function createForm<Data extends Obj, Ext extends Obj = Obj>(
   config: FormConfigWithoutInitialValues<Data> & Ext,
   adapters: Adapters<Data>
 ): Form<Data>;
-export function createForm<
-  Data extends Record<string, unknown>,
-  Ext extends Obj = Obj
->(config: FormConfig<Data> & Ext, adapters: Adapters<Data>): Form<Data> {
+export function createForm<Data extends Obj, Ext extends Obj = Obj>(
+  config: FormConfig<Data> & Ext,
+  adapters: Adapters<Data>
+): Form<Data> {
   config.reporter ??= [];
   config.extend ??= [];
   config.touchTriggerEvents ??= { change: true, blur: true };

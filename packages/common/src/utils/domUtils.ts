@@ -198,7 +198,7 @@ export function setForm<Data extends Obj>(
   }
 }
 
-type ErrorField = string | Record<string, unknown> | string[];
+type ErrorField = string | Obj | string[];
 
 function executeCustomizer(objValue?: ErrorField, srcValue?: ErrorField) {
   if (_isPlainObject(objValue) || _isPlainObject(srcValue)) return;

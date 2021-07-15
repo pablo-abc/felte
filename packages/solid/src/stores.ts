@@ -36,7 +36,7 @@ export type Observables<Data extends Obj> = {
   isSubmitting: AccessorObservable<boolean>;
 };
 
-export function createStores<Data extends Record<string, unknown>>(
+export function createStores<Data extends Obj>(
   config: FormConfig<Data>
 ): Observables<Data> {
   const initialTouched: Touched<Data> = deepSet<Data, boolean>(
