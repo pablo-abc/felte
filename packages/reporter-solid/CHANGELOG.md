@@ -1,5 +1,11 @@
 # @felte/reporter-solid
 
+## 0.1.6
+
+### Patch Changes
+
+- 14bf9d8: Update to use only JS features compatible with Bundlephobia
+
 ## 0.1.5
 
 ### Patch Changes

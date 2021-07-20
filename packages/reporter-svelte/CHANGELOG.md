@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.3.12
+
+### Patch Changes
+
+- 14bf9d8: Update to use only JS features compatible with Bundlephobia
+
 ## 0.3.11
 
 ### Patch Changes
