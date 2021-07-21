@@ -72,6 +72,12 @@ For typechecking add the exported type `ValidatorConfig` as a second argument to
 
 ```typescript
 import type { ValidatorConfig } from '@felte/validator-superstruct';
+import type { Infer } from 'superstruct';
 
-const { form } = createForm<YourDataType, ValidatorConfig>(/* ... */);
+const struct = object({
+  email: size(string(), 1, Infinity),
+  password: size(string(), 1, Infinity),
+});
+
+const { form } = createForm<Infer<typeof struct>, ValidatorConfig>(/* ... */);
 ```
