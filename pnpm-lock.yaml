@@ -155,16 +155,16 @@ importers:
 
   packages/multi-step:
     specifiers:
-      '@felte/common': ^0.4.3
-      felte: ^0.7.0
+      '@felte/common': ^0.4.9
+      felte: ^0.7.11
     devDependencies:
       '@felte/common': link:../common
       felte: link:../felte
 
   packages/reporter-cvapi:
     specifiers:
-      '@felte/common': ^0.4.0
-      felte: ^0.7.0
+      '@felte/common': ^0.4.9
+      felte: ^0.7.11
     dependencies:
       '@felte/common': link:../common
     devDependencies:
@@ -173,7 +173,7 @@ importers:
   packages/reporter-dom:
     specifiers:
       '@felte/common': workspace:*
-      felte: ^0.7.10
+      felte: ^0.7.11
     dependencies:
       '@felte/common': link:../common
     devDependencies:
@@ -211,7 +211,7 @@ importers:
   packages/reporter-svelte:
     specifiers:
       '@felte/common': workspace:*
-      felte: ^0.7.10
+      felte: ^0.7.11
       rollup-plugin-svelte: ^7.1.0
       svelte: ^3.31.0
       svelte-preprocess: ^4.6.9
@@ -226,7 +226,7 @@ importers:
   packages/reporter-tippy:
     specifiers:
       '@felte/common': workspace:*
-      felte: ^0.7.10
+      felte: ^0.7.11
     dependencies:
       '@felte/common': link:../common
     devDependencies:
@@ -290,8 +290,8 @@ importers:
 
   packages/validator-superstruct:
     specifiers:
-      '@felte/common': ^0.4.0
-      felte: ^0.7.0
+      '@felte/common': ^0.4.9
+      felte: ^0.7.11
       superstruct: ^0.15.0
     dependencies:
       '@felte/common': link:../common
@@ -301,8 +301,8 @@ importers:
 
   packages/validator-yup:
     specifiers:
-      '@felte/common': ^0.4.0
-      felte: ^0.7.0
+      '@felte/common': ^0.4.9
+      felte: ^0.7.11
       yup: ^0.32.9
     dependencies:
       '@felte/common': link:../common
@@ -312,8 +312,8 @@ importers:
 
   packages/validator-zod:
     specifiers:
-      '@felte/common': ^0.4.0
-      felte: ^0.7.0
+      '@felte/common': ^0.4.9
+      felte: ^0.7.11
       zod: ^3.2.0
     dependencies:
       '@felte/common': link:../common

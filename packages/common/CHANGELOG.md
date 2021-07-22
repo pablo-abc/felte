@@ -1,5 +1,11 @@
 # @felte/common
 
+## 0.4.9
+
+### Patch Changes
+
+- 16ff018: Export ES module as default
+
 ## 0.4.8
 
 ### Patch Changes

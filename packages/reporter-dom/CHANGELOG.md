@@ -1,5 +1,13 @@
 # @felte/reporter-dom
 
+## 0.3.5
+
+### Patch Changes
+
+- 16ff018: Export ES module as default
+- Updated dependencies [16ff018]
+  - @felte/common@0.4.9
+
 ## 0.3.4
 
 ### Patch Changes

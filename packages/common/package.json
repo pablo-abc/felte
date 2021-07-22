@@ -1,6 +1,6 @@
 {
   "name": "@felte/common",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "description": "Common utilities for Felte packages",
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/common",
@@ -10,8 +10,14 @@
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
   "sideEffects": false,
-  "keywords": ["svelte", "forms", "utility"],
-  "files": ["dist"],
+  "keywords": [
+    "svelte",
+    "forms",
+    "utility"
+  ],
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "public"
   },

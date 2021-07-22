@@ -1,6 +1,6 @@
 {
   "name": "@felte/multi-step",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A helper package to handle multistep forms",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -10,7 +10,11 @@
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/multi-step",
-  "keywords": ["svelte", "forms", "felte"],
+  "keywords": [
+    "svelte",
+    "forms",
+    "felte"
+  ],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -21,11 +25,11 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@felte/common": "^0.4.3",
-    "felte": "^0.7.0"
+    "@felte/common": "^0.4.9",
+    "felte": "^0.7.11"
   },
   "peerDependencies": {
-    "felte": "^0.7.0",
+    "felte": "^0.7.11",
     "svelte": "^3.31.0"
   },
   "publishConfig": {

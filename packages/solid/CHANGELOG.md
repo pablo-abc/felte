@@ -1,5 +1,13 @@
 # @felte/solid
 
+## 0.1.7
+
+### Patch Changes
+
+- 16ff018: Export ES module as default
+- Updated dependencies [16ff018]
+  - @felte/core@0.1.4
+
 ## 0.1.6
 
 ### Patch Changes

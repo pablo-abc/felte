@@ -1,5 +1,13 @@
 # @felte/validator-superstruct
 
+## 0.2.6
+
+### Patch Changes
+
+- 16ff018: Export ES module as default
+- Updated dependencies [16ff018]
+  - @felte/common@0.4.9
+
 ## 0.2.5
 
 ### Patch Changes
