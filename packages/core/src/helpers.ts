@@ -63,6 +63,7 @@ export function createHelpers<Data extends Obj>({
         return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
       });
       if (currentErrors) {
+        errors.set(currentErrors);
         const hasErrors = deepSome(currentErrors, (error) => !!error);
         if (hasErrors) {
           currentExtenders.forEach((extender) =>
