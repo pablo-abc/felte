@@ -1,5 +1,11 @@
 # @felte/core
 
+## 0.1.5
+
+### Patch Changes
+
+- 6b8aafb: Fix `validate` function on `createSubmitHandler` config not updating errors on store
+
 ## 0.1.4
 
 ### Patch Changes
