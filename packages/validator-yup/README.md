@@ -61,5 +61,12 @@ For typechecking add the exported type `ValidatorConfig` as a second argument to
 ```typescript
 import type { ValidatorConfig } from '@felte/validator-yup';
 
-const { form } = createForm<YourDataType, ValidatorConfig>(/* ... */);
+import * as yup from 'yup';
+
+const schema = yup.object({
+  email: yup.string().email().required(),
+  password: yup.string().required(),
+});
+
+const { form } = createForm<yup.InferType<typeof schema>, ValidatorConfig>(/* ... */);
 ```
