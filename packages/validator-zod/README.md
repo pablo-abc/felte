@@ -60,6 +60,12 @@ For typechecking add the exported type `ValidatorConfig` as a second argument to
 
 ```typescript
 import type { ValidatorConfig } from '@felte/validator-zod';
+import { z } from 'zod';
 
-const { form } = createForm<YourDataType, ValidatorConfig>(/* ... */);
+const schema = z.object({
+  email: z.string().email().nonempty(),
+  password: z.string().nonempty(),
+});
+
+const { form } = createForm<z.infer<typeof schema>, ValidatorConfig>(/* ... */);
 ```
