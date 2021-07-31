@@ -173,7 +173,7 @@ importers:
   packages/reporter-dom:
     specifiers:
       '@felte/common': workspace:*
-      felte: ^0.7.11
+      felte: workspace:*
     dependencies:
       '@felte/common': link:../common
     devDependencies:
@@ -211,7 +211,7 @@ importers:
   packages/reporter-svelte:
     specifiers:
       '@felte/common': workspace:*
-      felte: ^0.7.11
+      felte: workspace:*
       rollup-plugin-svelte: ^7.1.0
       svelte: ^3.31.0
       svelte-preprocess: ^4.6.9
@@ -226,7 +226,7 @@ importers:
   packages/reporter-tippy:
     specifiers:
       '@felte/common': workspace:*
-      felte: ^0.7.11
+      felte: workspace:*
     dependencies:
       '@felte/common': link:../common
     devDependencies:

@@ -1,5 +1,13 @@
 # felte
 
+## 0.7.13
+
+### Patch Changes
+
+- 5bb4a02: Add data-felte-ignore attribute to make Felte completely ignore an input
+- Updated dependencies [5bb4a02]
+  - @felte/core@0.1.6
+
 ## 0.7.12
 
 ### Patch Changes
