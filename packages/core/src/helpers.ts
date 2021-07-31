@@ -32,6 +32,7 @@ import {
   getIndex,
   isSelectElement,
   getPathFromDataset,
+  shouldIgnore,
 } from '@felte/common';
 import { get } from 'svelte/store';
 
@@ -216,7 +217,13 @@ export function createHelpers<Data extends Obj>({
 
     function handleInput(e: Event) {
       const target = e.target;
-      if (!target || !isFormControl(target) || isSelectElement(target)) return;
+      if (
+        !target ||
+        !isFormControl(target) ||
+        isSelectElement(target) ||
+        shouldIgnore(target)
+      )
+        return;
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
       if (config.touchTriggerEvents?.input) setTouched(getPath(target));
@@ -228,7 +235,7 @@ export function createHelpers<Data extends Obj>({
 
     function handleChange(e: Event) {
       const target = e.target;
-      if (!target || !isFormControl(target)) return;
+      if (!target || !isFormControl(target) || shouldIgnore(target)) return;
       if (!target.name) return;
       if (config.touchTriggerEvents?.change) setTouched(getPath(target));
       if (isSelectElement(target)) {
@@ -244,7 +251,7 @@ export function createHelpers<Data extends Obj>({
 
     function handleBlur(e: Event) {
       const target = e.target;
-      if (!target || !isFormControl(target)) return;
+      if (!target || !isFormControl(target) || shouldIgnore(target)) return;
       if (!target.name) return;
       if (config.touchTriggerEvents?.blur) setTouched(getPath(target));
     }

@@ -33,6 +33,7 @@ import {
   getInputTextOrNumber,
   getIndex,
   getPathFromDataset,
+  shouldIgnore,
 } from '../src';
 
 function createLoginForm() {
@@ -770,5 +771,17 @@ describe('Utils', () => {
       1
     );
     expect(getIndex(multipleInput[0])).toBe(0);
+  });
+
+  test('shouldIgnore', () => {
+    const ignoredInput = createInputElement({ type: 'text', name: 'test' });
+    ignoredInput.setAttribute('data-felte-ignore', '');
+    expect(shouldIgnore(ignoredInput)).toBe(true);
+    const input = createInputElement({ type: 'text', name: 'test' });
+    const container = document.createElement('div');
+    container.appendChild(input);
+    expect(shouldIgnore(input)).toBe(false);
+    container.setAttribute('data-felte-ignore', '');
+    expect(shouldIgnore(input)).toBe(true);
   });
 });
