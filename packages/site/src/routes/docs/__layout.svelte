@@ -21,6 +21,7 @@
 
 <script>
   import DocsAside from '$lib/components/DocsAside.svelte';
+  import SearchBar from '$lib/components/SearchBar.svelte';
   import { setContext } from 'svelte';
   import { writable } from 'svelte/store';
 
@@ -33,6 +34,7 @@
 </script>
 
 <div class=main-container>
+  <SearchBar />
   <main>
     <slot></slot>
   </main>
@@ -41,6 +43,10 @@
 
 <style>
   .main-container {
+    display: grid;
+    grid-template-areas:
+      "search"
+      "main";
     margin-bottom: 4rem;
   }
 
@@ -50,9 +56,11 @@
 
   @media (min-width: 966px) {
     .main-container {
-      display: grid;
-      grid-template-areas: "aside main";
+      grid-template-areas:
+        "aside search"
+        "aside main";
       grid-template-columns: minmax(300px, 20%) 1fr;
+      grid-template-rows: 4rem 1fr;
     }
 
     main {

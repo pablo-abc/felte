@@ -243,6 +243,7 @@ importers:
       eslint-plugin-svelte3: ^3.1.2
       felte: ^0.7.8
       front-matter: ^4.0.2
+      fuse.js: ^6.4.6
       highlight.js: ^10.7.1
       html-minifier: ^4.0.0
       mdsvex: ^0.9.0
@@ -251,7 +252,7 @@ importers:
       svelte-focus-on: ^0.1.4
       svelte-markdown: ^0.1.7
       svelte-portal: ^2.1.2
-      tippy.js: ^6.0.0
+      tippy.js: ^6.3.1
       yup: ^0.32.9
     dependencies:
       '@felte/reporter-dom': link:../reporter-dom
@@ -259,13 +260,14 @@ importers:
       '@felte/reporter-tippy': link:../reporter-tippy
       '@felte/validator-yup': link:../validator-yup
       felte: link:../felte
+      fuse.js: 6.4.6
       html-minifier: 4.0.0
       svelte-markdown: 0.1.7_svelte@3.37.0
       svelte-portal: 2.1.2
     devDependencies:
       '@sveltejs/adapter-static': 1.0.0-next.13
-      '@sveltejs/kit': 1.0.0-next.124_rollup@2.45.2+svelte@3.37.0
-      eslint-plugin-svelte3: 3.1.2_eslint@7.24.0+svelte@3.37.0
+      '@sveltejs/kit': 1.0.0-next.124_svelte@3.37.0
+      eslint-plugin-svelte3: 3.1.2_svelte@3.37.0
       front-matter: 4.0.2
       highlight.js: 10.7.2
       mdsvex: 0.9.0_svelte@3.37.0
@@ -2650,6 +2652,16 @@ packages:
       rollup: 2.52.7
     dev: true
 
+  /@rollup/pluginutils/4.1.0:
+    resolution: {integrity: sha512-TrBhfJkFxA+ER+ew2U2/fHbebhLT/l/2pRk0hfj9KusXUuRXd2v0R58AfaZK9VXDQ4TogOSEmICVrQAA3zFnHQ==}
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0
+    dependencies:
+      estree-walker: 2.0.2
+      picomatch: 2.2.3
+    dev: true
+
   /@rollup/pluginutils/4.1.0_rollup@2.45.2:
     resolution: {integrity: sha512-TrBhfJkFxA+ER+ew2U2/fHbebhLT/l/2pRk0hfj9KusXUuRXd2v0R58AfaZK9VXDQ4TogOSEmICVrQAA3zFnHQ==}
     engines: {node: '>= 8.0.0'}
@@ -2715,14 +2727,14 @@ packages:
     resolution: {integrity: sha512-zaXJlWK9JfrjrE6nG5etB8kf4DSkbE3H8Ql6gmCk3WjdvpY85a60TMYBU9OK2iunkqpHnPYiMUGEnOGYmWlLYA==}
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.124_rollup@2.45.2+svelte@3.37.0:
+  /@sveltejs/kit/1.0.0-next.124_svelte@3.37.0:
     resolution: {integrity: sha512-opqmEj/OXJbLEqN+V03mxHvNf53ALT0HUaCmfe5FwQ4Cy5xE8yTlJulB27stnqMPxCeTk5XaCdmN9vDQgd+khA==}
     engines: {node: ^12.20 || >=14.13}
     hasBin: true
     peerDependencies:
       svelte: ^3.34.0
     dependencies:
-      '@sveltejs/vite-plugin-svelte': 1.0.0-next.12_235ef4aa0ea48a9b340ec4a603e809ee
+      '@sveltejs/vite-plugin-svelte': 1.0.0-next.12_svelte@3.37.0+vite@2.4.1
       cheap-watch: 1.0.3
       sade: 1.7.4
       svelte: 3.37.0
@@ -2732,14 +2744,14 @@ packages:
       - supports-color
     dev: true
 
-  /@sveltejs/vite-plugin-svelte/1.0.0-next.12_235ef4aa0ea48a9b340ec4a603e809ee:
+  /@sveltejs/vite-plugin-svelte/1.0.0-next.12_svelte@3.37.0+vite@2.4.1:
     resolution: {integrity: sha512-cuyNkJ6leptfv+7qL/fWQ7EpGWdguosFOUI0z93oQUmFTcX7QxJ5h+QI3NQyktBzlKL/761L8BbG2hHNkVbLIQ==}
     engines: {node: ^12.20 || ^14.13.1 || >= 16}
     peerDependencies:
       svelte: ^3.34.0
       vite: ^2.3.7
     dependencies:
-      '@rollup/pluginutils': 4.1.0_rollup@2.45.2
+      '@rollup/pluginutils': 4.1.0
       debug: 4.3.2
       kleur: 4.1.4
       magic-string: 0.25.7
@@ -6155,6 +6167,16 @@ packages:
       svelte: 3.37.0
     dev: true
 
+  /eslint-plugin-svelte3/3.1.2_svelte@3.37.0:
+    resolution: {integrity: sha512-+aGgYFC/yjhGXmBevzwICFVif8tu++C9/lRg8cE6TTS45Hw8qZ6t5wItSXVNPqnxJ212ik+bad1F0Y9A3Swo0Q==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      eslint: '>=6.0.0'
+      svelte: ^3.2.0
+    dependencies:
+      svelte: 3.37.0
+    dev: true
+
   /eslint-plugin-testing-library/4.0.1_eslint@7.24.0+typescript@4.2.4:
     resolution: {integrity: sha512-kbJJty456+D/NQB4jcj0OymD8c0vNj85EHOS83fRmx0ed5vTMcNmLDGp47wE/XhP3ojmmMcqVp9OGiQzY6E04g==}
     engines: {node: ^10.12.0 || >=12.0.0, npm: '>=6'}
@@ -6879,6 +6901,11 @@ packages:
   /functional-red-black-tree/1.0.1:
     resolution: {integrity: sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=}
     dev: true
+
+  /fuse.js/6.4.6:
+    resolution: {integrity: sha512-/gYxR/0VpXmWSfZOIPS3rWwU8SHgsRTwWuXhyb2O6s7aRuVtHtxCkR33bNYu3wyLyNx/Wpv0vU7FZy8Vj53VNw==}
+    engines: {node: '>=10'}
+    dev: false
 
   /gauge/2.7.4:
     resolution: {integrity: sha1-LANAXHU4w51+s3sxcCLjJfsBi/c=}
