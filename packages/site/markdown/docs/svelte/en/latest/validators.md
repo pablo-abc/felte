@@ -43,6 +43,23 @@ const { form } = createForm({
 });
 ```
 
+## Typescript
+
+For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
+
+```typescript
+import type { ValidatorConfig } from '@felte/validator-yup';
+
+import * as yup from 'yup';
+
+const schema = yup.object({
+  email: yup.string().email().required(),
+  password: yup.string().required(),
+});
+
+const { form } = createForm<yup.InferType<typeof schema>, ValidatorConfig>(/* ... */);
+```
+
 ### Using Zod
 
 [Zod](https://github.com/colinhacks/zod) is a "TypeScript-first schema declaration and validation library", alternative to Yup with a similar API. We've also created [`@felte/validator-zod`](https://github.com/pablo-abc/felte/tree/main/packages/validator-zod) as an official package to handle validation with Zod. To use it you'll need both `@felte/validator-zod` and `zod` installed.
@@ -72,6 +89,22 @@ const { form } = createForm({
   validateSchema: schema,
   // ...
 });
+```
+
+## Typescript
+
+For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
+
+```typescript
+import type { ValidatorConfig } from '@felte/validator-zod';
+import { z } from 'zod';
+
+const schema = z.object({
+  email: z.string().email().nonempty(),
+  password: z.string().nonempty(),
+});
+
+const { form } = createForm<z.infer<typeof schema>, ValidatorConfig>(/* ... */);
 ```
 
 ### Using Superstruct
@@ -113,4 +146,20 @@ import { createValidator } from '@felte/validator-superstruct';
 const validator = createValidator((value) =>
   value.type === 'string' ? 'Must not be empty' : 'Not valid'
 );
+```
+
+## Typescript
+
+For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
+
+```typescript
+import type { ValidatorConfig } from '@felte/validator-superstruct';
+import type { Infer } from 'superstruct';
+
+const struct = object({
+  email: size(string(), 1, Infinity),
+  password: size(string(), 1, Infinity),
+});
+
+const { form } = createForm<Infer<typeof struct>, ValidatorConfig>(/* ... */);
 ```
