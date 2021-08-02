@@ -1,0 +1,48 @@
+{
+  "name": "@felte/validator-cvapi",
+  "version": "0.1.0",
+  "description": "A package to use native validation-api with Felte",
+  "main": "dist/index.js",
+  "browser": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "author": "Pablo Berganza <pablo@berganza.dev>",
+  "repository": "github:pablo-abc/felte",
+  "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/validator-zod",
+  "keywords": [
+    "svelte",
+    "forms",
+    "validation",
+    "felte",
+    "cvapi"
+  ],
+  "scripts": {
+    "prebuild": "rimraf ./dist",
+    "build": "cross-env NODE_ENV=production rollup -c",
+    "dev": "rollup -cw",
+    "prepublishOnly": "pnpm build && pnpm test",
+    "test": "jest",
+    "test:ci": "jest --ci --coverage"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@felte/common": "^0.4.9"
+  },
+  "devDependencies": {
+    "@testing-library/svelte": "^3.0.3",
+    "felte": "^0.7.11",
+    "svelte-jester": "^1.3.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "default": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  }
+}
