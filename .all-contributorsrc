@@ -3,9 +3,7 @@
   "projectOwner": "pablo-abc",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "files": [
-    "README.md"
-  ],
+  "files": ["README.md"],
   "imageSize": 100,
   "commit": true,
   "commitConvention": "angular",
@@ -15,71 +13,56 @@
       "name": "Pablo Berganza",
       "avatar_url": "https://avatars.githubusercontent.com/u/40573613?v=4",
       "profile": "https://github.com/pablo-abc",
-      "contributions": [
-        "code",
-        "doc",
-        "ideas",
-        "maintenance",
-        "test"
-      ]
+      "contributions": ["code", "doc", "ideas", "maintenance", "test"]
+    },
+    {
+      "login": "benbender",
+      "name": "Benjamin Bender",
+      "avatar_url": "https://avatars.githubusercontent.com/u/462455?v=4",
+      "profile": "https://codepoet.de/",
+      "contributions": ["code", "ideas", "doc"]
     },
     {
       "login": "abhijit-kar",
       "name": "Abhijit Kar ツ",
       "avatar_url": "https://avatars.githubusercontent.com/u/25662120?v=4",
       "profile": "https://github.com/abhijit-kar",
-      "contributions": [
-        "bug",
-        "ideas"
-      ]
+      "contributions": ["bug", "ideas"]
     },
     {
       "login": "hmaesta",
       "name": "Hugo Maestá",
       "avatar_url": "https://avatars.githubusercontent.com/u/741969?v=4",
       "profile": "https://convertpack.io/",
-      "contributions": [
-        "code",
-        "ideas"
-      ]
+      "contributions": ["code", "ideas"]
     },
     {
       "login": "websocket98765",
       "name": "websocket98765",
       "avatar_url": "https://avatars.githubusercontent.com/u/41795874?v=4",
       "profile": "https://github.com/websocket98765",
-      "contributions": [
-        "bug"
-      ]
+      "contributions": ["bug"]
     },
     {
       "login": "avimar",
       "name": "avimar",
       "avatar_url": "https://avatars.githubusercontent.com/u/314077?v=4",
       "profile": "https://github.com/avimar",
-      "contributions": [
-        "doc"
-      ]
+      "contributions": ["doc"]
     },
     {
       "login": "umanghome",
       "name": "Umang Galaiya",
       "avatar_url": "https://avatars.githubusercontent.com/u/5698706?v=4",
       "profile": "https://umanggalaiya.in/",
-      "contributions": [
-        "code",
-        "bug"
-      ]
+      "contributions": ["code", "bug"]
     },
     {
       "login": "djhi",
       "name": "Gildas Garcia",
       "avatar_url": "https://avatars.githubusercontent.com/u/1122076?v=4",
       "profile": "https://github.com/djhi",
-      "contributions": [
-        "code",
-        "bug"
-      ]
+      "contributions": ["code", "bug"]
     }
   ],
   "contributorsPerLine": 7
