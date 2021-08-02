@@ -13,7 +13,7 @@
 
   export let framework = 'svelte';
   const itemsStore = getContext('items');
-  let items = $itemsStore;
+  $: items = $itemsStore;
   let open = false;
   let mqList;
   let isDesktop;
@@ -56,7 +56,7 @@
     let path = $page.path.split('/');
     if (path.length === 2) return;
     path[2] = framework;
-    path = path.join('/')
+    path = path.join('/');
     goto(path);
   }
 
@@ -64,19 +64,25 @@
     if (event.currentTarget === event.target) open = false;
   }
 
-  $: $session.framework && $session.framework !== framework && updateItems($session.framework);
+  $: $session.framework &&
+    $session.framework !== framework &&
+    updateItems($session.framework);
 
-  $: asideItems = items.map(section => ({
+  $: asideItems = items.map((section) => ({
     id: section.attributes.id,
     section: section.attributes.section,
     subsections: section.attributes.subsections,
   }));
 </script>
 
-<div class=desktop-menu>
-  <div class=sidebar>
+<div class="desktop-menu">
+  <div class="sidebar">
     <label for="framework-select">Choose your framework:</label>
-    <select id="framework-select" on:input={handleChange} value="{$session.framework}">
+    <select
+      id="framework-select"
+      on:input="{handleChange}"
+      value="{$session.framework}"
+    >
       <option value="svelte">Svelte</option>
       <option value="solid">Solid</option>
     </select>
@@ -84,41 +90,78 @@
   </div>
 </div>
 
-<div class=mobile-menu>
+<div class="mobile-menu">
   {#if open && !isDesktop}
-    <div use:portal class=overlay on:click="{handleClickOutside}" transition:fade >
-      <div use:focusOn class=sidebar aria-label="Side menu" transition:menuTransition>
-        <div class=actions>
-          <button
-            class=close-button
-            on:click="{() => (open = false)}"
-            aria-label="Close side menu"
-            >
-            <svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-          </button>
-        </div>
-        <label for="framework-select">Choose your framework:</label>
-        <select id="framework-select" on:input={handleChange} value="{$session.framework}">
-          <option value="svelte">Svelte</option>
-          <option value="solid">Solid</option>
-        </select>
-        <DocsNav framework={$session.framework ?? 'svelte'} on:close="{() => (open = false)}" items={asideItems} />
-      </div>
-    </div>
-  {:else}
-    <div class=menu-button transition:fade="{{ duration: 200 }}">
-      <button
-        on:click="{() => (open = true)}"
-        class=menu-button
-        aria-label="Open side menu"
+  <div
+    use:portal
+    class="overlay"
+    on:click="{handleClickOutside}"
+    transition:fade
+  >
+    <div
+      use:focusOn
+      class="sidebar"
+      aria-label="Side menu"
+      transition:menuTransition
+    >
+      <div class="actions">
+        <button
+          class="close-button"
+          on:click="{() => (open = false)}"
+          aria-label="Close side menu"
         >
-        <svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-      </button>
+          <svg
+            aria-hidden="true"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </button>
+      </div>
+      <label for="framework-select">Choose your framework:</label>
+      <select
+        id="framework-select"
+        on:input="{handleChange}"
+        value="{$session.framework}"
+      >
+        <option value="svelte">Svelte</option>
+        <option value="solid">Solid</option>
+      </select>
+      <DocsNav framework={$session.framework ?? 'svelte'} on:close="{() => (open
+      = false)}" items={asideItems} />
     </div>
+  </div>
+  {:else}
+  <div class="menu-button" transition:fade="{{ duration: 200 }}">
+    <button
+      on:click="{() => (open = true)}"
+      class="menu-button"
+      aria-label="Open side menu"
+    >
+      <svg
+        aria-hidden="true"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"
+        ></path>
+      </svg>
+    </button>
+  </div>
   {/if}
 </div>
 
@@ -140,14 +183,10 @@
     background: var(--primary-background);
     overflow: auto;
     -webkit-overflow-scrolling: touch;
-    box-shadow:
-      0 2.8px 2.2px rgba(0, 0, 0, 0.034),
-      0 6.7px 5.3px rgba(0, 0, 0, 0.048),
-      0 12.5px 10px rgba(0, 0, 0, 0.06),
-      0 22.3px 17.9px rgba(0, 0, 0, 0.072),
-      0 41.8px 33.4px rgba(0, 0, 0, 0.086),
-      0 100px 80px rgba(0, 0, 0, 0.12)
-    ;
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+      0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+      0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+      0 100px 80px rgba(0, 0, 0, 0.12);
   }
 
   @media (min-width: 966px) {
@@ -181,10 +220,8 @@
     bottom: 2rem;
     transition: background 100ms;
     border-radius: 50%;
-    box-shadow:
-      0 2.8px 6.2px rgba(77, 64, 43, 0.064),
-      0 6.7px 8.3px rgba(0, 0, 0, 0.098)
-    ;
+    box-shadow: 0 2.8px 6.2px rgba(77, 64, 43, 0.064),
+      0 6.7px 8.3px rgba(0, 0, 0, 0.098);
   }
 
   .menu-button:hover {

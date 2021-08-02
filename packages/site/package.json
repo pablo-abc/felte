@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "1.0.0-next.13",
-    "@sveltejs/kit": "1.0.0-next.124",
+    "@sveltejs/kit": "1.0.0-next.140",
     "eslint-plugin-svelte3": "^3.1.2",
     "front-matter": "^4.0.2",
     "highlight.js": "^10.7.1",
