@@ -14,7 +14,7 @@ const name = pkg.name
 
 export default {
   input: './src/index.ts',
-  external: ['tippy.js'],
+  external: ['zod'],
   output: [
     {
       file: pkg.browser,
