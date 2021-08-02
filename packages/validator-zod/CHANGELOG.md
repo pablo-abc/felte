@@ -1,5 +1,11 @@
 # @felte/validator-zod
 
+## 0.3.2
+
+### Patch Changes
+
+- 0bce41e: Fix rollup config for validators
+
 ## 0.3.1
 
 ### Patch Changes
