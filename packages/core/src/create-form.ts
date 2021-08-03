@@ -18,6 +18,7 @@ import type {
   Touched,
   Stores,
   Obj,
+  ValidationFunction,
 } from '@felte/common';
 
 export type Adapters<Data extends Obj> = {
@@ -50,18 +51,26 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
   config: FormConfig<Data> & Ext,
   adapters: Adapters<Data>
 ): Form<Data> {
-  config.reporter ??= [];
   config.extend ??= [];
   config.touchTriggerEvents ??= { change: true, blur: true };
   if (config.validate && !Array.isArray(config.validate))
     config.validate = [config.validate];
-  const reporter = Array.isArray(config.reporter)
-    ? config.reporter
-    : [config.reporter];
-  const extender = [
-    ...reporter,
-    ...(Array.isArray(config.extend) ? config.extend : [config.extend]),
-  ];
+
+  function addValidator(validator: ValidationFunction<Data>) {
+    if (!config.validate) {
+      config.validate = [validator];
+    } else {
+      config.validate = [
+        ...(config.validate as ValidationFunction<Data>[]),
+        validator,
+      ];
+    }
+  }
+
+  const extender = Array.isArray(config.extend)
+    ? config.extend
+    : [config.extend];
+
   let currentExtenders: ExtenderHandler<Data>[] = [];
   const { isSubmitting, data, errors, touched, isValid } = adapters.stores;
 
@@ -71,6 +80,7 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
       touched,
       data,
       config,
+      addValidator,
     })
   );
 
@@ -78,6 +88,7 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
     currentExtenders,
     extender,
     config,
+    addValidator,
     stores: {
       data,
       errors,

@@ -1,9 +1,9 @@
 import type {
   CurrentForm,
-  ReporterHandler,
+  ExtenderHandler,
   FormControl,
   Obj,
-  Reporter,
+  Extender,
   Errors,
 } from '@felte/common';
 import { _get, getPath } from '@felte/common';
@@ -118,7 +118,7 @@ function setValidationMessage<Data extends Obj>(
 
 function domReporter<Data extends Obj = Obj>(
   options?: DomReporterOptions
-): Reporter<Data> {
+): Extender<Data> {
   function mutationCallback(mutationList: MutationRecord[]) {
     for (const mutation of mutationList) {
       if (mutation.type !== 'attributes') continue;
@@ -128,7 +128,7 @@ function domReporter<Data extends Obj = Obj>(
     }
   }
 
-  return (currentForm: CurrentForm<Data>): ReporterHandler<Data> => {
+  return (currentForm: CurrentForm<Data>): ExtenderHandler<Data> => {
     const form = currentForm.form;
     if (!form) return {};
     const mutationObserver = new MutationObserver(mutationCallback);
