@@ -1,5 +1,11 @@
 # @felte/validator-yup
 
+## 0.2.7
+
+### Patch Changes
+
+- 0bce41e: Fix rollup config for validators
+
 ## 0.2.6
 
 ### Patch Changes

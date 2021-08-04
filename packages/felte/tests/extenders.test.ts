@@ -3,6 +3,7 @@ import { screen, waitFor } from '@testing-library/dom';
 import { createForm } from '../src';
 import { cleanupDOM, createDOM, createInputElement } from './common';
 import { get } from 'svelte/store';
+import type { CurrentForm } from '@felte/core';
 
 describe('Extenders', () => {
   beforeEach(createDOM);
@@ -267,5 +268,34 @@ describe('Extenders', () => {
       expect(mockExtenderHandler.onSubmitError).toHaveBeenCalledTimes(4);
       expect(onSubmit).toHaveBeenCalledTimes(1);
     });
+  });
+
+  test('adds validator when no validators are present with addValidator', async () => {
+    const validator = jest.fn();
+    function extender(currentForm: CurrentForm<any>) {
+      currentForm.addValidator(validator);
+      return {};
+    }
+    const { validate } = createForm({
+      onSubmit: jest.fn(),
+      extend: extender,
+    });
+    await validate();
+    expect(validator).toHaveBeenCalledTimes(1);
+  });
+
+  test('adds validator when validators are present with addValidator', async () => {
+    const validator = jest.fn();
+    function extender(currentForm: CurrentForm<any>) {
+      currentForm.addValidator(validator);
+      return {};
+    }
+    const { validate } = createForm({
+      onSubmit: jest.fn(),
+      extend: extender,
+      validate: validator,
+    });
+    await validate();
+    expect(validator).toHaveBeenCalledTimes(2);
   });
 });

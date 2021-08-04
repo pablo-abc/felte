@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "1.0.0-next.13",
-    "@sveltejs/kit": "1.0.0-next.124",
+    "@sveltejs/kit": "1.0.0-next.140",
     "eslint-plugin-svelte3": "^3.1.2",
     "front-matter": "^4.0.2",
     "highlight.js": "^10.7.1",
@@ -22,12 +22,11 @@
   },
   "type": "module",
   "dependencies": {
-    "@felte/reporter-dom": "^0.3.2",
-    "@felte/reporter-svelte": "^0.3.7",
-    "@felte/reporter-tippy": "^0.3.2",
-    "@felte/validator-yup": "^0.2.5",
-    "felte": "^0.7.8",
-    "fuse.js": "^6.4.6",
+    "@felte/reporter-dom": "^0.3.6",
+    "@felte/reporter-svelte": "^0.3.14",
+    "@felte/reporter-tippy": "^0.3.6",
+    "@felte/validator-yup": "^0.2.7",
+    "felte": "^0.7.13",
     "html-minifier": "^4.0.0",
     "svelte-markdown": "^0.1.7",
     "svelte-portal": "^2.1.2"

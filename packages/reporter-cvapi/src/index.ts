@@ -1,6 +1,6 @@
 import type {
   CurrentForm,
-  ReporterHandler,
+  ExtenderHandler,
   FormControl,
   Obj,
 } from '@felte/common';
@@ -22,7 +22,7 @@ function mutationCallback(mutationList: MutationRecord[]) {
 
 function cvapiReporter<Data extends Obj = Obj>(
   currentForm: CurrentForm<Data>
-): ReporterHandler<Data> {
+): ExtenderHandler<Data> {
   const form = currentForm.form;
   const controls = currentForm.controls;
   if (!controls || !form) return {};

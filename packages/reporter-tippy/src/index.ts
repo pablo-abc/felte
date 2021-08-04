@@ -2,7 +2,7 @@ import tippy from 'tippy.js';
 import type { Instance, Props } from 'tippy.js';
 import {
   CurrentForm,
-  ReporterHandler,
+  ExtenderHandler,
   FormControl,
   Obj,
   Errors,
@@ -106,7 +106,7 @@ function tippyReporter<Data extends Obj = Obj>({
 
   return function reporter<Data extends Obj = Obj>(
     currentForm: CurrentForm<Data>
-  ): ReporterHandler<Data> {
+  ): ExtenderHandler<Data> {
     const { controls, form } = currentForm;
     if (!form) return {};
     let tippyInstances: Instance<Props>[] = [];

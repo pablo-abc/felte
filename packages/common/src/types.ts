@@ -21,21 +21,13 @@ export type CurrentForm<Data extends Obj> = {
   data: Writable<Data>;
   touched: Writable<Touched<Data>>;
   config: FormConfig<Data>;
+  addValidator(validator: ValidationFunction<Data>): void;
 };
 
 export type OnSubmitErrorState<Data extends Obj> = {
   data: Data;
   errors: Errors<Data>;
 };
-
-export type ReporterHandler<Data extends Obj> = {
-  destroy?: () => void;
-  onSubmitError?: (state: OnSubmitErrorState<Data>) => void;
-};
-
-export type Reporter<Data extends Obj = Obj> = (
-  currentForm: CurrentForm<Data>
-) => ReporterHandler<Data>;
 
 export type ExtenderHandler<Data extends Obj> = {
   destroy?: () => void;
@@ -77,8 +69,6 @@ export interface FormConfigWithoutInitialValues<Data extends Obj> {
   onSubmit: (values: Data) => Promise<void> | void;
   /** Optional function that accepts any thrown exceptions from the onSubmit function. You can return an object with the same shape [[`Errors`]] for a reporter to use it. */
   onError?: (errors: unknown) => void | Errors<Data>;
-  /** Optional function/s to handle reporting errors. */
-  reporter?: Reporter<Data> | Reporter<Data>[];
   /** Optional function/s to extend Felte's functionality. */
   extend?: Extender<Data> | Extender<Data>[];
   /** Optional array that sets which events should trigger a field to be touched. */
