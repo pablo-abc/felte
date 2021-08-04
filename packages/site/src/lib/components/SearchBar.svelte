@@ -1,6 +1,6 @@
 <script>
   import tippy from 'tippy.js';
-  import { onMount, getContext } from 'svelte';
+  import { onMount, getContext, onDestroy } from 'svelte';
   import SearchResults from './SearchResults.svelte';
   import Fuse from 'fuse.js';
   import 'tippy.js/themes/material.css';
@@ -9,7 +9,7 @@
 
   let searchResult;
   let searchInput;
-  let searchValue = 'library';
+  let searchValue = '';
   let tippyInstance;
 
   function clear() {
@@ -17,20 +17,49 @@
   }
 
   $: searchable = $items.map((item) => {
-    const body = item.body.split('\n').slice(1).join('\n');
+    const body = item.body
+      .split('\n')
+      .slice(1)
+      .join('\n')
+      .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
+      .replace(/```.*/g, '')
+      .replace(/> /g, '')
+      .replace(/#+ /g, '')
+      .replace(/__?([^_]+)__?/g, '$1')
+      .replace(/\*\*?([^_]+)\*\*?/g, '$1');
     return {
       ...item,
       body,
     };
   });
 
-  $: fuse = new Fuse(searchable, {
-    includeMatches: true,
-    minMatchCharLength: 3,
-    keys: ['body'],
-  });
+  let fuse;
+  let foundItems = [];
 
-  $: foundItems = fuse.search(searchValue).slice(0, 4);
+  $: {
+    fuse = new Fuse(searchable, {
+      includeMatches: true,
+      ignoreFieldNorm: true,
+      minMatchCharLength: searchValue.replace(/ /g, '').length,
+      ignoreLocation: true,
+      keys: [
+        {
+          name: 'body',
+          weight: 1,
+        },
+        {
+          name: 'attributes.section',
+          weight: 3,
+        },
+        {
+          name: 'attributes.subsections',
+          weight: 2,
+        },
+      ],
+    });
+
+    foundItems = fuse.search(searchValue, { limit: 4 });
+  }
 
   $: {
     if (searchValue.length < 3) {
@@ -40,6 +69,11 @@
     }
   }
 
+  function handleKeyDown(event) {
+    if (event.key !== '/') return;
+    event.preventDefault();
+    searchInput.focus();
+  }
   onMount(() => {
     tippyInstance = tippy(searchInput, {
       content: searchResult,
@@ -49,15 +83,21 @@
       arrow: false,
       placement: 'bottom',
     });
+
+    document.addEventListener('keydown', handleKeyDown);
   });
+
+  onDestroy(() => {});
 </script>
 
 <form>
   <span class="search-input">
     <label class="sr-only" for="search-bar">Search documentation</label>
     <input
+      autocomplete="off"
       bind:value="{searchValue}"
       bind:this="{searchInput}"
+      on:focus="{() => searchValue.length >= 3 && tippyInstance?.show()}"
       id="search-bar"
       type="search"
       placeholder="Search documentation"
@@ -186,7 +226,6 @@
 
   .search-input {
     flex: 1;
-    margin-right: 0.5rem;
     height: 100%;
     border-radius: 10px 0 0 10px;
   }

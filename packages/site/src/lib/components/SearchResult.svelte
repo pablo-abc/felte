@@ -1,6 +1,5 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import SvelteMarkdown from 'svelte-markdown';
   import { session } from '$app/stores';
 
   export let item;
@@ -9,7 +8,7 @@
 
   $: matchIndex = bodyMatch && bodyMatch.indices[0];
 
-  $: bodyValue = bodyMatch && bodyMatch.value;
+  $: bodyValue = bodyMatch && bodyMatch.value
 
   $: startIndex = matchIndex && matchIndex[0] >= 20 ? matchIndex[0] - 20 : 0;
 
@@ -28,8 +27,10 @@
     on:click="{onItemClick}"
   >
     <h2>{item.item.attributes.section}</h2>
-    {#if bodyMatch}
-     <SvelteMarkdown source={`...${bodyValue.slice(startIndex, endIndex)}...`} />
+    {#if bodyValue}
+      <div class="content">
+        ...{bodyValue.substr(startIndex, endIndex)}...
+      </div>
     {/if}
   </a>
 </li>
@@ -38,5 +39,10 @@
   li {
     border-bottom: 2px solid var(--primary-color);
     margin-bottom: 1rem;
+  }
+
+  .content {
+    margin-left: 0.5rem;
+    font-weight: 300;
   }
 </style>
