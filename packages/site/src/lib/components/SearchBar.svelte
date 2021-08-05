@@ -75,6 +75,12 @@
     event.preventDefault();
     searchInput.focus();
   }
+
+  function handleSubmit(event) {
+    if (searchValue.length !== 0) return;
+    event.preventDefault();
+  }
+
   onMount(() => {
     tippyInstance = tippy(searchInput, {
       content: searchResult,
@@ -94,7 +100,7 @@
   });
 </script>
 
-<form action="/{$session.framework}/search" on:submit="">
+<form action="/docs/{$session.framework}/search" on:submit="{handleSubmit}">
   <span class="search-input">
     <label class="sr-only" for="search-bar">
       Search documentation (Press "\" to focus)
@@ -107,7 +113,7 @@
       on:focus="{() => searchValue.length >= 3 && tippyInstance?.show()}"
       id="search-bar"
       type="search"
-      placeholder="Search documentation (Press ' / ' to focus)"
+      placeholder="Search documentation"
     />
   </span>
   <button
@@ -130,7 +136,7 @@
       ></path>
     </svg>
   </button>
-  <button type="submit">
+  <button type="submit" aria-disabled="{searchValue.length === 0}">
     <span class="sr-only">Search</span>
     <svg
       role="img"
@@ -172,6 +178,7 @@
   form {
     grid-area: search;
     margin: 2rem;
+    margin-bottom: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -197,6 +204,11 @@
     align-items: center;
     border-radius: 0 9px 9px 0;
     transition: background 0.1s;
+    cursor: pointer;
+  }
+
+  button[type='submit'][aria-disabled='true'] {
+    cursor: not-allowed;
   }
 
   button.clear {

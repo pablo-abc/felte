@@ -33,7 +33,7 @@
   setContext('items', items);
 </script>
 
-<div class=main-container>
+<div class="main-container">
   <SearchBar />
   <main>
     <slot></slot>
@@ -44,9 +44,7 @@
 <style>
   .main-container {
     display: grid;
-    grid-template-areas:
-      "search"
-      "main";
+    grid-template-areas: 'main';
     margin-bottom: 4rem;
   }
 
@@ -57,10 +55,11 @@
   @media (min-width: 966px) {
     .main-container {
       grid-template-areas:
-        "aside search"
-        "aside main";
+        'aside search'
+        'aside main'
+        'aside main';
       grid-template-columns: minmax(300px, 20%) 1fr;
-      grid-template-rows: 4rem 1fr;
+      grid-template-rows: auto 1fr;
     }
 
     main {
