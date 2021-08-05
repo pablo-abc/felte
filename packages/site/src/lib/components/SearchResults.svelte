@@ -20,8 +20,4 @@
     list-style: none;
     color: inherit;
   }
-
-  ul a {
-    color: inherit;
-  }
 </style>

@@ -34,6 +34,8 @@ const config = {
         '*',
         '/docs/solid',
         '/docs/svelte',
+        '/docs/solid/search',
+        '/docs/svelte/search',
         ...getFrameworkRoutes('solid'),
         ...getFrameworkRoutes('svelte'),
       ],
