@@ -3,6 +3,7 @@
   import { session } from '$app/stores';
 
   export let item;
+  export let bodyLength = 60;
 
   $: bodyMatch = item.matches.find((match) => match.key === 'body');
 
@@ -12,7 +13,7 @@
 
   $: startIndex = matchIndex && matchIndex[0] >= 20 ? matchIndex[0] - 20 : 0;
 
-  $: endIndex = 60;
+  $: endIndex = bodyLength;
 
   const dispatch = createEventDispatcher();
 
@@ -40,13 +41,8 @@
 <style>
   a {
     display: block;
-    color: #ffffff;
     padding: 0.5rem;
     border-radius: 10px 10px 0 0;
-  }
-
-  a:hover {
-    background: hsl(204, 3%, 42%);
   }
 
   li {

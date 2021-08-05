@@ -2,12 +2,13 @@
   import SearchResult from './SearchResult.svelte';
 
   export let foundItems;
+  export let bodyLength;
 </script>
 
 {#if foundItems.length >= 1}
 <ul>
   {#each foundItems as item (item.item.attributes.id)}
-    <SearchResult {item} on:itemclick />
+  <SearchResult {bodyLength} {item} on:itemclick />
   {/each}
 </ul>
 {:else}

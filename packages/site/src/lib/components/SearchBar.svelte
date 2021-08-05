@@ -4,7 +4,6 @@
   import { session } from '$app/stores';
   import SearchResults from './SearchResults.svelte';
   import Fuse from 'fuse.js';
-  import 'tippy.js/themes/material.css';
 
   const items = getContext('items');
 
@@ -27,7 +26,7 @@
       .replace(/> /g, '')
       .replace(/#+ /g, '')
       .replace(/__?([^_]+)__?/g, '$1')
-      .replace(/\*\*?([^_]+)\*\*?/g, '$1');
+      .replace(/\*\*?([^\*]+)\*\*?/g, '$1');
     return {
       ...item,
       body,
@@ -86,7 +85,6 @@
       content: searchResult,
       trigger: 'manual',
       interactive: true,
-      theme: 'material',
       arrow: false,
       placement: 'bottom',
     });
@@ -102,9 +100,7 @@
 
 <form action="/docs/{$session.framework}/search" on:submit="{handleSubmit}">
   <span class="search-input">
-    <label class="sr-only" for="search-bar">
-      Search documentation (Press "\" to focus)
-    </label>
+    <label class="sr-only" for="search-bar"> Search documentation </label>
     <input
       name="q"
       autocomplete="off"
@@ -113,7 +109,7 @@
       on:focus="{() => searchValue.length >= 3 && tippyInstance?.show()}"
       id="search-bar"
       type="search"
-      placeholder="Search documentation"
+      placeholder="Search docs"
     />
   </span>
   <button
@@ -168,7 +164,6 @@
   .search-result {
     visibility: hidden;
     padding: 0.5rem;
-    color: white;
   }
 
   .search-result.mounted {
@@ -178,6 +173,7 @@
   form {
     grid-area: search;
     margin: 2rem;
+    margin-left: auto;
     margin-bottom: 0;
     display: flex;
     justify-content: space-between;
@@ -188,6 +184,16 @@
     background: var(--on-primary-color);
     height: 3rem;
     width: calc(min(75%, 1200px) - 2rem);
+  }
+
+  @media only screen and (min-width: 966px) {
+    form {
+      margin-left: 2rem;
+    }
+  }
+
+  form :global(.tippy-box) {
+    background: var(--header-background-hover);
   }
 
   input {

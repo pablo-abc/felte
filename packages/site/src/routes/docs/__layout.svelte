@@ -44,12 +44,14 @@
 <style>
   .main-container {
     display: grid;
-    grid-template-areas: 'main';
+    grid-template-areas: 'search' 'main' 'main';
     margin-bottom: 4rem;
   }
 
   main {
     padding: 2rem 1rem;
+    width: 95vw;
+    margin: 0 auto;
   }
 
   @media (min-width: 966px) {
@@ -66,6 +68,7 @@
       width: min(75%, 1200px);
       grid-area: main;
       padding: 2rem;
+      margin: 0;
     }
   }
 </style>
