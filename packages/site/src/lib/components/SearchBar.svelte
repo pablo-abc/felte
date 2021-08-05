@@ -1,6 +1,7 @@
 <script>
   import tippy from 'tippy.js';
   import { onMount, getContext, onDestroy } from 'svelte';
+  import { session } from '$app/stores';
   import SearchResults from './SearchResults.svelte';
   import Fuse from 'fuse.js';
   import 'tippy.js/themes/material.css';
@@ -87,20 +88,26 @@
     document.addEventListener('keydown', handleKeyDown);
   });
 
-  onDestroy(() => {});
+  onDestroy(() => {
+    if (typeof document === 'undefined') return;
+    document.removeEventListener('keydown', handleKeyDown);
+  });
 </script>
 
-<form>
+<form action="/{$session.framework}/search" on:submit="">
   <span class="search-input">
-    <label class="sr-only" for="search-bar">Search documentation</label>
+    <label class="sr-only" for="search-bar">
+      Search documentation (Press "\" to focus)
+    </label>
     <input
+      name="q"
       autocomplete="off"
       bind:value="{searchValue}"
       bind:this="{searchInput}"
       on:focus="{() => searchValue.length >= 3 && tippyInstance?.show()}"
       id="search-bar"
       type="search"
-      placeholder="Search documentation"
+      placeholder="Search documentation (Press ' / ' to focus)"
     />
   </span>
   <button

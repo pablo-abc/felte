@@ -26,16 +26,29 @@
     href="/docs/{$session.framework}/{item.item.attributes.id}"
     on:click="{onItemClick}"
   >
-    <h2>{item.item.attributes.section}</h2>
-    {#if bodyValue}
-      <div class="content">
-        ...{bodyValue.substr(startIndex, endIndex)}...
-      </div>
-    {/if}
+    <div>
+      <h2>{item.item.attributes.section}</h2>
+      {#if bodyValue}
+        <div class="content">
+          ...{bodyValue.substr(startIndex, endIndex)}...
+        </div>
+      {/if}
+    </div>
   </a>
 </li>
 
 <style>
+  a {
+    display: block;
+    color: #ffffff;
+    padding: 0.5rem;
+    border-radius: 10px 10px 0 0;
+  }
+
+  a:hover {
+    background: hsl(204, 3%, 42%);
+  }
+
   li {
     border-bottom: 2px solid var(--primary-color);
     margin-bottom: 1rem;
