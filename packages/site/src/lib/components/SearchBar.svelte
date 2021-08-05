@@ -2,6 +2,7 @@
   import tippy from 'tippy.js';
   import { onMount, getContext, onDestroy } from 'svelte';
   import { session } from '$app/stores';
+  import { goto } from '$app/navigation';
   import SearchResults from './SearchResults.svelte';
   import Fuse from 'fuse.js';
 
@@ -76,8 +77,10 @@
   }
 
   function handleSubmit(event) {
-    if (searchValue.length !== 0) return;
     event.preventDefault();
+    if (searchValue.length === 0) return;
+    goto(`/docs/${$session.framework}/search?q=${searchValue}`);
+    clear();
   }
 
   onMount(() => {
