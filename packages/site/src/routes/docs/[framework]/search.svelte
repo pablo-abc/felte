@@ -2,34 +2,31 @@
   import Fuse from 'fuse.js';
   import SearchResults from '$lib/components/SearchResults.svelte';
   import { page } from '$app/stores';
-  import { getContext } from 'svelte';
+  import { getContext, onMount } from 'svelte';
   const items = getContext('items');
 
-  $: searchValue = $page.query.get('q');
+  let foundItems;
 
-  $: searchable = $items.map((item) => {
-    const body = item.body
-      .split('\n')
-      .slice(1)
-      .join('\n')
-      .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
-      .replace(/```.*/g, '')
-      .replace(/> /g, '')
-      .replace(/#+ /g, '')
-      .replace(/__?([^_]+)__?/g, '$1')
-      .replace(/\*\*?([^\*]+)\*\*?/g, '$1');
-    return {
-      ...item,
-      body,
-    };
-  });
-
-  let fuse;
-  let foundItems = [];
-
-  $: {
+  onMount(() => {
+    const searchValue = $page.query.get('q');
+    const searchable = $items.map((item) => {
+      const body = item.body
+        .split('\n')
+        .slice(1)
+        .join('\n')
+        .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
+        .replace(/```.*/g, '')
+        .replace(/> /g, '')
+        .replace(/#+ /g, '')
+        .replace(/__?([^_]+)__?/g, '$1')
+        .replace(/\*\*?([^\*]+)\*\*?/g, '$1');
+      return {
+        ...item,
+        body,
+      };
+    });
     if (searchValue) {
-      fuse = new Fuse(searchable, {
+      const fuse = new Fuse(searchable, {
         includeMatches: true,
         ignoreFieldNorm: true,
         minMatchCharLength: searchValue.replace(/ /g, '').length,
@@ -52,7 +49,9 @@
 
       foundItems = fuse.search(searchValue);
     }
-  }
+  });
 </script>
 
+{#if foundItems}
 <SearchResults {foundItems} bodyLength="{200}" />
+{/if}
