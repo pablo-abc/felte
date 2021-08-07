@@ -160,6 +160,58 @@ export function createHelpers<Data extends Obj>({
         addValidator,
       });
     }
+
+    function proxyInputs() {
+      for (const control of Array.from(node.elements).filter(isFormControl)) {
+        if (shouldIgnore(control)) continue;
+        let propName = 'value';
+        if (
+          isInputElement(control) &&
+          ['checkbox', 'radio'].includes(control.type)
+        ) {
+          propName = 'checked';
+        }
+        if (isInputElement(control) && control.type === 'file') {
+          propName = 'files';
+        }
+        const prop = Object.getOwnPropertyDescriptor(
+          HTMLInputElement.prototype,
+          propName
+        );
+        Object.defineProperty(control, propName, {
+          configurable: true,
+          set(newValue) {
+            prop?.set?.call(control, newValue);
+            if (
+              isSelectElement(control) ||
+              (isInputElement(control) &&
+                ['checkbox', 'radio', 'file'].includes(control.type))
+            ) {
+              if (config.touchTriggerEvents?.change)
+                setTouched(getPath(control));
+            } else {
+              if (config.touchTriggerEvents?.input)
+                setTouched(getPath(control));
+            }
+
+            if (isInputElement(control)) {
+              if (control.type === 'checkbox')
+                return setCheckboxValues(control);
+              if (control.type === 'radio') return setRadioValues(control);
+              if (control.type === 'file') return setFileValue(control);
+            }
+            const inputValue = isSelectElement(control)
+              ? control.value
+              : getInputTextOrNumber(control);
+            data.update(($data) => {
+              return _set($data, getPath(control), inputValue);
+            });
+          },
+          get: prop?.get,
+        });
+      }
+    }
+
     currentExtenders = extender.map(callExtender);
     node.noValidate = !!config.validate;
     const { defaultData } = getFormDefaultValues<Data>(node);
@@ -275,6 +327,7 @@ export function createHelpers<Data extends Obj>({
       for (const mutation of mutationList) {
         if (mutation.type !== 'childList') continue;
         if (mutation.addedNodes.length > 0) {
+          proxyInputs();
           const shouldUpdate = Array.from(mutation.addedNodes).some((node) => {
             if (!isElement(node)) return false;
             if (isFormControl(node)) return true;
@@ -309,6 +362,7 @@ export function createHelpers<Data extends Obj>({
     const observer = new MutationObserver(mutationCallback);
 
     observer.observe(node, mutationOptions);
+    proxyInputs();
     node.addEventListener('input', handleInput);
     node.addEventListener('change', handleChange);
     node.addEventListener('focusout', handleBlur);
