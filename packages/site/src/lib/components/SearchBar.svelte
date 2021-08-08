@@ -151,6 +151,7 @@
       interactive: true,
       arrow: false,
       placement: 'bottom',
+      appendTo: document.body,
     });
     document.addEventListener('keydown', handleKeyDown);
   });
@@ -162,7 +163,7 @@
 </script>
 
 <form
-  role="combobox"
+  role="search"
   aria-haspopup="listbox"
   aria-expanded="{expanded}"
   aria-owns="search-results"
@@ -175,11 +176,13 @@
       name="q"
       autocomplete="off"
       aria-controls="search-results"
+      aria-autocomplete="list"
       aria-activedescendant="{$activeDescendant}"
       on:keydown="{handleArrowKeys}"
       bind:value="{searchValue}"
       bind:this="{searchInput}"
       on:focus="{() => searchValue.length >= 3 && (expanded = true)}"
+      on:blur="{() => (expanded = false)}"
       id="search-bar"
       type="search"
       placeholder="Search docs"
