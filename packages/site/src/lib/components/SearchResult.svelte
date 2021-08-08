@@ -1,19 +1,24 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, getContext } from 'svelte';
+  import { descendantsKey } from '$lib/utils/descendants';
   import { session } from '$app/stores';
 
   export let item;
   export let bodyLength = 60;
 
+  const activeDescendant = getContext(descendantsKey);
+
   $: bodyMatch = item.matches.find((match) => match.key === 'body');
 
   $: matchIndex = bodyMatch && bodyMatch.indices[0];
 
-  $: bodyValue = bodyMatch && bodyMatch.value
+  $: bodyValue = bodyMatch && bodyMatch.value;
 
   $: startIndex = matchIndex && matchIndex[0] >= 20 ? matchIndex[0] - 20 : 0;
 
   $: endIndex = bodyLength;
+
+  $: id = `result-${item.item.attributes.section}`;
 
   const dispatch = createEventDispatcher();
 
@@ -22,7 +27,7 @@
   }
 </script>
 
-<li>
+<li {id} data-combobox-option class:active="{$activeDescendant === id}">
   <a
     href="/docs/{$session.framework}/{item.item.attributes.id}"
     on:click="{onItemClick}"
@@ -30,9 +35,7 @@
     <div>
       <h2>{item.item.attributes.section}</h2>
       {#if bodyValue}
-        <div class="content">
-          ...{bodyValue.substr(startIndex, endIndex)}...
-        </div>
+      <div class="content">...{bodyValue.substr(startIndex, endIndex)}...</div>
       {/if}
     </div>
   </a>
@@ -53,5 +56,9 @@
   .content {
     margin-left: 0.5rem;
     font-weight: 300;
+  }
+
+  .active a {
+    color: var(--primary-font-color-hover);
   }
 </style>

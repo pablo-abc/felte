@@ -7,7 +7,7 @@
 
 {#if foundItems.length >= 1}
 <ul>
-  {#each foundItems as item (item.item.attributes.id)}
+  {#each foundItems as item (item.item.attributes.section)}
   <SearchResult {bodyLength} {item} on:itemclick />
   {/each}
 </ul>

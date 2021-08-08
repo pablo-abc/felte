@@ -1,17 +1,24 @@
 <script>
   import tippy from 'tippy.js';
-  import { onMount, getContext, onDestroy } from 'svelte';
+  import { onMount, getContext, setContext, onDestroy, tick } from 'svelte';
   import { session } from '$app/stores';
   import { goto } from '$app/navigation';
   import SearchResults from './SearchResults.svelte';
   import Fuse from 'fuse.js';
+  import { descendantsKey } from '$lib/utils/descendants';
+  import { writable } from 'svelte/store';
 
   const items = getContext('items');
+  const descendants = writable([]);
+  const activeDescendant = writable();
+  setContext(descendantsKey, activeDescendant);
+  let activeIndex;
 
   let searchResult;
   let searchInput;
   let searchValue = '';
   let tippyInstance;
+  let expanded = false;
 
   function clear() {
     searchValue = '';
@@ -64,11 +71,13 @@
 
   $: {
     if (searchValue.length < 3) {
-      tippyInstance?.hide();
+      expanded = false;
     } else {
-      tippyInstance?.show();
+      expanded = true;
     }
   }
+
+  $: expanded ? tippyInstance?.show() : tippyInstance?.hide();
 
   function handleKeyDown(event) {
     if (event.key !== '/') return;
@@ -76,22 +85,73 @@
     searchInput.focus();
   }
 
+  function handleArrowKeys(event) {
+    if (!['ArrowDown', 'ArrowUp', 'Escape'].includes(event.key)) return;
+    if (searchValue.length < 3) return;
+    event.preventDefault();
+    if (event.key === 'Escape') {
+      expanded = false;
+      activeIndex = undefined;
+      $activeDescendant = undefined;
+      return;
+    }
+    if (!expanded) expanded = true;
+    if (event.key === 'ArrowDown') {
+      if (activeIndex == null) activeIndex = 0;
+      else if (activeIndex >= $descendants.length - 1) activeIndex = undefined;
+      else activeIndex += 1;
+      if (activeIndex == null) $activeDescendant = undefined;
+      else $activeDescendant = $descendants[activeIndex].id;
+    }
+    if (event.key === 'ArrowUp') {
+      if (activeIndex == null) activeIndex = $descendants.length - 1;
+      else if (activeIndex <= 0) activeIndex = undefined;
+      else activeIndex -= 1;
+      if (activeIndex == null) $activeDescendant = undefined;
+      else $activeDescendant = $descendants[activeIndex].id;
+    }
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
+    tippyInstance?.hide();
     if (searchValue.length === 0) return;
-    goto(`/docs/${$session.framework}/search?q=${searchValue}`);
+    if ($activeDescendant) {
+      const target = $descendants[activeIndex];
+      const href = target.querySelector('a').href;
+      goto(href);
+    } else {
+      goto(`/docs/${$session.framework}/search?q=${searchValue}`);
+    }
     clear();
+    activeIndex = undefined;
+    $activeDescendant = undefined;
+  }
+
+  $: {
+    if (searchResult && searchValue.length >= 3) {
+      tick().then(() => {
+        const options = document.querySelectorAll('[data-combobox-option]');
+        descendants.set(Array.from(options));
+      });
+    }
   }
 
   onMount(() => {
     tippyInstance = tippy(searchInput, {
       content: searchResult,
+      onClickOutside() {
+        expanded = false;
+      },
+      onHide() {
+        expanded = false;
+      },
+      role: 'listbox',
       trigger: 'manual',
       interactive: true,
       arrow: false,
       placement: 'bottom',
     });
-
     document.addEventListener('keydown', handleKeyDown);
   });
 
@@ -101,15 +161,25 @@
   });
 </script>
 
-<form action="/docs/{$session.framework}/search" on:submit="{handleSubmit}">
+<form
+  role="combobox"
+  aria-haspopup="listbox"
+  aria-expanded="{expanded}"
+  aria-owns="search-results"
+  action="/docs/{$session.framework}/search"
+  on:submit="{handleSubmit}"
+>
   <span class="search-input">
-    <label class="sr-only" for="search-bar"> Search documentation </label>
+    <label class="sr-only" for="search-bar">Search documentation </label>
     <input
       name="q"
       autocomplete="off"
+      aria-controls="search-results"
+      aria-activedescendant="{$activeDescendant}"
+      on:keydown="{handleArrowKeys}"
       bind:value="{searchValue}"
       bind:this="{searchInput}"
-      on:focus="{() => searchValue.length >= 3 && tippyInstance?.show()}"
+      on:focus="{() => searchValue.length >= 3 && (expanded = true)}"
       id="search-bar"
       type="search"
       placeholder="Search docs"
@@ -156,6 +226,7 @@
 </form>
 
 <div
+  id="search-results"
   bind:this="{searchResult}"
   class="search-result"
   class:mounted="{!!tippyInstance}"
