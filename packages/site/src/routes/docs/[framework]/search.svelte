@@ -10,7 +10,7 @@
   const qs = browser ? document.location.search : '';
   const query = new URLSearchParams(qs);
 
-  $: searchValue = $page.query.get('q') ?? query.get('q');
+  $: searchValue = ($page && $page.query.get('q')) ?? query.get('q');
 
   $: searchable = $items.map((item, index) => {
     const body = item.body
@@ -48,7 +48,7 @@
   }
 
   $: {
-    const found = doc.search(searchValue);
+    const found = searchValue ? doc.search(searchValue) : [];
     if (found.length > 0) {
       const foundSet = new Set();
       for (const f of found) {
