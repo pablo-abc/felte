@@ -109,22 +109,22 @@
   $: expanded ? tippyInstance?.show() : tippyInstance?.hide();
 
   function handleKeyDown(event) {
-    if (event.key !== '/') return;
+    if (event.key !== '/' && event.key !== 'Escape') return;
+    if (event.key === 'Escape' && expanded) {
+      expanded = false;
+      activeIndex = undefined;
+      $activeDescendant = undefined;
+      return;
+    }
     if (document.activeElement === searchInput) return;
     event.preventDefault();
     searchInput.focus();
   }
 
   function handleArrowKeys(event) {
-    if (!['ArrowDown', 'ArrowUp', 'Escape'].includes(event.key)) return;
+    if (!['ArrowDown', 'ArrowUp'].includes(event.key)) return;
     if (searchValue.length < 3) return;
     event.preventDefault();
-    if (event.key === 'Escape') {
-      expanded = false;
-      activeIndex = undefined;
-      $activeDescendant = undefined;
-      return;
-    }
     if (!expanded) expanded = true;
     if (event.key === 'ArrowDown') {
       if (activeIndex == null) activeIndex = 0;
@@ -207,7 +207,6 @@
       bind:value="{searchValue}"
       bind:this="{searchInput}"
       on:focus="{() => searchValue.length >= 3 && (expanded = true)}"
-      on:blur="{() => (expanded = false)}"
       id="search-bar"
       type="search"
       placeholder="Search docs"
