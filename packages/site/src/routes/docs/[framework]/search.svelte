@@ -48,7 +48,7 @@
   }
 
   $: {
-    const found = doc.search(searchValue, { limit: 4 });
+    const found = doc.search(searchValue);
     if (found.length > 0) {
       const foundSet = new Set();
       for (const f of found) {
