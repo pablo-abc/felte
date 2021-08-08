@@ -279,6 +279,7 @@
     grid-area: search;
     margin: 2rem;
     margin-left: auto;
+    margin-right: auto;
     margin-bottom: 0;
     display: flex;
     justify-content: space-between;
@@ -288,12 +289,13 @@
     border-radius: 10px;
     background: var(--on-primary-color);
     height: 3rem;
-    width: calc(min(75%, 1200px) - 2rem);
+    width: 90%;
   }
 
   @media only screen and (min-width: 966px) {
     form {
       margin-left: 2rem;
+      width: calc(min(75%, 1200px) - 2rem);
     }
   }
 

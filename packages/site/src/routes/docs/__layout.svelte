@@ -46,6 +46,7 @@
     display: grid;
     grid-template-areas: 'search' 'main';
     margin-bottom: 4rem;
+    grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
   }
 
