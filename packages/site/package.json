@@ -27,7 +27,7 @@
     "@felte/reporter-tippy": "^0.3.6",
     "@felte/validator-yup": "^0.2.7",
     "felte": "^0.7.13",
-    "fuse.js": "^6.4.6",
+    "flexsearch": "^0.7.21",
     "html-minifier": "^4.0.0",
     "svelte-markdown": "^0.1.7",
     "svelte-portal": "^2.1.2"

@@ -4,9 +4,9 @@
   import { session } from '$app/stores';
   import { goto } from '$app/navigation';
   import SearchResults from './SearchResults.svelte';
-  import Fuse from 'fuse.js';
   import { descendantsKey } from '$lib/utils/descendants';
   import { writable } from 'svelte/store';
+  import FlexSearch from 'flexsearch';
 
   function throttle(callback, limit) {
     var waiting = false; // Initially, we're not waiting
@@ -41,7 +41,10 @@
     searchValue = '';
   }
 
-  $: searchable = $items.map((item) => {
+  let foundItems = [];
+  let doc;
+
+  $: searchable = $items.map((item, index) => {
     const body = item.body
       .split('\n')
       .slice(1)
@@ -54,44 +57,46 @@
       .replace(/\*\*?([^\*]+)\*\*?/g, '$1');
     return {
       ...item,
+      id: index,
       body,
     };
   });
 
-  let fuse;
-  let foundItems = [];
-
-  const search = throttle(function (searchValue, searchable) {
-    fuse = new Fuse(searchable, {
-      includeMatches: true,
-      ignoreFieldNorm: true,
-      minMatchCharLength: searchValue.replace(/ /g, '').length,
-      ignoreLocation: true,
-      keys: [
-        {
-          name: 'body',
-          weight: 1,
+  $: {
+    if (searchable && searchable.length > 0) {
+      doc = new FlexSearch.Document({
+        tokenize: 'forward',
+        document: {
+          index: ['attributes:section', 'body'],
         },
-        {
-          name: 'attributes.section',
-          weight: 3,
-        },
-        {
-          name: 'attributes.subsections',
-          weight: 2,
-        },
-      ],
-    });
+      });
+      searchable.forEach((item) => {
+        doc.add(item);
+      });
+    }
+  }
 
-    foundItems = fuse.search(searchValue, { limit: 4 });
+  $: {
+    const found = doc.search(searchValue, { limit: 4 });
+    if (found.length > 0) {
+      const foundSet = new Set();
+      for (const f of found) {
+        f.result.forEach((r) => foundSet.add(r));
+      }
+      foundItems = Array.from(foundSet).map((f) => {
+        return searchable[f];
+      });
+    }
+  }
 
-    tick().then(() => {
-      const options = searchResult.querySelectorAll('[data-combobox-option]');
-      descendants.set(Array.from(options));
-    });
-  }, 100);
-
-  $: search(searchValue, searchable);
+  $: {
+    if (expanded && searchValue.length >= 3) {
+      tick().then(() => {
+        const options = searchResult.querySelectorAll('[data-combobox-option]');
+        descendants.set(Array.from(options));
+      });
+    }
+  }
 
   $: {
     if (searchValue.length < 3) {

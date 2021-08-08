@@ -238,8 +238,8 @@ importers:
       '@sveltejs/kit': 1.0.0-next.140
       eslint-plugin-svelte3: ^3.2.0
       felte: ^0.7.13
+      flexsearch: ^0.7.21
       front-matter: ^4.0.2
-      fuse.js: ^6.4.6
       highlight.js: ^10.7.1
       html-minifier: ^4.0.0
       mdsvex: ^0.9.0
@@ -256,14 +256,14 @@ importers:
       '@felte/reporter-tippy': link:../reporter-tippy
       '@felte/validator-yup': link:../validator-yup
       felte: link:../felte
-      fuse.js: 6.4.6
+      flexsearch: 0.7.21
       html-minifier: 4.0.0
       svelte-markdown: 0.1.7_svelte@3.37.0
       svelte-portal: 2.1.2
     devDependencies:
       '@sveltejs/adapter-static': 1.0.0-next.13
       '@sveltejs/kit': 1.0.0-next.140_svelte@3.37.0
-      eslint-plugin-svelte3: 3.2.0_eslint@7.24.0+svelte@3.37.0
+      eslint-plugin-svelte3: 3.2.0_svelte@3.37.0
       front-matter: 4.0.2
       highlight.js: 10.7.2
       mdsvex: 0.9.0_svelte@3.37.0
@@ -4387,6 +4387,16 @@ packages:
       svelte: 3.37.0
     dev: true
 
+  /eslint-plugin-svelte3/3.2.0_svelte@3.37.0:
+    resolution: {integrity: sha512-qdWB1QN21dEozsJFdR8XlEhMnsS6aKHjsXWuNmchYwxoet5I6QdCr1Xcq62++IzRBMCNCeH4waXqSOAdqrZzgA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      eslint: '>=6.0.0'
+      svelte: ^3.2.0
+    dependencies:
+      svelte: 3.37.0
+    dev: true
+
   /eslint-plugin-testing-library/4.0.1_eslint@7.24.0+typescript@4.2.4:
     resolution: {integrity: sha512-kbJJty456+D/NQB4jcj0OymD8c0vNj85EHOS83fRmx0ed5vTMcNmLDGp47wE/XhP3ojmmMcqVp9OGiQzY6E04g==}
     engines: {node: ^10.12.0 || >=12.0.0, npm: '>=6'}
@@ -4775,6 +4785,10 @@ packages:
     resolution: {integrity: sha512-zAoAQiudy+r5SvnSw3KJy5os/oRJYHzrzja/tBDqrZtNhUw8bt6y8OBzMWcjWr+8liV8Eb6yOhw8WZ7VFZ5ZzA==}
     dev: true
 
+  /flexsearch/0.7.21:
+    resolution: {integrity: sha512-W7cHV7Hrwjid6lWmy0IhsWDFQboWSng25U3VVywpHOTJnnAZNPScog67G+cVpeX9f7yDD21ih0WDrMMT+JoaYg==}
+    dev: false
+
   /focus-lock/0.6.8:
     resolution: {integrity: sha512-vkHTluRCoq9FcsrldC0ulQHiyBYgVJB2CX53I8r0nTC6KnEij7Of0jpBspjt3/CuNb6fyoj3aOh9J2HgQUM0og==}
     dev: true
@@ -4863,11 +4877,6 @@ packages:
   /functional-red-black-tree/1.0.1:
     resolution: {integrity: sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=}
     dev: true
-
-  /fuse.js/6.4.6:
-    resolution: {integrity: sha512-/gYxR/0VpXmWSfZOIPS3rWwU8SHgsRTwWuXhyb2O6s7aRuVtHtxCkR33bNYu3wyLyNx/Wpv0vU7FZy8Vj53VNw==}
-    engines: {node: '>=10'}
-    dev: false
 
   /gensync/1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}

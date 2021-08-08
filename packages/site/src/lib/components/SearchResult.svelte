@@ -8,17 +8,7 @@
 
   const activeDescendant = getContext(descendantsKey);
 
-  $: bodyMatch = item.matches.find((match) => match.key === 'body');
-
-  $: matchIndex = bodyMatch && bodyMatch.indices[0];
-
-  $: bodyValue = bodyMatch && bodyMatch.value;
-
-  $: startIndex = matchIndex && matchIndex[0] >= 20 ? matchIndex[0] - 20 : 0;
-
-  $: endIndex = bodyLength;
-
-  $: id = `result-${item.item.attributes.section}`;
+  $: id = `result-${item.attributes.section}`;
 
   const dispatch = createEventDispatcher();
 
@@ -29,14 +19,12 @@
 
 <li {id} data-combobox-option class:active="{$activeDescendant === id}">
   <a
-    href="/docs/{$session.framework}/{item.item.attributes.id}"
+    href="/docs/{$session.framework}/{item.attributes.id}"
     on:click="{onItemClick}"
   >
     <div>
-      <h2>{item.item.attributes.section}</h2>
-      {#if bodyValue}
-      <div class="content">...{bodyValue.substr(startIndex, endIndex)}...</div>
-      {/if}
+      <h2>{item.attributes.section}</h2>
+      <div class="content">{item.body.substr(0, bodyLength)}...</div>
     </div>
   </a>
 </li>

@@ -1,9 +1,9 @@
 <script>
-  import Fuse from 'fuse.js';
   import SearchResults from '$lib/components/SearchResults.svelte';
   import { page } from '$app/stores';
   import { browser } from '$app/env';
   import { getContext } from 'svelte';
+  import FlexSearch from 'flexsearch';
 
   const items = getContext('items');
 
@@ -12,7 +12,7 @@
 
   $: searchValue = $page.query.get('q') ?? query.get('q');
 
-  $: searchable = $items.map((item) => {
+  $: searchable = $items.map((item, index) => {
     const body = item.body
       .split('\n')
       .slice(1)
@@ -25,37 +25,38 @@
       .replace(/\*\*?([^\*]+)\*\*?/g, '$1');
     return {
       ...item,
+      id: index,
       body,
     };
   });
 
-  let fuse;
   let foundItems = [];
+  let doc;
 
   $: {
-    if (searchValue) {
-      fuse = new Fuse(searchable, {
-        includeMatches: true,
-        ignoreFieldNorm: true,
-        minMatchCharLength: searchValue.replace(/ /g, '').length,
-        ignoreLocation: true,
-        keys: [
-          {
-            name: 'body',
-            weight: 1,
-          },
-          {
-            name: 'attributes.section',
-            weight: 3,
-          },
-          {
-            name: 'attributes.subsections',
-            weight: 2,
-          },
-        ],
+    if (searchable && searchable.length > 0) {
+      doc = new FlexSearch.Document({
+        tokenize: 'forward',
+        document: {
+          index: ['attributes:section', 'body'],
+        },
       });
+      searchable.forEach((item) => {
+        doc.add(item);
+      });
+    }
+  }
 
-      foundItems = fuse.search(searchValue);
+  $: {
+    const found = doc.search(searchValue, { limit: 4 });
+    if (found.length > 0) {
+      const foundSet = new Set();
+      for (const f of found) {
+        f.result.forEach((r) => foundSet.add(r));
+      }
+      foundItems = Array.from(foundSet).map((f) => {
+        return searchable[f];
+      });
     }
   }
 </script>
