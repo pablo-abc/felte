@@ -61,8 +61,8 @@
   }
 </script>
 
-<h2>Search for: <em>{searchValue}</em></h2>
 {#if searchValue}
+<h2>Search for: <em>{searchValue}</em></h2>
 <SearchResults {foundItems} bodyLength="{200}" />
 {:else}
 <p>Go on, search something!</p>
