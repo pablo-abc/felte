@@ -110,6 +110,7 @@
 
   function handleKeyDown(event) {
     if (event.key !== '/') return;
+    if (document.activeElement === searchInput) return;
     event.preventDefault();
     searchInput.focus();
   }
