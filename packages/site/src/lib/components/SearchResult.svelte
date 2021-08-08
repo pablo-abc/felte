@@ -45,11 +45,10 @@
   a {
     display: block;
     padding: 0.5rem;
-    border-radius: 10px 10px 0 0;
+    border-radius: 10px;
   }
 
   li {
-    border-bottom: 2px solid var(--primary-color);
     margin-bottom: 1rem;
   }
 
@@ -58,7 +57,7 @@
     font-weight: 300;
   }
 
-  .active a {
-    color: var(--primary-font-color-hover);
+  .active {
+    background: var(--header-background-hover);
   }
 </style>

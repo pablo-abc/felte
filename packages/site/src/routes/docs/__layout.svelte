@@ -44,8 +44,9 @@
 <style>
   .main-container {
     display: grid;
-    grid-template-areas: 'search' 'main' 'main';
+    grid-template-areas: 'search' 'main';
     margin-bottom: 4rem;
+    grid-template-rows: auto 1fr;
   }
 
   main {
@@ -58,10 +59,8 @@
     .main-container {
       grid-template-areas:
         'aside search'
-        'aside main'
         'aside main';
       grid-template-columns: minmax(300px, 20%) 1fr;
-      grid-template-rows: auto 1fr;
     }
 
     main {

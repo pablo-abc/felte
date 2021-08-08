@@ -8,6 +8,22 @@
   import { descendantsKey } from '$lib/utils/descendants';
   import { writable } from 'svelte/store';
 
+  function throttle(callback, limit) {
+    var waiting = false; // Initially, we're not waiting
+    return function () {
+      // We return a throttled function
+      if (!waiting) {
+        // If we're not waiting
+        callback.apply(this, arguments); // Execute users function
+        waiting = true; // Prevent future invocations
+        setTimeout(function () {
+          // After a period of time
+          waiting = false; // And allow future invocations
+        }, limit);
+      }
+    };
+  }
+
   const items = getContext('items');
   const descendants = writable([]);
   const activeDescendant = writable();
@@ -18,6 +34,7 @@
   let searchInput;
   let searchValue = '';
   let tippyInstance;
+  let formElement;
   let expanded = false;
 
   function clear() {
@@ -44,7 +61,7 @@
   let fuse;
   let foundItems = [];
 
-  $: {
+  const search = throttle(function (searchValue, searchable) {
     fuse = new Fuse(searchable, {
       includeMatches: true,
       ignoreFieldNorm: true,
@@ -67,7 +84,14 @@
     });
 
     foundItems = fuse.search(searchValue, { limit: 4 });
-  }
+
+    tick().then(() => {
+      const options = searchResult.querySelectorAll('[data-combobox-option]');
+      descendants.set(Array.from(options));
+    });
+  }, 100);
+
+  $: search(searchValue, searchable);
 
   $: {
     if (searchValue.length < 3) {
@@ -128,15 +152,6 @@
     $activeDescendant = undefined;
   }
 
-  $: {
-    if (searchResult && searchValue.length >= 3) {
-      tick().then(() => {
-        const options = document.querySelectorAll('[data-combobox-option]');
-        descendants.set(Array.from(options));
-      });
-    }
-  }
-
   onMount(() => {
     tippyInstance = tippy(searchInput, {
       content: searchResult,
@@ -151,7 +166,7 @@
       interactive: true,
       arrow: false,
       placement: 'bottom',
-      appendTo: document.body,
+      appendTo: formElement,
     });
     document.addEventListener('keydown', handleKeyDown);
   });
@@ -169,6 +184,7 @@
   aria-owns="search-results"
   action="/docs/{$session.framework}/search"
   on:submit="{handleSubmit}"
+  bind:this="{formElement}"
 >
   <span class="search-input">
     <label class="sr-only" for="search-bar">Search documentation </label>
@@ -182,7 +198,6 @@
       bind:value="{searchValue}"
       bind:this="{searchInput}"
       on:focus="{() => searchValue.length >= 3 && (expanded = true)}"
-      on:blur="{() => (expanded = false)}"
       id="search-bar"
       type="search"
       placeholder="Search docs"
@@ -240,7 +255,11 @@
 <style>
   .search-result {
     visibility: hidden;
-    padding: 0.5rem;
+  }
+
+  .search-result :global([data-combobox-option]) {
+    padding: 0.5rem 1rem;
+    margin-bottom: 0;
   }
 
   .search-result.mounted {
@@ -270,7 +289,12 @@
   }
 
   form :global(.tippy-box) {
-    background: var(--header-background-hover);
+    background: var(--primary-background);
+    border: 2px solid var(--primary-color);
+  }
+
+  form :global(.tippy-content) {
+    padding: 0;
   }
 
   input {
@@ -324,6 +348,7 @@
     padding-left: 0.5rem;
     height: 100%;
     border-radius: 10px 0 0 10px;
+    cursor: text;
   }
 
   .search-input {
