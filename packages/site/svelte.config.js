@@ -24,7 +24,7 @@ const config = {
 
     vite: {
       ssr: {
-        noExternal: ['svelte-portal'],
+        noExternal: ['svelte-portal', 'marked'],
         external: ['fs/promises'],
       },
     },
@@ -34,6 +34,8 @@ const config = {
         '*',
         '/docs/solid',
         '/docs/svelte',
+        '/docs/solid/search',
+        '/docs/svelte/search',
         ...getFrameworkRoutes('solid'),
         ...getFrameworkRoutes('svelte'),
       ],
