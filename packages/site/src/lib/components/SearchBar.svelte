@@ -86,7 +86,7 @@
       foundItems = Array.from(foundSet).map((f) => {
         return searchable[f];
       });
-    }
+    } else foundItems = [];
   }
 
   $: {
@@ -143,18 +143,16 @@
 
   function handleSubmit(event) {
     event.preventDefault();
-    tippyInstance?.hide();
     if (searchValue.length === 0) return;
     if ($activeDescendant) {
       const target = $descendants[activeIndex];
       const href = target.querySelector('a').href;
+      console.log(href);
       goto(href);
     } else {
       goto(`/docs/${$session.framework}/search?q=${searchValue}`);
     }
     clear();
-    activeIndex = undefined;
-    $activeDescendant = undefined;
   }
 
   onMount(() => {
@@ -162,9 +160,13 @@
       content: searchResult,
       onClickOutside() {
         expanded = false;
+        activeIndex = undefined;
+        $activeDescendant = undefined;
       },
       onHide() {
         expanded = false;
+        activeIndex = undefined;
+        $activeDescendant = undefined;
       },
       role: 'listbox',
       trigger: 'manual',
@@ -172,6 +174,7 @@
       arrow: false,
       placement: 'bottom',
       appendTo: formElement,
+      animation: false,
     });
     document.addEventListener('keydown', handleKeyDown);
   });
@@ -203,6 +206,7 @@
       bind:value="{searchValue}"
       bind:this="{searchInput}"
       on:focus="{() => searchValue.length >= 3 && (expanded = true)}"
+      on:blur="{() => (expanded = false)}"
       id="search-bar"
       type="search"
       placeholder="Search docs"

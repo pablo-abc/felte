@@ -57,10 +57,11 @@
       foundItems = Array.from(foundSet).map((f) => {
         return searchable[f];
       });
-    }
+    } else foundItems = [];
   }
 </script>
 
+<h2>Search for: <em>{searchValue}</em></h2>
 {#if searchValue}
 <SearchResults {foundItems} bodyLength="{200}" />
 {:else}

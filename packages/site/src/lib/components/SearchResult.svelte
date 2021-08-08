@@ -23,13 +23,18 @@
     on:click="{onItemClick}"
   >
     <div>
-      <h2>{item.attributes.section}</h2>
+      <strong>{item.attributes.section}</strong>
       <div class="content">{item.body.substr(0, bodyLength)}...</div>
     </div>
   </a>
 </li>
 
 <style>
+  strong {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
   a {
     display: block;
     padding: 0.5rem;
