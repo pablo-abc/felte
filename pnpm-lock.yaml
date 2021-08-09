@@ -234,8 +234,8 @@ importers:
       '@felte/reporter-svelte': ^0.3.14
       '@felte/reporter-tippy': ^0.3.6
       '@felte/validator-yup': ^0.2.7
-      '@sveltejs/adapter-static': 1.0.0-next.13
-      '@sveltejs/kit': 1.0.0-next.140
+      '@sveltejs/adapter-static': 1.0.0-next.16
+      '@sveltejs/kit': 1.0.0-next.146
       autoprefixer: ^10.3.1
       cssnano: ^5.0.6
       eslint-plugin-svelte3: ^3.2.0
@@ -269,11 +269,11 @@ importers:
       svelte-markdown: 0.1.7_svelte@3.37.0
       svelte-portal: 2.1.2
     devDependencies:
-      '@sveltejs/adapter-static': 1.0.0-next.13
-      '@sveltejs/kit': 1.0.0-next.140_svelte@3.37.0
+      '@sveltejs/adapter-static': 1.0.0-next.16
+      '@sveltejs/kit': 1.0.0-next.146_svelte@3.37.0
       autoprefixer: 10.3.1_postcss@8.3.6
       cssnano: 5.0.7_postcss@8.3.6
-      eslint-plugin-svelte3: 3.2.0_svelte@3.37.0
+      eslint-plugin-svelte3: 3.2.0_eslint@7.24.0+svelte@3.37.0
       front-matter: 4.0.2
       highlight.js: 10.7.2
       mdsvex: 0.9.0_svelte@3.37.0
@@ -283,7 +283,7 @@ importers:
       prettier: 2.2.1
       svelte: 3.37.0
       svelte-focus-on: 0.1.4
-      svelte-preprocess: 4.7.4_98ea279ca7a2b6388d37ebf757f46901
+      svelte-preprocess: 4.7.4_4d38c457a36a4d2ef072464f3eb73d22
       tippy.js: 6.3.1
       yup: 0.32.9
 
@@ -2678,12 +2678,12 @@ packages:
       magic-string: 0.25.7
     dev: false
 
-  /@sveltejs/adapter-static/1.0.0-next.13:
-    resolution: {integrity: sha512-zaXJlWK9JfrjrE6nG5etB8kf4DSkbE3H8Ql6gmCk3WjdvpY85a60TMYBU9OK2iunkqpHnPYiMUGEnOGYmWlLYA==}
+  /@sveltejs/adapter-static/1.0.0-next.16:
+    resolution: {integrity: sha512-xGFcg+GHF0BL1fyWx2vCzlYj4S4R+Od9cF00soo1TVp/scGOi1G9grSYYW4x5H+iDn1sscoJ65OGBGWIcOgrXg==}
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.140_svelte@3.37.0:
-    resolution: {integrity: sha512-mNPtwItLU61JVpYXGAuDBEUlmenMs06lv6xxvhrdIgQlVlizNEebC9E27vdzPtcktxUZJGl4u/Fw3K1CG8Lk2A==}
+  /@sveltejs/kit/1.0.0-next.146_svelte@3.37.0:
+    resolution: {integrity: sha512-MSatcaCRfjl88Prd5mW4pNOJ3Gsr525+Vjr24MoKtyTt6PZQmTfQsDVwyP93exn/6w2xl9uMCW6cFpDVBu7jSg==}
     engines: {node: ^12.20 || >=14.13}
     hasBin: true
     peerDependencies:
@@ -4647,16 +4647,6 @@ packages:
       svelte: ^3.2.0
     dependencies:
       eslint: 7.24.0
-      svelte: 3.37.0
-    dev: true
-
-  /eslint-plugin-svelte3/3.2.0_svelte@3.37.0:
-    resolution: {integrity: sha512-qdWB1QN21dEozsJFdR8XlEhMnsS6aKHjsXWuNmchYwxoet5I6QdCr1Xcq62++IzRBMCNCeH4waXqSOAdqrZzgA==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      eslint: '>=6.0.0'
-      svelte: ^3.2.0
-    dependencies:
       svelte: 3.37.0
     dev: true
 
@@ -8940,7 +8930,7 @@ packages:
       svelte: 3.37.0
       typescript: 4.2.4
 
-  /svelte-preprocess/4.7.4_98ea279ca7a2b6388d37ebf757f46901:
+  /svelte-preprocess/4.7.4_4d38c457a36a4d2ef072464f3eb73d22:
     resolution: {integrity: sha512-mDAmaltQl6e5zU2VEtoWEf7eLTfuOTGr9zt+BpA3AGHo8MIhKiNSPE9OLTCTOMgj0vj/uL9QBbaNmpG4G1CgIA==}
     engines: {node: '>= 9.11.2'}
     requiresBuild: true
@@ -8988,6 +8978,7 @@ packages:
       postcss-load-config: 3.1.0
       strip-indent: 3.0.0
       svelte: 3.37.0
+      typescript: 4.2.4
     dev: true
 
   /svelte/3.37.0:
