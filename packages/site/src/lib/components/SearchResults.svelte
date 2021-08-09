@@ -4,35 +4,50 @@
   import { descendantsKey } from '$lib/utils/descendants';
 
   export let foundItems;
+  export let isListbox = false;
   export let bodyLength = 60;
+  export let id = undefined;
 
   const activeDescendant = getContext(descendantsKey);
 </script>
 
-{#if foundItems.length >= 1}
-<ul>
-  {#each foundItems as item (item.attributes.section)}
-  <SearchResult {bodyLength} {item} on:itemclick />
-  {/each}
+<ul
+  {id}
+  role="{isListbox ? 'listbox' : undefined}"
+  on:mouseleave="{() => $activeDescendant = undefined}"
+  >
+  {#if foundItems.length >= 1}
+    {#each foundItems as item (item.attributes.section)}
+      <SearchResult
+        role={isListbox ? 'option' : undefined}
+        {bodyLength}
+        {item}
+        on:itemclick
+        />
+    {/each}
+  {:else}
+    <li
+      class:active="{$activeDescendant === 'nothing-found-search'}"
+      id="nothing-found-search"
+      data-combobox-option
+      on:mouseenter="{() => ($activeDescendant = 'nothing-found-search')}"
+      role="{isListbox ? 'option' : undefined}"
+      aria-selected="{isListbox ? $activeDescendant === 'nothing-found-search' : undefined}"
+      >
+      <strong>Nothing found :(</strong>
+    </li>
+  {/if}
 </ul>
-{:else}
-<h2
-  class:active="{$activeDescendant === 'nothing-found-search'}"
-  id="nothing-found-search"
-  data-combobox-option
->
-  Nothing found :(
-</h2>
-{/if}
 
 <style>
-  h2 {
-    padding: 1rem;
-  }
-
   ul {
     list-style: none;
     color: inherit;
+  }
+
+  strong {
+    font-size: 1.2rem;
+    padding: 1rem;
   }
 
   .active {

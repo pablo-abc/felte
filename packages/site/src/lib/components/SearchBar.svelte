@@ -169,7 +169,7 @@
         activeIndex = undefined;
         $activeDescendant = undefined;
       },
-      role: 'listbox',
+      role: null,
       trigger: 'manual',
       interactive: true,
       arrow: false,
@@ -202,7 +202,7 @@
       autocomplete="off"
       aria-controls="search-results"
       aria-autocomplete="list"
-      aria-activedescendant="{$activeDescendant}"
+      aria-activedescendant="{$activeDescendant ?? ''}"
       on:keydown="{handleArrowKeys}"
       bind:value="{searchValue}"
       bind:this="{searchInput}"
@@ -253,12 +253,16 @@
 </form>
 
 <div
-  id="search-results"
   bind:this="{searchResult}"
   class="search-result"
   class:mounted="{!!tippyInstance}"
 >
-  <SearchResults foundItems="{foundItems}" on:itemclick="{clear}" />
+  <SearchResults
+    id="search-results"
+    isListbox
+    foundItems="{foundItems}"
+    on:itemclick="{clear}"
+  />
 </div>
 
 <style>

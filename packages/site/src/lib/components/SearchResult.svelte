@@ -4,6 +4,7 @@
   import { session } from '$app/stores';
 
   export let item;
+  export let role = undefined;
   export let bodyLength = 60;
 
   const activeDescendant = getContext(descendantsKey);
@@ -17,7 +18,14 @@
   }
 </script>
 
-<li {id} data-combobox-option class:active="{$activeDescendant === id}">
+<li
+  {role}
+  aria-selected="{!!role ? $activeDescendant === id : undefined}"
+  {id}
+  data-combobox-option
+  on:mouseenter="{() => ($activeDescendant = id)}"
+  class:active="{$activeDescendant === id}"
+>
   <a
     href="/docs/{$session.framework}/{item.attributes.id}"
     on:click="{onItemClick}"
