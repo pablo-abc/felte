@@ -43,7 +43,7 @@ const { form } = createForm({
 });
 ```
 
-## Typescript
+#### Typescript
 
 For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
 
@@ -91,7 +91,7 @@ const { form } = createForm({
 });
 ```
 
-## Typescript
+#### Typescript
 
 For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
 
@@ -148,7 +148,7 @@ const validator = createValidator((value) =>
 );
 ```
 
-## Typescript
+#### Typescript
 
 For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
 
