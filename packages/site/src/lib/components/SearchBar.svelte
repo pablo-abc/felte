@@ -186,6 +186,13 @@
   });
 </script>
 
+<span class="sr-only" aria-live="polite" role="status" aria-atomic="true">
+  {#if foundItems.length > 0 && searchValue.length >= 3}
+    <span>{foundItems.length} results available.</span>
+    <span>Navigate using the up and down arrow keys.</span>
+    <span>Press enter to select.</span>
+  {/if}
+</span>
 <form
   role="search"
   aria-haspopup="listbox"
@@ -218,6 +225,7 @@
     on:click="{clear}"
     class:visible="{!!searchValue}"
   >
+    <span class="sr-only">Clear search</span>
     <svg
       fill="none"
       stroke="currentColor"
