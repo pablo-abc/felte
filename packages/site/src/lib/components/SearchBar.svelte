@@ -184,13 +184,24 @@
     if (typeof document === 'undefined') return;
     document.removeEventListener('keydown', handleKeyDown);
   });
+
+  let a11yStatus = '';
+  $: {
+    if (searchValue.length >= 3) {
+      if (foundItems.length > 0) {
+        a11yStatus = `${foundItems.length} ${foundItems.length === 1 ? 'result' : 'results'} available. Navigate using the up and down arrow keys. Press enter to select.`;
+      } else {
+        a11yStatus = 'No results available.';
+      }
+    } else {
+      a11yStatus = '';
+    }
+  }
 </script>
 
 <span class="sr-only" aria-live="polite" role="status" aria-atomic="true">
-  {#if foundItems.length > 0 && searchValue.length >= 3}
-    <span>{foundItems.length} results available.</span>
-    <span>Navigate using the up and down arrow keys.</span>
-    <span>Press enter to select.</span>
+  {#if a11yStatus}
+    {a11yStatus}
   {/if}
 </span>
 <form
