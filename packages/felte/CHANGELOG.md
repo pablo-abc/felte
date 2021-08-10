@@ -1,5 +1,36 @@
 # felte
 
+## 0.7.13
+
+### Patch Changes
+
+- 5bb4a02: Add data-felte-ignore attribute to make Felte completely ignore an input
+- Updated dependencies [5bb4a02]
+  - @felte/core@0.1.6
+
+## 0.7.12
+
+### Patch Changes
+
+- Updated dependencies [6b8aafb]
+  - @felte/core@0.1.5
+
+## 0.7.11
+
+### Patch Changes
+
+- 16ff018: Export ES module as default
+- Updated dependencies [16ff018]
+  - @felte/core@0.1.4
+
+## 0.7.10
+
+### Patch Changes
+
+- e6034c0: Use `Record<string, any>` for config type in order to allow interfaces to be passed as types
+- Updated dependencies [e6034c0]
+  - @felte/core@0.1.3
+
 ## 0.7.9
 
 ### Patch Changes

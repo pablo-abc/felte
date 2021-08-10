@@ -20,7 +20,6 @@ const name = pkg.name
 export default [
   {
     input: './src/index.ts',
-    external: ['tippy.js'],
     output: {
       file: pkg.browser,
       format: 'umd',
@@ -44,7 +43,6 @@ export default [
   },
   {
     input: ['./src/index.ts', ...modules],
-    external: ['tippy.js'],
     output: {
       dir: 'dist/esm',
       format: 'esm',

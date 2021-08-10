@@ -21,11 +21,11 @@ Extend Felte with the `validator` extender and add your schema to the `validateS
 
 ```javascript
 import { validator } from '@felte/validator-zod';
-import * as zod from 'zod';
+import { z } from 'zod';
 
-const schema = zod.object({
-  email: zod.string().email().nonempty(),
-  password: zod.string().nonempty(),
+const schema = z.object({
+  email: z.string().email().nonempty(),
+  password: z.string().nonempty(),
 });
 
 const { form } = createForm({
@@ -40,11 +40,11 @@ OR use the `validateSchema` function directly in the `validate` option of `creat
 
 ```javascript
 import { validateSchema } from '@felte/validator-zod';
-import * as zod from 'zod';
+import { z } from 'zod';
 
-const schema = zod.object({
-  email: zod.string().email().nonempty(),
-  password: zod.string().nonempty(),
+const schema = z.object({
+  email: z.string().email().nonempty(),
+  password: z.string().nonempty(),
 });
 
 const { form } = createForm({
@@ -60,6 +60,12 @@ For typechecking add the exported type `ValidatorConfig` as a second argument to
 
 ```typescript
 import type { ValidatorConfig } from '@felte/validator-zod';
+import { z } from 'zod';
 
-const { form } = createForm<YourDataType, ValidatorConfig>(/* ... */);
+const schema = z.object({
+  email: z.string().email().nonempty(),
+  password: z.string().nonempty(),
+});
+
+const { form } = createForm<z.infer<typeof schema>, ValidatorConfig>(/* ... */);
 ```

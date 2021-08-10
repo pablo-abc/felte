@@ -1,6 +1,6 @@
 {
   "name": "@felte/core",
-  "version": "0.1.2",
+  "version": "0.1.6",
   "description": "Core package for FelteJS",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -38,7 +38,8 @@
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "require": "./dist/index.js",
+      "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   }

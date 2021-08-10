@@ -44,13 +44,9 @@ export function validator<Data extends Obj = Obj>(
   currentForm: CurrentForm<Data>
 ): ExtenderHandler<Data> {
   if (currentForm.form) return {};
-  const validate = currentForm.config.validate;
   const validateFn = validateSchema<Data>(
     currentForm.config.validateSchema as ZodTypeAny
   );
-  if (validate && Array.isArray(validate))
-    currentForm.config.validate = [...validate, validateFn];
-  else if (validate) currentForm.config.validate = [validate, validateFn];
-  else currentForm.config.validate = [validateFn];
+  currentForm.addValidator(validateFn);
   return {};
 }

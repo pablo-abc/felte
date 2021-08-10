@@ -10,13 +10,7 @@ export async function get({ query, params }) {
 
   if (docs) {
     return {
-      body: docs.map((section) => ({
-        attributes: {
-          id: section.attributes.id,
-          section: section.attributes.section,
-          subsections: section.attributes.subsections,
-        },
-      })),
+      body: docs,
     };
   } else {
     return {

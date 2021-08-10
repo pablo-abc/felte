@@ -9,6 +9,7 @@ import type {
   Obj,
   Stores,
   Touched,
+  ValidationFunction,
 } from '@felte/common';
 import type { DispatchEvent } from './custom-events';
 import {
@@ -33,6 +34,7 @@ import {
   getIndex,
   isSelectElement,
   getPathFromDataset,
+  shouldIgnore,
 } from '@felte/common';
 import { get } from 'svelte/store';
 
@@ -41,6 +43,7 @@ type CreateHelpersOptions<Data extends Obj> = {
   stores: Stores<Data>;
   currentExtenders: ExtenderHandler<Data>[];
   extender: Extender<Data>[];
+  addValidator(validator: ValidationFunction<Data>): void;
 };
 
 function isDispatchEvent(event: DispatchEvent | Event): event is DispatchEvent {
@@ -53,6 +56,7 @@ export function createHelpers<Data extends Obj>({
   config,
   currentExtenders,
   extender,
+  addValidator,
 }: CreateHelpersOptions<Data>) {
   const { isSubmitting, data, touched, errors } = stores;
 
@@ -69,6 +73,7 @@ export function createHelpers<Data extends Obj>({
         return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
       });
       if (currentErrors) {
+        errors.set(currentErrors);
         const hasErrors = deepSome(currentErrors, (error) => !!error);
         if (hasErrors) {
           currentExtenders.forEach((extender) =>
@@ -158,6 +163,7 @@ export function createHelpers<Data extends Obj>({
         errors,
         touched,
         config,
+        addValidator,
       });
     }
     currentExtenders = extender.map(callExtender);
@@ -234,7 +240,12 @@ export function createHelpers<Data extends Obj>({
       let inputValue: FieldValue;
       if (!isDispatchEvent(e)) {
         const target = e.target;
-        if (!target || !isFormControl(target) || isSelectElement(target))
+        if (
+          !target ||
+          !isFormControl(target) ||
+          isSelectElement(target) ||
+          shouldIgnore(target)
+        )
           return;
         if (['checkbox', 'radio', 'file'].includes(target.type)) return;
         if (!target.name) return;
@@ -254,7 +265,7 @@ export function createHelpers<Data extends Obj>({
       let path: string;
       if (!isDispatchEvent(e)) {
         const target = e.target;
-        if (!target || !isFormControl(target)) return;
+        if (!target || !isFormControl(target) || shouldIgnore(target)) return;
         if (!target.name) return;
         path = getPath(target);
         if (isSelectElement(target)) {
@@ -279,7 +290,7 @@ export function createHelpers<Data extends Obj>({
       let path: string;
       if (!isDispatchEvent(e)) {
         const target = e.target;
-        if (!target || !isFormControl(target)) return;
+        if (!target || !isFormControl(target) || shouldIgnore(target)) return;
         if (!target.name) return;
         path = getPath(target);
       } else {

@@ -33,6 +33,7 @@ import {
   getInputTextOrNumber,
   getIndex,
   getPathFromDataset,
+  shouldIgnore,
 } from '../src';
 
 function createLoginForm() {
@@ -101,7 +102,8 @@ function createSignupForm() {
   const firstNameInput = createInputElement({ name: 'firstName' });
   const lastNameInput = createInputElement({ name: 'lastName' });
   const bioInput = createInputElement({ name: 'bio' });
-  profileFieldset.append(firstNameInput, lastNameInput, bioInput);
+  const ageInput = createInputElement({ name: 'age', type: 'number' });
+  profileFieldset.append(firstNameInput, lastNameInput, bioInput, ageInput);
   formElement.appendChild(profileFieldset);
   const pictureInput = createInputElement({
     name: 'profile.picture',
@@ -184,6 +186,7 @@ function createSignupForm() {
     firstNameInput,
     lastNameInput,
     bioInput,
+    ageInput,
     pictureInput,
     extraPicsInput,
     techCheckbox,
@@ -493,6 +496,7 @@ describe('Utils', () => {
         lastName: 'Soplica',
         bio: 'bio',
         picture: undefined,
+        age: 0,
       },
       extra: {
         pictures: [],
@@ -767,5 +771,17 @@ describe('Utils', () => {
       1
     );
     expect(getIndex(multipleInput[0])).toBe(0);
+  });
+
+  test('shouldIgnore', () => {
+    const ignoredInput = createInputElement({ type: 'text', name: 'test' });
+    ignoredInput.setAttribute('data-felte-ignore', '');
+    expect(shouldIgnore(ignoredInput)).toBe(true);
+    const input = createInputElement({ type: 'text', name: 'test' });
+    const container = document.createElement('div');
+    container.appendChild(input);
+    expect(shouldIgnore(input)).toBe(false);
+    container.setAttribute('data-felte-ignore', '');
+    expect(shouldIgnore(input)).toBe(true);
   });
 });

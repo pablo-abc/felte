@@ -1,6 +1,6 @@
 {
   "name": "felte",
-  "version": "0.7.9",
+  "version": "0.7.13",
   "description": "An extensible form library for Svelte",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -44,7 +44,8 @@
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "require": "./dist/index.js",
+      "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   }

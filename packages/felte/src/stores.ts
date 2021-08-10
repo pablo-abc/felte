@@ -7,9 +7,9 @@ import {
   _isPlainObject,
   _mergeWith,
 } from '@felte/core';
-import type { Errors, FormConfig, Touched, Stores } from '@felte/core';
+import type { Errors, FormConfig, Touched, Stores, Obj } from '@felte/core';
 
-export function createStores<Data extends Record<string, unknown>>(
+export function createStores<Data extends Obj>(
   config: FormConfig<Data>
 ): Stores<Data> {
   const initialTouched: Touched<Data> = deepSet<Data, boolean>(

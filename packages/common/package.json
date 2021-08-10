@@ -1,6 +1,6 @@
 {
   "name": "@felte/common",
-  "version": "0.4.7",
+  "version": "0.4.10",
   "description": "Common utilities for Felte packages",
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/common",
@@ -39,7 +39,8 @@
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
-      "require": "./dist/index.js"
+      "require": "./dist/index.js",
+      "default": "./dist/esm/index.js"
     },
     "./dist/utils/*": "./dist/esm/utils/*.js",
     "./package.json": "./package.json"

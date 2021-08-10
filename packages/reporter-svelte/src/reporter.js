@@ -37,10 +37,10 @@ export function svelteReporter(currentForm) {
       unsubscribe();
     },
     onSubmitError() {
-      const firstInvalidElement = currentForm?.form.querySelector(
-        '[data-felte-validation-message]'
-      );
-      firstInvalidElement?.focus();
+      const firstInvalidElement =
+        currentForm &&
+        currentForm.form.querySelector('[data-felte-validation-message]');
+      firstInvalidElement && firstInvalidElement.focus();
     },
   };
 }

@@ -18,6 +18,7 @@ import type {
   Touched,
   Stores,
   Obj,
+  ValidationFunction,
 } from '@felte/common';
 
 export type Adapters<Data extends Obj> = {
@@ -32,10 +33,7 @@ export type Adapters<Data extends Obj> = {
  *
  * @category Main
  */
-export function createForm<
-  Data extends Record<string, unknown>,
-  Ext extends Obj = Obj
->(
+export function createForm<Data extends Obj, Ext extends Obj = Obj>(
   config: FormConfigWithInitialValues<Data> & Ext,
   adapters: Adapters<Data>
 ): Form<Data>;
@@ -45,29 +43,34 @@ export function createForm<
  *
  * @param config - Configuration for the form itself. Since `initialValues` is not set (when only using the `form` action), `Data` will be undefined until the `form` element loads.
  */
-export function createForm<
-  Data extends Record<string, unknown>,
-  Ext extends Obj = Obj
->(
+export function createForm<Data extends Obj, Ext extends Obj = Obj>(
   config: FormConfigWithoutInitialValues<Data> & Ext,
   adapters: Adapters<Data>
 ): Form<Data>;
-export function createForm<
-  Data extends Record<string, unknown>,
-  Ext extends Obj = Obj
->(config: FormConfig<Data> & Ext, adapters: Adapters<Data>): Form<Data> {
-  config.reporter ??= [];
+export function createForm<Data extends Obj, Ext extends Obj = Obj>(
+  config: FormConfig<Data> & Ext,
+  adapters: Adapters<Data>
+): Form<Data> {
   config.extend ??= [];
   config.touchTriggerEvents ??= { change: true, blur: true };
   if (config.validate && !Array.isArray(config.validate))
     config.validate = [config.validate];
-  const reporter = Array.isArray(config.reporter)
-    ? config.reporter
-    : [config.reporter];
-  const extender = [
-    ...reporter,
-    ...(Array.isArray(config.extend) ? config.extend : [config.extend]),
-  ];
+
+  function addValidator(validator: ValidationFunction<Data>) {
+    if (!config.validate) {
+      config.validate = [validator];
+    } else {
+      config.validate = [
+        ...(config.validate as ValidationFunction<Data>[]),
+        validator,
+      ];
+    }
+  }
+
+  const extender = Array.isArray(config.extend)
+    ? config.extend
+    : [config.extend];
+
   let currentExtenders: ExtenderHandler<Data>[] = [];
   const { isSubmitting, data, errors, touched, isValid } = adapters.stores;
 
@@ -77,6 +80,7 @@ export function createForm<
       touched,
       data,
       config,
+      addValidator,
     })
   );
 
@@ -84,6 +88,7 @@ export function createForm<
     currentExtenders,
     extender,
     config,
+    addValidator,
     stores: {
       data,
       errors,

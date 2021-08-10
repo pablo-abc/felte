@@ -99,7 +99,7 @@ label input {
   font-size: 1em;
   border: 1px solid #aaa;
   border-radius: 10px;
-  padding: 0.3em;
+  padding: 0.3rem 1rem;
   background: var(--on-primary-color);
   height: 3rem;
   width: 18rem;

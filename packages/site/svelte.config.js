@@ -1,3 +1,4 @@
+import preprocess from 'svelte-preprocess';
 import { mdsvex } from 'mdsvex';
 import mdsvexConfig from './mdsvex.config.js';
 import adapter from '@sveltejs/adapter-static';
@@ -11,7 +12,12 @@ function getFrameworkRoutes(framework) {
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-  preprocess: [mdsvex(mdsvexConfig)],
+  preprocess: [
+    mdsvex(mdsvexConfig),
+    preprocess({
+      postcss: true,
+    }),
+  ],
   extensions: ['.svelte', ...mdsvexConfig.extensions],
   kit: {
     // By default, `npm run build` will create a standard Node app.
@@ -24,7 +30,7 @@ const config = {
 
     vite: {
       ssr: {
-        noExternal: ['svelte-portal'],
+        noExternal: ['svelte-portal', 'marked'],
         external: ['fs/promises'],
       },
     },
@@ -34,6 +40,8 @@ const config = {
         '*',
         '/docs/solid',
         '/docs/svelte',
+        '/docs/solid/search',
+        '/docs/svelte/search',
         ...getFrameworkRoutes('solid'),
         ...getFrameworkRoutes('svelte'),
       ],

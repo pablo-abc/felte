@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "target": "esnext",
+    "target": "es2017",
     "newLine": "LF",
     "moduleResolution": "node",
     "strict": true,

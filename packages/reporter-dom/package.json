@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-dom",
-  "version": "0.3.3",
+  "version": "0.3.6",
   "description": "An error reporter for Felte using the DOM",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -29,7 +29,7 @@
     "@felte/common": "workspace:*"
   },
   "devDependencies": {
-    "felte": "^0.7.9"
+    "felte": "workspace:*"
   },
   "publishConfig": {
     "access": "public"
@@ -37,7 +37,8 @@
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "require": "./dist/index.js",
+      "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   }

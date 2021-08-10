@@ -159,6 +159,7 @@ function createSignupForm() {
     extraPreferences1,
     extraPreferences2,
     selectElement,
+    accountFieldset,
   };
 }
 
@@ -728,6 +729,55 @@ describe('User interactions with form', () => {
     await waitFor(() => {
       expect(mockOnSubmit).toHaveBeenCalled();
       expect(get(isSubmitting)).toBeFalsy();
+    });
+  });
+
+  test('ignores inputs with data-felte-ignore', async () => {
+    type Data = {
+      account: {
+        email: string;
+        password: string;
+        confirmPassword: string;
+        showPassword: boolean;
+        publicEmail?: 'yes' | 'no';
+      };
+      profile: {
+        firstName: string;
+        lastName: string;
+        bio: string;
+        picture: any;
+      };
+      extra: {
+        pictures: any[];
+      };
+      preferences: any[];
+    };
+    const {
+      formElement,
+      accountFieldset,
+      emailInput,
+      passwordInput,
+      firstNameInput,
+      lastNameInput,
+      publicEmailYesRadio,
+    } = createSignupForm();
+    accountFieldset.setAttribute('data-felte-ignore', '');
+    firstNameInput.setAttribute('data-felte-ignore', '');
+    const { data, form } = createForm<Data>({
+      onSubmit: jest.fn(),
+    });
+    form(formElement);
+    userEvent.type(emailInput, 'jacek@soplica.com');
+    userEvent.type(passwordInput, 'password');
+    userEvent.type(firstNameInput, 'Jacek');
+    userEvent.type(lastNameInput, 'Soplica');
+    userEvent.click(publicEmailYesRadio);
+    await waitFor(() => {
+      expect(get(data).profile.lastName).toBe('Soplica');
+      expect(get(data).profile.firstName).toBe('');
+      expect(get(data).account.email).toBe('');
+      expect(get(data).account.password).toBe('');
+      expect(get(data).account.publicEmail).toBe(undefined);
     });
   });
 });

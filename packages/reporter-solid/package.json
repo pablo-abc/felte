@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-solid",
-  "version": "0.1.4",
+  "version": "0.1.8",
   "description": "An error reporter for Felte using a Solid component",
   "main": "dist/index.js",
   "sideEffects": false,
@@ -28,8 +28,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc && rollup -c",
-    "dev": "tsc-watch --onSuccess 'rollup -c'",
+    "build": "rollup -c",
+    "dev": "rollup -cw",
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {

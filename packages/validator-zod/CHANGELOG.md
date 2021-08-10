@@ -1,5 +1,19 @@
 # @felte/validator-zod
 
+## 0.3.2
+
+### Patch Changes
+
+- 0bce41e: Fix rollup config for validators
+
+## 0.3.1
+
+### Patch Changes
+
+- 16ff018: Export ES module as default
+- Updated dependencies [16ff018]
+  - @felte/common@0.4.9
+
 ## 0.3.0
 
 ### Minor Changes

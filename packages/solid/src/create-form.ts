@@ -5,7 +5,6 @@ import type {
   FormConfig,
   FormConfigWithInitialValues,
   FormConfigWithoutInitialValues,
-  Obj,
   Errors,
   Touched,
   CreateSubmitHandlerConfig,
@@ -14,6 +13,8 @@ import type {
 import type { Accessor } from 'solid-js';
 import type { Store } from 'solid-js/store';
 import type { Observables } from './stores';
+
+type Obj = Record<string, any>;
 
 export type Stores<Data extends Obj> = {
   data: Store<Data>;
@@ -55,24 +56,21 @@ export type Form<Data extends Obj> = {
  *
  * @category Main
  */
-export function createForm<
-  Data extends Record<string, unknown>,
-  Ext extends Obj = Obj
->(config: FormConfigWithInitialValues<Data> & Ext): Form<Data>;
+export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
+  config: FormConfigWithInitialValues<Data> & Ext
+): Form<Data>;
 /**
  * Creates the stores and `form` action to make the form reactive.
  * In order to use auto-subscriptions with the stores, call this function at the top-level scope of the component.
  *
  * @param config - Configuration for the form itself. Since `initialValues` is not set (when only using the `form` action), `Data` will be undefined until the `form` element loads.
  */
-export function createForm<
-  Data extends Record<string, unknown>,
-  Ext extends Obj = Obj
->(config: FormConfigWithoutInitialValues<Data> & Ext): Form<Data>;
-export function createForm<
-  Data extends Record<string, unknown>,
-  Ext extends Obj = Obj
->(config: FormConfig<Data> & Ext): Form<Data> {
+export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
+  config: FormConfigWithoutInitialValues<Data> & Ext
+): Form<Data>;
+export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
+  config: FormConfig<Data> & Ext
+): Form<Data> {
   const stores = createStores(config);
   const { form: formAction, ...rest } = coreCreateForm(config, { stores });
   function form(node: HTMLFormElement) {
