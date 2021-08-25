@@ -19,7 +19,9 @@ export function _mergeWith<T extends Obj>(...args: any[]): T {
         obj[key] = _mergeWith(obj[key], source[key], customizer);
       } else if (Array.isArray(source[key])) {
         obj[key] = source[key].map((val: Obj, i: number) => {
-          return _mergeWith(obj[key]?.[i], val, customizer);
+          if (!_isPlainObject(val)) return val;
+          const newObj = Array.isArray(obj[key]) ? obj[key][i] : obj[key];
+          return _mergeWith(newObj, val, customizer);
         });
       } else if (_isPlainObject(source[key])) {
         const defaultObj = deepSet(_cloneDeep(source[key]), undefined);

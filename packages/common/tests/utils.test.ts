@@ -617,6 +617,7 @@ describe('Utils', () => {
       },
       leftAlone: 'original',
       objectArray: [{ value: 'test' }, { value: 'test' }],
+      stringArray: ['test', 'test2'],
     };
     const source1 = {
       account: {
@@ -628,7 +629,9 @@ describe('Utils', () => {
       },
       added: 'value',
       objectArray: [{ otherValue: 'test' }, { otherValue: 'test' }],
+      stringArray: ['test3', 'test4'],
     };
+    expect(_merge({}, source1)).toEqual(source1);
     expect(_merge(obj, source1)).toEqual({
       account: {
         email: 'overriden',
@@ -644,6 +647,7 @@ describe('Utils', () => {
         { otherValue: 'test', value: 'test' },
         { otherValue: 'test', value: 'test' },
       ],
+      stringArray: ['test3', 'test4'],
     });
     expect(_merge({}, obj, source1)).toEqual({
       account: {
@@ -660,6 +664,7 @@ describe('Utils', () => {
         { otherValue: 'test', value: 'test' },
         { otherValue: 'test', value: 'test' },
       ],
+      stringArray: ['test3', 'test4'],
     });
     expect(obj).toEqual({
       account: {
@@ -669,6 +674,7 @@ describe('Utils', () => {
       },
       leftAlone: 'original',
       objectArray: [{ value: 'test' }, { value: 'test' }],
+      stringArray: ['test', 'test2'],
     });
     expect(source1).toEqual({
       account: {
@@ -680,6 +686,7 @@ describe('Utils', () => {
       },
       added: 'value',
       objectArray: [{ otherValue: 'test' }, { otherValue: 'test' }],
+      stringArray: ['test3', 'test4'],
     });
   });
 
