@@ -1,5 +1,15 @@
 # @felte/reporter-cvapi
 
+## 0.1.15
+
+### Patch Changes
+
+- 2d3b213: BREAKING: Remove `reporter` configuration option in favor of `extend`.
+- Updated dependencies [a7e7e35]
+- Updated dependencies [2d3b213]
+- Updated dependencies [de71f43]
+  - @felte/common@0.5.0
+
 ## 0.1.14
 
 ### Patch Changes

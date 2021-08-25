@@ -1,5 +1,17 @@
 # felte
 
+## 0.8.0
+
+### Minor Changes
+
+- 2d3b213: BREAKING: Remove `reporter` configuration option in favor of `extend`.
+
+### Patch Changes
+
+- Updated dependencies [2d3b213]
+- Updated dependencies [de71f43]
+  - @felte/core@0.2.0
+
 ## 0.7.13
 
 ### Patch Changes

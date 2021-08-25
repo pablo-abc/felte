@@ -151,16 +151,16 @@ importers:
 
   packages/multi-step:
     specifiers:
-      '@felte/common': ^0.4.9
-      felte: ^0.7.11
+      '@felte/common': ^0.5.0
+      felte: ^0.8.0
     devDependencies:
       '@felte/common': link:../common
       felte: link:../felte
 
   packages/reporter-cvapi:
     specifiers:
-      '@felte/common': ^0.4.9
-      felte: ^0.7.11
+      '@felte/common': ^0.5.0
+      felte: ^0.8.0
     dependencies:
       '@felte/common': link:../common
     devDependencies:
@@ -230,16 +230,16 @@ importers:
 
   packages/site:
     specifiers:
-      '@felte/reporter-dom': ^0.3.6
-      '@felte/reporter-svelte': ^0.3.14
-      '@felte/reporter-tippy': ^0.3.6
-      '@felte/validator-yup': ^0.2.7
+      '@felte/reporter-dom': ^0.3.7
+      '@felte/reporter-svelte': ^0.3.15
+      '@felte/reporter-tippy': ^0.3.7
+      '@felte/validator-yup': ^0.2.8
       '@sveltejs/adapter-static': 1.0.0-next.16
       '@sveltejs/kit': 1.0.0-next.146
       autoprefixer: ^10.3.1
       cssnano: ^5.0.6
       eslint-plugin-svelte3: ^3.2.0
-      felte: ^0.7.13
+      felte: ^0.8.0
       flexsearch: ^0.7.21
       focus-visible: ^5.2.0
       front-matter: ^4.0.2
@@ -302,8 +302,8 @@ importers:
 
   packages/validator-superstruct:
     specifiers:
-      '@felte/common': ^0.4.9
-      felte: ^0.7.11
+      '@felte/common': ^0.5.0
+      felte: ^0.8.0
       superstruct: ^0.15.0
     dependencies:
       '@felte/common': link:../common
@@ -313,8 +313,8 @@ importers:
 
   packages/validator-yup:
     specifiers:
-      '@felte/common': ^0.4.9
-      felte: ^0.7.11
+      '@felte/common': ^0.5.0
+      felte: ^0.8.0
       yup: ^0.32.9
     dependencies:
       '@felte/common': link:../common
@@ -324,8 +324,8 @@ importers:
 
   packages/validator-zod:
     specifiers:
-      '@felte/common': ^0.4.9
-      felte: ^0.7.11
+      '@felte/common': ^0.5.0
+      felte: ^0.8.0
       zod: ^3.2.0
     dependencies:
       '@felte/common': link:../common

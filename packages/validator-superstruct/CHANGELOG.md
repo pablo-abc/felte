@@ -1,5 +1,15 @@
 # @felte/validator-superstruct
 
+## 0.2.8
+
+### Patch Changes
+
+- de71f43: Add `addValidator` utility for extenders
+- Updated dependencies [a7e7e35]
+- Updated dependencies [2d3b213]
+- Updated dependencies [de71f43]
+  - @felte/common@0.5.0
+
 ## 0.2.7
 
 ### Patch Changes

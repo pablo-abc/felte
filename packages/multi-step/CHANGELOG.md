@@ -1,5 +1,12 @@
 # @felte/multi-step
 
+## 1.0.0
+
+### Patch Changes
+
+- Updated dependencies [2d3b213]
+  - felte@0.8.0
+
 ## 0.1.2
 
 ### Patch Changes
