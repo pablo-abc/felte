@@ -112,6 +112,12 @@ export function createHelpers<Data extends Obj>({
     touched.update(($touched) => _set($touched, path, true));
   }
 
+  function setUntouched(fieldName: string, index?: number): void {
+    const path =
+      typeof index === 'undefined' ? fieldName : `${fieldName}[${index}]`;
+    touched.update(($touched) => _set($touched, path, false));
+  }
+
   function setError(path: string, error: string | string[]): void {
     errors.update(($errors) => _set($errors, path, error));
   }
@@ -386,6 +392,7 @@ export function createHelpers<Data extends Obj>({
     createSubmitHandler,
     reset,
     setTouched,
+    setUntouched,
     setError,
     setField,
     setFields,

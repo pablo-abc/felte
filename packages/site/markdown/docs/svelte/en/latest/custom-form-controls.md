@@ -84,7 +84,7 @@ Another way of handling this scenario is by binding directly the value of the in
 
 ### Helpers
 
-You may also use any of the returned [helpers from `createForm`](/docs/helper-functions) for this as well.
+You may also use any of the returned [helpers from `createForm`](/docs/svelte/helper-functions) for this as well.
 
 ```html
 <script>
