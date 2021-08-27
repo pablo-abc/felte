@@ -252,7 +252,7 @@ importers:
       prettier: ^2.2.1
       svelte: ^3.31.0
       svelte-focus-on: ^0.1.4
-      svelte-markdown: ^0.1.7
+      svelte-markdown: ^0.1.11
       svelte-portal: ^2.1.2
       svelte-preprocess: ^4.7.4
       tippy.js: ^6.3.1
@@ -266,7 +266,7 @@ importers:
       flexsearch: 0.7.21
       focus-visible: 5.2.0
       html-minifier: 4.0.0
-      svelte-markdown: 0.1.7_svelte@3.37.0
+      svelte-markdown: 0.1.11_svelte@3.37.0
       svelte-portal: 2.1.2
     devDependencies:
       '@sveltejs/adapter-static': 1.0.0-next.16
@@ -2852,6 +2852,10 @@ packages:
   /@types/lodash/4.14.168:
     resolution: {integrity: sha512-oVfRvqHV/V6D1yifJbVRU3TMp8OT6o6BG+U9MkwuJ3U8/CsDHvalRpsxBqivn71ztOFZBTfJMvETbqHiaNSj7Q==}
     dev: true
+
+  /@types/marked/2.0.5:
+    resolution: {integrity: sha512-shRZ7XnYFD/8n8zSjKvFdto1QNSf4tONZIlNEZGrJe8GsOE8DL/hG1Hbl8gZlfLnjS7+f5tZGIaTgfpyW38h4w==}
+    dev: false
 
   /@types/minimist/1.2.1:
     resolution: {integrity: sha512-fZQQafSREFyuZcdWFAExYjBiCL7AUCdgsk80iO0q4yihYYdcIiH28CcuPTGFgLOCC8RlW49GSQxdHwZP+I7CNg==}
@@ -8861,6 +8865,16 @@ packages:
       svelte: 3.37.0
     dev: true
 
+  /svelte-markdown/0.1.11_svelte@3.37.0:
+    resolution: {integrity: sha512-PTjn51vJbshe8mq8+69Lt3xGvCHK3EL1gJra+52mTscZucUpf1mSIT5bRh4gcJFpXv8aYoXmfCZ6BYFFAPsSig==}
+    peerDependencies:
+      svelte: ^3.0.0
+    dependencies:
+      '@types/marked': 2.0.5
+      marked: 2.0.3
+      svelte: 3.37.0
+    dev: false
+
   /svelte-markdown/0.1.6_svelte@3.37.0:
     resolution: {integrity: sha512-oUZyPqglQtrYySlnjctjtPZ0WiJP2xU9VcRWKYWjhbpTU4b7i7UPjF4FEmnDM8dMvLC5/aFC3kULKwOaW0gzug==}
     peerDependencies:
@@ -8869,15 +8883,6 @@ packages:
       marked: 2.0.3
       svelte: 3.37.0
     dev: true
-
-  /svelte-markdown/0.1.7_svelte@3.37.0:
-    resolution: {integrity: sha512-9CUMbxoVkAJoAycXkqXRRzLJrX1mUGEiqmk9jdbKXDlEoKppJN/ftuOyb7/2UhCvxKhpUPWLZ7GQ2YInrZaDOg==}
-    peerDependencies:
-      svelte: ^3.0.0
-    dependencies:
-      marked: 2.0.3
-      svelte: 3.37.0
-    dev: false
 
   /svelte-portal/2.1.2:
     resolution: {integrity: sha512-u1ONI4ZJDNhVJPDW7tH6RH1ZIzALt6kJZbF00Hz9bgNIVRlzvzimsnwf35rGFMtPFA+FYenvsTHUR815yYNc9A==}
