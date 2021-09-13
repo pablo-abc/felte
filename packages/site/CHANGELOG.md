@@ -1,5 +1,17 @@
 # @felte/site
 
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies [2d3b213]
+- Updated dependencies [de71f43]
+  - felte@0.8.0
+  - @felte/reporter-dom@0.3.7
+  - @felte/reporter-tippy@0.3.7
+  - @felte/validator-yup@0.2.8
+  - @felte/reporter-svelte@0.3.15
+
 ## 0.0.6
 
 ### Patch Changes
