@@ -182,17 +182,6 @@ export function createHelpers<Data extends Obj>({
           configurable: true,
           set(newValue) {
             prop?.set?.call(control, newValue);
-            if (
-              isSelectElement(control) ||
-              (isInputElement(control) &&
-                ['checkbox', 'radio', 'file'].includes(control.type))
-            ) {
-              if (config.touchTriggerEvents?.change)
-                setTouched(getPath(control));
-            } else {
-              if (config.touchTriggerEvents?.input)
-                setTouched(getPath(control));
-            }
 
             if (isInputElement(control)) {
               if (control.type === 'checkbox')
