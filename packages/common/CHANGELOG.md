@@ -1,5 +1,11 @@
 # @felte/common
 
+## 0.5.1
+
+### Patch Changes
+
+- 096f9a5: Pass a `context` to `onSubmit` calls
+
 ## 0.5.0
 
 ### Minor Changes

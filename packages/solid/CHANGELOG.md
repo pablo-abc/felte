@@ -1,5 +1,15 @@
 # @felte/solid
 
+## 0.2.1
+
+### Patch Changes
+
+- 096f9a5: Pass a `context` to `onSubmit` calls
+- f79c67f: Listen to programmatic changes of inputs
+- Updated dependencies [096f9a5]
+- Updated dependencies [f79c67f]
+  - @felte/core@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes
