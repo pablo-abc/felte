@@ -1,5 +1,11 @@
 # @felte/core
 
+## 0.2.2
+
+### Patch Changes
+
+- e1afd46: Fix proxy for select and textarea elements
+
 ## 0.2.1
 
 ### Patch Changes
