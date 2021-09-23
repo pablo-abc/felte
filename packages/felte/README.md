@@ -57,14 +57,20 @@ yarn add felte
 Felte exports a single `createForm` function that accepts a config object with the following interface:
 
 ```typescript
-export type ValidationFunction<Data extends Obj> = (
+type ValidationFunction<Data extends Obj> = (
   values: Data
 ) => Errors<Data> | undefined | Promise<Errors<Data> | undefined>;
+
+type SubmitContext<Data extends Obj> = {
+  form?: HTMLFormElement;
+  controls?: FormControl[];
+  config: FormConfig<Data>;
+};
 
 interface FormConfig<D extends Record<string, unknown>> {
   initialValues?: D;
   validate?: ValidationFunction<Data> | ValidationFunction<Data>[];
-  onSubmit: (values: D) => void;
+  onSubmit: (values: D, context: SubmitContext) => void;
   onError?: (errors: unknown) => void | Errors<D>;
   extend?: Extender | Extender[];
 }
