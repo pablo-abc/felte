@@ -192,4 +192,38 @@ describe('Form action DOM mutations', () => {
     destroy();
     expect(removeEventListener).toHaveBeenCalledTimes(4);
   });
+
+  test('Listens to programmatic changes of inputs', async () => {
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const textInput = createInputElement({ type: 'text', name: 'text' });
+    const checkboxInput = createInputElement({
+      type: 'checkbox',
+      name: 'checkbox',
+    });
+    const fileInput = createInputElement({
+      type: 'file',
+      name: 'file',
+    });
+    formElement.append(textInput, checkboxInput, fileInput);
+    const { form, data } = createForm({ onSubmit: jest.fn() });
+    form(formElement);
+
+    expect(get(data)).toEqual({
+      text: '',
+      checkbox: false,
+      file: undefined,
+    });
+
+    textInput.value = 'test';
+    checkboxInput.checked = true;
+    fileInput.files = null;
+
+    await waitFor(() => {
+      expect(get(data)).toEqual({
+        text: 'test',
+        checkbox: true,
+        file: undefined,
+      });
+    });
+  });
 });
