@@ -181,7 +181,7 @@ importers:
       '@babel/preset-typescript': ^7.14.5
       '@felte/common': workspace:*
       '@rollup/plugin-babel': 5.3.0
-      '@rollup/plugin-node-resolve': 13.0.0
+      '@rollup/plugin-node-resolve': 13.0.5
       '@types/node': ^15.12.4
       babel-preset-solid: ^1.0.0
       rollup: ^2.52.1
@@ -195,7 +195,7 @@ importers:
       '@babel/core': 7.14.6
       '@babel/preset-typescript': 7.14.5_@babel+core@7.14.6
       '@rollup/plugin-babel': 5.3.0_@babel+core@7.14.6+rollup@2.52.7
-      '@rollup/plugin-node-resolve': 13.0.0_rollup@2.52.7
+      '@rollup/plugin-node-resolve': 13.0.5_rollup@2.52.7
       '@types/node': 15.12.4
       babel-preset-solid: 1.0.0_@babel+core@7.14.6
       rollup: 2.52.7
@@ -2591,8 +2591,8 @@ packages:
       rollup: 2.45.2
     dev: true
 
-  /@rollup/plugin-node-resolve/13.0.0_rollup@2.52.7:
-    resolution: {integrity: sha512-41X411HJ3oikIDivT5OKe9EZ6ud6DXudtfNrGbC4nniaxx2esiWjkLOzgnZsWq1IM8YIeL2rzRGLZLBjlhnZtQ==}
+  /@rollup/plugin-node-resolve/13.0.5_rollup@2.52.7:
+    resolution: {integrity: sha512-mVaw6uxtvuGx/XCI4qBQXsDZJUfyx5vp39iE0J/7Hd6wDhEbjHr6aES7Nr9yWbuE0BY+oKp6N7Bq6jX5NCGNmQ==}
     engines: {node: '>= 10.0.0'}
     peerDependencies:
       rollup: ^2.42.0
