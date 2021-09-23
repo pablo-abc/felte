@@ -21,6 +21,7 @@ import {
   getPath,
   isElement,
   isFormControl,
+  isTextAreaElement,
   isInputElement,
   setControlValue,
   setForm,
@@ -180,7 +181,11 @@ export function createHelpers<Data extends Obj>({
           propName = 'files';
         }
         const prop = Object.getOwnPropertyDescriptor(
-          HTMLInputElement.prototype,
+          isSelectElement(control)
+            ? HTMLSelectElement.prototype
+            : isTextAreaElement(control)
+            ? HTMLTextAreaElement.prototype
+            : HTMLInputElement.prototype,
           propName
         );
         Object.defineProperty(control, propName, {
