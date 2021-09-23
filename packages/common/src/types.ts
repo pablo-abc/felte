@@ -59,6 +59,13 @@ export type FormControl =
 export type ValidationFunction<Data extends Obj> = (
   values: Data
 ) => Errors<Data> | undefined | Promise<Errors<Data> | undefined>;
+
+export type SubmitContext<Data extends Obj> = {
+  form?: HTMLFormElement;
+  controls?: FormControl[];
+  config: FormConfig<Data>;
+};
+
 /**
  * Configuration object when `initialValues` is not set. Used when using the `form` action.
  */
@@ -66,7 +73,10 @@ export interface FormConfigWithoutInitialValues<Data extends Obj> {
   /** Optional function to validate the data. */
   validate?: ValidationFunction<Data> | ValidationFunction<Data>[];
   /** Required function to handle the form data on submit. */
-  onSubmit: (values: Data) => Promise<void> | void;
+  onSubmit: (
+    values: Data,
+    context: SubmitContext<Data>
+  ) => Promise<void> | void;
   /** Optional function that accepts any thrown exceptions from the onSubmit function. You can return an object with the same shape [[`Errors`]] for a reporter to use it. */
   onError?: (errors: unknown) => void | Errors<Data>;
   /** Optional function/s to extend Felte's functionality. */

@@ -8,6 +8,7 @@ import {
 import { createForm } from '../src';
 import userEvent from '@testing-library/user-event';
 import { get } from 'svelte/store';
+import { isFormControl } from '@felte/core';
 
 function createLoginForm() {
   const formElement = screen.getByRole('form') as HTMLFormElement;
@@ -359,6 +360,10 @@ describe('User interactions with form', () => {
             email: '',
             password: '',
           },
+        }),
+        expect.objectContaining({
+          form: formElement,
+          controls: Array.from(formElement.elements).filter(isFormControl),
         })
       );
       expect(get(isSubmitting)).toBeFalsy();

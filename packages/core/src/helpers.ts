@@ -81,7 +81,12 @@ export function createHelpers<Data extends Obj>({
         }
       }
       try {
-        await onSubmit(currentData);
+        await onSubmit(currentData, {
+          form: formNode,
+          controls:
+            formNode && Array.from(formNode.elements).filter(isFormControl),
+          config: { ...config, ...altConfig },
+        });
       } catch (e) {
         if (!onError) throw e;
         const serverErrors = onError(e);
