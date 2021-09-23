@@ -17,6 +17,7 @@ export const sections = {
     'multi-page-forms',
     'accessibility',
     'extending-felte',
+    'configuration-reference',
   ],
   solid: [
     'getting-started',
@@ -31,6 +32,7 @@ export const sections = {
     'custom-form-controls',
     'accessibility',
     'extending-felte',
+    'configuration-reference',
   ],
 };
 
