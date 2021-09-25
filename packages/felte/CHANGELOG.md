@@ -1,5 +1,12 @@
 # felte
 
+## 0.8.3
+
+### Patch Changes
+
+- Updated dependencies [3dcfe7c]
+  - @felte/core@0.2.3
+
 ## 0.8.2
 
 ### Patch Changes

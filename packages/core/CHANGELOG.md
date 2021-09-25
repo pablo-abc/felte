@@ -1,5 +1,11 @@
 # @felte/core
 
+## 0.2.3
+
+### Patch Changes
+
+- 3dcfe7c: Call submit handler on `HTMLFormElement.requestSubmit()`
+
 ## 0.2.2
 
 ### Patch Changes
