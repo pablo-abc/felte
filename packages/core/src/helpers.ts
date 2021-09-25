@@ -155,6 +155,7 @@ export function createHelpers<Data extends Obj>({
   const handleSubmit = createSubmitHandler();
 
   function form(node: HTMLFormElement) {
+    if (!node.requestSubmit) node.requestSubmit = handleSubmit;
     function callExtender(extender: Extender<Data>) {
       return extender({
         form: node,
