@@ -10,6 +10,7 @@ import type {
   Stores,
   Touched,
   ValidationFunction,
+  TransformFunction,
 } from '@felte/common';
 import {
   deepSet,
@@ -44,6 +45,7 @@ type CreateHelpersOptions<Data extends Obj> = {
   currentExtenders: ExtenderHandler<Data>[];
   extender: Extender<Data>[];
   addValidator(validator: ValidationFunction<Data>): void;
+  addTransformer(transformer: TransformFunction<Data>): void;
 };
 
 export function createHelpers<Data extends Obj>({
@@ -52,6 +54,7 @@ export function createHelpers<Data extends Obj>({
   currentExtenders,
   extender,
   addValidator,
+  addTransformer,
 }: CreateHelpersOptions<Data>) {
   const { isSubmitting, data, touched, errors } = stores;
 
@@ -165,6 +168,7 @@ export function createHelpers<Data extends Obj>({
         touched,
         config,
         addValidator,
+        addTransformer,
       });
     }
 

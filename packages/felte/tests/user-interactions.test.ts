@@ -767,4 +767,53 @@ describe('User interactions with form', () => {
       expect(get(data).account.publicEmail).toBe(undefined);
     });
   });
+
+  test('transforms data', async () => {
+    type Data = {
+      account: {
+        email: string;
+        password: string;
+        confirmPassword: string;
+        showPassword: boolean;
+        publicEmail?: boolean;
+      };
+      profile: {
+        firstName: string;
+        lastName: string;
+        bio: string;
+        picture: any;
+      };
+      extra: {
+        pictures: any[];
+      };
+      preferences: any[];
+    };
+    const {
+      formElement,
+      publicEmailYesRadio,
+      publicEmailNoRadio,
+    } = createSignupForm();
+    const { data, form } = createForm<Data>({
+      onSubmit: jest.fn(),
+      transform: (values: any) => {
+        if (values.account.publicEmail === 'yes') {
+          values.account.publicEmail = true;
+        } else {
+          values.account.publicEmail = false;
+        }
+        return values;
+      },
+    });
+
+    form(formElement);
+
+    userEvent.click(publicEmailYesRadio);
+    await waitFor(() => {
+      expect(get(data).account.publicEmail).toBe(true);
+    });
+    userEvent.click(publicEmailNoRadio);
+    await waitFor(() => {
+      expect(get(data).account.publicEmail).toBe(false);
+    });
+  });
 });

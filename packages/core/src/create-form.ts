@@ -7,6 +7,7 @@ import {
   _mergeWith,
   _merge,
   _defaultsDeep,
+  executeTransforms,
 } from '@felte/common';
 import { createHelpers } from './helpers';
 import type {
@@ -19,6 +20,7 @@ import type {
   Stores,
   Obj,
   ValidationFunction,
+  TransformFunction,
 } from '@felte/common';
 
 export type Adapters<Data extends Obj> = {
@@ -56,6 +58,9 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
   if (config.validate && !Array.isArray(config.validate))
     config.validate = [config.validate];
 
+  if (config.transform && !Array.isArray(config.transform))
+    config.transform = [config.transform];
+
   function addValidator(validator: ValidationFunction<Data>) {
     if (!config.validate) {
       config.validate = [validator];
@@ -67,12 +72,32 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
     }
   }
 
+  function addTransformer(transformer: TransformFunction<Data>) {
+    if (!config.transform) {
+      config.transform = [transformer];
+    } else {
+      config.transform = [
+        ...(config.transform as TransformFunction<Data>[]),
+        transformer,
+      ];
+    }
+  }
+
   const extender = Array.isArray(config.extend)
     ? config.extend
     : [config.extend];
 
   let currentExtenders: ExtenderHandler<Data>[] = [];
   const { isSubmitting, data, errors, touched, isValid } = adapters.stores;
+  const originalUpdate = data.update;
+  const originalSet = data.set;
+
+  data.update = (updater) =>
+    originalUpdate((values) =>
+      executeTransforms(updater(values), config.transform)
+    );
+  data.set = (values) =>
+    originalSet(executeTransforms(values, config.transform));
 
   currentExtenders = extender.map((extender) =>
     extender({
@@ -81,6 +106,7 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
       data,
       config,
       addValidator,
+      addTransformer,
     })
   );
 
@@ -89,6 +115,7 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
     extender,
     config,
     addValidator,
+    addTransformer,
     stores: {
       data,
       errors,
