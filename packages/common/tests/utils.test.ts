@@ -34,6 +34,7 @@ import {
   getIndex,
   getPathFromDataset,
   shouldIgnore,
+  executeTransforms,
 } from '../src';
 
 function createLoginForm() {
@@ -555,6 +556,34 @@ describe('Utils', () => {
         email: ['not an email', 'required'],
         password: 'required',
         confirmPassword: 'required',
+      },
+    });
+  });
+
+  test('executeTransforms', () => {
+    const mockValues: any = {
+      progress: {
+        percentage: 0.42,
+      },
+    };
+    const transformToBase100 = (values: any) => ({
+      progress: {
+        percentage: values.progress.percentage * 100,
+      },
+    });
+    const transformToString = (values: any) => ({
+      progress: {
+        percentage: String(values.progress.percentage.toFixed(0)) + '%',
+      },
+    });
+    expect(
+      executeTransforms(mockValues, [
+        transformToBase100,
+        transformToString,
+      ] as any[])
+    ).toEqual({
+      progress: {
+        percentage: '42%',
       },
     });
   });

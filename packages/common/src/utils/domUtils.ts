@@ -227,6 +227,5 @@ export function executeTransforms<Data extends Obj>(
 ): ReturnType<TransformFunction<Data>> {
   if (!transforms) return values as Data;
   if (!Array.isArray(transforms)) return transforms(values);
-  const dataArray = transforms.map((t) => t(values));
-  return _mergeWith<Data>(...dataArray, executeCustomizer);
+  return transforms.reduce((res, t) => t(res), values) as Data;
 }
