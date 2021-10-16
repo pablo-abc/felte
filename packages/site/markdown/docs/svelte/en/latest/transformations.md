@@ -16,4 +16,6 @@ const { form } = createForm({
 })
 ```
 
+These transformation functions run also when directly setting values to the `data` store (e.g. via `bind:value` or assigning to the `data` store directly).
+
 > **NOTE**: Transformations **must** be syncrhonous.
