@@ -4,14 +4,9 @@ import type {
   FieldValue,
   ValidationFunction,
   Errors,
+  TransformFunction,
 } from '../types';
-import {
-  isFormControl,
-  isFieldSetElement,
-  isInputElement,
-  isSelectElement,
-  isTextAreaElement,
-} from './typeGuards';
+import { isFormControl, isFieldSetElement, isInputElement } from './typeGuards';
 import { _mergeWith } from './mergeWith';
 import { _isPlainObject } from './isPlainObject';
 import { _get } from './get';
@@ -218,4 +213,13 @@ export async function executeValidation<Data extends Obj>(
   if (!Array.isArray(validations)) return validations(values);
   const errorArray = await Promise.all(validations.map((v) => v(values)));
   return _mergeWith<Errors<Data>>(...errorArray, executeCustomizer);
+}
+
+export function executeTransforms<Data extends Obj>(
+  values: Obj,
+  transforms?: TransformFunction<Data>[] | TransformFunction<Data>
+): ReturnType<TransformFunction<Data>> {
+  if (!transforms) return values as Data;
+  if (!Array.isArray(transforms)) return transforms(values);
+  return transforms.reduce((res, t) => t(res), values) as Data;
 }

@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { createForm } from 'felte';
+import { waitFor } from '@testing-library/dom';
 import type { ValidationFunction } from '@felte/common';
 import { validateSchema, validator } from '../src';
 import type { ValidatorConfig } from '../src';
@@ -231,6 +232,49 @@ describe('Validator yup', () => {
         email: 'not an email',
         password: null,
       },
+    });
+  });
+
+  test('casts values', async () => {
+    const schema = yup.object({
+      shouldBeNumber: yup
+        .mixed()
+        .test('number', 'not a number', (value) => !isNaN(value))
+        .transform((value) => parseInt(value, 10)),
+    });
+    const { data, errors, validate } = createForm<any, ValidatorConfig>({
+      validateSchema: schema,
+      extend: validator,
+      onSubmit: jest.fn(),
+      castValues: true,
+    });
+
+    data.set({
+      shouldBeNumber: '',
+    });
+
+    await validate();
+
+    expect(get(data)).toEqual({
+      shouldBeNumber: NaN,
+    });
+
+    expect(get(errors)).toEqual({
+      shouldBeNumber: 'not a number',
+    });
+
+    data.set({
+      shouldBeNumber: '42',
+    });
+
+    expect(get(data)).toEqual({
+      shouldBeNumber: 42,
+    });
+
+    await waitFor(() => {
+      expect(get(errors)).toEqual({
+        shouldBeNumber: null,
+      });
     });
   });
 });

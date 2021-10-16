@@ -54,6 +54,30 @@ const { form } = createForm({
 });
 ```
 
+## Casting values
+
+Unlike `yup`, by default this validator does **not** cast values. If you wish to have this behaviour you may set the `castValues` property to `true` on `createForm`'s configuration object.
+
+```javascript
+const { form } = createForm({
+  //...
+  validateSchema: schema,
+  castValues: true,
+  //...
+});
+```
+
+**NOTE**: `yup` throws if your schema fails to cast, **we do not catch this errors** so make sure your schema handles this appropriately to prevent your app from crashing. For example, lets assume we have a `text` input that should be cast to an integer. `yup`'s `number` rule would throw an error if a string is set so, in order to prevent your app from crashing, a custom rule would be needed:
+
+```javascript
+const schema = yup.object({
+  shouldBeNumber: yup
+    .mixed()
+    .test('number', 'Must be a number', value => !isNaN(value))
+    .transform(value => parseInt(value, 10)),
+});
+```
+
 ## Typescript
 
 For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.

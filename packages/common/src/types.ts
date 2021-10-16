@@ -22,6 +22,7 @@ export type CurrentForm<Data extends Obj> = {
   touched: Writable<Touched<Data>>;
   config: FormConfig<Data>;
   addValidator(validator: ValidationFunction<Data>): void;
+  addTransformer(transformer: TransformFunction<Data>): void;
 };
 
 export type OnSubmitErrorState<Data extends Obj> = {
@@ -60,6 +61,8 @@ export type ValidationFunction<Data extends Obj> = (
   values: Data
 ) => Errors<Data> | undefined | Promise<Errors<Data> | undefined>;
 
+export type TransformFunction<Data extends Obj> = (values: Obj) => Data;
+
 export type SubmitContext<Data extends Obj> = {
   form?: HTMLFormElement;
   controls?: FormControl[];
@@ -72,6 +75,8 @@ export type SubmitContext<Data extends Obj> = {
 export interface FormConfigWithoutInitialValues<Data extends Obj> {
   /** Optional function to validate the data. */
   validate?: ValidationFunction<Data> | ValidationFunction<Data>[];
+  /** Optional function to transform data before it gets set in the store. */
+  transform?: TransformFunction<Data> | TransformFunction<Data>[];
   /** Required function to handle the form data on submit. */
   onSubmit: (
     values: Data,
