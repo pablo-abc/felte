@@ -1,5 +1,13 @@
 # felte
 
+## 0.8.4
+
+### Patch Changes
+
+- 14b3645: Add `transform` feature
+- Updated dependencies [14b3645]
+  - @felte/core@0.2.4
+
 ## 0.8.3
 
 ### Patch Changes

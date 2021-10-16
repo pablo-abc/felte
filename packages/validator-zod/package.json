@@ -1,6 +1,6 @@
 {
   "name": "@felte/validator-zod",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "A package to use Zod validation with Felte",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -10,7 +10,13 @@
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/validator-zod",
-  "keywords": ["svelte", "forms", "validation", "felte", "zod"],
+  "keywords": [
+    "svelte",
+    "forms",
+    "validation",
+    "felte",
+    "zod"
+  ],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -24,7 +30,7 @@
     "@felte/common": "workspace:*"
   },
   "devDependencies": {
-    "felte": "^0.8.0",
+    "felte": "^0.8.4",
     "zod": "^3.2.0"
   },
   "peerDependencies": {
