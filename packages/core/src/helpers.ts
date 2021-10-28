@@ -174,7 +174,7 @@ export function createHelpers<Data extends Obj>({
 
     function proxyInputs() {
       for (const control of Array.from(node.elements).filter(isFormControl)) {
-        if (shouldIgnore(control)) continue;
+        if (shouldIgnore(control) || !control.name) continue;
         let propName = 'value';
         if (
           isInputElement(control) &&
@@ -239,6 +239,7 @@ export function createHelpers<Data extends Obj>({
         }
         return elPath === getPath(checkbox);
       });
+      if (checkboxes.length === 0) return;
       if (checkboxes.length === 1) {
         return data.update(($data) =>
           _set($data, getPath(target), target.checked)
