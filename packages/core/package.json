@@ -1,6 +1,6 @@
 {
   "name": "@felte/core",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Core package for FelteJS",
   "main": "dist/index.js",
   "browser": "dist/index.js",

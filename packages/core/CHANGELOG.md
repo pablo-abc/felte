@@ -1,5 +1,11 @@
 # @felte/core
 
+## 0.2.5
+
+### Patch Changes
+
+- 1807c09: Prevent proxying unnamed inputs
+
 ## 0.2.4
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @felte/reporter-dom
 
+## 0.3.10
+
+### Patch Changes
+
+- 661d0ee: Fix crash with unnamed inputs
+
 ## 0.3.9
 
 ### Patch Changes
