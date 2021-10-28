@@ -148,7 +148,7 @@ function domReporter<Data extends Obj = Obj>(
         const firstInvalidElement = form.querySelector(
           '[data-felte-validation-message]'
         ) as FormControl;
-        firstInvalidElement.focus();
+        firstInvalidElement?.focus();
       },
     };
   };
