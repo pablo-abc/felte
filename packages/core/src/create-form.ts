@@ -10,6 +10,7 @@ import {
   executeTransforms,
 } from '@felte/common';
 import { createHelpers } from './helpers';
+import { createFormAction } from './create-form-action';
 import type {
   Form,
   FormConfig,
@@ -99,19 +100,7 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
   data.set = (values) =>
     originalSet(executeTransforms(values, config.transform));
 
-  currentExtenders = extender.map((extender) =>
-    extender({
-      errors,
-      touched,
-      data,
-      config,
-      addValidator,
-      addTransformer,
-    })
-  );
-
   const helpers = createHelpers<Data>({
-    currentExtenders,
     extender,
     config,
     addValidator,
@@ -125,6 +114,24 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
     },
   });
 
+  currentExtenders = extender.map((extender) =>
+    extender({
+      errors,
+      touched,
+      data,
+      config,
+      addValidator,
+      addTransformer,
+      setFields: helpers.public.setFields,
+      reset: helpers.public.reset,
+      validate: helpers.public.validate,
+    })
+  );
+
+  const _getCurrentExtenders = () => currentExtenders;
+  const _setCurrentExtenders = (extenders: ExtenderHandler<Data>[]) => {
+    currentExtenders = extenders;
+  };
   function dataSetCustomizer(dataValue: unknown, initialValue: unknown) {
     if (_isPlainObject(dataValue)) return;
     return dataValue !== initialValue;
@@ -151,12 +158,29 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
     return data.set(values);
   }
 
+  const { form, createSubmitHandler, handleSubmit } = createFormAction<Data>({
+    config,
+    stores: { data, touched, errors, isSubmitting, isValid },
+    helpers: {
+      ...helpers.public,
+      addTransformer,
+      addValidator,
+    },
+    extender,
+    _getCurrentExtenders,
+    _setCurrentExtenders,
+    ...helpers.private,
+  });
+
   return {
     data: { ...data, set: newDataSet },
     errors,
     touched,
     isValid,
     isSubmitting,
-    ...helpers,
+    form,
+    handleSubmit,
+    createSubmitHandler,
+    ...helpers.public,
   };
 }
