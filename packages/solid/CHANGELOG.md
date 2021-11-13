@@ -1,5 +1,20 @@
 # @felte/solid
 
+## 0.2.5
+
+### Patch Changes
+
+- Updated dependencies [1807c09]
+  - @felte/core@0.2.5
+
+## 0.2.4
+
+### Patch Changes
+
+- 14b3645: Add `transform` feature
+- Updated dependencies [14b3645]
+  - @felte/core@0.2.4
+
 ## 0.2.3
 
 ### Patch Changes

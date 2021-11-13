@@ -1,5 +1,12 @@
 # @felte/reporter-dom
 
+## 0.3.17
+
+### Patch Changes
+
+- Updated dependencies [14b3645]
+  - @felte/common@0.5.2
+
 ## 0.3.16
 
 ### Patch Changes

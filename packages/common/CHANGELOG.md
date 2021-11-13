@@ -1,5 +1,11 @@
 # @felte/common
 
+## 0.5.2
+
+### Patch Changes
+
+- 14b3645: Add `transform` feature
+
 ## 0.5.1
 
 ### Patch Changes
