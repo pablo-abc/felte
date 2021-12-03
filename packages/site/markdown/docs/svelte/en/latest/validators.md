@@ -4,6 +4,7 @@ subsections:
   - Using Yup
   - Using Zod
   - Using Superstruct
+  - Using Vest
 ---
 
 ## Validators
@@ -162,4 +163,70 @@ const struct = object({
 });
 
 const { form } = createForm<Infer<typeof struct>, ValidatorConfig>(/* ... */);
+```
+
+### Using Vest
+
+[Vest](https://github.com/ealush/vest) is a validations library for JS apps that derives its syntax from modern JS unit testing frameworks such as Mocha or Jest. We've also created [`@felte/validator-vest`](https://github.com/pablo-abc/felte/tree/main/packages/validator-vest) as an official package to handle validation with Vest. To use it you'll need both `@felte/validator-vest` and `vest@next` installed.
+
+```sh
+npm install --save @felte/validator-vest vest@next
+
+# Or, if you use yarn
+
+yarn add @felte/validator-vest vest@next
+```
+
+It's usage would look something like:
+
+```javascript
+import { validator } from '@felte/validator-vest';
+import { create, enforce, test } from 'vest';
+
+const suite = create('form', (data) => {
+  test('email', 'Email is required', () => {
+    enforce(data.email).isNotEmpty();
+  });
+  test('password', 'Password is required', () => {
+    enforce(data.password).isNotEmpty();
+  });
+});
+
+const { form } = createForm({
+  // ...
+  extend: validator, // OR `extend: [validator],`
+  validateSuite: suite,
+  // ...
+});
+```
+
+#### Typescript
+
+For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
+
+```typescript
+import { validator, ValidatorConfig } from '@felte/validator-vest';
+import { create, enforce, test } from 'vest';
+
+const initialValues = {
+  email: '',
+  password: ''
+}
+
+const suite = create('form', (data: typeof initialValues) => {
+  test('email', 'Email is required', () => {
+    enforce(data.email).isNotEmpty();
+  });
+  test('password', 'Password is required', () => {
+    enforce(data.password).isNotEmpty();
+  });
+});
+
+const { form } = createForm<typeof initialValues, ValidatorConfig>({
+  // ...
+  initialValues,
+  extend: validator, // or `extend: [validator],`
+  validateSuite: suite,
+  // ...
+});
 ```

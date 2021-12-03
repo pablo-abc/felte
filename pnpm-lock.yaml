@@ -58,6 +58,7 @@ importers:
       tslib: ^2.1.0
       typedoc: ^0.20.20
       typescript: ^4.1.3
+      vest: ^4.0.0-next-0370fc
       yup: ^0.32.9
       zod: ^1.11.13
     dependencies:
@@ -116,6 +117,7 @@ importers:
       tslib: 2.2.0
       typedoc: 0.20.35_typescript@4.2.4
       typescript: 4.2.4
+      vest: 4.0.0-next-cfb1a7
       yup: 0.32.9
       zod: 1.11.13
 
@@ -310,6 +312,17 @@ importers:
     devDependencies:
       felte: link:../felte
       superstruct: 0.15.1
+
+  packages/validator-vest:
+    specifiers:
+      '@felte/common': workspace:*
+      felte: ^0.8.4
+      vest: ^4.0.0-next-0370fc
+    dependencies:
+      '@felte/common': link:../common
+    devDependencies:
+      felte: link:../felte
+      vest: 4.0.0-next-cfb1a7
 
   packages/validator-yup:
     specifiers:
@@ -5306,7 +5319,7 @@ packages:
       source-map: 0.6.1
       wordwrap: 1.0.0
     optionalDependencies:
-      uglify-js: 3.13.4
+      uglify-js: 3.13.9
     dev: true
 
   /har-schema/2.0.0:
@@ -9373,18 +9386,10 @@ packages:
     resolution: {integrity: sha512-6Gurc1n//gjp9eQNXjD9O3M/sMwVtN5S8Lv9bvOYBfKfDNiIIhqiyi01vMBO45u4zkDE420w/e0se7Vs+sIg+g==}
     dev: true
 
-  /uglify-js/3.13.4:
-    resolution: {integrity: sha512-kv7fCkIXyQIilD5/yQy8O+uagsYIOt5cZvs890W40/e/rvjMSzJw81o9Bg0tkURxzZBROtDQhW2LFjOGoK3RZw==}
-    engines: {node: '>=0.8.0'}
-    hasBin: true
-    dev: true
-    optional: true
-
   /uglify-js/3.13.9:
     resolution: {integrity: sha512-wZbyTQ1w6Y7fHdt8sJnHfSIuWeDgk6B5rCb4E/AM6QNNPbOMIZph21PW5dRB3h7Df0GszN+t7RuUH6sWK5bF0g==}
     engines: {node: '>=0.8.0'}
     hasBin: true
-    dev: false
 
   /unicode-canonical-property-names-ecmascript/1.0.4:
     resolution: {integrity: sha512-jDrNnXWHd4oHiTZnx/ZG7gtUTVp+gCcTTKr8L0HjlwphROEW3+Him+IpvC+xcJEFegapiMZyZe02CyuOnRmbnQ==}
@@ -9515,6 +9520,10 @@ packages:
       assert-plus: 1.0.0
       core-util-is: 1.0.2
       extsprintf: 1.3.0
+    dev: true
+
+  /vest/4.0.0-next-cfb1a7:
+    resolution: {integrity: sha512-o1NMcvd9oWZMXqSosnJbVvV/G15RNbFxwsMjXUBhEl401ZwVAl3tEubpkGZz0xDg21ehiBO9GUdVYuV5gxkF9A==}
     dev: true
 
   /vfile-message/2.0.4:
