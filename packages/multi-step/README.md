@@ -1,3 +1,7 @@
+# **NOT RECOMMENDED**
+
+Due to the complex nature of multi page forms, and the changes that have been occuring within the core of `Felte` (e.g. supporting `SolidJS`), many issues have arised with this package so its usage is not recommended. A custom solution for your own use-case will most likely be simpler than the API of this package. For now, [refer to the updated documentation](https://felte.dev/docs/svelte/multi-page-forms) for an example on how to handle multi page forms without using a package.
+
 # @felte/multi-step
 
 [![Bundle size](https://img.shields.io/bundlephobia/min/@felte/multi-step)](https://bundlephobia.com/result?p=@felte/multi-step)

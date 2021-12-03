@@ -305,7 +305,7 @@ importers:
   packages/validator-superstruct:
     specifiers:
       '@felte/common': workspace:*
-      felte: ^0.8.4
+      felte: workspace:*
       superstruct: ^0.15.0
     dependencies:
       '@felte/common': link:../common
@@ -316,7 +316,7 @@ importers:
   packages/validator-vest:
     specifiers:
       '@felte/common': workspace:*
-      felte: ^0.8.4
+      felte: workspace:*
       vest: ^4.0.0-next-0370fc
     dependencies:
       '@felte/common': link:../common
@@ -327,7 +327,7 @@ importers:
   packages/validator-yup:
     specifiers:
       '@felte/common': workspace:*
-      felte: ^0.8.4
+      felte: workspace:*
       yup: ^0.32.9
     dependencies:
       '@felte/common': link:../common
@@ -338,7 +338,7 @@ importers:
   packages/validator-zod:
     specifiers:
       '@felte/common': workspace:*
-      felte: ^0.8.4
+      felte: workspace:*
       zod: ^3.2.0
     dependencies:
       '@felte/common': link:../common

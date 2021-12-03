@@ -1,6 +1,6 @@
 {
   "name": "@felte/validator-vest",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A package to use Vest validation with Felte",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -10,13 +10,7 @@
   "author": "Panagiotis Kapros <kapros@gmail.com>",
   "repository": "github:pablo-abc/felte",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/validator-vest",
-  "keywords": [
-    "svelte",
-    "forms",
-    "validation",
-    "felte",
-    "vest"
-  ],
+  "keywords": ["svelte", "forms", "validation", "felte", "vest"],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -30,7 +24,7 @@
     "@felte/common": "workspace:*"
   },
   "devDependencies": {
-    "felte": "^0.8.4",
+    "felte": "workspace:*",
     "vest": "^4.0.0-next-0370fc"
   },
   "peerDependencies": {

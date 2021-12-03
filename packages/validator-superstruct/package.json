@@ -1,6 +1,6 @@
 {
   "name": "@felte/validator-superstruct",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "A package to use Superstruct validation with Felte",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -10,13 +10,7 @@
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/validator-superstruct",
-  "keywords": [
-    "svelte",
-    "forms",
-    "validation",
-    "felte",
-    "superstruct"
-  ],
+  "keywords": ["svelte", "forms", "validation", "felte", "superstruct"],
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
@@ -30,7 +24,7 @@
     "@felte/common": "workspace:*"
   },
   "devDependencies": {
-    "felte": "^0.8.4",
+    "felte": "workspace:*",
     "superstruct": "^0.15.0"
   },
   "peerDependencies": {

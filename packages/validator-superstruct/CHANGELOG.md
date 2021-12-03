@@ -1,5 +1,12 @@
 # @felte/validator-superstruct
 
+## 0.2.10
+
+### Patch Changes
+
+- Updated dependencies [e324a45]
+  - @felte/common@0.5.3
+
 ## 0.2.9
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @felte/core
 
+## 0.2.6
+
+### Patch Changes
+
+- e324a45: Add `reset`, `validate` and `setFields` helpers to extenders
+- Updated dependencies [e324a45]
+  - @felte/common@0.5.3
+
 ## 0.2.5
 
 ### Patch Changes
