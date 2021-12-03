@@ -40,7 +40,7 @@ const { form } = createForm({
 });
 ```
 
-OR use the `validateSchema` function directly in the `validate` option of `createForm`. (No need to extend Felte).
+OR use the `validateSuite` function directly in the `validate` option of `createForm`. (No need to extend Felte).
 
 ```javascript
 import { validateSuite } from '@felte/validator-vest';
