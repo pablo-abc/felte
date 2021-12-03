@@ -35,7 +35,6 @@ export function validateSuite<Data extends Obj>(
 export function validator<Data extends Obj = Obj>(
   currentForm: CurrentForm<Data>
 ): ExtenderHandler<Data> {
-  console.log({ currentForm });
   if (currentForm.form) return {};
   const validateFn = validateSuite<Data>(
     currentForm.config.validateSuite as ReturnType<typeof create>
