@@ -25,7 +25,7 @@ npm install --save @felte/validator-yup yup
 yarn add @felte/validator-yup yup
 ```
 
-It's usage would look something like:
+Its usage would look something like:
 
 ```javascript
 import { validator } from '@felte/validator-yup';
@@ -73,7 +73,7 @@ npm install --save @felte/validator-zod zod
 yarn add @felte/validator-zod zod
 ```
 
-It's usage would look something like:
+Its usage would look something like:
 
 ```javascript
 import { validator } from '@felte/validator-zod';
@@ -120,7 +120,7 @@ npm install --save @felte/validator-superstruct superstruct
 yarn add @felte/validator-superstruct superstruct
 ```
 
-It's usage would look something like:
+Its usage would look something like:
 
 ```javascript
 import { createValidator } from '@felte/validator-superstruct';
@@ -176,7 +176,7 @@ npm install --save @felte/validator-vest vest@next
 yarn add @felte/validator-vest vest@next
 ```
 
-It's usage would look something like:
+Its usage would look something like:
 
 ```javascript
 import { validator } from '@felte/validator-vest';
