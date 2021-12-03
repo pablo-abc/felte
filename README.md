@@ -22,6 +22,7 @@
     - [`@felte/validator-yup`](./packages/validator-yup/README.md)
     - [`@felte/validator-zod`](./packages/validator-zod/README.md)
     - [`@felte/validator-superstruct`](./packages/validator-superstruct/README.md)
+    - [`@felte/validator-vest`](./packages/validator-vest/README.md)
   - [Reporters](#reporters)
     - [`@felte/reporter-tippy`](./packages/reporter-tippy/README.md)
     - [`@felte/reporter-cvapi`](./packages/reporter-cvapi/README.md)
@@ -46,7 +47,7 @@ Felte is a simple to use form library for Svelte and Solid. No `Field` or `Form`
 - Handles addition and removal of form controls during runtime.
 - Official solutions for error reporting using `reporter` packages.
 - Well tested. Currently at [99% code coverage](https://app.codecov.io/gh/pablo-abc/felte) and constantly working on improving test quality.
-- Supports validation with [yup](./packages/validator-yup/README.md), [zod](./packages/validator-zod/README.md) and [superstruct](./packages/validator-superstruct/README.md).
+- Supports validation with [yup](./packages/validator-yup/README.md), [zod](./packages/validator-zod/README.md), [superstruct](./packages/validator-superstruct/README.md) and [vest](./packages/validator-vest/README.md).
 - Easily [extend its functionality](https://felte.dev/docs#extending-felte).
 
 ## Simple usage example
@@ -101,6 +102,10 @@ A utility package to help you validate your form with [Zod](https://github.com/c
 
 A utility package to help you validate your form with [Superstruct](https://docs.superstructjs.org).
 
+#### [@felte/validator-vest](./packages/validator-vest/README.md)
+
+A utility package to help you validate your form with [Vest](https://vest.vercel.app).
+
 ### Reporters
 
 #### [@felte/reporter-tippy](./packages/reporter-tippy/README.md)
@@ -143,17 +148,17 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/pablo-abc"><img src="https://avatars.githubusercontent.com/u/40573613?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Pablo Berganza</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=pablo-abc" title="Code">💻</a> <a href="https://github.com/pablo-abc/felte/commits?author=pablo-abc" title="Documentation">📖</a> <a href="#ideas-pablo-abc" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-pablo-abc" title="Maintenance">🚧</a> <a href="https://github.com/pablo-abc/felte/commits?author=pablo-abc" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/loremaps"><img src="https://avatars.githubusercontent.com/u/18003912?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Panagiotis Kapros</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=loremaps" title="Code">💻</a></td>
     <td align="center"><a href="https://codepoet.de/"><img src="https://avatars.githubusercontent.com/u/462455?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Benjamin Bender</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=benbender" title="Code">💻</a> <a href="#ideas-benbender" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/pablo-abc/felte/commits?author=benbender" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/abhijit-kar"><img src="https://avatars.githubusercontent.com/u/25662120?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Abhijit Kar ツ</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/issues?q=author%3Aabhijit-kar" title="Bug reports">🐛</a> <a href="#ideas-abhijit-kar" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://convertpack.io/"><img src="https://avatars.githubusercontent.com/u/741969?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Hugo Maestá</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=hmaesta" title="Code">💻</a> <a href="#ideas-hmaesta" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/websocket98765"><img src="https://avatars.githubusercontent.com/u/41795874?v=4?s=100" width="100px;" alt=""/><br /><sub><b>websocket98765</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/issues?q=author%3Awebsocket98765" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/avimar"><img src="https://avatars.githubusercontent.com/u/314077?v=4?s=100" width="100px;" alt=""/><br /><sub><b>avimar</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=avimar" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://umanggalaiya.in/"><img src="https://avatars.githubusercontent.com/u/5698706?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Umang Galaiya</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=umanghome" title="Code">💻</a> <a href="https://github.com/pablo-abc/felte/issues?q=author%3Aumanghome" title="Bug reports">🐛</a></td>
   </tr>
   <tr>
+    <td align="center"><a href="https://umanggalaiya.in/"><img src="https://avatars.githubusercontent.com/u/5698706?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Umang Galaiya</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=umanghome" title="Code">💻</a> <a href="https://github.com/pablo-abc/felte/issues?q=author%3Aumanghome" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/djhi"><img src="https://avatars.githubusercontent.com/u/1122076?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Gildas Garcia</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=djhi" title="Code">💻</a> <a href="https://github.com/pablo-abc/felte/issues?q=author%3Adjhi" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/basaran"><img src="https://avatars.githubusercontent.com/u/30809170?v=4?s=100" width="100px;" alt=""/><br /><sub><b>basaran</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=basaran" title="Code">💻</a> <a href="https://github.com/pablo-abc/felte/issues?q=author%3Abasaran" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/loremaps"><img src="https://avatars.githubusercontent.com/u/18003912?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Panagiotis Kapros</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=loremaps" title="Code">💻</a></td>
   </tr>
 </table>
 
