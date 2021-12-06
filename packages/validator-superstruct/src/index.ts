@@ -24,7 +24,7 @@ export function validateStruct<Data extends Obj>(
   }
   return function validate(values: Data): Errors<Data> | undefined {
     try {
-      struct.assert(values);
+      struct.create(values);
     } catch (error) {
       return shapeErrors(error);
     }

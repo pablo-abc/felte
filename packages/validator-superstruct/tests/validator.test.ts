@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { createForm } from 'felte';
 import { validateStruct, createValidator } from '../src';
 import type { ValidatorConfig } from '../src';
-import { object, string, size } from 'superstruct';
+import { object, string, size, coerce, date } from 'superstruct';
 import { get } from 'svelte/store';
 import type { ValidationFunction } from '@felte/common';
 
@@ -295,6 +295,46 @@ describe('Validator superstruct', () => {
         email: 'not an email',
         password: null,
       },
+    });
+  });
+
+  test('correctly validates form with coercion', async () => {
+    const struct = object({
+      name: size(string(), 1, Infinity),
+      date: coerce(date(), string(), (value) => new Date(value)),
+    });
+
+    const mockData = {
+      name: '',
+      date: 'Not A Date',
+    };
+
+    const { validate, errors, data } = createForm({
+      initialValues: mockData,
+      onSubmit: jest.fn(),
+      validate: validateStruct(struct),
+    });
+
+    await validate();
+
+    expect(get(data)).toEqual(mockData);
+    expect(get(errors)).toEqual({
+      name:
+        'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
+        date:
+        'Expected a valid `Date` object, but received: Invalid Date',
+    });
+
+    data.set({
+      name: 'test@email.com',
+      date: '2021-06-09',
+    });
+
+    await validate();
+
+    expect(get(errors)).toEqual({
+      name: null,
+      date: null,
     });
   });
 });
