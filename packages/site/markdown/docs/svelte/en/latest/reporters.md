@@ -56,7 +56,7 @@ The `ValidationMessage` component needs a `for` prop set with the **name** of th
     <!-- We assume a single string will be passed as a validation message -->
     <!-- This can be an array of strings depending on your validation strategy -->
     <span>{message}</span>
-    <span name="placeholder">Please type a valid email.</span>
+    <span slot="placeholder">Please type a valid email.</span>
   </ValidationMessage>
   <input type="password" name="password">
   <ValidationMessage for="password" let:messages={message}>
