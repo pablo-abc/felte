@@ -62,6 +62,10 @@ export function createHelpers<Data extends Obj>({
     }
   }
 
+  function getField(path: string) {
+    return _get(get(data), path);
+  }
+
   function setFields(values: Data): void {
     data.set(_cloneDeep(values));
     if (formNode) setForm(formNode, values);
@@ -91,6 +95,7 @@ export function createHelpers<Data extends Obj>({
       setTouched,
       setError,
       setField,
+      getField,
       setFields,
       validate,
     },

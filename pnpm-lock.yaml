@@ -38,7 +38,7 @@ importers:
       jest: ^26.6.3
       mdsvex: ^0.9.0
       pinst: ^2.1.4
-      pnpm: ^6.17.1
+      pnpm: ^6.23.6
       prettier: ^2.2.1
       rimraf: ^3.0.2
       rollup: ^2.38.0
@@ -99,7 +99,7 @@ importers:
       jest: 26.6.3
       mdsvex: 0.9.0_svelte@3.37.0
       pinst: 2.1.6
-      pnpm: 6.17.1
+      pnpm: 6.23.6
       prettier: 2.2.1
       rimraf: 3.0.2
       rollup: 2.45.2
@@ -184,11 +184,13 @@ importers:
       '@felte/common': workspace:*
       '@rollup/plugin-babel': 5.3.0
       '@rollup/plugin-node-resolve': 13.0.5
+      '@testing-library/jest-dom': ^5.11.9
       '@types/node': ^15.12.4
       babel-preset-solid: ^1.0.0
       rollup: ^2.52.1
       rollup-plugin-terser: ^7.0.2
       solid-js: ^1.0.0
+      solid-testing-library: ^0.2.1
       tsc-watch: ^4.4.0
       typescript: ~4.3.4
     dependencies:
@@ -198,11 +200,13 @@ importers:
       '@babel/preset-typescript': 7.14.5_@babel+core@7.14.6
       '@rollup/plugin-babel': 5.3.0_@babel+core@7.14.6+rollup@2.52.7
       '@rollup/plugin-node-resolve': 13.0.5_rollup@2.52.7
+      '@testing-library/jest-dom': 5.11.10
       '@types/node': 15.12.4
       babel-preset-solid: 1.0.0_@babel+core@7.14.6
       rollup: 2.52.7
       rollup-plugin-terser: 7.0.2_rollup@2.52.7
       solid-js: 1.0.0
+      solid-testing-library: 0.2.1_solid-js@1.0.0
       tsc-watch: 4.4.0_typescript@4.3.5
       typescript: 4.3.5
 
@@ -293,13 +297,17 @@ importers:
     specifiers:
       '@felte/common': workspace:*
       '@felte/core': workspace:*
+      '@testing-library/jest-dom': ^5.11.9
       solid-js: ^1.0.0
+      solid-testing-library: ^0.2.1
       ts-jest: ^26.5.0
     dependencies:
       '@felte/core': link:../core
     devDependencies:
       '@felte/common': link:../common
+      '@testing-library/jest-dom': 5.11.10
       solid-js: 1.0.0
+      solid-testing-library: 0.2.1_solid-js@1.0.0
       ts-jest: 26.5.4_jest@26.6.3+typescript@4.2.4
 
   packages/validator-superstruct:
@@ -7228,8 +7236,8 @@ packages:
     dependencies:
       find-up: 4.1.0
 
-  /pnpm/6.17.1:
-    resolution: {integrity: sha512-rxl28iv4zYrhv7hKRMfO49hlXMFGQDgDyJrAoLkQPlJuAziCjEdfMV0OTt5BsntxbQMLsGgwpqSfosNVMbCdNQ==}
+  /pnpm/6.23.6:
+    resolution: {integrity: sha512-H6PIzO4W2zg2Jqms13uS5U3fU8yBdWk8rXcpJLjs/in+nutgVA8GGlasEAI2eAiTpc9FYJUkCklbJ4a/M36N0w==}
     engines: {node: '>=12.17'}
     hasBin: true
     dev: true
@@ -8569,6 +8577,16 @@ packages:
 
   /solid-js/1.0.0:
     resolution: {integrity: sha512-5huTDVyMqZSjg5Sa4mwl15feK4il1cE68n4weL5NYGC8lX2wiDlcHhBdSB8trKgaJ50Q9/pwtLrQngFaDC+5Tw==}
+    dev: true
+
+  /solid-testing-library/0.2.1_solid-js@1.0.0:
+    resolution: {integrity: sha512-r56W42vDfphLJEXAwb+Wo8FVpRNCBwSYwxokZTkaAvC0pRAK4Vd4sI/sGQI8vqoaaK7/KKHQIfDF461S6Qwk3g==}
+    engines: {node: '>= 12'}
+    peerDependencies:
+      solid-js: ^1.0.0
+    dependencies:
+      '@testing-library/dom': 7.30.3
+      solid-js: 1.0.0
     dev: true
 
   /source-map-js/0.6.2:

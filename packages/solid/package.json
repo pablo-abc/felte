@@ -41,7 +41,9 @@
   },
   "devDependencies": {
     "@felte/common": "workspace:*",
+    "@testing-library/jest-dom": "^5.11.9",
     "solid-js": "^1.0.0",
+    "solid-testing-library": "^0.2.1",
     "ts-jest": "^26.5.0"
   },
   "exports": {

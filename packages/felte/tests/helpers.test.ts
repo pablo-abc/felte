@@ -353,4 +353,21 @@ describe('Helpers', () => {
       },
     });
   });
+
+  test('getField should get the value of a field', () => {
+    type Data = {
+      account: {
+        email: string;
+      };
+    };
+    const { data, getField } = createForm<Data>({
+      initialValues: {
+        account: {
+          email: 'jacek@soplica.com',
+        },
+      },
+      onSubmit: jest.fn(),
+    });
+    expect(get(data).account.email).toBe(getField('account.email'));
+  });
 });
