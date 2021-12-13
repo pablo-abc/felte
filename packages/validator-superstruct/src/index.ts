@@ -24,9 +24,28 @@ export function validateStruct<Data extends Obj>(
   }
   return function validate(values: Data): Errors<Data> | undefined {
     try {
-      struct.assert(values);
+      struct.create(values);
     } catch (error) {
-      return shapeErrors(error);
+      return shapeErrors(error as StructError);
+    }
+  };
+}
+
+// superstruct does not provide a way to get a coerced value
+// without applying the validation (and possibly throwing)
+// so we catch the error and extract the coerced value
+function coerceStruct(config: ValidatorConfig) {
+  return (values: Obj) => {
+    try {
+      return config.validateStruct.create(values);
+    } catch (error) {
+      return (error as StructError)
+        .failures()
+        .reduce(
+          (obj: Obj, failure: Failure) =>
+            _set(obj, failure.path, failure.value),
+          {}
+        );
     }
   };
 }
@@ -38,11 +57,11 @@ export function createValidator<Data extends Obj = Obj>(
     currentForm: CurrentForm<Data>
   ): ExtenderHandler<Data> {
     if (currentForm.form) return {};
-    const validateFn = validateStruct<Data>(
-      currentForm.config.validateStruct as Struct<any, any>,
-      transform
-    );
-    currentForm.addValidator(validateFn);
+    const config = currentForm.config as CurrentForm<Data>['config'] &
+      ValidatorConfig;
+    currentForm.addValidator(validateStruct(config.validateStruct, transform));
+    if (!config.castValues) return {};
+    currentForm.addTransformer(coerceStruct(config));
     return {};
   };
 }
