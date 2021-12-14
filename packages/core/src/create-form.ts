@@ -89,7 +89,14 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
     : [config.extend];
 
   let currentExtenders: ExtenderHandler<Data>[] = [];
-  const { isSubmitting, data, errors, touched, isValid } = adapters.stores;
+  const {
+    isSubmitting,
+    data,
+    errors,
+    touched,
+    isValid,
+    isDirty,
+  } = adapters.stores;
   const originalUpdate = data.update;
   const originalSet = data.set;
 
@@ -111,6 +118,7 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
       touched,
       isValid,
       isSubmitting,
+      isDirty,
     },
   });
 
@@ -155,12 +163,13 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
         dataSetTouchedCustomizer
       );
     });
+    isDirty.set(true);
     return data.set(values);
   }
 
   const { form, createSubmitHandler, handleSubmit } = createFormAction<Data>({
     config,
-    stores: { data, touched, errors, isSubmitting, isValid },
+    stores: { data, touched, errors, isSubmitting, isValid, isDirty },
     helpers: {
       ...helpers.public,
       addTransformer,
@@ -178,6 +187,7 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
     touched,
     isValid,
     isSubmitting,
+    isDirty,
     form,
     handleSubmit,
     createSubmitHandler,

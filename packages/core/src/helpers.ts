@@ -37,7 +37,7 @@ export function createHelpers<Data extends Obj>({
   stores,
   config,
 }: CreateHelpersOptions<Data>) {
-  const { data, touched, errors } = stores;
+  const { data, touched, errors, isDirty } = stores;
 
   function setTouched(fieldName: string, index?: number): void {
     const path =
@@ -51,7 +51,10 @@ export function createHelpers<Data extends Obj>({
 
   function setField(path: string, value?: FieldValue, touch = true): void {
     data.update(($data) => _set($data, path, value));
-    if (touch) setTouched(path);
+    if (touch) {
+      setTouched(path);
+      isDirty.set(true);
+    }
     if (!formNode) return;
     for (const control of formNode.elements) {
       if (!isFormControl(control) || !control.name) continue;
@@ -87,6 +90,7 @@ export function createHelpers<Data extends Obj>({
   function reset(): void {
     setFields(_cloneDeep(initialValues));
     touched.update(($touched) => deepSet($touched, false) as Touched<Data>);
+    isDirty.set(false);
   }
 
   return {
@@ -98,6 +102,9 @@ export function createHelpers<Data extends Obj>({
       getField,
       setFields,
       validate,
+      setInitialValues: (values: Data) => {
+        initialValues = values;
+      },
     },
     private: {
       _setFormNode: (node: HTMLFormElement) => {
@@ -105,9 +112,6 @@ export function createHelpers<Data extends Obj>({
       },
       _getFormNode: () => formNode,
       _getInitialValues: () => initialValues,
-      _setInitialValues: (values: Data) => {
-        initialValues = values;
-      },
     },
   };
 }

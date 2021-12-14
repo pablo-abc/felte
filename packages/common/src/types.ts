@@ -29,6 +29,8 @@ export type Helpers<Data extends Obj> = {
   setFields: (values: Data) => void;
   /** Helper function that validates every fields and touches all of them. It updates the `errors` store. */
   validate: () => Promise<Errors<Data> | void>;
+  /** Helper function to re-set the initialValues of Felte. No reactivity will be triggered but this will be the data the form will be reset to when caling `reset`. */
+  setInitialValues: (values: Data) => void;
 };
 
 export type CurrentForm<Data extends Obj> = {
@@ -166,6 +168,8 @@ export type Stores<Data extends Obj> = {
   isSubmitting: Writable<boolean>;
   /** Readable store containing only a boolean that represents if the form is valid. */
   isValid: Readable<boolean>;
+  /** Readable store containing only a boolean that represents if the form is dirty. */
+  isDirty: Writable<boolean>;
 };
 
 /** The return type for the `createForm` function. */

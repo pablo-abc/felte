@@ -71,10 +71,13 @@ export function createStores<Data extends Obj>(
 
   const isSubmitting = writable(false);
 
+  const isDirty = writable(false);
+
   return {
     touched,
     isSubmitting,
     isValid,
+    isDirty,
     errors: {
       subscribe: errorSubscribe,
       set: errors.set,

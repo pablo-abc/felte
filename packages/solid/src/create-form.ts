@@ -22,6 +22,7 @@ export type Stores<Data extends Obj> = {
   touched: Store<Touched<Data>>;
   isSubmitting: Accessor<boolean>;
   isValid: Accessor<boolean>;
+  isDirty: Accessor<boolean>;
 };
 
 /** The return type for the `createForm` function. */
@@ -48,6 +49,8 @@ export type Form<Data extends Obj> = {
   setFields: (values: Data) => void;
   /** Helper function that validates every fields and touches all of them. It updates the `errors` store. */
   validate: () => Promise<Errors<Data> | void>;
+  /** Helper function to re-set the initialValues of Felte. No reactivity will be triggered but this will be the data the form will be reset to when caling `reset`. */
+  setInitialValues: (values: Data) => void;
   observables: Observables<Data>;
 } & Stores<Data>;
 /**
@@ -88,6 +91,7 @@ export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
     touched: stores.touched.getter(),
     isSubmitting: stores.isSubmitting.getter(),
     isValid: stores.isValid.getter(),
+    isDirty: stores.isDirty.getter(),
     observables: stores,
   };
 }
