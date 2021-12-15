@@ -38,7 +38,6 @@ importers:
       jest: ^26.6.3
       mdsvex: ^0.9.0
       pinst: ^2.1.4
-      pnpm: ^6.23.6
       prettier: ^2.2.1
       rimraf: ^3.0.2
       rollup: ^2.38.0
@@ -99,7 +98,6 @@ importers:
       jest: 26.6.3
       mdsvex: 0.9.0_svelte@3.37.0
       pinst: 2.1.6
-      pnpm: 6.23.6
       prettier: 2.2.1
       rimraf: 3.0.2
       rollup: 2.45.2
@@ -3882,6 +3880,7 @@ packages:
 
   /clipboard/2.0.8:
     resolution: {integrity: sha512-Y6WO0unAIQp5bLmk1zdThRhgJt/x3ks6f30s3oE3H1mgIEU33XyQjEf8gsf6DxC7NPX8Y1SsNWjUjL/ywLnnbQ==}
+    requiresBuild: true
     dependencies:
       good-listener: 1.2.2
       select: 1.1.2
@@ -5158,6 +5157,7 @@ packages:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -6887,6 +6887,7 @@ packages:
 
   /node-notifier/8.0.2:
     resolution: {integrity: sha512-oJP/9NAdd9+x2Q+rfphB2RJCHjod70RcRLjosiPMMu5gjIfwVnOUGq2nbTjTUbmy0DJ/tFIVT30+Qe3nzl4TJg==}
+    requiresBuild: true
     dependencies:
       growly: 1.3.0
       is-wsl: 2.2.0
@@ -7235,12 +7236,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       find-up: 4.1.0
-
-  /pnpm/6.23.6:
-    resolution: {integrity: sha512-H6PIzO4W2zg2Jqms13uS5U3fU8yBdWk8rXcpJLjs/in+nutgVA8GGlasEAI2eAiTpc9FYJUkCklbJ4a/M36N0w==}
-    engines: {node: '>=12.17'}
-    hasBin: true
-    dev: true
 
   /posix-character-classes/0.1.1:
     resolution: {integrity: sha1-AerA/jta9xoqbAL+q7jB/vfgDqs=}
