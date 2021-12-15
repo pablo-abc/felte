@@ -12,11 +12,10 @@ describe('Stores', () => {
     expect(isSubmitting()).toBe(true);
   });
 
-  test('Subscribes to data', () => {
-    createRoot(async (dispose) => {
+  test('Subscribes to isSubmitting', async () => {
+    const mockFn = jest.fn();
+    createRoot(() => {
       const stores = createStores({ onSubmit: jest.fn() });
-
-      const mockFn = jest.fn();
 
       expect(mockFn).not.toHaveBeenCalled();
 
@@ -25,12 +24,38 @@ describe('Stores', () => {
       expect(mockFn).toHaveBeenCalledTimes(1);
 
       stores.isSubmitting.set(true);
+    });
+    await waitFor(() => {
+      expect(mockFn).toHaveBeenCalledTimes(2);
+      expect(mockFn).toHaveBeenCalledWith(true);
+    });
+  });
 
-      await waitFor(() => {
-        expect(mockFn).toHaveBeenCalledTimes(2);
-      });
+  test('Updates value of isDirty', () => {
+    const stores = createStores({ onSubmit: jest.fn() });
 
-      dispose();
+    const isDirty = stores.isDirty.getter();
+    expect(isDirty()).toBe(false);
+    stores.isDirty.update((v) => !v);
+    expect(isDirty()).toBe(true);
+  });
+
+  test('Subscribes to isDirty', async () => {
+    const mockFn = jest.fn();
+    createRoot(() => {
+      const stores = createStores({ onSubmit: jest.fn() });
+
+      expect(mockFn).not.toHaveBeenCalled();
+
+      stores.isDirty.subscribe(mockFn);
+
+      expect(mockFn).toHaveBeenCalledTimes(1);
+
+      stores.isDirty.set(true);
+    });
+    await waitFor(() => {
+      expect(mockFn).toHaveBeenCalledTimes(2);
+      expect(mockFn).toHaveBeenCalledWith(true);
     });
   });
 });

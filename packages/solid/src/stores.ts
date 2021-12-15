@@ -95,6 +95,7 @@ export function createStores<Data extends Obj>(
       createRoot((dispose) => {
         disposer = dispose;
         createEffect(() => fn(value()));
+        return dispose;
       });
       return () => disposer?.();
     };
