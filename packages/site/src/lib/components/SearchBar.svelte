@@ -148,7 +148,6 @@
     if ($activeDescendant) {
       const target = $descendants[activeIndex];
       const href = target.querySelector('a').href;
-      console.log(href);
       goto(href);
     } else {
       goto(`/docs/${$session.framework}/search?q=${searchValue}`);

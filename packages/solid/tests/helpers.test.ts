@@ -1,4 +1,5 @@
 import { waitFor, screen } from '@testing-library/dom';
+import { createRoot } from 'solid-js';
 import userEvent from '@testing-library/user-event';
 import { createForm } from '../src';
 import { createInputElement, createDOM, cleanupDOM } from './common';
@@ -341,5 +342,34 @@ describe('Helpers', () => {
       onSubmit: jest.fn(),
     });
     expect(data.account.email).toBe(getField('account.email'));
+  });
+
+  test('setInitialValues sets new initial values', () => {
+    type Data = {
+      account: {
+        email: string;
+      };
+    };
+    const { data, setInitialValues, reset, setFields } = createForm<Data>({
+      initialValues: {
+        account: {
+          email: '',
+        },
+      },
+      onSubmit: jest.fn(),
+    });
+
+    expect(data.account.email).toBe('');
+
+    setInitialValues({ account: { email: 'zaphod@beeblebrox.com' } });
+
+    expect(data.account.email).toBe('');
+    setFields({ account: { email: 'jacek@soplica.com' } });
+
+    expect(data.account.email).toBe('jacek@soplica.com');
+
+    reset();
+
+    expect(data.account.email).toBe('zaphod@beeblebrox.com');
   });
 });

@@ -1,15 +1,7 @@
 import { CurrentForm, Obj } from '@felte/common';
 import { getPath, _get } from '@felte/common';
 import { errorStores } from './stores';
-
-function createId(length = 8) {
-  let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let str = '';
-  for (let i = 0; i < length; i++) {
-    str += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return str;
-}
+import { createId } from './utils';
 
 export function reporter<Data extends Obj>(currentForm: CurrentForm<Data>) {
   const config = currentForm.config;

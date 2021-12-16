@@ -47,10 +47,10 @@ type Configuration<Data extends Obj> = {
     addTransformer(transformer: TransformFunction<Data>): void;
     setFields(values: Data): void;
     setTouched(fieldName: string, index?: number): void;
+    setInitialValues(values: Data): void;
   };
   _setFormNode(node: HTMLFormElement): void;
   _getFormNode(): HTMLFormElement | undefined;
-  _setInitialValues(values: Data): void;
   _getInitialValues(): Data;
   _setCurrentExtenders(extenders: ExtenderHandler<Data>[]): void;
   _getCurrentExtenders(): ExtenderHandler<Data>[];
@@ -63,7 +63,6 @@ export function createFormAction<Data extends Obj>({
   extender,
   _setFormNode,
   _getFormNode,
-  _setInitialValues,
   _getInitialValues,
   _setCurrentExtenders,
   _getCurrentExtenders,
@@ -75,8 +74,9 @@ export function createFormAction<Data extends Obj>({
     validate,
     addValidator,
     addTransformer,
+    setInitialValues,
   } = helpers;
-  const { data, errors, touched, isSubmitting } = stores;
+  const { data, errors, touched, isSubmitting, isDirty } = stores;
 
   function createSubmitHandler(altConfig?: CreateSubmitHandlerConfig<Data>) {
     const onSubmit = altConfig?.onSubmit ?? config.onSubmit;
@@ -198,7 +198,7 @@ export function createFormAction<Data extends Obj>({
     node.noValidate = !!config.validate;
     const { defaultData } = getFormDefaultValues<Data>(node);
     _setFormNode(node);
-    _setInitialValues(_merge(_cloneDeep(defaultData), _getInitialValues()));
+    setInitialValues(_merge(_cloneDeep(defaultData), _getInitialValues()));
     setFields(_getInitialValues());
     touched.set(deepSet(_getInitialValues(), false));
 
@@ -266,6 +266,7 @@ export function createFormAction<Data extends Obj>({
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
       if (config.touchTriggerEvents?.input) setTouched(getPath(target));
+      isDirty.set(true);
       const inputValue = getInputTextOrNumber(target);
       data.update(($data) => {
         return _set($data, getPath(target), inputValue);
@@ -277,6 +278,12 @@ export function createFormAction<Data extends Obj>({
       if (!target || !isFormControl(target) || shouldIgnore(target)) return;
       if (!target.name) return;
       if (config.touchTriggerEvents?.change) setTouched(getPath(target));
+      if (
+        isSelectElement(target) ||
+        ['checkbox', 'radio', 'file'].includes(target.type)
+      ) {
+        isDirty.set(true);
+      }
       if (isSelectElement(target)) {
         data.update(($data) => {
           return _set($data, getPath(target), target.value);

@@ -6,6 +6,7 @@ subsections:
   - touched
   - isValid
   - isSubmitting
+  - isDirty
 ---
 
 ## Stores
@@ -31,3 +32,7 @@ A readable store containing a single boolean that tells if the form is valid or 
 ### isSubmitting
 
 A readable store containing a single boolean that tells if the form is submitting or not.
+
+### isDirty
+
+A signal containing a single boolean that tells if the form is dirty or not.

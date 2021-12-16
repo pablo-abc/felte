@@ -99,13 +99,16 @@ export interface Form<D extends Record<string, unknown>> {
   touched: Store<Touched<Data>>;
   isSubmitting: Accessor<boolean>;
   isValid: Accessor<boolean>;
+  isDirty: Accessor<boolean>;
   // Helper functions:
   setTouched: (path: string) => void;
   setError: (path: string, error: string | string[]) => void;
   setField: (path: string, value?: FieldValue, touch?: boolean) => void;
+  getField: (path: string) => FieldValue | FieldValue[];
   setFields: (values: Data) => void;
   validate: (values: D) => Promise<Errors<D> | undefined>;
   reset: () => void;
+  setInitialValues: (values: D) => void;
   createSubmitHandler: (config?: CreateSubmitHandlerConfig<D>) => (event?: Event) => void;
 }
 ```
@@ -117,12 +120,15 @@ export interface Form<D extends Record<string, unknown>> {
 - `handleSubmit` is the event handler to be passed to `on:submit`.
 - `isValid` is a Solid signal that only holds a boolean denoting if the form has any errors or not.
 - `isSubmitting` is a Solid signal that only holds a boolean denoting if the form is submitting or not.
+- `isDirty` is a Solid signal that only holds a boolean denoting if the form is dirty or not.
 - `setTouched` is a helper function to touch a specific field.
 - `setError` is a helper function to set an error in a specific field.
 - `setField` is a helper function to set the data of a specific field. If undefined, it clears the field. If you set `touch` to `false` the field will not be touched with this change.
+- `getField` is a helper function to get a value from `data` using a string path.
 - `setFields` is a helper function to set the data of all fields.
 - `validate` is a helper function that forces validation of the whole form, updating the `errors` store and touching every field. Similar to what happens on submit.
 - `reset` is a helper function that resets the form to its original values when the page was loaded.
+- `setInitialValues` is a helper function that sets the initialValues Felte handles internally. If called after initialization of the form, these values will be used when calling `reset`.
 - `createSubmitHandler` is a helper function that creates a submit handler with overriden `onSubmit`, `onError` and/or `validate` functions. If no config is passed it uses the default configuration from `createForm`.
 
 > If the helper functions are called before initialization of the form, whatever you set will be overwritten.

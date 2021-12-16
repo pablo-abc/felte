@@ -7,13 +7,7 @@
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/reporter-solid",
-  "keywords": [
-    "solidjs",
-    "solid",
-    "forms",
-    "validation",
-    "felte"
-  ],
+  "keywords": ["solidjs", "solid", "forms", "validation", "felte"],
   "license": "MIT",
   "type": "module",
   "types": "dist/index.d.ts",
@@ -24,9 +18,7 @@
     },
     "./package.json": "./package.json"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -cw",
@@ -45,13 +37,13 @@
     "babel-preset-solid": "^1.0.0",
     "rollup": "^2.52.1",
     "rollup-plugin-terser": "^7.0.2",
-    "solid-js": "^1.0.0",
+    "solid-js": "^1.2.0",
     "solid-testing-library": "^0.2.1",
     "tsc-watch": "^4.4.0",
     "typescript": "~4.3.4"
   },
   "peerDependencies": {
-    "solid-js": "^1.0.0"
+    "solid-js": "^1.2.0"
   },
   "publishConfig": {
     "access": "public"

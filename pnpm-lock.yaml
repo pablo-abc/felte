@@ -38,7 +38,6 @@ importers:
       jest: ^26.6.3
       mdsvex: ^0.9.0
       pinst: ^2.1.4
-      pnpm: ^6.23.6
       prettier: ^2.2.1
       rimraf: ^3.0.2
       rollup: ^2.38.0
@@ -99,7 +98,6 @@ importers:
       jest: 26.6.3
       mdsvex: 0.9.0_svelte@3.37.0
       pinst: 2.1.6
-      pnpm: 6.23.6
       prettier: 2.2.1
       rimraf: 3.0.2
       rollup: 2.45.2
@@ -189,7 +187,7 @@ importers:
       babel-preset-solid: ^1.0.0
       rollup: ^2.52.1
       rollup-plugin-terser: ^7.0.2
-      solid-js: ^1.0.0
+      solid-js: ^1.2.0
       solid-testing-library: ^0.2.1
       tsc-watch: ^4.4.0
       typescript: ~4.3.4
@@ -205,8 +203,8 @@ importers:
       babel-preset-solid: 1.0.0_@babel+core@7.14.6
       rollup: 2.52.7
       rollup-plugin-terser: 7.0.2_rollup@2.52.7
-      solid-js: 1.0.0
-      solid-testing-library: 0.2.1_solid-js@1.0.0
+      solid-js: 1.2.6
+      solid-testing-library: 0.2.1_solid-js@1.2.6
       tsc-watch: 4.4.0_typescript@4.3.5
       typescript: 4.3.5
 
@@ -298,7 +296,7 @@ importers:
       '@felte/common': workspace:*
       '@felte/core': workspace:*
       '@testing-library/jest-dom': ^5.11.9
-      solid-js: ^1.0.0
+      solid-js: ^1.2.0
       solid-testing-library: ^0.2.1
       ts-jest: ^26.5.0
     dependencies:
@@ -306,8 +304,8 @@ importers:
     devDependencies:
       '@felte/common': link:../common
       '@testing-library/jest-dom': 5.11.10
-      solid-js: 1.0.0
-      solid-testing-library: 0.2.1_solid-js@1.0.0
+      solid-js: 1.2.6
+      solid-testing-library: 0.2.1_solid-js@1.2.6
       ts-jest: 26.5.4_jest@26.6.3+typescript@4.2.4
 
   packages/validator-superstruct:
@@ -3882,6 +3880,7 @@ packages:
 
   /clipboard/2.0.8:
     resolution: {integrity: sha512-Y6WO0unAIQp5bLmk1zdThRhgJt/x3ks6f30s3oE3H1mgIEU33XyQjEf8gsf6DxC7NPX8Y1SsNWjUjL/ywLnnbQ==}
+    requiresBuild: true
     dependencies:
       good-listener: 1.2.2
       select: 1.1.2
@@ -5158,6 +5157,7 @@ packages:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -6887,6 +6887,7 @@ packages:
 
   /node-notifier/8.0.2:
     resolution: {integrity: sha512-oJP/9NAdd9+x2Q+rfphB2RJCHjod70RcRLjosiPMMu5gjIfwVnOUGq2nbTjTUbmy0DJ/tFIVT30+Qe3nzl4TJg==}
+    requiresBuild: true
     dependencies:
       growly: 1.3.0
       is-wsl: 2.2.0
@@ -7235,12 +7236,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       find-up: 4.1.0
-
-  /pnpm/6.23.6:
-    resolution: {integrity: sha512-H6PIzO4W2zg2Jqms13uS5U3fU8yBdWk8rXcpJLjs/in+nutgVA8GGlasEAI2eAiTpc9FYJUkCklbJ4a/M36N0w==}
-    engines: {node: '>=12.17'}
-    hasBin: true
-    dev: true
 
   /posix-character-classes/0.1.1:
     resolution: {integrity: sha1-AerA/jta9xoqbAL+q7jB/vfgDqs=}
@@ -8575,18 +8570,18 @@ packages:
       use: 3.1.1
     dev: true
 
-  /solid-js/1.0.0:
-    resolution: {integrity: sha512-5huTDVyMqZSjg5Sa4mwl15feK4il1cE68n4weL5NYGC8lX2wiDlcHhBdSB8trKgaJ50Q9/pwtLrQngFaDC+5Tw==}
+  /solid-js/1.2.6:
+    resolution: {integrity: sha512-NvPHJ5Vj5f+ZJWIioickrC55seovSkDtm5NzSpnoUk3z4tATv0STpy5iuGNEn51ZORUcwpZzrMAtOCGziXU1XA==}
     dev: true
 
-  /solid-testing-library/0.2.1_solid-js@1.0.0:
+  /solid-testing-library/0.2.1_solid-js@1.2.6:
     resolution: {integrity: sha512-r56W42vDfphLJEXAwb+Wo8FVpRNCBwSYwxokZTkaAvC0pRAK4Vd4sI/sGQI8vqoaaK7/KKHQIfDF461S6Qwk3g==}
     engines: {node: '>= 12'}
     peerDependencies:
       solid-js: ^1.0.0
     dependencies:
       '@testing-library/dom': 7.30.3
-      solid-js: 1.0.0
+      solid-js: 1.2.6
     dev: true
 
   /source-map-js/0.6.2:

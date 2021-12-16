@@ -29,8 +29,6 @@
     - [`@felte/reporter-dom`](./packages/reporter-dom/README.md)
     - [`@felte/reporter-svelte`](./packages/reporter-svelte/README.md)
     - [`@felte/reporter-solid`](./packages/reporter-solid/README.md)
-  - [Extras](#extras)
-    - [`@felte/multi-step`](./packages/multi-step/README.md)
 - [Contributing](#contributing)
 - [Contributors](#contributors-)
 
@@ -127,12 +125,6 @@ A reporter that uses a Svelte component to pass the validation messages for you 
 #### [@felte/reporter-solid](./packages/reporter-solid/README.md)
 
 A reporter that uses a Solid component to pass the validation messages for you to display.
-
-### Extras
-
-#### [@felte/multi-step](./packages/multi-step/README.md)
-
-A package to help you handle multi step forms.
 
 ## Contributing
 

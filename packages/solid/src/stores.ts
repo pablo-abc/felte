@@ -34,6 +34,7 @@ export type Observables<Data extends Obj> = {
   touched: StoreObservable<Touched<Data>>;
   isValid: Pick<AccessorObservable<boolean>, 'subscribe' | 'getter'>;
   isSubmitting: AccessorObservable<boolean>;
+  isDirty: AccessorObservable<boolean>;
 };
 
 export function createStores<Data extends Obj>(
@@ -94,12 +95,15 @@ export function createStores<Data extends Obj>(
       createRoot((dispose) => {
         disposer = dispose;
         createEffect(() => fn(value()));
+        return dispose;
       });
       return () => disposer?.();
     };
   }
 
   const [isSubmittingStore, setIsSubmitting] = createSignal(false);
+
+  const [isDirtyStore, setIsDirty] = createSignal(false);
 
   const subscribeData = createSubscriber<Data>(dataStore);
 
@@ -197,6 +201,16 @@ export function createStores<Data extends Obj>(
     setIsSubmitting(updater(isSubmittingStore()));
   }
 
+  const subscribeIsDirty = createSubscriber<boolean>(isDirtyStore);
+
+  function isDirtySetter(dirty: boolean) {
+    setIsDirty(dirty);
+  }
+
+  function isDirtyUpdater(updater: (dirty: boolean) => boolean) {
+    setIsDirty(updater(isDirtyStore()));
+  }
+
   return {
     data: {
       subscribe: subscribeData,
@@ -229,6 +243,13 @@ export function createStores<Data extends Obj>(
       update: isSubmittingUpdater,
       getter: () => isSubmittingStore,
       setter: setIsSubmitting,
+    },
+    isDirty: {
+      subscribe: subscribeIsDirty,
+      set: isDirtySetter,
+      update: isDirtyUpdater,
+      getter: () => isDirtyStore,
+      setter: setIsDirty,
     },
   };
 }
