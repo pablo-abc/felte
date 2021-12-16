@@ -2,11 +2,13 @@
 section: Helper functions
 subsections:
   - setField
+  - getField
   - setFields
   - setTouched
   - setError
   - validate
   - reset
+  - setInitialValues
   - createSubmitHandler
 ---
 
@@ -17,6 +19,10 @@ The `createForm` function also returns some additional helpers that can help wit
 ### setField
 
 A function that accepts a `string` path for the `data` store, the value to be set and an optional boolean argument defining if this operation should _touch_ the field (defaults to `true`).
+
+### getField
+
+A function that accepts a `string` path for the `data` store. It will return the value contained in said path.
 
 ### setFields
 
@@ -37,6 +43,10 @@ A function that forces Felte to validate all inputs, touches all of them and upd
 ### reset
 
 A function that resets all inputs and the `data` store to its original values. It has no arguments.
+
+### setInitialValues
+
+A helper function that sets the initialValues Felte handles internally. If called after initialization of the form, these values will be used when calling `reset`.
 
 ### createSubmitHandler
 
