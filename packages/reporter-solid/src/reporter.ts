@@ -1,16 +1,19 @@
 import { CurrentForm, Obj } from '@felte/common';
 import { getPath, _get } from '@felte/common';
+import type { ExtenderHandler } from '@felte/common';
 import { errorStores } from './stores';
 import { createId } from './utils';
 
-export function reporter<Data extends Obj>(currentForm: CurrentForm<Data>) {
+export function reporter<Data extends Obj>(
+  currentForm: CurrentForm<Data>
+): ExtenderHandler<Data> {
   const config = currentForm.config;
   if (!config.__felteReporterSvelteId) {
     const id = createId(21);
     config.__felteReporterSvelteId = id;
     errorStores[id] = currentForm.errors;
   }
-  if (!currentForm.form) return;
+  if (!currentForm.form) return {};
   if (!currentForm.form.hasAttribute('data-felte-reporter-svelte-id')) {
     currentForm.form.dataset.felteReporterSvelteId = config.__felteReporterSvelteId as string;
   }
