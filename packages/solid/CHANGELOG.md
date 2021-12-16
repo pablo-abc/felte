@@ -1,5 +1,14 @@
 # @felte/solid
 
+## 0.2.7
+
+### Patch Changes
+
+- 4b637d0: Add `setInitialValues` helper and `isDirty` store
+- Updated dependencies [4b637d0]
+- Updated dependencies [5d7b58d]
+  - @felte/core@0.2.7
+
 ## 0.2.6
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @felte/validator-superstruct
 
+## 0.3.0
+
+### Minor Changes
+
+- 9e6b799: coerce values before writing to data store if castValues is set.
+- 9e6b799: support superstruct coercions
+
+### Patch Changes
+
+- Updated dependencies [4b637d0]
+- Updated dependencies [5d7b58d]
+  - @felte/common@0.5.4
+
 ## 0.2.10
 
 ### Patch Changes

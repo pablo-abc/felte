@@ -1,5 +1,13 @@
 # @felte/validator-yup
 
+## 0.1.16
+
+### Patch Changes
+
+- Updated dependencies [4b637d0]
+- Updated dependencies [5d7b58d]
+  - @felte/common@0.5.4
+
 ## 0.1.15
 
 ### Patch Changes

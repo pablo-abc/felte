@@ -1,5 +1,15 @@
 # felte
 
+## 0.8.7
+
+### Patch Changes
+
+- 4b637d0: Add `setInitialValues` helper and `isDirty` store
+- 5d7b58d: Return `getField` helper from createForm
+- Updated dependencies [4b637d0]
+- Updated dependencies [5d7b58d]
+  - @felte/core@0.2.7
+
 ## 0.8.6
 
 ### Patch Changes

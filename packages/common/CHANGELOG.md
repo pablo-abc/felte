@@ -1,5 +1,12 @@
 # @felte/common
 
+## 0.5.4
+
+### Patch Changes
+
+- 4b637d0: Add `setInitialValues` helper and `isDirty` store
+- 5d7b58d: Return `getField` helper from createForm
+
 ## 0.5.3
 
 ### Patch Changes

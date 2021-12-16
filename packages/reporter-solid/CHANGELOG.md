@@ -1,5 +1,14 @@
 # @felte/reporter-solid
 
+## 0.1.13
+
+### Patch Changes
+
+- 4b637d0: Fix ValidationMessage not receiving messages
+- Updated dependencies [4b637d0]
+- Updated dependencies [5d7b58d]
+  - @felte/common@0.5.4
+
 ## 0.1.12
 
 ### Patch Changes

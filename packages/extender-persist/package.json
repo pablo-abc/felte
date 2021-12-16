@@ -1,6 +1,6 @@
 {
   "name": "@felte/extender-persist",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "Use localStorage to persist your Felte forms",
   "main": "dist/index.js",
   "browser": "dist/index.js",
