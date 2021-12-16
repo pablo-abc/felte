@@ -36,7 +36,7 @@ const config = {
     },
 
     prerender: {
-      pages: [
+      entries: [
         '*',
         '/docs/solid',
         '/docs/svelte',
