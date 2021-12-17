@@ -30,7 +30,7 @@ const config = {
 
     vite: {
       ssr: {
-        noExternal: ['svelte-portal', 'marked'],
+        noExternal: ['svelte-portal'],
         external: ['fs/promises'],
       },
     },
