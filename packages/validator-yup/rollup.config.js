@@ -18,7 +18,7 @@ export default {
   output: [
     {
       file: pkg.browser,
-      format: 'umd',
+      format: 'cjs',
       sourcemap: prod,
       exports: 'named',
       name,
