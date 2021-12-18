@@ -86,6 +86,7 @@ export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
     isSubmitting,
     isValid,
     isDirty,
+    cleanup,
     ...rest
   } = coreCreateForm(config, {
     storeFactory,
@@ -95,6 +96,9 @@ export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
     onCleanup(destroy);
     return { destroy };
   }
+
+  onCleanup(cleanup);
+
   return {
     ...rest,
     form,

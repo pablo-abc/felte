@@ -17,7 +17,7 @@ function createSubscriber<T>(store: T | (() => T)) {
       createEffect(() => fn(value()));
       return dispose;
     });
-    return () => disposer?.();
+    return () => disposer();
   };
 }
 
