@@ -31,6 +31,7 @@ type AccessorObservable<T> = {
 export type Observables<Data extends Obj> = {
   data: StoreObservable<Data>;
   errors: StoreObservable<Errors<Data>>;
+  warnings: StoreObservable<Errors<Data>>;
   touched: StoreObservable<Touched<Data>>;
   isValid: Pick<AccessorObservable<boolean>, 'subscribe' | 'getter'>;
   isSubmitting: AccessorObservable<boolean>;
@@ -55,6 +56,10 @@ export function createStores<Data extends Obj>(
 
   const [errorStore, setErrors] = createStore<Errors<Data>>({} as Errors<Data>);
 
+  const [warningStore, setWarnings] = createStore<Errors<Data>>(
+    {} as Errors<Data>
+  );
+
   const [resultErrors, setResultErrors] = createStore<Errors<Data>>(
     initialErrors
   );
@@ -68,7 +73,15 @@ export function createStores<Data extends Obj>(
     errorsSetter(errors || {});
   }
 
+  async function warn($data?: Data) {
+    let warnings: Errors<Data> | undefined = {};
+    if (!config.warn || !$data) return;
+    warnings = await executeValidation($data, config.warn);
+    warningsSetter(warnings || {});
+  }
+
   validate(dataStore);
+  warn(dataStore);
 
   function errorFilterer(
     errValue?: string | string[],
@@ -113,6 +126,7 @@ export function createStores<Data extends Obj>(
       setData(reconcile(data));
     });
     validate(data);
+    warn(data);
   }
 
   function dataUpdater(updater: (data: Data) => Data) {
@@ -122,10 +136,15 @@ export function createStores<Data extends Obj>(
       setData(reconcile(data));
     });
     validate(data);
+    warn(data);
   }
 
   const subscribeErrors = createSubscriber<Errors<Data>>(
     resultErrors as Errors<Data>
+  );
+
+  const subscribeWarnings = createSubscriber<Errors<Data>>(
+    warningStore as Errors<Data>
   );
 
   let firstCalled = false;
@@ -168,6 +187,21 @@ export function createStores<Data extends Obj>(
     });
     updateIsValidStore(errors);
     updateResultErrorsStore(errors, touchedStore);
+  }
+
+  function warningsSetter(warnings: Errors<Data>) {
+    batch(() => {
+      setWarnings(warnings);
+      setWarnings(reconcile(warnings as any));
+    });
+  }
+
+  function warningsUpdater(updater: (data: Errors<Data>) => Errors<Data>) {
+    const warnings = updater(warningStore as Errors<Data>) as any;
+    batch(() => {
+      setWarnings(warnings);
+      setWarnings(reconcile(warnings));
+    });
   }
 
   const subscribeTouched = createSubscriber<Touched<Data>>(touchedStore);
@@ -225,6 +259,13 @@ export function createStores<Data extends Obj>(
       update: errorsUpdater,
       getter: () => resultErrors,
       setter: setErrors,
+    },
+    warnings: {
+      subscribe: subscribeWarnings,
+      set: warningsSetter,
+      update: warningsUpdater,
+      getter: () => warningStore,
+      setter: setWarnings,
     },
     touched: {
       subscribe: subscribeTouched,

@@ -36,6 +36,19 @@ export function createStores<Data extends Obj>(
     }
   );
 
+  const warnings = writable(
+    {} as Errors<Data>,
+    (set: (values: Errors<Data>) => void) => {
+      async function warn($data?: Data) {
+        let warnings: Errors<Data> | undefined = {};
+        if (!config.warn || !$data) return;
+        warnings = await executeValidation($data, config.warn);
+        set(warnings || {});
+      }
+      return data.subscribe(warn);
+    }
+  );
+
   function errorFilterer(
     errValue?: string | string[],
     touchValue?: boolean | boolean[]
@@ -83,6 +96,7 @@ export function createStores<Data extends Obj>(
       set: errors.set,
       update: errors.update,
     },
+    warnings,
     data,
   };
 }

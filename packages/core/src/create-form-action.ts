@@ -34,7 +34,7 @@ import {
   getFormControls,
   executeValidation,
 } from '@felte/common';
-import { get } from 'svelte/store';
+import { get } from './get';
 
 type Configuration<Data extends Obj> = {
   stores: Stores<Data>;
@@ -44,6 +44,7 @@ type Configuration<Data extends Obj> = {
     reset(): void;
     validate(): Promise<Errors<Data> | void>;
     addValidator(validator: ValidationFunction<Data>): void;
+    addWarnValidator(validator: ValidationFunction<Data>): void;
     addTransformer(transformer: TransformFunction<Data>): void;
     setFields(values: Data): void;
     setTouched(fieldName: string, index?: number): void;
@@ -73,14 +74,16 @@ export function createFormAction<Data extends Obj>({
     reset,
     validate,
     addValidator,
+    addWarnValidator,
     addTransformer,
     setInitialValues,
   } = helpers;
-  const { data, errors, touched, isSubmitting, isDirty } = stores;
+  const { data, errors, warnings, touched, isSubmitting, isDirty } = stores;
 
   function createSubmitHandler(altConfig?: CreateSubmitHandlerConfig<Data>) {
     const onSubmit = altConfig?.onSubmit ?? config.onSubmit;
     const validate = altConfig?.validate ?? config.validate;
+    const warn = altConfig?.warn ?? config.warn;
     const onError = altConfig?.onError ?? config.onError;
     return async function handleSubmit(event?: Event) {
       const formNode = _getFormNode();
@@ -88,6 +91,8 @@ export function createFormAction<Data extends Obj>({
       isSubmitting.set(true);
       const currentData = get(data);
       const currentErrors = await executeValidation(currentData, validate);
+      const currentWarnings = await executeValidation(currentData, warn);
+      if (currentWarnings) warnings.set(currentWarnings);
       touched.update((t) => {
         return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
       });
@@ -140,9 +145,11 @@ export function createFormAction<Data extends Obj>({
         controls: Array.from(node.elements).filter(isFormControl),
         data,
         errors,
+        warnings,
         touched,
         config,
         addValidator,
+        addWarnValidator,
         addTransformer,
         setFields,
         validate,

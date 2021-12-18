@@ -23,7 +23,7 @@ import {
   _set,
   _unset,
 } from '@felte/common';
-import { get } from 'svelte/store';
+import { get } from './get';
 
 type CreateHelpersOptions<Data extends Obj> = {
   config: FormConfig<Data>;
@@ -37,7 +37,7 @@ export function createHelpers<Data extends Obj>({
   stores,
   config,
 }: CreateHelpersOptions<Data>) {
-  const { data, touched, errors, isDirty } = stores;
+  const { data, touched, errors, warnings, isDirty } = stores;
 
   function setTouched(fieldName: string, index?: number): void {
     const path =
@@ -47,6 +47,10 @@ export function createHelpers<Data extends Obj>({
 
   function setError(path: string, error: string | string[]): void {
     errors.update(($errors) => _set($errors, path, error));
+  }
+
+  function setWarning(path: string, warning: string | string[]): void {
+    warnings.update(($warnings) => _set($warnings, path, warning));
   }
 
   function setField(path: string, value?: FieldValue, touch = true): void {
@@ -99,6 +103,7 @@ export function createHelpers<Data extends Obj>({
       setTouched,
       setError,
       setField,
+      setWarning,
       getField,
       setFields,
       validate,

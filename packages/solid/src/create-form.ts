@@ -19,6 +19,7 @@ type Obj = Record<string, any>;
 export type Stores<Data extends Obj> = {
   data: Store<Data>;
   errors: Store<Errors<Data>>;
+  warnings: Store<Errors<Data>>;
   touched: Store<Touched<Data>>;
   isSubmitting: Accessor<boolean>;
   isValid: Accessor<boolean>;
@@ -88,6 +89,7 @@ export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
     form,
     data: stores.data.getter(),
     errors: stores.errors.getter(),
+    warnings: stores.warnings.getter(),
     touched: stores.touched.getter(),
     isSubmitting: stores.isSubmitting.getter(),
     isValid: stores.isValid.getter(),
