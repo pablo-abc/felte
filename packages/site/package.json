@@ -32,7 +32,7 @@
     "@felte/reporter-svelte": "^0.3.15",
     "@felte/reporter-tippy": "^0.3.7",
     "@felte/validator-yup": "^0.2.8",
-    "felte": "workspace:*",
+    "felte": "^0.8.7",
     "flexsearch": "^0.7.21",
     "focus-visible": "^5.2.0",
     "html-minifier": "^4.0.0",
