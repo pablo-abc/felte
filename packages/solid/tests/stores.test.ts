@@ -58,4 +58,35 @@ describe('Stores', () => {
       expect(mockFn).toHaveBeenCalledWith(true);
     });
   });
+
+  test('Updates value of warnings', () => {
+    const stores = createStores({ onSubmit: jest.fn() });
+
+    const warnings = stores.warnings.getter();
+    expect(warnings.password).toBe(undefined);
+    stores.warnings.update((v) => ({ ...v, password: 'weak' }));
+    expect(warnings.password).toBe('weak');
+  });
+
+  test('Subscribes to warnings', async () => {
+    const mockFn = jest.fn();
+    createRoot(() => {
+      const { warnings } = createStores({ onSubmit: jest.fn() });
+
+      expect(mockFn).not.toHaveBeenCalled();
+
+      warnings.subscribe(mockFn);
+
+      expect(mockFn).toHaveBeenCalledTimes(1);
+
+      warnings.set({ password: 'weak' });
+    });
+
+    await waitFor(() => {
+      expect(mockFn).toHaveBeenCalledTimes(2);
+      expect(mockFn).toHaveBeenCalledWith(
+        expect.objectContaining({ password: 'weak' })
+      );
+    });
+  });
 });
