@@ -191,3 +191,5 @@ export type Form<Data extends Obj> = {
   ) => (e?: Event) => void;
 } & Stores<Data> &
   Helpers<Data>;
+
+export type StoreFactory = <Value>(initialValue: Value) => Writable<Value>;

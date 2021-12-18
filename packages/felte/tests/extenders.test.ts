@@ -5,6 +5,8 @@ import { cleanupDOM, createDOM, createInputElement } from './common';
 import { get } from 'svelte/store';
 import type { CurrentForm } from '@felte/core';
 
+jest.mock('svelte', () => ({ onDestroy: jest.fn }));
+
 describe('Extenders', () => {
   beforeEach(createDOM);
 
@@ -296,6 +298,6 @@ describe('Extenders', () => {
       validate: validator,
     });
     await validate();
-    expect(validator).toHaveBeenCalledTimes(2);
+    expect(validator).toHaveBeenCalledTimes(3);
   });
 });

@@ -10,6 +10,8 @@ import {
 } from './common';
 import reporter from '../src';
 
+jest.mock('svelte', () => ({ onDestroy: jest.fn() }));
+
 describe('Reporter DOM', () => {
   beforeEach(createDOM);
 

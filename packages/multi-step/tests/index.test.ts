@@ -4,6 +4,8 @@ import { cleanupDOM, createInputElement } from './common';
 import { createForms } from '../src';
 import { get } from 'svelte/store';
 
+jest.mock('svelte', () => ({ onDestroy: jest.fn() }));
+
 function createLoginForm() {
   const formElement = document.createElement('form');
   const emailInput = createInputElement({ name: 'email', type: 'email' });

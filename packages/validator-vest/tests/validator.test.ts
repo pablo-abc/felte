@@ -6,6 +6,8 @@ import { get } from 'svelte/store';
 import type { ValidationFunction } from '@felte/common';
 import { create, enforce, test as assert } from 'vest';
 
+jest.mock('svelte', () => ({ onDestroy: jest.fn() }));
+
 describe('Validator vest', () => {
   test('correctly validates', async () => {
     const mockData = {
@@ -19,7 +21,7 @@ describe('Validator vest', () => {
       assert('password', 'Password is required', () => {
         enforce(data.password).isNotEmpty();
       });
-    })
+    });
     const { validate, errors, data } = createForm({
       initialValues: mockData,
       onSubmit: jest.fn(),
@@ -61,7 +63,7 @@ describe('Validator vest', () => {
       assert('account.password', 'Password is required', () => {
         enforce(data.account.password).isNotEmpty();
       });
-    })
+    });
 
     const { validate, errors, data } = createForm({
       initialValues: mockData,
@@ -108,7 +110,7 @@ describe('Validator vest', () => {
       assert('password', 'Password is required', () => {
         enforce(data.password).isNotEmpty();
       });
-    })
+    });
     const { validate, errors, data } = createForm<
       typeof mockData,
       ValidatorConfig
@@ -154,7 +156,7 @@ describe('Validator vest', () => {
       assert('account.password', 'Password is required', () => {
         enforce(data.account.password).isNotEmpty();
       });
-    })
+    });
     const { validate, errors, data } = createForm<
       typeof mockData,
       ValidatorConfig
@@ -171,7 +173,7 @@ describe('Validator vest', () => {
     expect(get(errors)).toEqual({
       account: {
         email: ['Email is required'],
-        password: ['Password is required']
+        password: ['Password is required'],
       },
     });
 
@@ -206,7 +208,7 @@ describe('Validator vest', () => {
       assert('account.password', 'Password is required', () => {
         enforce(data.account.password).isNotEmpty();
       });
-    })
+    });
     const { validate, errors, data } = createForm<
       typeof mockData,
       ValidatorConfig
@@ -227,10 +229,7 @@ describe('Validator vest', () => {
     expect(get(data)).toEqual(mockData);
     expect(get(errors)).toEqual({
       account: {
-        email: [
-          'not an email',
-          'Email is required',
-        ],
+        email: ['not an email', 'Email is required'],
         password: ['Password is required'],
       },
     });

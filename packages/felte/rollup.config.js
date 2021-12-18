@@ -14,7 +14,7 @@ const name = pkg.name
 
 export default {
   input: './src/index.ts',
-  external: ['svelte/store'],
+  external: ['svelte/store', 'svelte'],
   output: [
     { file: pkg.browser, format: 'cjs', sourcemap: prod, name },
     { file: pkg.module, format: 'esm', sourcemap: prod },

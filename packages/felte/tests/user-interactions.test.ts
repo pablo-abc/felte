@@ -10,6 +10,8 @@ import userEvent from '@testing-library/user-event';
 import { get } from 'svelte/store';
 import { isFormControl } from '@felte/core';
 
+jest.mock('svelte', () => ({ onDestroy: jest.fn }));
+
 function createLoginForm() {
   const formElement = screen.getByRole('form') as HTMLFormElement;
   const emailInput = createInputElement({ name: 'email', type: 'email' });
@@ -197,8 +199,8 @@ describe('User interactions with form', () => {
         const errors: {
           account: { password?: string; email?: string };
         } = { account: {} };
-        if (!values.account.email) errors.account.email = 'Must not be empty';
-        if (!values.account.password)
+        if (!values.account?.email) errors.account.email = 'Must not be empty';
+        if (!values.account?.password)
           errors.account.password = 'Must not be empty';
         return errors;
       },
@@ -564,7 +566,7 @@ describe('User interactions with form', () => {
   test('Validates initial values correctly', async () => {
     const { data, errors, setTouched, touched } = createForm({
       onSubmit: jest.fn(),
-      validate: (values) => {
+      validate: (values: any) => {
         const errors: {
           account: { password?: string; email?: string };
         } = { account: {} };

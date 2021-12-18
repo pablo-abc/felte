@@ -9,6 +9,8 @@ import {
 } from './common';
 import { get } from 'svelte/store';
 
+jest.mock('svelte', () => ({ onDestroy: jest.fn }));
+
 describe('Form action DOM mutations', () => {
   beforeEach(createDOM);
 

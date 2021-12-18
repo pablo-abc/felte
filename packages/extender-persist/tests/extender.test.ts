@@ -6,6 +6,8 @@ import { createDOM, cleanupDOM, createInputElement } from './common';
 import { extender } from '../src';
 import { get } from 'svelte/store';
 
+jest.mock('svelte', () => ({ onDestroy: jest.fn() }));
+
 describe('Extender persist', () => {
   beforeEach(createDOM);
 

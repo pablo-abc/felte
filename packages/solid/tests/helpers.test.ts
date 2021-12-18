@@ -229,9 +229,9 @@ describe('Helpers', () => {
       onSubmit: jest.fn(),
     });
 
-    expect(mockValidate).toHaveBeenCalledTimes(1);
-    validate();
     expect(mockValidate).toHaveBeenCalledTimes(2);
+    validate();
+    expect(mockValidate).toHaveBeenCalledTimes(3);
     await waitFor(() => {
       expect(errors).toEqual(mockErrors);
       expect(touched).toEqual({
@@ -243,7 +243,7 @@ describe('Helpers', () => {
 
     mockValidate.mockImplementation(() => ({} as any));
     validate();
-    expect(mockValidate).toHaveBeenCalledTimes(3);
+    expect(mockValidate).toHaveBeenCalledTimes(4);
     await waitFor(() => {
       expect(errors).toEqual({ account: { email: null } });
       expect(touched).toEqual({

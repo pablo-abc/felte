@@ -1,5 +1,6 @@
 import { createForm as coreCreateForm } from '@felte/core';
-import { createStores } from './stores';
+import { writable } from 'svelte/store';
+import { onDestroy } from 'svelte';
 import type {
   Form,
   FormConfig,
@@ -32,6 +33,9 @@ export function createForm<Data extends Obj = any, Ext extends Obj = any>(
 export function createForm<Data extends Obj = any, Ext extends Obj = any>(
   config: FormConfig<Data> & Ext
 ): Form<Data> {
-  const stores = createStores(config);
-  return coreCreateForm(config, { stores });
+  const { cleanup, ...rest } = coreCreateForm(config, {
+    storeFactory: writable,
+  });
+  onDestroy(cleanup);
+  return rest;
 }

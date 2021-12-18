@@ -247,7 +247,7 @@ importers:
       autoprefixer: ^10.3.1
       cssnano: ^5.0.6
       eslint-plugin-svelte3: ^3.2.0
-      felte: ^0.8.7
+      felte: workspace:*
       flexsearch: ^0.7.21
       focus-visible: ^5.2.0
       front-matter: ^4.0.2
