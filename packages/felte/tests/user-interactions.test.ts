@@ -9,8 +9,9 @@ import { createForm } from '../src';
 import userEvent from '@testing-library/user-event';
 import { get } from 'svelte/store';
 import { isFormControl } from '@felte/core';
+import { onDestroy } from 'svelte';
 
-jest.mock('svelte', () => ({ onDestroy: jest.fn }));
+jest.mock('svelte');
 
 function createLoginForm() {
   const formElement = screen.getByRole('form') as HTMLFormElement;
@@ -158,6 +159,9 @@ function createSignupForm() {
 }
 
 describe('User interactions with form', () => {
+  beforeAll(() => {
+    (onDestroy as jest.Mock<typeof onDestroy>).mockImplementation(jest.fn());
+  });
   beforeEach(createDOM);
 
   afterEach(cleanupDOM);
@@ -817,5 +821,11 @@ describe('User interactions with form', () => {
     await waitFor(() => {
       expect(get(data).account.publicEmail).toBe(false);
     });
+  });
+
+  test('calls cleanup on destroy', () => {
+    (onDestroy as jest.Mock<typeof onDestroy>).mockImplementation((cb) => cb());
+    createForm({ onSubmit: jest.fn() });
+    expect(onDestroy).toHaveBeenCalled();
   });
 });
