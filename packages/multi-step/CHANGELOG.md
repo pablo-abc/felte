@@ -1,5 +1,16 @@
 # @felte/multi-step
 
+## 2.0.0
+
+### Patch Changes
+
+- 6fe19bf: Change build output from umd to cjs, since Felte is not planned to be used as a global import, a umd build is not necessary.
+- Updated dependencies [6fe19bf]
+- Updated dependencies [6fe19bf]
+- Updated dependencies [6fe19bf]
+- Updated dependencies [6fe19bf]
+  - felte@0.9.0
+
 ## 1.0.0
 
 ### Patch Changes

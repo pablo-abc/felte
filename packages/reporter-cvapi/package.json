@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-cvapi",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "An error reporter for Felte using the browser's Constraint Validation API",
   "main": "dist/index.js",
   "browser": "dist/index.js",
@@ -26,10 +26,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@felte/common": "^0.5.0"
+    "@felte/common": "^0.6.0"
   },
   "devDependencies": {
-    "felte": "^0.8.0"
+    "felte": "^0.9.0"
   },
   "publishConfig": {
     "access": "public"

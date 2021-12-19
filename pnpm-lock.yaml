@@ -151,16 +151,16 @@ importers:
 
   packages/multi-step:
     specifiers:
-      '@felte/common': ^0.5.0
-      felte: ^0.8.0
+      '@felte/common': ^0.6.0
+      felte: ^0.9.0
     devDependencies:
       '@felte/common': link:../common
       felte: link:../felte
 
   packages/reporter-cvapi:
     specifiers:
-      '@felte/common': ^0.5.0
-      felte: ^0.8.0
+      '@felte/common': ^0.6.0
+      felte: ^0.9.0
     dependencies:
       '@felte/common': link:../common
     devDependencies:
@@ -238,16 +238,16 @@ importers:
 
   packages/site:
     specifiers:
-      '@felte/reporter-dom': ^0.3.7
-      '@felte/reporter-svelte': ^0.3.15
-      '@felte/reporter-tippy': ^0.3.7
-      '@felte/validator-yup': ^0.2.8
+      '@felte/reporter-dom': ^0.3.13
+      '@felte/reporter-svelte': ^0.3.20
+      '@felte/reporter-tippy': ^0.3.12
+      '@felte/validator-yup': ^0.2.12
       '@sveltejs/adapter-static': 1.0.0-next.22
       '@sveltejs/kit': 1.0.0-next.202
       autoprefixer: ^10.3.1
       cssnano: ^5.0.6
       eslint-plugin-svelte3: ^3.2.0
-      felte: ^0.8.7
+      felte: ^0.9.0
       flexsearch: ^0.7.21
       focus-visible: ^5.2.0
       front-matter: ^4.0.2

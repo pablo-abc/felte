@@ -1,5 +1,20 @@
 # @felte/core
 
+## 0.3.0
+
+### Minor Changes
+
+- 6fe19bf: BREAKING: Felte core now only needs a store factory to work. Framework integrations do not need to provide all stores but only a factory function that creates an observable.
+
+### Patch Changes
+
+- 6fe19bf: Add support for warnings
+- 6fe19bf: Change build output from umd to cjs, since Felte is not planned to be used as a global import, a umd build is not necessary.
+- Updated dependencies [6fe19bf]
+- Updated dependencies [6fe19bf]
+- Updated dependencies [6fe19bf]
+  - @felte/common@0.6.0
+
 ## 0.2.7
 
 ### Patch Changes

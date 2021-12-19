@@ -1,6 +1,6 @@
 {
   "name": "@felte/validator-superstruct",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A package to use Superstruct validation with Felte",
   "main": "dist/index.js",
   "browser": "dist/index.js",
