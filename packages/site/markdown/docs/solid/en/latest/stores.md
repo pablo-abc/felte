@@ -3,6 +3,7 @@ section: Stores
 subsections:
   - data
   - errors
+  - warnings
   - touched
   - isValid
   - isSubmitting
@@ -20,6 +21,10 @@ A store that contains the form's values. Depending on the field type, the values
 ### errors
 
 A store that contains the validation errors in the form. It will have the same shape as `data` but containing either a `string` or an array of `string`s with each validation message per field.
+
+### warnings
+
+A store that contains warnings on the form fields set by the `warn` function. Unlike the `errors` store, this store will have validation messages immediately and not only when a field is touched.
 
 ### touched
 
