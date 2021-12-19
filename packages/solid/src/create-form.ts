@@ -1,5 +1,5 @@
 import { createForm as coreCreateForm } from '@felte/core';
-import { createStores } from './stores';
+import { storeFactory } from './stores';
 import { onCleanup } from 'solid-js';
 import type {
   FormConfig,
@@ -9,16 +9,17 @@ import type {
   Touched,
   CreateSubmitHandlerConfig,
   FieldValue,
+  Stores as ObservableStores,
 } from '@felte/core';
 import type { Accessor } from 'solid-js';
 import type { Store } from 'solid-js/store';
-import type { Observables } from './stores';
 
 type Obj = Record<string, any>;
 
 export type Stores<Data extends Obj> = {
   data: Store<Data>;
   errors: Store<Errors<Data>>;
+  warnings: Store<Errors<Data>>;
   touched: Store<Touched<Data>>;
   isSubmitting: Accessor<boolean>;
   isValid: Accessor<boolean>;
@@ -51,7 +52,7 @@ export type Form<Data extends Obj> = {
   validate: () => Promise<Errors<Data> | void>;
   /** Helper function to re-set the initialValues of Felte. No reactivity will be triggered but this will be the data the form will be reset to when caling `reset`. */
   setInitialValues: (values: Data) => void;
-  observables: Observables<Data>;
+  observables: ObservableStores<Data>;
 } & Stores<Data>;
 /**
  * Creates the stores and `form` action to make the form reactive.
@@ -76,22 +77,46 @@ export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
 export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
   config: FormConfig<Data> & Ext
 ): Form<Data> {
-  const stores = createStores(config);
-  const { form: formAction, ...rest } = coreCreateForm(config, { stores });
+  const {
+    form: formAction,
+    data,
+    errors,
+    warnings,
+    touched,
+    isSubmitting,
+    isValid,
+    isDirty,
+    cleanup,
+    ...rest
+  } = coreCreateForm(config, {
+    storeFactory,
+  });
   function form(node: HTMLFormElement) {
     const { destroy } = formAction(node);
     onCleanup(destroy);
     return { destroy };
   }
+
+  onCleanup(cleanup);
+
   return {
     ...rest,
     form,
-    data: stores.data.getter(),
-    errors: stores.errors.getter(),
-    touched: stores.touched.getter(),
-    isSubmitting: stores.isSubmitting.getter(),
-    isValid: stores.isValid.getter(),
-    isDirty: stores.isDirty.getter(),
-    observables: stores,
+    data: (data as any).getSolidValue(),
+    errors: (errors as any).getSolidValue(),
+    warnings: (warnings as any).getSolidValue(),
+    touched: (touched as any).getSolidValue(),
+    isSubmitting: (isSubmitting as any).getSolidValue(),
+    isValid: (isValid as any).getSolidValue(),
+    isDirty: (isDirty as any).getSolidValue(),
+    observables: {
+      data,
+      errors,
+      warnings,
+      touched,
+      isSubmitting,
+      isValid,
+      isDirty,
+    },
   };
 }

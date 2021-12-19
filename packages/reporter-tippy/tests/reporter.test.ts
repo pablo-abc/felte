@@ -11,6 +11,8 @@ import {
 } from './common';
 import reporter from '../src';
 
+jest.mock('svelte', () => ({ onDestroy: jest.fn() }));
+
 function getTippy(element: any): Instance<Props> | undefined {
   return element?._tippy;
 }

@@ -15,7 +15,7 @@ const name = pkg.name
 export default {
   input: './src/index.ts',
   output: [
-    { file: pkg.browser, format: 'umd', sourcemap: prod, name },
+    { file: pkg.browser, format: 'cjs', sourcemap: prod, name },
     { file: pkg.module, format: 'esm', sourcemap: prod },
   ],
   plugins: [

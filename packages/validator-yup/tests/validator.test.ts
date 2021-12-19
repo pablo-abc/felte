@@ -7,6 +7,8 @@ import type { ValidatorConfig } from '../src';
 import * as yup from 'yup';
 import { get } from 'svelte/store';
 
+jest.mock('svelte', () => ({ onDestroy: jest.fn() }));
+
 describe('Validator yup', () => {
   test('correctly validates', async () => {
     const schema = yup.object({

@@ -1,61 +1,84 @@
+import { _isPlainObject } from '@felte/core';
 import { waitFor } from '@testing-library/dom';
-import { createStores } from '../src/stores';
 import { createRoot } from 'solid-js';
+import { storeFactory } from '../src/stores';
 
 describe('Stores', () => {
-  test('Updates value of isSubmitting', () => {
-    const stores = createStores({ onSubmit: jest.fn() });
-
-    const isSubmitting = stores.isSubmitting.getter();
-    expect(isSubmitting()).toBe(false);
-    stores.isSubmitting.update((v) => !v);
-    expect(isSubmitting()).toBe(true);
+  test('Creates signal observable', () => {
+    const observable = storeFactory(true);
+    expect(_isPlainObject(observable.getSolidValue())).toBe(false);
   });
 
-  test('Subscribes to isSubmitting', async () => {
+  test('Updates signal observable', async () => {
     const mockFn = jest.fn();
     createRoot(() => {
-      const stores = createStores({ onSubmit: jest.fn() });
-
-      expect(mockFn).not.toHaveBeenCalled();
-
-      stores.isSubmitting.subscribe(mockFn);
-
+      const observable = storeFactory(true);
+      observable.subscribe(mockFn);
       expect(mockFn).toHaveBeenCalledTimes(1);
+      expect(mockFn).toHaveBeenCalledWith(true);
 
-      stores.isSubmitting.set(true);
+      observable.update((v) => !v);
     });
     await waitFor(() => {
       expect(mockFn).toHaveBeenCalledTimes(2);
-      expect(mockFn).toHaveBeenCalledWith(true);
+      expect(mockFn).toHaveBeenCalledWith(false);
     });
   });
 
-  test('Updates value of isDirty', () => {
-    const stores = createStores({ onSubmit: jest.fn() });
-
-    const isDirty = stores.isDirty.getter();
-    expect(isDirty()).toBe(false);
-    stores.isDirty.update((v) => !v);
-    expect(isDirty()).toBe(true);
-  });
-
-  test('Subscribes to isDirty', async () => {
+  test('Sets signal observable', async () => {
     const mockFn = jest.fn();
     createRoot(() => {
-      const stores = createStores({ onSubmit: jest.fn() });
-
-      expect(mockFn).not.toHaveBeenCalled();
-
-      stores.isDirty.subscribe(mockFn);
-
+      const observable = storeFactory(true);
+      observable.subscribe(mockFn);
       expect(mockFn).toHaveBeenCalledTimes(1);
+      expect(mockFn).toHaveBeenCalledWith(true);
 
-      stores.isDirty.set(true);
+      observable.set(false);
     });
     await waitFor(() => {
       expect(mockFn).toHaveBeenCalledTimes(2);
-      expect(mockFn).toHaveBeenCalledWith(true);
+      expect(mockFn).toHaveBeenCalledWith(false);
+    });
+  });
+
+  test('Creates store observable', () => {
+    const observable = storeFactory({});
+    expect(_isPlainObject(observable.getSolidValue())).toBe(true);
+  });
+
+  test('Updates store observable', async () => {
+    const mockFn = jest.fn();
+    createRoot(() => {
+      const observable = storeFactory({});
+      observable.subscribe(mockFn);
+      expect(mockFn).toHaveBeenCalledTimes(1);
+      expect(mockFn).toHaveBeenCalledWith(expect.objectContaining({}));
+
+      observable.update((v) => ({ ...v, value: 'test' }));
+    });
+    await waitFor(() => {
+      expect(mockFn).toHaveBeenCalledTimes(2);
+      expect(mockFn).toHaveBeenCalledWith(
+        expect.objectContaining({ value: 'test' })
+      );
+    });
+  });
+
+  test('Sets store observable', async () => {
+    const mockFn = jest.fn();
+    createRoot(() => {
+      const observable = storeFactory({});
+      observable.subscribe(mockFn);
+      expect(mockFn).toHaveBeenCalledTimes(1);
+      expect(mockFn).toHaveBeenCalledWith(expect.objectContaining({}));
+
+      observable.set({ value: 'test' });
+    });
+    await waitFor(() => {
+      expect(mockFn).toHaveBeenCalledTimes(2);
+      expect(mockFn).toHaveBeenCalledWith(
+        expect.objectContaining({ value: 'test' })
+      );
     });
   });
 });

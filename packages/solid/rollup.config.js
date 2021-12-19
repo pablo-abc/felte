@@ -16,7 +16,7 @@ export default {
   input: './src/index.ts',
   external: ['solid-js/store', 'solid-js'],
   output: [
-    { file: pkg.browser, format: 'umd', sourcemap: prod, name },
+    { file: pkg.browser, format: 'cjs', sourcemap: prod, name },
     { file: pkg.module, format: 'esm', sourcemap: prod },
   ],
   plugins: [

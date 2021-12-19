@@ -4,6 +4,7 @@ subsections:
   - Server errors
   - Error handling
   - Multiple validations
+  - Warnings
 ---
 
 ## Validation
@@ -79,3 +80,23 @@ You don't need to manually handle this errors. Felte provides four official pack
 ### Multiple validations
 
 The `validate` property of the configuration object can also be an array of validation functions. The resulting errors from running each validation function will be merged into a single object. If a single property was assigned two or more errors from the validation functions, the property will be an array of strings. This might not be useful for common scenarios, but it will come useful when using any of our [validator packages](/docs/svelte/validators).
+
+### Warnings
+
+Sometimes you may want to display certain validation messages that _do not_ prevent the form from submitting, such as a password security message. Felte provides a store called `warnings` for this, and such warnings can be added to the store by using the `warn` property on `createForm`'s configuration.
+
+```javascript
+const { form } = createForm({
+  // ...
+  warn: (values) => {
+    const warnings = {}
+    if (values.password && values.password.length < 8) {
+      warnings.password = 'Your password could be more secure';
+    }
+    return warnings;
+  },
+  // ...
+});
+```
+
+The `warn` function works exactly the same as the `validate` function. With the same features and constraints. Multiple warn functions can be passed as an array, and the shape of `warnings` can contain either a string or an array of strings.

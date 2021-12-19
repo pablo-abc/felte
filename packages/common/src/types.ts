@@ -11,32 +11,36 @@ export type DeepSetResult<Data extends Obj | Obj[], Value> = {
 export type CreateSubmitHandlerConfig<Data extends Obj> = {
   onSubmit?: FormConfig<Data>['onSubmit'];
   validate?: FormConfig<Data>['validate'];
+  warn?: FormConfig<Data>['warn'];
   onError?: FormConfig<Data>['onError'];
 };
 
 export type Helpers<Data extends Obj> = {
   /** Function that resets the form to its initial values */
-  reset: () => void;
+  reset(): void;
   /** Helper function to touch a specific field. */
-  setTouched: (path: string) => void;
+  setTouched(path: string): void;
   /** Helper function to set an error to a specific field. */
-  setError: (path: string, error: string | string[]) => void;
+  setError(path: string, error: string | string[]): void;
+  /** Helper function to set a warning on a specific field. */
+  setWarning(path: string, warning: string | string[]): void;
   /** Helper function to set the value of a specific field. Set `touch` to `false` if you want to set the value without setting the field to touched. */
-  setField: (path: string, value?: FieldValue, touch?: boolean) => void;
+  setField(path: string, value?: FieldValue, touch?: boolean): void;
   /** Helper function to get the value of a specific field. */
   getField(path: string): FieldValue | FieldValue[];
   /** Helper function to set all values of the form. Useful for "initializing" values after the form has loaded. */
-  setFields: (values: Data) => void;
-  /** Helper function that validates every fields and touches all of them. It updates the `errors` store. */
-  validate: () => Promise<Errors<Data> | void>;
+  setFields(values: Data): void;
+  /** Helper function that validates every fields and touches all of them. It updates the `errors` and `warnings` store. */
+  validate(): Promise<Errors<Data> | void>;
   /** Helper function to re-set the initialValues of Felte. No reactivity will be triggered but this will be the data the form will be reset to when caling `reset`. */
-  setInitialValues: (values: Data) => void;
+  setInitialValues(values: Data): void;
 };
 
 export type CurrentForm<Data extends Obj> = {
   form?: HTMLFormElement;
   controls?: FormControl[];
   errors: Writable<Errors<Data>>;
+  warnings: Writable<Errors<Data>>;
   data: Writable<Data>;
   touched: Writable<Touched<Data>>;
   config: FormConfig<Data>;
@@ -44,6 +48,7 @@ export type CurrentForm<Data extends Obj> = {
   reset(): void;
   validate(): Promise<Errors<Data> | void>;
   addValidator(validator: ValidationFunction<Data>): void;
+  addWarnValidator(validator: ValidationFunction<Data>): void;
   addTransformer(transformer: TransformFunction<Data>): void;
 };
 
@@ -97,6 +102,8 @@ export type SubmitContext<Data extends Obj> = {
 export interface FormConfigWithoutInitialValues<Data extends Obj> {
   /** Optional function to validate the data. */
   validate?: ValidationFunction<Data> | ValidationFunction<Data>[];
+  /** Optional function to set warnings based on the current state of your data. */
+  warn?: ValidationFunction<Data> | ValidationFunction<Data>[];
   /** Optional function to transform data before it gets set in the store. */
   transform?: TransformFunction<Data> | TransformFunction<Data>[];
   /** Required function to handle the form data on submit. */
@@ -162,6 +169,8 @@ export type Stores<Data extends Obj> = {
   data: Writable<Data>;
   /** Writable store that contains the form's validation errors. */
   errors: Writable<Errors<Data>>;
+  /** Writable store that contains warnings for the form. These won't prevent a submit from happening. */
+  warnings: Writable<Errors<Data>>;
   /** Writable store that denotes if any field has been touched. */
   touched: Writable<Touched<Data>>;
   /** Writable store containing only a boolean that represents if the form is submitting. */
@@ -184,3 +193,5 @@ export type Form<Data extends Obj> = {
   ) => (e?: Event) => void;
 } & Stores<Data> &
   Helpers<Data>;
+
+export type StoreFactory = <Value>(initialValue: Value) => Writable<Value>;

@@ -18,12 +18,9 @@ export default {
   output: [
     {
       file: pkg.browser,
-      format: 'umd',
+      format: 'cjs',
       sourcemap: prod,
       exports: 'default',
-      globals: {
-        'tippy.js': 'tippy',
-      },
       name,
     },
     { file: pkg.module, format: 'esm', sourcemap: prod, exports: 'default' },

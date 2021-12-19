@@ -4,6 +4,8 @@ import { createForm } from '../src';
 import { createInputElement, createDOM, cleanupDOM } from './common';
 import { get } from 'svelte/store';
 
+jest.mock('svelte', () => ({ onDestroy: jest.fn }));
+
 describe('Helpers', () => {
   beforeEach(createDOM);
 
@@ -221,9 +223,9 @@ describe('Helpers', () => {
       onSubmit: jest.fn(),
     });
 
-    expect(mockValidate).not.toHaveBeenCalled();
+    expect(mockValidate).toHaveBeenCalledTimes(1);
     validate();
-    expect(mockValidate).toHaveBeenCalled();
+    expect(mockValidate).toHaveBeenCalledTimes(2);
     await waitFor(() => {
       expect(get(errors)).toEqual(mockErrors);
       expect(get(touched)).toEqual({
@@ -235,7 +237,7 @@ describe('Helpers', () => {
 
     mockValidate.mockImplementation(() => ({} as any));
     validate();
-    expect(mockValidate).toHaveBeenCalledTimes(4);
+    expect(mockValidate).toHaveBeenCalledTimes(3);
     await waitFor(() => {
       expect(get(errors)).toEqual({ account: { email: null } });
       expect(get(touched)).toEqual({

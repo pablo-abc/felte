@@ -6,6 +6,8 @@ import { object, string, size, coerce, date, Infer } from 'superstruct';
 import { get } from 'svelte/store';
 import type { ValidationFunction } from '@felte/common';
 
+jest.mock('svelte', () => ({ onDestroy: jest.fn() }));
+
 describe('Validator superstruct', () => {
   test('correctly validates', async () => {
     const struct = object({

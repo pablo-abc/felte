@@ -1,3 +1,15 @@
+import type {
+  Form,
+  FormConfig,
+  FormConfigWithInitialValues,
+  FormConfigWithoutInitialValues,
+  ExtenderHandler,
+  Touched,
+  StoreFactory,
+  Obj,
+  ValidationFunction,
+  TransformFunction,
+} from '@felte/common';
 import {
   _unset,
   _set,
@@ -11,21 +23,14 @@ import {
 } from '@felte/common';
 import { createHelpers } from './helpers';
 import { createFormAction } from './create-form-action';
-import type {
-  Form,
-  FormConfig,
-  FormConfigWithInitialValues,
-  FormConfigWithoutInitialValues,
-  ExtenderHandler,
-  Touched,
-  Stores,
-  Obj,
-  ValidationFunction,
-  TransformFunction,
-} from '@felte/common';
+import { createStores } from './stores';
 
-export type Adapters<Data extends Obj> = {
-  stores: Stores<Data>;
+export type Adapters = {
+  storeFactory: StoreFactory;
+};
+
+type CoreForm<Data extends Obj = any> = Form<Data> & {
+  cleanup(): void;
 };
 
 /**
@@ -36,24 +41,24 @@ export type Adapters<Data extends Obj> = {
  *
  * @category Main
  */
-export function createForm<Data extends Obj, Ext extends Obj = Obj>(
+export function createForm<Data extends Obj = any, Ext extends Obj = any>(
   config: FormConfigWithInitialValues<Data> & Ext,
-  adapters: Adapters<Data>
-): Form<Data>;
+  adapters: Adapters
+): CoreForm<Data>;
 /**
  * Creates the stores and `form` action to make the form reactive.
  * In order to use auto-subscriptions with the stores, call this function at the top-level scope of the component.
  *
  * @param config - Configuration for the form itself. Since `initialValues` is not set (when only using the `form` action), `Data` will be undefined until the `form` element loads.
  */
-export function createForm<Data extends Obj, Ext extends Obj = Obj>(
+export function createForm<Data extends Obj = any, Ext extends Obj = any>(
   config: FormConfigWithoutInitialValues<Data> & Ext,
-  adapters: Adapters<Data>
-): Form<Data>;
-export function createForm<Data extends Obj, Ext extends Obj = Obj>(
+  adapters: Adapters
+): CoreForm<Data>;
+export function createForm<Data extends Obj = any, Ext extends Obj = any>(
   config: FormConfig<Data> & Ext,
-  adapters: Adapters<Data>
-): Form<Data> {
+  adapters: Adapters
+): CoreForm<Data> {
   config.extend ??= [];
   config.touchTriggerEvents ??= { change: true, blur: true };
   if (config.validate && !Array.isArray(config.validate))
@@ -61,6 +66,8 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
 
   if (config.transform && !Array.isArray(config.transform))
     config.transform = [config.transform];
+
+  if (config.warn && !Array.isArray(config.warn)) config.warn = [config.warn];
 
   function addValidator(validator: ValidationFunction<Data>) {
     if (!config.validate) {
@@ -70,6 +77,14 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
         ...(config.validate as ValidationFunction<Data>[]),
         validator,
       ];
+    }
+  }
+
+  function addWarnValidator(validator: ValidationFunction<Data>) {
+    if (!config.warn) {
+      config.warn = [validator];
+    } else {
+      config.warn = [...(config.warn as ValidationFunction<Data>[]), validator];
     }
   }
 
@@ -93,10 +108,12 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
     isSubmitting,
     data,
     errors,
+    warnings,
     touched,
     isValid,
     isDirty,
-  } = adapters.stores;
+    cleanup,
+  } = createStores(adapters.storeFactory, config);
   const originalUpdate = data.update;
   const originalSet = data.set;
 
@@ -115,6 +132,7 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
     stores: {
       data,
       errors,
+      warnings,
       touched,
       isValid,
       isSubmitting,
@@ -125,10 +143,12 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
   currentExtenders = extender.map((extender) =>
     extender({
       errors,
+      warnings,
       touched,
       data,
       config,
       addValidator,
+      addWarnValidator,
       addTransformer,
       setFields: helpers.public.setFields,
       reset: helpers.public.reset,
@@ -169,11 +189,12 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
 
   const { form, createSubmitHandler, handleSubmit } = createFormAction<Data>({
     config,
-    stores: { data, touched, errors, isSubmitting, isValid, isDirty },
+    stores: { data, touched, errors, warnings, isSubmitting, isValid, isDirty },
     helpers: {
       ...helpers.public,
       addTransformer,
       addValidator,
+      addWarnValidator,
     },
     extender,
     _getCurrentExtenders,
@@ -184,6 +205,7 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
   return {
     data: { ...data, set: newDataSet },
     errors,
+    warnings,
     touched,
     isValid,
     isSubmitting,
@@ -191,6 +213,7 @@ export function createForm<Data extends Obj, Ext extends Obj = Obj>(
     form,
     handleSubmit,
     createSubmitHandler,
+    cleanup,
     ...helpers.public,
   };
 }

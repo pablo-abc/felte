@@ -5,9 +5,35 @@ import {
   createDOM,
   createMultipleInputElements,
 } from './common';
-import { createForm } from '../src';
+import { createForm as coreCreateForm } from '../src';
 import userEvent from '@testing-library/user-event';
-import { isFormControl } from '@felte/core';
+import { get, writable } from 'svelte/store';
+import { isFormControl } from '@felte/common';
+import type { FormConfig, Form, Obj } from '@felte/common';
+
+function createSelectElement({
+  name,
+  options,
+}: {
+  name: string;
+  options: string[];
+}) {
+  const selectElement = document.createElement('select');
+  selectElement.name = name;
+  const optionElements = options.map((option) => {
+    const element = document.createElement('option');
+    element.value = option;
+    return element;
+  });
+  selectElement.append(...optionElements);
+  return selectElement;
+}
+
+function createForm<Data extends Obj>(config: FormConfig<Data>) {
+  return coreCreateForm(config, {
+    storeFactory: writable,
+  });
+}
 
 function createLoginForm() {
   const formElement = screen.getByRole('form') as HTMLFormElement;
@@ -49,6 +75,10 @@ function createSignupForm() {
     value: 'no',
     type: 'radio',
   });
+  const accountTypeElement = createSelectElement({
+    name: 'accountType',
+    options: ['user', 'admin'],
+  });
   const accountFieldset = document.createElement('fieldset');
   accountFieldset.name = 'account';
   accountFieldset.append(
@@ -57,7 +87,8 @@ function createSignupForm() {
     showPasswordInput,
     publicEmailYesRadio,
     publicEmailNoRadio,
-    confirmPasswordInput
+    confirmPasswordInput,
+    accountTypeElement
   );
   formElement.appendChild(accountFieldset);
   const profileFieldset = document.createElement('fieldset');
@@ -150,6 +181,8 @@ function createSignupForm() {
     extraCheckboxes,
     extraPreferences1,
     extraPreferences2,
+    accountFieldset,
+    accountTypeElement,
   };
 }
 
@@ -159,12 +192,12 @@ describe('User interactions with form', () => {
   afterEach(cleanupDOM);
 
   test('Sets default data correctly', () => {
-    const { form, data } = createForm({
+    const { form, data, cleanup } = createForm({
       onSubmit: jest.fn(),
     });
     const { formElement } = createSignupForm();
     form(formElement);
-    const $data = data;
+    const $data = get(data);
     expect($data).toEqual(
       expect.objectContaining({
         account: {
@@ -173,6 +206,7 @@ describe('User interactions with form', () => {
           confirmPassword: '',
           showPassword: false,
           publicEmail: undefined,
+          accountType: 'user',
         },
         profile: {
           firstName: '',
@@ -186,24 +220,25 @@ describe('User interactions with form', () => {
         preferences: expect.arrayContaining([]),
       })
     );
+    cleanup();
   });
 
   test('Validates default data correctly', async () => {
-    const { form, data, errors, touched, setTouched } = createForm({
+    const { form, data, errors, setTouched } = createForm({
       onSubmit: jest.fn(),
       validate: (values: any) => {
         const errors: {
           account: { password?: string; email?: string };
         } = { account: {} };
-        if (!values?.account?.email) errors.account.email = 'Must not be empty';
-        if (!values?.account?.password)
+        if (!values.account?.email) errors.account.email = 'Must not be empty';
+        if (!values.account?.password)
           errors.account.password = 'Must not be empty';
         return errors;
       },
     });
     const { formElement } = createSignupForm();
     form(formElement);
-    const $data = data;
+    const $data = get(data);
     expect($data).toEqual(
       expect.objectContaining({
         account: {
@@ -212,6 +247,7 @@ describe('User interactions with form', () => {
           confirmPassword: '',
           showPassword: false,
           publicEmail: undefined,
+          accountType: 'user',
         },
         profile: {
           firstName: '',
@@ -236,7 +272,7 @@ describe('User interactions with form', () => {
         },
       })
     );
-    expect(errors).toMatchObject({
+    expect(get(errors)).toMatchObject({
       account: {
         email: null,
         password: null,
@@ -244,16 +280,7 @@ describe('User interactions with form', () => {
     });
     setTouched('account.email');
     await waitFor(() => {
-      expect(touched).toMatchObject({
-        account: {
-          email: true,
-          password: false,
-        },
-      });
-    });
-
-    await waitFor(() => {
-      expect(errors).toMatchObject({
+      expect(get(errors)).toMatchObject({
         account: {
           email: 'Must not be empty',
           password: null,
@@ -262,7 +289,7 @@ describe('User interactions with form', () => {
     });
     setTouched('account.password');
     await waitFor(() => {
-      expect(errors).toMatchObject({
+      expect(get(errors)).toMatchObject({
         account: {
           email: 'Must not be empty',
           password: 'Must not be empty',
@@ -286,6 +313,7 @@ describe('User interactions with form', () => {
       extraNumberInputs,
       extraCheckboxes,
       extraPreferences1,
+      accountTypeElement,
     } = createSignupForm();
     emailInput.value = 'jacek@soplica.com';
     const bioTest = 'Litwo! Ojczyzno moja! ty jesteś jak zdrowie';
@@ -297,8 +325,9 @@ describe('User interactions with form', () => {
     extraNumberInputs[1].value = '1';
     extraCheckboxes[1].checked = true;
     extraPreferences1[1].checked = true;
+    accountTypeElement.value = 'admin';
     form(formElement);
-    const $data = data;
+    const $data = get(data);
     expect($data).toEqual(
       expect.objectContaining({
         account: {
@@ -307,6 +336,7 @@ describe('User interactions with form', () => {
           confirmPassword: '',
           showPassword: true,
           publicEmail: 'yes',
+          accountType: 'admin',
         },
         profile: {
           firstName: '',
@@ -327,7 +357,7 @@ describe('User interactions with form', () => {
         },
       })
     );
-    expect(isValid()).toBeTruthy();
+    expect(get(isValid)).toBeTruthy();
   });
 
   test('Input and data object get same value', () => {
@@ -338,7 +368,7 @@ describe('User interactions with form', () => {
     form(formElement);
     userEvent.type(emailInput, 'jacek@soplica.com');
     userEvent.type(passwordInput, 'password');
-    const $data = data;
+    const $data = get(data);
     expect($data).toEqual(
       expect.objectContaining({
         account: {
@@ -373,7 +403,7 @@ describe('User interactions with form', () => {
           controls: Array.from(formElement.elements).filter(isFormControl),
         })
       );
-      expect(isSubmitting()).toBeFalsy();
+      expect(get(isSubmitting)).toBeFalsy();
     });
   });
 
@@ -391,9 +421,9 @@ describe('User interactions with form', () => {
     await waitFor(() => {
       expect(onSubmit).not.toHaveBeenCalled();
     });
+    expect(get(isValid)).toBeFalsy();
     await waitFor(() => {
-      expect(isValid()).toBeFalsy();
-      expect(isSubmitting()).toBeFalsy();
+      expect(get(isSubmitting)).toBeFalsy();
     });
   });
 
@@ -409,7 +439,7 @@ describe('User interactions with form', () => {
     userEvent.type(emailInput, 'jacek@soplica.com');
     await waitFor(() => {
       expect(validate).toHaveBeenCalled();
-      expect(isValid()).toBeTruthy();
+      expect(get(isValid)).toBeTruthy();
     });
   });
 
@@ -421,6 +451,7 @@ describe('User interactions with form', () => {
         confirmPassword: string;
         showPassword: boolean;
         publicEmail?: 'yes' | 'no';
+        accountType: 'user' | 'admin';
       };
       profile: {
         firstName: string;
@@ -454,11 +485,12 @@ describe('User interactions with form', () => {
       extraCheckboxes,
       extraPreferences1,
       extraFileInputs,
+      accountTypeElement,
     } = createSignupForm();
 
     form(formElement);
 
-    expect(data).toEqual(
+    expect(get(data)).toEqual(
       expect.objectContaining({
         account: {
           email: '',
@@ -466,6 +498,7 @@ describe('User interactions with form', () => {
           confirmPassword: '',
           showPassword: false,
           publicEmail: undefined,
+          accountType: 'user',
         },
         profile: {
           firstName: '',
@@ -493,9 +526,9 @@ describe('User interactions with form', () => {
 
     const mockFile = new File(['test file'], 'test.png', { type: 'image/png' });
     userEvent.type(emailInput, 'jacek@soplica.com');
-    expect(touched.account.email).toBe(false);
+    expect(get(touched).account.email).toBe(false);
     userEvent.type(passwordInput, 'password');
-    expect(touched.account.email).toBe(true);
+    expect(get(touched).account.email).toBe(true);
     userEvent.type(confirmPasswordInput, 'password');
     userEvent.click(showPasswordInput);
     userEvent.click(publicEmailYesRadio);
@@ -511,8 +544,9 @@ describe('User interactions with form', () => {
     userEvent.click(extraCheckboxes[1]);
     userEvent.click(extraPreferences1[1]);
     userEvent.upload(extraFileInputs[1], mockFile);
+    userEvent.selectOptions(accountTypeElement, ['admin']);
 
-    expect(data).toEqual(
+    expect(get(data)).toEqual(
       expect.objectContaining({
         account: {
           email: 'jacek@soplica.com',
@@ -520,6 +554,7 @@ describe('User interactions with form', () => {
           confirmPassword: 'password',
           showPassword: true,
           publicEmail: 'yes',
+          accountType: 'admin',
         },
         profile: {
           firstName: 'Jacek',
@@ -553,7 +588,7 @@ describe('User interactions with form', () => {
         },
       },
     });
-    expect(data).toEqual(
+    expect(get(data)).toEqual(
       expect.objectContaining({
         account: {
           email: 'jacek@soplica.com',
@@ -571,7 +606,7 @@ describe('User interactions with form', () => {
   test('Validates initial values correctly', async () => {
     const { data, errors, setTouched, touched } = createForm({
       onSubmit: jest.fn(),
-      validate: (values) => {
+      validate: (values: any) => {
         const errors: {
           account: { password?: string; email?: string };
         } = { account: {} };
@@ -587,41 +622,41 @@ describe('User interactions with form', () => {
         },
       },
     });
-    expect(errors).toEqual({
+    expect(get(errors)).toEqual({
       account: {
         email: null,
         password: null,
       },
     });
     setTouched('account.email');
-    expect(touched).toEqual({
+    expect(get(touched)).toEqual({
       account: {
         email: true,
         password: false,
       },
     });
-    expect(errors).toEqual({
+    expect(get(errors)).toEqual({
       account: {
         email: null,
         password: null,
       },
     });
     setTouched('account.password');
-    expect(touched).toEqual({
+    expect(get(touched)).toEqual({
       account: {
         email: true,
         password: true,
       },
     });
     await waitFor(() => {
-      expect(errors).toEqual({
+      expect(get(errors)).toEqual({
         account: {
           email: null,
           password: 'Must not be empty',
         },
       });
     });
-    expect(data).toEqual(
+    expect(get(data)).toEqual(
       expect.objectContaining({
         account: {
           email: 'jacek@soplica.com',
@@ -653,7 +688,7 @@ describe('User interactions with form', () => {
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalled();
       expect(onError).toHaveBeenCalledWith(mockErrors);
-      expect(isSubmitting()).toBeFalsy();
+      expect(get(isSubmitting)).toBeFalsy();
     });
   });
 
@@ -695,7 +730,7 @@ describe('User interactions with form', () => {
       expect(mockOnSubmit).toHaveBeenCalledTimes(1);
       expect(defaultConfig.onError).not.toHaveBeenCalled();
       expect(mockOnError).not.toHaveBeenCalled();
-      expect(isSubmitting()).toBeFalsy();
+      expect(get(isSubmitting)).toBeFalsy();
     });
 
     const mockErrors = { account: { email: 'Not email' } };
@@ -709,7 +744,7 @@ describe('User interactions with form', () => {
       expect(mockOnError).toHaveBeenCalled();
       expect(mockValidate).toHaveBeenCalledTimes(2);
       expect(mockOnSubmit).toHaveBeenCalledTimes(2);
-      expect(isSubmitting()).toBeFalsy();
+      expect(get(isSubmitting)).toBeFalsy();
     });
   });
 
@@ -722,7 +757,105 @@ describe('User interactions with form', () => {
     altOnSubmit();
     await waitFor(() => {
       expect(mockOnSubmit).toHaveBeenCalled();
-      expect(isSubmitting()).toBeFalsy();
+      expect(get(isSubmitting)).toBeFalsy();
+    });
+  });
+
+  test('ignores inputs with data-felte-ignore', async () => {
+    type Data = {
+      account: {
+        email: string;
+        password: string;
+        confirmPassword: string;
+        showPassword: boolean;
+        publicEmail?: 'yes' | 'no';
+      };
+      profile: {
+        firstName: string;
+        lastName: string;
+        bio: string;
+        picture: any;
+      };
+      extra: {
+        pictures: any[];
+      };
+      preferences: any[];
+    };
+    const {
+      formElement,
+      accountFieldset,
+      emailInput,
+      passwordInput,
+      firstNameInput,
+      lastNameInput,
+      publicEmailYesRadio,
+    } = createSignupForm();
+    accountFieldset.setAttribute('data-felte-ignore', '');
+    firstNameInput.setAttribute('data-felte-ignore', '');
+    const { data, form } = createForm<Data>({
+      onSubmit: jest.fn(),
+    });
+    form(formElement);
+    userEvent.type(emailInput, 'jacek@soplica.com');
+    userEvent.type(passwordInput, 'password');
+    userEvent.type(firstNameInput, 'Jacek');
+    userEvent.type(lastNameInput, 'Soplica');
+    userEvent.click(publicEmailYesRadio);
+    await waitFor(() => {
+      expect(get(data).profile.lastName).toBe('Soplica');
+      expect(get(data).profile.firstName).toBe('');
+      expect(get(data).account.email).toBe('');
+      expect(get(data).account.password).toBe('');
+      expect(get(data).account.publicEmail).toBe(undefined);
+    });
+  });
+
+  test('transforms data', async () => {
+    type Data = {
+      account: {
+        email: string;
+        password: string;
+        confirmPassword: string;
+        showPassword: boolean;
+        publicEmail?: boolean;
+      };
+      profile: {
+        firstName: string;
+        lastName: string;
+        bio: string;
+        picture: any;
+      };
+      extra: {
+        pictures: any[];
+      };
+      preferences: any[];
+    };
+    const {
+      formElement,
+      publicEmailYesRadio,
+      publicEmailNoRadio,
+    } = createSignupForm();
+    const { data, form } = createForm<Data>({
+      onSubmit: jest.fn(),
+      transform: (values: any) => {
+        if (values.account.publicEmail === 'yes') {
+          values.account.publicEmail = true;
+        } else {
+          values.account.publicEmail = false;
+        }
+        return values;
+      },
+    });
+
+    form(formElement);
+
+    userEvent.click(publicEmailYesRadio);
+    await waitFor(() => {
+      expect(get(data).account.publicEmail).toBe(true);
+    });
+    userEvent.click(publicEmailNoRadio);
+    await waitFor(() => {
+      expect(get(data).account.publicEmail).toBe(false);
     });
   });
 });

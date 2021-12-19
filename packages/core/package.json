@@ -21,7 +21,9 @@
     "build": "cross-env NODE_ENV=production rollup -c",
     "docs:build": "typedoc --out ../../docs",
     "dev": "rollup -cw",
-    "prepublishOnly": "pnpm build"
+    "prepublishOnly": "pnpm build && pnpm test",
+    "test": "jest",
+    "test:ci": "jest --coverage"
   },
   "files": [
     "dist"

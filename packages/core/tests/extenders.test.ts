@@ -1,11 +1,16 @@
 import '@testing-library/jest-dom/extend-expect';
 import { screen, waitFor } from '@testing-library/dom';
-import { createForm } from '../src';
+import { createForm as coreCreateForm } from '../src';
 import { cleanupDOM, createDOM, createInputElement } from './common';
-import { get } from 'svelte/store';
-import type { CurrentForm } from '@felte/core';
+import { get, writable } from 'svelte/store';
+import type { CurrentForm, FormConfig, Form, Obj } from '@felte/common';
 
-jest.mock('svelte', () => ({ onDestroy: jest.fn }));
+function createForm<Data extends Obj>(config: FormConfig<Data>): Form<Data> {
+  const { cleanup, ...rest } = coreCreateForm(config, {
+    storeFactory: writable,
+  });
+  return rest;
+}
 
 describe('Extenders', () => {
   beforeEach(createDOM);
@@ -299,5 +304,63 @@ describe('Extenders', () => {
     });
     await validate();
     expect(validator).toHaveBeenCalledTimes(3);
+  });
+
+  test('adds warn validator when no validators are present with addWarnValidator', async () => {
+    const validator = jest.fn();
+    function extender(currentForm: CurrentForm<any>) {
+      currentForm.addWarnValidator(validator);
+      return {};
+    }
+    const { validate } = createForm({
+      onSubmit: jest.fn(),
+      extend: extender,
+    });
+    await validate();
+    expect(validator).toHaveBeenCalledTimes(1);
+  });
+
+  test('adds warn validator when validators are present with addWarnValidator', async () => {
+    const validator = jest.fn();
+    function extender(currentForm: CurrentForm<any>) {
+      currentForm.addWarnValidator(validator);
+      return {};
+    }
+    const { validate } = createForm({
+      onSubmit: jest.fn(),
+      extend: extender,
+      warn: validator,
+    });
+    await validate();
+    expect(validator).toHaveBeenCalledTimes(3);
+  });
+
+  test('adds transformer when no validators are present with addTransformer', async () => {
+    const transformer = jest.fn((v) => v);
+    function extender(currentForm: CurrentForm<any>) {
+      currentForm.addTransformer(transformer);
+      return {};
+    }
+    const { data } = createForm({
+      onSubmit: jest.fn(),
+      extend: extender,
+    });
+    data.set({});
+    expect(transformer).toHaveBeenCalledTimes(1);
+  });
+
+  test('adds transformer when validators are present with addTransformer', async () => {
+    const transformer = jest.fn((v) => v);
+    function extender(currentForm: CurrentForm<any>) {
+      currentForm.addTransformer(transformer);
+      return {};
+    }
+    const { data } = createForm({
+      onSubmit: jest.fn(),
+      extend: extender,
+      transform: transformer,
+    });
+    data.set({});
+    expect(transformer).toHaveBeenCalledTimes(2);
   });
 });

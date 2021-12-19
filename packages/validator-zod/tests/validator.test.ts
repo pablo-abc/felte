@@ -6,6 +6,8 @@ import type { ValidatorConfig } from '../src';
 import * as zod from 'zod';
 import { get } from 'svelte/store';
 
+jest.mock('svelte', () => ({ onDestroy: jest.fn() }));
+
 describe('Validator zod', () => {
   test('correctly validates', async () => {
     const schema = zod.object({

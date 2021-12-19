@@ -22,7 +22,7 @@ export default [
     input: './src/index.ts',
     output: {
       file: pkg.browser,
-      format: 'umd',
+      format: 'cjs',
       sourcemap: prod,
       exports: 'named',
       name,
