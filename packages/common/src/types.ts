@@ -22,6 +22,8 @@ export type Helpers<Data extends Obj> = {
   setTouched(path: string): void;
   /** Helper function to set an error to a specific field. */
   setError(path: string, error: string | string[]): void;
+  /** Helper function to set a warning on a specific field. */
+  setWarning(path: string, warning: string | string[]): void;
   /** Helper function to set the value of a specific field. Set `touch` to `false` if you want to set the value without setting the field to touched. */
   setField(path: string, value?: FieldValue, touch?: boolean): void;
   /** Helper function to get the value of a specific field. */

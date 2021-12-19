@@ -90,6 +90,7 @@ type FieldValue = string | string[] | boolean | number | File | File[];
 type CreateSubmitHandlerConfig<D> = {
   onSubmit: (values: D) => void;
   validate: (values: D) => Promise<Errors<D> | undefined>;
+  warn: (values: D) => Promise<Errors<D> | undefined>;
   onError: (errors: unknown) => void | Errors<D>;
 }
 
@@ -97,6 +98,7 @@ export interface Form<D extends Record<string, unknown>> {
   form: FormAction;
   data: Writable<D>;
   errors: Readable<Errors<D>>;
+  warnings: Readable<Errors<D>>;
   touched: Writable<Touched<D>>;
   handleSubmit: (e: Event) => void;
   isValid: Readable<boolean>;
@@ -117,8 +119,9 @@ export interface Form<D extends Record<string, unknown>> {
 
 - `form` is a function to be used with the `use:` directive for Svelte.
 - `data` is a writable store with the current values from the form.
-- `errors` is a readable store with the current errors.
-- `touched` is a readable store that defines if the fields have been touched. It's an object with the same keys as data, but with boolean values.
+- `errors` is a writable store with the current errors.
+- `warnings`is a writable store with warnings set from the `warn` function.
+- `touched` is a writable store that defines if the fields have been touched. It's an object with the same keys as data, but with boolean values.
 - `handleSubmit` is the event handler to be passed to `on:submit`.
 - `isValid` is a readable store that only holds a boolean denoting if the form has any errors or not.
 - `isSubmitting` is a writable store that only holds a boolean denoting if the form is submitting or not.

@@ -84,6 +84,8 @@ export function createHelpers<Data extends Obj>({
       return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
     });
     const currentErrors = await executeValidation(currentData, config.validate);
+    const currentWarnings = await executeValidation(currentData, config.warn);
+    warnings.set(currentWarnings || {});
     errors.set(currentErrors || {});
     return currentErrors;
   }

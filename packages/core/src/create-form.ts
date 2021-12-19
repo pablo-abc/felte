@@ -68,6 +68,8 @@ export function createForm<Data extends Obj = any, Ext extends Obj = any>(
   if (config.transform && !Array.isArray(config.transform))
     config.transform = [config.transform];
 
+  if (config.warn && !Array.isArray(config.warn)) config.warn = [config.warn];
+
   function addValidator(validator: ValidationFunction<Data>) {
     if (!config.validate) {
       config.validate = [validator];
