@@ -5,7 +5,6 @@ import type {
   FormConfigWithoutInitialValues,
   ExtenderHandler,
   Touched,
-  Stores,
   StoreFactory,
   Obj,
   ValidationFunction,
