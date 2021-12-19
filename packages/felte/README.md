@@ -70,6 +70,7 @@ type SubmitContext<Data extends Obj> = {
 interface FormConfig<D extends Record<string, unknown>> {
   initialValues?: D;
   validate?: ValidationFunction<Data> | ValidationFunction<Data>[];
+  warn?: ValidationFunction<Data> | ValidationFunction<Data>[];
   onSubmit: (values: D, context: SubmitContext) => void;
   onError?: (errors: unknown) => void | Errors<D>;
   extend?: Extender | Extender[];
@@ -78,6 +79,7 @@ interface FormConfig<D extends Record<string, unknown>> {
 
 - `initialValues` refers to the initial values of the form.
 - `validate` is a custom validation function that must return an object with the same props as initialValues, but with error messages or `undefined` as values. It can be an array of functions whose validation errors will be merged.
+- `warn` is a custom validation function that must return an object with the same props as initialValues, but with warning messages or `undefined` as values. It can be an array of functions whose validation errors will be merged.
 - `onSubmit` is the function that will be executed when the form is submited.
 - `onError` is a an optional function that will run if the submit throws an exception. It will contain the error catched. If you return an object with the same shape as `Errors`, these errors can be reported by a reporter.
 - `extend` a function or list of functions to extend Felte's behaviour. Currently it can be used to add `reporters` to Felte, these can handle error reporting for you. You can read more about them in [Felte's documentation](https://felte.dev/docs#reporters).
@@ -89,8 +91,8 @@ type FormAction = (node: HTMLFormElement) => { destroy: () => void };
 type FieldValue = string | string[] | boolean | number | File | File[];
 type CreateSubmitHandlerConfig<D> = {
   onSubmit: (values: D) => void;
-  validate: (values: D) => Promise<Errors<D> | undefined>;
-  warn: (values: D) => Promise<Errors<D> | undefined>;
+  validate?: ValidationFunction<Data> | ValidationFunction<Data>[];
+  warn?: ValidationFunction<Data> | ValidationFunction<Data>[];
   onError: (errors: unknown) => void | Errors<D>;
 }
 
@@ -98,7 +100,7 @@ export interface Form<D extends Record<string, unknown>> {
   form: FormAction;
   data: Writable<D>;
   errors: Readable<Errors<D>>;
-  warnings: Readable<Errors<D>>;
+  warnings: Writable<Errors<D>>;
   touched: Writable<Touched<D>>;
   handleSubmit: (e: Event) => void;
   isValid: Readable<boolean>;
