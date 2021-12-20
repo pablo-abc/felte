@@ -10,6 +10,7 @@ import type { Struct, StructError, Failure } from 'superstruct';
 
 export type ValidatorConfig = {
   validateStruct: Struct<any, any>;
+  warnStruct?: Struct<any, any>;
 };
 
 export function validateStruct<Data extends Obj>(
@@ -18,7 +19,6 @@ export function validateStruct<Data extends Obj>(
 ): ValidationFunction<Data> {
   function shapeErrors(errors: StructError): Errors<Data> {
     return errors.failures().reduce((err, value) => {
-      if (!value.path) return err;
       return _set(err, value.path.join('.'), transform(value));
     }, {});
   }
@@ -60,6 +60,10 @@ export function createValidator<Data extends Obj = Obj>(
     const config = currentForm.config as CurrentForm<Data>['config'] &
       ValidatorConfig;
     currentForm.addValidator(validateStruct(config.validateStruct, transform));
+    if (config.warnStruct)
+      currentForm.addWarnValidator(
+        validateStruct(config.warnStruct, transform)
+      );
     if (!config.castValues) return {};
     currentForm.addTransformer(coerceStruct(config));
     return {};

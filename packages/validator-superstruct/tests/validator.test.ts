@@ -2,7 +2,16 @@ import '@testing-library/jest-dom/extend-expect';
 import { createForm } from 'felte';
 import { validateStruct, createValidator } from '../src';
 import type { ValidatorConfig } from '../src';
-import { object, string, size, coerce, date, Infer } from 'superstruct';
+import {
+  object,
+  string,
+  size,
+  coerce,
+  date,
+  optional,
+  any,
+  refine,
+} from 'superstruct';
 import { get } from 'svelte/store';
 import type { ValidationFunction } from '@felte/common';
 
@@ -100,18 +109,29 @@ describe('Validator superstruct', () => {
       email: size(string(), 1, Infinity),
       password: size(string(), 1, Infinity),
     });
+    const secure = refine(string(), 'secure', (value) =>
+      value ? value.length > 8 : true
+    );
+    const warnStruct = object({
+      email: any(),
+      password: secure,
+    });
     const mockData = {
       email: '',
       password: '',
     };
-    const { validate, errors, data } = createForm<
+    const { validate, errors, warnings, data } = createForm<
       typeof mockData,
       ValidatorConfig
     >({
       initialValues: mockData,
       onSubmit: jest.fn(),
-      extend: createValidator(),
+      extend: createValidator((failure) => {
+        if (failure.refinement === 'secure') return 'Not secure';
+        return failure.message;
+      }),
       validateStruct: struct,
+      warnStruct,
     });
 
     await validate();
@@ -122,6 +142,10 @@ describe('Validator superstruct', () => {
         'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
       password:
         'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
+    });
+    expect(get(warnings)).toEqual({
+      email: null,
+      password: null,
     });
 
     data.set({
@@ -134,6 +158,10 @@ describe('Validator superstruct', () => {
     expect(get(errors)).toEqual({
       email: null,
       password: null,
+    });
+    expect(get(warnings)).toEqual({
+      email: null,
+      password: 'Not secure',
     });
   });
 

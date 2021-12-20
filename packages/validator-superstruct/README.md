@@ -66,6 +66,37 @@ const validator = createValidator((value) =>
 );
 ```
 
+## Warnings
+
+Optionally, you can also add a struct that will validate for warnings in your data. Warnings are any validation messages that should not prevent your form for submitting. You can add the struct that will be using for setting this values to the `warnStruct` property on the configuration:
+
+```javascript
+import { createValidator } from '@felte/validator-superstruct';
+import { object, string, size, optional } from 'superstruct';
+
+const validateStruct = object({
+  email: size(string(), 1, Infinity),
+  password: size(string(), 1, Infinity),
+});
+
+// We only show the warning if the user has started to type a value
+const Secure = refine(string(), 'secure', (value) =>
+  value ? value.length > 8 : true
+);
+
+const warnStruct =  object({
+  password: Secure,
+});
+
+const { form } = createForm({
+  // ...
+  extend: createValidator(), // or `extend: [createValidator()],`
+  validateStruct,
+  warnStruct,
+  // ...
+});
+```
+
 ## Typescript
 
 For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
