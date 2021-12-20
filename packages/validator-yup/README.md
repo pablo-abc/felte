@@ -78,6 +78,37 @@ const schema = yup.object({
 });
 ```
 
+## Warnings
+
+Optionally, you can also add a schema that will validate for warnings in your data. Warnings are any validation messages that should not prevent your form for submitting. You can add the schema that will be using for setting this values to the `warnSchema` property on the configuration:
+
+```javascript
+import { validator } from '@felte/validator-yup';
+import * as yup from 'yup';
+
+const validateSchema = yup.object({
+  email: yup.string().email().required(),
+  password: yup.string().required(),
+});
+
+// We only warn if the user has already started typing a value
+const warnSchema = yup.object({
+  password: yup
+    .string()
+    .test('is-secure', 'password is not secure', (value) =>
+      value ? value.length > 8 : true
+    ),
+});
+
+const { form } = createForm({
+  // ...
+  extend: validator, // or `extend: [validator],`
+  validateSchema,
+  warnSchema,
+  // ...
+});
+```
+
 ## Typescript
 
 For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.

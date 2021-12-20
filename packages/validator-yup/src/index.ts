@@ -10,6 +10,7 @@ import { _set, CurrentForm } from '@felte/common';
 
 export type ValidatorConfig = {
   validateSchema: AnySchema;
+  warnSchema?: AnySchema;
   castValues?: boolean;
 };
 
@@ -39,10 +40,12 @@ export function validator<Data extends Obj = Obj>(
   if (currentForm.form) return {};
   const config = currentForm.config as CurrentForm<Data>['config'] &
     ValidatorConfig;
-  const validateFn = validateSchema<Data>(
-    currentForm.config.validateSchema as AnySchema
-  );
+  const validateFn = validateSchema<Data>(config.validateSchema);
   currentForm.addValidator(validateFn);
+  if (config.warnSchema) {
+    const warnFn = validateSchema<Data>(config.warnSchema);
+    currentForm.addWarnValidator(warnFn);
+  }
   if (!config.castValues) return {};
   const transformFn = (values: Obj) => {
     return config.validateSchema.cast(values);

@@ -97,11 +97,18 @@ describe('Validator yup', () => {
       email: yup.string().email().required(),
       password: yup.string().required(),
     });
+    const warnSchema = yup.object({
+      password: yup
+        .string()
+        .test('is-secure', 'password is not secure', (value) =>
+          value ? value.length > 8 : true
+        ),
+    });
     const mockData = {
       email: '',
       password: '',
     };
-    const { validate, errors, data } = createForm<
+    const { validate, errors, warnings, data } = createForm<
       typeof mockData,
       ValidatorConfig
     >({
@@ -109,6 +116,7 @@ describe('Validator yup', () => {
       onSubmit: jest.fn(),
       extend: validator,
       validateSchema: schema,
+      warnSchema,
     });
 
     await validate();
@@ -117,6 +125,10 @@ describe('Validator yup', () => {
     expect(get(errors)).toEqual({
       email: 'email is a required field',
       password: 'password is a required field',
+    });
+    expect(get(warnings)).toEqual({
+      email: null,
+      password: null,
     });
 
     data.set({
@@ -129,6 +141,10 @@ describe('Validator yup', () => {
     expect(get(errors)).toEqual({
       email: null,
       password: null,
+    });
+    expect(get(warnings)).toEqual({
+      email: null,
+      password: 'password is not secure',
     });
   });
 
