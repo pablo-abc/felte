@@ -62,6 +62,37 @@ const { form } = createForm({
 });
 ```
 
+## Warnings
+
+This validator will update the `warnings` store with the messages returned from any test marked with `warn()`:
+
+```javascript
+import { validateSuite } from '@felte/validator-vest';
+import { create, enforce, test, warn } from 'vest';
+
+const suite = create('form', (data) => {
+  test('email', 'Email is required', () => {
+    enforce(data.email).isNotEmpty();
+  });
+  test('password', 'Password is required', () => {
+    enforce(data.password).isNotEmpty();
+  });
+
+  test('password', 'Password not secure', () => {
+    warn();
+    // We only warn if the user has already started typing a value
+    if (!data.password) return;
+    enforce(data.password).longerThanOrEquals(8);
+  });
+});
+
+const { form } = createForm({
+  // ...
+  validate: validateSuite(suite),
+  // ...
+});
+```
+
 ## Typescript
 
 For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.

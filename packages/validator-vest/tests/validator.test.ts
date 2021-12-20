@@ -4,7 +4,7 @@ import { validateSuite, validator } from '../src';
 import type { ValidatorConfig } from '../src';
 import { get } from 'svelte/store';
 import type { ValidationFunction } from '@felte/common';
-import { create, enforce, test as assert } from 'vest';
+import { create, enforce, test as assert, warn } from 'vest';
 
 jest.mock('svelte', () => ({ onDestroy: jest.fn() }));
 
@@ -110,8 +110,14 @@ describe('Validator vest', () => {
       assert('password', 'Password is required', () => {
         enforce(data.password).isNotEmpty();
       });
+
+      assert('password', 'Password is not secure', () => {
+        warn();
+        if (!data.password) return;
+        enforce(data.password).longerThanOrEquals(8);
+      });
     });
-    const { validate, errors, data } = createForm<
+    const { validate, errors, warnings, data } = createForm<
       typeof mockData,
       ValidatorConfig
     >({
@@ -128,6 +134,10 @@ describe('Validator vest', () => {
       email: ['Email is required'],
       password: ['Password is required'],
     });
+    expect(get(warnings)).toEqual({
+      email: null,
+      password: null,
+    });
 
     data.set({
       email: 'test@email.com',
@@ -139,6 +149,10 @@ describe('Validator vest', () => {
     expect(get(errors)).toEqual({
       email: null,
       password: null,
+    });
+    expect(get(warnings)).toEqual({
+      email: null,
+      password: ['Password is not secure'],
     });
   });
 
