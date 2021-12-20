@@ -10,6 +10,7 @@ import {
   deepSet,
   _isPlainObject,
   _mergeWith,
+  _merge,
   executeValidation,
   deepSome,
 } from '@felte/common';
@@ -64,7 +65,7 @@ export function createStores<Data extends Obj>(
     let currentWarnings: Errors<Data> | undefined = {};
     if (!config.warn || !$data) return;
     currentWarnings = await executeValidation($data, config.warn);
-    warnings.set(currentWarnings || {});
+    warnings.set(_merge(deepSet($data, null), currentWarnings || {}));
   }
 
   const dataUnsubscriber = data.subscribe(($data) => {

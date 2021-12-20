@@ -85,7 +85,7 @@ export function createHelpers<Data extends Obj>({
     });
     const currentErrors = await executeValidation(currentData, config.validate);
     const currentWarnings = await executeValidation(currentData, config.warn);
-    warnings.set(currentWarnings || {});
+    warnings.set(_merge(deepSet(currentData, null), currentWarnings || {}));
     errors.set(currentErrors || {});
     return currentErrors;
   }

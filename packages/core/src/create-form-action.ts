@@ -92,7 +92,8 @@ export function createFormAction<Data extends Obj>({
       const currentData = get(data);
       const currentErrors = await executeValidation(currentData, validate);
       const currentWarnings = await executeValidation(currentData, warn);
-      if (currentWarnings) warnings.set(currentWarnings);
+      if (currentWarnings)
+        warnings.set(_merge(deepSet(currentData, null), currentWarnings));
       touched.update((t) => {
         return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
       });
