@@ -241,7 +241,7 @@ importers:
       '@felte/reporter-dom': ^0.3.13
       '@felte/reporter-svelte': ^0.3.20
       '@felte/reporter-tippy': ^0.3.12
-      '@felte/validator-yup': ^0.2.12
+      '@felte/validator-yup': ^0.2.13
       '@sveltejs/adapter-static': 1.0.0-next.22
       '@sveltejs/kit': 1.0.0-next.202
       autoprefixer: ^10.3.1
