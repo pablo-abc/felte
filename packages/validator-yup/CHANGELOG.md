@@ -1,5 +1,11 @@
 # @felte/validator-yup
 
+## 0.2.13
+
+### Patch Changes
+
+- 3324788: Add support for warnings
+
 ## 0.2.12
 
 ### Patch Changes

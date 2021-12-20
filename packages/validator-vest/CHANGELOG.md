@@ -1,5 +1,11 @@
 # @felte/validator-vest
 
+## 0.0.5
+
+### Patch Changes
+
+- 3324788: Add support for warnings
+
 ## 0.0.4
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @felte/validator-zod
 
+## 0.3.8
+
+### Patch Changes
+
+- 3324788: Add support for warnings
+
 ## 0.3.7
 
 ### Patch Changes

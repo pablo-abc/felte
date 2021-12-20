@@ -1,5 +1,11 @@
 # @felte/validator-superstruct
 
+## 0.3.2
+
+### Patch Changes
+
+- 3324788: Add support for warnings
+
 ## 0.3.1
 
 ### Patch Changes
