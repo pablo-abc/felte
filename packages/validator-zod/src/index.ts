@@ -10,6 +10,7 @@ import type { ZodError, ZodTypeAny } from 'zod';
 
 export type ValidatorConfig = {
   validateSchema: ZodTypeAny;
+  warnSchema?: ZodTypeAny;
 };
 
 export function validateSchema<Data extends Obj>(
@@ -44,9 +45,13 @@ export function validator<Data extends Obj = Obj>(
   currentForm: CurrentForm<Data>
 ): ExtenderHandler<Data> {
   if (currentForm.form) return {};
-  const validateFn = validateSchema<Data>(
-    currentForm.config.validateSchema as ZodTypeAny
-  );
+  const config = currentForm.config as CurrentForm<Data>['config'] &
+    ValidatorConfig;
+  const validateFn = validateSchema<Data>(config.validateSchema);
   currentForm.addValidator(validateFn);
+  if (config.warnSchema) {
+    const warnFn = validateSchema<Data>(config.warnSchema);
+    currentForm.addWarnValidator(warnFn);
+  }
   return {};
 }

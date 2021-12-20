@@ -54,6 +54,37 @@ const { form } = createForm({
 });
 ```
 
+## Warnings
+
+Optionally, you can also add a schema that will validate for warnings in your data. Warnings are any validation messages that should not prevent your form for submitting. You can add the schema that will be using for setting this values to the `warnSchema` property on the configuration:
+
+```javascript
+import { validator } from '@felte/validator-zod';
+import { z } from 'zod';
+
+const schema = z.object({
+  email: z.string().email().nonempty(),
+  password: z.string().nonempty(),
+});
+
+// We only warn if the user has started typing a value
+const warnSchema = zod.object({
+  password: zod
+    .string()
+    .refine((value) => (value ? value.length > 8 : true), {
+      message: 'Password is not secure',
+    }),
+});
+
+const { form } = createForm({
+  // ...
+  extend: validator, // or `extend: [validator],`
+  validateSchema: schema,
+  warnSchema,
+  // ...
+});
+```
+
 ## Typescript
 
 For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.

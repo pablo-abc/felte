@@ -96,11 +96,18 @@ describe('Validator zod', () => {
       email: zod.string().email().nonempty(),
       password: zod.string().nonempty(),
     });
+    const warnSchema = zod.object({
+      password: zod
+        .string()
+        .refine((value) => (value ? value.length > 8 : true), {
+          message: 'Password is not secure',
+        }),
+    });
     const mockData = {
       email: '',
       password: '',
     };
-    const { validate, errors, data } = createForm<
+    const { validate, errors, warnings, data } = createForm<
       typeof mockData,
       ValidatorConfig
     >({
@@ -108,6 +115,7 @@ describe('Validator zod', () => {
       onSubmit: jest.fn(),
       extend: validator,
       validateSchema: schema,
+      warnSchema,
     });
 
     await validate();
@@ -116,6 +124,10 @@ describe('Validator zod', () => {
     expect(get(errors)).toEqual({
       email: ['Invalid email', 'Should be at least 1 characters'],
       password: ['Should be at least 1 characters'],
+    });
+    expect(get(warnings)).toEqual({
+      email: null,
+      password: null,
     });
 
     data.set({
@@ -128,6 +140,10 @@ describe('Validator zod', () => {
     expect(get(errors)).toEqual({
       email: null,
       password: null,
+    });
+    expect(get(warnings)).toEqual({
+      email: null,
+      password: ['Password is not secure'],
     });
   });
 
