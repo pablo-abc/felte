@@ -1,0 +1,55 @@
+{
+  "name": "@felte/react",
+  "version": "0.1.0",
+  "description": "An extensible form library for ReactJS",
+  "main": "dist/index.js",
+  "browser": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "author": "Pablo Berganza <pablo@berganza.dev>",
+  "license": "MIT",
+  "homepage": "https://felte.dev",
+  "repository": "github:pablo-abc/felte",
+  "funding": "https://www.buymeacoffee.com/pablo.abc",
+  "keywords": [
+    "reactjs",
+    "react",
+    "forms",
+    "validation"
+  ],
+  "scripts": {
+    "prebuild": "rimraf ./dist",
+    "build": "cross-env NODE_ENV=production rollup -c",
+    "dev": "rollup -cw",
+    "prepublishOnly": "pnpm build && pnpm test"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@felte/core": "workspace:*",
+    "svelte": "^3.44.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2"
+  },
+  "devDependencies": {
+    "@felte/common": "workspace:*",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@types/react": "^17.0.37",
+    "react": "^17.0.2",
+    "ts-jest": "^26.5.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "default": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  }
+}
