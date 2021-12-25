@@ -57,7 +57,7 @@ importers:
       tslib: ^2.1.0
       typedoc: ^0.20.20
       typescript: ^4.1.3
-      vest: ^4.0.0-next-0370fc
+      vest: ^4.0.1
       yup: ^0.32.9
       zod: ^1.11.13
     dependencies:
@@ -115,7 +115,7 @@ importers:
       tslib: 2.2.0
       typedoc: 0.20.35_typescript@4.2.4
       typescript: 4.2.4
-      vest: 4.0.0-next-cfb1a7
+      vest: 4.0.1
       yup: 0.32.9
       zod: 1.11.13
 
@@ -327,12 +327,12 @@ importers:
     specifiers:
       '@felte/common': workspace:*
       felte: workspace:*
-      vest: ^4.0.0-next-0370fc
+      vest: ^4.0.1
     dependencies:
       '@felte/common': link:../common
     devDependencies:
       felte: link:../felte
-      vest: 4.0.0-next-cfb1a7
+      vest: 4.0.1
 
   packages/validator-yup:
     specifiers:
@@ -4030,6 +4030,10 @@ packages:
     resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
     dev: true
 
+  /context/2.0.1:
+    resolution: {integrity: sha512-8QV3EXa7WP9l8aL8a3BMM792vvuPbIyp6ktGHEX6V4XiGNaiqxCGMRGzEavE3cPnHWqI9fXTujPEfBPt0iRhQw==}
+    dev: true
+
   /conventional-changelog-angular/5.0.12:
     resolution: {integrity: sha512-5GLsbnkR/7A89RyHLvvoExbiGbd9xKdKqDTrArnPbOqBqG/2wIosu0fHwpeIRI8Tl94MhVNBXcLJZl92ZQ5USw==}
     engines: {node: '>=10'}
@@ -7023,6 +7027,12 @@ packages:
     resolution: {integrity: sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==}
     dev: true
 
+  /n4s/4.0.1:
+    resolution: {integrity: sha512-S3/8mLYORi1SjgUflavLmZg/d3r0K7t+G9LsYdE3zPIILKX2A8nXpdUTauOBk6ayUUhJD0zQEtfJY+qNsYysBw==}
+    dependencies:
+      context: 2.0.1
+    dev: true
+
   /nanoclone/0.2.1:
     resolution: {integrity: sha512-wynEP02LmIbLpcYw8uBKpcfF6dmg2vcpKqxeH5UcoKEYdExslsdUA4ugFauuaeYdTB76ez6gJW8XAZ6CgkXYxA==}
     dev: true
@@ -9773,8 +9783,11 @@ packages:
       extsprintf: 1.3.0
     dev: true
 
-  /vest/4.0.0-next-cfb1a7:
-    resolution: {integrity: sha512-o1NMcvd9oWZMXqSosnJbVvV/G15RNbFxwsMjXUBhEl401ZwVAl3tEubpkGZz0xDg21ehiBO9GUdVYuV5gxkF9A==}
+  /vest/4.0.1:
+    resolution: {integrity: sha512-J1WJeMVyyjzkQ4uiLxDoIBiiW44FxAl/Z2znNxTQlwPQe7Ys/VDjbEJV1GnErB9oCr0O1tUc5JbwXh8/eQlfzA==}
+    dependencies:
+      context: 2.0.1
+      n4s: 4.0.1
     dev: true
 
   /vfile-message/2.0.4:

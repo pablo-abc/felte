@@ -229,7 +229,7 @@ const Secure = refine(string(), 'secure', (value) =>
   value ? value.length > 8 : true
 );
 
-const warnStruct =  object({
+const warnStruct = object({
   password: Secure,
 });
 
@@ -257,16 +257,17 @@ const struct = object({
 
 const { form } = createForm<Infer<typeof struct>, ValidatorConfig>(/* ... */);
 ```
+
 ### Using Vest
 
-[Vest](https://github.com/ealush/vest) is a validations library for JS apps that derives its syntax from modern JS unit testing frameworks such as Mocha or Jest. We've also created [`@felte/validator-vest`](https://github.com/pablo-abc/felte/tree/main/packages/validator-vest) as an official package to handle validation with Vest. To use it you'll need both `@felte/validator-vest` and `vest@next` installed.
+[Vest](https://github.com/ealush/vest) is a validations library for JS apps that derives its syntax from modern JS unit testing frameworks such as Mocha or Jest. We've also created [`@felte/validator-vest`](https://github.com/pablo-abc/felte/tree/main/packages/validator-vest) as an official package to handle validation with Vest. To use it you'll need both `@felte/validator-vest` and `vest` installed.
 
 ```sh
-npm install --save @felte/validator-vest vest@next
+npm install --save @felte/validator-vest vest
 
 # Or, if you use yarn
 
-yarn add @felte/validator-vest vest@next
+yarn add @felte/validator-vest vest
 ```
 
 Its usage would look something like:
@@ -333,8 +334,8 @@ import { create, enforce, test } from 'vest';
 
 const initialValues = {
   email: '',
-  password: ''
-}
+  password: '',
+};
 
 const suite = create('form', (data: typeof initialValues) => {
   test('email', 'Email is required', () => {
