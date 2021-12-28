@@ -8,11 +8,11 @@ A package to help you handle validation with Vest in Felte.
 ## Installation
 
 ```sh
-npm install --save @felte/validator-vest vest@next
+npm install --save @felte/validator-vest vest
 
 # Or, if you use yarn
 
-yarn add @felte/validator-vest vest@next
+yarn add @felte/validator-vest vest
 ```
 
 ## Usage
