@@ -119,6 +119,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "schurhammer",
+      "name": "Julian Schurhammer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2063443?v=4",
+      "profile": "https://github.com/schurhammer",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7
