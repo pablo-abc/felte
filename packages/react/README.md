@@ -2,7 +2,7 @@
 
 Experimental package to integrate Felte with React. We make sure to only call `createForm` once on component initialization by using our own `useConst` hook.
 
-We also export another hook `useSubscriber` use to subscribe to a specific store (this would help prevent unnecessary re-renders). The `useSubscriber` accepts the store you want to subscribe to as the first argument, and a function as an optional second argument that acts as a selector. This selector will receive the current value of the store and expects you to return a specific property from the store, allowing you to control re-renders to specific fields if you need a value from a store in the component.
+We also export another hook `useSubscriber` used to subscribe to a specific store (this would help prevent unnecessary re-renders). The `useSubscriber` accepts the store you want to subscribe to as the first argument, and a function as an optional second argument that acts as a selector. This selector will receive the current value of the store and expects you to return a specific property from the store, allowing you to control re-renders to specific fields if you need a value from a store in the component.
 
 Unlike other integrations, to maintain consistency with React, the function to create a form is called `useForm` and, instead of `form` it returns `formRef`. API changes will be needed to make the API more friendly and consistent. And Svelte is a dependency since we're using its `writable` store as a store factory. Although this does not add much to the bundle, just a few lines.
 
