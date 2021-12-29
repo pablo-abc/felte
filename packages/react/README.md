@@ -16,6 +16,7 @@ function Form() {
   const { formRef, data } = useForm({
     initialValues: {
       email: '',
+      password: '',
     },
     onSubmit: (values) => console.log(values),
   });
