@@ -22,7 +22,9 @@
     "prebuild": "rimraf ./dist",
     "build": "cross-env NODE_ENV=production rollup -c",
     "dev": "rollup -cw",
-    "prepublishOnly": "pnpm build && pnpm test"
+    "prepublishOnly": "pnpm build && pnpm test",
+    "test": "jest",
+    "test:ci": "jest --ci --coverage"
   },
   "files": [
     "dist"
@@ -40,8 +42,10 @@
   "devDependencies": {
     "@felte/common": "workspace:*",
     "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react-hooks": "^7.0.2",
     "@types/react": "^17.0.37",
     "react": "^17.0.2",
+    "react-test-renderer": "^17.0.2",
     "ts-jest": "^26.5.0"
   },
   "exports": {

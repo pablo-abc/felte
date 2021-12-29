@@ -164,8 +164,10 @@ importers:
       '@felte/common': workspace:*
       '@felte/core': workspace:*
       '@testing-library/jest-dom': ^5.11.9
+      '@testing-library/react-hooks': ^7.0.2
       '@types/react': ^17.0.37
       react: ^17.0.2
+      react-test-renderer: ^17.0.2
       svelte: ^3.44.3
       ts-jest: ^26.5.0
     dependencies:
@@ -174,8 +176,10 @@ importers:
     devDependencies:
       '@felte/common': link:../common
       '@testing-library/jest-dom': 5.11.10
+      '@testing-library/react-hooks': 7.0.2_509016fd322278d497c1e58f6164ce1d
       '@types/react': 17.0.37
       react: 17.0.2
+      react-test-renderer: 17.0.2_react@17.0.2
       ts-jest: 26.5.4_jest@26.6.3+typescript@4.2.4
 
   packages/reporter-cvapi:
@@ -2690,6 +2694,28 @@ packages:
       redent: 3.0.0
     dev: true
 
+  /@testing-library/react-hooks/7.0.2_509016fd322278d497c1e58f6164ce1d:
+    resolution: {integrity: sha512-dYxpz8u9m4q1TuzfcUApqi8iFfR6R0FaMbr2hjZJy1uC8z+bO/K4v8Gs9eogGKYQop7QsrBTFkv/BCF7MzD2Cg==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+      react-test-renderer: '>=16.9.0'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-test-renderer:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.14.6
+      '@types/react': 17.0.37
+      '@types/react-dom': 17.0.11
+      '@types/react-test-renderer': 17.0.1
+      react: 17.0.2
+      react-error-boundary: 3.1.4_react@17.0.2
+      react-test-renderer: 17.0.2_react@17.0.2
+    dev: true
+
   /@testing-library/svelte/3.0.3_svelte@3.37.0:
     resolution: {integrity: sha512-GxafAllShGM2nkntFGURZ7fYVlUYwv7K62lqv1aFqtTYzzeZ2Cu8zTVhtE/Qt3bk2zMl6+FPKP03wjLip/G8mA==}
     engines: {node: '>= 8'}
@@ -2841,6 +2867,18 @@ packages:
 
   /@types/pug/2.0.4:
     resolution: {integrity: sha1-h3L80EGOPNLMFxVV1zAHQVBR9LI=}
+
+  /@types/react-dom/17.0.11:
+    resolution: {integrity: sha512-f96K3k+24RaLGVu/Y2Ng3e1EbZ8/cVJvypZWd7cy0ofCBaf2lcM46xNhycMZ2xGwbBjRql7hOlZ+e2WlJ5MH3Q==}
+    dependencies:
+      '@types/react': 17.0.37
+    dev: true
+
+  /@types/react-test-renderer/17.0.1:
+    resolution: {integrity: sha512-3Fi2O6Zzq/f3QR9dRnlnHso9bMl7weKCviFmfF6B4LS1Uat6Hkm15k0ZAQuDz+UBq6B3+g+NM6IT2nr5QgPzCw==}
+    dependencies:
+      '@types/react': 17.0.37
+    dev: true
 
   /@types/react/17.0.37:
     resolution: {integrity: sha512-2FS1oTqBGcH/s0E+CjrCCR9+JMpsu9b69RTFO+40ua43ZqP5MmQ4iUde/dMjWR909KxZwmOQIFq6AV6NjEG5xg==}
@@ -8115,8 +8153,40 @@ packages:
       safe-buffer: 5.2.1
     dev: true
 
+  /react-error-boundary/3.1.4_react@17.0.2:
+    resolution: {integrity: sha512-uM9uPzZJTF6wRQORmSrvOIgt4lJ9MC1sNgEOj2XGsDTRE4kmpWxg7ENK9EWNKJRMAOY9z0MuF4yIfl6gp4sotA==}
+    engines: {node: '>=10', npm: '>=6'}
+    peerDependencies:
+      react: '>=16.13.1'
+    dependencies:
+      '@babel/runtime': 7.14.6
+      react: 17.0.2
+    dev: true
+
   /react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
+    dev: true
+
+  /react-shallow-renderer/16.14.1_react@17.0.2:
+    resolution: {integrity: sha512-rkIMcQi01/+kxiTE9D3fdS959U1g7gs+/rborw++42m1O9FAQiNI/UNRZExVUoAOprn4umcXf+pFRou8i4zuBg==}
+    peerDependencies:
+      react: ^16.0.0 || ^17.0.0
+    dependencies:
+      object-assign: 4.1.1
+      react: 17.0.2
+      react-is: 17.0.2
+    dev: true
+
+  /react-test-renderer/17.0.2_react@17.0.2:
+    resolution: {integrity: sha512-yaQ9cB89c17PUb0x6UfWRs7kQCorVdHlutU1boVPEsB8IDZH6n9tHxMacc3y0JoXOJUsZb/t/Mb8FUWMKaM7iQ==}
+    peerDependencies:
+      react: 17.0.2
+    dependencies:
+      object-assign: 4.1.1
+      react: 17.0.2
+      react-is: 17.0.2
+      react-shallow-renderer: 16.14.1_react@17.0.2
+      scheduler: 0.20.2
     dev: true
 
   /react/17.0.2:
@@ -8561,6 +8631,13 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       xmlchars: 2.2.0
+    dev: true
+
+  /scheduler/0.20.2:
+    resolution: {integrity: sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ==}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
     dev: true
 
   /select/1.1.2:
