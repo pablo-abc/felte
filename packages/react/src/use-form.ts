@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import type {
   FormConfig,
   Obj,
@@ -8,19 +8,15 @@ import type {
   FieldValue,
   FormConfigWithInitialValues,
   FormConfigWithoutInitialValues,
+  Stores,
 } from '@felte/core';
-import { createForm as coreCreateForm, deepSet, _set } from '@felte/core';
+import {
+  createForm as coreCreateForm,
+  _get,
+  _set,
+  _isPlainObject,
+} from '@felte/core';
 import { writable } from 'svelte/store';
-
-export type Stores<Data extends Obj> = {
-  data: Data;
-  errors: Errors<Data>;
-  warnings: Errors<Data>;
-  touched: Touched<Data>;
-  isSubmitting: boolean;
-  isValid: boolean;
-  isDirty: boolean;
-};
 
 /** The return type for the `createForm` function. */
 export type Form<Data extends Obj> = {
@@ -35,7 +31,7 @@ export type Form<Data extends Obj> = {
   /** Function that resets the form to its initial values */
   reset(): void;
   /** Helper function to touch a specific field. */
-  setTouched(path: string): void;
+  setTouched(pathOrValue: string | Touched<Data>, touched?: boolean): void;
   /** Helper function to set an error to a specific field. */
   setErrors(
     pathOrValue: string | Errors<Data>,
@@ -48,8 +44,6 @@ export type Form<Data extends Obj> = {
   ): void;
   /** Helper function to set the value of a specific field. Set `touch` to `false` if you want to set the value without setting the field to touched. */
   setField(path: string, value?: FieldValue, touch?: boolean): void;
-  /** Helper function to get the value of a specific field. */
-  getField(path: string): FieldValue | FieldValue[];
   /** Helper function to set all values of the form. Useful for "initializing" values after the form has loaded. */
   setFields(values: Data): void;
   /** Helper function that validates every fields and touches all of them. It updates the `errors` store. */
@@ -62,15 +56,10 @@ export type Form<Data extends Obj> = {
   setInitialValues: (values: Data) => void;
 } & Stores<Data>;
 
-const isCallback = (
-  maybeFunction: any
-): maybeFunction is (...args: any[]) => void =>
-  typeof maybeFunction === 'function';
-
-function useConst<T>(initialValue: T | (() => T)): T {
+function useConst<T>(setup: () => T): T {
   const ref = useRef<T>();
   if (ref.current === undefined) {
-    ref.current = isCallback(initialValue) ? initialValue() : initialValue;
+    ref.current = setup();
   }
   return ref.current;
 }
@@ -78,13 +67,14 @@ function useConst<T>(initialValue: T | (() => T)): T {
 function createSetHelper<
   V extends FieldValue | FieldValue[] = any,
   T extends Obj = Obj
->(storeValue: T, storeSetter: (this: void, value: T) => void) {
+>(storeSetter: (updater: (value: T) => T) => void) {
   return function setHelper(pathOrValue: string | T, value?: V) {
     if (typeof pathOrValue === 'string') {
-      const newValue = _set(storeValue, pathOrValue, value);
-      storeSetter(newValue);
+      storeSetter((oldValue) => {
+        return _set(oldValue, pathOrValue, value);
+      });
     } else {
-      storeSetter(pathOrValue);
+      storeSetter(() => pathOrValue);
     }
   };
 }
@@ -104,22 +94,6 @@ export function useForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
 export function useForm<Data extends Obj = Obj>(
   config: FormConfig<Data>
 ): Form<Data> {
-  const initialValues = config.initialValues || ({} as Data);
-  const [data, setData] = useState<Data>(initialValues);
-  const [errors, setErrors] = useState<Errors<Data>>(() =>
-    deepSet(initialValues, null)
-  );
-  const [touched, setTouched] = useState<Touched<Data>>(() =>
-    deepSet(initialValues, false)
-  );
-
-  const [warnings, setWarnings] = useState<Errors<Data>>(() =>
-    deepSet(initialValues, null)
-  );
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isValid, setIsValid] = useState(!config.validate);
-  const [isDirty, setIsDirty] = useState(false);
-
   const destroyRef = useRef<() => void>();
 
   const { cleanup, ...rest } = useConst(() => {
@@ -134,24 +108,7 @@ export function useForm<Data extends Obj = Obj>(
   });
 
   useEffect(() => {
-    const dataUnsubscriber = rest.data.subscribe(setData);
-    const errorsUnsubscriber = rest.errors.subscribe(setErrors);
-    const touchedUnsubscriber = rest.touched.subscribe(setTouched);
-    const warningsUnsubscriber = rest.warnings.subscribe(setWarnings);
-    const isSubmittingUnsubscriber = rest.isSubmitting.subscribe(
-      setIsSubmitting
-    );
-    const isValidUnsubscriber = rest.isValid.subscribe(setIsValid);
-    const isDirtyUnsubscriber = rest.isDirty.subscribe(setIsDirty);
-
     return () => {
-      dataUnsubscriber();
-      errorsUnsubscriber();
-      touchedUnsubscriber();
-      warningsUnsubscriber();
-      isSubmittingUnsubscriber();
-      isValidUnsubscriber();
-      isDirtyUnsubscriber();
       cleanup();
       destroyRef.current?.();
     };
@@ -159,26 +116,14 @@ export function useForm<Data extends Obj = Obj>(
 
   return {
     ...rest,
-    data,
-    errors,
     setErrors: createSetHelper<string | string[], Errors<Data>>(
-      errors,
-      rest.errors.set
+      rest.errors.update
     ),
-    warnings,
     setWarnings: createSetHelper<string | string[], Errors<Data>>(
-      warnings,
-      rest.warnings.set
+      rest.warnings.update
     ),
-    touched,
-    setTouched: createSetHelper<boolean, Touched<Data>>(
-      touched,
-      rest.touched.set
-    ),
-    isSubmitting,
+    setTouched: createSetHelper<boolean, Touched<Data>>(rest.touched.update),
     setIsSubmitting: rest.isSubmitting.set,
-    isDirty,
     setIsDirty: rest.isDirty.set,
-    isValid,
   };
 }
