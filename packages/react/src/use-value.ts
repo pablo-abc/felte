@@ -3,15 +3,12 @@ import type { Readable } from 'svelte/store';
 import { get } from 'svelte/store';
 import { _isPlainObject } from '@felte/core';
 
-export function useSubscriber<T, R>(
+export function useValue<T, R>(
   store: Readable<T>,
   selector: (value: T) => R
 ): R;
-export function useSubscriber<T>(store: Readable<T>): T;
-export function useSubscriber<T, R>(
-  store: Readable<T>,
-  selector?: (value: T) => R
-) {
+export function useValue<T>(store: Readable<T>): T;
+export function useValue<T, R>(store: Readable<T>, selector?: (value: T) => R) {
   const [value, setValue] = useState(() => {
     const $store = get(store);
     if (!_isPlainObject($store)) return $store;

@@ -8,14 +8,14 @@ export function reporter<Data extends Obj>(
   currentForm: CurrentForm<Data>
 ): ExtenderHandler<Data> {
   const config = currentForm.config;
-  if (!config.__felteReporterSvelteId) {
+  if (!config.__felteReporterSolidId) {
     const id = createId(21);
-    config.__felteReporterSvelteId = id;
+    config.__felteReporterSolidId = id;
     errorStores[id] = currentForm.errors;
   }
   if (!currentForm.form) return {};
-  if (!currentForm.form.hasAttribute('data-felte-reporter-svelte-id')) {
-    currentForm.form.dataset.felteReporterSvelteId = config.__felteReporterSvelteId as string;
+  if (!currentForm.form.hasAttribute('data-felte-reporter-solid-id')) {
+    currentForm.form.dataset.felteReporterSolidId = config.__felteReporterSolidId as string;
   }
   const unsubscribe = currentForm.errors.subscribe(($errors) => {
     if (!currentForm.controls) return;

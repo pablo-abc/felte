@@ -1,2 +1,2 @@
 export { useForm } from './use-form';
-export { useSubscriber } from './use-subscriber';
+export { useValue } from './use-value';

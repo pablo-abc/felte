@@ -36,7 +36,7 @@ export function ValidationMessage<Data extends Obj = Obj>(
         : props.for;
     setErrorPath(getPath(element, path));
     const formElement = getFormElement(element) as HTMLFormElement;
-    const reporterId = formElement?.dataset.felteReporterSvelteId;
+    const reporterId = formElement?.dataset.felteReporterSolidId;
     if (!reporterId) return;
     const store = errorStores[reporterId];
     unsubscribe = store?.subscribe(($errors: Errors<Data>) =>

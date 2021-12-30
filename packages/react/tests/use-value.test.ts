@@ -1,11 +1,11 @@
 import { renderHook, act } from '@testing-library/react-hooks';
 import { writable } from 'svelte/store';
-import { useSubscriber } from '../src';
+import { useValue } from '../src';
 
-describe(useSubscriber, () => {
+describe(useValue, () => {
   test('subscribes to primitive store', () => {
     const store = writable(true);
-    const { result } = renderHook(() => useSubscriber(store));
+    const { result } = renderHook(() => useValue(store));
     expect(result.current).toBe(true);
     act(() => store.set(false));
     expect(result.current).toBe(false);
@@ -13,7 +13,7 @@ describe(useSubscriber, () => {
 
   test('subscribes to object store without selector', () => {
     const store = writable({ email: '' });
-    const { result } = renderHook(() => useSubscriber(store));
+    const { result } = renderHook(() => useValue(store));
     expect(result.current).toEqual({ email: '' });
     act(() => store.set({ email: 'zaphod@beeblebrox.com' }));
     expect(result.current).toEqual({ email: 'zaphod@beeblebrox.com' });
@@ -21,9 +21,7 @@ describe(useSubscriber, () => {
 
   test('subscribes to a store with a selector', () => {
     const store = writable({ email: '' });
-    const { result } = renderHook(() =>
-      useSubscriber(store, (data) => data.email)
-    );
+    const { result } = renderHook(() => useValue(store, (data) => data.email));
     expect(result.current).toBe('');
     act(() => store.set({ email: 'zaphod@beeblebrox.com' }));
     expect(result.current).toBe('zaphod@beeblebrox.com');
