@@ -17,7 +17,6 @@ export function ValidationMessage<Data extends Obj = Obj>(
   const [messages, setMessages] = useState<string | string[]>();
   function getFormElement(element: HTMLDivElement) {
     let form = element.parentNode;
-    if (!form) return;
     while (form && form.nodeName !== 'FORM') {
       form = form.parentNode;
     }
@@ -36,7 +35,7 @@ export function ValidationMessage<Data extends Obj = Obj>(
     const reporterId = formElement?.dataset.felteReporterReactId;
     if (!reporterId) return;
     const store = errorStores[reporterId];
-    const unsubscriber = store?.subscribe(($errors: Errors<Data>) => {
+    const unsubscriber = store.subscribe(($errors: Errors<Data>) => {
       setMessages(_get($errors, errorPath) as any);
     });
     return unsubscriber;
