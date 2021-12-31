@@ -1,0 +1,68 @@
+{
+  "name": "@felte/reporter-react",
+  "version": "0.1.0",
+  "description": "An error reporter for Felte using a React component",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "sideEffects": false,
+  "author": "Pablo Berganza <pablo@berganza.dev>",
+  "repository": "github:pablo-abc/felte",
+  "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/reporter-react",
+  "keywords": [
+    "reactjs",
+    "react",
+    "forms",
+    "validation",
+    "felte"
+  ],
+  "license": "MIT",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "default": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -cw",
+    "prepublishOnly": "pnpm run build",
+    "test": "jest",
+    "test:ci": "jest --ci --coverage"
+  },
+  "dependencies": {
+    "@felte/common": "workspace:*"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.16.5",
+    "@babel/preset-react": "^7.16.5",
+    "@babel/preset-typescript": "^7.14.5",
+    "@felte/react": "workspace:*",
+    "@rollup/plugin-babel": "5.3.0",
+    "@rollup/plugin-node-resolve": "13.0.5",
+    "@testing-library/jest-dom": "^5.11.10",
+    "@testing-library/react": "^12.1.2",
+    "@types/node": "^15.12.4",
+    "babel-jest": "^26.6.3",
+    "jest": "^26.6.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-test-renderer": "^17.0.2",
+    "rollup": "^2.52.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "tsc-watch": "^4.4.0",
+    "typescript": "~4.3.4"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
