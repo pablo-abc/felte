@@ -20,7 +20,7 @@ Felte is a simple to use form library for Svelte. It is based on Svelte stores a
 - Official solutions for error reporting using `reporter` packages.
 - Well tested. Currently at [99% code coverage](https://app.codecov.io/gh/pablo-abc/felte) and constantly working on improving test quality.
 - Supports validation with [yup](./packages/validator-yup/README.md), [zod](./packages/validator-zod/README.md) and [superstruct](./packages/validator-superstruct/README.md).
-- Easily [extend its functionality](https://felte.dev/docs#extending-felte).
+- Easily [extend its functionality](https://felte.dev/docs/svelte/extending-felte).
 
 ## Simple usage example
 
@@ -82,7 +82,7 @@ interface FormConfig<D extends Record<string, unknown>> {
 - `warn` is a custom validation function that must return an object with the same shape as `data`, but with warning messages or `undefined` as values. It can be an array of functions whose validation errors will be merged.
 - `onSubmit` is the function that will be executed when the form is submited.
 - `onError` is a an optional function that will run if the submit throws an exception. It will contain the error catched. If you return an object with the same shape as `Errors`, these errors can be reported by a reporter.
-- `extend` a function or list of functions to extend Felte's behaviour. Currently it can be used to add `reporters` to Felte, these can handle error reporting for you. You can read more about them in [Felte's documentation](https://felte.dev/docs#reporters).
+- `extend` a function or list of functions to extend Felte's behaviour. Currently it can be used to add `reporters` to Felte, these can handle error reporting for you. You can read more about them in [Felte's documentation](https://felte.dev/docs/svelte/reporters).
 
 When called, `createForm` will return an object with the following interface:
 

@@ -26,4 +26,12 @@ describe(useValue, () => {
     act(() => store.set({ email: 'zaphod@beeblebrox.com' }));
     expect(result.current).toBe('zaphod@beeblebrox.com');
   });
+
+  test('subscribes to a store with a path', () => {
+    const store = writable({ email: '' });
+    const { result } = renderHook(() => useValue(store, 'email'));
+    expect(result.current).toBe('');
+    act(() => store.set({ email: 'zaphod@beeblebrox.com' }));
+    expect(result.current).toBe('zaphod@beeblebrox.com');
+  });
 });
