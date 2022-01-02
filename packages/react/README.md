@@ -28,10 +28,6 @@ import { useForm } from '@felte/react';
 
 function Form() {
   const { formRef } = useForm({
-    initialValues: {
-      email: '',
-      password: '',
-    },
     onSubmit: (values) => console.log(values),
   });
 
