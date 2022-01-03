@@ -278,7 +278,7 @@ describe('User interactions with form', () => {
         password: null,
       },
     });
-    setTouched('account.email');
+    setTouched('account.email', true);
     await waitFor(() => {
       expect(get(errors)).toMatchObject({
         account: {
@@ -287,7 +287,7 @@ describe('User interactions with form', () => {
         },
       });
     });
-    setTouched('account.password');
+    setTouched('account.password', true);
     await waitFor(() => {
       expect(get(errors)).toMatchObject({
         account: {
@@ -628,7 +628,7 @@ describe('User interactions with form', () => {
         password: null,
       },
     });
-    setTouched('account.email');
+    setTouched('account.email', true);
     expect(get(touched)).toEqual({
       account: {
         email: true,
@@ -641,7 +641,7 @@ describe('User interactions with form', () => {
         password: null,
       },
     });
-    setTouched('account.password');
+    setTouched('account.password', true);
     expect(get(touched)).toEqual({
       account: {
         email: true,

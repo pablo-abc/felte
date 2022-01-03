@@ -8,7 +8,7 @@ import type {
   Errors,
   Touched,
   CreateSubmitHandlerConfig,
-  FieldValue,
+  Helpers,
   Stores as ObservableStores,
 } from '@felte/core';
 import type { Accessor } from 'solid-js';
@@ -36,24 +36,9 @@ export type Form<Data extends Obj> = {
   createSubmitHandler: (
     altConfig?: CreateSubmitHandlerConfig<Data>
   ) => (e?: Event) => void;
-  /** Function that resets the form to its initial values */
-  reset: () => void;
-  /** Helper function to touch a specific field. */
-  setTouched: (path: string) => void;
-  /** Helper function to set an error to a specific field. */
-  setError: (path: string, error: string | string[]) => void;
-  /** Helper function to set the value of a specific field. Set `touch` to `false` if you want to set the value without setting the field to touched. */
-  setField: (path: string, value?: FieldValue, touch?: boolean) => void;
-  /** Helper function to get the value of a specific field. */
-  getField(path: string): FieldValue | FieldValue[];
-  /** Helper function to set all values of the form. Useful for "initializing" values after the form has loaded. */
-  setFields: (values: Data) => void;
-  /** Helper function that validates every fields and touches all of them. It updates the `errors` store. */
-  validate: () => Promise<Errors<Data> | void>;
-  /** Helper function to re-set the initialValues of Felte. No reactivity will be triggered but this will be the data the form will be reset to when caling `reset`. */
-  setInitialValues: (values: Data) => void;
   observables: ObservableStores<Data>;
-} & Stores<Data>;
+} & Stores<Data> &
+  Helpers<Data>;
 /**
  * Creates the stores and `form` action to make the form reactive.
  * In order to use auto-subscriptions with the stores, call this function at the top-level scope of the component.

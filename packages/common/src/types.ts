@@ -18,18 +18,20 @@ export type CreateSubmitHandlerConfig<Data extends Obj> = {
 export type Helpers<Data extends Obj> = {
   /** Function that resets the form to its initial values */
   reset(): void;
+  /** Helper function to set the values in the data store */
+  setData: ObjectSetter<Data, FieldValue | FieldValue[]>;
   /** Helper function to touch a specific field. */
-  setTouched(path: string): void;
+  setTouched: ObjectSetter<Touched<Data>, boolean>;
   /** Helper function to set an error to a specific field. */
-  setError(path: string, error: string | string[]): void;
+  setErrors: ObjectSetter<Errors<Data>, string | string[]>;
   /** Helper function to set a warning on a specific field. */
-  setWarning(path: string, warning: string | string[]): void;
-  /** Helper function to set the value of a specific field. Set `touch` to `false` if you want to set the value without setting the field to touched. */
-  setField(path: string, value?: FieldValue, touch?: boolean): void;
-  /** Helper function to get the value of a specific field. */
-  getField(path: string): FieldValue | FieldValue[];
+  setWarnings: ObjectSetter<Errors<Data>, string | string[]>;
+  /** Helper function to set the value of the isDirty store */
+  setIsDirty: PrimitiveSetter<boolean>;
+  /** Helper function to set the value of the isSubmitting store */
+  setIsSubmitting: PrimitiveSetter<boolean>;
   /** Helper function to set all values of the form. Useful for "initializing" values after the form has loaded. */
-  setFields(values: Data): void;
+  setFields: FieldsSetter<Data>;
   /** Helper function that validates every fields and touches all of them. It updates the `errors` and `warnings` store. */
   validate(): Promise<Errors<Data> | void>;
   /** Helper function to re-set the initialValues of Felte. No reactivity will be triggered but this will be the data the form will be reset to when caling `reset`. */
@@ -195,3 +197,28 @@ export type Form<Data extends Obj> = {
   Helpers<Data>;
 
 export type StoreFactory = <Value>(initialValue: Value) => Writable<Value>;
+
+export type ObjectSetter<Data, Value> = ((path: string, value: Value) => void) &
+  ((path: string, updater: (value: Value) => Value) => void) &
+  ((value: Data) => void) &
+  ((updater: (value: Data) => Data) => void);
+
+export type PrimitiveSetter<Data> = ((value: Data) => void) &
+  ((updater: (value: Data) => Data) => void);
+
+export type FieldsSetter<Data, Value = FieldValue | FieldValue[]> = ((
+  path: string,
+  value: Value,
+  shouldTouch?: boolean
+) => void) &
+  ((
+    path: string,
+    updater: (value: Value) => Value,
+    shouldTouch?: boolean
+  ) => void) &
+  ((value: Data) => void) &
+  ((updater: (value: Data) => Data) => void);
+
+export type Setter<Data, Value> =
+  | ObjectSetter<Data, Value>
+  | PrimitiveSetter<Data>;

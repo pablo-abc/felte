@@ -34,7 +34,7 @@ describe('Helpers', () => {
         email: string;
       };
     };
-    const { form, data, touched, setField } = createForm<Data>({
+    const { form, data, touched, setFields } = createForm<Data>({
       initialValues: {
         account: {
           email: '',
@@ -45,7 +45,7 @@ describe('Helpers', () => {
 
     expect(get(data).account.email).toBe('');
     expect(get(touched).account.email).toBe(false);
-    setField('account.email', 'jacek@soplica.com');
+    setFields('account.email', 'jacek@soplica.com');
     expect(get(data)).toEqual({
       account: {
         email: 'jacek@soplica.com',
@@ -62,7 +62,7 @@ describe('Helpers', () => {
     expect(get(data).account.email).toBe('');
     expect(inputElement.value).toBe('');
 
-    setField('account.email', 'jacek@soplica.com');
+    setFields('account.email', 'jacek@soplica.com');
     expect(get(data)).toEqual({
       account: {
         email: 'jacek@soplica.com',
@@ -77,7 +77,7 @@ describe('Helpers', () => {
         email: string;
       };
     };
-    const { data, touched, setField } = createForm<Data>({
+    const { data, touched, setFields } = createForm<Data>({
       initialValues: {
         account: {
           email: '',
@@ -88,7 +88,7 @@ describe('Helpers', () => {
 
     expect(get(data).account.email).toBe('');
     expect(get(touched).account.email).toBe(false);
-    setField('account.email', 'jacek@soplica.com', false);
+    setFields('account.email', 'jacek@soplica.com', false);
     expect(get(data)).toEqual({
       account: {
         email: 'jacek@soplica.com',
@@ -173,7 +173,7 @@ describe('Helpers', () => {
     });
 
     expect(get(touched).account.email).toBe(false);
-    setTouched('account.email');
+    setTouched('account.email', true);
     expect(get(touched)).toEqual({
       account: {
         email: true,
@@ -187,7 +187,7 @@ describe('Helpers', () => {
         email: string;
       };
     };
-    const { errors, touched, setError, setTouched } = createForm<Data>({
+    const { errors, touched, setErrors, setTouched } = createForm<Data>({
       initialValues: {
         account: {
           email: '',
@@ -197,13 +197,13 @@ describe('Helpers', () => {
     });
 
     expect(get(errors)?.account?.email).toBeFalsy();
-    setError('account.email', 'Not an email');
+    setErrors('account.email', 'Not an email');
     expect(get(errors)).toEqual({
       account: {
         email: null,
       },
     });
-    setTouched('account.email');
+    setTouched('account.email', true);
     expect(get(touched).account.email).toBe(true);
     expect(get(errors)).toEqual({
       account: {
@@ -218,7 +218,7 @@ describe('Helpers', () => {
         email: string;
       };
     };
-    const { warnings, setWarning } = createForm<Data>({
+    const { warnings, setWarnings } = createForm<Data>({
       initialValues: {
         account: {
           email: '',
@@ -228,7 +228,7 @@ describe('Helpers', () => {
     });
 
     expect(get(warnings)?.account?.email).toBeFalsy();
-    setWarning('account.email', 'Not an email');
+    setWarnings('account.email', 'Not an email');
     expect(get(warnings)).toEqual({
       account: {
         email: 'Not an email',
@@ -402,23 +402,6 @@ describe('Helpers', () => {
     });
 
     expect(get(isDirty)).toBe(false);
-  });
-
-  test('getField should get the value of a field', () => {
-    type Data = {
-      account: {
-        email: string;
-      };
-    };
-    const { data, getField } = createForm<Data>({
-      initialValues: {
-        account: {
-          email: 'jacek@soplica.com',
-        },
-      },
-      onSubmit: jest.fn(),
-    });
-    expect(get(data).account.email).toBe(getField('account.email'));
   });
 
   test('setInitialValues sets new initial values', () => {

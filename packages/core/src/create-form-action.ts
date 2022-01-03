@@ -10,6 +10,7 @@ import type {
   CreateSubmitHandlerConfig,
   Touched,
   Errors,
+  ObjectSetter,
 } from '@felte/common';
 import {
   isFormControl,
@@ -47,7 +48,7 @@ type Configuration<Data extends Obj> = {
     addWarnValidator(validator: ValidationFunction<Data>): void;
     addTransformer(transformer: TransformFunction<Data>): void;
     setFields(values: Data): void;
-    setTouched(fieldName: string, index?: number): void;
+    setTouched: ObjectSetter<Touched<Data>, boolean>;
     setInitialValues(values: Data): void;
   };
   _setFormNode(node: HTMLFormElement): void;
@@ -273,7 +274,7 @@ export function createFormAction<Data extends Obj>({
         return;
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
-      if (config.touchTriggerEvents?.input) setTouched(getPath(target));
+      if (config.touchTriggerEvents?.input) setTouched(getPath(target), true);
       isDirty.set(true);
       const inputValue = getInputTextOrNumber(target);
       data.update(($data) => {
@@ -285,7 +286,7 @@ export function createFormAction<Data extends Obj>({
       const target = e.target;
       if (!target || !isFormControl(target) || shouldIgnore(target)) return;
       if (!target.name) return;
-      if (config.touchTriggerEvents?.change) setTouched(getPath(target));
+      if (config.touchTriggerEvents?.change) setTouched(getPath(target), true);
       if (
         isSelectElement(target) ||
         ['checkbox', 'radio', 'file'].includes(target.type)
@@ -307,7 +308,7 @@ export function createFormAction<Data extends Obj>({
       const target = e.target;
       if (!target || !isFormControl(target) || shouldIgnore(target)) return;
       if (!target.name) return;
-      if (config.touchTriggerEvents?.blur) setTouched(getPath(target));
+      if (config.touchTriggerEvents?.blur) setTouched(getPath(target), true);
     }
 
     const mutationOptions = { childList: true, subtree: true };
