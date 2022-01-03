@@ -1,6 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { useForm } from '../src';
-import { get } from 'svelte/store';
 
 describe(useForm, () => {
   test('calls onSubmit without a form ref', async () => {
@@ -36,10 +35,10 @@ describe(useForm, () => {
       useForm({ onSubmit: mockSubmit, initialValues: { email: '' } })
     );
     result.current.setTouched('email', true);
-    expect(get(result.current.errors)).toEqual({ email: null });
+    expect(result.current.errors()).toEqual({ email: null });
     result.current.setErrors({ email: 'not an email' });
     await waitFor(() => {
-      expect(get(result.current.errors)).toEqual({ email: 'not an email' });
+      expect(result.current.errors()).toEqual({ email: 'not an email' });
     });
   });
 });

@@ -8,7 +8,6 @@ import type {
   FieldValue,
   FormConfigWithInitialValues,
   FormConfigWithoutInitialValues,
-  Stores,
 } from '@felte/core';
 import {
   createForm as coreCreateForm,
@@ -17,6 +16,8 @@ import {
   _isPlainObject,
 } from '@felte/core';
 import { writable } from 'svelte/store';
+import type { Stores } from './use-accessor';
+import { useAccessor } from './use-accessor';
 
 /** The return type for the `createForm` function. */
 export type Form<Data extends Obj> = {
@@ -108,6 +109,14 @@ export function useForm<Data extends Obj = Obj>(
     return { formRef, ...rest };
   });
 
+  const data = useAccessor(rest.data);
+  const errors = useAccessor(rest.errors);
+  const touched = useAccessor(rest.touched);
+  const warnings = useAccessor(rest.warnings);
+  const isSubmitting = useAccessor(rest.isSubmitting);
+  const isDirty = useAccessor(rest.isDirty);
+  const isValid = useAccessor(rest.isValid);
+
   useEffect(() => {
     return () => {
       cleanup();
@@ -117,14 +126,21 @@ export function useForm<Data extends Obj = Obj>(
 
   return {
     ...rest,
+    data,
+    errors,
     setErrors: createSetHelper<string | string[], Errors<Data>>(
       rest.errors.update
     ),
+    warnings,
     setWarnings: createSetHelper<string | string[], Errors<Data>>(
       rest.warnings.update
     ),
+    touched,
     setTouched: createSetHelper<boolean, Touched<Data>>(rest.touched.update),
+    isSubmitting,
     setIsSubmitting: rest.isSubmitting.set,
+    isDirty,
     setIsDirty: rest.isDirty.set,
+    isValid,
   };
 }
