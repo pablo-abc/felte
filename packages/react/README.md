@@ -114,7 +114,7 @@ function Form() {
 }
 ```
 
-These `accessors` are _NOT_ hooks, so feel free to call them wherever you want in your component. Even within your JSX!
+These `accessors` are _NOT_ hooks, so feel free to call them wherever you want in your component. Even within your JSX! If using a selector, you can even use it to obtain derived values:
 
 ```jsx
 import { useEffect } from 'react';
