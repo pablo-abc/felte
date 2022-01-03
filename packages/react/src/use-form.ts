@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
 import type {
   FormConfig,
   Obj,
@@ -19,6 +19,15 @@ import { writable } from 'svelte/store';
 import type { Stores } from './use-accessor';
 import { useAccessor } from './use-accessor';
 
+type Setter<Data, Value> = Data extends Obj
+  ? ((path: string, value: Value) => void) &
+      ((path: string, updater: (value: Value) => Value) => void) &
+      ((value: Data) => void) &
+      ((updater: (value: Data) => Data) => void)
+  : ((value: Data) => void) &
+      ((path: string, value: Value) => void) &
+      ((path: string, updater: (value: Value) => Value) => void);
+
 /** The return type for the `createForm` function. */
 export type Form<Data extends Obj> = {
   /** Action function to be used with the `use` directive on your `form` elements. */
@@ -31,18 +40,14 @@ export type Form<Data extends Obj> = {
   ): (e?: Event) => void;
   /** Function that resets the form to its initial values */
   reset(): void;
+  /** Helper function to set the value of a specific field without updating the DOM. */
+  setData: Setter<Data, FieldValue | FieldValue[]>;
   /** Helper function to touch a specific field. */
-  setTouched(pathOrValue: string | Touched<Data>, touched?: boolean): void;
+  setTouched: Setter<Touched<Data>, boolean>;
   /** Helper function to set an error to a specific field. */
-  setErrors(
-    pathOrValue: string | Errors<Data>,
-    error?: string | string[]
-  ): void;
+  setErrors: Setter<Errors<Data>, string | string[]>;
   /** Helper function to set an warning to a specific field. */
-  setWarnings(
-    pathOrValue: string | Errors<Data>,
-    warning?: string | string[]
-  ): void;
+  setWarnings: Setter<Errors<Data>, string | string[]>;
   /** Helper function to set the value of a specific field. Set `touch` to `false` if you want to set the value without setting the field to touched. */
   setField(path: string, value?: FieldValue, touch?: boolean): void;
   /** Helper function to set all values of the form. Useful for "initializing" values after the form has loaded. */
@@ -50,9 +55,9 @@ export type Form<Data extends Obj> = {
   /** Helper function that validates every fields and touches all of them. It updates the `errors` store. */
   validate(): Promise<Errors<Data> | void>;
   /** Helper function to programatically set the form to a submitting state */
-  setIsSubmitting(isSubmitting: boolean): void;
+  setIsSubmitting: Setter<boolean, boolean>;
   /** Helper function to programatically set the form to a dirty state */
-  setIsDirty(isDirty: boolean): void;
+  setIsDirty: Setter<boolean, boolean>;
   /** Helper function to re-set the initialValues of Felte. No reactivity will be triggered but this will be the data the form will be reset to when caling `reset`. */
   setInitialValues: (values: Data) => void;
 } & Stores<Data>;
@@ -65,19 +70,38 @@ function useConst<T>(setup: () => T): T {
   return ref.current;
 }
 
-function createSetHelper<
-  V extends FieldValue | FieldValue[] = any,
-  T extends Obj = Obj
->(storeSetter: (updater: (value: T) => T) => void) {
-  return function setHelper(pathOrValue: string | T, value?: V) {
-    if (typeof pathOrValue === 'string') {
-      storeSetter((oldValue) => {
-        return _set(oldValue, pathOrValue, value);
-      });
-    } else {
-      storeSetter(() => pathOrValue);
-    }
-  };
+function isUpdater<T>(value: unknown): value is (value: T) => T {
+  return typeof value === 'function';
+}
+
+function useSetHelper<
+  V extends FieldValue | FieldValue[],
+  T extends Obj | boolean
+>(storeSetter: (updater: (value: T) => T) => void): Setter<T, V> {
+  const setHelper = useCallback(
+    (
+      pathOrValue: string | T | ((value: T) => T),
+      valueOrUpdater?: V | ((value: V) => V)
+    ) => {
+      if (typeof pathOrValue === 'string') {
+        const path = pathOrValue;
+        storeSetter((oldValue) => {
+          if (!_isPlainObject(oldValue)) return oldValue;
+          const newValue = isUpdater<V>(valueOrUpdater)
+            ? valueOrUpdater(_get(oldValue, path) as V)
+            : valueOrUpdater;
+          return _set(oldValue, path, newValue);
+        });
+      } else {
+        storeSetter((oldValue) =>
+          isUpdater<T>(pathOrValue) ? pathOrValue(oldValue) : pathOrValue
+        );
+      }
+    },
+    []
+  );
+
+  return setHelper as Setter<T, V>;
 }
 
 export function useForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
@@ -124,23 +148,35 @@ export function useForm<Data extends Obj = Obj>(
     };
   }, []);
 
+  const setData = useSetHelper<FieldValue | FieldValue[], Data>(
+    rest.data.update
+  );
+  const setErrors = useSetHelper<string | string[], Errors<Data>>(
+    rest.errors.update
+  );
+  const setWarnings = useSetHelper<string | string[], Errors<Data>>(
+    rest.warnings.update
+  );
+  const setTouched = useSetHelper<boolean, Touched<Data>>(rest.touched.update);
+  const setIsSubmitting = useSetHelper<boolean, boolean>(
+    rest.isSubmitting.update
+  );
+  const setIsDirty = useSetHelper<boolean, boolean>(rest.isDirty.update);
+
   return {
     ...rest,
     data,
+    setData,
     errors,
-    setErrors: createSetHelper<string | string[], Errors<Data>>(
-      rest.errors.update
-    ),
+    setErrors,
     warnings,
-    setWarnings: createSetHelper<string | string[], Errors<Data>>(
-      rest.warnings.update
-    ),
+    setWarnings,
     touched,
-    setTouched: createSetHelper<boolean, Touched<Data>>(rest.touched.update),
+    setTouched,
     isSubmitting,
-    setIsSubmitting: rest.isSubmitting.set,
+    setIsSubmitting,
     isDirty,
-    setIsDirty: rest.isDirty.set,
+    setIsDirty,
     isValid,
   };
 }

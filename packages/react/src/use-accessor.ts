@@ -11,19 +11,12 @@ export type Accessor<T> = T extends Obj
   : (<R>(deriveFn: (storeValue: T) => R) => R) & (() => T);
 
 export type Stores<Data extends Obj> = {
-  /** Writable store that contains the form's data. */
   data: Accessor<Data>;
-  /** Writable store that contains the form's validation errors. */
   errors: Accessor<Errors<Data>>;
-  /** Writable store that contains warnings for the form. These won't prevent a submit from happening. */
   warnings: Accessor<Errors<Data>>;
-  /** Writable store that denotes if any field has been touched. */
   touched: Accessor<Touched<Data>>;
-  /** Writable store containing only a boolean that represents if the form is submitting. */
   isSubmitting: Accessor<boolean>;
-  /** Readable store containing only a boolean that represents if the form is valid. */
   isValid: Accessor<boolean>;
-  /** Readable store containing only a boolean that represents if the form is dirty. */
   isDirty: Accessor<boolean>;
 };
 
