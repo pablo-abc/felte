@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react-hooks';
 import { useForm } from '../src';
 
 describe(useForm, () => {
@@ -29,16 +29,14 @@ describe(useForm, () => {
     });
   });
 
-  test('sets value with helper', async () => {
+  test('sets value with helper', () => {
     const mockSubmit = jest.fn();
-    const { result, waitFor } = renderHook(() =>
+    const { result } = renderHook(() =>
       useForm({ onSubmit: mockSubmit, initialValues: { email: '' } })
     );
-    result.current.setTouched('email', true);
+    act(() => result.current.setTouched('email', true));
     expect(result.current.errors()).toEqual({ email: null });
-    result.current.setErrors({ email: 'not an email' });
-    await waitFor(() => {
-      expect(result.current.errors()).toEqual({ email: 'not an email' });
-    });
+    act(() => result.current.setErrors({ email: 'not an email' }));
+    expect(result.current.errors()).toEqual({ email: 'not an email' });
   });
 });

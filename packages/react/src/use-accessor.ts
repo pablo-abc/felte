@@ -43,24 +43,29 @@ function getValue<T, R>(
 export function useAccessor<T, R>(store: Readable<T>): Accessor<T> {
   const [, setUpdate] = useState({});
   const currentValue = useRef<T>(get(store));
-  const previousValues = useRef<unknown[]>([]);
+  const values = useRef<Record<string, unknown>>({});
   const subscribedRef = useRef<SelectorOrPath<T, R>[] | boolean>(false);
 
   const accessor = useCallback(
     (selectorOrPath?: ((value: T) => R) | string) => {
       const subscribed = subscribedRef.current;
-      if (selectorOrPath) {
-        if (typeof subscribed === 'boolean') {
-          subscribedRef.current ||= [selectorOrPath];
-        } else {
-          if (
-            subscribed.every((s) => s.toString() !== selectorOrPath.toString())
-          ) {
-            subscribed.push(selectorOrPath);
-          }
+      if (!selectorOrPath) {
+        subscribedRef.current = true;
+        return currentValue.current;
+      }
+      if (typeof subscribed === 'boolean') {
+        subscribedRef.current ||= [selectorOrPath];
+      } else {
+        if (
+          subscribed.every((s) => s.toString() !== selectorOrPath.toString())
+        ) {
+          subscribed.push(selectorOrPath);
         }
       }
-      return getValue(currentValue.current, selectorOrPath);
+      return (
+        values.current[selectorOrPath.toString()] ??
+        getValue(currentValue.current, selectorOrPath)
+      );
     },
     []
   ) as Accessor<T>;
@@ -70,15 +75,14 @@ export function useAccessor<T, R>(store: Readable<T>): Accessor<T> {
       currentValue.current = $store;
       if (!subscribedRef.current) return;
       if (subscribedRef.current === true) return setUpdate({});
-      const selectors = subscribedRef.current;
       let hasChanged = false;
-      for (let i = 0; i < selectors.length; i++) {
-        const newValue = getValue($store, selectors[i]);
-        if (typeof previousValues.current[i] === 'undefined') {
-          previousValues.current[i] = newValue;
+      for (const selector of subscribedRef.current) {
+        const newValue = getValue($store, selector);
+        if (typeof values.current[selector.toString()] === 'undefined') {
+          values.current[selector.toString()] = newValue;
         }
-        if (newValue !== previousValues.current[i]) {
-          previousValues.current[i] = newValue;
+        if (newValue !== values.current[selector.toString()]) {
+          values.current[selector.toString()] = newValue;
           hasChanged = true;
         }
       }
