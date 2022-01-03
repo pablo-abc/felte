@@ -44,6 +44,7 @@ const config = {
         '/docs/svelte/search',
         ...getFrameworkRoutes('solid'),
         ...getFrameworkRoutes('svelte'),
+        ...getFrameworkRoutes('react'),
       ],
     },
   },

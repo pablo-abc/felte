@@ -12,7 +12,7 @@ subsections:
 
 ## Stores
 
-Felte's `createForm` returns the stores it uses to handle your form. These stores are `data`, `errors` and `touched`.
+Felte's `createForm` returns the stores it uses to handle your form.
 
 ### data
 

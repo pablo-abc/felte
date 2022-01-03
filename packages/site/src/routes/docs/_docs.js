@@ -36,6 +36,22 @@ export const sections = {
     'extending-felte',
     'configuration-reference',
   ],
+  react: [
+    'getting-started',
+    'validation',
+    'validators',
+    'transformations',
+    'default-data',
+    'nested-forms',
+    'dynamic-forms',
+    'stores',
+    'helper-functions',
+    'reporters',
+    'custom-form-controls',
+    'accessibility',
+    'extending-felte',
+    'configuration-reference',
+  ],
 };
 
 function idfy(value) {
