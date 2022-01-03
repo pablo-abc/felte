@@ -22,7 +22,7 @@ import { useAccessor } from './use-accessor';
 /** The return type for the `createForm` function. */
 export type Form<Data extends Obj> = {
   /** Action function to be used with the `use` directive on your `form` elements. */
-  formRef(node: HTMLFormElement): void;
+  form(node: HTMLFormElement): void;
   /** Function to handle submit to be passed to the on:submit event. Not necessary if using the `form` action. */
   handleSubmit(e?: Event): void;
   /** Function that creates a submit handler. If a function is passed as first argument it overrides the default `onSubmit` function set in the `createForm` config object. */
@@ -98,15 +98,15 @@ export function useForm<Data extends Obj = Obj>(
   const destroyRef = useRef<() => void>();
 
   const { cleanup, ...rest } = useConst(() => {
-    const { form, ...rest } = coreCreateForm(config, {
+    const { form: coreForm, ...rest } = coreCreateForm(config, {
       storeFactory: writable,
     });
-    const formRef = (node?: HTMLFormElement) => {
+    const form = (node?: HTMLFormElement) => {
       if (!node) return;
-      const { destroy } = form(node);
+      const { destroy } = coreForm(node);
       destroyRef.current = destroy;
     };
-    return { formRef, ...rest };
+    return { form, ...rest };
   });
 
   const data = useAccessor(rest.data);

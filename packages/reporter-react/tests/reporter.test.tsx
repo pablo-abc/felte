@@ -21,7 +21,7 @@ function getArrayError(message: string, errorValue?: string[]) {
 }
 
 function Wrapper() {
-  const { formRef } = useForm<Data>({
+  const { form } = useForm<Data>({
     onSubmit: jest.fn(),
     extend: reporter,
     validate(values) {
@@ -39,7 +39,7 @@ function Wrapper() {
   });
 
   return (
-    <form ref={formRef} data-testid="test-form">
+    <form ref={form} data-testid="test-form">
       <div>
         <label htmlFor="email">Email</label>
         <input name="email" id="email" />

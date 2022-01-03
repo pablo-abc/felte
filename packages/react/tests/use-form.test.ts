@@ -21,7 +21,7 @@ describe(useForm, () => {
     const { result, waitFor } = renderHook(() =>
       useForm({ onSubmit: mockSubmit })
     );
-    result.current.formRef(form);
+    result.current.form(form);
     expect(mockSubmit).not.toHaveBeenCalled();
     form.submit();
     await waitFor(() => {

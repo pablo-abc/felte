@@ -26,7 +26,7 @@ import { reporter, ValidationMessage } from '@felte/reporter-react';
 import { createForm } from '@felte/react';
 
 export function Form() {
-  const { formRef } = createForm({
+  const { form } = createForm({
       // ...
       extend: reporter,
       // ...
@@ -34,7 +34,7 @@ export function Form() {
   })
 
   return (
-    <form ref={formRef}>
+    <form ref={form}>
       <input id="email" type="text" name="email" />
       <ValidationMessage for="email">
         <!-- We assume a single string will be passed as a validation message -->
