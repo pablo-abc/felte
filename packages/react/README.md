@@ -85,11 +85,11 @@ interface FormConfig<D extends Record<string, unknown>> {
 
 When `useForm` is called it returns an object with everything you'll need to handle your forms. The most important property from this object is `formRef` which is a function that you'll need to pass as a `ref` to your `form` element. This is all you need in most cases for Felte to keep track of your form's state as lon as your fields are using native HTML input/select/textarea elements with a `name` attribute. The simple usage example shown previously showcases its use.
 
-Since all the data is handled within Felte, in a best case scenario, using this package to handle your forms won't trigger _any_ component re-renders at all unless necessary. For example, if you need the value of a field, error or warning within a component. For this, Felte's `useForm` also return subscribable stores that contain information about the form, such as `data` containing your field's values, `errors` containing your form's validation errors, etc. If you want said values in real-time as your user interacts with your form, you can subscribe to them using their `subscribe` method and setting state within it. In order to make this easy, and so you don't need to manage subscriptions to your stores, `@felte/react` also exports a hook called `useValue` that will subscribe to the store you pass to it as a first argument and return the current value of it. You may also pass a path or selector as a second argument to only return the value of a specific property of the store (for stores that contain objects). E.g. let's say we have a sign-in form and we need to use the value of the `email` field of your form for some reason:
+Since all the data is handled within Felte, in a best case scenario, using this package to handle your forms won't trigger _any_ component re-renders at all unless necessary. For example, if you need the value of a field, error or warning within a component. For this, Felte's `useForm` also returns accessors to the values, warnings, errors, and other information of the store. These are used as functions that optionally accept a path or selector function to retrieve a specific property of the stores that contain objects Using selectors/paths would make it so your component _only_ re-renders when the property selected changes. E.g. let's say we have a sign-in form and we need to use the value of the `email` field of your form for some reason:
 
 ```jsx
 import { useEffect } from 'react';
-import { useForm, useValue } from '@felte/react';
+import { useForm } from '@felte/react';
 
 function Form() {
   const { data, formRef } = useForm({ onSubmit: console.log });
@@ -98,7 +98,7 @@ function Form() {
   // value changes.
   // useValue also accepts a string path as a second argument,
   // but this is not type-safe if using TypeScript.
-  const email = useValue(data, ($data) => $data.email);
+  const email = data(($data) => $data.email);
 
   useEffect(() => {
     console.log(email);
@@ -108,6 +108,31 @@ function Form() {
     <form ref={formRef}>
       <input name="email" />
       <input name="password" type="password" />
+      <button type="submit">Submit</button>
+    </form>
+  )
+}
+```
+
+These `accessors` are _NOT_ hooks, so feel free to call them wherever you want in your component. Even within your JSX!
+
+```jsx
+import { useEffect } from 'react';
+import { useForm } from '@felte/react';
+
+function Form() {
+  const { data, formRef } = useForm({
+    // We set initial values so they're not `undefined` on initialization.
+    initialValues: { email: '', password: '' },
+    onSubmit: console.log,
+  });
+
+  return (
+    <form ref={formRef}>
+      <input name="email" />
+      <input name="password" type="password" />
+      {/* The component will only re-render when the length of the password changes */}
+      <span>Your password is {data(($data) => $data.password.length)} characters long</span>
       <button type="submit">Submit</button>
     </form>
   )
