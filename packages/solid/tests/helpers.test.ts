@@ -35,7 +35,7 @@ describe('Helpers', () => {
 
     expect(data.account.email).toBe('');
     expect(touched.account.email).toBe(false);
-    setFields('account.email', 'jacek@soplica.com');
+    setFields('account.email', 'jacek@soplica.com', true);
     await waitFor(() => {
       expect(data).toEqual({
         account: {
@@ -56,7 +56,7 @@ describe('Helpers', () => {
       expect(inputElement.value).toBe('');
     });
 
-    setFields('account.email', 'jacek@soplica.com');
+    setFields('account.email', 'jacek@soplica.com', true);
     await waitFor(() => {
       expect(data).toEqual({
         account: {

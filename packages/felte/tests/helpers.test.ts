@@ -38,7 +38,7 @@ describe('Helpers', () => {
 
     expect(get(data).account.email).toBe('');
     expect(get(touched).account.email).toBe(false);
-    setFields('account.email', 'jacek@soplica.com');
+    setFields('account.email', 'jacek@soplica.com', true);
     expect(get(data)).toEqual({
       account: {
         email: 'jacek@soplica.com',
@@ -55,7 +55,7 @@ describe('Helpers', () => {
     expect(get(data).account.email).toBe('');
     expect(inputElement.value).toBe('');
 
-    setFields('account.email', 'jacek@soplica.com');
+    setFields('account.email', 'jacek@soplica.com', true);
     expect(get(data)).toEqual({
       account: {
         email: 'jacek@soplica.com',

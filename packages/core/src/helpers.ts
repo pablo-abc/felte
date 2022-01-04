@@ -107,7 +107,7 @@ export function createHelpers<Data extends Obj>({
   const setFields = (
     pathOrValue: string | Data | ((value: Data) => Data),
     valueOrUpdater?: FieldValues | ((value: FieldValues) => FieldValues),
-    shouldTouch = true
+    shouldTouch?: boolean
   ) => {
     const fieldsSetter = createSetHelper<Data, FieldValues>(updateFields);
     fieldsSetter(pathOrValue as any, valueOrUpdater as any);
