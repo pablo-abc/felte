@@ -14,6 +14,10 @@ type DataErrors = {
   password?: string[];
 };
 
+type DataWarnings = {
+  password?: string;
+};
+
 function getArrayError(message: string, errorValue?: string[]) {
   if (errorValue) return [...errorValue, message];
   return [message];
@@ -34,6 +38,12 @@ function Wrapper() {
           errors.password
         );
       return errors;
+    },
+    warn(values) {
+      const warnings: DataWarnings = {};
+      if (values.password && values.password.length < 8)
+        warnings.password = 'Not secure enough';
+      return warnings;
     },
   });
 
@@ -58,6 +68,9 @@ function Wrapper() {
             </ul>
           )}
         </ValidationMessage>
+        <ValidationMessage for="password" level="warning">
+          {(message) => <span data-testid="password-warning">{message}</span>}
+        </ValidationMessage>
       </div>
     </form>
   );
@@ -72,10 +85,12 @@ describe('reporter', () => {
     const passwordInput = screen.getByRole('textbox', { name: 'Password' });
     let emailMessage = screen.getByTestId('email-message');
     let passwordMessage = screen.getByTestId('password-message');
+    let passwordWarning = screen.getByTestId('password-warning');
 
     expect(emailInput).toBeValid();
     expect(emailMessage).toBeEmptyDOMElement();
     expect(passwordMessage).toBeEmptyDOMElement();
+    expect(passwordWarning).toBeEmptyDOMElement();
 
     formElement.submit();
 
@@ -84,9 +99,11 @@ describe('reporter', () => {
       expect(passwordInput).toBeInvalid();
       emailMessage = screen.getByTestId('email-message');
       passwordMessage = screen.getByTestId('password-message');
+      passwordWarning = screen.getByTestId('password-warning');
       expect(emailMessage).toHaveTextContent('Must not be empty');
       expect(passwordMessage).toHaveTextContent('Must not be empty');
       expect(passwordMessage).toHaveTextContent('Must be at least 8 chars');
+      expect(passwordWarning).toBeEmptyDOMElement();
     });
 
     userEvent.type(emailInput, 'zaphod@beeblebrox.com');
@@ -97,9 +114,11 @@ describe('reporter', () => {
       expect(passwordInput).toBeInvalid();
       emailMessage = screen.getByTestId('email-message');
       passwordMessage = screen.getByTestId('password-message');
+      passwordWarning = screen.getByTestId('password-warning');
       expect(emailMessage).toBeEmptyDOMElement();
       expect(passwordMessage).not.toHaveTextContent('Must not be empty');
       expect(passwordMessage).toHaveTextContent('Must be at least 8 chars');
+      expect(passwordWarning).toHaveTextContent('Not secure enough');
     });
   });
 });

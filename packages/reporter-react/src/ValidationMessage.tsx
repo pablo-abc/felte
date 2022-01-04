@@ -2,18 +2,20 @@ import type { Errors, Obj } from '@felte/common';
 import type { ReactNode } from 'react';
 import React, { useState, useEffect } from 'react';
 import { _get, getPath } from '@felte/common';
-import { errorStores } from './stores';
+import { errorStores, warningStores } from './stores';
 import { createId } from './utils';
 
 export type ValidationMessageProps = {
   for: string;
   index?: string | number;
+  level?: 'error' | 'warning';
   children: (messages: string | string[] | undefined) => ReactNode;
 };
 
 export function ValidationMessage<Data extends Obj = Obj>(
   props: ValidationMessageProps
 ) {
+  const level = props.level ?? 'error';
   const [messages, setMessages] = useState<string | string[]>();
   function getFormElement(element: HTMLDivElement) {
     let form = element.parentNode;
@@ -34,11 +36,17 @@ export function ValidationMessage<Data extends Obj = Obj>(
     const formElement = getFormElement(element) as HTMLFormElement;
     const reporterId = formElement?.dataset.felteReporterReactId;
     if (!reporterId) return;
-    const store = errorStores[reporterId];
-    const unsubscriber = store.subscribe(($errors: Errors<Data>) => {
-      setMessages(_get($errors, errorPath) as any);
-    });
-    return unsubscriber;
+    if (level === 'error') {
+      const errors = errorStores[reporterId];
+      return errors.subscribe(($errors: Errors<Data>) => {
+        setMessages(_get($errors, errorPath) as any);
+      });
+    } else {
+      const warnings = warningStores[reporterId];
+      return warnings.subscribe(($warnings: Errors<Data>) => {
+        setMessages(_get($warnings, errorPath) as any);
+      });
+    }
   }, []);
 
   return (

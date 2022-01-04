@@ -19,9 +19,11 @@ describe('Reporter Svelte', () => {
     render(NoPlaceholder);
     const formElement = screen.getByRole('form');
     const validationMessageElement = screen.getByTestId('validation-message');
+    const warningMessageElement = screen.getByTestId('warning-message');
     formElement.submit();
     await waitFor(() => {
-      expect(validationMessageElement.innerHTML).toContain('An error message');
+      expect(validationMessageElement).toHaveTextContent('An error message');
+      expect(warningMessageElement).toHaveTextContent('A warning message');
     });
   });
 
@@ -32,7 +34,7 @@ describe('Reporter Svelte', () => {
     formElement.submit();
     await waitFor(() => {
       expect(placeholderElement).toBeInTheDocument();
-      expect(placeholderElement.innerHTML).toContain('Placeholder text');
+      expect(placeholderElement).toHaveTextContent('Placeholder text');
     });
   });
 
@@ -45,9 +47,7 @@ describe('Reporter Svelte', () => {
         `validation-message-${index}`
       );
       await waitFor(() => {
-        expect(validationMessageElement.innerHTML).toContain(
-          'An error message'
-        );
+        expect(validationMessageElement).toHaveTextContent('An error message');
       });
     }
   });

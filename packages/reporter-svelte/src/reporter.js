@@ -1,5 +1,5 @@
 import { getPath, _get } from '@felte/common';
-import { errorStores } from './stores';
+import { errorStores, warningStores } from './stores';
 
 function createId(length = 8) {
   let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -16,6 +16,7 @@ export function svelteReporter(currentForm) {
     const id = createId(21);
     config.__felteReporterSvelteId = id;
     errorStores[id] = currentForm.errors;
+    warningStores[id] = currentForm.warnings;
   }
   if (!currentForm.form) return;
   if (!currentForm.form.hasAttribute('data-felte-reporter-svelte-id')) {

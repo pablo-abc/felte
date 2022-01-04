@@ -6,3 +6,4 @@ export type ErrorStores = {
 };
 
 export const errorStores: ErrorStores = {};
+export const warningStores: ErrorStores = {};

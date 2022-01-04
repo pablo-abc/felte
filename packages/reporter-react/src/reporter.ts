@@ -1,7 +1,7 @@
 import { CurrentForm, Obj } from '@felte/common';
 import { getPath, _get } from '@felte/common';
 import type { ExtenderHandler } from '@felte/common';
-import { errorStores } from './stores';
+import { errorStores, warningStores } from './stores';
 import { createId } from './utils';
 
 export function reporter<Data extends Obj>(
@@ -12,6 +12,7 @@ export function reporter<Data extends Obj>(
     const id = createId(21);
     config.__felteReporterReactId = id;
     errorStores[id] = currentForm.errors;
+    warningStores[id] = currentForm.warnings;
   }
   if (!currentForm.form) return {};
   if (!currentForm.form.hasAttribute('data-felte-reporter-react-id')) {
