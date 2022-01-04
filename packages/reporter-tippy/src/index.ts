@@ -92,14 +92,14 @@ function tippyReporter<Data extends Obj = Obj>({
     const tippyInstance = getTippyInstance(form, control);
     if (!tippyInstance) return;
     if (validationMessage) {
-      control.setAttribute('aria-invalid', 'true');
+      if (!isFormControl(control)) control.setAttribute('aria-invalid', 'true');
       tippyInstance.setContent(validationMessage);
       !tippyInstance.state.isEnabled && tippyInstance.enable();
       if (document.activeElement === control && !tippyInstance.state.isShown) {
         tippyInstance.show();
       }
     } else {
-      control.removeAttribute('aria-invalid');
+      if (!isFormControl(control)) control.removeAttribute('aria-invalid');
       tippyInstance.disable();
     }
   }

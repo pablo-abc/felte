@@ -376,8 +376,13 @@ export function createFormAction<Data extends Obj>({
           ? fieldErrors
           : undefined;
         if (message === el.dataset.felteValidationMessage) continue;
-        if (message) el.dataset.felteValidationMessage = message;
-        else delete el.dataset.felteValidationMessage;
+        if (message) {
+          el.dataset.felteValidationMessage = message;
+          el.setAttribute('aria-invalid', 'true');
+        } else {
+          delete el.dataset.felteValidationMessage;
+          el.removeAttribute('aria-invalid');
+        }
       }
     });
 

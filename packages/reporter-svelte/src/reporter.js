@@ -1,4 +1,3 @@
-import { getPath, _get } from '@felte/common';
 import { errorStores, warningStores } from './stores';
 
 function createId(length = 8) {
@@ -23,20 +22,7 @@ export function svelteReporter(currentForm) {
     currentForm.form.dataset.felteReporterSvelteId =
       config.__felteReporterSvelteId;
   }
-  const unsubscribe = currentForm.errors.subscribe(($errors) => {
-    for (const control of currentForm.controls) {
-      const controlError = _get($errors, getPath(control));
-      if (!controlError) {
-        control.removeAttribute('aria-invalid');
-        continue;
-      }
-      control.setAttribute('aria-invalid', 'true');
-    }
-  });
   return {
-    destroy() {
-      unsubscribe();
-    },
     onSubmitError() {
       const firstInvalidElement =
         currentForm &&

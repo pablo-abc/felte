@@ -22,21 +22,10 @@ export interface DomReporterOptions {
   };
 }
 
-const mutationConfig: MutationObserverInit = {
-  attributes: true,
-  subtree: true,
-};
-
 function removeAllChildren(parent: Node): void {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild);
   }
-}
-
-function setInvalidState(target: FormControl) {
-  const validationMessage = target.dataset.felteValidationMessage;
-  if (!validationMessage) target.removeAttribute('aria-invalid');
-  else target.setAttribute('aria-invalid', 'true');
 }
 
 function setValidationMessage<Data extends Obj>(
@@ -119,20 +108,9 @@ function setValidationMessage<Data extends Obj>(
 function domReporter<Data extends Obj = Obj>(
   options?: DomReporterOptions
 ): Extender<Data> {
-  function mutationCallback(mutationList: MutationRecord[]) {
-    for (const mutation of mutationList) {
-      if (mutation.type !== 'attributes') continue;
-      if (mutation.attributeName !== 'data-felte-validation-message') continue;
-      const target = mutation.target as FormControl;
-      setInvalidState(target);
-    }
-  }
-
   return (currentForm: CurrentForm<Data>): ExtenderHandler<Data> => {
     const form = currentForm.form;
     if (!form) return {};
-    const mutationObserver = new MutationObserver(mutationCallback);
-    mutationObserver.observe(form, mutationConfig);
     const unsubscribe = currentForm.errors.subscribe(($errors) => {
       const elements = form.querySelectorAll('[data-felte-reporter-dom-for]');
       for (const element of elements) {
@@ -141,7 +119,6 @@ function domReporter<Data extends Obj = Obj>(
     });
     return {
       destroy() {
-        mutationObserver.disconnect();
         unsubscribe();
       },
       onSubmitError() {
