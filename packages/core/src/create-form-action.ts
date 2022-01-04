@@ -17,6 +17,7 @@ import {
   shouldIgnore,
   isInputElement,
   isSelectElement,
+  isElement,
   isTextAreaElement,
   getInputTextOrNumber,
   _get,
@@ -327,8 +328,9 @@ export function createFormAction<Data extends Obj>({
         if (mutation.addedNodes.length > 0) {
           proxyInputs();
           const shouldUpdate = Array.from(mutation.addedNodes).some((node) => {
+            if (!isElement(node)) return false;
             if (isFormControl(node)) return true;
-            const formControls = getFormControls(node as Element);
+            const formControls = getFormControls(node);
             return formControls.length > 0;
           });
           if (!shouldUpdate) continue;
@@ -345,7 +347,8 @@ export function createFormAction<Data extends Obj>({
         }
         if (mutation.removedNodes.length > 0) {
           for (const removedNode of mutation.removedNodes) {
-            const formControls = getFormControls(removedNode as Element);
+            if (!isElement(removedNode)) continue;
+            const formControls = getFormControls(removedNode);
             if (formControls.length === 0) continue;
             _getCurrentExtenders().forEach((extender) => extender.destroy?.());
             _setCurrentExtenders(extender.map(callExtender));
