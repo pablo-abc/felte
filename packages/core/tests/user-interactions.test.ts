@@ -224,7 +224,7 @@ describe('User interactions with form', () => {
   });
 
   test('Validates default data correctly', async () => {
-    const { form, data, errors, setTouched } = createForm({
+    const { form, data, errors, warnings, setTouched } = createForm({
       onSubmit: jest.fn(),
       validate: (values: any) => {
         const errors: {
@@ -234,6 +234,14 @@ describe('User interactions with form', () => {
         if (!values.account?.password)
           errors.account.password = 'Must not be empty';
         return errors;
+      },
+      warn: (values: any) => {
+        const warnings: {
+          account: { password?: string; email?: string };
+        } = { account: {} };
+        if (!values.account?.password)
+          warnings.account.password = 'Should be safer';
+        return warnings;
       },
     });
     const { formElement } = createSignupForm();
@@ -280,6 +288,11 @@ describe('User interactions with form', () => {
     });
     setTouched('account.email', true);
     await waitFor(() => {
+      expect(get(warnings)).toMatchObject({
+        account: {
+          password: 'Should be safer',
+        },
+      });
       expect(get(errors)).toMatchObject({
         account: {
           email: 'Must not be empty',
@@ -381,15 +394,18 @@ describe('User interactions with form', () => {
 
   test('Calls validation function on submit', async () => {
     const validate = jest.fn(() => ({}));
+    const warn = jest.fn(() => ({}));
     const onSubmit = jest.fn();
     const { form, isSubmitting } = createForm({
       onSubmit,
       validate,
+      warn,
     });
     const { formElement } = createLoginForm();
     form(formElement);
     formElement.submit();
     expect(validate).toHaveBeenCalled();
+    expect(warn).toHaveBeenCalled();
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -409,15 +425,18 @@ describe('User interactions with form', () => {
 
   test('Calls validation function on submit without calling onSubmit', async () => {
     const validate = jest.fn(() => ({ account: { email: 'Not email' } }));
+    const warn = jest.fn(() => ({ account: { email: 'Not email' } }));
     const onSubmit = jest.fn();
     const { form, isValid, isSubmitting } = createForm({
       onSubmit,
       validate,
+      warn,
     });
     const { formElement } = createLoginForm();
     form(formElement);
     formElement.submit();
     expect(validate).toHaveBeenCalled();
+    expect(warn).toHaveBeenCalled();
     await waitFor(() => {
       expect(onSubmit).not.toHaveBeenCalled();
     });
