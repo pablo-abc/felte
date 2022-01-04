@@ -58,11 +58,14 @@ function createSetHelper<
     if (typeof pathOrValue === 'string') {
       const path = pathOrValue;
       storeSetter((oldValue) => {
-        if (!_isPlainObject(oldValue)) return oldValue;
         const newValue = isUpdater<Value>(valueOrUpdater)
-          ? valueOrUpdater(_get(oldValue, path) as Value)
+          ? (valueOrUpdater(_get(oldValue as Obj, path) as Value) as Data)
           : valueOrUpdater;
-        return _set(oldValue, path, newValue);
+        return _set(
+          oldValue as Obj,
+          path,
+          newValue as FieldValue | FieldValue[]
+        ) as Data;
       });
     } else {
       storeSetter((oldValue) =>

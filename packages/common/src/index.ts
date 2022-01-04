@@ -17,5 +17,6 @@ export * from './utils/typeGuards';
 export { getPath } from './utils/getPath';
 export { getPathFromDataset } from './utils/getPathFromDataset';
 export { shouldIgnore } from './utils/shouldIgnore';
+export { getValue } from './utils/getValue';
 export * from './utils/domUtils';
 export * from './types';

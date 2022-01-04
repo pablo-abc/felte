@@ -35,6 +35,7 @@ import {
   getPathFromDataset,
   shouldIgnore,
   executeTransforms,
+  getValue,
 } from '../src';
 
 function createLoginForm() {
@@ -819,5 +820,17 @@ describe('Utils', () => {
     expect(shouldIgnore(input)).toBe(false);
     container.setAttribute('data-felte-ignore', '');
     expect(shouldIgnore(input)).toBe(true);
+  });
+
+  test('getValue', () => {
+    const data = {
+      account: {
+        email: 'zaphod@beeblebrox.com',
+      },
+    };
+    expect(getValue(data, 'account.email')).toBe('zaphod@beeblebrox.com');
+    expect(getValue(data, ($data) => $data.account.email)).toBe(
+      'zaphod@beeblebrox.com'
+    );
   });
 });

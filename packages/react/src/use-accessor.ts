@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import type { Obj, Errors, Touched } from '@felte/core';
 import type { Readable } from 'svelte/store';
 import { get } from 'svelte/store';
-import { _isPlainObject, _get } from '@felte/core';
+import { _isPlainObject, _get, getValue } from '@felte/core';
 
 export type Accessor<T> = T extends Obj
   ? (<R>(selector: (storeValue: T) => R) => R) &
@@ -21,17 +21,6 @@ export type Stores<Data extends Obj> = {
 };
 
 type SelectorOrPath<T, R> = string | ((value: T) => R);
-
-function getValue<T, R>(
-  storeValue: T,
-  selectorOrPath?: ((value: T) => R) | string
-) {
-  if (!_isPlainObject(storeValue) || !selectorOrPath) return storeValue;
-  if (typeof selectorOrPath === 'string') {
-    return _get(storeValue, selectorOrPath);
-  }
-  return selectorOrPath(storeValue);
-}
 
 export function useAccessor<T, R>(store: Readable<T>): Accessor<T> {
   const [, setUpdate] = useState({});
