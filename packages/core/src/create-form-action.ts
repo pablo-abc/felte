@@ -31,7 +31,6 @@ import {
   deepSome,
   getPathFromDataset,
   getFormDefaultValues,
-  isElement,
   getFormControls,
   executeValidation,
 } from '@felte/common';
@@ -103,7 +102,7 @@ export function createFormAction<Data extends Obj>({
         const hasErrors = deepSome(currentErrors, (error) => !!error);
         if (hasErrors) {
           _getCurrentExtenders().forEach((extender) =>
-            extender?.onSubmitError?.({
+            extender.onSubmitError?.({
               data: currentData,
               errors: currentErrors,
             })
@@ -125,7 +124,7 @@ export function createFormAction<Data extends Obj>({
         if (serverErrors) {
           errors.set(serverErrors);
           _getCurrentExtenders().forEach((extender) =>
-            extender?.onSubmitError?.({
+            extender.onSubmitError?.({
               data: currentData,
               errors: serverErrors,
             })
@@ -328,13 +327,12 @@ export function createFormAction<Data extends Obj>({
         if (mutation.addedNodes.length > 0) {
           proxyInputs();
           const shouldUpdate = Array.from(mutation.addedNodes).some((node) => {
-            if (!isElement(node)) return false;
             if (isFormControl(node)) return true;
-            const formControls = getFormControls(node);
+            const formControls = getFormControls(node as Element);
             return formControls.length > 0;
           });
           if (!shouldUpdate) continue;
-          _getCurrentExtenders().forEach((extender) => extender?.destroy?.());
+          _getCurrentExtenders().forEach((extender) => extender.destroy?.());
           _setCurrentExtenders(extender.map(callExtender));
           const { defaultData: newDefaultData } = getFormDefaultValues<Data>(
             node
@@ -347,10 +345,9 @@ export function createFormAction<Data extends Obj>({
         }
         if (mutation.removedNodes.length > 0) {
           for (const removedNode of mutation.removedNodes) {
-            if (!isElement(removedNode)) continue;
-            const formControls = getFormControls(removedNode);
+            const formControls = getFormControls(removedNode as Element);
             if (formControls.length === 0) continue;
-            _getCurrentExtenders().forEach((extender) => extender?.destroy?.());
+            _getCurrentExtenders().forEach((extender) => extender.destroy?.());
             _setCurrentExtenders(extender.map(callExtender));
             unsetTaggedForRemove(formControls);
           }
@@ -389,7 +386,7 @@ export function createFormAction<Data extends Obj>({
         node.removeEventListener('focusout', handleBlur);
         node.removeEventListener('submit', handleSubmit);
         unsubscribeErrors();
-        _getCurrentExtenders().forEach((extender) => extender?.destroy?.());
+        _getCurrentExtenders().forEach((extender) => extender.destroy?.());
       },
     };
   }

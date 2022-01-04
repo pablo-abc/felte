@@ -104,7 +104,9 @@ describe('Extenders', () => {
     const mockExtenderHandler = {
       destroy: jest.fn(),
     };
+    const mockExtenderHandlerNoD = {};
     const mockExtender = jest.fn(() => mockExtenderHandler);
+    const mockExtenderNoD = jest.fn(() => mockExtenderHandlerNoD);
     const {
       form,
       data: { set, ...data },
@@ -112,7 +114,7 @@ describe('Extenders', () => {
       touched,
     } = createForm({
       onSubmit: jest.fn(),
-      extend: [mockExtender, mockExtender],
+      extend: [mockExtender, mockExtenderNoD],
     });
 
     expect(mockExtender).toHaveBeenLastCalledWith(
@@ -123,9 +125,19 @@ describe('Extenders', () => {
       })
     );
 
-    expect(mockExtender).toHaveBeenCalledTimes(2);
+    expect(mockExtender).toHaveBeenCalledTimes(1);
 
-    form(formElement);
+    expect(mockExtenderNoD).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining(data),
+        errors,
+        touched,
+      })
+    );
+
+    expect(mockExtenderNoD).toHaveBeenCalledTimes(1);
+
+    const { destroy } = form(formElement);
 
     expect(mockExtender).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -137,7 +149,19 @@ describe('Extenders', () => {
       })
     );
 
-    expect(mockExtender).toHaveBeenCalledTimes(4);
+    expect(mockExtender).toHaveBeenCalledTimes(2);
+
+    expect(mockExtenderNoD).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining(data),
+        errors,
+        touched,
+        form: formElement,
+        controls: expect.arrayContaining([]),
+      })
+    );
+
+    expect(mockExtenderNoD).toHaveBeenCalledTimes(2);
 
     const inputElement = createInputElement({
       name: 'test',
@@ -157,9 +181,9 @@ describe('Extenders', () => {
         })
       );
 
-      expect(mockExtender).toHaveBeenCalledTimes(6);
+      expect(mockExtender).toHaveBeenCalledTimes(3);
 
-      expect(mockExtenderHandler.destroy).toHaveBeenCalledTimes(2);
+      expect(mockExtenderHandler.destroy).toHaveBeenCalledTimes(1);
     });
 
     formElement.removeChild(inputElement);
@@ -175,10 +199,12 @@ describe('Extenders', () => {
         })
       );
 
-      expect(mockExtender).toHaveBeenCalledTimes(8);
+      expect(mockExtender).toHaveBeenCalledTimes(4);
 
-      expect(mockExtenderHandler.destroy).toHaveBeenCalledTimes(4);
+      expect(mockExtenderHandler.destroy).toHaveBeenCalledTimes(2);
     });
+
+    destroy();
   });
 
   test('calls onSubmitError', async () => {
