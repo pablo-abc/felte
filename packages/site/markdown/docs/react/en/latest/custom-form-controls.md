@@ -4,20 +4,20 @@ section: Custom form controls
 
 ## Custom form controls
 
-If for some reason you're not using an HTML5 input, select or textarea element as an input, you can always use any of the returned [helpers from `createForm`](/docs/solid/helper-functions) for handling inputs.
+If for some reason you're not using an HTML5 input, select or textarea element as an input, you can always use any of the returned [helpers from `useForm`](/docs/react/helper-functions) for handling inputs.
 
 ```tsx
-import { createForm } from '@felte/solid';
+import { useForm } from '@felte/react';
 
 export function Form() {
-  const { form, setField } = createForm({ /* ... */ });
+  const { form, setData } = useForm({ /* ... */ });
 
   function handleChange(event) {
-    setField('customControlName', event.detail.value);
+    setData('customControlName', event.detail.value);
   }
 
   return (
-    <form use:form>
+    <form ref={form}>
       <SomeCustomControl on:customChangeEvent={handleChange} />
     </form>
   );

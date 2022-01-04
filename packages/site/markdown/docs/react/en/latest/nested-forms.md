@@ -51,7 +51,7 @@ Names may also contain an `index` (e.g. `"email[0]"`) to indicate that the value
 
 ```tsx
 function Form() {
-  const { form } = createForm({ \*...*\ });
+  const { form } = useForm({ \*...*\ });
 
   return (
     <form ref={form}>
@@ -80,7 +80,7 @@ If for any reason you want to keep the name without the index, you may also set 
 
 ```tsx
 function Form() {
-  const { form } = createForm({ \*...*\ });
+  const { form } = useForm({ \*...*\ });
 
   return (
     <form ref={form}>

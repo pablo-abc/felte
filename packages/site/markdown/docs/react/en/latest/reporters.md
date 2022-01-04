@@ -1,7 +1,7 @@
 ---
 section: Reporters
 subsections:
-  - Using a Solid component
+  - Using a React component
   - Using the DOM
   - Using Tippy.js
   - Using the constraint validation API
@@ -9,30 +9,30 @@ subsections:
 
 ## Reporters
 
-Felte offers an easy _plugin-like_ way of reporting your errors by using what we call `reporters`. Making use of Felte's extensibility, their job is to handle errors for you. The degree to which they do that depends on how each reporter is build. For example they can report your errors using a tooltip, or modifying the DOM itself to add your validation messages. You may use any of the official packages we provide, or [you can build your own](/docs/solid/extending-felte).
+Felte offers an easy _plugin-like_ way of reporting your errors by using what we call `reporters`. Making use of Felte's extensibility, their job is to handle errors for you. The degree to which they do that depends on how each reporter is build. For example they can report your errors using a tooltip, or modifying the DOM itself to add your validation messages. You may use any of the official packages we provide, or [you can build your own](/docs/react/extending-felte).
 
-### Using a Solid component
+### Using a React component
 
-The `@felte/reporter-solid` package will most likely be the preferred option to report errors.
+The `@felte/reporter-react` package will most likely be the preferred option to report errors.
 
 ```sh
 # npm
-npm i -S @felte/reporter-solid
+npm i -S @felte/reporter-react
 
 # yarn
-yarn add @felte/reporter-solid
+yarn add @felte/reporter-react
 ```
 
-It exports a `reporter` function and a `ValidationMessage` component. Pass the `reporter` function to the `extend` option of `createForm` and add the `ValidationMessage` component wherever you want your validation messages to be displayed.
+It exports a `reporter` function and a `ValidationMessage` component. Pass the `reporter` function to the `extend` option of `useForm` and add the `ValidationMessage` component wherever you want your validation messages to be displayed.
 
 The `ValidationMessage` component needs a `for` prop set with the **name** of the input it corresponds to, the child of `ValidationMessage` is a function that takes the error messages as an argument. This can be either a `string`, an array of `strings`, or `undefined`.
 
 ```tsx
-import { reporter, ValidationMessage } from '@felte/reporter-solid';
-import { createForm } from '@felte/solid';
+import { reporter, ValidationMessage } from '@felte/reporter-react';
+import { useForm } from '@felte/react';
 
 export function Form() {
-  const { form } = createForm({
+  const { form } = useForm({
       // ...
       extend: reporter, // or [reporter]
       // ...
@@ -40,11 +40,11 @@ export function Form() {
   })
 
   return (
-    <form use:form>
+    <form ref={form}>
       <input id="email" type="text" name="email" />
       <ValidationMessage for="email">
-        <!-- We assume a single string will be passed as a validation message -->
-        <!-- This can be an array of strings depending on your validation strategy -->
+        {/* We assume a single string will be passed as a validation message */}
+        {/* This can be an array of strings depending on your validation strategy */}
         {(message) => <span>{message}</span>}
       </ValidationMessage>
       <input type="password" name="password" />
@@ -75,13 +75,13 @@ You may also want to add Tippy's CSS somewhere in your project.
 import 'tippy.js/dist/tippy.css';
 ```
 
-In order to use it, you'll need to import it in your component and add it to the `extend` option of `createForm`.
+In order to use it, you'll need to import it in your component and add it to the `extend` option of `useForm`.
 
 ```javascript
 import reporter from '@felte/reporter-tippy';
-import { createForm } from '@felte/solid';
+import { useForm } from '@felte/react';
 
-const { form } = createForm({
+const { form } = useForm({
   // ...
   extend: reporter(),
   // ...
@@ -155,7 +155,7 @@ If you need to show your Tippy in a different position, you may use the `data-fe
 
 ### Using the DOM
 
-The `@felte/reporter-dom` is similar to the `@felte/reporter-solid` package, but it modifies the dom directly for you.
+The `@felte/reporter-dom` is similar to the `@felte/reporter-react` package, but it modifies the dom directly for you.
 
 ```sh
 # npm
@@ -177,12 +177,12 @@ interface DomReporterOptions {
 - `single` tells the reporter to display only a single message with a `span` element. If false, displays the messages in a list. Default: `false`.
 - `listType` defines the element to be used for the list. Default: `ul`.
 
-Add it to the `extend` property of Felte's `createForm` configuration object.
+Add it to the `extend` property of Felte's `useForm` configuration object.
 
 ```javascript
 import reporterDom from '@felte/reporter-dom';
 
-const { form } = createForm({
+const { form } = useForm({
   // ...
   extend: reporterDom(),
   // ...
@@ -220,13 +220,13 @@ npm i -S @felte/reporter-cvapi
 yarn add @felte/reporter-cvapi
 ```
 
-In order to use it, add it to the `extend` property of Felte's `createForm` configuration object.
+In order to use it, add it to the `extend` property of Felte's `useForm` configuration object.
 
 ```javascript
-import { createForm } from '@felte/solid';
+import { useForm } from '@felte/react';
 import reporter from '@felte/reporter-cvapi';
 
-const { form } = createForm({
+const { form } = useForm({
   // ...
   extend: reporter,
   // ...

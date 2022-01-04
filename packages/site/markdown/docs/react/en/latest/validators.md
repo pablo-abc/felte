@@ -11,7 +11,7 @@ subsections:
 
 If you use third party libraries for validation you might have found yourself needing to transform the output from said validation library to the form library you're using (unless the form library supports it natively or provides its own built-in alternative). In order to not reinvent the wheel, and to make life easier for you, we provide some official `validators` which are, basically, adapters for popular validation libraries.
 
-If a validation library you use is not supported, feel free to [open an issue](https://github.com/pablo-abc/felte/issues), we would like to support the most used ones! You may also [build your own validation package](/docs/solid/extending-felte).
+If a validation library you use is not supported, feel free to [open an issue](https://github.com/pablo-abc/felte/issues), we would like to support the most used ones! You may also [build your own validation package](/docs/react/extending-felte).
 
 ### Using Yup
 
@@ -36,7 +36,7 @@ const schema = yup.object({
   password: yup.string().required(),
 });
 
-const { form } = createForm({
+const { form } = useForm({
   // ...
   extend: validator, // OR `extend: [validator],`
   validateSchema: schema,
@@ -66,7 +66,7 @@ const warnSchema = yup.object({
     ),
 });
 
-const { form } = createForm({
+const { form } = useForm({
   // ...
   extend: validator, // or `extend: [validator],`
   validateSchema,
@@ -77,7 +77,7 @@ const { form } = createForm({
 
 #### Typescript
 
-For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
+For typechecking add the exported type `ValidatorConfig` as a second argument to `useForm` generic.
 
 ```typescript
 import type { ValidatorConfig } from '@felte/validator-yup';
@@ -89,7 +89,7 @@ const schema = yup.object({
   password: yup.string().required(),
 });
 
-const { form } = createForm<yup.InferType<typeof schema>, ValidatorConfig>(/* ... */);
+const { form } = useForm<yup.InferType<typeof schema>, ValidatorConfig>(/* ... */);
 ```
 
 ### Using Zod
@@ -115,7 +115,7 @@ const schema = zod.object({
   password: zod.string().nonempty(),
 });
 
-const { form } = createForm({
+const { form } = useForm({
   // ...
   extend: validator, // OR `extend: [validator],`
   validateSchema: schema,
@@ -145,7 +145,7 @@ const warnSchema = zod.object({
     }),
 });
 
-const { form } = createForm({
+const { form } = useForm({
   // ...
   extend: validator, // or `extend: [validator],`
   validateSchema: schema,
@@ -156,7 +156,7 @@ const { form } = createForm({
 
 #### Typescript
 
-For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
+For typechecking add the exported type `ValidatorConfig` as a second argument to `useForm` generic.
 
 ```typescript
 import type { ValidatorConfig } from '@felte/validator-zod';
@@ -167,7 +167,7 @@ const schema = z.object({
   password: z.string().nonempty(),
 });
 
-const { form } = createForm<z.infer<typeof schema>, ValidatorConfig>(/* ... */);
+const { form } = useForm<z.infer<typeof schema>, ValidatorConfig>(/* ... */);
 ```
 
 ### Using Superstruct
@@ -193,7 +193,7 @@ const struct = object({
   password: size(string(), 1, Infinity),
 });
 
-const { form } = createForm({
+const { form } = useForm({
   // ...
   extend: createValidator(), // or `extend: [createValidator()],`
   validateStruct: struct,
@@ -233,7 +233,7 @@ const warnStruct = object({
   password: Secure,
 });
 
-const { form } = createForm({
+const { form } = useForm({
   // ...
   extend: createValidator(), // or `extend: [createValidator()],`
   validateStruct,
@@ -244,7 +244,7 @@ const { form } = createForm({
 
 #### Typescript
 
-For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
+For typechecking add the exported type `ValidatorConfig` as a second argument to `useForm` generic.
 
 ```typescript
 import type { ValidatorConfig } from '@felte/validator-superstruct';
@@ -255,7 +255,7 @@ const struct = object({
   password: size(string(), 1, Infinity),
 });
 
-const { form } = createForm<Infer<typeof struct>, ValidatorConfig>(/* ... */);
+const { form } = useForm<Infer<typeof struct>, ValidatorConfig>(/* ... */);
 ```
 
 ### Using Vest
@@ -285,7 +285,7 @@ const suite = create('form', (data) => {
   });
 });
 
-const { form } = createForm({
+const { form } = useForm({
   // ...
   extend: validator, // OR `extend: [validator],`
   validateSuite: suite,
@@ -317,7 +317,7 @@ const suite = create('form', (data) => {
   });
 });
 
-const { form } = createForm({
+const { form } = useForm({
   // ...
   validate: validateSuite(suite),
   // ...
@@ -326,7 +326,7 @@ const { form } = createForm({
 
 #### Typescript
 
-For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
+For typechecking add the exported type `ValidatorConfig` as a second argument to `useForm` generic.
 
 ```typescript
 import { validator, ValidatorConfig } from '@felte/validator-vest';
@@ -346,7 +346,7 @@ const suite = create('form', (data: typeof initialValues) => {
   });
 });
 
-const { form } = createForm<typeof initialValues, ValidatorConfig>({
+const { form } = useForm<typeof initialValues, ValidatorConfig>({
   // ...
   initialValues,
   extend: validator, // or `extend: [validator],`

@@ -14,13 +14,13 @@ npm i -S @felte/react
 yarn add @felte/react
 ```
 
-Then, inside of the React component where you have your form, import the `createForm` function and call it with a configuration object containing an `onSubmit` function. The `createForm` function returns a function that you can use in any form as a `ref` to the HTML form element. This is all you need to make Felte track your form.
+Then, inside of the React component where you have your form, import the `useForm` function and call it with a configuration object containing an `onSubmit` function. The `useForm` function returns a function that you can use in any form as a `ref` to the HTML form element. This is all you need to make Felte track your form.
 
 ```tsx
-import { createForm } from '@felte/react';
+import { useForm } from '@felte/react';
 
 export function Form() {
-  const { form } = createForm({
+  const { form } = useForm({
     onSubmit: (values) => {
       // ...
     },

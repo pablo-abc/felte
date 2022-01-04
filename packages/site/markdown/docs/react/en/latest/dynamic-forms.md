@@ -8,10 +8,10 @@ Felte watches for any added or removed form controls in your form, updating the 
 
 ```tsx
 import { useState } from 'react';
-import { createForm } from '@felte/solid';
+import { useForm } from '@felte/react';
 
 function Form() {
-  const { form } = createForm({ /* ... */ });
+  const { form } = useForm({ /* ... */ });
   const [hasBio, setHasBio] = useState(false);
   const handleChange = () => setHasBio(v => !v);
 

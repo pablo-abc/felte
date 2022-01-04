@@ -9,10 +9,10 @@ subsections:
 
 ## Validation
 
-The `createForm` function can also accept a validation function. It's a function that accepts the current form values and needs to return an object with the same shape, but instead of the property values it can have a string or array of strings containing the validation messages.
+The `useForm` function can also accept a validation function. It's a function that accepts the current form values and needs to return an object with the same shape, but instead of the property values it can have a string or array of strings containing the validation messages.
 
 ```javascript
-const { form } = createForm({
+const { form } = useForm({
   // ...
   validate: (values) => {
     const errors = {}
@@ -40,10 +40,10 @@ Felte will validate whichever field it considers as `touched` as you fill the fo
 
 ### Server errors
 
-You can add an `onError` function to the `createForm` configuration that will be called if the `onSubmit` function throws an error. It will be called with the value thrown from the `onSubmit` function. You can use the `onError` function to shape your server errors into the same shape that the `validate` function expects and return them from the same function for them to be handled.
+You can add an `onError` function to the `useForm` configuration that will be called if the `onSubmit` function throws an error. It will be called with the value thrown from the `onSubmit` function. You can use the `onError` function to shape your server errors into the same shape that the `validate` function expects and return them from the same function for them to be handled.
 
 ```javascript
-const { form } = createForm({
+const { form } = useForm({
   // ...
   // Assuming your server already returns them with the appropriate shape.
   // Might not be the case for most cases.
@@ -54,13 +54,13 @@ const { form } = createForm({
 
 ### Error handling
 
-`createForm` returns also its `errors` and `touched` fields as accessors.
+`useForm` returns also its `errors` and `touched` fields as accessors.
 
 ```tsx
-import { createForm } from '@felte/react';
+import { useForm } from '@felte/react';
 
 export function Form() {
-  const { form, errors, touched } = createForm({ \*...*\ });
+  const { form, errors, touched } = useForm({ \*...*\ });
 
   return (
     <>
@@ -88,10 +88,10 @@ The `validate` property of the configuration object can also be an array of vali
 
 ### Warnings
 
-Sometimes you may want to display certain validation messages that _do not_ prevent the form from submitting, such as a password security message. Felte provides a store called `warnings` for this, and such warnings can be added to the store by using the `warn` property on `createForm`'s configuration.
+Sometimes you may want to display certain validation messages that _do not_ prevent the form from submitting, such as a password security message. Felte provides a store called `warnings` for this, and such warnings can be added to the store by using the `warn` property on `useForm`'s configuration.
 
 ```javascript
-const { form } = createForm({
+const { form } = useForm({
   // ...
   warn: (values) => {
     const warnings = {}
