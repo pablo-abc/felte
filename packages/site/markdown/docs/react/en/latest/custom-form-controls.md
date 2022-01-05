@@ -10,10 +10,10 @@ If for some reason you're not using an HTML5 input, select or textarea element a
 import { useForm } from '@felte/react';
 
 export function Form() {
-  const { form, setData } = useForm({ /* ... */ });
+  const { form, setFields } = useForm({ /* ... */ });
 
   function handleChange(event) {
-    setData('customControlName', event.detail.value);
+    setFields('customControlName', event.detail.value, true);
   }
 
   return (
