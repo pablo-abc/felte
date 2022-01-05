@@ -10,10 +10,10 @@ If for some reason you're not using an HTML5 input, select or textarea element a
 import { createForm } from '@felte/solid';
 
 export function Form() {
-  const { form, setField } = createForm({ /* ... */ });
+  const { form, setData } = createForm({ /* ... */ });
 
   function handleChange(event) {
-    setField('customControlName', event.detail.value);
+    setData('customControlName', event.detail.value);
   }
 
   return (

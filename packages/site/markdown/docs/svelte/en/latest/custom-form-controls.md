@@ -24,10 +24,10 @@ You may also use any of the returned [helpers from `createForm`](/docs/svelte/he
 <script>
   import { createForm } from 'felte';
 
-  const { form, setField } = createForm({ /* ... */ });
+  const { form, setData } = createForm({ /* ... */ });
 
   function handleChange(event) {
-    setField('customControlName', event.detail.value);
+    setData('customControlName', event.detail.value);
   }
 </script>
 
