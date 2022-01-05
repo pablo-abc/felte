@@ -1,11 +1,7 @@
 ---
 section: Helper functions
 subsections:
-  - setField
-  - getField
-  - setFields
-  - setTouched
-  - setError
+  - Setters
   - validate
   - reset
   - setInitialValues
@@ -16,25 +12,50 @@ subsections:
 
 The `createForm` function also returns some additional helpers that can help with some more complex use cases.
 
-### setField
+### Setters
 
-A function that accepts a `string` path for the `data` store, the value to be set and an optional boolean argument defining if this operation should _touch_ the field (defaults to `true`).
+`createForm` returns setters for each one of our stores (except `isValid` since it's derived from `errors`). Based on _how_ they can be called, there are three different kinds of setters.
 
-### getField
+#### Object Setters (`setData`, `setTouched`, `setErrors` and `setWarnings`)
 
-A function that accepts a `string` path for the `data` store. It will return the value contained in said path.
+Setters for stores that contain objects can be called in four different ways:
 
-### setFields
+- With a string path and a value.
+- With a string path and an updater function.
+- With an object to replace the whole store.
+- With an updater function to update the whole store.
 
-A function that accepts an object with the same shape as your data, it will set this data to your `data` store as well as to every field of the form.
+Using `setData` as an example:
 
-### setTouched
+- `setData('firstName', 'Zaphod')` would set the property `firstName` of `data` to the value `'Zaphod'`.
+- `setData('firstName', (firstName) => firstName.toUpperCase())` would update the property `firstName` of `data` by making it upper case.
+- `setData({ firstName: 'Zaphod' })` would replace the whole `data` store value with the provided object.
+- `setData(($data) => ({ ...$data, lastName: 'Beeblebrox' }))` would update the `data` store by adding the property `lastName` with the value 'Beeblebrox'.
 
-A function that accepts a `string` path for the `touched` store that sets a field to `touched`.
+#### Fields Setters (`setFields`)
 
-### setError
+This is, basically, a special version of `setData` that also updates the value in your HTML inputs. You can also automatically `touch` elements by calling either version of the setter that accepts a string path as first argument with a boolean as a third argument. `true` if you want to touch the field, `false` if you do not want this behaviour (default: `false`). Examples of this would be:
 
-A function that accepts a `string` path for the `errors` store that sets an error.
+- `setFields('firstName', 'Zaphod', true)` would:
+  - Set the property `firstName` of `data` to `'Zaphod'`.
+  - Set the value in the HTML input with name `firstName` to `'Zaphod'`.
+  - Set the property `firstName` of `touched` to `true`.
+- `setFields('firstName', (firstName) => firstName.toUpperCase(), true)` would:
+  - Update the property `firstName` of `data` by making it uppe case.
+  - Set the updated value to the HTML input with name `firstName`.
+  - Set the property `firstName` of `touched` to `true`.
+
+#### Primitive Setter (`setIsDirty` and `setIsSubmitting`)
+
+The stores `isDirty` and `isSubmitting` do not store an object but a boolean. Their setters can only be called in two different ways:
+
+- With a boolean to replace the value of the store.
+- With an updater function to update the whole store.
+
+Using `setIsDirty` as an example:
+
+- `setIsDirty(true)` would set the value of `isDirty` to `true`.
+- `setIsDirty(($isDirty) => !$isDirty)` would toggle the value of `isDirty`.
 
 ### validate
 

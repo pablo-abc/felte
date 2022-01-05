@@ -71,11 +71,11 @@ A helper function that sets the initialValues Felte handles internally. If calle
 
 ### createSubmitHandler
 
-A function that creates a submit handler with overriden `onSubmit`, `onError` and/or `validate` functions. If nothing is passed as a first argument, or if any of the three accepted properties is undefined, it will use the values from the `createForm` configuration object as a default.
+A function that creates a submit handler with overriden `onSubmit`, `onError` and/or `validate` functions. If nothing is passed as a first argument, or if any of the three accepted properties is undefined, it will use the values from the `useForm` configuration object as a default.
 
 ```tsx
 function Form() {
-  const { form, createSubmitHandler } = createForm({
+  const { form, createSubmitHandler } = useForm({
     onSubmit: (values) => console.log('Default onSubmit'),
   });
 
@@ -86,7 +86,7 @@ function Form() {
   });
 
   return (
-    <form use:form>
+    <form ref={form}>
       <input type="email" name="email" />
       <input type="password" name="password" />
       <button type="submit">Call default submit handler</button>
