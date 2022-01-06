@@ -91,10 +91,17 @@ describe('Reporter DOM', () => {
         multiple: new Array(3).fill('An error'),
       },
     };
+    const mockWarnings = {
+      container: {
+        test: 'A warning',
+      },
+    };
     const mockValidate = jest.fn(() => mockErrors);
+    const mockWarn = jest.fn(() => mockWarnings);
     const { form, validate } = createForm<Data>({
       onSubmit: jest.fn(),
       validate: mockValidate,
+      warn: mockWarn,
       extend: reporter(),
     });
 
@@ -108,6 +115,12 @@ describe('Reporter DOM', () => {
     validationMessageElement.setAttribute(
       'data-felte-reporter-dom-for',
       'test'
+    );
+    const warningMessageElement = document.createElement('div');
+    warningMessageElement.setAttribute('data-felte-reporter-dom-for', 'test');
+    warningMessageElement.setAttribute(
+      'data-felte-reporter-dom-level',
+      'warning'
     );
     const multipleInputs = createMultipleInputElements({
       name: 'multiple',
@@ -123,6 +136,7 @@ describe('Reporter DOM', () => {
     fieldsetElement.name = 'container';
     fieldsetElement.appendChild(inputElement);
     fieldsetElement.appendChild(validationMessageElement);
+    fieldsetElement.appendChild(warningMessageElement);
     fieldsetElement.append(...multipleInputs, ...multipleMessages);
     formElement.appendChild(fieldsetElement);
 
@@ -136,6 +150,9 @@ describe('Reporter DOM', () => {
     await waitFor(() => {
       expect(validationMessageElement).toContainHTML(
         '<li data-felte-reporter-dom-list-message="">An error</li>'
+      );
+      expect(warningMessageElement).toContainHTML(
+        '<li data-felte-reporter-dom-list-message="">A warning</li>'
       );
       multipleMessages.forEach((mes) =>
         expect(mes).toContainHTML(

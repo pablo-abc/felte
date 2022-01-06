@@ -111,15 +111,30 @@ function domReporter<Data extends Obj = Obj>(
   return (currentForm: CurrentForm<Data>): ExtenderHandler<Data> => {
     const form = currentForm.form;
     if (!form) return {};
-    const unsubscribe = currentForm.errors.subscribe(($errors) => {
-      const elements = form.querySelectorAll('[data-felte-reporter-dom-for]');
+    const unsubscribeErrors = currentForm.errors.subscribe(($errors) => {
+      const elements: NodeListOf<HTMLElement> = form.querySelectorAll(
+        '[data-felte-reporter-dom-for]'
+      );
       for (const element of elements) {
-        setValidationMessage(element as HTMLElement, $errors, options ?? {});
+        const level = element.dataset.felteReporterDomLevel || 'error';
+        if (level !== 'error') continue;
+        setValidationMessage(element, $errors, options ?? {});
+      }
+    });
+    const unsubscribeWarnings = currentForm.warnings.subscribe(($warnings) => {
+      const elements: NodeListOf<HTMLElement> = form.querySelectorAll(
+        '[data-felte-reporter-dom-for]'
+      );
+      for (const element of elements) {
+        const level = element.dataset.felteReporterDomLevel;
+        if (level !== 'warning') continue;
+        setValidationMessage(element, $warnings, options ?? {});
       }
     });
     return {
       destroy() {
-        unsubscribe();
+        unsubscribeErrors();
+        unsubscribeWarnings();
       },
       onSubmitError() {
         const firstInvalidElement = form.querySelector(
