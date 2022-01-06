@@ -6,6 +6,7 @@ subsections:
   - reset
   - setInitialValues
   - createSubmitHandler
+  - getValue
 ---
 
 ## Helper functions
