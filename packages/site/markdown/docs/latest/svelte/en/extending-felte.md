@@ -50,9 +50,9 @@ function extender({
 - `addValidator` is a function that accepts a validation function to add to the user's `validate` configuration.
 - `addWarnValidator` is a function that accepts a validation function to add to the user's `warn` configuration.
 - `addTransformer` is a function that accepts a transform function to add to the user's `transform` configuration.
-- `setFields` is the same setter described in the [Helper functions section](/docs/svelte/helper-functions#setters).
-- `validate` is the same helper described in the [Helper functions section](/docs/svelte/helper-functions#validate).
-- `reset` is the same helper described in the [Helper functions section](/docs/svelte/helper-functions#reset).
+- `setFields` is the same setter described in the [Helper functions section](/docs/solid/helper-functions#setters).
+- `validate` is the same helper described in the [Helper functions section](/docs/solid/helper-functions#validate).
+- `reset` is the same helper described in the [Helper functions section](/docs/solid/helper-functions#reset).
 
 If you're subscribing to any store, or adding any event listeners in the extender, you will want to unsubscribe and/or remove any event listeners in the `destroy` function that you can return from the extender. If you're not using any events or subscribing to any store, you don't need to set this.
 

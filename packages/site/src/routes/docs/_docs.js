@@ -3,55 +3,57 @@ import path from 'path';
 import fs from 'fs/promises';
 
 export const sections = {
-  svelte: [
-    'getting-started',
-    'validation',
-    'validators',
-    'transformations',
-    'default-data',
-    'nested-forms',
-    'dynamic-forms',
-    'stores',
-    'helper-functions',
-    'reporters',
-    'custom-form-controls',
-    'multi-page-forms',
-    'accessibility',
-    'extending-felte',
-    'configuration-reference',
-  ],
-  solid: [
-    'getting-started',
-    'validation',
-    'validators',
-    'transformations',
-    'default-data',
-    'nested-forms',
-    'dynamic-forms',
-    'stores',
-    'helper-functions',
-    'reporters',
-    'custom-form-controls',
-    'accessibility',
-    'extending-felte',
-    'configuration-reference',
-  ],
-  react: [
-    'getting-started',
-    'validation',
-    'validators',
-    'transformations',
-    'default-data',
-    'nested-forms',
-    'dynamic-forms',
-    'stores',
-    'helper-functions',
-    'reporters',
-    'custom-form-controls',
-    'accessibility',
-    'extending-felte',
-    'configuration-reference',
-  ],
+  latest: {
+    svelte: [
+      'getting-started',
+      'validation',
+      'validators',
+      'transformations',
+      'default-data',
+      'nested-forms',
+      'dynamic-forms',
+      'stores',
+      'helper-functions',
+      'reporters',
+      'custom-form-controls',
+      'multi-page-forms',
+      'accessibility',
+      'extending-felte',
+      'configuration-reference',
+    ],
+    solid: [
+      'getting-started',
+      'validation',
+      'validators',
+      'transformations',
+      'default-data',
+      'nested-forms',
+      'dynamic-forms',
+      'stores',
+      'helper-functions',
+      'reporters',
+      'custom-form-controls',
+      'accessibility',
+      'extending-felte',
+      'configuration-reference',
+    ],
+    react: [
+      'getting-started',
+      'validation',
+      'validators',
+      'transformations',
+      'default-data',
+      'nested-forms',
+      'dynamic-forms',
+      'stores',
+      'helper-functions',
+      'reporters',
+      'custom-form-controls',
+      'accessibility',
+      'extending-felte',
+      'configuration-reference',
+    ],
+  },
 };
 
 function idfy(value) {
@@ -66,7 +68,7 @@ export default async function getDocs({
 }) {
   const getFilePath = (fileName) =>
     path.resolve(
-      `./markdown/docs/${framework}/${lang}/${version}/${fileName}.md`
+      `./markdown/docs/${version}/${framework}/${lang}/${fileName}.md`
     );
 
   async function readMd(fileName) {
@@ -84,7 +86,7 @@ export default async function getDocs({
   try {
     if (section === 'all')
       return await Promise.all(
-        sections[framework].map((section) => readMd(section))
+        sections[version][framework].map((section) => readMd(section))
       );
     if (section) return await readMd(section);
     return await readMd('introduction');

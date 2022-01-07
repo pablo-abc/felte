@@ -5,7 +5,7 @@ import adapter from '@sveltejs/adapter-static';
 import { sections } from './src/routes/docs/_docs.js';
 
 function getFrameworkRoutes(framework) {
-  return sections[framework].map((section) => {
+  return sections.latest[framework].map((section) => {
     return `/docs/${framework}/${section}`;
   });
 }
