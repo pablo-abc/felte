@@ -35,13 +35,15 @@ export function Form() {
 
   return (
     <form ref={form}>
+      <label htmlFor="email">Email:</label>
       <input id="email" type="text" name="email" />
       <ValidationMessage for="email">
         <!-- We assume a single string will be passed as a validation message -->
         <!-- This can be an array of strings depending on your validation strategy -->
         {(message) => <span>{message}</span>}
       </ValidationMessage>
-      <input type="password" name="password" />
+      <label htmlFor="password">Password:</label>
+      <input id="password" type="password" name="password" />
       <ValidationMessage for="password">
         {(message) => <span>{message}</span>}
       </ValidationMessage>
@@ -49,4 +51,14 @@ export function Form() {
     </form>
   );
 }
+```
+
+## Warnings
+
+This reporter can help you display your `warning` messages as well. If you want your `ValidationMessage` component to display the warnings for a field you'll need to set the `level` prop to the value `warning`. By default this prop has a value of `error`.
+
+```html
+<ValidationMessage level="warning" for="email">
+  {(message) => <span>{message}</span>}
+</ValidationMessage>
 ```

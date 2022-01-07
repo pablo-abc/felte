@@ -50,3 +50,13 @@ export function Form() {
   );
 }
 ```
+
+## Warnings
+
+This reporter can help you display your `warning` messages as well. If you want your `ValidationMessage` component to display the warnings for a field you'll need to set the `level` prop to the value `warning`. By default this prop has a value of `error`.
+
+```html
+<ValidationMessage level="warning" for="email">
+  {(message) => <span>{message}</span>}
+</ValidationMessage>
+```

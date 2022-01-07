@@ -51,3 +51,13 @@ The `for` property refers to the ID of the input. The `messages` prop will have 
   <span slot="placeholder">Some placeholder text</span>
 </ValidationMessage>
 ```
+
+## Warnings
+
+This reporter can help you display your `warning` messages as well. If you want your `ValidationMessage` component to display the warnings for a field you'll need to set the `level` prop to the value `warning`. By default this prop has a value of `error`.
+
+```html
+<ValidationMessage level="warning" for="email" let:messages={messages}>
+  {messages || ''}
+</ValidationMessage>
+```

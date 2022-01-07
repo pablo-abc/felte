@@ -196,12 +196,12 @@ You can freely add/remove fields from the form and Felte will handle it.
     <input name="email">
     <input name="password">
   </fieldset>
-  <Show when={condition()}>
-    <fieldset name="profile" data-felte-unset-on-remove=true>
-      <input name="firstName">
-      <input name="lastName" data-felte-unset-on-remove=false>
-    </fieldset>
-  </Show>
+    {condition && (
+      <fieldset name="profile" data-felte-unset-on-remove=true>
+        <input name="firstName">
+        <input name="lastName" data-felte-unset-on-remove=false>
+      </fieldset>
+    )}
   <input type="submit" value="Create account">
 </form>
 ```
