@@ -1,10 +1,10 @@
 <script>
   import { createForm } from 'felte';
-  import { svelteReporter, ValidationMessage } from '../src';
+  import { reporter, ValidationMessage } from '../src';
 
   const { form } = createForm({
     onSubmit: jest.fn(),
-    extend: svelteReporter,
+    extend: reporter,
     validate: jest.fn(() => ({})),
   });
 </script>
