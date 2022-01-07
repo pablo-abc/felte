@@ -9,7 +9,7 @@ function createId(length = 8) {
   return str;
 }
 
-export function svelteReporter(currentForm) {
+export function reporter(currentForm) {
   const config = currentForm.config;
   if (!config.__felteReporterSvelteId) {
     const id = createId(21);
