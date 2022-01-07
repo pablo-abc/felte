@@ -1,5 +1,8 @@
 ---
 section: Migrating
+subsections:
+  - Helpers
+  - Reporter Svelte
 ---
 
 ## Migrating from 0.x
