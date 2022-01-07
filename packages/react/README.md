@@ -96,7 +96,7 @@ function Form() {
 
   // We subscribe ONLY to the `email`, re-renders are not trigger if any other
   // value changes.
-  // useValue also accepts a string path as a second argument,
+  // The accessor also accepts a string path as a second argument,
   // but this is not type-safe if using TypeScript.
   const email = data(($data) => $data.email);
 
