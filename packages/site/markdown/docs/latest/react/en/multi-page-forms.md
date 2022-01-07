@@ -76,15 +76,15 @@ function Form() {
     setPage(page - 1);
   }
 
+  const CurrentPage = pages[page];
   return (
-    <Dynamic
-      component={pages[page]}
+    <CurrentPage
+      initialValues={pagesState[page]}
       onSubmit={onSubmit}
       onBack={onBack}
-      initialValues={pagesState[page]}
     />
   );
 }
 ```
 
-> We have made a functional example of this on [CodeSandbox](https://codesandbox.io/s/felte-multi-step-solid-97xe5?file=/src/main.tsx).
+> We have made a functional example of this on [CodeSandbox](https://codesandbox.io/s/felte-multi-step-react-wtif4?file=/src/App.js).
