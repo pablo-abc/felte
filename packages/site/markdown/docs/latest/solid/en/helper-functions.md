@@ -33,7 +33,7 @@ Using `setData` as an example:
 - `setData({ firstName: 'Zaphod' })` would replace the whole `data` store value with the provided object.
 - `setData(($data) => ({ ...$data, lastName: 'Beeblebrox' }))` would update the `data` store by adding the property `lastName` with the value 'Beeblebrox'.
 
-#### Fields Setters (`setFields`)
+#### Fields Setter (`setFields`)
 
 This is, basically, a special version of `setData` that also updates the value in your HTML inputs. You can also automatically `touch` elements by calling either version of the setter that accepts a string path as first argument with a boolean as a third argument. `true` if you want to touch the field, `false` if you do not want this behaviour (default: `false`). Examples of this would be:
 
@@ -46,7 +46,7 @@ This is, basically, a special version of `setData` that also updates the value i
   - Set the updated value to the HTML input with name `firstName`.
   - Set the property `firstName` of `touched` to `true`.
 
-#### Primitive Setter (`setIsDirty` and `setIsSubmitting`)
+#### Primitive Setters (`setIsDirty` and `setIsSubmitting`)
 
 The stores `isDirty` and `isSubmitting` do not store an object but a boolean. Their setters can only be called in two different ways:
 

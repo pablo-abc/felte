@@ -19,14 +19,14 @@ The easiest way to do this would be to pass our initial values and handlers as p
 ```jsx
 // The first page would not need an `onBack` prop
 function Page2({ initialValues, onSubmit, onBack }) {
-  const { form, data } = createForm({ initialValues, onSubmit });
+  const { form, data } = useForm({ initialValues, onSubmit });
 
   return (
     <form ref={form}>
-      <label for="aboutMe">More about me</label>
+      <label htmlFor="aboutMe">More about me</label>
       <textarea id="aboutMe" name="aboutMe" />
       <br />
-      <button type="button" onClick={() => onBack(data)}>
+      <button type="button" onClick={() => onBack(data())}>
         Previous page
       </button>
       <button type="submit">Submit</button>
@@ -45,43 +45,43 @@ const pages = [Page1, Page2];
 
 function Form() {
   // We keep track of the current page
-  const [page, setPage] = createSignal(0);
+  const [page, setPage] = useState(0);
   // The state of all of our pages
-  const [pagesState, setPagesState] = createSignal([]);
+  const [pagesState, setPagesState] = useState([]);
 
   function onSubmit(values) {
-    if (page() === pages.length - 1) {
+    if (page === pages.length - 1) {
       // On our final page we POST our data somewhere
       return fetch('https://example.com/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(pagesState()),
+        body: JSON.stringify(pagesState),
       }).then(response => {
         // We handle the response
       });
     } else {
       // If we're not on the last page, we store our data and increase a step
-      const nextState = [...pagesState()];
-      nextState[page()] = values;
+      const nextState = [...pagesState];
+      nextState[page] = values;
       setPagesState(nextState);
-      setPage(page() + 1);
+      setPage(page + 1);
     }
   }
 
   function onBack(values) {
-    if (page() === 0) return;
-    const nextState = [...pagesState()];
-    nextState[page()] = values;
+    if (page === 0) return;
+    const nextState = [...pagesState];
+    nextState[page] = values;
     setPagesState(nextState);
-    setPage(page() - 1);
+    setPage(page - 1);
   }
 
   return (
     <Dynamic
-      component={pages[page()]}
+      component={pages[page]}
       onSubmit={onSubmit}
       onBack={onBack}
-      initialValues={pagesState()[page()]}
+      initialValues={pagesState[page]}
     />
   );
 }
