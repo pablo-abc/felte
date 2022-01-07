@@ -82,3 +82,15 @@ should now be
   const email = getValue($data, 'email');
 </script>
 ```
+
+### Reporter Svelte
+
+`@felte/reporter-svelte` exports the reporter as `reporter` now instead of `svelteReporter` in order to maintain consistency with other packages.
+
+```javascript
+import { svelteReporter } from '@felte/reporter-svelte';
+```
+should now be
+```javascript
+import { reporter } from '@felte/reporter-svelte';
+```
