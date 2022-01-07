@@ -8,7 +8,7 @@ Felte will take as default values whatever is set first in the HTML as a value/c
 
 ```html
 <form use:form>
-    <input name="email" type="email" value="default@email.com" />
+    <input name="email" type="email" value="default@email.com">
 </form>
 ```
 

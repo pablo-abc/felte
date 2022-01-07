@@ -74,8 +74,8 @@ A helper function that sets the initialValues Felte handles internally. If calle
 
 A function that creates a submit handler with overriden `onSubmit`, `onError` and/or `validate` functions. If nothing is passed as a first argument, or if any of the three accepted properties is undefined, it will use the values from the `createForm` configuration object as a default.
 
-```tsx
-function Form() {
+```html
+<script>
   const { form, createSubmitHandler } = createForm({
     onSubmit: (values) => console.log('Default onSubmit'),
   });
@@ -85,16 +85,14 @@ function Form() {
     validate: (values) => /* ... */,
     onError: (errors) => /* ... */,
   });
+</script>
 
-  return (
-    <form use:form>
-      <input type="email" name="email" />
-      <input type="password" name="password" />
-      <button type="submit">Call default submit handler</button>
-      <button type="submit" onClick={altOnSubmit}>Call alternative submit handler</button>
-    </form>
-  );
-}
+<form use:form>
+  <input type="email" name="email">
+  <input type="password" name="password">
+  <button type="submit">Call default submit handler</button>
+  <button type="submit" on:click={altOnSubmit}>Call alternative submit handler</button>
+</form>
 ```
 
 > **NOTE**: The returned submit handler **can** be used outside of the `<form>` tag or be called programatically.
@@ -103,23 +101,18 @@ function Form() {
 
 Rather than being returned by `createForm`, this is a utility function exported directly from `felte`. It allows you to get derived values from a store using a selector function, or to obtain a specific property using a string path.
 
-```jsx
-import { createEffect } from 'solid-js';
-import { createForm, getValue } from '@felte/solid';
+```html
+<script>
+  import { createForm, getValue } from 'felte';
 
-function Form() {
   const { form, data } = createForm({ /* ... */ });
 
-  createEffect(() => {
-    // The next two lines have the same outcome
-    console.log(getValue(data, 'email'));
-    console.log(getValue(data, (d) => d.email));
-  });
+  // The next two lines have the same outcome.
+  $: console.log(getValue($data, 'email'));
+  $: console.log(getValue($data, (d) => d.email);
+</script>
 
-  return (
-    <form use:form>
-      <input name="email" />
-    </form>
-  );
-}
+<form use:form>
+  <input name="email">
+</form>
 ```

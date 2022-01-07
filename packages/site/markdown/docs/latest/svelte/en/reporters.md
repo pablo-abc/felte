@@ -1,7 +1,7 @@
 ---
 section: Reporters
 subsections:
-  - Using a Solid component
+  - Using a Svelte component
   - Using the DOM
   - Using Tippy.js
   - Using the constraint validation API
@@ -9,52 +9,61 @@ subsections:
 
 ## Reporters
 
-Felte offers an easy _plugin-like_ way of reporting your errors by using what we call `reporters`. Making use of Felte's extensibility, their job is to handle errors for you. The degree to which they do that depends on how each reporter is build. For example they can report your errors using a tooltip, or modifying the DOM itself to add your validation messages. You may use any of the official packages we provide, or [you can build your own](/docs/solid/extending-felte).
+Felte offers an easy _plugin-like_ way of reporting your errors by using what we call `reporters`. Making use of Felte's extensibility, their job is to handle errors for you. The degree to which they do that depends on how each reporter is build. For example they can report your errors using a tooltip, or modifying the DOM itself to add your validation messages. You may use any of the official packages we provide, or [you can build your own](/docs/svelte/extending-felte).
 
-### Using a Solid component
+### Using a Svelte component
 
-The `@felte/reporter-solid` package will most likely be the preferred option to report errors.
+The `@felte/reporter-svelte` package will fill like a more traditional way to handle your validation messages.
 
 ```sh
 # npm
-npm i -S @felte/reporter-solid
+npm i -S @felte/reporter-svelte
 
 # yarn
-yarn add @felte/reporter-solid
+yarn add @felte/reporter-svelte
 ```
 
-It exports a `reporter` function and a `ValidationMessage` component. Pass the `reporter` function to the `extend` option of `createForm` and add the `ValidationMessage` component wherever you want your validation messages to be displayed.
+If you're using **[Sapper](https://sapper.svelte.dev)** you might want to add it as a dev dependency.
 
-The `ValidationMessage` component needs a `for` prop set with the **name** of the input it corresponds to, the child of `ValidationMessage` is a function that takes the error messages as an argument. This can be either a `string`, an array of `strings`, or `undefined`.
+```sh
+# npm
+npm i -D @felte/reporter-svelte
 
-```tsx
-import { reporter, ValidationMessage } from '@felte/reporter-solid';
-import { createForm } from '@felte/solid';
+# yarn
+yarn add -D @felte/reporter-svelte
+```
 
-export function Form() {
+It exports a `svelteReporter` function and a `ValidationMessage` component. Pass the `svelteReporter` function to the `extend` option of `createForm` and add the `ValidationMessage` component wherever you want your validation messages to be displayed.
+
+The `ValidationMessage` component needs a `for` prop set with the **name** of the input it corresponds to, the error messages will be passed to you via the `messages` slot prop. The default slot will be rendered when there are errors, and the `placeholder` slot when there aren't any. The `placeholder` slot is optional and if not used, you'll need to handle any falsy values for `messages` yourself.
+
+```html
+<script>
+  import { svelteReporter, ValidationMessage } from '@felte/reporter-svelte';
+  import { createForm } from 'felte';
+
   const { form } = createForm({
       // ...
-      extend: reporter, // or [reporter]
+      extend: svelteReporter,
       // ...
     },
   })
+</script>
 
-  return (
-    <form use:form>
-      <input id="email" type="text" name="email" />
-      <ValidationMessage for="email">
-        <!-- We assume a single string will be passed as a validation message -->
-        <!-- This can be an array of strings depending on your validation strategy -->
-        {(message) => <span>{message}</span>}
-      </ValidationMessage>
-      <input type="password" name="password" />
-      <ValidationMessage for="password">
-        {(message) => <span>{message}</span>}
-      </ValidationMessage>
-      <input type="submit" value="Sign in" />
-    </form>
-  );
-}
+<form use:form>
+  <input id="email" type="text" name="email">
+  <ValidationMessage for="email" let:messages={message}>
+    <!-- We assume a single string will be passed as a validation message -->
+    <!-- This can be an array of strings depending on your validation strategy -->
+    <span>{message}</span>
+    <span slot="placeholder">Please type a valid email.</span>
+  </ValidationMessage>
+  <input type="password" name="password">
+  <ValidationMessage for="password" let:messages={message}>
+    <span>{message || ''}</span>
+  </ValidationMessage>
+  <input type="submit" value="Sign in">
+</form>
 ```
 
 You may also display warning messages from your `warnings` store by adding a prop `level="warning"` to the `ValidationMessage` component.
@@ -64,6 +73,74 @@ You may also display warning messages from your `warnings` store by adding a pro
   {messages || ''}
 </ValidationMessage>
 ```
+
+### Using the DOM
+
+The `@felte/reporter-dom` is similar to the `@felte/reporter-svelte` package, but it modifies the dom directly for you.
+
+```sh
+# npm
+npm i -S @felte/reporter-dom
+
+# yarn
+yarn add @felte/reporter-dom
+```
+
+The default export is a function you can pass options to that describe the behaviour. The current options are:
+
+```typescript
+interface DomReporterOptions {
+  listType?: 'ul' | 'ol';
+  single?: boolean;
+}
+```
+
+- `single` tells the reporter to display only a single message with a `span` element. If false, displays the messages in a list. Default: `false`.
+- `listType` defines the element to be used for the list. Default: `ul`.
+
+Add it to the `extend` property of Felte's `createForm` configuration object.
+
+```javascript
+import reporterDom from '@felte/reporter-dom';
+
+const { form } = createForm({
+  // ...
+  extend: reporterDom(),
+  // ...
+});
+```
+
+In order to show the errors for a field, you'll need to add a container for each of these elements. For example
+
+```html
+<label for="email">Email:</label>
+<input name="email" aria-describedby="email-validation">
+<div id="email-validation" data-felte-reporter-dom-for="email" aria-live="polite" />
+```
+
+You can choose individually if you want to show errors as a `span` or a list with the attributes `data-felte-reporter-dom-as-single` and `data-felte-reporter-dom-as-list` respectively.
+
+#### Warnings
+
+This reporter can help you display your `warning` messages as well. If you want this reporter to insert a warning message in a DOM element, you'll want to set the attribute `data-felte-reporter-dom-level` with the value `warning`. By default it would display errors.
+
+```html
+<label for="email">Email:</label>
+<input name="email" aria-describedby="email-validation">
+<div
+  id="email-validation"
+  data-felte-reporter-dom-for="email"
+  data-felte-reporter-dom-level="warning"
+  />
+```
+
+#### Styling
+
+This reporter will add the error messages inside of your container element.
+
+If the `single` option is `true`, then it will add a single message in a `span` element with the attribute `data-felte-reporter-dom-single-message`. You can style this with the CSS selector `[data-felte-reporter-dom-single-message]`.
+
+If `single` is `false` the it will add a single list (using the element defined in `listType`) with the attribute `data-felte-reporter-dom-list`. The list will containe a `li` element per message, each with the attribute `data-felte-reporter-dom-list-message`. You can style them using a similar CSS selector as described above.
 
 ### Using Tippy.js
 
@@ -87,7 +164,7 @@ In order to use it, you'll need to import it in your component and add it to the
 
 ```javascript
 import reporter from '@felte/reporter-tippy';
-import { createForm } from '@felte/solid';
+import { createForm } from 'felte';
 
 const { form } = createForm({
   // ...
@@ -137,7 +214,7 @@ reporter({
 You may also opt-out of this package reporting your errors for a specific field by adding `data-felte-reporter-tippy-ignore` to the input:
 
 ```html
-<input name="email" data-felte-reporter-tippy-ignore />
+<input name="email" data-felte-reporter-tippy-ignore>
 ```
 
 If you're using a custom control not managed by Felte, you can still make use of `@felte/reporter-tippy`. For this you can use two data attributes:
@@ -158,7 +235,7 @@ If you need to show your Tippy in a different position, you may use the `data-fe
 <!-- Tippy will be shown on top of this div -->
 <div data-felte-reporter-tippy-position-for="email" />
 <!-- Not on top of this input -->
-<input name="email" type="email" />
+<input name="email" type="email">
 ```
 
 #### Warnings
@@ -172,74 +249,6 @@ reporter({
 ```
 
 > In order to avoid cluttering your UI it'd be recommended to use Tippy to report errors _OR_ warnings, not both.
-
-### Using the DOM
-
-The `@felte/reporter-dom` is similar to the `@felte/reporter-solid` package, but it modifies the dom directly for you.
-
-```sh
-# npm
-npm i -S @felte/reporter-dom
-
-# yarn
-yarn add @felte/reporter-dom
-```
-
-The default export is a function you can pass options to that describe the behaviour. The current options are:
-
-```typescript
-interface DomReporterOptions {
-  listType?: 'ul' | 'ol';
-  single?: boolean;
-}
-```
-
-- `single` tells the reporter to display only a single message with a `span` element. If false, displays the messages in a list. Default: `false`.
-- `listType` defines the element to be used for the list. Default: `ul`.
-
-Add it to the `extend` property of Felte's `createForm` configuration object.
-
-```javascript
-import reporterDom from '@felte/reporter-dom';
-
-const { form } = createForm({
-  // ...
-  extend: reporterDom(),
-  // ...
-});
-```
-
-In order to show the errors for a field, you'll need to add a container for each of these elements. For example
-
-```html
-<label for="email">Email:</label>
-<input name="email" aria-describedby="email-validation" />
-<div id="email-validation" data-felte-reporter-dom-for="email" aria-live="polite" />
-```
-
-You can choose individually if you want to show errors as a `span` or a list with the attributes `data-felte-reporter-dom-as-single` and `data-felte-reporter-dom-as-list` respectively.
-
-#### Warnings
-
-This reporter can help you display your `warning` messages as well. If you want this reporter to insert a warning message in a DOM element, you'll want to set the attribute `data-felte-reporter-dom-level` with the value `warning`. By default it would display errors.
-
-```html
-<label for="email">Email:</label>
-<input name="email" aria-describedby="email-validation">
-<div
-  id="email-validation"
-  data-felte-reporter-dom-for="email"
-  data-felte-reporter-dom-level="warning"
-  />
-```
-
-#### Styling
-
-This reporter will add the error messages inside of your container element.
-
-If the `single` option is `true`, then it will add a single message in a `span` element with the attribute `data-felte-reporter-dom-single-message`. You can style this with the CSS selector `[data-felte-reporter-dom-single-message]`.
-
-If `single` is `false` the it will add a single list (using the element defined in `listType`) with the attribute `data-felte-reporter-dom-list`. The list will containe a `li` element per message, each with the attribute `data-felte-reporter-dom-list-message`. You can style them using a similar CSS selector as described above.
 
 ### Using the constraint validation API
 
@@ -256,7 +265,7 @@ yarn add @felte/reporter-cvapi
 In order to use it, add it to the `extend` property of Felte's `createForm` configuration object.
 
 ```javascript
-import { createForm } from '@felte/solid';
+import { createForm } from 'felte';
 import reporter from '@felte/reporter-cvapi';
 
 const { form } = createForm({

@@ -6,24 +6,22 @@ section: Dynamic forms
 
 Felte watches for any added or removed form controls in your form, updating the `data`, `errors` and `touched` stores accordingly.
 
-```tsx
-import { createForm } from '@felte/solid';
+```html
+<script>
+  import { createForm } from 'felte';
 
-function Form() {
   const { form } = createForm({ /* ... */ });
-  const [hasBio, setHasBio] = createSignal(false);
-  const handleChange = () => setHasBio(v => !v);
 
-  return (
-    <form use:form>
-      <input name="username" />
-      <input type=checkbox checked={hasBio()} onChange={handleChange} />
-      <Show when={hasBio()}>
-        <textarea name="bio" />
-      </Show>
-    </form>
-  );
-}
+  let hasBio = false;
+</script>
+
+<form use:form>
+  <input name="username">
+  <input type=checkbox bind:checked={hasBio}>
+  {#if hasBio}
+    <textarea name="bio" />
+  {/if}
+</form>
 ```
 
 If you check the `hasBio` checkbox, the `textarea` will be added to the DOM and Felte will automatically update its stores with the appropriate values without changing anything else.
@@ -39,7 +37,7 @@ This attribute can be added to any form control or `fieldset` tag. If you set th
 ```html
 <fieldset name="profile" data-felte-unset-on-remove>
   <!-- won't be removed from the store if the fieldset is removed -->
-  <input name="name" data-felte-unset-on-remove="false" />
+  <input name="name" data-felte-unset-on-remove="false">
   <!-- will be removed from the store if the fieldset is removed -->
   <textarea name="bio" />
 </fieldset>
