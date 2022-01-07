@@ -57,6 +57,14 @@ export function Form() {
 }
 ```
 
+You may also display warning messages from your `warnings` store by adding a prop `level="warning"` to the `ValidationMessage` component.
+
+```html
+<ValidationMessage level="warning" for="email" let:messages={messages}>
+  {messages || ''}
+</ValidationMessage>
+```
+
 ### Using Tippy.js
 
 The `@felte/reporter-tippy` package leverages **[Tippy.js](https://atomiks.github.io/tippyjs/)** to report your validation messages. You will also need to install Tippy.js as a separate dependency to use it.
@@ -153,6 +161,18 @@ If you need to show your Tippy in a different position, you may use the `data-fe
 <input name="email" type="email" />
 ```
 
+#### Warnings
+
+This reporter can also display your warning messages. In order to do so you'll need to pass the property `level` to your reporter with a value of `warning`.
+
+```javascript
+reporter({
+  level: 'warning'
+})
+```
+
+> In order to avoid cluttering your UI it'd be recommended to use Tippy to report errors _OR_ warnings, not both.
+
 ### Using the DOM
 
 The `@felte/reporter-dom` is similar to the `@felte/reporter-solid` package, but it modifies the dom directly for you.
@@ -199,6 +219,19 @@ In order to show the errors for a field, you'll need to add a container for each
 
 You can choose individually if you want to show errors as a `span` or a list with the attributes `data-felte-reporter-dom-as-single` and `data-felte-reporter-dom-as-list` respectively.
 
+#### Warnings
+
+This reporter can help you display your `warning` messages as well. If you want this reporter to insert a warning message in a DOM element, you'll want to set the attribute `data-felte-reporter-dom-level` with the value `warning`. By default it would display errors.
+
+```html
+<label for="email">Email:</label>
+<input name="email" aria-describedby="email-validation">
+<div
+  id="email-validation"
+  data-felte-reporter-dom-for="email"
+  data-felte-reporter-dom-level="warning"
+  />
+```
 
 #### Styling
 
