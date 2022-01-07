@@ -105,32 +105,35 @@ function setValidationMessage<Data extends Obj>(
   }
 }
 
+function handleSubscription<Data extends Obj>(
+  form: HTMLFormElement,
+  level: 'error' | 'warning',
+  options?: DomReporterOptions
+) {
+  return function (messages: Errors<Data>) {
+    const elements: NodeListOf<HTMLElement> = form.querySelectorAll(
+      '[data-felte-reporter-dom-for]'
+    );
+    for (const element of elements) {
+      const elementLevel = element.dataset.felteReporterDomLevel || 'error';
+      if (level !== elementLevel) continue;
+      setValidationMessage(element, messages, options ?? {});
+    }
+  };
+}
+
 function domReporter<Data extends Obj = Obj>(
   options?: DomReporterOptions
 ): Extender<Data> {
   return (currentForm: CurrentForm<Data>): ExtenderHandler<Data> => {
     const form = currentForm.form;
     if (!form) return {};
-    const unsubscribeErrors = currentForm.errors.subscribe(($errors) => {
-      const elements: NodeListOf<HTMLElement> = form.querySelectorAll(
-        '[data-felte-reporter-dom-for]'
-      );
-      for (const element of elements) {
-        const level = element.dataset.felteReporterDomLevel || 'error';
-        if (level !== 'error') continue;
-        setValidationMessage(element, $errors, options ?? {});
-      }
-    });
-    const unsubscribeWarnings = currentForm.warnings.subscribe(($warnings) => {
-      const elements: NodeListOf<HTMLElement> = form.querySelectorAll(
-        '[data-felte-reporter-dom-for]'
-      );
-      for (const element of elements) {
-        const level = element.dataset.felteReporterDomLevel;
-        if (level !== 'warning') continue;
-        setValidationMessage(element, $warnings, options ?? {});
-      }
-    });
+    const unsubscribeErrors = currentForm.errors.subscribe(
+      handleSubscription(form, 'error', options)
+    );
+    const unsubscribeWarnings = currentForm.warnings.subscribe(
+      handleSubscription(form, 'warning', options)
+    );
     return {
       destroy() {
         unsubscribeErrors();

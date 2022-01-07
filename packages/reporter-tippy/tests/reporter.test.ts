@@ -334,4 +334,101 @@ describe('Reporter Tippy', () => {
       expect(tippyInstance).toBeFalsy();
     });
   });
+
+  test('show warning tippy on hover and hide on unhover', async () => {
+    const mockWarnings = {
+      test: 'A test warning',
+      multiple: new Array(3).fill('A warning'),
+    };
+    const mockWarn = jest.fn(() => mockWarnings);
+    const { form, validate } = createForm({
+      onSubmit: jest.fn(),
+      warn: mockWarn,
+      extend: reporter({ level: 'warning' }),
+    });
+
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const inputElement = createInputElement({
+      name: 'test',
+      type: 'text',
+    });
+    const multipleInputs = createMultipleInputElements({
+      name: 'multiple',
+      type: 'text',
+    });
+    const multipleMessages = multipleInputs.map((el, index) => {
+      const mes = document.createElement('div');
+      mes.setAttribute('data-felte-reporter-dom-for', el.name);
+      mes.setAttribute('data-felte-index', String(index));
+      return mes;
+    });
+    formElement.appendChild(inputElement);
+    formElement.append(...multipleInputs, ...multipleMessages);
+
+    const { destroy } = form(formElement);
+
+    await validate();
+
+    expect(getTippy(inputElement)).toBeTruthy();
+
+    userEvent.hover(inputElement);
+
+    await waitFor(() => {
+      const tippyInstance = getTippy(inputElement);
+      expect(tippyInstance?.state.isEnabled).toBeTruthy();
+      expect(tippyInstance?.state.isVisible).toBeTruthy();
+      expect(tippyInstance?.popper).toHaveTextContent(mockWarnings.test);
+    });
+
+    userEvent.unhover(inputElement);
+
+    await waitFor(() => {
+      const tippyInstance = getTippy(inputElement);
+      expect(tippyInstance?.state.isEnabled).toBeTruthy();
+      expect(tippyInstance?.state.isVisible).toBeFalsy();
+    });
+
+    for (const input of multipleInputs) {
+      expect(getTippy(input)).toBeTruthy();
+
+      userEvent.hover(input);
+
+      await waitFor(() => {
+        const tippyInstance = getTippy(input);
+        expect(tippyInstance?.state.isEnabled).toBeTruthy();
+        expect(tippyInstance?.state.isVisible).toBeTruthy();
+        expect(tippyInstance?.popper).toHaveTextContent(
+          mockWarnings.multiple[0]
+        );
+      });
+
+      userEvent.unhover(input);
+
+      await waitFor(() => {
+        const tippyInstance = getTippy(input);
+        expect(tippyInstance?.state.isEnabled).toBeTruthy();
+        expect(tippyInstance?.state.isVisible).toBeFalsy();
+      });
+    }
+
+    mockWarn.mockImplementation(() => ({} as any));
+
+    await validate();
+
+    await waitFor(() => {
+      const tippyInstance = getTippy(inputElement);
+      expect(tippyInstance?.state.isEnabled).toBeFalsy();
+      expect(tippyInstance?.state.isVisible).toBeFalsy();
+    });
+
+    await waitFor(() => {
+      for (const input of multipleInputs) {
+        const tippyInstance = getTippy(input);
+        expect(tippyInstance?.state.isEnabled).toBeFalsy();
+        expect(tippyInstance?.state.isVisible).toBeFalsy();
+      }
+    });
+
+    destroy();
+  });
 });

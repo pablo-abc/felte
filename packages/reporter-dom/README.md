@@ -51,6 +51,20 @@ In order to show the errors for a field, you'll need to add a container for each
 
 You can choose individually if you want to show errors as a `span` or a list wit the attributes `data-felte-reporter-dom-as-single` and `data-felte-reporter-dom-as-list` respectively.
 
+### Warnings
+
+This reporter can help you display your `warning` messages as well. If you want this reporter to insert a warning message in a DOM element, you'll want to set the attribute `data-felte-reporter-dom-level` with the value `warning`. By default it would display errors.
+
+```html
+<label for="email">Email:</label>
+<input name="email" aria-describedby="email-validation">
+<div
+  id="email-validation"
+  data-felte-reporter-dom-for="email"
+  data-felte-reporter-dom-level="warning"
+  />
+```
+
 ## Styling
 
 This reporter will add the error messages inside of your container element.

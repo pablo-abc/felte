@@ -58,10 +58,12 @@ export type TippyReporterOptions<Data extends Obj> = {
   ) => string | undefined;
   tippyProps?: TippyFieldProps;
   tippyPropsMap?: TippyPropsMap<Data>;
+  level?: 'error' | 'warning';
 };
 
 function tippyReporter<Data extends Obj = Obj>({
   setContent,
+  level = 'error',
   tippyProps,
   tippyPropsMap = {},
 }: TippyReporterOptions<Data> = {}): Extender<Data> {
@@ -80,6 +82,7 @@ function tippyReporter<Data extends Obj = Obj>({
       ...tippyFieldProps,
     });
     instance.popper.setAttribute('aria-live', 'polite');
+    instance.popper.dataset.felteReporterTippyLevel = level;
     if (!content) instance.disable();
     return instance;
   }
@@ -201,11 +204,15 @@ function tippyReporter<Data extends Obj = Obj>({
 
     const observer = new MutationObserver(mutationCallback);
     observer.observe(form, { childList: true });
-    const unsubscribe = currentForm.errors.subscribe(($errors) => {
+    const store = level === 'error' ? currentForm.errors : currentForm.warnings;
+    const unsubscribe = store.subscribe(($messages) => {
       for (const control of customControls) {
         const elPath = getPath(control, control.dataset.felteReporterTippyFor);
         if (!elPath) continue;
-        const message = _get($errors, elPath) as string | string[] | undefined;
+        const message = _get($messages, elPath) as
+          | string
+          | string[]
+          | undefined;
         const transformedMessage =
           typeof message !== 'undefined' && !Array.isArray(message)
             ? [message]
@@ -219,7 +226,10 @@ function tippyReporter<Data extends Obj = Obj>({
       for (const control of controls) {
         const elPath = getPath(control, control.dataset.felteReporterTippyFor);
         if (!elPath) continue;
-        const message = _get($errors, elPath) as string | string[] | undefined;
+        const message = _get($messages, elPath) as
+          | string
+          | string[]
+          | undefined;
         const transformedMessage =
           typeof message !== 'undefined' && !Array.isArray(message)
             ? [message]

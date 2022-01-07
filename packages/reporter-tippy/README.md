@@ -45,7 +45,7 @@ reporter({
 })
 ```
 
-You can also pass a `setContent` function that will receive the current validation messages and the field path. Here you can modify your validation messages, which can come in useful if you want to display HTML content inside of Tippy. The `messages` argument will either by an array of strings (it can be more than one message depending on your validation strategy) or undefined. The `path` argument will be a string with the full path of your field (e.g. `email`, `account.email`, etc).
+You can also pass a `setContent` function that will receive the current validation messages and the field path. Here you can modify your validation messages, which can come in useful if you want to display HTML content inside of Tippy. The `messages` argument will either be an array of strings (it can be more than one message depending on your validation strategy) or undefined. The `path` argument will be a string with the full path of your field (e.g. `email`, `account.email`, etc).
 
 ```javascript
 reporter({
@@ -72,6 +72,18 @@ reporter({
   },
 })
 ```
+
+## Warnings
+
+This reporter can also display your warning messages. In order to do so you'll need to pass the property `level` to your reporter with a value of `warning`.
+
+```javascript
+reporter({
+  level: 'warning'
+})
+```
+
+> In order to avoid cluttering your UI it'd be recommended to use Tippy to report errors _OR_ warnings, not both.
 
 ## Opting out
 
