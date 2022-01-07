@@ -20,6 +20,7 @@ export const sections = {
       'accessibility',
       'extending-felte',
       'configuration-reference',
+      'migrating',
     ],
     solid: [
       'getting-started',
@@ -37,6 +38,7 @@ export const sections = {
       'accessibility',
       'extending-felte',
       'configuration-reference',
+      'migrating',
     ],
     react: [
       'getting-started',
@@ -54,6 +56,7 @@ export const sections = {
       'accessibility',
       'extending-felte',
       'configuration-reference',
+      'migrating',
     ],
   },
 };

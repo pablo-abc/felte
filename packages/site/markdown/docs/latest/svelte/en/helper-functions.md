@@ -21,17 +21,33 @@ The `createForm` function also returns some additional helpers that can help wit
 
 Setters for stores that contain objects can be called in four different ways:
 
-- With a string path and a value.
-- With a string path and an updater function.
-- With an object to replace the whole store.
-- With an updater function to update the whole store.
+- With a string path and a value, in order to set a specific property of a store.
+- With a string path and an updater function, in order to update a specific property of a store.
+- With an object in order to replace the whole store's value.
+- With an updater function to update the whole store's value.
 
 Using `setData` as an example:
 
-- `setData('firstName', 'Zaphod')` would set the property `firstName` of `data` to the value `'Zaphod'`.
-- `setData('firstName', (firstName) => firstName.toUpperCase())` would update the property `firstName` of `data` by making it upper case.
-- `setData({ firstName: 'Zaphod' })` would replace the whole `data` store value with the provided object.
-- `setData(($data) => ({ ...$data, lastName: 'Beeblebrox' }))` would update the `data` store by adding the property `lastName` with the value 'Beeblebrox'.
+```javascript
+// We assume our `data` store to contain: { firstName: '' }
+
+// Sets the property `firstName` of `data` to the value 'Zaphod'
+setData('firstName', 'Zaphod');
+// `data` is now `{ firstName: 'Zaphod' }`
+
+// Updates the property `firstName` of `data` by making it upper case
+setData('firstName', (firstName) => firstName.toUpperCase());
+// `data` is now `{ firstName: 'ZAPHOD' }`
+
+// Replaces the whole value of `data` with the provided object
+setData({ firstName: 'Zaphod' });
+// `data is now `{ firstName: 'Zaphod' }`
+
+// Updates the `data` store by adding the property `lastName` with the value
+// 'Beeblebrox'
+setData(($data) => ({ ...$data, lastName: 'Beeblebrox' }));
+// `data` is now `{ firstName: 'Zaphod', lastName: 'Beeblebrox' }`
+```
 
 #### Fields Setter (`setFields`)
 
