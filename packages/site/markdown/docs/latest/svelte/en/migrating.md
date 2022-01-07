@@ -57,3 +57,27 @@ setTouched('tag[1]', true)
 ```
 
 > These functions now can do more than before. Be sure to check the [documentation on them](/docs/svelte/helper-functions#setters).
+
+
+* `getField` is no longer returned from `createForm`, this has been replaced by a new utility function exported from `felte` called `getValue` that works for any store.
+```html
+<script>
+  import { createForm } from 'felte';
+
+  // ...
+
+  const { getField } = createForm({ /* ... */ });
+  const email = getField('email');
+</script>
+```
+should now be
+```html
+<script>
+  import { getValue, createForm } from 'felte';
+
+  // ...
+
+  const { data } = createForm({ /* ... */ });
+  const email = getValue($data, 'email');
+</script>
+```

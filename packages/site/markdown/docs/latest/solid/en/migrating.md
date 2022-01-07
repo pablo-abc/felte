@@ -57,3 +57,22 @@ setTouched('tag[1]', true)
 ```
 
 > These functions now can do more than before. Be sure to check the [documentation on them](/docs/solid/helper-functions#setters).
+
+* `getField` is no longer returned from `createForm`, this has been replaced by a new utility function exported from `@felte/solid` called `getValue` that works for any store.
+```javascript
+import { createForm } from '@felte/solid';
+
+// ...
+
+const { getField } = createForm({ /* ... */ });
+const email = getField('email');
+```
+should now be
+```javascript
+import { getValue, createForm } from '@felte/solid';
+
+// ...
+
+const { data } = createForm({ /* ... */ });
+const email = getValue(data, 'email');
+```
