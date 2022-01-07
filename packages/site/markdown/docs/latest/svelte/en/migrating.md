@@ -60,6 +60,7 @@ setTouched('tag[1]', true)
 
 
 * `getField` is no longer returned from `createForm`, this has been replaced by a new utility function exported from `felte` called `getValue` that works for any store.
+
 ```html
 <script>
   import { createForm } from 'felte';
