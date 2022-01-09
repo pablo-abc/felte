@@ -12,6 +12,7 @@ import {
   _mergeWith,
   _merge,
   executeValidation,
+  executeTransforms,
   deepSome,
 } from '@felte/common';
 
@@ -33,7 +34,7 @@ export function createStores<Data extends Obj>(
   config: FormConfig<Data>
 ) {
   const initialValues = config.initialValues
-    ? _cloneDeep(config.initialValues)
+    ? executeTransforms(_cloneDeep(config.initialValues), config.transform)
     : ({} as Data);
   const data = storeFactory(initialValues);
 
