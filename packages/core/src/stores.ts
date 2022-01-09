@@ -34,7 +34,10 @@ export function createStores<Data extends Obj>(
   config: FormConfig<Data>
 ) {
   const initialValues = config.initialValues
-    ? executeTransforms(_cloneDeep(config.initialValues), config.transform)
+    ? executeTransforms(
+        _cloneDeep(config.initialValues as Data),
+        config.transform
+      )
     : ({} as Data);
   const data = storeFactory(initialValues);
 

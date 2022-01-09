@@ -4,12 +4,11 @@ import {
   createInputElement,
   createDOM,
   createMultipleInputElements,
+  createForm,
 } from './common';
-import { createForm as coreCreateForm } from '../src';
 import userEvent from '@testing-library/user-event';
-import { get, writable } from 'svelte/store';
+import { get } from 'svelte/store';
 import { isFormControl } from '@felte/common';
-import type { FormConfig, Form, Obj } from '@felte/common';
 
 function createSelectElement({
   name,
@@ -27,12 +26,6 @@ function createSelectElement({
   });
   selectElement.append(...optionElements);
   return selectElement;
-}
-
-function createForm<Data extends Obj>(config: FormConfig<Data>) {
-  return coreCreateForm(config, {
-    storeFactory: writable,
-  });
 }
 
 function createLoginForm() {

@@ -146,14 +146,13 @@ export type SubmitContext<Data extends Obj> = {
  * Configuration object when `initialValues` is not set. Used when using the `form` action.
  */
 export type FormConfigWithoutTransformFn<Data extends Obj> = {
+  transform?: never;
   /** Optional object with the initial values of the form **/
   initialValues?: Data;
   /** Optional function to validate the data. */
   validate?: ValidationFunction<Data> | ValidationFunction<Data>[];
   /** Optional function to set warnings based on the current state of your data. */
   warn?: ValidationFunction<Data> | ValidationFunction<Data>[];
-  /** Optional function to transform data before it gets set in the store. */
-  transform?: TransformFunction<Data> | TransformFunction<Data>[];
   /** Required function to handle the form data on submit. */
   onSubmit: (
     values: Data,
@@ -175,25 +174,38 @@ export type FormConfigWithoutTransformFn<Data extends Obj> = {
 /**
  * Configuration object when `initialValues` is set. Used when using the `data` store to bind to form inputs.
  */
-export type FormConfigWithTransformFn<Data extends Obj> = Omit<
-  FormConfigWithoutTransformFn<Data>,
-  'transform'
-> & {
+export type FormConfigWithTransformFn<Data extends Obj> = {
   transform: TransformFunction<Data> | TransformFunction<Data>[];
   /** Optional object with the initial values of the form **/
   initialValues?: unknown;
+  /** Optional function to validate the data. */
+  validate?: ValidationFunction<Data> | ValidationFunction<Data>[];
+  /** Optional function to set warnings based on the current state of your data. */
+  warn?: ValidationFunction<Data> | ValidationFunction<Data>[];
+  /** Required function to handle the form data on submit. */
+  onSubmit: (
+    values: Data,
+    context: SubmitContext<Data>
+  ) => Promise<void> | void;
+  /** Optional function that accepts any thrown exceptions from the onSubmit function. You can return an object with the same shape [[`Errors`]] for a reporter to use it. */
+  onError?: (errors: unknown) => void | Errors<Data>;
+  /** Optional function/s to extend Felte's functionality. */
+  extend?: Extender<Data> | Extender<Data>[];
+  /** Optional array that sets which events should trigger a field to be touched. */
+  touchTriggerEvents?: {
+    change?: boolean;
+    input?: boolean;
+    blur?: boolean;
+  };
   [key: string]: unknown;
 };
 
 /**
  * Configuration object type. `initialValues` is optional.
  */
-export type FormConfig<Data extends Obj> = FormConfigWithoutTransformFn<Data> &
-  FormConfigWithTransformFn<Data> & {
-    transform?: TransformFunction<Data> | TransformFunction<Data>[];
-    initialValues?: unknown | Data;
-    [key: string]: unknown;
-  };
+export type FormConfig<Data extends Obj> =
+  | FormConfigWithoutTransformFn<Data>
+  | FormConfigWithTransformFn<Data>;
 
 /** The errors object may contain either a string or array or string per key. */
 export type Errors<Data extends Obj | Obj[]> = {

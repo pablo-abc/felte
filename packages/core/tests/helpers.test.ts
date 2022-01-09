@@ -1,17 +1,13 @@
 import { waitFor, screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
-import { createForm as coreCreateForm } from '../src';
-import { createInputElement, createDOM, cleanupDOM } from './common';
+import {
+  createInputElement,
+  createDOM,
+  cleanupDOM,
+  createForm,
+} from './common';
 import { writable } from 'svelte/store';
 import { get } from '../src/get';
-import type { FormConfig, Form, Obj } from '@felte/common';
-
-function createForm<Data extends Obj>(config: FormConfig<Data>): Form<Data> {
-  const { cleanup, ...rest } = coreCreateForm(config, {
-    storeFactory: writable,
-  });
-  return rest;
-}
 
 describe('Helpers', () => {
   beforeEach(createDOM);

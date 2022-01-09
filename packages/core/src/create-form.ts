@@ -35,7 +35,7 @@ export type Adapters = {
   storeFactory: StoreFactory;
 };
 
-type CoreForm<Data extends Obj = any> = Form<Data> & {
+export type CoreForm<Data extends Obj = any> = Form<Data> & {
   cleanup(): void;
 };
 
@@ -82,7 +82,7 @@ export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
 
   function addTransformer(transformer: TransformFunction<Data>) {
     if (!config.transform) {
-      config.transform = [transformer];
+      (config as FormConfig<Data>).transform = [transformer];
     } else {
       config.transform = [
         ...(config.transform as TransformFunction<Data>[]),

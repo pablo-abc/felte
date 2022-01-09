@@ -1,16 +1,13 @@
 import '@testing-library/jest-dom/extend-expect';
 import { screen, waitFor } from '@testing-library/dom';
-import { createForm as coreCreateForm } from '../src';
-import { cleanupDOM, createDOM, createInputElement } from './common';
-import { get, writable } from 'svelte/store';
-import type { CurrentForm, FormConfig, Form, Obj } from '@felte/common';
-
-function createForm<Data extends Obj>(config: FormConfig<Data>): Form<Data> {
-  const { cleanup, ...rest } = coreCreateForm(config, {
-    storeFactory: writable,
-  });
-  return rest;
-}
+import {
+  cleanupDOM,
+  createDOM,
+  createInputElement,
+  createForm,
+} from './common';
+import { get } from 'svelte/store';
+import type { CurrentForm } from '@felte/common';
 
 describe('Extenders', () => {
   beforeEach(createDOM);

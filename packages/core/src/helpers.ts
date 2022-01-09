@@ -133,7 +133,7 @@ export function createHelpers<Data extends Obj>({
   }
 
   let formNode: HTMLFormElement | undefined;
-  let initialValues = config.initialValues ?? ({} as Data);
+  let initialValues = (config.initialValues ?? {}) as Data;
 
   function reset(): void {
     setFields(_cloneDeep(initialValues));

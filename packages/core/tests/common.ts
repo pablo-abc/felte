@@ -1,3 +1,18 @@
+import { createForm as coreCreateForm, CoreForm } from '../src';
+import { writable } from 'svelte/store';
+import type {
+  FormConfig,
+  FormConfigWithTransformFn,
+  FormConfigWithoutTransformFn,
+  Obj,
+  UnknownStores,
+  Stores,
+  KnownStores,
+  Helpers,
+  UnknownHelpers,
+  KnownHelpers,
+} from '@felte/common';
+
 export function createDOM(): void {
   const formElement = document.createElement('form');
   formElement.name = 'test-form';
@@ -43,4 +58,18 @@ export function createMultipleInputElements(
     inputs.push(input);
   }
   return inputs;
+}
+
+export function createForm<Data extends Obj>(
+  config: FormConfigWithTransformFn<Data>
+): CoreForm<Data> & UnknownHelpers<Data> & UnknownStores<Data>;
+export function createForm<Data extends Obj>(
+  config: FormConfigWithoutTransformFn<Data>
+): CoreForm<Data> & KnownHelpers<Data> & KnownStores<Data>;
+export function createForm<Data extends Obj>(
+  config: FormConfig<Data>
+): CoreForm<Data> & Helpers<Data> & Stores<Data> {
+  return coreCreateForm(config as any, {
+    storeFactory: writable,
+  });
 }
