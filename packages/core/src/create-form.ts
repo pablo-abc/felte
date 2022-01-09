@@ -1,14 +1,20 @@
 import type {
   Form,
   FormConfig,
-  FormConfigWithInitialValues,
-  FormConfigWithoutInitialValues,
+  FormConfigWithTransformFn,
+  FormConfigWithoutTransformFn,
   ExtenderHandler,
   Touched,
   StoreFactory,
   Obj,
   ValidationFunction,
   TransformFunction,
+  UnknownStores,
+  Stores,
+  KnownStores,
+  Helpers,
+  UnknownHelpers,
+  KnownHelpers,
 } from '@felte/common';
 import {
   _unset,
@@ -33,32 +39,18 @@ type CoreForm<Data extends Obj = any> = Form<Data> & {
   cleanup(): void;
 };
 
-/**
- * Creates the stores and `form` action to make the form reactive.
- * In order to use auto-subscriptions with the stores, call this function at the top-level scope of the component.
- *
- * @param config - Configuration for the form itself. Since `initialValues` is set, `Data` will not be undefined
- *
- * @category Main
- */
-export function createForm<Data extends Obj = any, Ext extends Obj = any>(
-  config: FormConfigWithInitialValues<Data> & Ext,
+export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
+  config: FormConfigWithTransformFn<Data> & Ext,
   adapters: Adapters
-): CoreForm<Data>;
-/**
- * Creates the stores and `form` action to make the form reactive.
- * In order to use auto-subscriptions with the stores, call this function at the top-level scope of the component.
- *
- * @param config - Configuration for the form itself. Since `initialValues` is not set (when only using the `form` action), `Data` will be undefined until the `form` element loads.
- */
-export function createForm<Data extends Obj = any, Ext extends Obj = any>(
-  config: FormConfigWithoutInitialValues<Data> & Ext,
+): CoreForm<Data> & UnknownHelpers<Data> & UnknownStores<Data>;
+export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
+  config: FormConfigWithoutTransformFn<Data> & Ext,
   adapters: Adapters
-): CoreForm<Data>;
-export function createForm<Data extends Obj = any, Ext extends Obj = any>(
+): CoreForm<Data> & KnownHelpers<Data> & KnownStores<Data>;
+export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
   config: FormConfig<Data> & Ext,
   adapters: Adapters
-): CoreForm<Data> {
+): CoreForm<Data> & Helpers<Data> & Stores<Data> {
   config.extend ??= [];
   config.touchTriggerEvents ??= { change: true, blur: true };
   if (config.validate && !Array.isArray(config.validate))

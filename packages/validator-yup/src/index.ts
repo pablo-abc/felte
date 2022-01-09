@@ -47,7 +47,7 @@ export function validator<Data extends Obj = Obj>(
     currentForm.addWarnValidator(warnFn);
   }
   if (!config.castValues) return {};
-  const transformFn = (values: Obj) => {
+  const transformFn = (values: unknown) => {
     return config.validateSchema.cast(values);
   };
   currentForm.addTransformer(transformFn);

@@ -1,5 +1,38 @@
 import type { Readable, Writable } from 'svelte/store';
 
+export type ObjectSetter<Data, Value> = ((path: string, value: Value) => void) &
+  ((path: string, updater: (value: unknown) => Value) => void) &
+  ((value: Data) => void) &
+  ((updater: (value: Data) => Data) => void);
+
+export type UnknownObjectSetter<Data> = ((
+  path: string,
+  value: unknown
+) => void) &
+  ((path: string, updater: (value: unknown) => unknown) => void) &
+  ((updater: (value: Data) => unknown) => void) &
+  ((value: unknown) => void);
+
+export type PrimitiveSetter<Data> = ((value: Data) => void) &
+  ((updater: (value: Data) => Data) => void);
+
+export type FieldsSetter<Data, Value = FieldValue | FieldValue[]> = ((
+  path: string,
+  value: Value,
+  shouldTouch?: boolean
+) => void) &
+  ((
+    path: string,
+    updater: (value: Value) => Value,
+    shouldTouch?: boolean
+  ) => void) &
+  ((value: Data) => void) &
+  ((updater: (value: Data) => Data) => void);
+
+export type Setter<Data, Value> =
+  | ObjectSetter<Data, Value>
+  | PrimitiveSetter<Data>;
+
 export type DeepSetResult<Data extends Obj | Obj[], Value> = {
   [key in keyof Data]: Data[key] extends Obj
     ? DeepSetResult<Data[key], Value>
@@ -13,6 +46,17 @@ export type CreateSubmitHandlerConfig<Data extends Obj> = {
   validate?: FormConfig<Data>['validate'];
   warn?: FormConfig<Data>['warn'];
   onError?: FormConfig<Data>['onError'];
+};
+
+export type KnownHelpers<Data extends Obj> = Omit<Helpers<Data>, 'setData'> & {
+  setData: ObjectSetter<Data, FieldValue | FieldValue[]>;
+};
+
+export type UnknownHelpers<Data extends Obj> = Omit<
+  Helpers<Data>,
+  'setData'
+> & {
+  setData: UnknownObjectSetter<Data>;
 };
 
 export type Helpers<Data extends Obj> = {
@@ -90,7 +134,7 @@ export type ValidationFunction<Data extends Obj> = (
   values: Data
 ) => Errors<Data> | undefined | Promise<Errors<Data> | undefined>;
 
-export type TransformFunction<Data extends Obj> = (values: Obj) => Data;
+export type TransformFunction<Data extends Obj> = (values: unknown) => Data;
 
 export type SubmitContext<Data extends Obj> = {
   form?: HTMLFormElement;
@@ -101,7 +145,9 @@ export type SubmitContext<Data extends Obj> = {
 /**
  * Configuration object when `initialValues` is not set. Used when using the `form` action.
  */
-export interface FormConfigWithoutInitialValues<Data extends Obj> {
+export type FormConfigWithoutTransformFn<Data extends Obj> = {
+  /** Optional object with the initial values of the form **/
+  initialValues?: Data;
   /** Optional function to validate the data. */
   validate?: ValidationFunction<Data> | ValidationFunction<Data>[];
   /** Optional function to set warnings based on the current state of your data. */
@@ -124,26 +170,30 @@ export interface FormConfigWithoutInitialValues<Data extends Obj> {
     blur?: boolean;
   };
   [key: string]: unknown;
-}
+};
 
 /**
  * Configuration object when `initialValues` is set. Used when using the `data` store to bind to form inputs.
  */
-export interface FormConfigWithInitialValues<Data extends Obj>
-  extends FormConfigWithoutInitialValues<Data> {
-  /** Initial values for the form. To be used when not using the `form` action. */
-  initialValues: Data;
+export type FormConfigWithTransformFn<Data extends Obj> = Omit<
+  FormConfigWithoutTransformFn<Data>,
+  'transform'
+> & {
+  transform: TransformFunction<Data> | TransformFunction<Data>[];
+  /** Optional object with the initial values of the form **/
+  initialValues?: unknown;
   [key: string]: unknown;
-}
+};
 
 /**
  * Configuration object type. `initialValues` is optional.
  */
-export interface FormConfig<Data extends Obj>
-  extends FormConfigWithoutInitialValues<Data> {
-  initialValues?: Data;
-  [key: string]: unknown;
-}
+export type FormConfig<Data extends Obj> = FormConfigWithoutTransformFn<Data> &
+  FormConfigWithTransformFn<Data> & {
+    transform?: TransformFunction<Data> | TransformFunction<Data>[];
+    initialValues?: unknown | Data;
+    [key: string]: unknown;
+  };
 
 /** The errors object may contain either a string or array or string per key. */
 export type Errors<Data extends Obj | Obj[]> = {
@@ -165,10 +215,26 @@ export type Touched<Data extends Obj | Obj[]> = {
 
 export type FormAction = (node: HTMLFormElement) => { destroy: () => void };
 
+export type TransWritable<Data extends Obj> = Omit<
+  Writable<Data>,
+  'set' | 'update'
+> & {
+  set(value: unknown): void;
+  update(updater: (value: Data) => unknown): void;
+};
+
+export type UnknownStores<Data extends Obj> = Omit<Stores<Data>, 'data'> & {
+  data: TransWritable<Data>;
+};
+
+export type KnownStores<Data extends Obj> = Omit<Stores<Data>, 'data'> & {
+  data: Writable<Data>;
+};
+
 /** The stores that `createForm` creates. */
 export type Stores<Data extends Obj> = {
   /** Writable store that contains the form's data. */
-  data: Writable<Data>;
+  data: Writable<Data> | TransWritable<Data>;
   /** Writable store that contains the form's validation errors. */
   errors: Writable<Errors<Data>>;
   /** Writable store that contains warnings for the form. These won't prevent a submit from happening. */
@@ -193,32 +259,6 @@ export type Form<Data extends Obj> = {
   createSubmitHandler: (
     altConfig?: CreateSubmitHandlerConfig<Data>
   ) => (e?: Event) => void;
-} & Stores<Data> &
-  Helpers<Data>;
+};
 
 export type StoreFactory = <Value>(initialValue: Value) => Writable<Value>;
-
-export type ObjectSetter<Data, Value> = ((path: string, value: Value) => void) &
-  ((path: string, updater: (value: Value) => Value) => void) &
-  ((value: Data) => void) &
-  ((updater: (value: Data) => Data) => void);
-
-export type PrimitiveSetter<Data> = ((value: Data) => void) &
-  ((updater: (value: Data) => Data) => void);
-
-export type FieldsSetter<Data, Value = FieldValue | FieldValue[]> = ((
-  path: string,
-  value: Value,
-  shouldTouch?: boolean
-) => void) &
-  ((
-    path: string,
-    updater: (value: Value) => Value,
-    shouldTouch?: boolean
-  ) => void) &
-  ((value: Data) => void) &
-  ((updater: (value: Data) => Data) => void);
-
-export type Setter<Data, Value> =
-  | ObjectSetter<Data, Value>
-  | PrimitiveSetter<Data>;

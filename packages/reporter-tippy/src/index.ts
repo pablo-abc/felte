@@ -61,7 +61,7 @@ export type TippyReporterOptions<Data extends Obj> = {
   level?: 'error' | 'warning';
 };
 
-function tippyReporter<Data extends Obj = Obj>({
+function tippyReporter<Data extends Obj = any>({
   setContent,
   level = 'error',
   tippyProps,
@@ -107,7 +107,7 @@ function tippyReporter<Data extends Obj = Obj>({
     }
   }
 
-  return function reporter<Data extends Obj = Obj>(
+  return function reporter(
     currentForm: CurrentForm<Data>
   ): ExtenderHandler<Data> {
     const { controls, form } = currentForm;

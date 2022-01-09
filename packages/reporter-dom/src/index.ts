@@ -122,7 +122,7 @@ function handleSubscription<Data extends Obj>(
   };
 }
 
-function domReporter<Data extends Obj = Obj>(
+function domReporter<Data extends Obj = any>(
   options?: DomReporterOptions
 ): Extender<Data> {
   return (currentForm: CurrentForm<Data>): ExtenderHandler<Data> => {

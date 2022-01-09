@@ -3,12 +3,14 @@ import { storeFactory } from './stores';
 import { onCleanup } from 'solid-js';
 import type {
   FormConfig,
-  FormConfigWithInitialValues,
-  FormConfigWithoutInitialValues,
+  FormConfigWithTransformFn,
+  FormConfigWithoutTransformFn,
   Errors,
   Touched,
   CreateSubmitHandlerConfig,
   Helpers,
+  UnknownHelpers,
+  KnownHelpers,
   Stores as ObservableStores,
 } from '@felte/core';
 import type { Accessor } from 'solid-js';
@@ -37,31 +39,17 @@ export type Form<Data extends Obj> = {
     altConfig?: CreateSubmitHandlerConfig<Data>
   ) => (e?: Event) => void;
   observables: ObservableStores<Data>;
-} & Stores<Data> &
-  Helpers<Data>;
-/**
- * Creates the stores and `form` action to make the form reactive.
- * In order to use auto-subscriptions with the stores, call this function at the top-level scope of the component.
- *
- * @param config - Configuration for the form itself. Since `initialValues` is set, `Data` will not be undefined
- *
- * @category Main
- */
+} & Stores<Data>;
+
 export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
-  config: FormConfigWithInitialValues<Data> & Ext
-): Form<Data>;
-/**
- * Creates the stores and `form` action to make the form reactive.
- * In order to use auto-subscriptions with the stores, call this function at the top-level scope of the component.
- *
- * @param config - Configuration for the form itself. Since `initialValues` is not set (when only using the `form` action), `Data` will be undefined until the `form` element loads.
- */
+  config: FormConfigWithTransformFn<Data> & Ext
+): Form<Data> & UnknownHelpers<Data>;
 export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
-  config: FormConfigWithoutInitialValues<Data> & Ext
-): Form<Data>;
+  config: FormConfigWithoutTransformFn<Data> & Ext
+): Form<Data> & KnownHelpers<Data>;
 export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
   config: FormConfig<Data> & Ext
-): Form<Data> {
+): Form<Data> & Helpers<Data> {
   const {
     form: formAction,
     data,

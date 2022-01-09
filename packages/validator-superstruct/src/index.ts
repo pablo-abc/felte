@@ -13,7 +13,7 @@ export type ValidatorConfig = {
   warnStruct?: Struct<any, any>;
 };
 
-export function validateStruct<Data extends Obj>(
+export function validateStruct<Data extends Obj = any>(
   struct: Struct<any, any>,
   transform: (failures: Failure) => string = (failure) => failure.message
 ): ValidationFunction<Data> {
@@ -35,7 +35,7 @@ export function validateStruct<Data extends Obj>(
 // without applying the validation (and possibly throwing)
 // so we catch the error and extract the coerced value
 function coerceStruct(config: ValidatorConfig) {
-  return (values: Obj) => {
+  return (values: unknown) => {
     try {
       return config.validateStruct.create(values);
     } catch (error) {
@@ -50,7 +50,7 @@ function coerceStruct(config: ValidatorConfig) {
   };
 }
 
-export function createValidator<Data extends Obj = Obj>(
+export function createValidator<Data extends Obj = any>(
   transform?: (failures: Failure) => string
 ): Extender<Data> {
   return function validator<Data extends Obj = Obj>(

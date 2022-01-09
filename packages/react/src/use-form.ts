@@ -4,8 +4,10 @@ import type {
   Obj,
   CreateSubmitHandlerConfig,
   Helpers,
-  FormConfigWithInitialValues,
-  FormConfigWithoutInitialValues,
+  KnownHelpers,
+  UnknownHelpers,
+  FormConfigWithTransformFn,
+  FormConfigWithoutTransformFn,
 } from '@felte/core';
 import {
   createForm as coreCreateForm,
@@ -27,8 +29,7 @@ export type Form<Data extends Obj> = {
   createSubmitHandler(
     altConfig?: CreateSubmitHandlerConfig<Data>
   ): (e?: Event) => void;
-} & Stores<Data> &
-  Helpers<Data>;
+} & Stores<Data>;
 
 function useConst<T>(setup: () => T): T {
   const ref = useRef<T>();
@@ -39,20 +40,14 @@ function useConst<T>(setup: () => T): T {
 }
 
 export function useForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
-  config: FormConfigWithInitialValues<Data> & Ext
-): Form<Data>;
-/**
- * Creates the stores and `form` action to make the form reactive.
- * In order to use auto-subscriptions with the stores, call this function at the top-level scope of the component.
- *
- * @param config - Configuration for the form itself. Since `initialValues` is not set (when only using the `form` action), `Data` will be undefined until the `form` element loads.
- */
+  config: FormConfigWithTransformFn<Data> & Ext
+): Form<Data> & UnknownHelpers<Data>;
 export function useForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
-  config: FormConfigWithoutInitialValues<Data> & Ext
-): Form<Data>;
+  config: FormConfigWithoutTransformFn<Data> & Ext
+): Form<Data> & KnownHelpers<Data>;
 export function useForm<Data extends Obj = Obj>(
   config: FormConfig<Data>
-): Form<Data> {
+): Form<Data> & Helpers<Data> {
   const destroyRef = useRef<() => void>();
 
   const { cleanup, ...rest } = useConst(() => {

@@ -2,16 +2,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { createForm } from 'felte';
 import { validateStruct, createValidator } from '../src';
 import type { ValidatorConfig } from '../src';
-import {
-  object,
-  string,
-  size,
-  coerce,
-  date,
-  optional,
-  any,
-  refine,
-} from 'superstruct';
+import { object, string, size, coerce, date, any, refine } from 'superstruct';
 import { get } from 'svelte/store';
 import type { ValidationFunction } from '@felte/common';
 
