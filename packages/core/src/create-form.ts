@@ -50,6 +50,10 @@ export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
 export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
   config: FormConfig<Data> & Ext,
   adapters: Adapters
+): CoreForm<Data> & Helpers<Data> & Stores<Data>;
+export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
+  config: FormConfig<Data> & Ext,
+  adapters: Adapters
 ): CoreForm<Data> & Helpers<Data> & Stores<Data> {
   config.extend ??= [];
   config.touchTriggerEvents ??= { change: true, blur: true };
