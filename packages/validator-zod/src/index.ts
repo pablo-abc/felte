@@ -36,7 +36,7 @@ export function validateSchema<Data extends Obj>(
     try {
       await schema.parseAsync(values);
     } catch (error) {
-      return shapeErrors(error);
+      return shapeErrors(error as ZodError<any>);
     }
   };
 }

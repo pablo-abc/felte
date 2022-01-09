@@ -38,12 +38,12 @@ export function createStores<Data extends Obj>(
     : ({} as Data);
   const data = storeFactory(initialValues);
 
-  const initialErrors: Errors<Data> = deepSet(initialValues, null);
+  const initialErrors = deepSet(initialValues, null) as Errors<Data>;
   const errors = storeFactory(initialErrors);
 
   const filteredErrors = storeFactory(_cloneDeep(initialErrors));
 
-  const initialWarnings: Errors<Data> = deepSet(initialValues, null);
+  const initialWarnings = deepSet(initialValues, null) as Errors<Data>;
   const warnings = storeFactory(initialWarnings);
 
   const initialTouched: Touched<Data> = deepSet(initialValues, false);

@@ -140,7 +140,8 @@ export function createFormAction<Data extends Obj>({
   const handleSubmit = createSubmitHandler();
 
   function form(node: HTMLFormElement) {
-    if (!node.requestSubmit) node.requestSubmit = handleSubmit;
+    if (!node.requestSubmit)
+      node.requestSubmit = handleSubmit as typeof node.requestSubmit;
     function callExtender(extender: Extender<Data>) {
       return extender({
         form: node,

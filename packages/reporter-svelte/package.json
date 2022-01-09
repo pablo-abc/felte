@@ -38,6 +38,7 @@
     "types"
   ],
   "devDependencies": {
+    "@babel/preset-env": "^7.16.5",
     "felte": "workspace:*",
     "rollup-plugin-svelte": "^7.1.0",
     "svelte": "^3.31.0",
