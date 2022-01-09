@@ -204,8 +204,8 @@ export type FormConfigWithTransformFn<Data extends Obj> = {
  * Configuration object type. `initialValues` is optional.
  */
 export type FormConfig<Data extends Obj> =
-  | FormConfigWithoutTransformFn<Data>
-  | FormConfigWithTransformFn<Data>;
+  | FormConfigWithTransformFn<Data>
+  | FormConfigWithoutTransformFn<Data>;
 
 /** The errors object may contain either a string or array or string per key. */
 export type Errors<Data extends Obj | Obj[]> = {
