@@ -1,6 +1,6 @@
 <script>
   import { createForm } from 'felte';
-  import { reporter, ValidationMessage } from '@felte/reporter-svelte';
+  import { svelteReporter as reporter, ValidationMessage } from '@felte/reporter-svelte';
   import { validator } from '@felte/validator-yup';
   import * as yup from 'yup';
 
