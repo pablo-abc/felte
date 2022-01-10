@@ -870,4 +870,79 @@ describe('User interactions with form', () => {
       expect(get(data).account.publicEmail).toBe(false);
     });
   });
+
+  test('submits without needing an onSubmit handler and succeeds', async () => {
+    const originalFetch = window.fetch;
+    const mockJson = jest.fn();
+    window.fetch = jest.fn().mockResolvedValue({ ok: true, json: mockJson });
+    const { form } = createForm();
+    const { formElement } = createLoginForm();
+    formElement.action = '/test';
+    formElement.method = 'post';
+    form(formElement);
+    formElement.submit();
+
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledWith(
+        expect.stringContaining('/test'),
+        expect.objectContaining({
+          method: 'post',
+        })
+      );
+      expect(mockJson).toHaveBeenCalled();
+    });
+    window.fetch = originalFetch;
+  });
+
+  test('submits without needing an onSubmit handler and throws', async () => {
+    const originalFetch = window.fetch;
+    window.fetch = jest.fn().mockResolvedValue({ ok: false });
+    let error: Error | undefined;
+    const { form } = createForm({
+      onError(err) {
+        error = err as Error;
+      },
+    });
+    const { formElement } = createLoginForm();
+    formElement.action = '/test';
+    formElement.method = 'post';
+    form(formElement);
+    formElement.submit();
+
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledWith(
+        expect.stringContaining('/test'),
+        expect.objectContaining({
+          method: 'post',
+        })
+      );
+      expect(error).toBeTruthy();
+      expect(error!.name).toBe('FelteSubmitError');
+    });
+    window.fetch = originalFetch;
+  });
+
+  test('submits without requestSubmit', async () => {
+    const originalFetch = window.fetch;
+    const mockJson = jest.fn();
+    window.fetch = jest.fn().mockResolvedValue({ ok: true, json: mockJson });
+    const { form } = createForm();
+    const { formElement } = createLoginForm();
+    formElement.requestSubmit = undefined as any;
+    formElement.action = '/test';
+    formElement.method = 'post';
+    form(formElement);
+    formElement.submit();
+
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledWith(
+        expect.stringContaining('/test'),
+        expect.objectContaining({
+          method: 'post',
+        })
+      );
+      expect(mockJson).toHaveBeenCalled();
+    });
+    window.fetch = originalFetch;
+  });
 });

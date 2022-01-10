@@ -43,15 +43,15 @@ export function useForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
   config: FormConfigWithTransformFn<Data> & Ext
 ): Form<Data> & UnknownHelpers<Data>;
 export function useForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
-  config: FormConfigWithoutTransformFn<Data> & Ext
+  config?: FormConfigWithoutTransformFn<Data> & Ext
 ): Form<Data> & KnownHelpers<Data>;
 export function useForm<Data extends Obj = Obj>(
-  config: FormConfig<Data>
+  config?: FormConfig<Data>
 ): Form<Data> & Helpers<Data> {
   const destroyRef = useRef<() => void>();
 
   const { cleanup, ...rest } = useConst(() => {
-    const { form: coreForm, ...rest } = coreCreateForm(config, {
+    const { form: coreForm, ...rest } = coreCreateForm(config ?? {}, {
       storeFactory: writable,
     });
     const form = (node?: HTMLFormElement) => {

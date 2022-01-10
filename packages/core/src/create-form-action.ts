@@ -37,6 +37,29 @@ import {
 } from '@felte/common';
 import { get } from './get';
 
+class FelteSubmitError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'FelteSubmitError';
+  }
+}
+
+async function defaultOnSubmit<Data extends Obj>(
+  form: HTMLFormElement,
+  values: Data
+) {
+  const { action, method } = form;
+  const response = await fetch(action, {
+    method,
+    body: JSON.stringify(values),
+    headers: { 'Content-Type': 'application/json' },
+  });
+  if (response.ok) return response.json();
+  throw new FelteSubmitError(
+    'An error occurred while the form was being submitted.'
+  );
+}
+
 type Configuration<Data extends Obj> = {
   stores: Stores<Data>;
   config: FormConfig<Data>;
@@ -88,6 +111,7 @@ export function createFormAction<Data extends Obj>({
     const onError = altConfig?.onError ?? config.onError;
     return async function handleSubmit(event?: Event) {
       const formNode = _getFormNode();
+      if (!formNode && !onSubmit) return;
       event?.preventDefault();
       isSubmitting.set(true);
       const currentData = get(data);
@@ -113,12 +137,16 @@ export function createFormAction<Data extends Obj>({
         }
       }
       try {
-        await onSubmit(currentData, {
-          form: formNode,
-          controls:
-            formNode && Array.from(formNode.elements).filter(isFormControl),
-          config: { ...config, ...altConfig },
-        });
+        if (onSubmit) {
+          await onSubmit(currentData, {
+            form: formNode,
+            controls:
+              formNode && Array.from(formNode.elements).filter(isFormControl),
+            config: { ...config, ...altConfig },
+          });
+        } else if (formNode) {
+          await defaultOnSubmit<Data>(formNode, currentData);
+        }
       } catch (e) {
         if (!onError) throw e;
         const serverErrors = onError(e);

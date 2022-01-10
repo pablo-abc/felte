@@ -61,13 +61,13 @@ export function createMultipleInputElements(
 }
 
 export function createForm<Data extends Obj>(
-  config: FormConfigWithTransformFn<Data>
+  config?: FormConfigWithTransformFn<Data>
 ): CoreForm<Data> & UnknownHelpers<Data> & UnknownStores<Data>;
 export function createForm<Data extends Obj>(
-  config: FormConfigWithoutTransformFn<Data>
+  config?: FormConfigWithoutTransformFn<Data>
 ): CoreForm<Data> & KnownHelpers<Data> & KnownStores<Data>;
 export function createForm<Data extends Obj>(
-  config: FormConfig<Data>
+  config: FormConfig<Data> = {}
 ): CoreForm<Data> & Helpers<Data> & Stores<Data> {
   return coreCreateForm(config as any, {
     storeFactory: writable,

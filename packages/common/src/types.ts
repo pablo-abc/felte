@@ -174,7 +174,7 @@ export type FormConfigWithoutTransformFn<Data extends Obj> = {
   /** Optional function to set warnings based on the current state of your data. */
   warn?: ValidationFunction<Data> | ValidationFunction<Data>[];
   /** Required function to handle the form data on submit. */
-  onSubmit: (
+  onSubmit?: (
     values: Data,
     context: SubmitContext<Data>
   ) => Promise<void> | void;
@@ -203,7 +203,7 @@ export type FormConfigWithTransformFn<Data extends Obj> = {
   /** Optional function to set warnings based on the current state of your data. */
   warn?: ValidationFunction<Data> | ValidationFunction<Data>[];
   /** Required function to handle the form data on submit. */
-  onSubmit: (
+  onSubmit?: (
     values: Data,
     context: SubmitContext<Data>
   ) => Promise<void> | void;
