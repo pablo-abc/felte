@@ -26,7 +26,9 @@ export function useAccessor<T, R>(store: Readable<T>): Accessor<T> {
   const [, setUpdate] = useState({});
   const currentValue = useRef<T>(get(store));
   const values = useRef<Record<string, unknown>>({});
-  const subscribedRef = useRef<SelectorOrPath<T, R>[] | boolean>(false);
+  const subscribedRef = useRef<Record<string, SelectorOrPath<T, R>> | boolean>(
+    false
+  );
 
   const accessor = useCallback(
     (selectorOrPath?: ((value: T) => R) | string) => {
@@ -36,12 +38,12 @@ export function useAccessor<T, R>(store: Readable<T>): Accessor<T> {
         return currentValue.current;
       }
       if (typeof subscribed === 'boolean') {
-        subscribedRef.current ||= [selectorOrPath];
+        subscribedRef.current ||= {
+          [selectorOrPath.toString()]: selectorOrPath,
+        };
       } else {
-        if (
-          subscribed.every((s) => s.toString() !== selectorOrPath.toString())
-        ) {
-          subscribed.push(selectorOrPath);
+        if (!subscribed[selectorOrPath.toString()]) {
+          subscribed[selectorOrPath.toString()] = selectorOrPath;
         }
       }
       return (
@@ -58,7 +60,9 @@ export function useAccessor<T, R>(store: Readable<T>): Accessor<T> {
       if (!subscribedRef.current) return;
       if (subscribedRef.current === true) return setUpdate({});
       let hasChanged = false;
-      for (const selector of subscribedRef.current) {
+      const keys = Object.keys(subscribedRef.current);
+      for (const key of keys) {
+        const selector = subscribedRef.current[key];
         const newValue = getValue($store, selector);
         if (typeof values.current[selector.toString()] === 'undefined') {
           values.current[selector.toString()] = newValue;
