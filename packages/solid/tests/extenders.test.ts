@@ -18,7 +18,7 @@ describe('Extenders', () => {
       onSubmit: jest.fn(),
       extend: mockExtender,
     };
-    const { form, data, errors, touched, observables } = createForm(config);
+    const { form, observables } = createForm(config);
 
     expect(mockExtender).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -92,7 +92,7 @@ describe('Extenders', () => {
       onSubmit: jest.fn(),
       extend: [mockExtender, mockExtender],
     };
-    const { form, data, errors, touched, observables } = createForm(config);
+    const { form, observables } = createForm(config);
 
     expect(mockExtender).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -179,7 +179,7 @@ describe('Extenders', () => {
     await waitFor(() => {
       expect(mockExtenderHandler.onSubmitError).toHaveBeenCalledWith(
         expect.objectContaining({
-          data: data,
+          data: data(),
           errors: mockErrors,
         })
       );
@@ -213,14 +213,14 @@ describe('Extenders', () => {
       expect(mockExtenderHandler.onSubmitError).toHaveBeenNthCalledWith(
         1,
         expect.objectContaining({
-          data: data,
+          data: data(),
           errors: mockErrors,
         })
       );
       expect(mockExtenderHandler.onSubmitError).toHaveBeenNthCalledWith(
         2,
         expect.objectContaining({
-          data: data,
+          data: data(),
           errors: mockErrors,
         })
       );
@@ -236,14 +236,14 @@ describe('Extenders', () => {
       expect(mockExtenderHandler.onSubmitError).toHaveBeenNthCalledWith(
         3,
         expect.objectContaining({
-          data: data,
+          data: data(),
           errors: mockErrors,
         })
       );
       expect(mockExtenderHandler.onSubmitError).toHaveBeenNthCalledWith(
         4,
         expect.objectContaining({
-          data: data,
+          data: data(),
           errors: mockErrors,
         })
       );

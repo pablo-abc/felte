@@ -4,6 +4,30 @@ section: Migrating
 
 ## Migrating from 0.x
 
+### Stores
+
+The stores for `data`, `errors`, `warnings` and `touched` are no longer Solid stores but accessors (similar to the ones returned by `createsignal`). Due to our previous implementation with stores, effects re-ran even if the property of the store you were listening to did not change. With our new accessors for said stores it's possible to "subscribe" to a specific property and have an effect only re-run when said property changes:
+
+```javascript
+const { data } = createForm({ /* ... */ });
+
+createEffect(() => {
+  // This will only run when the value of `email` changes.
+  console.log(data(($data) => $data.email));
+  // Alternative (not type safe way) to write this:
+  console.log(data('email'));
+});
+```
+
+The following changes will need to be done in your code:
+
+* For accessing the value of `data`, `warnings`, `errors`, and `touched`, instead of using the `store` directly, you'll need to call it. For example, for obtaining the value of `data` you'll need to write `data()`.
+* For accessing a specific property of a store you'll need to pass an argument to the `store` when calling it, either a selector or a string path. For example, `data.email` should now be `data((d) => d.email)` _or_ `data('email')`.
+
+> *NOTE*: You _could_ do `data().email` but this would re-run effects when _any_ value of `data` changes, not only when the value of `email` changes.
+
+The rest of the stores are still signals just like before, but now they can optionally accept a function as an argument to obtain a derived value.
+
 ### Helpers
 
 The returned helpers have changed.
@@ -58,25 +82,7 @@ setTouched('tag[1]', true)
 
 > These functions now can do more than before. Be sure to check the [documentation on them](/docs/solid/helper-functions#setters).
 
-* `getField` is no longer returned from `createForm`, this has been replaced by a new utility function exported from `@felte/solid` called `getValue` that works for any store.
-
-```javascript
-import { createForm } from '@felte/solid';
-
-// ...
-
-const { getField } = createForm({ /* ... */ });
-const email = getField('email');
-```
-should now be
-```javascript
-import { getValue, createForm } from '@felte/solid';
-
-// ...
-
-const { data } = createForm({ /* ... */ });
-const email = getValue(data, 'email');
-```
+* `getField` is no longer returned from `createForm`, since this is obsolete now due to the accessors returned by `createForm`.
 
 ## TypeScript
 

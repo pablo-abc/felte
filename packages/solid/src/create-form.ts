@@ -13,19 +13,18 @@ import type {
   KnownHelpers,
   Stores as ObservableStores,
 } from '@felte/core';
-import type { Accessor } from 'solid-js';
-import type { Store } from 'solid-js/store';
+import type { FelteAccessor } from './create-accessor';
 
 type Obj = Record<string, any>;
 
 export type Stores<Data extends Obj> = {
-  data: Store<Data>;
-  errors: Store<Errors<Data>>;
-  warnings: Store<Errors<Data>>;
-  touched: Store<Touched<Data>>;
-  isSubmitting: Accessor<boolean>;
-  isValid: Accessor<boolean>;
-  isDirty: Accessor<boolean>;
+  data: FelteAccessor<Data>;
+  errors: FelteAccessor<Errors<Data>>;
+  warnings: FelteAccessor<Errors<Data>>;
+  touched: FelteAccessor<Touched<Data>>;
+  isSubmitting: FelteAccessor<boolean>;
+  isValid: FelteAccessor<boolean>;
+  isDirty: FelteAccessor<boolean>;
 };
 
 /** The return type for the `createForm` function. */

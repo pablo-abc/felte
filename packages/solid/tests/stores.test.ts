@@ -40,45 +40,4 @@ describe('Stores', () => {
       expect(mockFn).toHaveBeenCalledWith(false);
     });
   });
-
-  test('Creates store observable', () => {
-    const observable = storeFactory({});
-    expect(_isPlainObject(observable.getSolidValue())).toBe(true);
-  });
-
-  test('Updates store observable', async () => {
-    const mockFn = jest.fn();
-    createRoot(() => {
-      const observable = storeFactory({});
-      observable.subscribe(mockFn);
-      expect(mockFn).toHaveBeenCalledTimes(1);
-      expect(mockFn).toHaveBeenCalledWith(expect.objectContaining({}));
-
-      observable.update((v) => ({ ...v, value: 'test' }));
-    });
-    await waitFor(() => {
-      expect(mockFn).toHaveBeenCalledTimes(2);
-      expect(mockFn).toHaveBeenCalledWith(
-        expect.objectContaining({ value: 'test' })
-      );
-    });
-  });
-
-  test('Sets store observable', async () => {
-    const mockFn = jest.fn();
-    createRoot(() => {
-      const observable = storeFactory({});
-      observable.subscribe(mockFn);
-      expect(mockFn).toHaveBeenCalledTimes(1);
-      expect(mockFn).toHaveBeenCalledWith(expect.objectContaining({}));
-
-      observable.set({ value: 'test' });
-    });
-    await waitFor(() => {
-      expect(mockFn).toHaveBeenCalledTimes(2);
-      expect(mockFn).toHaveBeenCalledWith(
-        expect.objectContaining({ value: 'test' })
-      );
-    });
-  });
 });

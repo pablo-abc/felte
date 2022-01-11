@@ -119,7 +119,7 @@ describe('Form action DOM mutations', () => {
     const formElement = screen.getByRole('form') as HTMLFormElement;
     formElement.appendChild(outerFieldset);
     form(formElement);
-    expect(data).toEqual({
+    expect(data()).toEqual({
       outerText: '',
       outerSecondary: '',
       multiple: ['', '', ''],
@@ -130,7 +130,7 @@ describe('Form action DOM mutations', () => {
     });
     formElement.removeChild(outerFieldset);
     await waitFor(() => {
-      expect(data).toEqual({
+      expect(data()).toEqual({
         outerSecondary: '',
         multiple: [undefined, '', undefined],
         inner: {
@@ -157,7 +157,7 @@ describe('Form action DOM mutations', () => {
     const formElement = screen.getByRole('form') as HTMLFormElement;
     formElement.appendChild(outerFieldset);
     form(formElement);
-    expect(data).toEqual({
+    expect(data()).toEqual({
       outerText: '',
       outerSecondary: '',
     });
@@ -165,7 +165,7 @@ describe('Form action DOM mutations', () => {
     formElement.appendChild(innerFieldset);
 
     await waitFor(() => {
-      expect(data).toEqual({
+      expect(data()).toEqual({
         outerText: '',
         outerSecondary: '',
         inner: {
