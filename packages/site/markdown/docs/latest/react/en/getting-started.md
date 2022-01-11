@@ -36,6 +36,25 @@ export function Form() {
 }
 ```
 
+If your `onSubmit` would only require you to send your data to a server (either via `POST` or `GET`) you don't even need an `onSubmit` handler by using the `action` and `method` attributes:
+
+```jsx
+import React, { useEffect } from 'react';
+import { useForm } from '@felte/react';
+
+function Form() {
+  const { form } = useForm();
+
+  return (
+    <form ref={form} action="/example-signin" method="post">
+      <input name="email" />
+      <input name="password" type="password" />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
 Felte does not export any components like `Form`, `Field` or anything like that, but you do need to make felte aware of your inputs by assigning a **name** to them.
 
 In its most basic form (such as the previous example), using Felte does not trigger any re-renders at all.

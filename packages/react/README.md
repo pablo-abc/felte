@@ -41,6 +41,25 @@ function Form() {
 }
 ```
 
+If your `onSubmit` would only require you to send your data to a server (either via `POST` or `GET`) you don't even need an `onSubmit` handler by using the `action` and `method` attributes:
+
+```jsx
+import React, { useEffect } from 'react';
+import { useForm } from '@felte/react';
+
+function Form() {
+  const { form } = useForm();
+
+  return (
+    <form ref={form} action="/example-signin" method="post">
+      <input name="email" />
+      <input name="password" type="password" />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
 ## Installation
 
 ```sh

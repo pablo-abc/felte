@@ -36,6 +36,23 @@ export function Form() {
 }
 ```
 
+If your `onSubmit` would only require you to send your data to a server (either via `POST` or `GET`) you don't even need an `onSubmit` handler by using the `action` and `method` attributes:
+
+```jsx
+import { createForm } from '@felte/solid';
+
+const Form = () => {
+  const { form } = createForm();
+  return (
+    <form use:form action="/example-signin" method="post">
+      <input type="text" name="email" />
+      <input type="password" name="password" />
+      <input type="submit" value="Sign in" />
+    </form>
+  )
+}
+```
+
 Felte does not export any components like `Form`, `Field` or anything like that, but you do need to make felte aware of your inputs by assigning a **name** to them.
 
 Felte also offers [validation handling](/docs/solid/validation) and [error reporting](/docs/solid/reporters) but this is all you need for the most basic, validation-less form.

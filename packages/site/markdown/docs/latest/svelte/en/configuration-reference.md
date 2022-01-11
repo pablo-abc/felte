@@ -16,4 +16,4 @@ Felte's `createForm` function accepts a configuration object with the following 
 - **onError**: a function that receives any unhandled errors thrown in the `onSubmit` function. Useful for handling [server errors](/docs/svelte/validation#server-errors).
 - **extend**: an extender or array of extenders. Currently these are either [validators](/docs/svelte/validators) or [reporters](/docs/svelte/reporters). Note that extenders may add/change this same configuration object. Check their documentation when adding one.
 
-> Every property is optional, except `onSubmit`.
+> Every property is optional.
