@@ -6,6 +6,7 @@ subsections:
   - reset
   - setInitialValues
   - createSubmitHandler
+  - useAccessor
 ---
 
 ## Helper functions
@@ -113,3 +114,47 @@ function Form() {
 ```
 
 > **NOTE**: The returned submit handler **can** be used outside of the `<form>` tag or be called programatically.
+
+### useAccessor
+
+This is a hook exported from `@felte/react` (not returned from `useForm`). This hook can be useful if you need to pass your stores deeper within your component tree and you want to keep re-renders localized to said child components.
+
+> You will most likely not need to use this at all, unless you're experiencing performance issues.
+
+For example, if we were to pass our `data` store deeper and subscribed to it, this would trigger updates in our parent component as well. With `useAccessor` we can create a _new_ accessor that would keep updates scoped to the component where the hook is called. For example let's say we have a form component for which sections of it will be added as separate components:
+
+```jsx
+function Form() {
+  const { form, data } = createForm({ /* ... */ });
+
+  return (
+    <form ref={form}>
+      <AccountSection data={data} />
+      <SomeOtherSection data={data} />
+      {/* ... */}
+    </form>
+  );
+}
+```
+
+Your `AccountSection` component might look something like this:
+
+```jsx
+import { useAccessor } from '@felte/react';
+
+function AccountSection({ data }) {
+  const localData = useAccessor(data);
+
+  return (
+    <fieldset name="account">
+      <input name="email" />
+      <input name="password" type="password" />
+      <span>
+        The password is {localData((d) => d.account.password.length)} characters long
+    </span>
+    </fieldset>
+  );
+}
+```
+
+By using `useAccessor` in `AccountSection`, whenever the value of `password` in `data` changes, updates will _only_ be triggered in the `AccountSection` component. Using `data` in `AccountSection` would also trigger updates in our parent `Form` component.

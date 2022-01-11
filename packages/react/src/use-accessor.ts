@@ -4,11 +4,12 @@ import type { Readable } from 'svelte/store';
 import { get } from 'svelte/store';
 import { _isPlainObject, _get, getValue } from '@felte/core';
 
-export type Accessor<T> = T extends Obj
+export type Accessor<T> = (T extends Obj
   ? (<R>(selector: (storeValue: T) => R) => R) &
       ((path: string) => unknown) &
       (() => T)
-  : (<R>(deriveFn: (storeValue: T) => R) => R) & (() => T);
+  : (<R>(deriveFn: (storeValue: T) => R) => R) & (() => T)) &
+  Readable<T>;
 
 export type Stores<Data extends Obj> = {
   data: Accessor<Data>;
@@ -53,6 +54,8 @@ export function useAccessor<T, R>(store: Readable<T>): Accessor<T> {
     },
     []
   ) as Accessor<T>;
+
+  accessor.subscribe = store.subscribe;
 
   useEffect(() => {
     return store.subscribe(($store) => {
