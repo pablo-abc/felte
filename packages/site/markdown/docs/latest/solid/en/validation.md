@@ -54,7 +54,7 @@ const { form } = createForm({
 
 ### Error handling
 
-`createForm` returns also its `errors` and `touched` fields as stores.
+`createForm` returns also its `errors` and `touched` values as accessors.
 
 ```tsx
 import { createForm } from '@felte/solid';
@@ -66,10 +66,10 @@ export function Form() {
     <>
       <pre>
         {/* Prettify the errors and display them in HTML */}
-        {JSON.stringify(errors, null, 2)}
+        {JSON.stringify(errors(), null, 2)}
       </pre>
       <pre>
-        {JSON.stringify(touched, null, 2)}
+        {JSON.stringify(touched(), null, 2)}
       </pre>
     </>
   );

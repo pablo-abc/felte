@@ -26,7 +26,7 @@ function Page2({ initialValues, onSubmit, onBack }) {
       <label for="aboutMe">More about me</label>
       <textarea id="aboutMe" name="aboutMe" />
       <br />
-      <button type="button" onClick={() => onBack(data)}>
+      <button type="button" onClick={() => onBack(data())}>
         Previous page
       </button>
       <button type="submit">Submit</button>

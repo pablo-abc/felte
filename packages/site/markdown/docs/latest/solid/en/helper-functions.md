@@ -6,7 +6,6 @@ subsections:
   - reset
   - setInitialValues
   - createSubmitHandler
-  - getValue
 ---
 
 ## Helper functions
@@ -114,28 +113,3 @@ function Form() {
 ```
 
 > **NOTE**: The returned submit handler **can** be used outside of the `<form>` tag or be called programatically.
-
-### getValue
-
-Rather than being returned by `createForm`, this is a utility function exported directly from `felte`. It allows you to get derived values from a store using a selector function, or to obtain a specific property using a string path.
-
-```jsx
-import { createEffect } from 'solid-js';
-import { createForm, getValue } from '@felte/solid';
-
-function Form() {
-  const { form, data } = createForm({ /* ... */ });
-
-  createEffect(() => {
-    // The next two lines have the same outcome
-    console.log(getValue(data, 'email'));
-    console.log(getValue(data, (d) => d.email));
-  });
-
-  return (
-    <form use:form>
-      <input name="email" />
-    </form>
-  );
-}
-```
