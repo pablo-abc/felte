@@ -31,30 +31,46 @@ import { createHelpers } from './helpers';
 import { createFormAction } from './create-form-action';
 import { createStores } from './stores';
 
-export type Adapters = {
-  storeFactory: StoreFactory;
+export type Adapters<StoreExt = {}> = {
+  storeFactory: StoreFactory<StoreExt>;
 };
 
 export type CoreForm<Data extends Obj = any> = Form<Data> & {
   cleanup(): void;
 };
 
-export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
+export function createForm<
+  Data extends Obj = Obj,
+  Ext extends Obj = Obj,
+  StoreExt = {}
+>(
   config: FormConfigWithTransformFn<Data> & Ext,
-  adapters: Adapters
-): CoreForm<Data> & UnknownHelpers<Data> & UnknownStores<Data>;
-export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
+  adapters: Adapters<StoreExt>
+): CoreForm<Data> & UnknownHelpers<Data> & UnknownStores<Data, StoreExt>;
+export function createForm<
+  Data extends Obj = Obj,
+  Ext extends Obj = Obj,
+  StoreExt = {}
+>(
   config: FormConfigWithoutTransformFn<Data> & Ext,
-  adapters: Adapters
-): CoreForm<Data> & KnownHelpers<Data> & KnownStores<Data>;
-export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
+  adapters: Adapters<StoreExt>
+): CoreForm<Data> & KnownHelpers<Data> & KnownStores<Data, StoreExt>;
+export function createForm<
+  Data extends Obj = Obj,
+  Ext extends Obj = Obj,
+  StoreExt = {}
+>(
   config: FormConfig<Data> & Ext,
-  adapters: Adapters
-): CoreForm<Data> & Helpers<Data> & Stores<Data>;
-export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
+  adapters: Adapters<StoreExt>
+): CoreForm<Data> & Helpers<Data> & Stores<Data, StoreExt>;
+export function createForm<
+  Data extends Obj = Obj,
+  Ext extends Obj = Obj,
+  StoreExt = {}
+>(
   config: FormConfig<Data> & Ext,
-  adapters: Adapters
-): CoreForm<Data> & Helpers<Data> & Stores<Data> {
+  adapters: Adapters<StoreExt>
+): CoreForm<Data> & Helpers<Data> & Stores<Data, StoreExt> {
   config.extend ??= [];
   config.touchTriggerEvents ??= { change: true, blur: true };
   if (config.validate && !Array.isArray(config.validate))
@@ -113,12 +129,15 @@ export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
   const originalUpdate = data.update;
   const originalSet = data.set;
 
-  data.update = (updater) =>
+  const transUpdate: typeof data.update = (updater) =>
     originalUpdate((values) =>
       executeTransforms(updater(values), config.transform)
     );
-  data.set = (values) =>
+  const transSet: typeof data.set = (values) =>
     originalSet(executeTransforms(values, config.transform));
+
+  const clonedData = { ...data, set: transSet, update: transUpdate };
+  data.update = transUpdate;
 
   const helpers = createHelpers<Data>({
     extender,
@@ -126,7 +145,7 @@ export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
     addValidator,
     addTransformer,
     stores: {
-      data,
+      data: clonedData,
       errors,
       warnings,
       touched,
@@ -141,7 +160,7 @@ export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
       errors,
       warnings,
       touched,
-      data,
+      data: clonedData,
       config,
       addValidator,
       addWarnValidator,
@@ -180,12 +199,20 @@ export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
       );
     });
     isDirty.set(true);
-    return data.set(values);
+    return clonedData.set(values);
   }
 
   const { form, createSubmitHandler, handleSubmit } = createFormAction<Data>({
     config,
-    stores: { data, touched, errors, warnings, isSubmitting, isValid, isDirty },
+    stores: {
+      data: clonedData,
+      touched,
+      errors,
+      warnings,
+      isSubmitting,
+      isValid,
+      isDirty,
+    },
     helpers: {
       ...helpers.public,
       addTransformer,
@@ -198,8 +225,10 @@ export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
     ...helpers.private,
   });
 
+  data.set = newDataSet;
+
   return {
-    data: { ...data, set: newDataSet },
+    data,
     errors,
     warnings,
     touched,

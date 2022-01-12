@@ -2,6 +2,8 @@ import { useRef, useEffect } from 'react';
 import type {
   FormConfig,
   Obj,
+  Errors,
+  Touched,
   CreateSubmitHandlerConfig,
   Helpers,
   KnownHelpers,
@@ -16,7 +18,7 @@ import {
   _isPlainObject,
 } from '@felte/core';
 import { writable } from 'svelte/store';
-import type { Stores } from './use-accessor';
+import type { Stores, UnknownStores, KnownStores } from './use-accessor';
 import { useAccessor } from './use-accessor';
 
 /** The return type for the `createForm` function. */
@@ -29,7 +31,7 @@ export type Form<Data extends Obj> = {
   createSubmitHandler(
     altConfig?: CreateSubmitHandlerConfig<Data>
   ): (e?: Event) => void;
-} & Stores<Data>;
+};
 
 function useConst<T>(setup: () => T): T {
   const ref = useRef<T>();
@@ -41,13 +43,13 @@ function useConst<T>(setup: () => T): T {
 
 export function useForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
   config: FormConfigWithTransformFn<Data> & Ext
-): Form<Data> & UnknownHelpers<Data>;
+): Form<Data> & UnknownHelpers<Data> & UnknownStores<Data>;
 export function useForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
   config?: FormConfigWithoutTransformFn<Data> & Ext
-): Form<Data> & KnownHelpers<Data>;
+): Form<Data> & KnownHelpers<Data> & KnownStores<Data>;
 export function useForm<Data extends Obj = Obj>(
   config?: FormConfig<Data>
-): Form<Data> & Helpers<Data> {
+): Form<Data> & Helpers<Data> & Stores<Data> {
   const destroyRef = useRef<() => void>();
 
   const { cleanup, ...rest } = useConst(() => {
@@ -62,13 +64,13 @@ export function useForm<Data extends Obj = Obj>(
     return { form, ...rest };
   });
 
-  const data = useAccessor(rest.data);
-  const errors = useAccessor(rest.errors);
-  const touched = useAccessor(rest.touched);
-  const warnings = useAccessor(rest.warnings);
-  const isSubmitting = useAccessor(rest.isSubmitting);
-  const isDirty = useAccessor(rest.isDirty);
-  const isValid = useAccessor(rest.isValid);
+  const data = useAccessor<Data>(rest.data);
+  const errors = useAccessor<Errors<Data>>(rest.errors);
+  const touched = useAccessor<Touched<Data>>(rest.touched);
+  const warnings = useAccessor<Errors<Data>>(rest.warnings);
+  const isSubmitting = useAccessor<boolean>(rest.isSubmitting);
+  const isDirty = useAccessor<boolean>(rest.isDirty);
+  const isValid = useAccessor<boolean>(rest.isValid);
 
   useEffect(() => {
     return () => {

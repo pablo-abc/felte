@@ -4,11 +4,6 @@ import { createRoot } from 'solid-js';
 import { storeFactory } from '../src/stores';
 
 describe('Stores', () => {
-  test('Creates signal observable', () => {
-    const observable = storeFactory(true);
-    expect(_isPlainObject(observable.getSolidValue())).toBe(false);
-  });
-
   test('Updates signal observable', async () => {
     const mockFn = jest.fn();
     createRoot(() => {

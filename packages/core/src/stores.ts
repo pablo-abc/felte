@@ -29,8 +29,8 @@ function errorFilterer(
   return (touchValue && errValue) || null;
 }
 
-export function createStores<Data extends Obj>(
-  storeFactory: StoreFactory,
+export function createStores<Data extends Obj, StoreExt = {}>(
+  storeFactory: StoreFactory<StoreExt>,
   config: FormConfig<Data>
 ) {
   const initialValues = config.initialValues
@@ -45,6 +45,8 @@ export function createStores<Data extends Obj>(
   const errors = storeFactory(initialErrors);
 
   const filteredErrors = storeFactory(_cloneDeep(initialErrors));
+
+  const filteredErrorsSet = filteredErrors.set;
 
   const initialWarnings = deepSet(initialValues, null) as Errors<Data>;
   const warnings = storeFactory(initialWarnings);
@@ -95,7 +97,7 @@ export function createStores<Data extends Obj>(
       touchedValue,
       errorFilterer
     );
-    filteredErrors.set(mergedErrors);
+    filteredErrorsSet(mergedErrors);
   });
 
   const touchedUnsubscriber = touched.subscribe(($touched) => {
@@ -105,7 +107,7 @@ export function createStores<Data extends Obj>(
       $touched,
       errorFilterer
     );
-    filteredErrors.set(mergedErrors);
+    filteredErrorsSet(mergedErrors);
   });
 
   function cleanup() {
@@ -114,14 +116,12 @@ export function createStores<Data extends Obj>(
     touchedUnsubscriber();
   }
 
+  filteredErrors.set = errors.set;
+  filteredErrors.update = errors.update;
+
   return {
     data,
-    errors: {
-      ...filteredErrors,
-      set: errors.set,
-      update: errors.update,
-      subscribe: filteredErrors.subscribe,
-    },
+    errors: filteredErrors,
     warnings,
     touched,
     isValid,

@@ -255,30 +255,36 @@ export type TransWritable<Data extends Obj> = Omit<
   update(updater: (value: Data) => unknown): void;
 };
 
-export type UnknownStores<Data extends Obj> = Omit<Stores<Data>, 'data'> & {
-  data: TransWritable<Data>;
+export type UnknownStores<Data extends Obj, StoreExt = {}> = Omit<
+  Stores<Data, StoreExt>,
+  'data'
+> & {
+  data: TransWritable<Data> & StoreExt;
 };
 
-export type KnownStores<Data extends Obj> = Omit<Stores<Data>, 'data'> & {
-  data: Writable<Data>;
+export type KnownStores<Data extends Obj, StoreExt = {}> = Omit<
+  Stores<Data, StoreExt>,
+  'data'
+> & {
+  data: Writable<Data> & StoreExt;
 };
 
 /** The stores that `createForm` creates. */
-export type Stores<Data extends Obj> = {
+export type Stores<Data extends Obj, StoreExt = {}> = {
   /** Writable store that contains the form's data. */
-  data: Writable<Data> | TransWritable<Data>;
+  data: (Writable<Data> | TransWritable<Data>) & StoreExt;
   /** Writable store that contains the form's validation errors. */
-  errors: Writable<Errors<Data>>;
+  errors: Writable<Errors<Data>> & StoreExt;
   /** Writable store that contains warnings for the form. These won't prevent a submit from happening. */
-  warnings: Writable<Errors<Data>>;
+  warnings: Writable<Errors<Data>> & StoreExt;
   /** Writable store that denotes if any field has been touched. */
-  touched: Writable<Touched<Data>>;
+  touched: Writable<Touched<Data>> & StoreExt;
   /** Writable store containing only a boolean that represents if the form is submitting. */
-  isSubmitting: Writable<boolean>;
+  isSubmitting: Writable<boolean> & StoreExt;
   /** Readable store containing only a boolean that represents if the form is valid. */
-  isValid: Readable<boolean>;
+  isValid: Readable<boolean> & StoreExt;
   /** Readable store containing only a boolean that represents if the form is dirty. */
-  isDirty: Writable<boolean>;
+  isDirty: Writable<boolean> & StoreExt;
 };
 
 /** The return type for the `createForm` function. */
@@ -293,4 +299,6 @@ export type Form<Data extends Obj> = {
   ) => (e?: Event) => void;
 };
 
-export type StoreFactory = <Value>(initialValue: Value) => Writable<Value>;
+export type StoreFactory<Ext = {}> = <Value>(
+  initialValue: Value
+) => Writable<Value> & Ext;

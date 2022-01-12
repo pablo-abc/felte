@@ -28,6 +28,10 @@ The following changes will need to be done in your code:
 
 The rest of the stores are still signals just like before, but now they can optionally accept a function as an argument to obtain a derived value.
 
+### Observables
+
+Although undocumented, we used to return a property `observables` from `createForm` that contained all stores in the form of observables. This is no longer the case since the new `setters` (mentioned in the next section) fulfill the role of `update` and `set`.
+
 ### Helpers
 
 The returned helpers have changed.

@@ -1,6 +1,7 @@
+import type { StoreFactory } from '@felte/core';
 import { _cloneDeep, _isPlainObject, _mergeWith } from '@felte/core';
 import { createEffect, createSignal, createRoot } from 'solid-js';
-import { createAccessor } from './create-accessor';
+import { createAccessor, FelteAccessor } from './create-accessor';
 
 const isCallback = (
   maybeFunction: any
@@ -21,7 +22,9 @@ function createSubscriber<T>(store: T | (() => T)) {
   };
 }
 
-export const storeFactory = <Value>(initialValue: Value) => {
+export const storeFactory: StoreFactory<FelteAccessor<any>> = <Value>(
+  initialValue: Value
+) => {
   const [signal, setSignal] = createSignal<Value>(initialValue);
 
   function signalSetter(value: Value) {
@@ -31,10 +34,14 @@ export const storeFactory = <Value>(initialValue: Value) => {
   function signalUpdater(updater: (value: Value) => Value) {
     signalSetter(updater(signal()));
   }
-  return {
-    subscribe: createSubscriber<Value>(signal),
-    update: signalUpdater,
-    set: signalSetter,
-    getSolidValue: () => createAccessor(signal),
-  };
+
+  const subscribe = createSubscriber<Value>(signal);
+
+  const accessor = createAccessor(signal) as any;
+
+  accessor.subscribe = subscribe;
+  accessor.set = signalSetter;
+  accessor.update = signalUpdater;
+
+  return accessor;
 };
