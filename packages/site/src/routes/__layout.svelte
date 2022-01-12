@@ -34,6 +34,11 @@
     color: #FFF;
   }
 
+  .banner :global(a:focus-visible) {
+    outline: 3px solid #FFF;
+    outline-offset: 2px;
+  }
+
   .desktop {
     display: none;
   }
