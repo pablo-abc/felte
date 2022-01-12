@@ -1,5 +1,9 @@
 ---
 section: Migrating
+subsections:
+  - Helpers
+  - TypeScript
+  - Configuration
 ---
 
 ## Migrating from 0.x felte or @felte/solid
@@ -60,13 +64,13 @@ setTouched('tag[1]', true)
 
 > These functions now can do more than before. Be sure to check the [documentation on them](/docs/react/helper-functions#setters).
 
-## TypeScript
+### TypeScript
 
 Some adjusting of your types might be needed due to the following changes:
 
 * When a transform function is added, setters for  `data` and `fields` will have looser types. They’ll have an `unknown` argument and expect you to guarantee that the shape will follow your `Data` type on your `transform` function.
 * `initialValues` will have a type of `unknown` when a `transform` function is used.
 
-## Configuration
+### Configuration
 
 * `initialValues` now passes through transform functions. This was a bug previously but some people might have relied on this.

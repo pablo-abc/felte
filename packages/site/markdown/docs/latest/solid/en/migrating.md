@@ -1,5 +1,11 @@
 ---
 section: Migrating
+subsections:
+  - Stores
+  - Observables
+  - Helpers
+  - TypeScript
+  - Configuration
 ---
 
 ## Migrating from 0.x
@@ -88,13 +94,13 @@ setTouched('tag[1]', true)
 
 * `getField` is no longer returned from `createForm`, since this is obsolete now due to the accessors returned by `createForm`.
 
-## TypeScript
+### TypeScript
 
 Some adjusting of your types might be needed due to the following changes:
 
 * When a transform function is added, setters for  `data` and `fields` will have looser types. They’ll have an `unknown` argument and expect you to guarantee that the shape will follow your `Data` type on your `transform` function.
 * `initialValues` will have a type of `unknown` when a `transform` function is used.
 
-## Configuration
+### Configuration
 
 * `initialValues` now passes through transform functions. This was a bug previously but some people might have relied on this.
