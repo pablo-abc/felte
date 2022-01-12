@@ -1,5 +1,5 @@
 ---
-'@felte/react': patch
+'@felte/react': minor
 ---
 
 Export `useAccessor`

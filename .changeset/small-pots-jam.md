@@ -1,8 +1,8 @@
 ---
-'@felte/common': minor
-'@felte/core': minor
-'felte': minor
-'@felte/solid': minor
+'@felte/common': major
+'@felte/core': major
+'felte': major
+'@felte/solid': major
 ---
 
-BREAKING: Remoge `getField` helper in favor of `getValue` export. E.g. `getField('email')` now is `getValue($data, 'email')`.
+BREAKING: Remove `getField` helper in favor of `getValue` export. E.g. `getField('email')` now is `getValue($data, 'email')` and accessors.

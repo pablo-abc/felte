@@ -1,6 +1,6 @@
 ---
-'@felte/reporter-tippy': patch
-'@felte/reporter-dom': patch
+'@felte/reporter-tippy': minor
+'@felte/reporter-dom': minor
 ---
 
 Add support for displaying warnings.

@@ -1,9 +1,9 @@
 ---
-'@felte/common': minor
-'@felte/core': minor
-'felte': minor
-'@felte/react': minor
-'@felte/solid': minor
+'@felte/common': major
+'@felte/core': major
+'felte': major
+'@felte/react': major
+'@felte/solid': major
 ---
 
 BREAKING: Helpers have been completely reworked.

@@ -1,10 +1,10 @@
 ---
-'@felte/core': patch
-'@felte/reporter-dom': patch
-'@felte/reporter-react': patch
-'@felte/reporter-solid': patch
-'@felte/reporter-svelte': patch
-'@felte/reporter-tippy': patch
+'@felte/core': minor
+'@felte/reporter-dom': minor
+'@felte/reporter-react': minor
+'@felte/reporter-solid': minor
+'@felte/reporter-svelte': minor
+'@felte/reporter-tippy': minor
 ---
 
 Change responsibility for adding `aria-invalid` to fields to `@felte/core`

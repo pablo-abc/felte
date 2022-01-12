@@ -1,8 +1,8 @@
 ---
-'@felte/core': minor
-'felte': minor
-'@felte/react': minor
-'@felte/solid': minor
+'@felte/core': major
+'felte': major
+'@felte/react': major
+'@felte/solid': major
 ---
 
 BREAKING: apply transforms to initialValues
