@@ -18,6 +18,10 @@
     %svelte.head%
   </head>
   <body>
+    <script>
+     const colorScheme = localStorage.getItem('colorScheme');
+     if (colorScheme) document.body.classList.add(colorScheme);
+    </script>
     <div id="svelte">%svelte.body%</div>
   </body>
 </html>
