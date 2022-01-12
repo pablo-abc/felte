@@ -41,8 +41,8 @@ function extender({
 }
 ```
 
-- `form` refers to the [HTMLFormElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement) of the form you're handling. The first time the extender is called, this will be `undefined`. Whenever the `form` action is called (and on any subsequent call) this will contain the appropriate element.
-- `controls` refer to the the form controls of the form that are handled by Felte. The first time the extender is called, this will be `undefined`. Whenever the `form` action is called (and on any subsequent call) this will contain the appropriate elements.
+- `form` refers to the [HTMLFormElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement) of the form you're handling. This is not available during the `SETUP` stage.
+- `controls` refer to the the form controls of the form that are handled by Felte. This is not available during the `SETUP` stage.
 - `stage` is a string that denotes the current stage of the form. Possible values: `'SETUP'`, `'MOUNT'` and `'UPDATE'`.
 - `data` is an observable that contains the values of the form.
 - `errors` is an observable that contains the errors of the form.
