@@ -157,6 +157,7 @@ export function createForm<
 
   currentExtenders = extender.map((extender) =>
     extender({
+      stage: 'SETUP',
       errors,
       warnings,
       touched,

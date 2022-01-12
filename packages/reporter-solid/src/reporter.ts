@@ -7,13 +7,15 @@ export function reporter<Data extends Obj>(
   currentForm: CurrentForm<Data>
 ): ExtenderHandler<Data> {
   const config = currentForm.config;
-  if (!config.__felteReporterSolidId) {
-    const id = createId(21);
-    config.__felteReporterSolidId = id;
-    errorStores[id] = currentForm.errors;
-    warningStores[id] = currentForm.warnings;
+  if (currentForm.stage === 'SETUP') {
+    if (!config.__felteReporterSolidId) {
+      const id = createId(21);
+      config.__felteReporterSolidId = id;
+      errorStores[id] = currentForm.errors;
+      warningStores[id] = currentForm.warnings;
+    }
+    return {};
   }
-  if (!currentForm.form) return {};
   if (!currentForm.form.hasAttribute('data-felte-reporter-solid-id')) {
     currentForm.form.dataset.felteReporterSolidId = config.__felteReporterSolidId as string;
   }

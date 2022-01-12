@@ -35,6 +35,7 @@ describe('Extenders', () => {
         data: expect.objectContaining(data),
         errors,
         touched,
+        stage: 'SETUP',
       })
     );
 
@@ -45,6 +46,7 @@ describe('Extenders', () => {
     expect(mockExtender).toHaveBeenLastCalledWith(
       expect.objectContaining({
         data: expect.objectContaining(data),
+        stage: 'MOUNT',
         errors,
         touched,
         form: formElement,
@@ -65,6 +67,7 @@ describe('Extenders', () => {
       expect(mockExtender).toHaveBeenLastCalledWith(
         expect.objectContaining({
           data: expect.objectContaining(data),
+          stage: 'UPDATE',
           errors,
           touched,
           form: formElement,
@@ -83,6 +86,7 @@ describe('Extenders', () => {
       expect(mockExtender).toHaveBeenLastCalledWith(
         expect.objectContaining({
           data: expect.objectContaining(data),
+          stage: 'UPDATE',
           errors,
           touched,
           form: formElement,

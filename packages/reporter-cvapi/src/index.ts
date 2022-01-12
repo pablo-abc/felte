@@ -23,9 +23,9 @@ function mutationCallback(mutationList: MutationRecord[]) {
 function cvapiReporter<Data extends Obj = Obj>(
   currentForm: CurrentForm<Data>
 ): ExtenderHandler<Data> {
+  if (currentForm.stage === 'SETUP') return {};
   const form = currentForm.form;
   const controls = currentForm.controls;
-  if (!controls || !form) return {};
   const mutationObserver = new MutationObserver(mutationCallback);
   mutationObserver.observe(form, mutationConfig);
   return {

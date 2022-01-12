@@ -167,25 +167,30 @@ export function createFormAction<Data extends Obj>({
 
   const handleSubmit = createSubmitHandler();
 
+  let mounted = false;
+
   function form(node: HTMLFormElement) {
     if (!node.requestSubmit)
       node.requestSubmit = handleSubmit as typeof node.requestSubmit;
-    function callExtender(extender: Extender<Data>) {
-      return extender({
-        form: node,
-        controls: Array.from(node.elements).filter(isFormControl),
-        data,
-        errors,
-        warnings,
-        touched,
-        config,
-        addValidator,
-        addWarnValidator,
-        addTransformer,
-        setFields,
-        validate,
-        reset,
-      });
+    function callExtender(stage: 'MOUNT' | 'UPDATE') {
+      return function (extender: Extender<Data>) {
+        return extender({
+          form: node,
+          stage,
+          controls: Array.from(node.elements).filter(isFormControl),
+          data,
+          errors,
+          warnings,
+          touched,
+          config,
+          addValidator,
+          addWarnValidator,
+          addTransformer,
+          setFields,
+          validate,
+          reset,
+        });
+      };
     }
 
     function proxyInputs() {
@@ -232,7 +237,7 @@ export function createFormAction<Data extends Obj>({
       }
     }
 
-    _setCurrentExtenders(extender.map(callExtender));
+    _setCurrentExtenders(extender.map(callExtender('MOUNT')));
     node.noValidate = !!config.validate;
     const { defaultData } = getFormDefaultValues<Data>(node);
     _setFormNode(node);
@@ -364,7 +369,7 @@ export function createFormAction<Data extends Obj>({
           });
           if (!shouldUpdate) continue;
           _getCurrentExtenders().forEach((extender) => extender.destroy?.());
-          _setCurrentExtenders(extender.map(callExtender));
+          _setCurrentExtenders(extender.map(callExtender('UPDATE')));
           const { defaultData: newDefaultData } = getFormDefaultValues<Data>(
             node
           );
@@ -380,7 +385,7 @@ export function createFormAction<Data extends Obj>({
             const formControls = getFormControls(removedNode);
             if (formControls.length === 0) continue;
             _getCurrentExtenders().forEach((extender) => extender.destroy?.());
-            _setCurrentExtenders(extender.map(callExtender));
+            _setCurrentExtenders(extender.map(callExtender('UPDATE')));
             unsetTaggedForRemove(formControls);
           }
         }

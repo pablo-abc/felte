@@ -110,8 +110,8 @@ function tippyReporter<Data extends Obj = any>({
   return function reporter(
     currentForm: CurrentForm<Data>
   ): ExtenderHandler<Data> {
+    if (currentForm.stage === 'SETUP') return {};
     const { controls, form } = currentForm;
-    if (!form) return {};
     let tippyInstances: Instance<Props>[] = [];
     let customControls = Array.from(
       form.querySelectorAll('[data-felte-reporter-tippy-for]')

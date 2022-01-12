@@ -102,9 +102,10 @@ export type Helpers<Data extends Obj> = {
   setInitialValues(values: Data): void;
 };
 
-export type CurrentForm<Data extends Obj> = {
-  form?: HTMLFormElement;
-  controls?: FormControl[];
+export type SetupCurrentForm<Data extends Obj> = {
+  form?: never;
+  controls?: never;
+  stage: 'SETUP';
   errors: Writable<Errors<Data>>;
   warnings: Writable<Errors<Data>>;
   data: Writable<Data>;
@@ -118,6 +119,27 @@ export type CurrentForm<Data extends Obj> = {
   addTransformer(transformer: TransformFunction<Data>): void;
 };
 
+export type MountedCurrentForm<Data extends Obj> = {
+  form: HTMLFormElement;
+  controls: FormControl[];
+  stage: 'MOUNT' | 'UPDATE';
+  errors: Writable<Errors<Data>>;
+  warnings: Writable<Errors<Data>>;
+  data: Writable<Data>;
+  touched: Writable<Touched<Data>>;
+  config: FormConfig<Data>;
+  setFields(values: Data): void;
+  reset(): void;
+  validate(): Promise<Errors<Data> | void>;
+  addValidator(validator: ValidationFunction<Data>): void;
+  addWarnValidator(validator: ValidationFunction<Data>): void;
+  addTransformer(transformer: TransformFunction<Data>): void;
+};
+
+export type CurrentForm<Data extends Obj> =
+  | MountedCurrentForm<Data>
+  | SetupCurrentForm<Data>;
+
 export type OnSubmitErrorState<Data extends Obj> = {
   data: Data;
   errors: Errors<Data>;
@@ -129,7 +151,7 @@ export type ExtenderHandler<Data extends Obj> = {
 };
 
 export type Extender<Data extends Obj = Obj> = (
-  currentForm: CurrentForm<Data>
+  currentForm: MountedCurrentForm<Data> | SetupCurrentForm<Data>
 ) => ExtenderHandler<Data>;
 
 /** `Record<string, unknown>` */

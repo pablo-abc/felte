@@ -11,13 +11,15 @@ function createId(length = 8) {
 
 export function reporter(currentForm) {
   const config = currentForm.config;
-  if (!config.__felteReporterSvelteId) {
-    const id = createId(21);
-    config.__felteReporterSvelteId = id;
-    errorStores[id] = currentForm.errors;
-    warningStores[id] = currentForm.warnings;
+  if (currentForm.stage === 'SETUP') {
+    if (!config.__felteReporterSvelteId) {
+      const id = createId(21);
+      config.__felteReporterSvelteId = id;
+      errorStores[id] = currentForm.errors;
+      warningStores[id] = currentForm.warnings;
+    }
+    return {};
   }
-  if (!currentForm.form) return;
   if (!currentForm.form.hasAttribute('data-felte-reporter-svelte-id')) {
     currentForm.form.dataset.felteReporterSvelteId =
       config.__felteReporterSvelteId;

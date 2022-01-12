@@ -44,7 +44,7 @@ export function validateSchema<Data extends Obj>(
 export function validator<Data extends Obj = Obj>(
   currentForm: CurrentForm<Data>
 ): ExtenderHandler<Data> {
-  if (currentForm.form) return {};
+  if (currentForm.stage !== 'SETUP') return {};
   const config = currentForm.config as CurrentForm<Data>['config'] &
     ValidatorConfig;
   const validateFn = validateSchema<Data>(config.validateSchema);

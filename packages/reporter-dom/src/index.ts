@@ -126,8 +126,8 @@ function domReporter<Data extends Obj = any>(
   options?: DomReporterOptions
 ): Extender<Data> {
   return (currentForm: CurrentForm<Data>): ExtenderHandler<Data> => {
-    const form = currentForm.form;
-    if (!form) return {};
+    if (currentForm.stage === 'SETUP') return {};
+    const { form } = currentForm;
     const unsubscribeErrors = currentForm.errors.subscribe(
       handleSubscription(form, 'error', options)
     );

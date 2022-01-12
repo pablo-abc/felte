@@ -50,7 +50,7 @@ export function warnSuite<Data extends Obj>(
 export function validator<Data extends Obj = Obj>(
   currentForm: CurrentForm<Data>
 ): ExtenderHandler<Data> {
-  if (currentForm.form) return {};
+  if (currentForm.stage !== 'SETUP') return {};
   const validateFn = validateSuite<Data>(
     currentForm.config.validateSuite as ReturnType<typeof create>
   );
