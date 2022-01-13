@@ -5,8 +5,6 @@
 
 Felte is an extensible form library originally built for Svelte but easily integrated with React using this package. Felte, on its most simple form, only requires you to set a `ref` to your form element to work. No custom `Field`or `Form` components are needed, making custom styles really easy to do. You can see it in action in this [CodeSandbox demo](https://codesandbox.io/s/felte-react-demo-q2xxw?file=/src/App.js)
 
-**STATUS**: Perfectly useable, although since we are still pre 1.0.0 there might be some breaking changes between minor versions. It's recommended to keep your versions pinned and check changelogs when upgrading a minor version. It should be compatible with every other extender except the one's specifically made for a framework.
-
 ## Features
 
 - Single action to make your form reactive.

@@ -6,8 +6,6 @@
 
 Felte is a simple to use form library originally built for Svelte but only needing minor modifications to work well with Solid. For Solid its functionality is based on the `use` directive. No `Field` or `Form` components, just plain stores and directives to build your form however you like. You can see it in action in this [CodeSandbox demo](https://codesandbox.io/s/felte-demo-solidjs-w92uj?file=/src/main.tsx)!
 
-**STATUS:** Useable but expect some issues. Since we're reusing Felte's core but exchanging Svelte stores for Solid stores, everything should work as expected but further testing might be needed to guarantee this. It should be compatible with every extender package for Felte, except `@felte/reporter-svelte` for obvious reasons.
-
 ## Features
 
 - Single action to make your form reactive.
