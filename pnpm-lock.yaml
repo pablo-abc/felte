@@ -44,7 +44,6 @@ importers:
       rollup: ^2.38.0
       rollup-plugin-bundle-size: ^1.0.3
       rollup-plugin-svelte: ^7.1.0
-      rollup-plugin-terser: ^7.0.2
       rollup-plugin-ts: ^2.0.5
       superstruct: ^0.15.0
       svelte: ^3.31.0
@@ -104,7 +103,6 @@ importers:
       rimraf: 3.0.2
       rollup: 2.45.2
       rollup-plugin-bundle-size: 1.0.3
-      rollup-plugin-terser: 7.0.2_rollup@2.45.2
       rollup-plugin-ts: 2.0.5_a82e0074c2e5146fc6b3a054a5bcf32a
       superstruct: 0.15.1
       svelte: 3.37.0
@@ -131,7 +129,7 @@ importers:
     dependencies:
       '@felte/common': link:../common
     devDependencies:
-      ts-jest: 26.5.4_jest@26.6.3+typescript@4.2.4
+      ts-jest: 26.5.4_jest@26.6.3+typescript@4.5.4
 
   packages/extender-persist:
     specifiers:
@@ -149,7 +147,7 @@ importers:
     dependencies:
       '@felte/core': link:../core
     devDependencies:
-      ts-jest: 26.5.4_jest@26.6.3+typescript@4.2.4
+      ts-jest: 26.5.4_jest@26.6.3+typescript@4.5.4
 
   packages/react:
     specifiers:
@@ -172,7 +170,7 @@ importers:
       '@types/react': 17.0.37
       react: 17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
-      ts-jest: 26.5.4_jest@26.6.3+typescript@4.2.4
+      ts-jest: 26.5.4_jest@26.6.3+typescript@4.5.4
 
   packages/reporter-cvapi:
     specifiers:
@@ -376,7 +374,7 @@ importers:
       '@testing-library/jest-dom': 5.11.10
       solid-js: 1.2.6
       solid-testing-library: 0.2.1_solid-js@1.2.6
-      ts-jest: 26.5.4_jest@26.6.3+typescript@4.2.4
+      ts-jest: 26.5.4_jest@26.6.3+typescript@4.5.4
 
   packages/validator-superstruct:
     specifiers:
@@ -8752,18 +8750,6 @@ packages:
       rollup-pluginutils: 2.8.2
       svelte: 3.37.0
 
-  /rollup-plugin-terser/7.0.2_rollup@2.45.2:
-    resolution: {integrity: sha512-w3iIaU4OxcF52UUXiZNsNeuXIMDvFrr+ZXK6bFZ0Q60qyVfq4uLptoS4bbq3paG3x216eQllFZX7zt6TIImguQ==}
-    peerDependencies:
-      rollup: ^2.0.0
-    dependencies:
-      '@babel/code-frame': 7.12.13
-      jest-worker: 26.6.2
-      rollup: 2.45.2
-      serialize-javascript: 4.0.0
-      terser: 5.6.1
-    dev: true
-
   /rollup-plugin-terser/7.0.2_rollup@2.52.7:
     resolution: {integrity: sha512-w3iIaU4OxcF52UUXiZNsNeuXIMDvFrr+ZXK6bFZ0Q60qyVfq4uLptoS4bbq3paG3x216eQllFZX7zt6TIImguQ==}
     peerDependencies:
@@ -9730,28 +9716,6 @@ packages:
     dependencies:
       compatfactory: 0.0.12_typescript@4.5.4
       typescript: 4.5.4
-    dev: true
-
-  /ts-jest/26.5.4_jest@26.6.3+typescript@4.2.4:
-    resolution: {integrity: sha512-I5Qsddo+VTm94SukBJ4cPimOoFZsYTeElR2xy6H2TOVs+NsvgYglW8KuQgKoApOKuaU/Ix/vrF9ebFZlb5D2Pg==}
-    engines: {node: '>= 10'}
-    hasBin: true
-    peerDependencies:
-      jest: '>=26 <27'
-      typescript: '>=3.8 <5.0'
-    dependencies:
-      bs-logger: 0.2.6
-      buffer-from: 1.1.1
-      fast-json-stable-stringify: 2.1.0
-      jest: 26.6.3
-      jest-util: 26.6.2
-      json5: 2.2.0
-      lodash: 4.17.21
-      make-error: 1.3.6
-      mkdirp: 1.0.4
-      semver: 7.3.5
-      typescript: 4.2.4
-      yargs-parser: 20.2.7
     dev: true
 
   /ts-jest/26.5.4_jest@26.6.3+typescript@4.5.4:
