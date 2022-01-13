@@ -9,6 +9,7 @@ import {
 import userEvent from '@testing-library/user-event';
 import { get } from 'svelte/store';
 import { isFormControl } from '@felte/common';
+import type { FelteSubmitError } from '../src';
 
 function createSelectElement({
   name,
@@ -894,12 +895,12 @@ describe('User interactions with form', () => {
 
   test('submits without needing an onSubmit handler and throws', async () => {
     const originalFetch = window.fetch;
-    const mockJson = jest.fn(async () => undefined);
+    const mockJson = jest.fn(async () => ({ message: 'Error' }));
     window.fetch = jest.fn().mockResolvedValue({ ok: false, json: mockJson });
-    let error: Error | undefined;
+    let error: FelteSubmitError | undefined;
     const { form } = createForm({
       onError(err) {
-        error = err as Error;
+        error = err as FelteSubmitError;
       },
     });
     const { formElement } = createLoginForm();
@@ -917,6 +918,7 @@ describe('User interactions with form', () => {
       );
       expect(error).toBeTruthy();
       expect(error!.name).toBe('FelteSubmitError');
+      expect(error!.response).toEqual({ message: 'Error' });
       expect(mockJson).toHaveBeenCalled();
     });
     window.fetch = originalFetch;
