@@ -1,2 +1,2 @@
-export { getValue } from '@felte/core';
+export { getValue, FelteSubmitError } from '@felte/core';
 export * from './create-form';

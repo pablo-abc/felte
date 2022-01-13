@@ -37,7 +37,7 @@ import {
 } from '@felte/common';
 import { get } from './get';
 
-class FelteSubmitError extends Error {
+export class FelteSubmitError extends Error {
   constructor(message: string, response?: unknown) {
     super(message);
     this.name = 'FelteSubmitError';

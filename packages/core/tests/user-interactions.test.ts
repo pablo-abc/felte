@@ -873,8 +873,7 @@ describe('User interactions with form', () => {
 
   test('submits without needing an onSubmit handler and succeeds', async () => {
     const originalFetch = window.fetch;
-    const mockJson = jest.fn();
-    window.fetch = jest.fn().mockResolvedValue({ ok: true, json: mockJson });
+    window.fetch = jest.fn().mockResolvedValue({ ok: true });
     const { form } = createForm();
     const { formElement } = createLoginForm();
     formElement.action = '/test';
@@ -889,14 +888,14 @@ describe('User interactions with form', () => {
           method: 'post',
         })
       );
-      expect(mockJson).toHaveBeenCalled();
     });
     window.fetch = originalFetch;
   });
 
   test('submits without needing an onSubmit handler and throws', async () => {
     const originalFetch = window.fetch;
-    window.fetch = jest.fn().mockResolvedValue({ ok: false });
+    const mockJson = jest.fn(async () => undefined);
+    window.fetch = jest.fn().mockResolvedValue({ ok: false, json: mockJson });
     let error: Error | undefined;
     const { form } = createForm({
       onError(err) {
@@ -918,14 +917,14 @@ describe('User interactions with form', () => {
       );
       expect(error).toBeTruthy();
       expect(error!.name).toBe('FelteSubmitError');
+      expect(mockJson).toHaveBeenCalled();
     });
     window.fetch = originalFetch;
   });
 
   test('submits without requestSubmit', async () => {
     const originalFetch = window.fetch;
-    const mockJson = jest.fn();
-    window.fetch = jest.fn().mockResolvedValue({ ok: true, json: mockJson });
+    window.fetch = jest.fn().mockResolvedValue({ ok: true });
     const { form } = createForm();
     const { formElement } = createLoginForm();
     formElement.requestSubmit = undefined as any;
@@ -941,7 +940,6 @@ describe('User interactions with form', () => {
           method: 'post',
         })
       );
-      expect(mockJson).toHaveBeenCalled();
     });
     window.fetch = originalFetch;
   });
