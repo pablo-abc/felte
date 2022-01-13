@@ -25,13 +25,13 @@
     background-color: var(--primary-color);
     color: #FFF;
     font-size: 0.9rem;
-    font-weight: 700;
     padding: 0.5rem;
     text-align: center;
   }
 
   .banner a {
     color: #FFF;
+    font-weight: 700;
   }
 
   .banner :global(a:focus-visible) {
