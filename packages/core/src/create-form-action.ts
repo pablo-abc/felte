@@ -38,10 +38,13 @@ import {
 import { get } from './get';
 
 class FelteSubmitError extends Error {
-  constructor(message: string) {
+  constructor(message: string, response?: unknown) {
     super(message);
     this.name = 'FelteSubmitError';
+    this.response = response;
   }
+
+  response: unknown;
 }
 
 async function defaultOnSubmit<Data extends Obj>(
@@ -54,9 +57,10 @@ async function defaultOnSubmit<Data extends Obj>(
     body: JSON.stringify(values),
     headers: { 'Content-Type': 'application/json' },
   });
-  if (response.ok) return response.json();
+  if (response.ok) return;
   throw new FelteSubmitError(
-    'An error occurred while the form was being submitted.'
+    'An error occurred while the form was being submitted.',
+    await response.json().catch(() => undefined)
   );
 }
 
