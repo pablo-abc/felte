@@ -310,6 +310,7 @@ importers:
       '@sveltejs/kit': 1.0.0-next.202
       autoprefixer: ^10.3.1
       cssnano: ^5.0.6
+      dotenv: ^11.0.0
       eslint-plugin-svelte3: ^3.2.0
       felte: ^0.9.0
       flexsearch: ^0.7.21
@@ -345,6 +346,7 @@ importers:
       '@sveltejs/kit': 1.0.0-next.202_svelte@3.44.3
       autoprefixer: 10.3.1_postcss@8.4.5
       cssnano: 5.0.7_postcss@8.4.5
+      dotenv: 11.0.0
       eslint-plugin-svelte3: 3.2.0_eslint@7.24.0+svelte@3.44.3
       front-matter: 4.0.2
       highlight.js: 10.7.2
@@ -355,7 +357,7 @@ importers:
       prettier: 2.2.1
       svelte: 3.44.3
       svelte-focus-on: 0.1.4
-      svelte-preprocess: 4.7.4_e6aa8ccae0091303963e1c9d09042533
+      svelte-preprocess: 4.7.4_8cd21f3ac94671a9015b30ae247723d6
       tippy.js: 6.3.1
       yup: 0.32.9
 
@@ -4740,6 +4742,11 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       is-obj: 2.0.0
+    dev: true
+
+  /dotenv/11.0.0:
+    resolution: {integrity: sha512-Fp/b504Y5W+e+FpCxTFMUZ7ZEQkQYF0rx+KZtmwixJxGQbLHrhCwo3FjZgNC8vIfrSi29PABNbMoCGD9YoiXbQ==}
+    engines: {node: '>=12'}
     dev: true
 
   /duplexer/0.1.2:
@@ -9455,7 +9462,7 @@ packages:
       svelte: 3.37.0
       typescript: 4.5.4
 
-  /svelte-preprocess/4.7.4_e6aa8ccae0091303963e1c9d09042533:
+  /svelte-preprocess/4.7.4_8cd21f3ac94671a9015b30ae247723d6:
     resolution: {integrity: sha512-mDAmaltQl6e5zU2VEtoWEf7eLTfuOTGr9zt+BpA3AGHo8MIhKiNSPE9OLTCTOMgj0vj/uL9QBbaNmpG4G1CgIA==}
     engines: {node: '>= 9.11.2'}
     requiresBuild: true
@@ -9504,7 +9511,7 @@ packages:
       postcss-load-config: 3.1.0
       strip-indent: 3.0.0
       svelte: 3.44.3
-      typescript: 4.2.4
+      typescript: 4.5.4
     dev: true
 
   /svelte/3.37.0:

@@ -1,10 +1,8 @@
 import getDocs from '../_docs.js';
 
-export async function get({ query, params }) {
+export async function get({ params }) {
   const docs = await getDocs({
-    lang: query.get('lang') ?? 'en',
     framework: params.framework,
-    version: query.get('version') ?? 'latest',
     section: 'all',
   });
 

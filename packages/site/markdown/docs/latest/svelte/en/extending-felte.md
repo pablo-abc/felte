@@ -4,10 +4,6 @@ section: Extending Felte
 
 ## Extending Felte
 
-> **NOTE**: This API is not set in stone yet. It is open for change on feedback or future needs.
->
-> If you're a package author and this API is missing any feature, please do [open an issue](https://github.com/pablo-abc/felte/issues) or [make a pull request](https://github.com/pablo-abc/felte/pulls).
-
 You might have noticed that both `reporters` and `validators` make use of the `extend` property in the configuration for `createForm`. This is because both of these make use of Felte's extensibility. We will call any package that extends Felte an `extender` from now.
 
 An `extender` is a simple function that gets called when `createForm` is called, when the `form` action is called and whenever the form changes.

@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import fm from 'front-matter';
 import path from 'path';
 import fs from 'fs/promises';
@@ -59,18 +60,51 @@ export const sections = {
       'migrating',
     ],
   },
+  v0: {
+    svelte: [
+      'getting-started',
+      'validation',
+      'validators',
+      'transformations',
+      'default-data',
+      'nested-forms',
+      'dynamic-forms',
+      'stores',
+      'helper-functions',
+      'reporters',
+      'custom-form-controls',
+      'multi-page-forms',
+      'accessibility',
+      'extending-felte',
+      'configuration-reference',
+    ],
+    solid: [
+      'getting-started',
+      'validation',
+      'validators',
+      'transformations',
+      'default-data',
+      'nested-forms',
+      'dynamic-forms',
+      'stores',
+      'helper-functions',
+      'reporters',
+      'custom-form-controls',
+      'multi-page-forms',
+      'accessibility',
+      'extending-felte',
+      'configuration-reference',
+    ],
+  },
 };
 
 function idfy(value) {
   return value.toLowerCase().replace(/[^a-zA-Z0-9]/g, '-');
 }
 
-export default async function getDocs({
-  lang = 'en',
-  version = 'latest',
-  framework = 'svelte',
-  section,
-}) {
+export default async function getDocs({ framework = 'svelte', section }) {
+  const version = process.env.FELTE_VERSION ?? 'latest';
+  const lang = 'en';
   const getFilePath = (fileName) =>
     path.resolve(
       `./markdown/docs/${version}/${framework}/${lang}/${fileName}.md`
