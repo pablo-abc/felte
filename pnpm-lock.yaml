@@ -28,6 +28,7 @@ importers:
       cross-env: ^7.0.3
       eslint: ^7.18.0
       eslint-config-prettier: ^8.2.0
+      eslint-plugin-compat: ^4.0.1
       eslint-plugin-jest: ^24.3.2
       eslint-plugin-jest-dom: ^3.6.5
       eslint-plugin-prettier: ^3.4.0
@@ -89,6 +90,7 @@ importers:
       cross-env: 7.0.3
       eslint: 7.24.0
       eslint-config-prettier: 8.2.0_eslint@7.24.0
+      eslint-plugin-compat: 4.0.1_eslint@7.24.0
       eslint-plugin-jest: 24.3.5_9f77a9e7788814db9a9ef1b25f2d2866
       eslint-plugin-jest-dom: 3.8.0_eslint@7.24.0
       eslint-plugin-prettier: 3.4.0_64fa1aa96df95a5df14fce32631d8e89
@@ -2637,6 +2639,10 @@ packages:
       read-yaml-file: 1.1.0
     dev: false
 
+  /@mdn/browser-compat-data/3.3.14:
+    resolution: {integrity: sha512-n2RC9d6XatVbWFdHLimzzUJxJ1KY8LdjqrW6YvGPiRmsHkhOUx74/Ct10x5Yo7bC/Jvqx7cDEW8IMPv/+vwEzA==}
+    dev: true
+
   /@mdn/browser-compat-data/4.1.2:
     resolution: {integrity: sha512-IzFTNGGMx+2fUPO2Gne9l9AiiRKIAAr+gsQNWmHzEnExhSbEmXX8BEfmR6ZW/6wu9mACWWmhMWtvjGf/lwcpog==}
     dev: true
@@ -3614,6 +3620,12 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /ast-metadata-inferer/0.7.0:
+    resolution: {integrity: sha512-OkMLzd8xelb3gmnp6ToFvvsHLtS6CbagTkFQvQ+ZYFe3/AIl9iKikNR9G7pY3GfOR/2Xc222hwBjzI7HLkE76Q==}
+    dependencies:
+      '@mdn/browser-compat-data': 3.3.14
+    dev: true
+
   /astral-regex/2.0.0:
     resolution: {integrity: sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==}
     engines: {node: '>=8'}
@@ -4357,6 +4369,11 @@ packages:
     requiresBuild: true
     dev: true
 
+  /core-js/3.20.2:
+    resolution: {integrity: sha512-nuqhq11DcOAbFBV4zCbKeGbKQsUDRqTX0oqx7AttUBuqe3h20ixsE039QHelbL6P4h+9kytVqyEtyZ6gsiwEYw==}
+    requiresBuild: true
+    dev: true
+
   /core-util-is/1.0.2:
     resolution: {integrity: sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=}
     dev: true
@@ -5076,6 +5093,23 @@ packages:
       eslint: '>=7.0.0'
     dependencies:
       eslint: 7.24.0
+    dev: true
+
+  /eslint-plugin-compat/4.0.1_eslint@7.24.0:
+    resolution: {integrity: sha512-vs4oa+WQcCRH7lD/0H8eh90tnSQurV3Cebt32x28JlP0Kn9UkQT+N8Pm939KavTO3/DiFPQyTPCNdYXcIWP/GA==}
+    engines: {node: '>=9.x'}
+    peerDependencies:
+      eslint: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
+    dependencies:
+      '@mdn/browser-compat-data': 3.3.14
+      ast-metadata-inferer: 0.7.0
+      browserslist: 4.19.1
+      caniuse-lite: 1.0.30001287
+      core-js: 3.20.2
+      eslint: 7.24.0
+      find-up: 5.0.0
+      lodash.memoize: 4.1.2
+      semver: 7.3.5
     dev: true
 
   /eslint-plugin-jest-dom/3.8.0_eslint@7.24.0:

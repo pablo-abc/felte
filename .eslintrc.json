@@ -9,6 +9,7 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:jest-dom/recommended",
+    "plugin:compat/recommended",
     "prettier"
   ],
   "plugins": [

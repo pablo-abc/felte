@@ -35,6 +35,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^7.18.0",
     "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-compat": "^4.0.1",
     "eslint-plugin-jest": "^24.3.2",
     "eslint-plugin-jest-dom": "^3.6.5",
     "eslint-plugin-prettier": "^3.4.0",
@@ -79,5 +80,10 @@
     "babel-plugin-dev-expression": "^0.2.2",
     "rollup-plugin-svelte": "^7.1.0",
     "svelte-preprocess": "^4.6.9"
-  }
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11",
+    "not op_mini all"
+  ]
 }
