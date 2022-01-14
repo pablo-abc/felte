@@ -6,6 +6,10 @@
   "browser": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "type": "module",
+  "engines": {
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+  },
   "sideEffects": false,
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "license": "MIT",
