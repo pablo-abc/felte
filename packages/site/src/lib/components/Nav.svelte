@@ -82,11 +82,10 @@
           docs
         </a>
       </li>
-      <li><a href="https://api.felte.dev">API</a></li>
       <li>
         <a
           class=icon-link
-          rel=noreferrer
+          rel="noreferrer external"
           href="https://github.com/pablo-abc/felte"
           >
           <span class="sr-only">Github Repository</span>
