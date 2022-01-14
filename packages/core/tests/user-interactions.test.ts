@@ -872,8 +872,6 @@ describe('User interactions with form', () => {
   });
 
   test('submits without requestSubmit', async () => {
-    const originalFetch = window.fetch;
-    window.fetch = jest.fn().mockResolvedValue({ ok: true });
     const onSubmit = jest.fn();
     const { form } = createForm({ onSubmit });
     const { formElement } = createLoginForm();
@@ -884,6 +882,5 @@ describe('User interactions with form', () => {
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalled();
     });
-    window.fetch = originalFetch;
   });
 });

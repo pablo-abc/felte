@@ -18,11 +18,7 @@ export function ValidationMessage<Data extends Obj = Obj>(
   const level = props.level ?? 'error';
   const [messages, setMessages] = useState<string | string[]>();
   function getFormElement(element: HTMLDivElement) {
-    let form = element.parentNode;
-    while (form && form.nodeName !== 'FORM') {
-      form = form.parentNode;
-    }
-    return form;
+    return element.closest('form');
   }
 
   const id = createId(21);

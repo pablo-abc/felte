@@ -14,12 +14,7 @@
   let element;
 
   function getFormElement() {
-    let form = element.parentNode;
-    if (!form) return;
-    while (form && form.nodeName !== 'FORM') {
-      form = form.parentNode;
-    }
-    return form;
+    return element.closest('form');
   }
 
   onMount(() => {

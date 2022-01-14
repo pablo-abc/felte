@@ -13,10 +13,6 @@ import {
 import { _get } from '@felte/common';
 import { get } from 'svelte/store';
 
-function isLabelElement(node: Node): node is HTMLLabelElement {
-  return node.nodeName === 'LABEL';
-}
-
 type TippyFieldProps = Partial<Omit<Props, 'content'>>;
 
 type TippyPropsMap<Data extends Obj> = {
@@ -39,16 +35,16 @@ function getTippyInstance(
   return (el as any)?._tippy ?? (customPosition as any)?._tippy;
 }
 
-function getControlLabel(control: FormControl): HTMLLabelElement | undefined {
+function getControlLabel(control: FormControl): HTMLLabelElement[] {
   const labels = control.labels;
-  if (labels?.[0]) return labels[0];
-  const parentNode = control.parentNode;
-  if (parentNode && isLabelElement(parentNode)) return parentNode;
-  if (!control.id) return;
+  if (labels && labels.length > 0) return Array.from(labels);
+  const labelNode = control.closest('label');
+  if (labelNode) return [labelNode];
+  if (!control.id) return [];
   const labelElement = document.querySelector(
     `label[for="${control.id}"]`
   ) as HTMLLabelElement | null;
-  return labelElement || undefined;
+  return labelElement ? [labelElement] : [];
 }
 
 export type TippyReporterOptions<Data extends Obj> = {
@@ -133,7 +129,7 @@ function tippyReporter<Data extends Obj = any>({
       ) as HTMLElement | null;
       const triggerTarget = [
         control,
-        getControlLabel(control),
+        ...getControlLabel(control),
         ...customTriggerTarget,
       ].filter(Boolean) as HTMLElement[];
       if (control.hasAttribute('data-felte-reporter-tippy-ignore')) return;

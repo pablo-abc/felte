@@ -27,12 +27,7 @@ export function ValidationMessage<Data extends Obj = Obj>(
   const [errors, setErrors] = createSignal<Errors<Data>>({});
   const [messages, setMessages] = createSignal<string | string[]>();
   function getFormElement(element: HTMLDivElement) {
-    let form = element.parentNode;
-    if (!form) return;
-    while (form && form.nodeName !== 'FORM') {
-      form = form.parentNode;
-    }
-    return form;
+    return element.closest('form');
   }
 
   const id = createId(21);
