@@ -4,6 +4,8 @@ subsections:
   - Setters
   - validate
   - reset
+  - unsetField
+  - resetField
   - setInitialValues
   - createSubmitHandler
 ---
