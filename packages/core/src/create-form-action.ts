@@ -353,7 +353,11 @@ export function createFormAction<Data extends Obj>({
 
     function unsetTaggedForRemove(formControls: FormControl[]) {
       for (const control of formControls) {
-        if (control.dataset.felteUnsetOnRemove !== 'true') continue;
+        if (
+          control.hasAttribute('data-felte-keep-on-remove') &&
+          control.dataset.felteKeepOnRemove !== 'false'
+        )
+          continue;
         data.update(($data) => {
           return _unset($data, getPathFromDataset(control));
         });

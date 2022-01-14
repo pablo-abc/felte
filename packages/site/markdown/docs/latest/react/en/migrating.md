@@ -74,3 +74,15 @@ Some adjusting of your types might be needed due to the following changes:
 ### Configuration
 
 * `initialValues` now passes through transform functions. This was a bug previously but some people might have relied on this.
+
+### data-felte-unset-on-remove
+
+Felte no longer keeps the value of a removed field in your stores by default. And the attribute used to indicate you _want_ this to happen, `data-felte-unset-on-remove`, has been removed. Instead we now have an attribute `data-felte-keep-on-remove` that does the opposite.
+
+This was done since we felt it was more intuitive for Felte to always represent the _visible_ state of the form by default, and it keeps it consistent to how a browser would submit a form by default: if a control is not on the DOM, there's no value to submit. Allowing to override this behaviour if explicitly defined.
+
+If you want to keep the same behaviour as before:
+
+* Add `data-felte-keep-on-remove` to any removable control you had that did not have a `data-felte-unset-on-remove`or had `data-felte-unset-on-remove="false"` previously.
+
+* Remove `data-felte-unset-on-remove="true"` to inputs that had it, or add `data-felte-keep-on-remove="false"` if it was used to override a fieldset.

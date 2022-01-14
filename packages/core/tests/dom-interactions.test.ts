@@ -68,17 +68,17 @@ describe('Form action DOM mutations', () => {
     });
   });
 
-  test('Propagates felte-unset-on-remove attribute respecting specificity', () => {
+  test('Propagates felte-keep-on-remove attribute respecting specificity', () => {
     const { form } = createForm({ onSubmit: jest.fn() });
     const outerFieldset = document.createElement('fieldset');
-    outerFieldset.dataset.felteUnsetOnRemove = 'true';
+    outerFieldset.dataset.felteKeepOnRemove = 'false';
     const outerTextInput = createInputElement({ name: 'outerText' });
     const outerSecondaryInput = createInputElement({ name: 'outerSecondary' });
-    outerSecondaryInput.dataset.felteUnsetOnRemove = 'false';
+    outerSecondaryInput.dataset.felteKeepOnRemove = 'true';
     const innerFieldset = document.createElement('fieldset');
     const innerTextInput = createInputElement({ name: 'innerText' });
     const innerSecondaryinput = createInputElement({ name: 'innerSecondary' });
-    innerSecondaryinput.dataset.felteUnsetOnRemove = 'false';
+    innerSecondaryinput.dataset.felteKeepOnRemove = 'true';
     innerFieldset.append(innerTextInput, innerSecondaryinput);
     outerFieldset.append(outerTextInput, outerSecondaryInput, innerFieldset);
     const formElement = screen.getByRole('form') as HTMLFormElement;
@@ -86,30 +86,30 @@ describe('Form action DOM mutations', () => {
     form(formElement);
     [outerFieldset, outerTextInput, innerFieldset, innerTextInput].forEach(
       (el) => {
-        expect(el).toHaveAttribute('data-felte-unset-on-remove', 'true');
+        expect(el).toHaveAttribute('data-felte-keep-on-remove', 'false');
       }
     );
     [outerSecondaryInput, innerSecondaryinput].forEach((el) => {
-      expect(el).toHaveAttribute('data-felte-unset-on-remove', 'false');
+      expect(el).toHaveAttribute('data-felte-keep-on-remove', 'true');
     });
   });
 
-  test('Unsets fields tagged with felte-unset-on-remove', async () => {
+  test('Keeps fields tagged with felte-keep-on-remove', async () => {
     const { form, data } = createForm({ onSubmit: jest.fn() });
     const outerFieldset = document.createElement('fieldset');
-    outerFieldset.dataset.felteUnsetOnRemove = 'true';
+    outerFieldset.dataset.felteKeepOnRemove = 'false';
     const outerTextInput = createInputElement({ name: 'outerText' });
     const outerSecondaryInput = createInputElement({ name: 'outerSecondary' });
-    outerSecondaryInput.dataset.felteUnsetOnRemove = 'false';
+    outerSecondaryInput.dataset.felteKeepOnRemove = '';
     const multipleOuterInputs = createMultipleInputElements({
       name: 'multiple',
     });
-    multipleOuterInputs[1].dataset.felteUnsetOnRemove = 'false';
+    multipleOuterInputs[1].dataset.felteKeepOnRemove = 'true';
     const innerFieldset = document.createElement('fieldset');
     innerFieldset.name = 'inner';
     const innerTextInput = createInputElement({ name: 'innerText' });
     const innerSecondaryinput = createInputElement({ name: 'innerSecondary' });
-    innerSecondaryinput.dataset.felteUnsetOnRemove = 'false';
+    innerSecondaryinput.dataset.felteKeepOnRemove = 'true';
     innerFieldset.append(innerTextInput, innerSecondaryinput);
     outerFieldset.append(
       ...multipleOuterInputs,
@@ -144,15 +144,15 @@ describe('Form action DOM mutations', () => {
   test('Handles fields added after form load', async () => {
     const { form, data } = createForm({ onSubmit: jest.fn() });
     const outerFieldset = document.createElement('fieldset');
-    outerFieldset.dataset.felteUnsetOnRemove = 'true';
+    outerFieldset.dataset.felteKeepOnRemove = 'false';
     const outerTextInput = createInputElement({ name: 'outerText' });
     const outerSecondaryInput = createInputElement({ name: 'outerSecondary' });
-    outerSecondaryInput.dataset.felteUnsetOnRemove = 'false';
+    outerSecondaryInput.dataset.felteKeepOnRemove = 'true';
     const innerFieldset = document.createElement('fieldset');
     innerFieldset.name = 'inner';
     const innerTextInput = createInputElement({ name: 'innerText' });
     const innerSecondaryinput = createInputElement({ name: 'innerSecondary' });
-    innerSecondaryinput.dataset.felteUnsetOnRemove = 'false';
+    innerSecondaryinput.dataset.felteKeepOnRemove = 'true';
     innerFieldset.append(innerTextInput, innerSecondaryinput);
     outerFieldset.append(outerTextInput, outerSecondaryInput);
     const formElement = screen.getByRole('form') as HTMLFormElement;

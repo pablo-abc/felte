@@ -52,10 +52,10 @@ export function addAttrsFromFieldset(fieldSet: HTMLFieldSetElement): void {
         : fieldsetName;
     }
     if (
-      fieldSet.dataset.felteUnsetOnRemove === 'true' &&
-      !element.hasAttribute('data-felte-unset-on-remove')
+      fieldSet.hasAttribute('data-felte-keep-on-remove') &&
+      !element.hasAttribute('data-felte-keep-on-remove')
     ) {
-      element.dataset.felteUnsetOnRemove = 'true';
+      element.dataset.felteKeepOnRemove = fieldSet.dataset.felteKeepOnRemove;
     }
   }
 }

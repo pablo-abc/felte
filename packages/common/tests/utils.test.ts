@@ -418,7 +418,7 @@ describe('Utils', () => {
     fieldset.name = 'container';
     const fieldsetUnset = document.createElement('fieldset');
     fieldsetUnset.name = 'containerUnset';
-    fieldsetUnset.setAttribute('data-felte-unset-on-remove', 'true');
+    fieldsetUnset.setAttribute('data-felte-keep-on-remove', 'false');
     const inputElement = createInputElement({ name: 'test' });
     fieldset.appendChild(inputElement);
     const inputUnsetElement = createInputElement({ name: 'test' });
@@ -433,8 +433,8 @@ describe('Utils', () => {
       'containerUnset'
     );
     expect(inputUnsetElement).toHaveAttribute(
-      'data-felte-unset-on-remove',
-      'true'
+      'data-felte-keep-on-remove',
+      'false'
     );
   });
 
