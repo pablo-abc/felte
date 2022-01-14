@@ -82,9 +82,24 @@ A function that forces Felte to validate all inputs, touches all of them and upd
 
 A function that resets all inputs and the `data` store to its original values. It has no arguments.
 
+### unsetField
+
+A function that completely removes a field from the `data`, `errors`, `warnings` and `touched` stores. It accepts the path of the field as a first argument as a string.
+
+```javascript
+unsetField('account.email')
+```
+
+### resetField
+
+A function that resets a specific field to its initial value. It accepts the path of the field as a first argument.
+
+```javascript
+resetField('account.email');
+```
 ### setInitialValues
 
-A helper function that sets the initialValues Felte handles internally. If called after initialization of the form, these values will be used when calling `reset`.
+A helper function that sets the initialValues Felte handles internally. If called after initialization of the form, these values will be used when calling `reset`. It accepts an object with the same shape as your `data` as a first argument.
 
 ### createSubmitHandler
 
