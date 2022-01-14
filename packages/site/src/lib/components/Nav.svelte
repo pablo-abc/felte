@@ -65,7 +65,7 @@
     <h1>
       <a
         href="/"
-        aria-current="{$page.path === '/' ? 'page' : undefined}"
+        aria-current="{$page.url.pathname === '/' ? 'page' : undefined}"
         >
         <span class="sr-only">Felte Home</span>
         <Logo />
@@ -74,7 +74,7 @@
     <ul>
       <li>
         <a
-          aria-current="{$page.path === '/docs' ? 'page' : undefined}"
+          aria-current="{$page.url.pathname === '/docs' ? 'page' : undefined}"
           aria-label="Documentation"
           href="/docs"
           sveltekit:prefetch

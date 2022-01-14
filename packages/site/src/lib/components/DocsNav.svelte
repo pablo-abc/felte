@@ -32,7 +32,7 @@
       <li>
         <a
           href={`/docs/${framework}/${item.id}`}
-          aria-current="{$page.path === `/docs/${framework}/${item.id}`}"
+          aria-current="{$page.url.pathname === `/docs/${framework}/${item.id}`}"
           sveltekit:prefetch
           >
           {item.section}

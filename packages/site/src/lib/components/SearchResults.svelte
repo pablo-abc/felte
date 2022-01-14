@@ -1,6 +1,7 @@
 <script>
   import SearchResult from './SearchResult.svelte';
   import { getContext } from 'svelte';
+  import { writable } from 'svelte/store';
   import { descendantsKey } from '$lib/utils/descendants';
 
   export let foundItems;
@@ -8,7 +9,7 @@
   export let bodyLength = 60;
   export let id = undefined;
 
-  const activeDescendant = getContext(descendantsKey);
+  const activeDescendant = getContext(descendantsKey) ?? writable();
 </script>
 
 <ul

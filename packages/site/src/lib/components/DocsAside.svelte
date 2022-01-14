@@ -53,7 +53,7 @@
     const framework = e.currentTarget.value;
     $session.framework = framework;
     updateItems(framework);
-    let path = $page.path.split('/');
+    let path = $page.url.pathname.split('/');
     if (path.length === 2) return;
     path[2] = framework;
     path = path.join('/');

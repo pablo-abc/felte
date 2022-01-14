@@ -1,6 +1,6 @@
 <script context="module">
-  export async function load({ fetch, page }) {
-    const framework = page.params.framework ?? 'svelte';
+  export async function load({ fetch, params }) {
+    const framework = params.framework ?? 'svelte';
     const res = await fetch(`/docs/${framework}/all.json`);
     const data = await res.json();
     if (res.ok) {
