@@ -1,7 +1,6 @@
-import type { Obj, ExtenderHandler, FormControl } from '@felte/common';
+import type { Obj, ExtenderHandler } from '@felte/common';
 import {
   _unset,
-  _get,
   CurrentForm,
   setForm,
   _cloneDeep,

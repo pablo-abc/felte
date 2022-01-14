@@ -1,5 +1,6 @@
 {
   "env": {
+    "jest/globals": true,
     "node": true,
     "browser": true,
     "es6": true
@@ -7,7 +8,6 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:testing-library/recommended",
     "plugin:jest-dom/recommended",
     "prettier"
   ],
@@ -20,10 +20,11 @@
   ],
   "parser": "@typescript-eslint/parser",
   "rules": {
-    "@typescript-eslint/no-explicit-any": "off"
-  },
-  "env": {
-    "jest/globals": true,
-    "node": true
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "ignoreRestSiblings": true }
+    ]
   }
 }

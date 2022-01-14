@@ -29,7 +29,7 @@ function errorFilterer(
   return (touchValue && errValue) || null;
 }
 
-export function createStores<Data extends Obj, StoreExt = {}>(
+export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   storeFactory: StoreFactory<StoreExt>,
   config: FormConfig<Data>
 ) {

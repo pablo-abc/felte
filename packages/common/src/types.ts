@@ -282,22 +282,22 @@ export type TransWritable<Data extends Obj> = Omit<
   update(updater: (value: Data) => unknown): void;
 };
 
-export type UnknownStores<Data extends Obj, StoreExt = {}> = Omit<
-  Stores<Data, StoreExt>,
-  'data'
-> & {
+export type UnknownStores<
+  Data extends Obj,
+  StoreExt = Record<string, any>
+> = Omit<Stores<Data, StoreExt>, 'data'> & {
   data: TransWritable<Data> & StoreExt;
 };
 
-export type KnownStores<Data extends Obj, StoreExt = {}> = Omit<
-  Stores<Data, StoreExt>,
-  'data'
-> & {
+export type KnownStores<
+  Data extends Obj,
+  StoreExt = Record<string, any>
+> = Omit<Stores<Data, StoreExt>, 'data'> & {
   data: Writable<Data> & StoreExt;
 };
 
 /** The stores that `createForm` creates. */
-export type Stores<Data extends Obj, StoreExt = {}> = {
+export type Stores<Data extends Obj, StoreExt = Record<string, any>> = {
   /** Writable store that contains the form's data. */
   data: (Writable<Data> | TransWritable<Data>) & StoreExt;
   /** Writable store that contains the form's validation errors. */
@@ -326,6 +326,6 @@ export type Form<Data extends Obj> = {
   ) => (e?: Event) => void;
 };
 
-export type StoreFactory<Ext = {}> = <Value>(
+export type StoreFactory<Ext = Record<string, any>> = <Value>(
   initialValue: Value
 ) => Writable<Value> & Ext;

@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import type { Obj, Errors, Touched, TransWritable } from '@felte/core';
 import type { Readable, Writable } from 'svelte/store';
 import { get } from 'svelte/store';
-import { _isPlainObject, _get, getValue } from '@felte/core';
+import { getValue } from '@felte/core';
 
 export type Accessor<T> = T extends Obj
   ? (<R>(selector: (storeValue: T) => R) => R) &

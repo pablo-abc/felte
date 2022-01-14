@@ -17,21 +17,16 @@ import type {
   KnownHelpers,
 } from '@felte/common';
 import {
-  _unset,
-  _set,
   _isPlainObject,
-  _get,
   _cloneDeep,
   _mergeWith,
-  _merge,
-  _defaultsDeep,
   executeTransforms,
 } from '@felte/common';
 import { createHelpers } from './helpers';
 import { createFormAction } from './create-form-action';
 import { createStores } from './stores';
 
-export type Adapters<StoreExt = {}> = {
+export type Adapters<StoreExt = Record<string, any>> = {
   storeFactory: StoreFactory<StoreExt>;
 };
 
@@ -42,7 +37,7 @@ export type CoreForm<Data extends Obj = any> = Form<Data> & {
 export function createForm<
   Data extends Obj = Obj,
   Ext extends Obj = Obj,
-  StoreExt = {}
+  StoreExt = Record<string, any>
 >(
   config: FormConfigWithTransformFn<Data> & Ext,
   adapters: Adapters<StoreExt>
@@ -50,7 +45,7 @@ export function createForm<
 export function createForm<
   Data extends Obj = Obj,
   Ext extends Obj = Obj,
-  StoreExt = {}
+  StoreExt = Record<string, any>
 >(
   config: FormConfigWithoutTransformFn<Data> & Ext,
   adapters: Adapters<StoreExt>
@@ -58,7 +53,7 @@ export function createForm<
 export function createForm<
   Data extends Obj = Obj,
   Ext extends Obj = Obj,
-  StoreExt = {}
+  StoreExt = Record<string, any>
 >(
   config: FormConfig<Data> & Ext,
   adapters: Adapters<StoreExt>
@@ -66,7 +61,7 @@ export function createForm<
 export function createForm<
   Data extends Obj = Obj,
   Ext extends Obj = Obj,
-  StoreExt = {}
+  StoreExt = Record<string, any>
 >(
   config: FormConfig<Data> & Ext,
   adapters: Adapters<StoreExt>

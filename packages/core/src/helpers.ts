@@ -17,12 +17,10 @@ import {
   executeValidation,
   setForm,
   _cloneDeep,
-  _defaultsDeep,
   _get,
   _merge,
   _set,
   _unset,
-  _isPlainObject,
 } from '@felte/common';
 import { get } from './get';
 

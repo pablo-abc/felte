@@ -1,4 +1,3 @@
-import { _isPlainObject } from '@felte/core';
 import { waitFor } from '@testing-library/dom';
 import { createRoot } from 'solid-js';
 import { storeFactory } from '../src/stores';

@@ -13,7 +13,7 @@ export function _set<Data extends Obj>(
   // When obj is not an object
   else if (typeof obj !== 'undefined') obj = _cloneDeep<Data>(obj);
   // If not yet an array, get the keys from the string-path
-  let newPath = !Array.isArray(path)
+  const newPath = !Array.isArray(path)
     ? path.toString().match(/[^.[\]]+/g) || []
     : path;
   newPath.slice(0, -1).reduce(

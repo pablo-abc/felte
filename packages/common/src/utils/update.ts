@@ -9,7 +9,7 @@ export function _update<Data extends Obj, Value = FieldValue>(
 ) {
   if (Object(obj) !== obj) obj = {} as Data; // When obj is not an object
   // If not yet an array, get the keys from the string-path
-  let newPath = path.toString().match(/[^.[\]]+/g) || [];
+  const newPath = path.toString().match(/[^.[\]]+/g) || [];
   newPath.slice(0, -1).reduce(
     (
       a: any,

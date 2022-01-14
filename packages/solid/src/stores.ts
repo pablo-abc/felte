@@ -1,5 +1,4 @@
 import type { StoreFactory } from '@felte/core';
-import { _cloneDeep, _isPlainObject, _mergeWith } from '@felte/core';
 import { createEffect, createSignal, createRoot } from 'solid-js';
 import { createAccessor, FelteAccessor } from './create-accessor';
 
