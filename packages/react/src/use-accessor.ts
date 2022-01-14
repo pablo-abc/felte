@@ -58,9 +58,7 @@ export function useAccessor<T>(
           [selectorOrPath.toString()]: selectorOrPath,
         };
       } else {
-        if (!subscribed[selectorOrPath.toString()]) {
-          subscribed[selectorOrPath.toString()] = selectorOrPath;
-        }
+        subscribed[selectorOrPath.toString()] = selectorOrPath;
       }
       return (
         values.current[selectorOrPath.toString()] ??

@@ -921,6 +921,26 @@ describe('User interactions with form', () => {
       expect(error!.response).toEqual({ message: 'Error' });
       expect(mockJson).toHaveBeenCalled();
     });
+
+    const mockFailJson = jest.fn(() => Promise.reject());
+    window.fetch = jest
+      .fn()
+      .mockResolvedValue({ ok: false, json: mockFailJson });
+
+    formElement.submit();
+
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledWith(
+        expect.stringContaining('/test'),
+        expect.objectContaining({
+          method: 'post',
+        })
+      );
+      expect(error).toBeTruthy();
+      expect(error!.name).toBe('FelteSubmitError');
+      expect(error!.response).toBe(undefined);
+      expect(mockFailJson).toHaveBeenCalled();
+    });
     window.fetch = originalFetch;
   });
 

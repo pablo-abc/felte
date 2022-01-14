@@ -96,6 +96,10 @@ export type Helpers<Data extends Obj> = {
   setIsSubmitting: PrimitiveSetter<boolean>;
   /** Helper function to set all values of the form. Useful for "initializing" values after the form has loaded. */
   setFields: FieldsSetter<Data> | UnknownFieldsSetter<Data>;
+  /** Helper function to unset a field (remove it completely from your stores) */
+  unsetField(path: string): void;
+  /** Helper function to reset a field to its initial value */
+  resetField(path: string): void;
   /** Helper function that validates every fields and touches all of them. It updates the `errors` and `warnings` store. */
   validate(): Promise<Errors<Data> | void>;
   /** Helper function to re-set the initialValues of Felte. No reactivity will be triggered but this will be the data the form will be reset to when caling `reset`. */
@@ -165,6 +169,7 @@ export type FieldValue =
   | number
   | File
   | File[]
+  | null
   | undefined;
 
 export type FormControl =

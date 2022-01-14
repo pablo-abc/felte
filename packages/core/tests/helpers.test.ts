@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom';
 import { waitFor, screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import {
@@ -14,7 +15,7 @@ describe('Helpers', () => {
 
   afterEach(cleanupDOM);
 
-  test('setField should update and touch field', () => {
+  test('setFields should update and touch field', () => {
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const fieldsetElement = document.createElement('fieldset');
     fieldsetElement.name = 'account';
@@ -457,5 +458,105 @@ describe('Helpers', () => {
       },
     };
     expect(get(rxStore)).toBe(true);
+  });
+
+  test('unsetField removes a field from all stores', async () => {
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const fieldsetElement = document.createElement('fieldset');
+    fieldsetElement.name = 'account';
+    const inputElement = createInputElement({
+      name: 'email',
+      value: '',
+      type: 'text',
+    });
+    fieldsetElement.appendChild(inputElement);
+    formElement.appendChild(fieldsetElement);
+    type Data = {
+      account: {
+        email: string;
+      };
+    };
+    const {
+      form,
+      data,
+      touched,
+      errors,
+      warnings,
+      unsetField,
+    } = createForm<Data>({
+      initialValues: {
+        account: {
+          email: '',
+        },
+      },
+      onSubmit: jest.fn(),
+    });
+
+    form(formElement);
+
+    userEvent.type(inputElement, 'zaphod@beeblebrox.com');
+
+    await waitFor(() => {
+      expect(get(data).account.email).toBe('zaphod@beeblebrox.com');
+    });
+
+    unsetField('account.email');
+
+    await waitFor(() => {
+      expect(get(data)).toEqual({ account: {} });
+      expect(get(touched)).toEqual({ account: {} });
+      expect(get(errors)).toEqual({ account: {} });
+      expect(get(warnings)).toEqual({ account: {} });
+      expect(inputElement).toHaveValue('');
+    });
+  });
+
+  test('resetField resets a field to its initial value', async () => {
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const fieldsetElement = document.createElement('fieldset');
+    fieldsetElement.name = 'account';
+    const inputElement = createInputElement({
+      name: 'email',
+      value: '',
+      type: 'text',
+    });
+    fieldsetElement.appendChild(inputElement);
+    formElement.appendChild(fieldsetElement);
+    type Data = {
+      account: {
+        email: string;
+      };
+    };
+    const { form, data, touched, errors, resetField } = createForm<Data>({
+      initialValues: {
+        account: {
+          email: 'zaphod@beeblebrox.com',
+        },
+      },
+      onSubmit: jest.fn(),
+    });
+
+    form(formElement);
+
+    userEvent.clear(inputElement);
+    userEvent.type(inputElement, 'jacek@soplica.com');
+    userEvent.click(formElement);
+
+    errors.set({ account: { email: 'Error' } });
+
+    await waitFor(() => {
+      expect(get(data).account.email).toBe('jacek@soplica.com');
+      expect(get(touched).account.email).toBe(true);
+      expect(get(errors).account?.email).toBe('Error');
+    });
+
+    resetField('account.email');
+
+    await waitFor(() => {
+      expect(get(data).account.email).toBe('zaphod@beeblebrox.com');
+      expect(get(touched).account.email).toBe(false);
+      expect(get(errors).account?.email).toBe(null);
+      expect(inputElement).toHaveValue('zaphod@beeblebrox.com');
+    });
   });
 });

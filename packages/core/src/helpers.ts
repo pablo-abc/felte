@@ -116,6 +116,41 @@ export function createHelpers<Data extends Obj>({
     }
   };
 
+  function unsetField(path: string) {
+    data.update(($data) => {
+      const newData = _unset($data, path);
+      if (formNode) setForm(formNode, newData);
+      return newData;
+    });
+    touched.update(($touched) => {
+      return _unset($touched, path);
+    });
+    errors.update(($errors) => {
+      return _unset($errors, path);
+    });
+    warnings.update(($warnings) => {
+      return _unset($warnings, path);
+    });
+  }
+
+  function resetField(path: string) {
+    const initialValue = _get(initialValues, path);
+    data.update(($data) => {
+      const newData = _set($data, path, initialValue);
+      if (formNode) setForm(formNode, newData);
+      return newData;
+    });
+    touched.update(($touched) => {
+      return _set($touched, path, false);
+    });
+    errors.update(($errors) => {
+      return _set($errors, path, null);
+    });
+    warnings.update(($warnings) => {
+      return _set($warnings, path, null);
+    });
+  }
+
   const setIsSubmitting = createSetHelper(isSubmitting.update);
 
   const setIsDirty = createSetHelper(isDirty.update);
@@ -143,7 +178,6 @@ export function createHelpers<Data extends Obj>({
 
   return {
     public: {
-      reset,
       setData,
       setFields,
       setTouched,
@@ -152,6 +186,9 @@ export function createHelpers<Data extends Obj>({
       setIsSubmitting,
       setIsDirty,
       validate,
+      reset,
+      unsetField,
+      resetField,
       setInitialValues: (values: Data) => {
         initialValues = values;
       },
