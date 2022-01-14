@@ -1,5 +1,27 @@
 # @felte/reporter-dom
 
+## 1.0.0-next.0
+
+### Major Changes
+
+- f59f31e: BREAKING: change export name to `reporter` to be consistent with other packages
+- 9a48a40: Pass a new property `stage` to extenders to distinguish between setup, mount and update stages
+- 2c0f874: Make type of helpers and stores looser when using a transform function
+
+### Minor Changes
+
+- 1bc036e: Change responsibility for adding `aria-invalid` to fields to `@felte/core`
+- 0c01eab: Add `level` prop to select from which store to obtain validation message. Possible values: `'error' | 'warning'`
+
+### Patch Changes
+
+- Updated dependencies [9a48a40]
+- Updated dependencies [0d22bc6]
+- Updated dependencies [3d571bb]
+- Updated dependencies [c1f32a0]
+- Updated dependencies [2c0f874]
+  - @felte/common@1.0.0-next.0
+
 ## 0.3.20
 
 ### Patch Changes

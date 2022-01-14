@@ -1,5 +1,21 @@
 # @felte/common
 
+## 1.0.0-next.0
+
+### Major Changes
+
+- 9a48a40: Pass a new property `stage` to extenders to distinguish between setup, mount and update stages
+- 0d22bc6: BREAKING: Helpers have been completely reworked.
+  `setField` and `setFields` have been unified in a single `setFields` helper.
+  Others such as `setError` and `setWarning` have been pluralized to `setErrors` and `setWarnings` since now they can accept the whole object.
+  `setTouched` now requires to be passed the value to assign. E.g. `setTouched('path')` is now `setTouched('path', true)`. It no longer accepts an index as an argument since that can be assigned in the path itself using `[]`.
+- 3d571bb: BREAKING: Remove `getField` helper in favor of `getValue` export. E.g. `getField('email')` now is `getValue($data, 'email')` and accessors.
+- 2c0f874: Make type of helpers and stores looser when using a transform function
+
+### Minor Changes
+
+- c1f32a0: Add `unsetField` and `resetField` helper functions
+
 ## 0.6.0
 
 ### Minor Changes

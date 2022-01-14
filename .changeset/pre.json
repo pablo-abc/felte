@@ -1,0 +1,40 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "@felte/common": "0.6.0",
+    "@felte/core": "0.3.0",
+    "@felte/extender-persist": "0.1.17",
+    "felte": "0.9.0",
+    "@felte/react": "0.1.1",
+    "@felte/reporter-cvapi": "0.1.16",
+    "@felte/reporter-dom": "0.3.13",
+    "@felte/reporter-react": "0.1.0",
+    "@felte/reporter-solid": "0.1.14",
+    "@felte/reporter-svelte": "0.3.20",
+    "@felte/reporter-tippy": "0.3.12",
+    "@felte/site": "0.0.8",
+    "@felte/solid": "0.3.0",
+    "@felte/validator-superstruct": "0.3.2",
+    "@felte/validator-vest": "0.1.0",
+    "@felte/validator-yup": "0.2.13",
+    "@felte/validator-zod": "0.3.8"
+  },
+  "changesets": [
+    "blue-bags-lie",
+    "calm-foxes-battle",
+    "clever-moles-switch",
+    "curvy-peas-sit",
+    "flat-beds-collect",
+    "mean-oranges-bathe",
+    "mighty-feet-remember",
+    "mighty-years-matter",
+    "purple-spoons-trade",
+    "shaggy-rabbits-tease",
+    "six-olives-exist",
+    "six-suits-fold",
+    "small-pots-jam",
+    "tall-flies-turn",
+    "tough-dogs-press"
+  ]
+}

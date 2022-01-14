@@ -1,5 +1,27 @@
 # @felte/site
 
+## 0.0.9-next.0
+
+### Patch Changes
+
+- Updated dependencies [1bc036e]
+- Updated dependencies [0c01eab]
+- Updated dependencies [c9f9d9f]
+- Updated dependencies [f59f31e]
+- Updated dependencies [a2ea0b2]
+- Updated dependencies [1dd68e7]
+- Updated dependencies [6109533]
+- Updated dependencies [9a48a40]
+- Updated dependencies [0d22bc6]
+- Updated dependencies [3d571bb]
+- Updated dependencies [c1f32a0]
+- Updated dependencies [2c0f874]
+  - @felte/reporter-dom@1.0.0-next.0
+  - @felte/reporter-svelte@1.0.0-next.0
+  - @felte/reporter-tippy@1.0.0-next.0
+  - felte@1.0.0-next.0
+  - @felte/validator-yup@1.0.0-next.0
+
 ## 0.0.8
 
 ### Patch Changes

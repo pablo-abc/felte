@@ -1,5 +1,20 @@
 # @felte/validator-yup
 
+## 1.0.0-next.0
+
+### Major Changes
+
+- 9a48a40: Pass a new property `stage` to extenders to distinguish between setup, mount and update stages
+
+### Patch Changes
+
+- Updated dependencies [9a48a40]
+- Updated dependencies [0d22bc6]
+- Updated dependencies [3d571bb]
+- Updated dependencies [c1f32a0]
+- Updated dependencies [2c0f874]
+  - @felte/common@1.0.0-next.0
+
 ## 0.1.17
 
 ### Patch Changes

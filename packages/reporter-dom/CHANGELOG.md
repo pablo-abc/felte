@@ -1,5 +1,26 @@
 # @felte/reporter-dom
 
+## 1.0.0-next.0
+
+### Major Changes
+
+- 9a48a40: Pass a new property `stage` to extenders to distinguish between setup, mount and update stages
+- 2c0f874: Make type of helpers and stores looser when using a transform function
+
+### Minor Changes
+
+- 1bc036e: Change responsibility for adding `aria-invalid` to fields to `@felte/core`
+- c9f9d9f: Add support for displaying warnings.
+
+### Patch Changes
+
+- Updated dependencies [9a48a40]
+- Updated dependencies [0d22bc6]
+- Updated dependencies [3d571bb]
+- Updated dependencies [c1f32a0]
+- Updated dependencies [2c0f874]
+  - @felte/common@1.0.0-next.0
+
 ## 0.3.13
 
 ### Patch Changes
