@@ -6,6 +6,7 @@ subsections:
   - Helpers
   - TypeScript
   - Configuration
+  - data-felte-unset-on-remove
 ---
 
 ## Migrating from 0.x
