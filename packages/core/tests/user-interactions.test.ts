@@ -9,7 +9,6 @@ import {
 import userEvent from '@testing-library/user-event';
 import { get } from 'svelte/store';
 import { isFormControl } from '@felte/common';
-import type { FelteSubmitError } from '../src';
 
 function createSelectElement({
   name,
@@ -872,96 +871,18 @@ describe('User interactions with form', () => {
     });
   });
 
-  test('submits without needing an onSubmit handler and succeeds', async () => {
-    const originalFetch = window.fetch;
-    window.fetch = jest.fn().mockResolvedValue({ ok: true });
-    const { form } = createForm();
-    const { formElement } = createLoginForm();
-    formElement.action = '/test';
-    formElement.method = 'post';
-    form(formElement);
-    formElement.submit();
-
-    await waitFor(() => {
-      expect(window.fetch).toHaveBeenCalledWith(
-        expect.stringContaining('/test'),
-        expect.objectContaining({
-          method: 'post',
-        })
-      );
-    });
-    window.fetch = originalFetch;
-  });
-
-  test('submits without needing an onSubmit handler and throws', async () => {
-    const originalFetch = window.fetch;
-    const mockJson = jest.fn(async () => ({ message: 'Error' }));
-    window.fetch = jest.fn().mockResolvedValue({ ok: false, json: mockJson });
-    let error: FelteSubmitError | undefined;
-    const { form } = createForm({
-      onError(err) {
-        error = err as FelteSubmitError;
-      },
-    });
-    const { formElement } = createLoginForm();
-    formElement.action = '/test';
-    formElement.method = 'post';
-    form(formElement);
-    formElement.submit();
-
-    await waitFor(() => {
-      expect(window.fetch).toHaveBeenCalledWith(
-        expect.stringContaining('/test'),
-        expect.objectContaining({
-          method: 'post',
-        })
-      );
-      expect(error).toBeTruthy();
-      expect(error!.name).toBe('FelteSubmitError');
-      expect(error!.response).toEqual({ message: 'Error' });
-      expect(mockJson).toHaveBeenCalled();
-    });
-
-    const mockFailJson = jest.fn(() => Promise.reject());
-    window.fetch = jest
-      .fn()
-      .mockResolvedValue({ ok: false, json: mockFailJson });
-
-    formElement.submit();
-
-    await waitFor(() => {
-      expect(window.fetch).toHaveBeenCalledWith(
-        expect.stringContaining('/test'),
-        expect.objectContaining({
-          method: 'post',
-        })
-      );
-      expect(error).toBeTruthy();
-      expect(error!.name).toBe('FelteSubmitError');
-      expect(error!.response).toBe(undefined);
-      expect(mockFailJson).toHaveBeenCalled();
-    });
-    window.fetch = originalFetch;
-  });
-
   test('submits without requestSubmit', async () => {
     const originalFetch = window.fetch;
     window.fetch = jest.fn().mockResolvedValue({ ok: true });
-    const { form } = createForm();
+    const onSubmit = jest.fn();
+    const { form } = createForm({ onSubmit });
     const { formElement } = createLoginForm();
     formElement.requestSubmit = undefined as any;
-    formElement.action = '/test';
-    formElement.method = 'post';
     form(formElement);
     formElement.submit();
 
     await waitFor(() => {
-      expect(window.fetch).toHaveBeenCalledWith(
-        expect.stringContaining('/test'),
-        expect.objectContaining({
-          method: 'post',
-        })
-      );
+      expect(onSubmit).toHaveBeenCalled();
     });
     window.fetch = originalFetch;
   });

@@ -40,22 +40,6 @@ Felte is a simple to use form library for Svelte. It is based on Svelte stores a
 </form>
 ```
 
-If your `onSubmit` would only require you to send your data to a server (either via `POST` or `GET`) you don't even need an `onSubmit` handler by ussing the `action` and `method` attributes:
-
-```html
-<script>
-  import { createForm } from 'felte'
-
-  const { form } = createForm()
-</script>
-
-<form use:form action="/example-signin" method="post">
-  <input type=text name=email>
-  <input type=password name=password>
-  <input type=submit value="Sign in">
-</form>
-```
-
 ## Installation
 
 ```sh

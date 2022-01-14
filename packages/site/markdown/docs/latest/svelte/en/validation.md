@@ -52,10 +52,6 @@ const { form } = createForm({
 });
 ```
 
-If you're submitting your form by using Felte's default submit using the `action` and `method` attributes of your form element, Felte will throw an error of type `FelteSubmitError`. Its instance may contain a property called `response` with an object containing the response from the server.
-
-> `FelteSubmitError` is exported from `felte`, allowing you to use it to compare it with `instanceof`.
-
 ### Error handling
 
 `createForm` returns also its `errors` and `touched` fields as stores.

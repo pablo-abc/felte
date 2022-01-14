@@ -39,23 +39,6 @@ const Form = () => {
 }
 ```
 
-If your `onSubmit` would only require you to send your data to a server (either via `POST` or `GET`) you don't even need an `onSubmit` handler by using the `action` and `method` attributes:
-
-```jsx
-import { createForm } from '@felte/solid';
-
-const Form = () => {
-  const { form } = createForm();
-  return (
-    <form use:form action="/example-signin" method="post">
-      <input type="text" name="email" />
-      <input type="password" name="password" />
-      <input type="submit" value="Sign in" />
-    </form>
-  )
-}
-```
-
 ## Installation
 
 ```sh

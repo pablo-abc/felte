@@ -37,33 +37,6 @@ import {
 } from '@felte/common';
 import { get } from './get';
 
-export class FelteSubmitError extends Error {
-  constructor(message: string, response?: unknown) {
-    super(message);
-    this.name = 'FelteSubmitError';
-    this.response = response;
-  }
-
-  response: unknown;
-}
-
-async function defaultOnSubmit<Data extends Obj>(
-  form: HTMLFormElement,
-  values: Data
-) {
-  const { action, method } = form;
-  const response = await fetch(action, {
-    method,
-    body: JSON.stringify(values),
-    headers: { 'Content-Type': 'application/json' },
-  });
-  if (response.ok) return;
-  throw new FelteSubmitError(
-    'An error occurred while the form was being submitted.',
-    await response.json().catch(() => undefined)
-  );
-}
-
 type Configuration<Data extends Obj> = {
   stores: Stores<Data>;
   config: FormConfig<Data>;
@@ -114,8 +87,8 @@ export function createFormAction<Data extends Obj>({
     const warn = altConfig?.warn ?? config.warn;
     const onError = altConfig?.onError ?? config.onError;
     return async function handleSubmit(event?: Event) {
+      if (!onSubmit) return;
       const formNode = _getFormNode();
-      if (!formNode && !onSubmit) return;
       event?.preventDefault();
       isSubmitting.set(true);
       const currentData = get(data);
@@ -141,16 +114,12 @@ export function createFormAction<Data extends Obj>({
         }
       }
       try {
-        if (onSubmit) {
-          await onSubmit(currentData, {
-            form: formNode,
-            controls:
-              formNode && Array.from(formNode.elements).filter(isFormControl),
-            config: { ...config, ...altConfig },
-          });
-        } else if (formNode) {
-          await defaultOnSubmit<Data>(formNode, currentData);
-        }
+        await onSubmit(currentData, {
+          form: formNode,
+          controls:
+            formNode && Array.from(formNode.elements).filter(isFormControl),
+          config: { ...config, ...altConfig },
+        });
       } catch (e) {
         if (!onError) throw e;
         const serverErrors = onError(e);
@@ -170,8 +139,6 @@ export function createFormAction<Data extends Obj>({
   }
 
   const handleSubmit = createSubmitHandler();
-
-  let mounted = false;
 
   function form(node: HTMLFormElement) {
     if (!node.requestSubmit)
