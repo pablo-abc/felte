@@ -35,7 +35,7 @@ export default [
       }),
       resolve({ browser: true }),
       commonjs(),
-      typescript(),
+      typescript({ browserslist: false }),
 
       prod && bundleSize(),
     ],
@@ -60,6 +60,7 @@ export default [
       commonjs(),
       typescript({
         declarationDir: './dist/esm',
+        browserslist: false,
       }),
     ],
   },

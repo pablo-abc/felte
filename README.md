@@ -185,3 +185,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 ## License
 
 MIT
+
+## Browser support
+
+While further testing would be needed to provide an accurate answer, Felte should work in all evergreen browsers. Polyfills might be needed if you target older browsers such as IE 11 for, at least, `Promise.all`, `Element.closest` and iterators.
