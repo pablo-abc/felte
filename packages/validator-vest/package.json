@@ -1,6 +1,6 @@
 {
   "name": "@felte/validator-vest",
-  "version": "1.0.0-next.1",
+  "version": "1.0.0-next.2",
   "description": "A package to use Vest validation with Felte",
   "main": "dist/index.js",
   "browser": "dist/index.js",

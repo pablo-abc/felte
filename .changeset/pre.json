@@ -21,6 +21,7 @@
     "@felte/validator-zod": "0.3.8"
   },
   "changesets": [
+    "angry-cooks-yell",
     "blue-bags-lie",
     "calm-foxes-battle",
     "clever-moles-switch",

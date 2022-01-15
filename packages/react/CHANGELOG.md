@@ -1,5 +1,16 @@
 # @felte/react
 
+## 1.0.0-next.3
+
+### Minor Changes
+
+- 6f48123: Add `addField` helper function
+
+### Patch Changes
+
+- Updated dependencies [6f48123]
+  - @felte/core@1.0.0-next.3
+
 ## 1.0.0-next.2
 
 ### Major Changes

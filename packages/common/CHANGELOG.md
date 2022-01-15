@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.0.0-next.2
+
+### Minor Changes
+
+- 6f48123: Add `addField` helper function
+
 ## 1.0.0-next.1
 
 ### Major Changes
