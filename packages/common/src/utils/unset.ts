@@ -18,13 +18,18 @@ export function _unset<Data extends Obj>(
   const newPath = !Array.isArray(path)
     ? path.toString().match(/[^.[\]]+/g) || []
     : path;
-  delete newPath.slice(0, -1).reduce(
+  const foundProp = newPath.slice(0, -1).reduce(
     (a: any, c: any) =>
       Object(a[c]) === a[c] // Does the key exist and is its value an object?
         ? // Yes: then follow that path
           a[c]
         : undefined,
     obj
-  )?.[newPath[newPath.length - 1]];
+  );
+  if (Array.isArray(foundProp)) {
+    foundProp.splice(Number(newPath[newPath.length - 1]), 1);
+  } else {
+    delete foundProp?.[newPath[newPath.length - 1]];
+  }
   return obj as Data; // Return the top-level object to allow chaining
 }

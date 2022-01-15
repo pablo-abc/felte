@@ -282,7 +282,7 @@ describe('Utils', () => {
         username: 'test',
         password: '',
         confirm: '',
-        preferences: ['tech'],
+        preferences: ['tech', 'sports', 'fashion'],
       },
     };
 
@@ -293,6 +293,9 @@ describe('Utils', () => {
     expect(_unset(testObj, ['account', 'confirm']).account.confirm).toBe(
       undefined
     );
+    expect(
+      _unset(testObj, 'account.preferences[1]').account.preferences
+    ).toEqual(['tech', 'fashion']);
     expect(_unset(undefined, 'account.noExist')).toBe(undefined);
     expect(_unset({}, 'account.noExist')).toEqual({});
   });

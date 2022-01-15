@@ -131,7 +131,7 @@ describe('Form action DOM mutations', () => {
     await waitFor(() => {
       expect(data()).toEqual({
         outerSecondary: '',
-        multiple: [undefined, '', undefined],
+        multiple: [''],
         inner: {
           innerSecondary: '',
         },

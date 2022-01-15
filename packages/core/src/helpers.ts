@@ -115,19 +115,19 @@ export function createHelpers<Data extends Obj>({
   };
 
   function unsetField(path: string) {
-    data.update(($data) => {
-      const newData = _unset($data, path);
-      if (formNode) setForm(formNode, newData);
-      return newData;
-    });
-    touched.update(($touched) => {
-      return _unset($touched, path);
-    });
     errors.update(($errors) => {
       return _unset($errors, path);
     });
     warnings.update(($warnings) => {
       return _unset($warnings, path);
+    });
+    touched.update(($touched) => {
+      return _unset($touched, path);
+    });
+    data.update(($data) => {
+      const newData = _unset($data, path);
+      if (formNode) setForm(formNode, newData);
+      return newData;
     });
   }
 
