@@ -19,7 +19,8 @@ export function _unset<Data extends Obj>(
   const newPath = !Array.isArray(path)
     ? path.toString().match(/[^.[\]]+/g) || []
     : path;
-  const foundProp: any = _get(obj, newPath.slice(0, -1).join('.'));
+  const foundProp: any =
+    newPath.length === 1 ? obj : _get(obj, newPath.slice(0, -1).join('.'));
   if (Array.isArray(foundProp)) {
     foundProp.splice(Number(newPath[newPath.length - 1]), 1);
   } else {
