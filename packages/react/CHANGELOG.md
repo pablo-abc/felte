@@ -1,12 +1,27 @@
 # @felte/react
 
+## 1.0.0-next.2
+
+### Major Changes
+
+- 77de471: BREAKING: Stop proxying inputs. This was causing all sorts of race conditions which were a headache to solve. Instead we're going to keep a single recommendation: If you wish to programatically set the value of an input, use the `setFields` helper.
+- 02a77e3: BREAKING: When removing an input from an array of inputs, Felte now splices the array instead of setting the value to `null`/`undefined`. This means that an `index` on an array of inputs is no longer a _unique_ identifier and the value can move around if fields are added/removed.
+
+### Patch Changes
+
+- Updated dependencies [77de471]
+- Updated dependencies [02a77e3]
+  - @felte/core@1.0.0-next.2
+
 ## 1.0.0-next.0
+
 ### Major Changes
 
 - a2ea0b2: BREAKING: `setFields` no longer touches a field by default. It needs to be explicit and it's only possible when passing a string path. E.g. `setField(‘email’ , 'zaphod@beeblebrox.com')` now is `setFields('email', 'zaphod@beeblebrox.com', true)`.
 - 1dd68e7: BREAKING: Remove `data-felte-unset-on-remove` in favour of `data-felte-keep-on-remove`. Felte will now remove fields by default if removed from the DOM.
-  
+
   To keep the same behaviour as before, add `data-felte-keep-on-remove` to any dynamic inputs you had that didn't have `data-felte-unset-on-remove` previously. And remove `data-felte-unset-on-remove` from the inputs that had it, or replace it for `data-felte-keep-on-remove="false"` if it was used to override a parent's attribute.
+
 - 6109533: BREAKING: apply transforms to initialValues
 - 0d22bc6: BREAKING: Helpers have been completely reworked.
   `setField` and `setFields` have been unified in a single `setFields` helper.

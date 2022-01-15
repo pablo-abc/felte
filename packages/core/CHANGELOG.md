@@ -1,5 +1,17 @@
 # @felte/core
 
+## 1.0.0-next.2
+
+### Major Changes
+
+- 77de471: BREAKING: Stop proxying inputs. This was causing all sorts of race conditions which were a headache to solve. Instead we're going to keep a single recommendation: If you wish to programatically set the value of an input, use the `setFields` helper.
+- 02a77e3: BREAKING: When removing an input from an array of inputs, Felte now splices the array instead of setting the value to `null`/`undefined`. This means that an `index` on an array of inputs is no longer a _unique_ identifier and the value can move around if fields are added/removed.
+
+### Patch Changes
+
+- Updated dependencies [02a77e3]
+  - @felte/common@1.0.0-next.1
+
 ## 1.0.0-next.0
 
 ### Major Changes
