@@ -1,5 +1,13 @@
 # @felte/validator-yup
 
+## 1.0.0-next.3
+
+### Patch Changes
+
+- 8c29b4a: Fix unset on Safari
+- Updated dependencies [8c29b4a]
+  - @felte/common@1.0.0-next.3
+
 ## 1.0.0-next.2
 
 ### Patch Changes
