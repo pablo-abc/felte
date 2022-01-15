@@ -5,6 +5,8 @@ subsections:
   - TypeScript
   - Configuration
   - data-felte-unset-on-remove
+  - Dynamic forms
+  - Proxies
 ---
 
 ## Migrating from 0.x felte or @felte/solid
@@ -87,3 +89,50 @@ If you want to keep the same behaviour as before:
 * Add `data-felte-keep-on-remove` to any removable control you had that did not have a `data-felte-unset-on-remove`or had `data-felte-unset-on-remove="false"` previously.
 
 * Remove `data-felte-unset-on-remove="true"` to inputs that had it, or add `data-felte-keep-on-remove="false"` if it was used to override a fieldset.
+
+### Dynamic forms
+
+On v0.x, if you had an array of fields with this data:
+
+```javascript
+const data = {
+  multipleFields: [
+    'value 1',
+    'value 2',
+    'value 3',
+  ],
+};
+```
+
+And removed the field with a value of `value 2`, the resulting `data` store would look like this:
+
+```javascript
+const data = {
+  multipleFields: [
+    'value 1',
+    null,
+    'value 3',
+  ],
+};
+```
+
+This is no longer the case. Felte now will splice the array, making the resulting `data` store look like:
+
+```javascript
+const data = {
+  multipleFields: [
+    'value 1',
+    'value 3',
+  ],
+};
+```
+
+Felte will also properly keep track of the `errors`, `warnings` and `touched` stores internally.
+
+Originally we thought it would be a good idea to make the index a _unique_ identifier for a field, hence setting values to `null` instead of removing it completely. This conflicted with how most people expected this to work, and with how most people attempted to create array of fields in Felte.
+
+### Proxies
+
+Programatically setting the value of an input component using its `value` prop/attribute directly does not trigger any kind of events that Felte can catch. In order to make this more seamless we originally added a proxy to the inputs of forms tracket by Felte. This ended up causing many race conditions and issues that were difficult to debug (and some we did not manage to solve). To ease maintainability, we've decided to remove this.
+
+The recommended way to programatically change the value of a field is now to use the `setFields` helper, which will update _both_ the `data` store and input's value.
