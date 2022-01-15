@@ -3,6 +3,7 @@ import { waitFor, screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import {
   createInputElement,
+  createMultipleInputElements,
   createDOM,
   cleanupDOM,
   createForm,
@@ -557,6 +558,85 @@ describe('Helpers', () => {
       expect(get(touched).account.email).toBe(false);
       expect(get(errors).account?.email).toBe(null);
       expect(inputElement).toHaveValue('zaphod@beeblebrox.com');
+    });
+  });
+
+  test('addField and unsetField add and remove fields accordingly', async () => {
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const multipleInputs = createMultipleInputElements(
+      {
+        name: 'todos',
+      },
+      3
+    );
+    formElement.append(...multipleInputs);
+    type Data = {
+      todos: string[];
+    };
+    const {
+      form,
+      data,
+      touched,
+      errors,
+      addField,
+      unsetField,
+    } = createForm<Data>({
+      initialValues: {
+        todos: new Array(3).fill(''),
+      },
+      onSubmit: jest.fn(),
+    });
+
+    form(formElement);
+
+    userEvent.type(multipleInputs[0], 'First todo');
+    userEvent.type(multipleInputs[1], 'Third todo');
+    userEvent.type(multipleInputs[2], 'Fourth todo');
+
+    errors.set({ todos: ['', 'Invalid', ''] });
+
+    await waitFor(() => {
+      expect(get(data).todos[1]).toBe('Third todo');
+      expect((get(touched).todos as boolean[])[1]).toBe(true);
+      expect(get(errors).todos?.[1]).toBe('Invalid');
+    });
+
+    addField('todos', 'Second todo', 1);
+
+    await waitFor(() => {
+      expect(get(data).todos[1]).toBe('Second todo');
+      expect((get(touched).todos as boolean[])[1]).toBe(false);
+      expect(get(errors).todos?.[1]).toBe(null);
+      expect(multipleInputs[1]).toHaveValue('Second todo');
+      expect(get(data).todos[2]).toBe('Third todo');
+      expect((get(touched).todos as boolean[])[2]).toBe(true);
+      expect(get(errors).todos?.[2]).toBe('Invalid');
+      expect(multipleInputs[2]).toHaveValue('Third todo');
+    });
+
+    unsetField('todos[2]');
+
+    await waitFor(() => {
+      expect(get(data).todos[1]).toBe('Second todo');
+      expect((get(touched).todos as boolean[])[1]).toBe(false);
+      expect(get(errors).todos?.[1]).toBe(null);
+      expect(multipleInputs[1]).toHaveValue('Second todo');
+      expect(get(data).todos[2]).toBe('Fourth todo');
+      expect((get(touched).todos as boolean[])[2]).toBe(false);
+      expect(get(errors).todos?.[2]).toBe(null);
+      expect(multipleInputs[2]).toHaveValue('Fourth todo');
+    });
+
+    addField('todos', 'Fifth todo');
+
+    await waitFor(() => {
+      expect(get(data).todos[2]).toBe('Fourth todo');
+      expect((get(touched).todos as boolean[])[2]).toBe(false);
+      expect(get(errors).todos?.[2]).toBe(null);
+      expect(multipleInputs[2]).toHaveValue('Fourth todo');
+      expect(get(data).todos[3]).toBe('Fifth todo');
+      expect((get(touched).todos as boolean[])[3]).toBe(false);
+      expect(get(errors).todos?.[3]).toBe(null);
     });
   });
 });

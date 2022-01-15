@@ -6,6 +6,7 @@ subsections:
   - reset
   - unsetField
   - resetField
+  - addField
   - setInitialValues
   - createSubmitHandler
 ---
@@ -88,7 +89,7 @@ A function that resets all inputs and the `data` store to its original values. I
 A function that completely removes a field from the `data`, `errors`, `warnings` and `touched` stores. It accepts the path of the field as a first argument as a string.
 
 ```javascript
-unsetField('account.email')
+unsetField('account.email');
 ```
 
 ### resetField
@@ -98,6 +99,23 @@ A function that resets a specific field to its initial value. It accepts the pat
 ```javascript
 resetField('account.email');
 ```
+
+### addField
+
+A function specifically to be used when dealing with arrays of inputs. It adds the value provided as second argument to the end of the array in the path provided on the first argument. It accepts an index as a third argument to specify where specifically the field should be added.
+
+```javascript
+// Assuming the property 'todos' contains an array of strings
+
+// Adds an empty string to the end of the array in `todos`
+addField('todos', '');
+
+// Adds an empty string to index 2 of the array (pushing the rest a position)
+addField('todos', '', 2);
+```
+
+`addField` updates the respective properties on `touched`, `errors` and `warnings` accordingly.
+
 ### setInitialValues
 
 A helper function that sets the initialValues Felte handles internally. If called after initialization of the form, these values will be used when calling `reset`. It accepts an object with the same shape as your `data` as a first argument.

@@ -100,6 +100,12 @@ export type Helpers<Data extends Obj> = {
   unsetField(path: string): void;
   /** Helper function to reset a field to its initial value */
   resetField(path: string): void;
+  /** Helper function that adds a field to an array of fields, by default at the end but you can define at which index you want the new item */
+  addField(
+    path: string,
+    value: FieldValue | FieldValue[],
+    index?: number
+  ): void;
   /** Helper function that validates every fields and touches all of them. It updates the `errors` and `warnings` store. */
   validate(): Promise<Errors<Data> | void>;
   /** Helper function to re-set the initialValues of Felte. No reactivity will be triggered but this will be the data the form will be reset to when caling `reset`. */

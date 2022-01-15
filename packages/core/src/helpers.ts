@@ -21,6 +21,7 @@ import {
   _merge,
   _set,
   _unset,
+  _update,
 } from '@felte/common';
 import { get } from './get';
 
@@ -31,6 +32,23 @@ type CreateHelpersOptions<Data extends Obj> = {
   addValidator(validator: ValidationFunction<Data>): void;
   addTransformer(transformer: TransformFunction<Data>): void;
 };
+
+function addAtIndex<Data extends Obj>(
+  storeValue: Data,
+  path: string,
+  value: any,
+  index?: number
+) {
+  return _update(storeValue, path, (oldValue) => {
+    if (!Array.isArray(oldValue)) return oldValue;
+    if (typeof index === 'undefined') {
+      oldValue.push(value);
+    } else {
+      oldValue.splice(index, 0, value);
+    }
+    return oldValue;
+  });
+}
 
 function isUpdater<T>(value: unknown): value is (value: T) => T {
   return typeof value === 'function';
@@ -131,6 +149,27 @@ export function createHelpers<Data extends Obj>({
     });
   }
 
+  function addField(
+    path: string,
+    value: FieldValue | FieldValue[],
+    index?: number
+  ) {
+    errors.update(($errors) => {
+      return addAtIndex($errors, path, null, index);
+    });
+    warnings.update(($warnings) => {
+      return addAtIndex($warnings, path, null, index);
+    });
+    touched.update(($touched) => {
+      return addAtIndex($touched, path, false, index);
+    });
+    data.update(($data) => {
+      const newData = addAtIndex($data, path, value, index);
+      setTimeout(() => formNode && setForm(formNode, newData));
+      return newData;
+    });
+  }
+
   function resetField(path: string) {
     const initialValue = _get(initialValues, path);
     data.update(($data) => {
@@ -187,6 +226,7 @@ export function createHelpers<Data extends Obj>({
       reset,
       unsetField,
       resetField,
+      addField,
       setInitialValues: (values: Data) => {
         initialValues = values;
       },
