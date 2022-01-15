@@ -164,50 +164,6 @@ export function createFormAction<Data extends Obj>({
       };
     }
 
-    function proxyInputs() {
-      for (const control of Array.from(node.elements).filter(isFormControl)) {
-        if (shouldIgnore(control) || !control.name) continue;
-        let propName = 'value';
-        if (
-          isInputElement(control) &&
-          ['checkbox', 'radio'].includes(control.type)
-        ) {
-          propName = 'checked';
-        }
-        if (isInputElement(control) && control.type === 'file') {
-          propName = 'files';
-        }
-        const prop = Object.getOwnPropertyDescriptor(
-          isSelectElement(control)
-            ? HTMLSelectElement.prototype
-            : isTextAreaElement(control)
-            ? HTMLTextAreaElement.prototype
-            : HTMLInputElement.prototype,
-          propName
-        );
-        Object.defineProperty(control, propName, {
-          configurable: true,
-          set(newValue) {
-            prop?.set?.call(control, newValue);
-
-            if (isInputElement(control)) {
-              if (control.type === 'checkbox')
-                return setCheckboxValues(control);
-              if (control.type === 'radio') return setRadioValues(control);
-              if (control.type === 'file') return setFileValue(control);
-            }
-            const inputValue = isSelectElement(control)
-              ? control.value
-              : getInputTextOrNumber(control);
-            data.update(($data) => {
-              return _set($data, getPath(control), inputValue);
-            });
-          },
-          get: prop?.get,
-        });
-      }
-    }
-
     _setCurrentExtenders(extender.map(callExtender('MOUNT')));
     node.noValidate = !!config.validate;
     const { defaultData } = getFormDefaultValues<Data>(node);
@@ -319,23 +275,23 @@ export function createFormAction<Data extends Obj>({
     const mutationOptions = { childList: true, subtree: true };
 
     function unsetTaggedForRemove(formControls: FormControl[]) {
-      for (const control of formControls) {
+      for (const control of formControls.reverse()) {
         if (
           control.hasAttribute('data-felte-keep-on-remove') &&
           control.dataset.felteKeepOnRemove !== 'false'
         )
           continue;
-        data.update(($data) => {
-          return _unset($data, getPathFromDataset(control));
-        });
-        touched.update(($touched) => {
-          return _unset($touched, getPathFromDataset(control));
-        });
         errors.update(($errors) => {
           return _unset($errors, getPathFromDataset(control));
         });
         warnings.update(($warnings) => {
           return _unset($warnings, getPathFromDataset(control));
+        });
+        touched.update(($touched) => {
+          return _unset($touched, getPathFromDataset(control));
+        });
+        data.update(($data) => {
+          return _unset($data, getPathFromDataset(control));
         });
       }
     }
@@ -344,7 +300,6 @@ export function createFormAction<Data extends Obj>({
       for (const mutation of mutationList) {
         if (mutation.type !== 'childList') continue;
         if (mutation.addedNodes.length > 0) {
-          proxyInputs();
           const shouldUpdate = Array.from(mutation.addedNodes).some((node) => {
             if (!isElement(node)) return false;
             if (isFormControl(node)) return true;
@@ -379,7 +334,6 @@ export function createFormAction<Data extends Obj>({
     const observer = new MutationObserver(mutationCallback);
 
     observer.observe(node, mutationOptions);
-    proxyInputs();
     node.addEventListener('input', handleInput);
     node.addEventListener('change', handleChange);
     node.addEventListener('focusout', handleBlur);
