@@ -4,7 +4,7 @@
 [![NPM Version](https://img.shields.io/npm/v/@felte/solid)](https://www.npmjs.com/package/@felte/solid)
 
 
-Felte is a simple to use form library originally built for Svelte but only needing minor modifications to work well with Solid. For Solid its functionality is based on the `use` directive. No `Field` or `Form` components, just plain stores and directives to build your form however you like. You can see it in action in this [CodeSandbox demo](https://codesandbox.io/s/felte-demo-solidjs-w92uj?file=/src/main.tsx)!
+Felte is a simple to use form library originally built for Svelte but only needing minor modifications to work well with Solid. For Solid its functionality is based on the `use` directive. No `Field` or `Form` components, just plain stores and directives to build your form however you like. You can see it in action in this [CodeSandbox demo](https://codesandbox.io/s/felte-v1-demo-solidjs-rt0cm?from-embed=&file=/src/main.tsx)!
 
 ## Features
 
