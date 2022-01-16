@@ -1,5 +1,11 @@
 # felte
 
+## 1.0.0-next.5
+
+### Patch Changes
+
+- @felte/core@1.0.0-next.5
+
 ## 1.0.0-next.4
 
 ### Patch Changes

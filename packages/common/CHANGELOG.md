@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.0.0-next.5
+
+### Patch Changes
+
+- e2f4e18: Clone object on update function
+
 ## 1.0.0-next.3
 
 ### Patch Changes
