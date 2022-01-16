@@ -42,7 +42,7 @@ export function Form() {
   });
 
   return (
-    <form use:form action="/example" method="post">
+    <form ref={form} action="/example" method="post">
       <input type="text" name="email" />
       <input type="password" name="password" />
       <button type="submit">Sign In</button>
@@ -80,7 +80,7 @@ export function Form() {
   });
 
   return (
-    <form use:form>
+    <form ref={form}>
       <input type="text" name="email" />
       <input type="password" name="password" />
       <button type="submit">Sign In</button>

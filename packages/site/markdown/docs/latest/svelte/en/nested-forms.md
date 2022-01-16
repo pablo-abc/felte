@@ -45,6 +45,8 @@ Another, arguably, more organized way to do this would be by using the HTML `fie
 </form>
 ```
 
+> **NOTE**: This **can not** be used when using Felte's default submit handler. Even though the `name` attribute is valid for a `fieldset` element, it is not used by the browser to submit data.
+
 This form would create a `data` store with the same shape as above.
 
 Names may also contain an `index` (e.g. `"email[0]"`) to indicate that the value should be set in that specific index of an array. This is useful when handling multiple values or generating inputs from an array. This works in both a `fieldset` element and controls.
