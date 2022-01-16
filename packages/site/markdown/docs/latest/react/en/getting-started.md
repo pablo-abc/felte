@@ -30,7 +30,25 @@ export function Form() {
     <form ref={form}>
       <input type="text" name="email" />
       <input type="password" name="password" />
-      <input type="submit" value="Sign in" />
+      <button type="submit">Sign In</button>
+    </form>
+  );
+}
+```
+
+The `onSubmit` handler is actually optional. If no handler is provided, Felte will send a request using `fetch` with the `action`, `method` and `enctype` attributes of your `form` element. It will send the request as `multipart/form-data` if you specify it with the `enctype` (which you should do if your form contains an `<input type=file>`), or `application/x-www-form-urlencoded`.
+
+```jsx
+import { useForm } from '@felte/react';
+
+export function Form() {
+  const { form } = useForm();
+
+  return (
+    <form ref={form} action="/example" method="post">
+      <input type="text" name="email" />
+      <input type="password" name="password" />
+      <button type="submit">Sign In</button>
     </form>
   );
 }

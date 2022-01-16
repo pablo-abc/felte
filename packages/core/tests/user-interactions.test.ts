@@ -885,7 +885,7 @@ describe('User interactions with form', () => {
     });
   });
 
-  test('submits with default action', async () => {
+  test('submits post request with default action', async () => {
     window.fetch = jest.fn().mockResolvedValue({ ok: true });
     const onSuccess = jest.fn();
     const eventOnSuccess = jest.fn();
@@ -906,6 +906,37 @@ describe('User interactions with form', () => {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
+        })
+      );
+      expect(onSuccess).toHaveBeenCalledWith(
+        expect.objectContaining({
+          ok: true,
+        })
+      );
+    });
+  });
+
+  test('submits get request with default action', async () => {
+    window.fetch = jest.fn().mockResolvedValue({ ok: true });
+    const onSuccess = jest.fn();
+    const eventOnSuccess = jest.fn();
+    const { form } = createForm({ onSuccess });
+    const { formElement, emailInput } = createLoginForm();
+    formElement.action = '/example';
+    formElement.method = 'get';
+    formElement.addEventListener('feltesuccess', eventOnSuccess);
+    form(formElement);
+
+    userEvent.type(emailInput, 'zaphod@beeblebrox.com');
+    formElement.submit();
+
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledWith(
+        expect.stringContaining(
+          '/example?email=zaphod%40beeblebrox.com&password='
+        ),
+        expect.objectContaining({
+          method: 'get',
         })
       );
       expect(onSuccess).toHaveBeenCalledWith(

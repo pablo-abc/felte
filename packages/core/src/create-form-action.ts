@@ -59,25 +59,41 @@ function createDefaultSubmitHandler(form?: HTMLFormElement) {
   if (!form) return;
   return async function onSubmit(): Promise<SuccessResponse> {
     let body: FormData | URLSearchParams = new FormData(form);
-    const action = form.action;
-    const query = action.split('?')[1];
-    const method = new URLSearchParams(query).get('_method') || form.method;
+    const action = new URL(form.action);
+    const method =
+      form.method.toLowerCase() === 'get'
+        ? 'get'
+        : action.searchParams.get('_method') || form.method;
     let enctype = form.enctype;
 
     if (form.querySelector('input[type="file"]')) {
       enctype = 'multipart/form-data';
     }
-    if (enctype === 'application/x-www-form-urlencoded') {
+    if (method === 'get' || enctype === 'application/x-www-form-urlencoded') {
       body = new URLSearchParams(body as any);
     }
 
-    const response: FetchResponse = await fetch(action, {
-      body,
-      method,
-      headers: {
-        'Content-Type': enctype,
-      },
-    });
+    let fetchOptions: RequestInit;
+
+    if (method === 'get') {
+      (body as URLSearchParams).forEach((value, key) => {
+        action.searchParams.append(key, value);
+      });
+      fetchOptions = { method };
+    } else {
+      fetchOptions = {
+        method,
+        body,
+        headers: {
+          'Content-Type': enctype,
+        },
+      };
+    }
+
+    const response: FetchResponse = await fetch(
+      action.toString(),
+      fetchOptions
+    );
 
     if (response.ok) return response;
     throw new FelteSubmitError(
