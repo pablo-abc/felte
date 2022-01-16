@@ -1,5 +1,6 @@
 import type { Obj, FieldValue } from '../types';
 import { _get } from './get';
+import { _cloneDeep } from './cloneDeep';
 
 /** @ignore */
 export function _update<Data extends Obj, Value = FieldValue>(
@@ -7,7 +8,9 @@ export function _update<Data extends Obj, Value = FieldValue>(
   path: string,
   updater: (value: Value) => Value
 ) {
-  if (Object(obj) !== obj) obj = {} as Data; // When obj is not an object
+  if (Object(obj) !== obj) obj = {} as Data;
+  // When obj is not an object
+  else if (typeof obj !== 'undefined') obj = _cloneDeep<Data>(obj);
   // If not yet an array, get the keys from the string-path
   const newPath = path.toString().match(/[^.[\]]+/g) || [];
   newPath.slice(0, -1).reduce(

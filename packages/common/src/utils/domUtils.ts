@@ -106,11 +106,15 @@ export function getFormDefaultValues<Data extends Obj>(
           continue;
         }
         if (Array.isArray(_get(defaultData, elName)) && el.checked) {
-          _update<Data, string[]>(defaultData, elName, (value) => {
-            if (typeof index !== 'undefined' && !Array.isArray(value))
-              value = [];
-            return [...value, el.value];
-          });
+          defaultData = _update<Data, string[]>(
+            defaultData,
+            elName,
+            (value) => {
+              if (typeof index !== 'undefined' && !Array.isArray(value))
+                value = [];
+              return [...value, el.value];
+            }
+          );
         }
         continue;
       }
