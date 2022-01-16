@@ -40,7 +40,7 @@ Felte will validate whichever field it considers as `touched` as you fill the fo
 
 ### Server errors
 
-You can add an `onError` function to the `useForm` configuration that will be called if the `onSubmit` function throws an error. It will be called with the value thrown from the `onSubmit` function. You can use the `onError` function to shape your server errors into the same shape that the `validate` function expects and return them from the same function for them to be handled.
+You can add an `onError` function to the `useForm` configuration that will be called if the `onSubmit` function throws an error. It will be called with the value thrown from the `onSubmit` function, or with an instance of `FelteSubmitError` if using Felte's default submit handler. You can use the `onError` function to shape your server errors into the same shape that the `validate` function expects and return them from the same function for them to be handled.
 
 ```javascript
 const { form } = useForm({

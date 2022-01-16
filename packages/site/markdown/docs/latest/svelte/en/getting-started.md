@@ -50,6 +50,8 @@ The `onSubmit` handler is actually optional. If no handler is provided, Felte wi
 </form>
 ```
 
+> You can read more about the different ways to submit your forms in the [submitting section](/docs/svelte/submitting).
+
 Felte does not export any components like `Form`, `Field` or anything like that, but you do need to make felte aware of your inputs by assigning a **name** to them.
 
 Felte also offers [validation handling](/docs/svelte/validation) and [error reporting](/docs/svelte/reporters) but this is all you need for the most basic, validation-less form.

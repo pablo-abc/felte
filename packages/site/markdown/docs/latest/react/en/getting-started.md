@@ -54,6 +54,8 @@ export function Form() {
 }
 ```
 
+> You can read more about the different ways to submit your forms in the [submitting section](/docs/react/submitting).
+
 Felte does not export any components like `Form`, `Field` or anything like that, but you do need to make felte aware of your inputs by assigning a **name** to them.
 
 In its most basic form (such as the previous example), using Felte does not trigger any re-renders at all.

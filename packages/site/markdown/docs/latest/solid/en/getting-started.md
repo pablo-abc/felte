@@ -54,6 +54,8 @@ export function Form() {
 }
 ```
 
+> You can read more about the different ways to submit your forms in the [submitting section](/docs/solid/submitting).
+
 Felte does not export any components like `Form`, `Field` or anything like that, but you do need to make felte aware of your inputs by assigning a **name** to them.
 
 Felte also offers [validation handling](/docs/solid/validation) and [error reporting](/docs/solid/reporters) but this is all you need for the most basic, validation-less form.

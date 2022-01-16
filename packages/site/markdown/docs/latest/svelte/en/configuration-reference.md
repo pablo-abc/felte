@@ -13,7 +13,8 @@ Felte's `createForm` function accepts a configuration object with the following 
 - **validate**: a validation function (or array of functions) that receives the data to validate and returns an `errors` object, or `undefined` if the data is valid. The validation functions may be asynchronous. See [Validation](/docs/svelte/validation).
 - **warn**: a validation function (or array of functions) that receives the data to validate and returns an object with the same shape as `data`, but with warning messages or `undefined` as values. It can be an array of functions whose validation errors will be merged. See [Validation](/docs/svelte/validation#warnings).
 - **transform**: a transformation function (or array of functions) that receives the data coming from your form and returns a `data` object. See [Transformations](/docs/svelte/transformations).
-- **onError**: a function that receives any unhandled errors thrown in the `onSubmit` function. Useful for handling [server errors](/docs/svelte/validation#server-errors).
+- **onSuccess**: a function that receives anything returned from the `onSubmit` function, or the `Response` object from `fetch` if no `onSubmit` function is provided. Useful for reacting when a form is succesfully submitted.
+- **onError**: a function that receives any unhandled errors thrown in the `onSubmit` function, or an instance of `FelteSubmitError` if no `onSubmit` handler is provided. Useful for handling [server errors](/docs/svelte/validation#server-errors). It can be asynchronous.
 - **extend**: an extender or array of extenders. Currently these are either [validators](/docs/svelte/validators) or [reporters](/docs/svelte/reporters). Note that extenders may add/change this same configuration object. Check their documentation when adding one.
 
 > Every property is optional.

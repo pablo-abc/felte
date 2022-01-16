@@ -7,6 +7,7 @@ export const sections = {
   latest: {
     svelte: [
       'getting-started',
+      'submitting',
       'validation',
       'validators',
       'transformations',
@@ -25,6 +26,7 @@ export const sections = {
     ],
     solid: [
       'getting-started',
+      'submitting',
       'validation',
       'validators',
       'transformations',
@@ -43,6 +45,7 @@ export const sections = {
     ],
     react: [
       'getting-started',
+      'submitting',
       'validation',
       'validators',
       'transformations',
