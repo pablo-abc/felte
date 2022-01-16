@@ -1,5 +1,19 @@
 # felte
 
+## 1.0.0-next.6
+
+### Minor Changes
+
+- f9b9125: Add `feltesuccess` and `felteerror` events
+- 96c3c18: Add default submit handler
+
+### Patch Changes
+
+- Updated dependencies [f9b9125]
+- Updated dependencies [96c3c18]
+- Updated dependencies [d1b62bf]
+  - @felte/core@1.0.0-next.6
+
 ## 1.0.0-next.5
 
 ### Patch Changes

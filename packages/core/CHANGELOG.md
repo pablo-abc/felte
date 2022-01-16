@@ -1,5 +1,18 @@
 # @felte/core
 
+## 1.0.0-next.6
+
+### Minor Changes
+
+- f9b9125: Add `feltesuccess` and `felteerror` events
+- 96c3c18: Add default submit handler
+
+### Patch Changes
+
+- d1b62bf: Allow for `onError` and `onSuccess` to be asynchronous
+- Updated dependencies [d1b62bf]
+  - @felte/common@1.0.0-next.6
+
 ## 1.0.0-next.5
 
 ### Patch Changes

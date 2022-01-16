@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.0.0-next.6
+
+### Patch Changes
+
+- d1b62bf: Allow for `onError` and `onSuccess` to be asynchronous
+
 ## 1.0.0-next.5
 
 ### Patch Changes
