@@ -18,7 +18,6 @@ import {
   isInputElement,
   isSelectElement,
   isElement,
-  isTextAreaElement,
   getInputTextOrNumber,
   _get,
   _set,
@@ -36,6 +35,47 @@ import {
   executeValidation,
 } from '@felte/common';
 import { get } from './get';
+
+export class FelteSubmitError extends Error {
+  constructor(message: string, response: Response) {
+    super(message);
+    this.name = 'FelteSubmitError';
+    this.response = response;
+  }
+  response: Response;
+}
+
+function createDefaultSubmitHandler(form?: HTMLFormElement) {
+  if (!form) return;
+  return async function onSubmit() {
+    let body: FormData | URLSearchParams = new FormData(form);
+    const action = form.action;
+    const query = action.split('?')[1];
+    const method = new URLSearchParams(query).get('_method') || form.method;
+    let enctype = form.enctype;
+
+    if (form.querySelector('input[type="file"]')) {
+      enctype = 'multipart/form-data';
+    }
+    if (enctype === 'application/x-www-form-urlencoded') {
+      body = new URLSearchParams(body as any);
+    }
+
+    const response = await fetch(action, {
+      body,
+      method,
+      headers: {
+        'Content-Type': enctype,
+      },
+    });
+
+    if (response.ok) return;
+    throw new FelteSubmitError(
+      'An error occurred while submitting the form',
+      response
+    );
+  };
+}
 
 type Configuration<Data extends Obj> = {
   stores: Stores<Data>;
@@ -82,13 +122,16 @@ export function createFormAction<Data extends Obj>({
   const { data, errors, warnings, touched, isSubmitting, isDirty } = stores;
 
   function createSubmitHandler(altConfig?: CreateSubmitHandlerConfig<Data>) {
-    const onSubmit = altConfig?.onSubmit ?? config.onSubmit;
-    const validate = altConfig?.validate ?? config.validate;
-    const warn = altConfig?.warn ?? config.warn;
-    const onError = altConfig?.onError ?? config.onError;
     return async function handleSubmit(event?: Event) {
-      if (!onSubmit) return;
       const formNode = _getFormNode();
+      const onSubmit =
+        altConfig?.onSubmit ??
+        config.onSubmit ??
+        createDefaultSubmitHandler(formNode);
+      const validate = altConfig?.validate ?? config.validate;
+      const warn = altConfig?.warn ?? config.warn;
+      const onError = altConfig?.onError ?? config.onError;
+      if (!onSubmit) return;
       event?.preventDefault();
       isSubmitting.set(true);
       const currentData = get(data);

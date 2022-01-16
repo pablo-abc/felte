@@ -9,6 +9,7 @@ import {
 import userEvent from '@testing-library/user-event';
 import { get } from 'svelte/store';
 import { isFormControl } from '@felte/common';
+import { FelteSubmitError } from '../src';
 
 function createSelectElement({
   name,
@@ -881,6 +882,102 @@ describe('User interactions with form', () => {
 
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalled();
+    });
+  });
+
+  test('submits with default action', async () => {
+    window.fetch = jest.fn().mockResolvedValue({ ok: true });
+    const { form } = createForm();
+    const { formElement } = createLoginForm();
+    formElement.action = '/example';
+    formElement.method = 'post';
+    form(formElement);
+    formElement.submit();
+
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledWith(
+        expect.stringContaining('/example'),
+        expect.objectContaining({
+          body: expect.any(URLSearchParams),
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        })
+      );
+    });
+  });
+
+  test('submits with default action and overriden method', async () => {
+    window.fetch = jest.fn().mockResolvedValue({ ok: true });
+    const { form } = createForm();
+    const { formElement } = createLoginForm();
+    formElement.action = '/example?_method=put';
+    formElement.method = 'post';
+    form(formElement);
+    formElement.submit();
+
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledWith(
+        expect.stringContaining('/example'),
+        expect.objectContaining({
+          body: expect.any(URLSearchParams),
+          method: 'put',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        })
+      );
+    });
+  });
+
+  test('submits with default action and file input', async () => {
+    window.fetch = jest.fn().mockResolvedValue({ ok: true });
+    const { form } = createForm();
+    const { formElement } = createLoginForm();
+    formElement.action = '/example';
+    formElement.method = 'post';
+    const fileInput = createInputElement({ name: 'profilePic', type: 'file' });
+    formElement.appendChild(fileInput);
+    form(formElement);
+    formElement.submit();
+
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledWith(
+        expect.stringContaining('/example'),
+        expect.objectContaining({
+          body: expect.any(FormData),
+          method: 'post',
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+      );
+    });
+  });
+
+  test('submits with default action and throws', async () => {
+    window.fetch = jest.fn().mockResolvedValue({ ok: false });
+    const onError = jest.fn();
+    const { form } = createForm({ onError });
+    const { formElement } = createLoginForm();
+    formElement.action = '/example';
+    formElement.method = 'post';
+    form(formElement);
+    formElement.submit();
+
+    await waitFor(() => {
+      expect(window.fetch).toHaveBeenCalledWith(
+        expect.stringContaining('/example'),
+        expect.objectContaining({
+          body: expect.any(URLSearchParams),
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        })
+      );
+      expect(onError).toHaveBeenCalledWith(expect.any(FelteSubmitError));
     });
   });
 });
