@@ -12,7 +12,7 @@ import type {
   FormConfigWithoutTransformFn,
 } from '@felte/core';
 import { createForm as coreCreateForm } from '@felte/core';
-import { writable } from 'svelte/store';
+import { writable } from './stores';
 import type { Stores, UnknownStores, KnownStores } from './use-accessor';
 import { useAccessor } from './use-accessor';
 

@@ -1,8 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import type { Obj, Errors, Touched, TransWritable } from '@felte/core';
 import type { Readable, Writable } from 'svelte/store';
-import { get } from 'svelte/store';
-import { getValue } from '@felte/core';
+import { getValue, getValueFromStore } from '@felte/core';
 
 export type Accessor<T> = T extends Obj
   ? (<R>(selector: (storeValue: T) => R) => R) &
@@ -40,7 +39,7 @@ export function useAccessor<T>(
   store: Readable<T> | Writable<T>
 ): Accessor<T> & (Readable<T> | Writable<T>) {
   const [, setUpdate] = useState({});
-  const currentValue = useRef<T>(get(store));
+  const currentValue = useRef<T>(getValueFromStore(store));
   const values = useRef<Record<string, unknown>>({});
   const subscribedRef = useRef<Record<string, SelectorOrPath<T>> | boolean>(
     false

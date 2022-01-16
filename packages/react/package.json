@@ -34,8 +34,7 @@
     "dist"
   ],
   "dependencies": {
-    "@felte/core": "workspace:*",
-    "svelte": "^3.44.3"
+    "@felte/core": "workspace:*"
   },
   "publishConfig": {
     "access": "public"
