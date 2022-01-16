@@ -84,9 +84,6 @@ export function useAccessor<T>(
       for (const key of keys) {
         const selector = subscribedRef.current[key];
         const newValue = getValue($store, selector);
-        if (typeof values.current[selector.toString()] === 'undefined') {
-          values.current[selector.toString()] = newValue;
-        }
         if (newValue !== values.current[selector.toString()]) {
           values.current[selector.toString()] = newValue;
           hasChanged = true;

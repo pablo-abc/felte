@@ -295,13 +295,9 @@ export function createFormAction<Data extends Obj>({
     }
 
     function setFileValue(target: HTMLInputElement) {
-      const files = target.files;
+      const files = Array.from(target.files ?? []);
       data.update(($data) => {
-        return _set(
-          $data,
-          getPath(target),
-          target.multiple ? Array.from(files ?? []) : files?.[0]
-        );
+        return _set($data, getPath(target), target.multiple ? files : files[0]);
       });
     }
 
