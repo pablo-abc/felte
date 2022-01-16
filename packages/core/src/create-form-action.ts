@@ -195,7 +195,7 @@ export function createFormAction<Data extends Obj>({
             detail: response,
           })
         );
-        onSuccess?.(response);
+        await onSuccess?.(response);
       } catch (e) {
         formNode?.dispatchEvent(
           new CustomEvent('felteerror', {
@@ -203,7 +203,7 @@ export function createFormAction<Data extends Obj>({
           })
         );
         if (!onError) return;
-        const serverErrors = onError(e);
+        const serverErrors = await onError(e);
         if (serverErrors) {
           errors.set(serverErrors);
           _getCurrentExtenders().forEach((extender) =>
