@@ -36,18 +36,28 @@ import {
 } from '@felte/common';
 import { get } from './get';
 
+type FailResponse = Omit<Response, 'ok'> & {
+  ok: false;
+};
+
+type SuccessResponse = Omit<Response, 'ok'> & {
+  ok: true;
+};
+
+type FetchResponse = SuccessResponse | FailResponse;
+
 export class FelteSubmitError extends Error {
-  constructor(message: string, response: Response) {
+  constructor(message: string, response: FailResponse) {
     super(message);
     this.name = 'FelteSubmitError';
     this.response = response;
   }
-  response: Response;
+  response: FailResponse;
 }
 
 function createDefaultSubmitHandler(form?: HTMLFormElement) {
   if (!form) return;
-  return async function onSubmit() {
+  return async function onSubmit(): Promise<SuccessResponse> {
     let body: FormData | URLSearchParams = new FormData(form);
     const action = form.action;
     const query = action.split('?')[1];
@@ -61,7 +71,7 @@ function createDefaultSubmitHandler(form?: HTMLFormElement) {
       body = new URLSearchParams(body as any);
     }
 
-    const response = await fetch(action, {
+    const response: FetchResponse = await fetch(action, {
       body,
       method,
       headers: {
@@ -69,7 +79,7 @@ function createDefaultSubmitHandler(form?: HTMLFormElement) {
       },
     });
 
-    if (response.ok) return;
+    if (response.ok) return response;
     throw new FelteSubmitError(
       'An error occurred while submitting the form',
       response
@@ -122,15 +132,16 @@ export function createFormAction<Data extends Obj>({
   const { data, errors, warnings, touched, isSubmitting, isDirty } = stores;
 
   function createSubmitHandler(altConfig?: CreateSubmitHandlerConfig<Data>) {
+    const validate = altConfig?.validate ?? config.validate;
+    const warn = altConfig?.warn ?? config.warn;
+    const onError = altConfig?.onError ?? config.onError;
+    const onSuccess = altConfig?.onSuccess ?? config.onSuccess;
     return async function handleSubmit(event?: Event) {
       const formNode = _getFormNode();
       const onSubmit =
         altConfig?.onSubmit ??
         config.onSubmit ??
         createDefaultSubmitHandler(formNode);
-      const validate = altConfig?.validate ?? config.validate;
-      const warn = altConfig?.warn ?? config.warn;
-      const onError = altConfig?.onError ?? config.onError;
       if (!onSubmit) return;
       event?.preventDefault();
       isSubmitting.set(true);
@@ -157,14 +168,25 @@ export function createFormAction<Data extends Obj>({
         }
       }
       try {
-        await onSubmit(currentData, {
+        const response = await onSubmit(currentData, {
           form: formNode,
           controls:
             formNode && Array.from(formNode.elements).filter(isFormControl),
           config: { ...config, ...altConfig },
         });
+        formNode?.dispatchEvent(
+          new CustomEvent('feltesuccess', {
+            detail: response,
+          })
+        );
+        onSuccess?.(response);
       } catch (e) {
-        if (!onError) throw e;
+        formNode?.dispatchEvent(
+          new CustomEvent('felteerror', {
+            detail: e,
+          })
+        );
+        if (!onError) return;
         const serverErrors = onError(e);
         if (serverErrors) {
           errors.set(serverErrors);

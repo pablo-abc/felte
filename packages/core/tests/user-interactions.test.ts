@@ -887,10 +887,13 @@ describe('User interactions with form', () => {
 
   test('submits with default action', async () => {
     window.fetch = jest.fn().mockResolvedValue({ ok: true });
-    const { form } = createForm();
+    const onSuccess = jest.fn();
+    const eventOnSuccess = jest.fn();
+    const { form } = createForm({ onSuccess });
     const { formElement } = createLoginForm();
     formElement.action = '/example';
     formElement.method = 'post';
+    formElement.addEventListener('feltesuccess', eventOnSuccess);
     form(formElement);
     formElement.submit();
 
@@ -903,6 +906,11 @@ describe('User interactions with form', () => {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
+        })
+      );
+      expect(onSuccess).toHaveBeenCalledWith(
+        expect.objectContaining({
+          ok: true,
         })
       );
     });
@@ -959,10 +967,12 @@ describe('User interactions with form', () => {
   test('submits with default action and throws', async () => {
     window.fetch = jest.fn().mockResolvedValue({ ok: false });
     const onError = jest.fn();
+    const eventOnError = jest.fn();
     const { form } = createForm({ onError });
     const { formElement } = createLoginForm();
     formElement.action = '/example';
     formElement.method = 'post';
+    formElement.addEventListener('felteerror', eventOnError);
     form(formElement);
     formElement.submit();
 
@@ -978,6 +988,11 @@ describe('User interactions with form', () => {
         })
       );
       expect(onError).toHaveBeenCalledWith(expect.any(FelteSubmitError));
+      expect(eventOnError).toHaveBeenCalledWith(
+        expect.objectContaining({
+          detail: expect.any(FelteSubmitError),
+        })
+      );
     });
   });
 });

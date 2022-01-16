@@ -58,6 +58,7 @@ export type CreateSubmitHandlerConfig<Data extends Obj> = {
   onSubmit?: FormConfig<Data>['onSubmit'];
   validate?: FormConfig<Data>['validate'];
   warn?: FormConfig<Data>['warn'];
+  onSuccess?: FormConfig<Data>['onSuccess'];
   onError?: FormConfig<Data>['onError'];
 };
 
@@ -206,13 +207,15 @@ export type FormConfigWithoutTransformFn<Data extends Obj> = {
   validate?: ValidationFunction<Data> | ValidationFunction<Data>[];
   /** Optional function to set warnings based on the current state of your data. */
   warn?: ValidationFunction<Data> | ValidationFunction<Data>[];
-  /** Required function to handle the form data on submit. */
+  /** Optional function to handle the form data on submit. */
   onSubmit?: (
     values: Data,
     context: SubmitContext<Data>
-  ) => Promise<void> | void;
+  ) => Promise<unknown> | unknown;
+  /** Optional function to react to a submission success. It will receive whatever you return from `onSubmit`. If not using `onSubmit` it will receive the `Response` from the default submit handler */
+  onSuccess?: (response: unknown) => void;
   /** Optional function that accepts any thrown exceptions from the onSubmit function. You can return an object with the same shape [[`Errors`]] for a reporter to use it. */
-  onError?: (errors: unknown) => void | Errors<Data>;
+  onError?: (error: unknown) => void | Errors<Data>;
   /** Optional function/s to extend Felte's functionality. */
   extend?: Extender<Data> | Extender<Data>[];
   /** Optional array that sets which events should trigger a field to be touched. */
@@ -239,7 +242,9 @@ export type FormConfigWithTransformFn<Data extends Obj> = {
   onSubmit?: (
     values: Data,
     context: SubmitContext<Data>
-  ) => Promise<void> | void;
+  ) => Promise<unknown> | unknown;
+  /** Optional function to react to a submission success. It will receive whatever you return from `onSubmit`. If not using `onSubmit` it will receive the `Response` from the default submit handler */
+  onSuccess?: (response: unknown) => void;
   /** Optional function that accepts any thrown exceptions from the onSubmit function. You can return an object with the same shape [[`Errors`]] for a reporter to use it. */
   onError?: (errors: unknown) => void | Errors<Data>;
   /** Optional function/s to extend Felte's functionality. */
