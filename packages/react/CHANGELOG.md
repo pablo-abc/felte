@@ -1,5 +1,11 @@
 # @felte/react
 
+## 1.0.0-next.7
+
+### Patch Changes
+
+- 2e1e006: Fix `stop is not a function` when using hmr
+
 ## 1.0.0-next.6
 
 ### Minor Changes
