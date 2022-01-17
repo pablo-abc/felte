@@ -163,6 +163,6 @@ Originally we thought it would be a good idea to make the index a _unique_ ident
 
 ### Proxies
 
-Programatically setting the value of an input component using its `value` prop/attribute directly does not trigger any kind of events that Felte can catch. In order to make this more seamless we originally added a proxy to the inputs of forms tracket by Felte. This ended up causing many race conditions and issues that were difficult to debug (and some we did not manage to solve). To ease maintainability, we've decided to remove this.
+Programatically setting the value of an input component using its `value` prop/attribute directly does not trigger any kind of events that Felte can catch. In order to make this more seamless we originally added a proxy to the inputs of forms tracked by Felte. This ended up causing many race conditions and issues that were difficult to debug (and some we did not manage to solve). To ease maintainability, we've decided to remove this.
 
 The recommended way to programatically change the value of a field is now to use the `setFields` helper, which will update _both_ the `data` store and input's value.
