@@ -1,5 +1,11 @@
 # @felte/react
 
+## 1.0.0-next.9
+
+### Patch Changes
+
+- 47500c9: Use ref for form instead of state callback
+
 ## 1.0.0-next.8
 
 ### Patch Changes
