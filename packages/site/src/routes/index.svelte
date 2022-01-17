@@ -71,7 +71,6 @@
     position: relative;
     display: flex;
     justify-content: space-around;
-    align-items: center;
     flex-wrap: wrap;
     min-height: calc(100vh - 6rem);
   }
