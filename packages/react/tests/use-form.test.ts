@@ -1,3 +1,4 @@
+import type { RefCallback } from 'react';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { useForm } from '../src';
 
@@ -21,7 +22,7 @@ describe(useForm, () => {
     const { result, waitFor } = renderHook(() =>
       useForm({ onSubmit: mockSubmit })
     );
-    act(() => result.current.form(form));
+    act(() => (result.current.form as RefCallback<HTMLFormElement>)(form));
     expect(mockSubmit).not.toHaveBeenCalled();
     form.submit();
     await waitFor(() => {
