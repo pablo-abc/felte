@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import type {
   FormConfig,
   Obj,
@@ -19,7 +19,7 @@ import { useAccessor } from './use-accessor';
 /** The return type for the `createForm` function. */
 export type Form<Data extends Obj> = {
   /** Action function to be used with the `use` directive on your `form` elements. */
-  form(node: HTMLFormElement): void;
+  form(form?: HTMLFormElement): void;
   /** Function to handle submit to be passed to the on:submit event. Not necessary if using the `form` action. */
   handleSubmit(e?: Event): void;
   /** Function that creates a submit handler. If a function is passed as first argument it overrides the default `onSubmit` function set in the `createForm` config object. */
@@ -45,13 +45,18 @@ export function useForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
 export function useForm<Data extends Obj = Obj>(
   config?: FormConfig<Data>
 ): Form<Data> & Helpers<Data> & Stores<Data> {
+  const [formElement, setFormElement] = useState<HTMLFormElement>();
   const destroyRef = useRef<() => void>();
 
-  const { cleanup, ...rest } = useConst(() => {
-    const { form: coreForm, ...rest } = coreCreateForm(config ?? {}, {
+  const { startStores, form, ...rest } = useConst(() => {
+    const coreConfig = {
+      ...config,
+      preventStoreStart: true,
+    };
+    const { form: coreForm, ...rest } = coreCreateForm(coreConfig, {
       storeFactory: writable,
     });
-    const form = (node?: HTMLFormElement) => {
+    const form = (node?: HTMLFormElement | null) => {
       if (!node) return;
       const { destroy } = coreForm(node);
       destroyRef.current = destroy;
@@ -68,14 +73,17 @@ export function useForm<Data extends Obj = Obj>(
   const isValid = useAccessor<boolean>(rest.isValid);
 
   useEffect(() => {
+    const cleanup = startStores();
+    form(formElement);
     return () => {
       cleanup();
       destroyRef.current?.();
     };
-  }, []);
+  }, [formElement]);
 
   return {
     ...rest,
+    form: setFormElement,
     data,
     errors,
     warnings,

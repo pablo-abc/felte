@@ -32,6 +32,7 @@ export type Adapters<StoreExt = Record<string, any>> = {
 
 export type CoreForm<Data extends Obj = any> = Form<Data> & {
   cleanup(): void;
+  startStores(): () => void;
 };
 
 export function createForm<
@@ -63,7 +64,7 @@ export function createForm<
   Ext extends Obj = Obj,
   StoreExt = Record<string, any>
 >(
-  config: FormConfig<Data> & Ext,
+  config: FormConfig<Data> & { preventStoreStart?: boolean } & Ext,
   adapters: Adapters<StoreExt>
 ): CoreForm<Data> & Helpers<Data> & Stores<Data, StoreExt> {
   config.extend ??= [];
@@ -120,6 +121,7 @@ export function createForm<
     isValid,
     isDirty,
     cleanup,
+    start,
   } = createStores(adapters.storeFactory, config);
   const originalUpdate = data.update;
   const originalSet = data.set;
@@ -235,6 +237,7 @@ export function createForm<
     handleSubmit,
     createSubmitHandler,
     cleanup,
+    startStores: start,
     ...helpers.public,
   };
 }

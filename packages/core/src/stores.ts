@@ -31,7 +31,7 @@ function errorFilterer(
 
 export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   storeFactory: StoreFactory<StoreExt>,
-  config: FormConfig<Data>
+  config: FormConfig<Data> & { preventStoreStart?: boolean }
 ) {
   const initialValues = config.initialValues
     ? executeTransforms(
@@ -74,46 +74,49 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     warnings.set(_merge(deepSet($data, null), currentWarnings || {}));
   }
 
-  const dataUnsubscriber = data.subscribe(($data) => {
-    validateErrors($data);
-    validateWarnings($data);
-  });
+  function start() {
+    const dataUnsubscriber = data.subscribe(($data) => {
+      validateErrors($data);
+      validateWarnings($data);
+    });
 
-  let touchedValue = initialTouched;
-  let errorsValue = initialErrors;
-  let firstCalled = false;
-  const errorsUnsubscriber = errors.subscribe(($errors) => {
-    if (!firstCalled) {
-      firstCalled = true;
-      isValid.set(!config.validate);
-    } else {
-      const hasErrors = deepSome($errors, (error) => !!error);
-      isValid.set(!hasErrors);
+    let touchedValue = initialTouched;
+    let errorsValue = initialErrors;
+    let firstCalled = false;
+    const errorsUnsubscriber = errors.subscribe(($errors) => {
+      if (!firstCalled) {
+        firstCalled = true;
+        isValid.set(!config.validate);
+      } else {
+        const hasErrors = deepSome($errors, (error) => !!error);
+        isValid.set(!hasErrors);
+      }
+
+      errorsValue = $errors;
+      const mergedErrors = _mergeWith<Errors<Data>>(
+        $errors,
+        touchedValue,
+        errorFilterer
+      );
+      filteredErrorsSet(mergedErrors);
+    });
+
+    const touchedUnsubscriber = touched.subscribe(($touched) => {
+      touchedValue = $touched;
+      const mergedErrors = _mergeWith<Errors<Data>>(
+        errorsValue,
+        $touched,
+        errorFilterer
+      );
+      filteredErrorsSet(mergedErrors);
+    });
+
+    function cleanup() {
+      dataUnsubscriber();
+      errorsUnsubscriber();
+      touchedUnsubscriber();
     }
-
-    errorsValue = $errors;
-    const mergedErrors = _mergeWith<Errors<Data>>(
-      $errors,
-      touchedValue,
-      errorFilterer
-    );
-    filteredErrorsSet(mergedErrors);
-  });
-
-  const touchedUnsubscriber = touched.subscribe(($touched) => {
-    touchedValue = $touched;
-    const mergedErrors = _mergeWith<Errors<Data>>(
-      errorsValue,
-      $touched,
-      errorFilterer
-    );
-    filteredErrorsSet(mergedErrors);
-  });
-
-  function cleanup() {
-    dataUnsubscriber();
-    errorsUnsubscriber();
-    touchedUnsubscriber();
+    return cleanup;
   }
 
   filteredErrors.set = errors.set;
@@ -127,6 +130,7 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     isValid,
     isSubmitting,
     isDirty,
-    cleanup,
+    cleanup: config.preventStoreStart ? () => undefined : start(),
+    start,
   };
 }

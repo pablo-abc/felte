@@ -25,7 +25,7 @@ export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
 export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
   config?: FormConfig<Data> & Ext
 ): Form<Data> & Helpers<Data> & Stores<Data> {
-  const { cleanup, ...rest } = coreCreateForm(config ?? {}, {
+  const { cleanup, startStores, ...rest } = coreCreateForm(config ?? {}, {
     storeFactory: writable,
   });
   onDestroy(cleanup);

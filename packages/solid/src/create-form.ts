@@ -46,6 +46,7 @@ export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
   const {
     form: formAction,
     cleanup,
+    startStores,
     data,
     errors,
     warnings,
