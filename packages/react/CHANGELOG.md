@@ -1,5 +1,13 @@
 # @felte/react
 
+## 1.0.0-next.8
+
+### Patch Changes
+
+- 62ceb3f: Fix hot module reloading
+- Updated dependencies [62ceb3f]
+  - @felte/core@1.0.0-next.7
+
 ## 1.0.0-next.7
 
 ### Patch Changes

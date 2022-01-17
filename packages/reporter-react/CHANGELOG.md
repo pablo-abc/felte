@@ -1,5 +1,11 @@
 # @felte/reporter-solid
 
+## 1.0.0-next.6
+
+### Patch Changes
+
+- a2d39e1: Use setTimeout to guarantee DOM has rendered before retrieving values
+
 ## 1.0.0-next.5
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @felte/core
 
+## 1.0.0-next.7
+
+### Patch Changes
+
+- 62ceb3f: Fix hot module reloading
+
 ## 1.0.0-next.6
 
 ### Minor Changes

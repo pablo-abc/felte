@@ -1,5 +1,11 @@
 # @felte/reporter-tippy
 
+## 1.0.0-next.6
+
+### Patch Changes
+
+- 7ccfdc8: Set appropriate store depending on level
+
 ## 1.0.0-next.5
 
 ### Patch Changes

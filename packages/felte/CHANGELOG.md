@@ -1,5 +1,12 @@
 # felte
 
+## 1.0.0-next.7
+
+### Patch Changes
+
+- Updated dependencies [62ceb3f]
+  - @felte/core@1.0.0-next.7
+
 ## 1.0.0-next.6
 
 ### Minor Changes
