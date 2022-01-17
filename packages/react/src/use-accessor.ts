@@ -39,7 +39,7 @@ export function useAccessor<T>(
   store: Readable<T> | Writable<T>
 ): Accessor<T> & (Readable<T> | Writable<T>) {
   const [, setUpdate] = useState({});
-  const currentValue = useRef<T>(getValueFromStore(store));
+  const storeValue = useRef<T>(getValueFromStore(store));
   const values = useRef<Record<string, unknown>>({});
   const subscribedRef = useRef<Record<string, SelectorOrPath<T>> | boolean>(
     false
@@ -50,7 +50,7 @@ export function useAccessor<T>(
       const subscribed = subscribedRef.current;
       if (!selectorOrPath) {
         subscribedRef.current = true;
-        return currentValue.current;
+        return storeValue.current;
       }
       if (typeof subscribed === 'boolean') {
         subscribedRef.current ||= {
@@ -59,10 +59,14 @@ export function useAccessor<T>(
       } else {
         subscribed[selectorOrPath.toString()] = selectorOrPath;
       }
-      return (
-        values.current[selectorOrPath.toString()] ??
-        getValue(currentValue.current, selectorOrPath)
-      );
+      let value = values.current[selectorOrPath.toString()];
+      if (value == null) {
+        value = values.current[selectorOrPath.toString()] = getValue(
+          storeValue.current,
+          selectorOrPath
+        );
+      }
+      return value;
     },
     []
   ) as Accessor<T> & Writable<T>;
@@ -75,7 +79,7 @@ export function useAccessor<T>(
 
   useEffect(() => {
     return store.subscribe(($store) => {
-      currentValue.current = $store;
+      storeValue.current = $store;
       if (!subscribedRef.current) return;
       if (subscribedRef.current === true) return setUpdate({});
       let hasChanged = false;
