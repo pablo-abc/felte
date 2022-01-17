@@ -108,6 +108,7 @@ function tippyReporter<Data extends Obj = any>({
   ): ExtenderHandler<Data> {
     if (currentForm.stage === 'SETUP') return {};
     const { controls, form } = currentForm;
+    const store = level === 'error' ? currentForm.errors : currentForm.warnings;
     let tippyInstances: Instance<Props>[] = [];
     let customControls = Array.from(
       form.querySelectorAll('[data-felte-reporter-tippy-for]')
@@ -178,7 +179,7 @@ function tippyReporter<Data extends Obj = any>({
                   .filter(Boolean) as Instance<Props>[])
               : []),
             ...(customControls
-              .map(createCustomControlInstance(get(currentForm.errors)))
+              .map(createCustomControlInstance(get(store)))
               .filter(Boolean) as Instance<Props>[]),
           ];
         }
@@ -194,13 +195,12 @@ function tippyReporter<Data extends Obj = any>({
     tippyInstances = [
       ...tippyInstances,
       ...(customControls
-        .map(createCustomControlInstance(get(currentForm.errors)))
+        .map(createCustomControlInstance(get(store)))
         .filter(Boolean) as Instance<Props>[]),
     ];
 
     const observer = new MutationObserver(mutationCallback);
     observer.observe(form, { childList: true });
-    const store = level === 'error' ? currentForm.errors : currentForm.warnings;
     const unsubscribe = store.subscribe(($messages) => {
       for (const control of customControls) {
         const elPath = getPath(control, control.dataset.felteReporterTippyFor);
