@@ -1,5 +1,11 @@
 # @felte/core
 
+## 1.0.0-next.9
+
+### Patch Changes
+
+- 46b05e3: Fix when publishing as modules
+
 ## 1.0.0-next.8
 
 ### Patch Changes
