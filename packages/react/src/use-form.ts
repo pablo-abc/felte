@@ -1,3 +1,4 @@
+import type { Ref } from 'react';
 import { useRef, useEffect, useState } from 'react';
 import type {
   FormConfig,
@@ -19,7 +20,7 @@ import { useAccessor } from './use-accessor';
 /** The return type for the `createForm` function. */
 export type Form<Data extends Obj> = {
   /** Action function to be used with the `use` directive on your `form` elements. */
-  form(form?: HTMLFormElement): void;
+  form: Ref<HTMLFormElement>;
   /** Function to handle submit to be passed to the on:submit event. Not necessary if using the `form` action. */
   handleSubmit(e?: Event): void;
   /** Function that creates a submit handler. If a function is passed as first argument it overrides the default `onSubmit` function set in the `createForm` config object. */
@@ -45,7 +46,7 @@ export function useForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
 export function useForm<Data extends Obj = Obj>(
   config?: FormConfig<Data>
 ): Form<Data> & Helpers<Data> & Stores<Data> {
-  const [formElement, setFormElement] = useState<HTMLFormElement | null>();
+  const [formElement, setFormElement] = useState<HTMLFormElement | null>(null);
   const destroyRef = useRef<() => void>();
 
   const { startStores, form, ...rest } = useConst(() => {
