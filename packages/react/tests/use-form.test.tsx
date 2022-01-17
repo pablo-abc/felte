@@ -1,13 +1,13 @@
+import React from 'react';
 import type { RefCallback } from 'react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { useForm } from '../src';
 
 describe(useForm, () => {
   test('calls onSubmit without a form ref', async () => {
     const mockSubmit = jest.fn();
-    const { result, waitFor } = renderHook(() =>
-      useForm({ onSubmit: mockSubmit })
-    );
+    const { result } = renderHook(() => useForm({ onSubmit: mockSubmit }));
     const submit = result.current.createSubmitHandler();
     expect(mockSubmit).not.toHaveBeenCalled();
     submit();
@@ -17,14 +17,15 @@ describe(useForm, () => {
   });
 
   test('calls onSubmit with a form ref', async () => {
-    const form = document.createElement('form') as HTMLFormElement;
     const mockSubmit = jest.fn();
-    const { result, waitFor } = renderHook(() =>
-      useForm({ onSubmit: mockSubmit })
-    );
-    act(() => (result.current.form as RefCallback<HTMLFormElement>)(form));
+    function Form() {
+      const { form } = useForm({ onSubmit: mockSubmit });
+      return <form name="test-form" ref={form} />;
+    }
+    render(<Form />);
+    const formElement = screen.getByRole('form') as HTMLFormElement;
     expect(mockSubmit).not.toHaveBeenCalled();
-    form.submit();
+    formElement.submit();
     await waitFor(() => {
       expect(mockSubmit).toHaveBeenCalled();
     });

@@ -1,5 +1,5 @@
 import type { Ref } from 'react';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import type {
   FormConfig,
   Obj,
@@ -46,7 +46,7 @@ export function useForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
 export function useForm<Data extends Obj = Obj>(
   config?: FormConfig<Data>
 ): Form<Data> & Helpers<Data> & Stores<Data> {
-  const [formElement, setFormElement] = useState<HTMLFormElement | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const destroyRef = useRef<() => void>();
 
   const { startStores, form, ...rest } = useConst(() => {
@@ -75,16 +75,16 @@ export function useForm<Data extends Obj = Obj>(
 
   useEffect(() => {
     const cleanup = startStores();
-    form(formElement);
+    form(formRef.current);
     return () => {
       cleanup();
       destroyRef.current?.();
     };
-  }, [formElement]);
+  }, []);
 
   return {
     ...rest,
-    form: setFormElement,
+    form: formRef,
     data,
     errors,
     warnings,

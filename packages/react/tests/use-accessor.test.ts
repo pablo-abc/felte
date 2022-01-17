@@ -11,7 +11,7 @@ describe(useAccessor, () => {
     expect(result.current()).toBe(false);
   });
 
-  test('subscribest to accessor without selector', () => {
+  test('subscribes to accessor without selector', () => {
     const store = writable({ email: '' });
     const { result } = renderHook(() => useAccessor(store));
     expect(result.current()).toEqual({ email: '' });
