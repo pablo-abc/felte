@@ -1,5 +1,11 @@
 # @felte/react
 
+## 1.0.0-next.10
+
+### Patch Changes
+
+- 0d98ecf: Set initial value on first subscription to prevent re-renders
+
 ## 1.0.0-next.9
 
 ### Patch Changes
