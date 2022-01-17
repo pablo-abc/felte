@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.0.0-next.7
+
+### Patch Changes
+
+- e49c094: Use `preserveModules` for better tree-shaking
+
 ## 1.0.0-next.6
 
 ### Patch Changes
