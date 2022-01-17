@@ -4,7 +4,7 @@
   "description": "An extensible form library for Svelte",
   "main": "dist/index.js",
   "browser": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "engines": {
@@ -23,7 +23,7 @@
   ],
   "scripts": {
     "prebuild": "rimraf ./dist",
-    "build": "cross-env NODE_ENV=production rollup -c",
+    "build": "pnpm prebuild && cross-env NODE_ENV=production rollup -c",
     "docs:build": "typedoc --out ../../docs",
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build && pnpm test",
@@ -47,9 +47,9 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
+      "import": "./dist/esm/index.js",
       "require": "./dist/index.js",
-      "default": "./dist/index.mjs"
+      "default": "./dist/esm/index.js"
     },
     "./package.json": "./package.json"
   }

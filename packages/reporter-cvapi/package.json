@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "prebuild": "rimraf ./dist",
-    "build": "cross-env NODE_ENV=production rollup -c",
+    "build": "pnpm prebuild && cross-env NODE_ENV=production rollup -c",
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build && pnpm test",
     "test": "jest",

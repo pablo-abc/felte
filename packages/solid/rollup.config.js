@@ -2,7 +2,6 @@ import typescript from 'rollup-plugin-ts';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
-import bundleSize from 'rollup-plugin-bundle-size';
 import pkg from './package.json';
 
 const prod = process.env.NODE_ENV === 'production';
@@ -16,7 +15,14 @@ export default {
   external: ['solid-js/store', 'solid-js'],
   output: [
     { file: pkg.browser, format: 'cjs', sourcemap: prod, name },
-    { file: pkg.module, format: 'esm', sourcemap: prod },
+    {
+      dir: 'dist/esm',
+      format: 'esm',
+      sourcemap: prod,
+      exports: 'named',
+      preserveModules: true,
+      preserveModulesRoot: 'src',
+    },
   ],
   plugins: [
     replace({
@@ -28,6 +34,5 @@ export default {
     resolve({ browser: true }),
     commonjs(),
     typescript(),
-    prod && bundleSize(),
   ],
 };

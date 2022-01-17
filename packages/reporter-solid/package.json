@@ -31,7 +31,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "prebuild": "rimraf ./dist",
+    "build": "pnpm prebuild && rollup -c",
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm run build",
     "test": "jest",

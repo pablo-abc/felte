@@ -137,5 +137,5 @@ Running this command will generate a markdown file in the `.changeset/` director
 
 There are a few minor things I haven't gotten around to solve yet. If you have an idea on how to solve them, you may give it a try:
 
-- The current API for extending Felte is not so great. While it's "easy" to use, it's not "simple". It's quite easy to break Felte accidentally. I still haven't figured out how a simple and safe API would look like for this.
+- A way to offer input masking would be nice to have. Integration with `imask` probably would be the way to go, since `svelte-imask` does not play well with Felte.
 - A better alternative to the `multi-step` package is needed. Preferably something that does not depend on any specific framework. Currently we are recommending handling this manually.
