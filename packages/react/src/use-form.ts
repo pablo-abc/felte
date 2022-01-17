@@ -56,7 +56,7 @@ export function useForm<Data extends Obj = Obj>(
     const { form: coreForm, ...rest } = coreCreateForm(coreConfig, {
       storeFactory: writable,
     });
-    const form = (node?: HTMLFormElement | null) => {
+    const form = (node?: HTMLFormElement) => {
       if (!node) return;
       const { destroy } = coreForm(node);
       destroyRef.current = destroy;
