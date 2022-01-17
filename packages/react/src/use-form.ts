@@ -45,7 +45,7 @@ export function useForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
 export function useForm<Data extends Obj = Obj>(
   config?: FormConfig<Data>
 ): Form<Data> & Helpers<Data> & Stores<Data> {
-  const [formElement, setFormElement] = useState<HTMLFormElement>();
+  const [formElement, setFormElement] = useState<HTMLFormElement | null>();
   const destroyRef = useRef<() => void>();
 
   const { startStores, form, ...rest } = useConst(() => {
@@ -56,7 +56,7 @@ export function useForm<Data extends Obj = Obj>(
     const { form: coreForm, ...rest } = coreCreateForm(coreConfig, {
       storeFactory: writable,
     });
-    const form = (node?: HTMLFormElement) => {
+    const form = (node?: HTMLFormElement | null) => {
       if (!node) return;
       const { destroy } = coreForm(node);
       destroyRef.current = destroy;
