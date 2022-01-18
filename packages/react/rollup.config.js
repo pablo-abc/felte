@@ -35,6 +35,6 @@ export default {
     resolve({ browser: true }),
     commonjs(),
     typescript({ browserslist: false }),
-    renameNodeModules(),
+    renameNodeModules('external', prod),
   ],
 };

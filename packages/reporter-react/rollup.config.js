@@ -7,8 +7,12 @@ export default {
   input: 'src/index.tsx',
   output: [
     {
-      file: 'dist/index.mjs',
+      dir: 'dist/esm',
       format: 'es',
+      exports: 'named',
+      sourcemap: true,
+      preserveModules: true,
+      preserveModulesRoot: 'src',
     },
     {
       file: 'dist/index.js',
@@ -31,6 +35,5 @@ export default {
       ],
       exclude: 'node_modules/**',
     }),
-    bundleSize(),
   ],
 };
