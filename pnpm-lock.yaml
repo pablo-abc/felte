@@ -164,6 +164,7 @@ importers:
       '@testing-library/react-hooks': ^7.0.2
       '@types/react': ^17.0.37
       react: ^17.0.2
+      react-dom: ^17.0.2
       react-test-renderer: ^17.0.2
       ts-jest: ^26.5.0
     dependencies:
@@ -171,10 +172,11 @@ importers:
     devDependencies:
       '@felte/common': link:../common
       '@testing-library/jest-dom': 5.11.10
-      '@testing-library/react': 12.1.2_react@17.0.2
-      '@testing-library/react-hooks': 7.0.2_509016fd322278d497c1e58f6164ce1d
+      '@testing-library/react': 12.1.2_react-dom@17.0.2+react@17.0.2
+      '@testing-library/react-hooks': 7.0.2_fc2bb8a5b006d3f25c5f84ea777e678d
       '@types/react': 17.0.37
       react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
       ts-jest: 26.5.4_jest@26.6.3+typescript@4.5.4
 
@@ -330,7 +332,7 @@ importers:
       svelte: ^3.44.3
       svelte-focus-on: ^0.1.4
       svelte-lazy: ^1.1.0
-      svelte-markdown: ^0.2.0
+      svelte-markdown: ^0.2.2
       svelte-portal: ^2.1.2
       svelte-preprocess: ^4.7.4
       tippy.js: ^6.3.1
@@ -345,7 +347,7 @@ importers:
       focus-visible: 5.2.0
       html-minifier: 4.0.0
       svelte-lazy: 1.1.0_svelte@3.44.3
-      svelte-markdown: 0.2.0_svelte@3.44.3
+      svelte-markdown: 0.2.2_svelte@3.44.3
       svelte-portal: 2.1.2
     devDependencies:
       '@sveltejs/adapter-static': 1.0.0-next.26
@@ -2931,7 +2933,7 @@ packages:
       redent: 3.0.0
     dev: true
 
-  /@testing-library/react-hooks/7.0.2_509016fd322278d497c1e58f6164ce1d:
+  /@testing-library/react-hooks/7.0.2_fc2bb8a5b006d3f25c5f84ea777e678d:
     resolution: {integrity: sha512-dYxpz8u9m4q1TuzfcUApqi8iFfR6R0FaMbr2hjZJy1uC8z+bO/K4v8Gs9eogGKYQop7QsrBTFkv/BCF7MzD2Cg==}
     engines: {node: '>=12'}
     peerDependencies:
@@ -2949,6 +2951,7 @@ packages:
       '@types/react-dom': 17.0.11
       '@types/react-test-renderer': 17.0.1
       react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
       react-error-boundary: 3.1.4_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
     dev: true
@@ -2964,18 +2967,6 @@ packages:
       '@testing-library/dom': 8.11.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
-    dev: true
-
-  /@testing-library/react/12.1.2_react@17.0.2:
-    resolution: {integrity: sha512-ihQiEOklNyHIpo2Y8FREkyD1QAea054U0MVbwH1m8N9TxeFz+KoJ9LkqoKqJlzx2JDm56DVwaJ1r36JYxZM05g==}
-    engines: {node: '>=12'}
-    peerDependencies:
-      react: '*'
-      react-dom: '*'
-    dependencies:
-      '@babel/runtime': 7.14.6
-      '@testing-library/dom': 8.11.1
-      react: 17.0.2
     dev: true
 
   /@testing-library/svelte/3.0.3_svelte@3.37.0:
@@ -7235,8 +7226,8 @@ packages:
     hasBin: true
     dev: true
 
-  /marked/4.0.7:
-    resolution: {integrity: sha512-mQrRvV2vRk7DHZsWsYJfAjmBo+lSYPhTJPThaaGpkEfmC+4oefeug2txZniQTieDS0CFpokfVhd7JuS5GtnHhA==}
+  /marked/4.0.10:
+    resolution: {integrity: sha512-+QvuFj0nGgO970fySghXGmuw+Fd0gD2x3+MqCWLIPf5oxdv1Ka6b2q+z9RP01P/IaKPMEramy+7cNy/Lw8c3hw==}
     engines: {node: '>= 12'}
     hasBin: true
     dev: false
@@ -9618,13 +9609,13 @@ packages:
       svelte: 3.37.0
     dev: true
 
-  /svelte-markdown/0.2.0_svelte@3.44.3:
-    resolution: {integrity: sha512-Xi1j89UhcOUQN0YRpsGxXVH9p4Wszc7PRMrVralLB6r7AEH0fIAA6Zu0VfpumcFtxhCWF5z3mKBZjLgA3lOX0Q==}
+  /svelte-markdown/0.2.2_svelte@3.44.3:
+    resolution: {integrity: sha512-bNxpG3gRbC2UjAFakIMcLEzVq5db2Md57aeU4wKCuffSfD6f7RkvtYDqbrAk2ycC55t3wykOy0E7KDuvVKyDYA==}
     peerDependencies:
       svelte: ^3.0.0
     dependencies:
       '@types/marked': 4.0.1
-      marked: 4.0.7
+      marked: 4.0.10
       svelte: 3.44.3
     dev: false
 

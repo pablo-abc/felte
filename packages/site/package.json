@@ -38,7 +38,7 @@
     "focus-visible": "^5.2.0",
     "html-minifier": "^4.0.0",
     "svelte-lazy": "^1.1.0",
-    "svelte-markdown": "^0.2.0",
+    "svelte-markdown": "^0.2.2",
     "svelte-portal": "^2.1.2"
   },
   "volta": {
