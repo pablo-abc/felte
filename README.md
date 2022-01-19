@@ -51,6 +51,8 @@ Felte is a simple to use form library for Svelte, Solid and React. No `Field` or
 
 ## Simple usage example
 
+### Svelte
+
 ```html
 <script>
   import { createForm } from 'felte'
@@ -67,6 +69,48 @@ Felte is a simple to use form library for Svelte, Solid and React. No `Field` or
   <input type=password name=password>
   <input type=submit value="Sign in">
 </form>
+```
+
+### SolidJS
+
+```jsx
+import { createForm } from '@felte/solid';
+
+function Form() {
+  const { form } = createForm({
+    onSubmit: async (values) => {
+      /* call to an api */
+    },
+  })
+
+  return (
+    <form use:form>
+      <input type="text" name="email" />
+      <input type="password" name="password" />
+    </form>
+  );
+}
+```
+
+### ReactJS
+
+```jsx
+import { useForm } from '@felte/react';
+
+function Form() {
+  const { form } = useForm({
+    onSubmit: async (values) => {
+      /* call to an api */
+    },
+  })
+
+  return (
+    <form ref={form}>
+      <input type="text" name="email" />
+      <input type="password" name="password" />
+    </form>
+  );
+}
 ```
 
 ## Packages
