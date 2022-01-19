@@ -12,15 +12,18 @@
 
 - [Features](#features)
 - [Simple usage example](#simple-usage-example)
+  - [Svelte](#svelte)
+  - [Solid](#solid)
+  - [React](#react)
 - [Why](#why)
 - [Packages](#packages)
-  - [Svelte](#svelte)
+  - [Svelte](#svelte-1)
     - [`felte`](./packages/felte/README.md)
     - [`@felte/reporter-svelte`](./packages/reporter-svelte/README.md)
-  - [Solid](#solid)
+  - [Solid](#solid-1)
     - [`@felte/solid`](./packages/solid/README.md)
     - [`@felte/reporter-solid`](./packages/reporter-solid/README.md)
-  - [React](#react)
+  - [React](#react-1)
     - [`@felte/react`](./packages/react/README.md)
     - [`@felte/reporter-react`](./packages/reporter-react/README.md)
   - [Validators](#validators)
@@ -71,7 +74,7 @@ Felte is a simple to use form library for Svelte, Solid and React. No `Field` or
 </form>
 ```
 
-### SolidJS
+### Solid
 
 ```jsx
 import { createForm } from '@felte/solid';
@@ -92,7 +95,7 @@ function Form() {
 }
 ```
 
-### ReactJS
+### React
 
 ```jsx
 import { useForm } from '@felte/react';
