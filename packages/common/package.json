@@ -6,6 +6,7 @@
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/common",
   "license": "MIT",
   "main": "dist/cjs/index.js",
+  "browser": "dist/esm/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
   "type": "module",

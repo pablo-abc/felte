@@ -35,25 +35,8 @@ import {
   executeValidation,
 } from '@felte/common';
 import { get } from './get';
-
-type FailResponse = Omit<Response, 'ok'> & {
-  ok: false;
-};
-
-type SuccessResponse = Omit<Response, 'ok'> & {
-  ok: true;
-};
-
-type FetchResponse = SuccessResponse | FailResponse;
-
-export class FelteSubmitError extends Error {
-  constructor(message: string, response: FailResponse) {
-    super(message);
-    this.name = 'FelteSubmitError';
-    this.response = response;
-  }
-  response: FailResponse;
-}
+import type { SuccessResponse, FetchResponse } from './error';
+import { FelteSubmitError } from './error';
 
 function createDefaultSubmitHandler(form?: HTMLFormElement) {
   if (!form) return;

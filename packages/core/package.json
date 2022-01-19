@@ -2,10 +2,10 @@
   "name": "@felte/core",
   "version": "1.0.0-next.10",
   "description": "Core package for FelteJS",
-  "main": "dist/index.js",
-  "browser": "dist/index.js",
+  "main": "dist/cjs/index.js",
+  "browser": "dist/esm/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "type": "module",
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
@@ -44,7 +44,7 @@
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
-      "require": "./dist/index.js",
+      "require": "./dist/cjs/index.js",
       "default": "./dist/esm/index.js"
     },
     "./package.json": "./package.json"
