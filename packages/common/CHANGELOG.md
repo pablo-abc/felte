@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.0.0-next.9
+
+### Patch Changes
+
+- 38fbb49: Point "browser" field to esm bundle
+
 ## 1.0.0-next.8
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @felte/react
 
+## 1.0.0-next.14
+
+### Patch Changes
+
+- 38fbb49: Point "browser" field to esm bundle
+- Updated dependencies [38fbb49]
+  - @felte/core@1.0.0-next.11
+
 ## 1.0.0-next.13
 
 ### Patch Changes
