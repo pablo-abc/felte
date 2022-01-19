@@ -1,25 +1,6 @@
 import type { StoreFactory } from '@felte/core';
-import { createEffect, createSignal, createRoot } from 'solid-js';
+import { createSignal, observable } from 'solid-js';
 import { createAccessor, FelteAccessor } from './create-accessor';
-
-const isCallback = (
-  maybeFunction: any
-): maybeFunction is (...args: any[]) => void =>
-  typeof maybeFunction === 'function';
-
-function createSubscriber<T>(store: T | (() => T)) {
-  return function subscribe(fn: (data: T) => void) {
-    const value = isCallback(store) ? store : () => store;
-    fn(value());
-    let disposer: () => void | undefined;
-    createRoot((dispose) => {
-      disposer = dispose;
-      createEffect(() => fn(value()));
-      return dispose;
-    });
-    return () => disposer();
-  };
-}
 
 export const storeFactory: StoreFactory<FelteAccessor<any>> = <Value>(
   initialValue: Value
@@ -34,9 +15,14 @@ export const storeFactory: StoreFactory<FelteAccessor<any>> = <Value>(
     signalSetter(updater(signal()));
   }
 
-  const subscribe = createSubscriber<Value>(signal);
-
   const accessor = createAccessor(signal) as any;
+
+  const obs = observable(signal);
+
+  function subscribe(subscriber: (value: Value) => void) {
+    const { unsubscribe } = obs.subscribe({ next: subscriber });
+    return unsubscribe;
+  }
 
   accessor.subscribe = subscribe;
   accessor.set = signalSetter;
