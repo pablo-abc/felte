@@ -194,7 +194,7 @@ A reporter that displays the error messages in the DOM, either as a single eleme
 
 ## Contributing
 
-If you want to contribute to this project you may check [`CONTRIBUTING.md`](./CONTRIBUTING.md) for instructions on how to contribute.
+If you want to contribute to this project you may check [`CONTRIBUTING.md`](./CONTRIBUTING.md) for general guidelines on how to do so.
 
 ## Contributors ✨
 
