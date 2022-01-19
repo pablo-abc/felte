@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.0.0-next.8
+
+### Patch Changes
+
+- c86a82a: Preserve modules in CJS
+
 ## 1.0.0-next.7
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @felte/react
 
+## 1.0.0-next.13
+
+### Patch Changes
+
+- e91a298: Update peer dependencies
+  - @felte/core@1.0.0-next.10
+
 ## 1.0.0-next.12
 
 ### Patch Changes

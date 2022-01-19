@@ -1,5 +1,12 @@
 # @felte/validator-superstruct
 
+## 1.0.0-next.7
+
+### Patch Changes
+
+- Updated dependencies [c86a82a]
+  - @felte/common@1.0.0-next.8
+
 ## 1.0.0-next.6
 
 ### Patch Changes

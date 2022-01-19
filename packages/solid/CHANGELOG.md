@@ -1,5 +1,12 @@
 # @felte/solid
 
+## 1.0.0-next.10
+
+### Patch Changes
+
+- d12cc49: Use Solid's observable function instead of our own
+  - @felte/core@1.0.0-next.10
+
 ## 1.0.0-next.9
 
 ### Patch Changes
