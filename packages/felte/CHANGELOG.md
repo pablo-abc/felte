@@ -1,5 +1,13 @@
 # felte
 
+## 1.0.0-next.13
+
+### Patch Changes
+
+- f315439: Export events as types
+- Updated dependencies [f315439]
+  - @felte/core@1.0.0-next.13
+
 ## 1.0.0-next.12
 
 ### Minor Changes
