@@ -3,6 +3,7 @@ section: Submitting
 subsections:
   - Default handler
   - Custom handler
+  - Context object
 ---
 
 ## Submitting
@@ -17,9 +18,9 @@ If no `onSubmit` function is provided on `createForm`, Felte will send a request
 * `method` will be the method used to send the request. This can only be `get` or `post` but you can override it by adding a `_method=VERB` query string to your `action`. Overriding only works if your `method` attribute is set to `post`.
 * `enctype` is the MIME type that will be used to post your form data (if your `method` attribute has a value of `post`).
 
-If the request succeeds, Felte will emit a `feltesuccess` event that you can handle on your `form` element. This is a `CustomEvent` that contains the `Response` from fetch in the `detail` property.
+If the request succeeds, Felte will emit a `feltesuccess` event that you can handle on your `form` element. This is a `CustomEvent` that contains the `Response` from fetch in the `response` property of `detail`, merged with the `context` object described below.
 
-If the request fails, Felte will emit a `felteerror` event that you can handle on your `form` element. This is a `CustomEvent` that contains a `FelteSubmitError` instance in the `detail` property.
+If the request fails, Felte will emit a `felteerror` event that you can handle on your `form` element. This is a `CustomEvent` that contains an object with a `FelteSubmitError` instance in the `error` property of `detail`, merged with the `context` object described below.
 
 > These events **do not** bubble.
 
@@ -30,12 +31,12 @@ If the request fails, Felte will emit a `felteerror` event that you can handle o
   const { form } = createForm();
 
   function handleSuccess(event) {
-    const response = event.detail;
+    const { response, ...context } = event.detail;
     // Do something with the response.
   }
 
   function handleError(event) {
-    const error = event.detail;
+    const { error, ...context } = event.detail;
     // `FelteSubmitError` contains a `response` property
     // with the response from `fetch`
     const response = error.response;
@@ -75,13 +76,13 @@ When using this method for submitting form, you **can not** use the `name` attri
   import { createForm } from 'felte';
 
   const { form } = createForm({
-    onSubmit(values) {
+    onSubmit(values, context) {
       // ...
     },
-    onSuccess(response) {
+    onSuccess(response, context) {
       // Do something with the returned value from `onSubmit`.
     },
-    onError(err) {
+    onError(err, context) {
       // Do something with the error thrown from `onSubmit`.
     },
   })
@@ -94,7 +95,9 @@ When using this method for submitting form, you **can not** use the `name` attri
 </form>
 ```
 
-The `onSubmit` function also receives a second argument: an object with your form and input elements, your configuration and some helper functions (just like the ones returned from `useForm`):
+### Context object
+
+The `onSubmit`, `onSuccess` and `onError` functions also receive a second argument: an object with your form and input elements, your configuration and some helper functions (just like the ones returned from `createForm`):
 
 ```js
 const { form } = createForm({
@@ -122,3 +125,5 @@ const { form } = createForm({
 * `controls` is an array containing your HTML elements that refer to your controls.
 * `config` is the original configuration you passed to `createForm`.
 * The rest are some of the same helpers documented in the [helper functions section](/docs/svelte/helper-functions)
+
+Events contain these same properties from context alongside a `response` property for the `feltesuccess` event, and an `error`property for the `felteerror` event.

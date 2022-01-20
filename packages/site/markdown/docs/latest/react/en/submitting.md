@@ -3,6 +3,7 @@ section: Submitting
 subsections:
   - Default handler
   - Custom handler
+  - Context object
 ---
 
 ## Submitting
@@ -24,11 +25,11 @@ If the request fails, Felte will call your `onError` function, if available, wit
 ```jsx
 import { useForm } from '@felte/react';
 
-function onSuccess(response) {
+function onSuccess(response, context) {
   // Do something with the response.
 }
 
-function handleError(error) {
+function handleError(error, context) {
   // `FelteSubmitError` contains a `response` property
   // with the response from `fetch`
   const response = error.response;
@@ -68,13 +69,13 @@ import { useForm } from '@felte/react';
 
 export function Form() {
   const { form } = useForm({
-    onSubmit(values) {
+    onSubmit(values, context) {
       // ...
     },
-    onSuccess(response) {
+    onSuccess(response, context) {
       // Do something with the returned value from `onSubmit`.
     },
-    onError(err) {
+    onError(err, context) {
       // Do something with the error thrown from `onSubmit`.
     },
   });
@@ -89,7 +90,9 @@ export function Form() {
 }
 ```
 
-The `onSubmit` function also receives a second argument: an object with your form and input elements, your configuration and some helper functions (just like the ones returned from `useForm`):
+### Context object
+
+The `onSubmit`, `onSuccess` and `onError` functions also receive a second argument: an object with your form and input elements, your configuration and some helper functions (just like the ones returned from `useForm`):
 
 ```js
 const { form } = useForm({
