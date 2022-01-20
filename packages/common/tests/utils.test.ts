@@ -580,6 +580,10 @@ describe('Utils', () => {
         percentage: String(values.progress.percentage.toFixed(0)) + '%',
       },
     });
+    expect(executeTransforms(mockValues)).toBe(mockValues);
+    expect(executeTransforms(mockValues, transformToBase100)).toEqual({
+      progress: { percentage: 42 },
+    });
     expect(
       executeTransforms(mockValues, [
         transformToBase100,

@@ -18,7 +18,11 @@ export { getPath } from './utils/getPath';
 export { getPathFromDataset } from './utils/getPathFromDataset';
 export { shouldIgnore } from './utils/shouldIgnore';
 export { getValue } from './utils/getValue';
-export { executeValidation } from './utils/executeValidation';
+export {
+  executeValidation,
+  mergeErrors,
+  runValidations,
+} from './utils/executeValidation';
 export { executeTransforms } from './utils/executeTransforms';
 export * from './utils/domUtils';
 export * from './types';

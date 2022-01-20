@@ -196,6 +196,19 @@ export type SubmitContext<Data extends Obj> = {
   config: FormConfig<Data>;
 } & Omit<Helpers<Data>, 'validate' | 'setIsSubmitting' | 'setIsDirty'>;
 
+type DebouncedConfig<Data extends Obj> = {
+  /** Optional function to validate the data. */
+  validate?: ValidationFunction<Data> | ValidationFunction<Data>[];
+  /** Optional function to set warnings based on the current state of your data. */
+  warn?: ValidationFunction<Data> | ValidationFunction<Data>[];
+  /** Optional number to set timeout in milliseconds */
+  timeout?: number;
+  /** Overrides timeout for validate */
+  validateTimeout?: number;
+  /** Overrides timeout for warn */
+  warnTimeout?: number;
+};
+
 /**
  * Configuration object when `initialValues` is not set. Used when using the `form` action.
  */
@@ -207,6 +220,8 @@ export type FormConfigWithoutTransformFn<Data extends Obj> = {
   validate?: ValidationFunction<Data> | ValidationFunction<Data>[];
   /** Optional function to set warnings based on the current state of your data. */
   warn?: ValidationFunction<Data> | ValidationFunction<Data>[];
+  /** Optional object containing properties to be debounced */
+  debounced?: DebouncedConfig<Data>;
   /** Optional function to handle the form data on submit. */
   onSubmit?: (
     values: Data,
@@ -244,6 +259,8 @@ export type FormConfigWithTransformFn<Data extends Obj> = {
   validate?: ValidationFunction<Data> | ValidationFunction<Data>[];
   /** Optional function to set warnings based on the current state of your data. */
   warn?: ValidationFunction<Data> | ValidationFunction<Data>[];
+  /** Optional object containing properties to be debounced */
+  debounced?: DebouncedConfig<Data>;
   /** Required function to handle the form data on submit. */
   onSubmit?: (
     values: Data,
