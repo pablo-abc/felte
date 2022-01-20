@@ -68,31 +68,50 @@ export function createForm<
   adapters: Adapters<StoreExt>
 ): CoreForm<Data> & Helpers<Data> & Stores<Data, StoreExt> {
   config.extend ??= [];
+  config.debounced ??= {};
   config.touchTriggerEvents ??= { change: true, blur: true };
   if (config.validate && !Array.isArray(config.validate))
     config.validate = [config.validate];
+
+  if (config.debounced.validate && !Array.isArray(config.debounced.validate))
+    config.debounced.validate = [config.debounced.validate];
 
   if (config.transform && !Array.isArray(config.transform))
     config.transform = [config.transform];
 
   if (config.warn && !Array.isArray(config.warn)) config.warn = [config.warn];
+  if (config.debounced.warn && !Array.isArray(config.debounced.warn))
+    config.debounced.warn = [config.debounced.warn];
 
-  function addValidator(validator: ValidationFunction<Data>) {
-    if (!config.validate) {
-      config.validate = [validator];
+  function addValidator(
+    validator: ValidationFunction<Data>,
+    { debounced } = { debounced: false }
+  ) {
+    config.debounced ??= {};
+    const validateConfig = debounced ? config.debounced : config;
+    if (!validateConfig.validate) {
+      validateConfig.validate = [validator];
     } else {
-      config.validate = [
-        ...(config.validate as ValidationFunction<Data>[]),
+      validateConfig.validate = [
+        ...(validateConfig.validate as ValidationFunction<Data>[]),
         validator,
       ];
     }
   }
 
-  function addWarnValidator(validator: ValidationFunction<Data>) {
-    if (!config.warn) {
-      config.warn = [validator];
+  function addWarnValidator(
+    validator: ValidationFunction<Data>,
+    { debounced } = { debounced: false }
+  ) {
+    config.debounced ??= {};
+    const validateConfig = debounced ? config.debounced : config;
+    if (!validateConfig.warn) {
+      validateConfig.warn = [validator];
     } else {
-      config.warn = [...(config.warn as ValidationFunction<Data>[]), validator];
+      validateConfig.warn = [
+        ...(validateConfig.warn as ValidationFunction<Data>[]),
+        validator,
+      ];
     }
   }
 

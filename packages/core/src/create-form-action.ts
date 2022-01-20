@@ -38,6 +38,17 @@ import type { SuccessResponse, FetchResponse } from './error';
 import { get } from './get';
 import { FelteSubmitError } from './error';
 
+function getAllValidators<Data extends Obj>(
+  prop: 'warn' | 'validate',
+  config: FormConfig<Data>
+): ValidationFunction<Data>[] {
+  const validate = config[prop] ?? [];
+  const validations = Array.isArray(validate) ? validate : [validate];
+  const debounced = config.debounced?.[prop] ?? [];
+  const debValidations = Array.isArray(debounced) ? debounced : [debounced];
+  return [...validations, ...debValidations];
+}
+
 function createDefaultSubmitHandler(form?: HTMLFormElement) {
   if (!form) return;
   return async function onSubmit(): Promise<SuccessResponse> {
@@ -126,8 +137,9 @@ export function createFormAction<Data extends Obj>({
   const { data, errors, warnings, touched, isSubmitting, isDirty } = stores;
 
   function createSubmitHandler(altConfig?: CreateSubmitHandlerConfig<Data>) {
-    const validate = altConfig?.validate ?? config.validate;
-    const warn = altConfig?.warn ?? config.warn;
+    const validate =
+      altConfig?.validate ?? getAllValidators('validate', config);
+    const warn = altConfig?.warn ?? getAllValidators('warn', config);
     const onError = altConfig?.onError ?? config.onError;
     const onSuccess = altConfig?.onSuccess ?? config.onSuccess;
     return async function handleSubmit(event?: Event) {
