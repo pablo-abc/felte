@@ -1,5 +1,18 @@
 # @felte/react
 
+## 1.0.0-next.15
+
+### Minor Changes
+
+- dc1f21a: Add helper functions to context passed to `onSuccess`, `onSubmit` and `onError`
+- eea3afa: Pass context data to `onError` and `onSuccess`
+
+### Patch Changes
+
+- Updated dependencies [dc1f21a]
+- Updated dependencies [eea3afa]
+  - @felte/core@1.0.0-next.12
+
 ## 1.0.0-next.14
 
 ### Patch Changes

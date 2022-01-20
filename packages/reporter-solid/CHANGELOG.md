@@ -1,5 +1,13 @@
 # @felte/reporter-solid
 
+## 1.0.0-next.9
+
+### Patch Changes
+
+- Updated dependencies [dc1f21a]
+- Updated dependencies [eea3afa]
+  - @felte/common@1.0.0-next.10
+
 ## 1.0.0-next.8
 
 ### Patch Changes

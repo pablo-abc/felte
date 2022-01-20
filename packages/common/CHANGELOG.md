@@ -1,5 +1,12 @@
 # @felte/common
 
+## 1.0.0-next.10
+
+### Minor Changes
+
+- dc1f21a: Add helper functions to context passed to `onSuccess`, `onSubmit` and `onError`
+- eea3afa: Pass context data to `onError` and `onSuccess`
+
 ## 1.0.0-next.9
 
 ### Patch Changes
