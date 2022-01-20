@@ -9,8 +9,8 @@ import type {
   FormControl,
   CreateSubmitHandlerConfig,
   Touched,
-  Errors,
-  ObjectSetter,
+  Helpers,
+  SubmitContext,
 } from '@felte/common';
 import {
   isFormControl,
@@ -37,6 +37,7 @@ import {
 import { get } from './get';
 import type { SuccessResponse, FetchResponse } from './error';
 import { FelteSubmitError } from './error';
+import { FelteSuccessEvent, FelteErrorEvent } from './events';
 
 function createDefaultSubmitHandler(form?: HTMLFormElement) {
   if (!form) return;
@@ -90,15 +91,10 @@ type Configuration<Data extends Obj> = {
   stores: Stores<Data>;
   config: FormConfig<Data>;
   extender: Extender<Data>[];
-  helpers: {
-    reset(): void;
-    validate(): Promise<Errors<Data> | void>;
+  helpers: Helpers<Data> & {
     addValidator(validator: ValidationFunction<Data>): void;
     addWarnValidator(validator: ValidationFunction<Data>): void;
     addTransformer(transformer: TransformFunction<Data>): void;
-    setFields(values: Data): void;
-    setTouched: ObjectSetter<Touched<Data>, boolean>;
-    setInitialValues(values: Data): void;
   };
   _setFormNode(node: HTMLFormElement): void;
   _getFormNode(): HTMLFormElement | undefined;
@@ -118,15 +114,15 @@ export function createFormAction<Data extends Obj>({
   _setCurrentExtenders,
   _getCurrentExtenders,
 }: Configuration<Data>) {
+  const { setFields, setTouched, reset, setInitialValues } = helpers;
   const {
-    setFields,
-    setTouched,
-    reset,
-    validate,
     addValidator,
     addWarnValidator,
     addTransformer,
-    setInitialValues,
+    validate,
+    setIsDirty,
+    setIsSubmitting,
+    ...contextHelpers
   } = helpers;
   const { data, errors, warnings, touched, isSubmitting, isDirty } = stores;
 
@@ -166,27 +162,25 @@ export function createFormAction<Data extends Obj>({
           return;
         }
       }
+      const context = {
+        ...contextHelpers,
+        form: formNode,
+        controls:
+          formNode && Array.from(formNode.elements).filter(isFormControl),
+        config: { ...config, ...altConfig },
+      };
       try {
-        const response = await onSubmit(currentData, {
-          form: formNode,
-          controls:
-            formNode && Array.from(formNode.elements).filter(isFormControl),
-          config: { ...config, ...altConfig },
-        });
+        const response = await onSubmit(currentData, context);
         formNode?.dispatchEvent(
-          new CustomEvent('feltesuccess', {
-            detail: response,
-          })
+          new FelteSuccessEvent<Data>({ response, ...context })
         );
-        await onSuccess?.(response);
+        await onSuccess?.(response, context);
       } catch (e) {
         formNode?.dispatchEvent(
-          new CustomEvent('felteerror', {
-            detail: e,
-          })
+          new FelteErrorEvent<Data>({ error: e, ...context })
         );
         if (!onError) return;
-        const serverErrors = await onError(e);
+        const serverErrors = await onError(e, context);
         if (serverErrors) {
           errors.set(serverErrors);
           _getCurrentExtenders().forEach((extender) =>

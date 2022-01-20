@@ -651,7 +651,7 @@ describe('User interactions with form', () => {
 
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalled();
-      expect(onError).toHaveBeenCalledWith(mockErrors);
+      expect(onError).toHaveBeenCalledWith(mockErrors, expect.anything());
       expect(get(isSubmitting)).toBeFalsy();
     });
   });

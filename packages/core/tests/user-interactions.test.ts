@@ -700,7 +700,7 @@ describe('User interactions with form', () => {
 
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalled();
-      expect(onError).toHaveBeenCalledWith(mockErrors);
+      expect(onError).toHaveBeenCalledWith(mockErrors, expect.anything());
       expect(get(isSubmitting)).toBeFalsy();
     });
   });
@@ -911,7 +911,8 @@ describe('User interactions with form', () => {
       expect(onSuccess).toHaveBeenCalledWith(
         expect.objectContaining({
           ok: true,
-        })
+        }),
+        expect.anything()
       );
     });
   });
@@ -942,6 +943,16 @@ describe('User interactions with form', () => {
       expect(onSuccess).toHaveBeenCalledWith(
         expect.objectContaining({
           ok: true,
+        }),
+        expect.anything()
+      );
+      expect(eventOnSuccess).toHaveBeenCalledWith(
+        expect.objectContaining({
+          detail: expect.objectContaining({
+            response: expect.objectContaining({
+              ok: true,
+            }),
+          }),
         })
       );
     });
@@ -1018,10 +1029,15 @@ describe('User interactions with form', () => {
           },
         })
       );
-      expect(onError).toHaveBeenCalledWith(expect.any(FelteSubmitError));
+      expect(onError).toHaveBeenCalledWith(
+        expect.any(FelteSubmitError),
+        expect.anything()
+      );
       expect(eventOnError).toHaveBeenCalledWith(
         expect.objectContaining({
-          detail: expect.any(FelteSubmitError),
+          detail: expect.objectContaining({
+            error: expect.any(FelteSubmitError),
+          }),
         })
       );
     });

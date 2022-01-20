@@ -97,3 +97,32 @@ export function Form() {
   );
 }
 ```
+
+The `onSubmit` function also receives a second argument: an object with your form and input elements, your configuration and some helper functions (just like the ones returned from `useForm`):
+
+```js
+const { form } = createForm({
+  onSubmit: async (values, {
+    form,
+    controls,
+    config,
+    setFields,
+    setData,
+    setTouched,
+    setErrors,
+    setWarnings,
+    unsetField,
+    addField,
+    resetField,
+    reset,
+    setInitialValues,
+  }) => {
+    // ...
+  },
+});
+```
+
+* `form` is an HTML form element. This can be useful if you want to send your dara as `FormData`.
+* `controls` is an array containing your HTML elements that refer to your controls.
+* `config` is the original configuration you passed to `createForm`.
+* The rest are some of the same helpers documented in the [helper functions section](/docs/solid/helper-functions)

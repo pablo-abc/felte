@@ -194,7 +194,7 @@ export type SubmitContext<Data extends Obj> = {
   form?: HTMLFormElement;
   controls?: FormControl[];
   config: FormConfig<Data>;
-};
+} & Omit<Helpers<Data>, 'validate' | 'setIsSubmitting' | 'setIsDirty'>;
 
 /**
  * Configuration object when `initialValues` is not set. Used when using the `form` action.
@@ -213,10 +213,14 @@ export type FormConfigWithoutTransformFn<Data extends Obj> = {
     context: SubmitContext<Data>
   ) => Promise<unknown> | unknown;
   /** Optional function to react to a submission success. It will receive whatever you return from `onSubmit`. If not using `onSubmit` it will receive the `Response` from the default submit handler */
-  onSuccess?: (response: unknown) => void | Promise<void>;
+  onSuccess?: (
+    response: unknown,
+    context: SubmitContext<Data>
+  ) => void | Promise<void>;
   /** Optional function that accepts any thrown exceptions from the onSubmit function. You can return an object with the same shape [[`Errors`]] for a reporter to use it. */
   onError?: (
-    error: unknown
+    error: unknown,
+    context: SubmitContext<Data>
   ) => Promise<void | Errors<Data>> | void | Errors<Data>;
   /** Optional function/s to extend Felte's functionality. */
   extend?: Extender<Data> | Extender<Data>[];
@@ -246,10 +250,14 @@ export type FormConfigWithTransformFn<Data extends Obj> = {
     context: SubmitContext<Data>
   ) => Promise<unknown> | unknown;
   /** Optional function to react to a submission success. It will receive whatever you return from `onSubmit`. If not using `onSubmit` it will receive the `Response` from the default submit handler */
-  onSuccess?: (response: unknown) => void | Promise<void>;
+  onSuccess?: (
+    response: unknown,
+    context: SubmitContext<Data>
+  ) => void | Promise<void>;
   /** Optional function that accepts any thrown exceptions from the onSubmit function. You can return an object with the same shape [[`Errors`]] for a reporter to use it. */
   onError?: (
-    errors: unknown
+    error: unknown,
+    context: SubmitContext<Data>
   ) => Promise<void | Errors<Data>> | void | Errors<Data>;
   /** Optional function/s to extend Felte's functionality. */
   extend?: Extender<Data> | Extender<Data>[];
