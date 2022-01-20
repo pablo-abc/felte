@@ -1,9 +1,9 @@
 ---
-'@felte/common': patch
-'@felte/core': patch
-'felte': patch
-'@felte/react': patch
-'@felte/solid': patch
+'@felte/common': minor
+'@felte/core': minor
+'felte': minor
+'@felte/react': minor
+'@felte/solid': minor
 ---
 
 Pass context data to `onError` and `onSuccess`
