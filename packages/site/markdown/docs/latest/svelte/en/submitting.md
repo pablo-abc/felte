@@ -127,3 +127,5 @@ const { form } = createForm({
 * The rest are some of the same helpers documented in the [helper functions section](/docs/svelte/helper-functions)
 
 Events contain these same properties from context alongside a `response` property for the `feltesuccess` event, and an `error`property for the `felteerror` event.
+
+> **NOTE**: TypeScript users may import the types `FelteSuccessEvent`, `FelteErrorEvent`, `FelteSuccessDetail` and `FelteErrorDetail` from this package.
