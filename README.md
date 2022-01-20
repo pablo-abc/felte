@@ -70,7 +70,7 @@ Felte is a simple to use form library for Svelte, Solid and React. No `Field` or
 <form use:form>
   <input type=text name=email>
   <input type=password name=password>
-  <input type=submit value="Sign in">
+  <button type=submit>Sign In</button>
 </form>
 ```
 
@@ -90,6 +90,7 @@ function Form() {
     <form use:form>
       <input type="text" name="email" />
       <input type="password" name="password" />
+      <button type="submit">Sign In</button>
     </form>
   );
 }
@@ -111,6 +112,7 @@ function Form() {
     <form ref={form}>
       <input type="text" name="email" />
       <input type="password" name="password" />
+      <button type="submit">Sign In</button>
     </form>
   );
 }
