@@ -10,7 +10,6 @@ import type {
   CreateSubmitHandlerConfig,
   Touched,
   Helpers,
-  SubmitContext,
 } from '@felte/common';
 import {
   isFormControl,
@@ -34,10 +33,10 @@ import {
   getFormControls,
   executeValidation,
 } from '@felte/common';
-import { get } from './get';
+import type { FelteSuccessDetail, FelteErrorDetail } from './events';
 import type { SuccessResponse, FetchResponse } from './error';
+import { get } from './get';
 import { FelteSubmitError } from './error';
-import { FelteSuccessEvent, FelteErrorEvent } from './events';
 
 function createDefaultSubmitHandler(form?: HTMLFormElement) {
   if (!form) return;
@@ -172,12 +171,22 @@ export function createFormAction<Data extends Obj>({
       try {
         const response = await onSubmit(currentData, context);
         formNode?.dispatchEvent(
-          new FelteSuccessEvent<Data>({ response, ...context })
+          new CustomEvent<FelteSuccessDetail<Data>>('feltesuccess', {
+            detail: {
+              response,
+              ...context,
+            },
+          })
         );
         await onSuccess?.(response, context);
       } catch (e) {
         formNode?.dispatchEvent(
-          new FelteErrorEvent<Data>({ error: e, ...context })
+          new CustomEvent<FelteErrorDetail<Data>>('felteerror', {
+            detail: {
+              error: e,
+              ...context,
+            },
+          })
         );
         if (!onError) return;
         const serverErrors = await onError(e, context);

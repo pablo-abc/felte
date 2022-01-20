@@ -1,7 +1,6 @@
 import typescript from 'rollup-plugin-ts';
 import babel from '@rollup/plugin-babel';
 import nodeResolve from '@rollup/plugin-node-resolve';
-import bundleSize from 'rollup-plugin-bundle-size';
 
 export default {
   input: 'src/index.tsx',

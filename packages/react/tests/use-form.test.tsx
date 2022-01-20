@@ -1,5 +1,4 @@
 import React from 'react';
-import type { RefCallback } from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { useForm } from '../src';
