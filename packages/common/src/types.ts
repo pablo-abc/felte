@@ -461,4 +461,4 @@ type TraverseImpl<
 export type Traverse<
   T extends Record<string, any> | Array<any>,
   Path extends string
-> = TraverseImpl<T, Split<Path>>;
+> = TraverseImpl<Required<T>, Split<Path>>;
