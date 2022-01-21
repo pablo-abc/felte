@@ -11,6 +11,8 @@ import type {
   Setter,
   ObjectSetter,
   PrimitiveSetter,
+  FieldsSetter,
+  Helpers,
 } from '@felte/common';
 import {
   deepSet,
@@ -54,28 +56,24 @@ function isUpdater<T>(value: unknown): value is (value: T) => T {
   return typeof value === 'function';
 }
 
-function createSetHelper<
-  Data extends Obj,
-  Value extends FieldValue | FieldValue[]
->(
+function createSetHelper<Data extends Obj, Path extends string>(
   storeSetter: (updater: (value: Data) => Data) => void
-): ObjectSetter<Data, Value>;
+): ObjectSetter<Data, Path>;
 function createSetHelper<Data extends boolean>(
   storeSetter: (updater: (value: Data) => Data) => void
 ): PrimitiveSetter<Data>;
-function createSetHelper<
-  Data extends Obj | boolean,
-  Value extends FieldValue | FieldValue[]
->(storeSetter: (updater: (value: Data) => Data) => void): Setter<Data, Value> {
+function createSetHelper<Data extends Obj | boolean>(
+  storeSetter: (updater: (value: Data) => Data) => void
+): Setter<Data> {
   const setHelper = (
     pathOrValue: string | Data | ((value: Data) => Data),
-    valueOrUpdater?: Value | ((value: Value) => Value)
+    valueOrUpdater?: unknown | ((value: unknown) => unknown)
   ) => {
     if (typeof pathOrValue === 'string') {
       const path = pathOrValue;
       storeSetter((oldValue) => {
-        const newValue = isUpdater<Value>(valueOrUpdater)
-          ? (valueOrUpdater(_get(oldValue as Obj, path) as Value) as Data)
+        const newValue = isUpdater(valueOrUpdater)
+          ? (valueOrUpdater(_get(oldValue as Obj, path)) as Data)
           : valueOrUpdater;
         return _set(
           oldValue as Obj,
@@ -90,7 +88,7 @@ function createSetHelper<
     }
   };
 
-  return setHelper as Setter<Data, Value>;
+  return setHelper as Setter<Data>;
 }
 
 export function createHelpers<Data extends Obj>({
@@ -99,15 +97,15 @@ export function createHelpers<Data extends Obj>({
 }: CreateHelpersOptions<Data>) {
   const { data, touched, errors, warnings, isDirty, isSubmitting } = stores;
 
-  const setData = createSetHelper<Data, FieldValue | FieldValue[]>(data.update);
+  const setData = createSetHelper<Data, string>(data.update);
 
-  const setTouched = createSetHelper<Touched<Data>, boolean>(touched.update);
+  const setTouched = createSetHelper<Touched<Data>, string>(touched.update);
 
-  const setErrors = createSetHelper<Partial<Errors<Data>>, string | string[]>(
+  const setErrors = createSetHelper<Partial<Errors<Data>>, string>(
     errors.update
   );
 
-  const setWarnings = createSetHelper<Partial<Errors<Data>>, string | string[]>(
+  const setWarnings = createSetHelper<Partial<Errors<Data>>, string>(
     warnings.update
   );
 
@@ -119,16 +117,15 @@ export function createHelpers<Data extends Obj>({
     });
   }
 
-  type FieldValues = FieldValue | FieldValue[];
-  const setFields = (
+  const setFields: FieldsSetter<Data, string> = (
     pathOrValue: string | Data | ((value: Data) => Data),
-    valueOrUpdater?: FieldValues | ((value: FieldValues) => FieldValues),
+    valueOrUpdater?: unknown | ((value: unknown) => unknown),
     shouldTouch?: boolean
   ) => {
-    const fieldsSetter = createSetHelper<Data, FieldValues>(updateFields);
+    const fieldsSetter = createSetHelper<Data, string>(updateFields);
     fieldsSetter(pathOrValue as any, valueOrUpdater as any);
     if (typeof pathOrValue === 'string' && shouldTouch) {
-      setTouched(pathOrValue as any, true);
+      setTouched(pathOrValue, true as any);
     }
   };
 
@@ -215,30 +212,34 @@ export function createHelpers<Data extends Obj>({
     isDirty.set(false);
   }
 
+  const publicHelpers: Helpers<Data> = {
+    setData,
+    setFields,
+    setTouched,
+    setErrors,
+    setWarnings,
+    setIsSubmitting,
+    setIsDirty,
+    validate,
+    reset,
+    unsetField,
+    resetField,
+    addField,
+    setInitialValues: (values: Data) => {
+      initialValues = values;
+    },
+  };
+
+  const privateHelpers = {
+    _setFormNode: (node: HTMLFormElement) => {
+      formNode = node;
+    },
+    _getFormNode: () => formNode,
+    _getInitialValues: () => initialValues,
+  };
+
   return {
-    public: {
-      setData,
-      setFields,
-      setTouched,
-      setErrors,
-      setWarnings,
-      setIsSubmitting,
-      setIsDirty,
-      validate,
-      reset,
-      unsetField,
-      resetField,
-      addField,
-      setInitialValues: (values: Data) => {
-        initialValues = values;
-      },
-    },
-    private: {
-      _setFormNode: (node: HTMLFormElement) => {
-        formNode = node;
-      },
-      _getFormNode: () => formNode,
-      _getInitialValues: () => initialValues,
-    },
+    public: publicHelpers,
+    private: privateHelpers,
   };
 }

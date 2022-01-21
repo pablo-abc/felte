@@ -11,6 +11,7 @@ import type {
   Helpers,
   UnknownHelpers,
   KnownHelpers,
+  Paths,
 } from '@felte/core';
 import type {
   Stores,
@@ -36,13 +37,13 @@ export type Form<Data extends Obj> = {
 
 export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
   config: FormConfigWithTransformFn<Data> & Ext
-): Form<Data> & UnknownHelpers<Data> & UnknownStores<Data>;
+): Form<Data> & UnknownHelpers<Data, Paths<Data>> & UnknownStores<Data>;
 export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
   config?: FormConfigWithoutTransformFn<Data> & Ext
-): Form<Data> & KnownHelpers<Data> & KnownStores<Data>;
+): Form<Data> & KnownHelpers<Data, Paths<Data>> & KnownStores<Data>;
 export function createForm<Data extends Obj = Obj, Ext extends Obj = Obj>(
   config?: FormConfig<Data> & Ext
-): Form<Data> & Helpers<Data> & Stores<Data> {
+): Form<Data> & Helpers<Data, Paths<Data>> & Stores<Data> {
   const {
     form: formAction,
     cleanup,

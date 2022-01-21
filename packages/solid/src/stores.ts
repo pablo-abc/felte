@@ -1,6 +1,8 @@
 import type { StoreFactory } from '@felte/core';
+import type { FelteAccessor } from './create-accessor';
+import type { Writable } from 'svelte/store';
 import { createSignal, observable } from 'solid-js';
-import { createAccessor, FelteAccessor } from './create-accessor';
+import { createAccessor } from './create-accessor';
 
 export const storeFactory: StoreFactory<FelteAccessor<any>> = <Value>(
   initialValue: Value
@@ -15,7 +17,8 @@ export const storeFactory: StoreFactory<FelteAccessor<any>> = <Value>(
     signalSetter(updater(signal()));
   }
 
-  const accessor = createAccessor(signal) as any;
+  const accessor = (createAccessor(signal) as unknown) as Writable<any> &
+    FelteAccessor<any>;
 
   const obs = observable(signal);
 

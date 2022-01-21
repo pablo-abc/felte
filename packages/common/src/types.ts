@@ -1,60 +1,76 @@
 import type { Readable, Writable } from 'svelte/store';
 
-export type ObjectSetter<Data, Value, Path extends string = string> = ((
-  path: Path,
-  value: Value
+export type ObjectSetter<Data, Path extends string = string> = (<
+  P extends Path,
+  V extends Traverse<Data, P> = Traverse<Data, P>
+>(
+  path: P,
+  value: V
 ) => void) &
-  ((path: Path, updater: (value: unknown) => Value) => void) &
+  (<P extends Path, V extends Traverse<Data, P> = Traverse<Data, P>>(
+    path: P,
+    updater: (value: V) => V
+  ) => void) &
   ((value: Data) => void) &
   ((updater: (value: Data) => Data) => void);
 
-export type UnknownObjectSetter<
-  Data,
-  Value = FieldValue | FieldValue[],
-  Path extends string = string
-> = ((path: Path, value: Value) => void) &
-  ((path: Path, updater: (value: unknown) => Value) => void) &
+export type UnknownObjectSetter<Data, Path extends string = string> = ((
+  path: Path,
+  value: unknown
+) => void) &
+  (<P extends Path, V extends Traverse<Data, P> = Traverse<Data, P>>(
+    path: P,
+    updater: (value: V) => unknown
+  ) => void) &
   ((updater: (value: Data) => unknown) => void) &
   ((value: unknown) => void);
 
 export type PrimitiveSetter<Data> = ((value: Data) => void) &
   ((updater: (value: Data) => Data) => void);
 
-export type FieldsSetter<
-  Data,
-  Value = FieldValue | FieldValue[],
-  Path extends string = string
-> = ((path: Path, value: Value, shouldTouch?: boolean) => void) &
-  ((
-    path: Path,
-    updater: (value: unknown) => Value,
+export type FieldsSetter<Data, Path extends string = string> = (<
+  P extends Path,
+  V extends Traverse<Data, P> = Traverse<Data, P>
+>(
+  path: P,
+  value: V,
+  shouldTouch?: boolean
+) => void) &
+  (<P extends Path, V extends Traverse<Data, P> = Traverse<Data, P>>(
+    path: P,
+    updater: (value: V) => V,
     shouldTouch?: boolean
   ) => void) &
   ((value: Data) => void) &
   ((updater: (value: Data) => Data) => void);
 
-export type UnknownFieldsSetter<
-  Data,
-  Value = FieldValue | FieldValue[],
-  Path extends string = string
-> = ((path: Path, value: Value, shouldTouch?: boolean) => void) &
-  ((
-    path: Path,
-    updater: (value: unknown) => Value,
+export type UnknownFieldsSetter<Data, Path extends string = string> = (<
+  P extends Path
+>(
+  path: P,
+  value: unknown,
+  shouldTouch?: boolean
+) => void) &
+  (<P extends Path, V extends Traverse<Data, P> = Traverse<Data, P>>(
+    path: P,
+    updater: (value: V) => unknown,
     shouldTouch?: boolean
   ) => void) &
   ((value: unknown) => void) &
   ((updater: (value: Data) => unknown) => void);
 
-export type Setter<Data, Value> =
-  | ObjectSetter<Data, Value>
-  | PrimitiveSetter<Data>;
+export type Setter<Data, Path extends string = string> = Data extends Record<
+  string,
+  any
+>
+  ? ObjectSetter<Data, Path>
+  : PrimitiveSetter<Data>;
 
 export type DeepSetResult<Data extends Obj | Obj[], Value> = {
   [key in keyof Data]: Data[key] extends Obj
     ? DeepSetResult<Data[key], Value>
     : Data[key] extends Obj[]
-    ? DeepSetResult<Data[key], Value>[]
+    ? DeepSetResult<Data[key], Value>
     : Value;
 };
 
@@ -66,41 +82,39 @@ export type CreateSubmitHandlerConfig<Data extends Obj> = {
   onError?: FormConfig<Data>['onError'];
 };
 
-export type KnownHelpers<Data extends Obj> = Omit<
-  Helpers<Data>,
+export type KnownHelpers<Data extends Obj, Path extends string = string> = Omit<
+  Helpers<Data, Path>,
   'setData' | 'setFields'
 > & {
-  setData: ObjectSetter<Data, FieldValue | FieldValue[]>;
-  setFields: FieldsSetter<Data>;
+  setData: ObjectSetter<Data, Path>;
+  setFields: FieldsSetter<Data, Path>;
 };
 
-export type UnknownHelpers<Data extends Obj> = Omit<
-  Helpers<Data>,
-  'setData' | 'setFields'
-> & {
-  setData: UnknownObjectSetter<Data>;
-  setFields: UnknownFieldsSetter<Data>;
+export type UnknownHelpers<
+  Data extends Obj,
+  Path extends string = string
+> = Omit<Helpers<Data, Path>, 'setData' | 'setFields'> & {
+  setData: UnknownObjectSetter<Data, Path>;
+  setFields: UnknownFieldsSetter<Data, Path>;
 };
 
 export type Helpers<Data extends Obj, Path extends string = string> = {
   /** Function that resets the form to its initial values */
   reset(): void;
   /** Helper function to set the values in the data store */
-  setData:
-    | ObjectSetter<Data, FieldValue | FieldValue[]>
-    | UnknownObjectSetter<Data>;
+  setData: ObjectSetter<Data, Path> | UnknownObjectSetter<Data, Path>;
   /** Helper function to touch a specific field. */
-  setTouched: ObjectSetter<Touched<Data>, boolean>;
+  setTouched: ObjectSetter<Touched<Data>, Path>;
   /** Helper function to set an error to a specific field. */
-  setErrors: ObjectSetter<Partial<Errors<Data>>, string | string[]>;
+  setErrors: ObjectSetter<Partial<Errors<Data>>, Path>;
   /** Helper function to set a warning on a specific field. */
-  setWarnings: ObjectSetter<Partial<Errors<Data>>, string | string[]>;
+  setWarnings: ObjectSetter<Partial<Errors<Data>>, Path>;
   /** Helper function to set the value of the isDirty store */
   setIsDirty: PrimitiveSetter<boolean>;
   /** Helper function to set the value of the isSubmitting store */
   setIsSubmitting: PrimitiveSetter<boolean>;
   /** Helper function to set all values of the form. Useful for "initializing" values after the form has loaded. */
-  setFields: FieldsSetter<Data> | UnknownFieldsSetter<Data>;
+  setFields: FieldsSetter<Data, Path> | UnknownFieldsSetter<Data, Path>;
   /** Helper function to unset a field (remove it completely from your stores) */
   unsetField(path: Path): void;
   /** Helper function to reset a field to its initial value */
@@ -420,3 +434,31 @@ export type Paths<T, D extends number = 10> = [D] extends [never]
         : never;
     }[keyof T]
   : '';
+
+type Split<Path extends string> = Path extends `${infer T}.${infer R}`
+  ? [T, ...Split<R>]
+  : [Path];
+
+type TraverseImpl<
+  T extends Record<string, any> | Array<any>,
+  Path extends [string, ...string[]]
+> = Path extends [infer K, ...infer R]
+  ? K extends keyof T
+    ? T[K] extends Record<string, any>
+      ? R extends [string, ...string[]]
+        ? TraverseImpl<T[K], R>
+        : T[K]
+      : T[K]
+    : K extends `${number}`
+    ? T extends Array<any>
+      ? R extends [string, ...string[]]
+        ? TraverseImpl<T[number], R>
+        : T[number]
+      : never
+    : unknown
+  : never;
+
+export type Traverse<
+  T extends Record<string, any> | Array<any>,
+  Path extends string
+> = TraverseImpl<T, Split<Path>>;

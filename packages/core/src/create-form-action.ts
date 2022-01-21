@@ -102,7 +102,7 @@ export type FormActionConfig<Data extends Obj> = {
   stores: Stores<Data>;
   config: FormConfig<Data>;
   extender: Extender<Data>[];
-  helpers: Helpers<Data> & {
+  helpers: Helpers<Data, string> & {
     addValidator(validator: ValidationFunction<Data>): void;
     addWarnValidator(validator: ValidationFunction<Data>): void;
     addTransformer(transformer: TransformFunction<Data>): void;
@@ -316,7 +316,7 @@ export function createFormAction<Data extends Obj>({
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
       if (config.touchTriggerEvents?.input)
-        setTouched(getPath(target) as any, true);
+        setTouched(getPath(target), true as any);
       isDirty.set(true);
       const inputValue = getInputTextOrNumber(target);
       data.update(($data) => {
@@ -329,7 +329,7 @@ export function createFormAction<Data extends Obj>({
       if (!target || !isFormControl(target) || shouldIgnore(target)) return;
       if (!target.name) return;
       if (config.touchTriggerEvents?.change)
-        setTouched(getPath(target) as any, true);
+        setTouched(getPath(target), true as any);
       if (
         isSelectElement(target) ||
         ['checkbox', 'radio', 'file'].includes(target.type)
@@ -352,7 +352,7 @@ export function createFormAction<Data extends Obj>({
       if (!target || !isFormControl(target) || shouldIgnore(target)) return;
       if (!target.name) return;
       if (config.touchTriggerEvents?.blur)
-        setTouched(getPath(target) as any, true);
+        setTouched(getPath(target), true as any);
     }
 
     const mutationOptions = { childList: true, subtree: true };
