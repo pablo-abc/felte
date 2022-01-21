@@ -10,6 +10,7 @@ import type {
   TransformFunction,
   Setter,
   ObjectSetter,
+  PartialObjectSetter,
   PrimitiveSetter,
   FieldsSetter,
   Helpers,
@@ -58,6 +59,11 @@ function isUpdater<T>(value: unknown): value is (value: T) => T {
 }
 
 function createSetHelper<Data extends Obj, Path extends string>(
+  storeSetter: (
+    updater: (value: RecursivePartial<Data>) => RecursivePartial<Data>
+  ) => void
+): PartialObjectSetter<Data, Path>;
+function createSetHelper<Data extends Obj, Path extends string>(
   storeSetter: (updater: (value: Data) => Data) => void
 ): ObjectSetter<Data, Path>;
 function createSetHelper<Data extends boolean>(
@@ -102,13 +108,9 @@ export function createHelpers<Data extends Obj>({
 
   const setTouched = createSetHelper<Touched<Data>, string>(touched.update);
 
-  const setErrors = createSetHelper<RecursivePartial<Errors<Data>>, string>(
-    errors.update
-  );
+  const setErrors = createSetHelper<Errors<Data>, string>(errors.update);
 
-  const setWarnings = createSetHelper<RecursivePartial<Errors<Data>>, string>(
-    warnings.update
-  );
+  const setWarnings = createSetHelper<Errors<Data>, string>(warnings.update);
 
   function updateFields(updater: (values: Data) => Data) {
     setData((oldData) => {

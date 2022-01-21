@@ -25,13 +25,27 @@ export type ObjectSetter<Data extends Obj, Path extends string = string> = (<
 export type UnknownObjectSetter<
   Data extends Obj,
   Path extends string = string
-> = ((path: Path, value: unknown) => void) &
+> = ((path: string, value: unknown) => void) &
   (<P extends Path, V extends Traverse<Data, P> = Traverse<Data, P>>(
     path: P,
     updater: (value: V) => unknown
   ) => void) &
   ((updater: (value: Data) => unknown) => void) &
   ((value: unknown) => void);
+
+export type PartialObjectSetter<
+  Data extends Obj,
+  Path extends string = string
+> = (<P extends Path, V extends Traverse<Data, P> = Traverse<Data, P>>(
+  path: P,
+  value: V
+) => void) &
+  (<P extends Path, V extends Traverse<Data, P> = Traverse<Data, P>>(
+    path: P,
+    updater: (value: V) => V
+  ) => void) &
+  ((value: RecursivePartial<Data>) => void) &
+  ((updater: (value: Data) => RecursivePartial<Data>) => void);
 
 export type PrimitiveSetter<Data> = ((value: Data) => void) &
   ((updater: (value: Data) => Data) => void);
@@ -111,9 +125,9 @@ export type Helpers<Data extends Obj, Path extends string = string> = {
   /** Helper function to touch a specific field. */
   setTouched: ObjectSetter<Touched<Data>, Path>;
   /** Helper function to set an error to a specific field. */
-  setErrors: ObjectSetter<RecursivePartial<Errors<Data>>, Path>;
+  setErrors: PartialObjectSetter<Errors<Data>, Path>;
   /** Helper function to set a warning on a specific field. */
-  setWarnings: ObjectSetter<RecursivePartial<Errors<Data>>, Path>;
+  setWarnings: PartialObjectSetter<Errors<Data>, Path>;
   /** Helper function to set the value of the isDirty store */
   setIsDirty: PrimitiveSetter<boolean>;
   /** Helper function to set the value of the isSubmitting store */
