@@ -12,7 +12,6 @@ import {
   deepSet,
   _isPlainObject,
   _mergeWith,
-  _merge,
   runValidations,
   mergeErrors,
   executeTransforms,
@@ -103,7 +102,7 @@ type PossibleWritable<T> = Readable<T> & {
 export function createDerivedFactory<StoreExt = Record<string, any>>(
   storeFactory: StoreFactory<StoreExt>
 ) {
-  return function derived<T extends Readables, R>(
+  return function derived<R, T extends Readables = Readables>(
     storeOrStores: T,
     deriver: (values: ReadableValues<T>) => R,
     initialValue: R
@@ -162,7 +161,7 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   const initialErrors = deepSet(initialValues, null) as Errors<Data>;
   const immediateErrors = storeFactory(initialErrors);
   const debouncedErrors = storeFactory(_cloneDeep(initialErrors));
-  const [errors, startErrors, stopErrors] = derived(
+  const [errors, startErrors, stopErrors] = derived<Errors<Data>>(
     [
       immediateErrors as Readable<Errors<Data>>,
       debouncedErrors as Readable<Errors<Data>>,
@@ -174,7 +173,7 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   const initialWarnings = deepSet(initialValues, null) as Errors<Data>;
   const immediateWarnings = storeFactory(initialWarnings);
   const debouncedWarnings = storeFactory(_cloneDeep(initialWarnings));
-  const [warnings, startWarnings, stopWarnings] = derived(
+  const [warnings, startWarnings, stopWarnings] = derived<Errors<Data>>(
     [
       immediateWarnings as Readable<Errors<Data>>,
       debouncedWarnings as Readable<Errors<Data>>,

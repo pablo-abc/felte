@@ -320,22 +320,30 @@ export type FormConfig<Data extends Obj> =
   | FormConfigWithoutTransformFn<Data>;
 
 /** The errors object may contain either a string or array or string per key. */
-export type Errors<Data extends Obj | Obj[]> = {
-  [key in keyof Data]: Data[key] extends Obj
-    ? Errors<Data[key]>
-    : Data[key] extends Obj[]
-    ? Errors<Data[key]>
-    : string | string[] | null;
-};
+export type Errors<
+  Data extends Record<string, any> | Record<string, any>[]
+> = Data extends Obj | Obj[]
+  ? {
+      [key in keyof Data]: Data[key] extends Obj
+        ? Errors<Data[key]>
+        : Data[key] extends Obj[]
+        ? Errors<Data[key]>
+        : string | string[] | null;
+    }
+  : Data;
 
 /** The touched object may only contain booleans per key. */
-export type Touched<Data extends Obj | Obj[]> = {
-  [key in keyof Data]: Data[key] extends Obj
-    ? Touched<Data[key]>
-    : Data[key] extends Obj[]
-    ? Touched<Data[key]>
-    : boolean | boolean[];
-};
+export type Touched<Data extends Record<string, any> | Obj[]> = Data extends
+  | Obj
+  | Obj[]
+  ? {
+      [key in keyof Data]: Data[key] extends Obj
+        ? Touched<Data[key]>
+        : Data[key] extends Obj[]
+        ? Touched<Data[key]>
+        : boolean | boolean[];
+    }
+  : Data;
 
 export type FormAction = (node: HTMLFormElement) => { destroy: () => void };
 
