@@ -218,7 +218,13 @@ describe('User interactions with form', () => {
   });
 
   test('Validates default data correctly', async () => {
-    const { form, data, errors, warnings, setTouched } = createForm({
+    type Data = {
+      account: {
+        email: string;
+        password: string;
+      };
+    };
+    const { form, data, errors, warnings, setTouched } = createForm<Data>({
       onSubmit: jest.fn(),
       validate: (values: any) => {
         const errors: {
@@ -418,10 +424,16 @@ describe('User interactions with form', () => {
   });
 
   test('Calls validation function on submit without calling onSubmit', async () => {
+    type Data = {
+      account: {
+        email: string;
+        password: string;
+      };
+    };
     const validate = jest.fn(() => ({ account: { email: 'Not email' } }));
     const warn = jest.fn(() => ({ account: { email: 'Not email' } }));
     const onSubmit = jest.fn();
-    const { form, isValid, isSubmitting } = createForm({
+    const { form, isValid, isSubmitting } = createForm<Data>({
       onSubmit,
       validate,
       warn,

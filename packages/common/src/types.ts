@@ -327,7 +327,7 @@ export type Errors<Data extends Record<string, any> | Obj[]> = Data extends
         ? Errors<Data[key]>
         : string | string[] | null;
     }
-  : any;
+  : Record<string, any>;
 
 /** The touched object may only contain booleans per key. */
 export type Touched<Data extends Record<string, any> | Obj[]> = Data extends
@@ -340,7 +340,7 @@ export type Touched<Data extends Record<string, any> | Obj[]> = Data extends
         ? Touched<Data[key]>
         : boolean | boolean[];
     }
-  : any;
+  : Record<string, any>;
 
 export type FormAction = (node: HTMLFormElement) => { destroy: () => void };
 

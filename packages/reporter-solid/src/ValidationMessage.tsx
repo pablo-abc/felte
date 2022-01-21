@@ -46,12 +46,10 @@ export function ValidationMessage<Data extends Obj = Obj>(
     if (!reporterId) return;
     if (props.level === 'error') {
       const errors = errorStores[reporterId];
-      unsubscribe = errors.subscribe(($errors: Partial<Errors<Data>>) =>
-        setErrors(() => $errors)
-      );
+      unsubscribe = errors.subscribe(($errors) => setErrors(() => $errors));
     } else {
       const warnings = warningStores[reporterId];
-      unsubscribe = warnings.subscribe(($warnings: Partial<Errors<Data>>) =>
+      unsubscribe = warnings.subscribe(($warnings) =>
         setErrors(() => $warnings)
       );
     }
