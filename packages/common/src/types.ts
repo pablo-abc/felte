@@ -1,41 +1,45 @@
 import type { Readable, Writable } from 'svelte/store';
 
-export type ObjectSetter<Data, Value> = ((path: string, value: Value) => void) &
-  ((path: string, updater: (value: unknown) => Value) => void) &
+export type ObjectSetter<Data, Value, Path extends string = string> = ((
+  path: Path,
+  value: Value
+) => void) &
+  ((path: Path, updater: (value: unknown) => Value) => void) &
   ((value: Data) => void) &
   ((updater: (value: Data) => Data) => void);
 
-export type UnknownObjectSetter<Data, Value = FieldValue | FieldValue[]> = ((
-  path: string,
-  value: Value
-) => void) &
-  ((path: string, updater: (value: unknown) => Value) => void) &
+export type UnknownObjectSetter<
+  Data,
+  Value = FieldValue | FieldValue[],
+  Path extends string = string
+> = ((path: Path, value: Value) => void) &
+  ((path: Path, updater: (value: unknown) => Value) => void) &
   ((updater: (value: Data) => unknown) => void) &
   ((value: unknown) => void);
 
 export type PrimitiveSetter<Data> = ((value: Data) => void) &
   ((updater: (value: Data) => Data) => void);
 
-export type FieldsSetter<Data, Value = FieldValue | FieldValue[]> = ((
-  path: string,
-  value: Value,
-  shouldTouch?: boolean
-) => void) &
+export type FieldsSetter<
+  Data,
+  Value = FieldValue | FieldValue[],
+  Path extends string = string
+> = ((path: Path, value: Value, shouldTouch?: boolean) => void) &
   ((
-    path: string,
+    path: Path,
     updater: (value: unknown) => Value,
     shouldTouch?: boolean
   ) => void) &
   ((value: Data) => void) &
   ((updater: (value: Data) => Data) => void);
 
-export type UnknownFieldsSetter<Data, Value = FieldValue | FieldValue[]> = ((
-  path: string,
-  value: Value,
-  shouldTouch?: boolean
-) => void) &
+export type UnknownFieldsSetter<
+  Data,
+  Value = FieldValue | FieldValue[],
+  Path extends string = string
+> = ((path: Path, value: Value, shouldTouch?: boolean) => void) &
   ((
-    path: string,
+    path: Path,
     updater: (value: unknown) => Value,
     shouldTouch?: boolean
   ) => void) &
@@ -78,7 +82,7 @@ export type UnknownHelpers<Data extends Obj> = Omit<
   setFields: UnknownFieldsSetter<Data>;
 };
 
-export type Helpers<Data extends Obj> = {
+export type Helpers<Data extends Obj, Path extends string = string> = {
   /** Function that resets the form to its initial values */
   reset(): void;
   /** Helper function to set the values in the data store */
@@ -88,9 +92,9 @@ export type Helpers<Data extends Obj> = {
   /** Helper function to touch a specific field. */
   setTouched: ObjectSetter<Touched<Data>, boolean>;
   /** Helper function to set an error to a specific field. */
-  setErrors: ObjectSetter<Errors<Data>, string | string[]>;
+  setErrors: ObjectSetter<Partial<Errors<Data>>, string | string[]>;
   /** Helper function to set a warning on a specific field. */
-  setWarnings: ObjectSetter<Errors<Data>, string | string[]>;
+  setWarnings: ObjectSetter<Partial<Errors<Data>>, string | string[]>;
   /** Helper function to set the value of the isDirty store */
   setIsDirty: PrimitiveSetter<boolean>;
   /** Helper function to set the value of the isSubmitting store */
@@ -98,15 +102,11 @@ export type Helpers<Data extends Obj> = {
   /** Helper function to set all values of the form. Useful for "initializing" values after the form has loaded. */
   setFields: FieldsSetter<Data> | UnknownFieldsSetter<Data>;
   /** Helper function to unset a field (remove it completely from your stores) */
-  unsetField(path: string): void;
+  unsetField(path: Path): void;
   /** Helper function to reset a field to its initial value */
-  resetField(path: string): void;
+  resetField(path: Path): void;
   /** Helper function that adds a field to an array of fields, by default at the end but you can define at which index you want the new item */
-  addField(
-    path: string,
-    value: FieldValue | FieldValue[],
-    index?: number
-  ): void;
+  addField(path: Path, value: FieldValue | FieldValue[], index?: number): void;
   /** Helper function that validates every fields and touches all of them. It updates the `errors` and `warnings` store. */
   validate(): Promise<Errors<Data> | void>;
   /** Helper function to re-set the initialValues of Felte. No reactivity will be triggered but this will be the data the form will be reset to when caling `reset`. */
@@ -117,8 +117,8 @@ export type SetupCurrentForm<Data extends Obj> = {
   form?: never;
   controls?: never;
   stage: 'SETUP';
-  errors: Writable<Errors<Data>>;
-  warnings: Writable<Errors<Data>>;
+  errors: PartialWritable<Errors<Data>>;
+  warnings: PartialWritable<Errors<Data>>;
   data: Writable<Data>;
   touched: Writable<Touched<Data>>;
   config: FormConfig<Data>;
@@ -134,8 +134,8 @@ export type MountedCurrentForm<Data extends Obj> = {
   form: HTMLFormElement;
   controls: FormControl[];
   stage: 'MOUNT' | 'UPDATE';
-  errors: Writable<Errors<Data>>;
-  warnings: Writable<Errors<Data>>;
+  errors: PartialWritable<Errors<Data>>;
+  warnings: PartialWritable<Errors<Data>>;
   data: Writable<Data>;
   touched: Writable<Touched<Data>>;
   config: FormConfig<Data>;
@@ -186,7 +186,10 @@ export type FormControl =
 
 export type ValidationFunction<Data extends Obj> = (
   values: Data
-) => Errors<Data> | undefined | Promise<Errors<Data> | undefined>;
+) =>
+  | Partial<Errors<Data>>
+  | undefined
+  | Promise<Partial<Errors<Data>> | undefined>;
 
 export type TransformFunction<Data extends Obj> = (values: unknown) => Data;
 
@@ -296,10 +299,10 @@ export type FormConfig<Data extends Obj> =
 
 /** The errors object may contain either a string or array or string per key. */
 export type Errors<Data extends Obj | Obj[]> = {
-  [key in keyof Data]?: Data[key] extends Obj
+  [key in keyof Data]: Data[key] extends Obj
     ? Errors<Data[key]>
     : Data[key] extends Obj[]
-    ? Errors<Data[key]>[]
+    ? Errors<Data[key]>
     : string | string[] | null;
 };
 
@@ -308,7 +311,7 @@ export type Touched<Data extends Obj | Obj[]> = {
   [key in keyof Data]: Data[key] extends Obj
     ? Touched<Data[key]>
     : Data[key] extends Obj[]
-    ? Touched<Data[key]>[]
+    ? Touched<Data[key]>
     : boolean | boolean[];
 };
 
@@ -336,14 +339,20 @@ export type KnownStores<
   data: Writable<Data> & StoreExt;
 };
 
+type PartialWritable<Data extends Obj> = {
+  subscribe: Writable<Data>['subscribe'];
+  set: Writable<Partial<Data>>['set'];
+  update: Writable<Partial<Data>>['update'];
+};
+
 /** The stores that `createForm` creates. */
 export type Stores<Data extends Obj, StoreExt = Record<string, any>> = {
   /** Writable store that contains the form's data. */
   data: (Writable<Data> | TransWritable<Data>) & StoreExt;
   /** Writable store that contains the form's validation errors. */
-  errors: Writable<Errors<Data>> & StoreExt;
+  errors: PartialWritable<Errors<Data>> & StoreExt;
   /** Writable store that contains warnings for the form. These won't prevent a submit from happening. */
-  warnings: Writable<Errors<Data>> & StoreExt;
+  warnings: PartialWritable<Errors<Data>> & StoreExt;
   /** Writable store that denotes if any field has been touched. */
   touched: Writable<Touched<Data>> & StoreExt;
   /** Writable store containing only a boolean that represents if the form is submitting. */
@@ -369,3 +378,45 @@ export type Form<Data extends Obj> = {
 export type StoreFactory<Ext = Record<string, any>> = <Value>(
   initialValue: Value
 ) => Writable<Value> & Ext;
+
+type Prev = [
+  never,
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  ...0[]
+];
+
+type Join<K, P> = K extends string | number
+  ? P extends string | number
+    ? `${K}${'' extends P ? '' : '.'}${P}`
+    : never
+  : never;
+
+export type Paths<T, D extends number = 10> = [D] extends [never]
+  ? never
+  : T extends object
+  ? {
+      [K in keyof T]-?: K extends string | number
+        ? `${K}` | Join<K, Paths<T[K], Prev[D]>>
+        : never;
+    }[keyof T]
+  : '';

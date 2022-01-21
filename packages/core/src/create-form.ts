@@ -24,6 +24,7 @@ import {
 } from '@felte/common';
 import { createHelpers } from './helpers';
 import { createFormAction } from './create-form-action';
+import type { FormActionConfig } from './create-form-action';
 import { createStores } from './stores';
 
 export type Adapters<StoreExt = Record<string, any>> = {
@@ -219,7 +220,7 @@ export function createForm<
     return clonedData.set(values);
   }
 
-  const { form, createSubmitHandler, handleSubmit } = createFormAction<Data>({
+  const formActionConfig: FormActionConfig<Data> = {
     config,
     stores: {
       data: clonedData,
@@ -240,7 +241,11 @@ export function createForm<
     _getCurrentExtenders,
     _setCurrentExtenders,
     ...helpers.private,
-  });
+  };
+
+  const { form, createSubmitHandler, handleSubmit } = createFormAction<Data>(
+    formActionConfig
+  );
 
   data.set = newDataSet;
 

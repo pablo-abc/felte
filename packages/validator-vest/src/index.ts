@@ -13,8 +13,8 @@ export type ValidatorConfig = {
 
 function shapeErrors<Data extends Obj>(
   errors: Record<string, string[]>
-): Errors<Data> {
-  let err: Errors<Data> = {};
+): Partial<Errors<Data>> {
+  let err: Partial<Errors<Data>> = {};
   for (const [fieldName, messages] of Object.entries(errors)) {
     err = _set(err, fieldName, messages);
   }
@@ -26,7 +26,7 @@ export function validateSuite<Data extends Obj>(
 ): ValidationFunction<Data> {
   return async function validate(
     values: Data
-  ): Promise<Errors<Data> | undefined> {
+  ): Promise<Partial<Errors<Data>> | undefined> {
     const results = suite(values);
     if (results.hasErrors()) {
       return shapeErrors(results.getErrors());
@@ -39,7 +39,7 @@ export function warnSuite<Data extends Obj>(
 ): ValidationFunction<Data> {
   return async function validate(
     values: Data
-  ): Promise<Errors<Data> | undefined> {
+  ): Promise<Partial<Errors<Data>> | undefined> {
     const results = suite(values);
     if (results.hasWarnings()) {
       return shapeErrors(results.getWarnings());

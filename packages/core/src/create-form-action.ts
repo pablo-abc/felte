@@ -8,6 +8,7 @@ import type {
   ExtenderHandler,
   FormControl,
   CreateSubmitHandlerConfig,
+  Errors,
   Touched,
   Helpers,
 } from '@felte/common';
@@ -97,7 +98,7 @@ function createDefaultSubmitHandler(form?: HTMLFormElement) {
   };
 }
 
-type Configuration<Data extends Obj> = {
+export type FormActionConfig<Data extends Obj> = {
   stores: Stores<Data>;
   config: FormConfig<Data>;
   extender: Extender<Data>[];
@@ -123,7 +124,7 @@ export function createFormAction<Data extends Obj>({
   _getInitialValues,
   _setCurrentExtenders,
   _getCurrentExtenders,
-}: Configuration<Data>) {
+}: FormActionConfig<Data>) {
   const { setFields, setTouched, reset, setInitialValues } = helpers;
   const {
     addValidator,
@@ -152,7 +153,11 @@ export function createFormAction<Data extends Obj>({
       event?.preventDefault();
       isSubmitting.set(true);
       const currentData = get(data);
-      const currentErrors = await executeValidation(currentData, validate);
+      const partialErrors = await executeValidation(currentData, validate);
+      const currentErrors = _merge(
+        deepSet(currentData, null),
+        partialErrors
+      ) as Errors<Data>;
       const currentWarnings = await executeValidation(currentData, warn);
       if (currentWarnings)
         warnings.set(_merge(deepSet(currentData, null), currentWarnings));
@@ -249,7 +254,7 @@ export function createFormAction<Data extends Obj>({
     _setFormNode(node);
     setInitialValues(_merge(_cloneDeep(defaultData), _getInitialValues()));
     setFields(_getInitialValues());
-    touched.set(deepSet(_getInitialValues(), false));
+    touched.set(deepSet(_getInitialValues(), false) as Touched<Data>);
 
     function setCheckboxValues(target: HTMLInputElement) {
       const index = getIndex(target);
@@ -310,7 +315,8 @@ export function createFormAction<Data extends Obj>({
         return;
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
-      if (config.touchTriggerEvents?.input) setTouched(getPath(target), true);
+      if (config.touchTriggerEvents?.input)
+        setTouched(getPath(target) as any, true);
       isDirty.set(true);
       const inputValue = getInputTextOrNumber(target);
       data.update(($data) => {
@@ -322,7 +328,8 @@ export function createFormAction<Data extends Obj>({
       const target = e.target;
       if (!target || !isFormControl(target) || shouldIgnore(target)) return;
       if (!target.name) return;
-      if (config.touchTriggerEvents?.change) setTouched(getPath(target), true);
+      if (config.touchTriggerEvents?.change)
+        setTouched(getPath(target) as any, true);
       if (
         isSelectElement(target) ||
         ['checkbox', 'radio', 'file'].includes(target.type)
@@ -344,7 +351,8 @@ export function createFormAction<Data extends Obj>({
       const target = e.target;
       if (!target || !isFormControl(target) || shouldIgnore(target)) return;
       if (!target.name) return;
-      if (config.touchTriggerEvents?.blur) setTouched(getPath(target), true);
+      if (config.touchTriggerEvents?.blur)
+        setTouched(getPath(target) as any, true);
     }
 
     const mutationOptions = { childList: true, subtree: true };

@@ -24,7 +24,9 @@ export function ValidationMessage<Data extends Obj = Obj>(
 ) {
   props = mergeProps({ level: 'error' }, props);
   const [errorPath, setErrorPath] = createSignal<string>();
-  const [errors, setErrors] = createSignal<Errors<Data>>({});
+  const [errors, setErrors] = createSignal<Errors<Data> | Record<string, any>>(
+    {}
+  );
   const [messages, setMessages] = createSignal<string | string[]>();
   function getFormElement(element: HTMLDivElement) {
     return element.closest('form');
@@ -44,12 +46,12 @@ export function ValidationMessage<Data extends Obj = Obj>(
     if (!reporterId) return;
     if (props.level === 'error') {
       const errors = errorStores[reporterId];
-      unsubscribe = errors.subscribe(($errors: Errors<Data>) =>
+      unsubscribe = errors.subscribe(($errors: Partial<Errors<Data>>) =>
         setErrors(() => $errors)
       );
     } else {
       const warnings = warningStores[reporterId];
-      unsubscribe = warnings.subscribe(($warnings: Errors<Data>) =>
+      unsubscribe = warnings.subscribe(($warnings: Partial<Errors<Data>>) =>
         setErrors(() => $warnings)
       );
     }

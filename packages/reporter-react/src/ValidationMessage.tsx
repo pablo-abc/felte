@@ -37,14 +37,16 @@ export function ValidationMessage<Data extends Obj = Obj>(
       if (!reporterId) return;
       if (level === 'error') {
         const errors = errorStores[reporterId];
-        unsubscriber = errors.subscribe(($errors: Errors<Data>) => {
+        unsubscriber = errors.subscribe(($errors: Partial<Errors<Data>>) => {
           setMessages(_get($errors, errorPath) as any);
         });
       } else {
         const warnings = warningStores[reporterId];
-        unsubscriber = warnings.subscribe(($warnings: Errors<Data>) => {
-          setMessages(_get($warnings, errorPath) as any);
-        });
+        unsubscriber = warnings.subscribe(
+          ($warnings: Partial<Errors<Data>>) => {
+            setMessages(_get($warnings, errorPath) as any);
+          }
+        );
       }
     });
     return unsubscriber;

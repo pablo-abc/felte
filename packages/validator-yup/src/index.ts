@@ -18,7 +18,7 @@ export function validateSchema<Data extends Obj>(
   schema: AnySchema,
   options?: ValidateOptions
 ): ValidationFunction<Data> {
-  function shapeErrors(errors: ValidationError): Errors<Data> {
+  function shapeErrors(errors: ValidationError): Partial<Errors<Data>> {
     return errors.inner.reduce((err, value) => {
       if (!value.path) return err;
       return _set(err, value.path, value.message);
@@ -26,7 +26,7 @@ export function validateSchema<Data extends Obj>(
   }
   return async function validate(
     values: Data
-  ): Promise<Errors<Data> | undefined> {
+  ): Promise<Partial<Errors<Data>> | undefined> {
     return schema
       .validate(values, { strict: true, abortEarly: false, ...options })
       .then(() => undefined)

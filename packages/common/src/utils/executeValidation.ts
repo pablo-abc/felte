@@ -15,7 +15,7 @@ function executeCustomizer(objValue?: ErrorField, srcValue?: ErrorField) {
 }
 
 export function mergeErrors<Data extends Obj>(
-  errors: (Errors<Data> | undefined)[]
+  errors: (Partial<Errors<Data>> | undefined)[]
 ) {
   return _mergeWith<Errors<Data>>(...errors, executeCustomizer);
 }

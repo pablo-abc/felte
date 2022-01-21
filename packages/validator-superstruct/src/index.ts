@@ -17,12 +17,12 @@ export function validateStruct<Data extends Obj = any>(
   struct: Struct<any, any>,
   transform: (failures: Failure) => string = (failure) => failure.message
 ): ValidationFunction<Data> {
-  function shapeErrors(errors: StructError): Errors<Data> {
+  function shapeErrors(errors: StructError): Partial<Errors<Data>> {
     return errors.failures().reduce((err, value) => {
       return _set(err, value.path.join('.'), transform(value));
     }, {});
   }
-  return function validate(values: Data): Errors<Data> | undefined {
+  return function validate(values: Data): Partial<Errors<Data>> | undefined {
     try {
       struct.create(values);
     } catch (error) {

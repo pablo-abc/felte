@@ -103,11 +103,11 @@ export function createHelpers<Data extends Obj>({
 
   const setTouched = createSetHelper<Touched<Data>, boolean>(touched.update);
 
-  const setErrors = createSetHelper<Errors<Data>, string | string[]>(
+  const setErrors = createSetHelper<Partial<Errors<Data>>, string | string[]>(
     errors.update
   );
 
-  const setWarnings = createSetHelper<Errors<Data>, string | string[]>(
+  const setWarnings = createSetHelper<Partial<Errors<Data>>, string | string[]>(
     warnings.update
   );
 
@@ -128,7 +128,7 @@ export function createHelpers<Data extends Obj>({
     const fieldsSetter = createSetHelper<Data, FieldValues>(updateFields);
     fieldsSetter(pathOrValue as any, valueOrUpdater as any);
     if (typeof pathOrValue === 'string' && shouldTouch) {
-      setTouched(pathOrValue, true);
+      setTouched(pathOrValue as any, true);
     }
   };
 
@@ -194,13 +194,15 @@ export function createHelpers<Data extends Obj>({
 
   async function validate(): Promise<Errors<Data> | void> {
     const currentData = get(data);
+    const initialErrors = deepSet(currentData, null) as Errors<Data>;
     setTouched((t) => {
       return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
     });
-    const currentErrors = await executeValidation(currentData, config.validate);
+    const partialErrors = await executeValidation(currentData, config.validate);
+    const currentErrors = _merge<Errors<Data>>(initialErrors, partialErrors);
     const currentWarnings = await executeValidation(currentData, config.warn);
-    warnings.set(_merge(deepSet(currentData, null), currentWarnings || {}));
-    errors.set(currentErrors || {});
+    warnings.set(_merge(initialErrors, currentWarnings || {}));
+    errors.set(currentErrors || initialErrors);
     return currentErrors;
   }
 

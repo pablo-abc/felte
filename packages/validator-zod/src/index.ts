@@ -16,7 +16,7 @@ export type ValidatorConfig = {
 export function validateSchema<Data extends Obj>(
   schema: ZodTypeAny
 ): ValidationFunction<Data> {
-  function shapeErrors(errors: ZodError): Errors<Data> {
+  function shapeErrors(errors: ZodError): Partial<Errors<Data>> {
     return errors.issues.reduce((err, value) => {
       if (!value.path) return err;
       return _update(
@@ -32,7 +32,7 @@ export function validateSchema<Data extends Obj>(
   }
   return async function validate(
     values: Data
-  ): Promise<Errors<Data> | undefined> {
+  ): Promise<Partial<Errors<Data>> | undefined> {
     try {
       await schema.parseAsync(values);
     } catch (error) {

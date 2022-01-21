@@ -72,7 +72,7 @@ function cancellableValidation<Data extends Obj>(
     validations?: ValidationFunction<Data>[] | ValidationFunction<Data>
   ) {
     if (!validations || !$data) return;
-    let current: Errors<Data> = {};
+    let current = deepSet($data, null) as Errors<Data>;
     const controller = createAbortController();
     if (activeController) activeController.abort();
     activeController = controller;
@@ -81,7 +81,7 @@ function cancellableValidation<Data extends Obj>(
       const result = await promise;
       if (controller.signal.aborted) return;
       current = mergeErrors([current, result]);
-      store.set(_merge(deepSet($data, null), current || {}));
+      store.set(current);
     });
   };
 }
@@ -183,7 +183,10 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     _cloneDeep(initialWarnings)
   );
 
-  const initialTouched: Touched<Data> = deepSet(initialValues, false);
+  const initialTouched = deepSet<Data, boolean>(
+    initialValues,
+    false
+  ) as Touched<Data>;
   const touched = storeFactory(initialTouched);
 
   const [filteredErrors, startFilteredErrors, stopFilteredErrors] = derived(
@@ -220,9 +223,9 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     const dataUnsubscriber = data.subscribe(($data) => {
       validateErrors($data, config.validate);
       validateWarnings($data, config.warn);
-      debouncedErrors.set({});
+      debouncedErrors.set({} as Errors<Data>);
       validateDebouncedErrors($data, config.debounced?.validate);
-      debouncedWarnings.set({});
+      debouncedWarnings.set({} as Errors<Data>);
       validateDebouncedWarnings($data, config.debounced?.warn);
     });
 

@@ -12,6 +12,7 @@ import type {
   FormConfigWithTransformFn,
   FormConfigWithoutTransformFn,
 } from '@felte/core';
+import type { Writable } from 'svelte/store';
 import { createForm as coreCreateForm } from '@felte/core';
 import { writable } from './stores';
 import type { Stores, UnknownStores, KnownStores } from './use-accessor';
@@ -66,9 +67,13 @@ export function useForm<Data extends Obj = Obj>(
   });
 
   const data = useAccessor<Data>(rest.data);
-  const errors = useAccessor<Errors<Data>>(rest.errors);
+  const errors = useAccessor<Errors<Data>>(
+    rest.errors as Writable<Errors<Data>>
+  );
   const touched = useAccessor<Touched<Data>>(rest.touched);
-  const warnings = useAccessor<Errors<Data>>(rest.warnings);
+  const warnings = useAccessor<Errors<Data>>(
+    rest.warnings as Writable<Errors<Data>>
+  );
   const isSubmitting = useAccessor<boolean>(rest.isSubmitting);
   const isDirty = useAccessor<boolean>(rest.isDirty);
   const isValid = useAccessor<boolean>(rest.isValid);
