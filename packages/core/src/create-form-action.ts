@@ -356,17 +356,17 @@ export function createFormAction<Data extends Obj>({
           control.dataset.felteKeepOnRemove !== 'false'
         )
           continue;
+        data.update(($data) => {
+          return _unset($data, getPathFromDataset(control));
+        });
+        touched.update(($touched) => {
+          return _unset($touched, getPathFromDataset(control));
+        });
         errors.update(($errors) => {
           return _unset($errors, getPathFromDataset(control));
         });
         warnings.update(($warnings) => {
           return _unset($warnings, getPathFromDataset(control));
-        });
-        touched.update(($touched) => {
-          return _unset($touched, getPathFromDataset(control));
-        });
-        data.update(($data) => {
-          return _unset($data, getPathFromDataset(control));
         });
       }
     }

@@ -6,7 +6,7 @@ import type {
   Touched,
   ValidationFunction,
 } from '@felte/common';
-import type { Writable, Readable } from 'svelte/store';
+import type { Writable, Readable, Unsubscriber } from 'svelte/store';
 import {
   _cloneDeep,
   deepSet,
@@ -19,7 +19,7 @@ import {
   deepSome,
 } from '@felte/common';
 
-function createAbort() {
+function createAbortController() {
   const signal = { aborted: false };
   return {
     signal,
@@ -42,6 +42,13 @@ function errorFilterer(
   return (touchValue && errValue) || null;
 }
 
+function filterErrors<Data extends Obj>([errors, touched]: [
+  Errors<Data>,
+  Touched<Data>
+]) {
+  return _mergeWith<Errors<Data>>(errors, touched, errorFilterer);
+}
+
 function debounce<T extends unknown[]>(
   this: any,
   func: (...v: T) => any,
@@ -59,14 +66,14 @@ function debounce<T extends unknown[]>(
 function cancellableValidation<Data extends Obj>(
   store: Writable<Errors<Data>>
 ) {
-  let activeController: ReturnType<typeof createAbort> | undefined;
+  let activeController: ReturnType<typeof createAbortController> | undefined;
   return async function executeValidations(
     $data?: Data,
     validations?: ValidationFunction<Data>[] | ValidationFunction<Data>
   ) {
     if (!validations || !$data) return;
     let current: Errors<Data> = {};
-    const controller = createAbort();
+    const controller = createAbortController();
     if (activeController) activeController.abort();
     activeController = controller;
     const results = runValidations($data, validations);
@@ -79,20 +86,63 @@ function cancellableValidation<Data extends Obj>(
   };
 }
 
-function mergeValidationsInto<Data extends Obj>(
-  stores: Readable<Errors<Data>>[],
-  target: Writable<Errors<Data>>
-): () => void {
-  const values: Errors<Data>[] = new Array(stores.length).fill({});
-  const unsubscribers = stores.map((store, index) => {
-    return store.subscribe(($store) => {
-      values[index] = $store;
-      const merged = mergeErrors(values);
-      target.set(merged);
-    });
-  });
-  return () => {
-    unsubscribers.forEach((unsub) => unsub());
+type Readables =
+  | Readable<any>
+  | [Readable<any>, ...Array<Readable<any>>]
+  | Array<Readable<any>>;
+
+type ReadableValues<T> = T extends Readable<infer U>
+  ? [U]
+  : { [K in keyof T]: T[K] extends Readable<infer U> ? U : never };
+
+type PossibleWritable<T> = Readable<T> & {
+  update?: (updater: (v: T) => T) => void;
+  set?: (v: T) => void;
+};
+
+export function createDerivedFactory<StoreExt = Record<string, any>>(
+  storeFactory: StoreFactory<StoreExt>
+) {
+  return function derived<T extends Readables, R>(
+    storeOrStores: T,
+    deriver: (values: ReadableValues<T>) => R,
+    initialValue: R
+  ): [PossibleWritable<R> & StoreExt, () => void, () => void] {
+    const stores: Readable<any>[] = Array.isArray(storeOrStores)
+      ? storeOrStores
+      : [storeOrStores];
+    const values: any[] = new Array(stores.length);
+    const derivedStore: PossibleWritable<R> & StoreExt = storeFactory(
+      initialValue
+    );
+
+    const storeSet = derivedStore.set as Writable<R>['set'];
+    const storeSubscribe = derivedStore.subscribe;
+    let unsubscribers: Unsubscriber[] | undefined;
+
+    function startStore() {
+      unsubscribers = stores.map((store, index) => {
+        return store.subscribe(($store: any) => {
+          values[index] = $store;
+          storeSet(deriver(values as ReadableValues<T>));
+        });
+      });
+    }
+
+    function stopStore() {
+      unsubscribers?.forEach((unsub) => unsub());
+    }
+
+    derivedStore.subscribe = function subscribe(
+      subscriber: (value: R) => void
+    ) {
+      const unsubscribe = storeSubscribe(subscriber);
+      return () => {
+        unsubscribe();
+      };
+    };
+
+    return [derivedStore, startStore, stopStore];
   };
 }
 
@@ -100,6 +150,7 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   storeFactory: StoreFactory<StoreExt>,
   config: FormConfig<Data> & { preventStoreStart?: boolean }
 ) {
+  const derived = createDerivedFactory(storeFactory);
   const initialValues = config.initialValues
     ? executeTransforms(
         _cloneDeep(config.initialValues as Data),
@@ -109,23 +160,46 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   const data = storeFactory(initialValues);
 
   const initialErrors = deepSet(initialValues, null) as Errors<Data>;
-  const errors = storeFactory(initialErrors);
-  const immediateErrors = storeFactory(_cloneDeep(initialErrors));
+  const immediateErrors = storeFactory(initialErrors);
   const debouncedErrors = storeFactory(_cloneDeep(initialErrors));
-
-  const filteredErrors = storeFactory(_cloneDeep(initialErrors));
-
-  const filteredErrorsSet = filteredErrors.set;
+  const [errors, startErrors, stopErrors] = derived(
+    [
+      immediateErrors as Readable<Errors<Data>>,
+      debouncedErrors as Readable<Errors<Data>>,
+    ],
+    mergeErrors,
+    _cloneDeep(initialErrors)
+  );
 
   const initialWarnings = deepSet(initialValues, null) as Errors<Data>;
-  const warnings = storeFactory(initialWarnings);
-  const immediateWarnings = storeFactory(_cloneDeep(initialWarnings));
+  const immediateWarnings = storeFactory(initialWarnings);
   const debouncedWarnings = storeFactory(_cloneDeep(initialWarnings));
+  const [warnings, startWarnings, stopWarnings] = derived(
+    [
+      immediateWarnings as Readable<Errors<Data>>,
+      debouncedWarnings as Readable<Errors<Data>>,
+    ],
+    mergeErrors,
+    _cloneDeep(initialWarnings)
+  );
 
   const initialTouched: Touched<Data> = deepSet(initialValues, false);
   const touched = storeFactory(initialTouched);
 
-  const isValid = storeFactory(!config.validate);
+  const [filteredErrors, startFilteredErrors, stopFilteredErrors] = derived(
+    [errors as Readable<Errors<Data>>, touched as Readable<Touched<Data>>],
+    filterErrors,
+    _cloneDeep(initialErrors)
+  );
+
+  const [isValid, startIsValid, stopIsValid] = derived(
+    errors,
+    ([$errors]) => !deepSome($errors, (error) => !!error),
+    !config.validate
+  );
+
+  delete isValid.set;
+  delete isValid.update;
 
   const isSubmitting = storeFactory(false);
 
@@ -152,62 +226,30 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
       validateDebouncedWarnings($data, config.debounced?.warn);
     });
 
-    let touchedValue = initialTouched;
-    let errorsValue = initialErrors;
-    let firstCalled = false;
-    const errorsUnsubscriber = errors.subscribe(($errors) => {
-      if (!firstCalled) {
-        firstCalled = true;
-        isValid.set(!config.validate);
-      } else {
-        const hasErrors = deepSome($errors, (error) => !!error);
-        isValid.set(!hasErrors);
-      }
-
-      errorsValue = $errors;
-      const mergedErrors = _mergeWith<Errors<Data>>(
-        $errors,
-        touchedValue,
-        errorFilterer
-      );
-      filteredErrorsSet(mergedErrors);
-    });
-
-    const mergedErrorsUnsubscriber = mergeValidationsInto(
-      [immediateErrors, debouncedErrors],
-      errors
-    );
-    const mergedWarningsUnsubscriber = mergeValidationsInto(
-      [immediateWarnings, debouncedWarnings],
-      warnings
-    );
-    const touchedUnsubscriber = touched.subscribe(($touched) => {
-      touchedValue = $touched;
-      const mergedErrors = _mergeWith<Errors<Data>>(
-        errorsValue,
-        $touched,
-        errorFilterer
-      );
-      filteredErrorsSet(mergedErrors);
-    });
+    startErrors();
+    startIsValid();
+    startWarnings();
+    startFilteredErrors();
 
     function cleanup() {
       dataUnsubscriber();
-      errorsUnsubscriber();
-      mergedErrorsUnsubscriber();
-      mergedWarningsUnsubscriber();
-      touchedUnsubscriber();
+      stopFilteredErrors();
+      stopErrors();
+      stopWarnings();
+      stopIsValid();
     }
     return cleanup;
   }
 
-  filteredErrors.set = errors.set;
-  filteredErrors.update = errors.update;
+  filteredErrors.set = immediateErrors.set;
+  filteredErrors.update = immediateErrors.update;
+  warnings.set = immediateWarnings.set;
+  warnings.update = immediateWarnings.update;
 
   return {
     data,
-    errors: filteredErrors,
-    warnings,
+    errors: filteredErrors as Writable<Errors<Data>> & StoreExt,
+    warnings: warnings as Writable<Errors<Data>> & StoreExt,
     touched,
     isValid,
     isSubmitting,
