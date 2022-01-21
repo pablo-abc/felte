@@ -1,11 +1,23 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import type { Obj, Errors, Touched, TransWritable } from '@felte/core';
+import type {
+  Obj,
+  Errors,
+  Touched,
+  TransWritable,
+  Traverse,
+  Paths,
+} from '@felte/core';
 import type { Readable, Writable } from 'svelte/store';
 import { getValue, getValueFromStore } from '@felte/core';
 
 export type Accessor<T> = T extends Obj
   ? (<R>(selector: (storeValue: T) => R) => R) &
-      ((path: string) => unknown) &
+      (<
+        P extends Paths<T> = Paths<T>,
+        V extends Traverse<T, P> = Traverse<T, P>
+      >(
+        path: P
+      ) => V) &
       (() => T)
   : (<R>(deriveFn: (storeValue: T) => R) => R) & (() => T);
 

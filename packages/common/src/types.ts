@@ -452,26 +452,20 @@ type Split<Path extends string> = Path extends `${infer T}.${infer R}`
   ? [T, ...Split<R>]
   : [Path];
 
-type TraverseImpl<
-  T extends Record<string, any> | Array<any>,
-  Path extends [string, ...string[]]
-> = Path extends [infer K, ...infer R]
+type TraverseImpl<T, Path extends unknown[]> = Path extends [
+  infer K,
+  ...infer R
+]
   ? K extends keyof T
-    ? T[K] extends Record<string, any>
-      ? R extends [string, ...string[]]
-        ? TraverseImpl<T[K], R>
-        : T[K]
-      : T[K]
+    ? TraverseImpl<T[K], R>
     : K extends `${number}`
     ? T extends Array<any>
-      ? R extends [string, ...string[]]
-        ? TraverseImpl<T[number], R>
-        : T[number]
-      : never
-    : unknown
-  : never;
+      ? TraverseImpl<T[number], R> | undefined
+      : undefined
+    : undefined
+  : T;
 
 export type Traverse<
   T extends Record<string, any> | Array<any>,
   Path extends string
-> = TraverseImpl<RecursiveRequired<T>, Split<Path>>;
+> = TraverseImpl<T, Split<Path>>;

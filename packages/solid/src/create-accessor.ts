@@ -1,4 +1,11 @@
-import type { Obj, Errors, Touched, TransWritable } from '@felte/core';
+import type {
+  Obj,
+  Errors,
+  Touched,
+  TransWritable,
+  Traverse,
+  Paths,
+} from '@felte/core';
 import type { Accessor } from 'solid-js';
 import type { Writable, Readable } from 'svelte/store';
 import { getValue } from '@felte/core';
@@ -6,7 +13,12 @@ import { untrack, createSignal, createEffect } from 'solid-js';
 
 export type FelteAccessor<T> = T extends Obj
   ? (<R>(selector: (storeValue: T) => R) => R) &
-      ((path: string) => unknown) &
+      (<
+        P extends Paths<T> = Paths<T>,
+        V extends Traverse<T, P> = Traverse<T, P>
+      >(
+        path: P
+      ) => V) &
       (() => T)
   : (<R>(deriveFn: (storeValue: T) => R) => R) & (() => T);
 

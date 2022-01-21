@@ -226,7 +226,7 @@ describe('User interactions with form', () => {
     };
     const { form, data, errors, warnings, setTouched } = createForm<Data>({
       onSubmit: jest.fn(),
-      validate: (values: any) => {
+      validate: (values) => {
         const errors: {
           account: { password?: string; email?: string };
         } = { account: {} };
