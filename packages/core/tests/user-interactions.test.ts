@@ -617,12 +617,16 @@ describe('User interactions with form', () => {
   });
 
   test('Validates initial values correctly', async () => {
-    const { data, errors, setTouched, touched } = createForm({
+    type Data = {
+      account: {
+        email: string;
+        password: string;
+      };
+    };
+    const { data, errors, setTouched, touched } = createForm<Data>({
       onSubmit: jest.fn(),
       validate: (values: any) => {
-        const errors: {
-          account: { password?: string; email?: string };
-        } = { account: {} };
+        const errors: any = { account: {} };
         if (!values.account.email) errors.account.email = 'Must not be empty';
         if (!values.account.password)
           errors.account.password = 'Must not be empty';
