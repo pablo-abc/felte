@@ -196,7 +196,11 @@ export function createHelpers<Data extends Obj>({
     setTouched((t) => {
       return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
     });
-    const partialErrors = await executeValidation(currentData, config.validate);
+    const partialErrors = await executeValidation<Data>(
+      currentData,
+
+      config.validate
+    );
     const currentErrors = _merge<Errors<Data>>(initialErrors, partialErrors);
     const currentWarnings = await executeValidation(currentData, config.warn);
     warnings.set(_merge(initialErrors, currentWarnings || {}));

@@ -5,10 +5,10 @@ export type RecursivePartial<T> = {
 };
 
 export type RecursiveRequired<T> = {
-  [P in keyof T]-?: RecursiveRequired<T>;
+  [P in keyof T]-?: RecursiveRequired<T[P]>;
 };
 
-export type ObjectSetter<Data, Path extends string = string> = (<
+export type ObjectSetter<Data extends Obj, Path extends string = string> = (<
   P extends Path,
   V extends Traverse<Data, P> = Traverse<Data, P>
 >(
@@ -22,10 +22,10 @@ export type ObjectSetter<Data, Path extends string = string> = (<
   ((value: Data) => void) &
   ((updater: (value: Data) => Data) => void);
 
-export type UnknownObjectSetter<Data, Path extends string = string> = ((
-  path: Path,
-  value: unknown
-) => void) &
+export type UnknownObjectSetter<
+  Data extends Obj,
+  Path extends string = string
+> = ((path: Path, value: unknown) => void) &
   (<P extends Path, V extends Traverse<Data, P> = Traverse<Data, P>>(
     path: P,
     updater: (value: V) => unknown
@@ -36,7 +36,7 @@ export type UnknownObjectSetter<Data, Path extends string = string> = ((
 export type PrimitiveSetter<Data> = ((value: Data) => void) &
   ((updater: (value: Data) => Data) => void);
 
-export type FieldsSetter<Data, Path extends string = string> = (<
+export type FieldsSetter<Data extends Obj, Path extends string = string> = (<
   P extends Path,
   V extends Traverse<Data, P> = Traverse<Data, P>
 >(
@@ -52,13 +52,10 @@ export type FieldsSetter<Data, Path extends string = string> = (<
   ((value: Data) => void) &
   ((updater: (value: Data) => Data) => void);
 
-export type UnknownFieldsSetter<Data, Path extends string = string> = (<
-  P extends Path
->(
-  path: P,
-  value: unknown,
-  shouldTouch?: boolean
-) => void) &
+export type UnknownFieldsSetter<
+  Data extends Obj,
+  Path extends string = string
+> = (<P extends Path>(path: P, value: unknown, shouldTouch?: boolean) => void) &
   (<P extends Path, V extends Traverse<Data, P> = Traverse<Data, P>>(
     path: P,
     updater: (value: V) => unknown,
@@ -320,9 +317,9 @@ export type FormConfig<Data extends Obj> =
   | FormConfigWithoutTransformFn<Data>;
 
 /** The errors object may contain either a string or array or string per key. */
-export type Errors<
-  Data extends Record<string, any> | Record<string, any>[]
-> = Data extends Obj | Obj[]
+export type Errors<Data extends Record<string, any> | Obj[]> = Data extends
+  | Obj
+  | Obj[]
   ? {
       [key in keyof Data]: Data[key] extends Obj
         ? Errors<Data[key]>
@@ -330,7 +327,7 @@ export type Errors<
         ? Errors<Data[key]>
         : string | string[] | null;
     }
-  : Data;
+  : any;
 
 /** The touched object may only contain booleans per key. */
 export type Touched<Data extends Record<string, any> | Obj[]> = Data extends
@@ -343,7 +340,7 @@ export type Touched<Data extends Record<string, any> | Obj[]> = Data extends
         ? Touched<Data[key]>
         : boolean | boolean[];
     }
-  : Data;
+  : any;
 
 export type FormAction = (node: HTMLFormElement) => { destroy: () => void };
 

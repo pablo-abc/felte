@@ -20,9 +20,9 @@ function executeCustomizer(objValue?: ErrorField, srcValue?: ErrorField) {
 }
 
 export function mergeErrors<Data extends Obj>(
-  errors: (RecursivePartial<Errors<Data>> | undefined)[]
+  errors: (RecursivePartial<Data> | undefined)[]
 ) {
-  return _mergeWith<Errors<Data>>(...errors, executeCustomizer);
+  return _mergeWith<Data>(...errors, executeCustomizer);
 }
 
 export function runValidations<Data extends Obj>(
@@ -42,7 +42,7 @@ export function runValidations<Data extends Obj>(
 export async function executeValidation<Data extends Obj>(
   values: Data,
   validations?: ValidationFunction<Data>[] | ValidationFunction<Data>
-): Promise<ReturnType<ValidationFunction<Data>>> {
+) {
   const errors = await Promise.all(runValidations(values, validations));
-  return mergeErrors(errors);
+  return mergeErrors<Errors<Data>>(errors);
 }
