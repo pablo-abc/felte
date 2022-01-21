@@ -454,18 +454,109 @@ describe('User interactions with form', () => {
 
   test('Calls validate on input', async () => {
     const validate = jest.fn(() => ({}));
+    const warn = jest.fn(() => ({}));
     const onSubmit = jest.fn();
     const { form, isValid } = createForm({
       onSubmit,
       validate,
+      warn,
     });
     const { formElement, emailInput } = createLoginForm();
+    expect(get(isValid)).toBe(false);
     form(formElement);
     userEvent.type(emailInput, 'jacek@soplica.com');
     await waitFor(() => {
       expect(validate).toHaveBeenCalled();
+      expect(warn).toHaveBeenCalled();
       expect(get(isValid)).toBeTruthy();
     });
+  });
+
+  test('Calls debounced validate on input', async () => {
+    jest.useFakeTimers();
+    const validate = jest.fn(() => ({}));
+    const warn = jest.fn(() => ({}));
+    const onSubmit = jest.fn();
+    const { form, isValid } = createForm({
+      onSubmit,
+      debounced: {
+        validate,
+        warn,
+      },
+    });
+    const { formElement, emailInput } = createLoginForm();
+    expect(get(isValid)).toBe(false);
+    form(formElement);
+    userEvent.type(emailInput, 'jacek@soplica.');
+    jest.runOnlyPendingTimers();
+    await waitFor(() => {
+      expect(validate).toHaveBeenCalledTimes(1);
+      expect(warn).toHaveBeenCalledTimes(1);
+      expect(get(isValid)).toBeTruthy();
+    });
+    userEvent.type(emailInput, 'c');
+    userEvent.type(emailInput, 'o');
+    userEvent.type(emailInput, 'm');
+    jest.runOnlyPendingTimers();
+    await waitFor(() => {
+      expect(validate).toHaveBeenCalledTimes(2);
+      expect(warn).toHaveBeenCalledTimes(2);
+      expect(get(isValid)).toBeTruthy();
+    });
+    jest.useRealTimers();
+  });
+
+  test('Calls debounced validate on input with custom timeout', async () => {
+    jest.useFakeTimers();
+    const validate = jest.fn(() => ({}));
+    const warn = jest.fn(() => ({}));
+    const onSubmit = jest.fn();
+    const { form, isValid } = createForm({
+      onSubmit,
+      debounced: {
+        timeout: 1000,
+        validate,
+        warn,
+      },
+    });
+    const { formElement, emailInput } = createLoginForm();
+    expect(get(isValid)).toBe(false);
+    form(formElement);
+    userEvent.type(emailInput, 'jacek@soplica.com');
+    jest.runOnlyPendingTimers();
+    await waitFor(() => {
+      expect(validate).toHaveBeenCalled();
+      expect(warn).toHaveBeenCalled();
+      expect(get(isValid)).toBeTruthy();
+    });
+    jest.useRealTimers();
+  });
+
+  test('Calls debounced validate on input with validate and warn timeout', async () => {
+    jest.useFakeTimers();
+    const validate = jest.fn(() => ({}));
+    const warn = jest.fn(() => ({}));
+    const onSubmit = jest.fn();
+    const { form, isValid } = createForm({
+      onSubmit,
+      debounced: {
+        validateTimeout: 1000,
+        validate,
+        warn,
+        warnTimeout: 1000,
+      },
+    });
+    const { formElement, emailInput } = createLoginForm();
+    expect(get(isValid)).toBe(false);
+    form(formElement);
+    userEvent.type(emailInput, 'jacek@soplica.com');
+    jest.runOnlyPendingTimers();
+    await waitFor(() => {
+      expect(validate).toHaveBeenCalled();
+      expect(warn).toHaveBeenCalled();
+      expect(get(isValid)).toBeTruthy();
+    });
+    jest.useRealTimers();
   });
 
   test('Handles user events', () => {

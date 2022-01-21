@@ -335,9 +335,7 @@ export type Errors<Data extends Record<string, any> | Obj[]> = Data extends
   | Obj
   | Obj[]
   ? {
-      [key in keyof Data]: Data[key] extends Obj
-        ? Errors<Data[key]>
-        : Data[key] extends Obj[]
+      [key in keyof Data]: Data[key] extends Obj | Obj[]
         ? Errors<Data[key]>
         : string | string[] | null;
     }
@@ -348,9 +346,7 @@ export type Touched<Data extends Record<string, any> | Obj[]> = Data extends
   | Obj
   | Obj[]
   ? {
-      [key in keyof Data]: Data[key] extends Obj
-        ? Touched<Data[key]>
-        : Data[key] extends Obj[]
+      [key in keyof Data]: Data[key] extends Obj | Obj[]
         ? Touched<Data[key]>
         : boolean | boolean[];
     }

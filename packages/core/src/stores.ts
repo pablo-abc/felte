@@ -199,10 +199,18 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     _cloneDeep(initialErrors)
   );
 
+  let firstCalled = false;
   const [isValid, startIsValid, stopIsValid] = derived(
     errors,
-    ([$errors]) => !deepSome($errors, (error) => !!error),
-    !config.validate
+    ([$errors]) => {
+      if (!firstCalled) {
+        firstCalled = true;
+        return !config.validate && !config.debounced?.validate;
+      } else {
+        return !deepSome($errors, (error) => !!error);
+      }
+    },
+    !config.validate && !config.debounced?.validate
   );
 
   delete isValid.set;
