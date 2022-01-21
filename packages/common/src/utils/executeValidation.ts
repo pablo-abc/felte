@@ -1,4 +1,9 @@
-import type { Obj, ValidationFunction, Errors } from '../types';
+import type {
+  Obj,
+  ValidationFunction,
+  Errors,
+  RecursivePartial,
+} from '../types';
 import { _mergeWith } from './mergeWith';
 import { _isPlainObject } from './isPlainObject';
 
@@ -15,7 +20,7 @@ function executeCustomizer(objValue?: ErrorField, srcValue?: ErrorField) {
 }
 
 export function mergeErrors<Data extends Obj>(
-  errors: (Partial<Errors<Data>> | undefined)[]
+  errors: (RecursivePartial<Errors<Data>> | undefined)[]
 ) {
   return _mergeWith<Errors<Data>>(...errors, executeCustomizer);
 }

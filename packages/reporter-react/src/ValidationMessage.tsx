@@ -1,4 +1,4 @@
-import type { Errors, Obj } from '@felte/common';
+import type { Errors, Obj, RecursivePartial } from '@felte/common';
 import type { ReactNode } from 'react';
 import React, { useState, useEffect, useMemo } from 'react';
 import { _get, getPath } from '@felte/common';

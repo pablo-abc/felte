@@ -13,6 +13,7 @@ import type {
   PrimitiveSetter,
   FieldsSetter,
   Helpers,
+  RecursivePartial,
 } from '@felte/common';
 import {
   deepSet,
@@ -101,11 +102,11 @@ export function createHelpers<Data extends Obj>({
 
   const setTouched = createSetHelper<Touched<Data>, string>(touched.update);
 
-  const setErrors = createSetHelper<Partial<Errors<Data>>, string>(
+  const setErrors = createSetHelper<RecursivePartial<Errors<Data>>, string>(
     errors.update
   );
 
-  const setWarnings = createSetHelper<Partial<Errors<Data>>, string>(
+  const setWarnings = createSetHelper<RecursivePartial<Errors<Data>>, string>(
     warnings.update
   );
 

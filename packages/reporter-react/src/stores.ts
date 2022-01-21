@@ -1,8 +1,7 @@
-import type { Writable } from 'svelte/store';
-import type { Errors } from '@felte/common';
+import type { Errors, PartialWritable } from '@felte/common';
 
 export type ErrorStores = {
-  [index: string]: Writable<Partial<Errors<any>>>;
+  [index: string]: PartialWritable<Errors<any>>;
 };
 
 export const errorStores: ErrorStores = {};

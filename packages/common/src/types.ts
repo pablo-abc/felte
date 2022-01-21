@@ -1,5 +1,13 @@
 import type { Readable, Writable } from 'svelte/store';
 
+export type RecursivePartial<T> = {
+  [P in keyof T]?: RecursivePartial<T[P]>;
+};
+
+export type RecursiveRequired<T> = {
+  [P in keyof T]-?: RecursiveRequired<T>;
+};
+
 export type ObjectSetter<Data, Path extends string = string> = (<
   P extends Path,
   V extends Traverse<Data, P> = Traverse<Data, P>
@@ -106,9 +114,9 @@ export type Helpers<Data extends Obj, Path extends string = string> = {
   /** Helper function to touch a specific field. */
   setTouched: ObjectSetter<Touched<Data>, Path>;
   /** Helper function to set an error to a specific field. */
-  setErrors: ObjectSetter<Partial<Errors<Data>>, Path>;
+  setErrors: ObjectSetter<RecursivePartial<Errors<Data>>, Path>;
   /** Helper function to set a warning on a specific field. */
-  setWarnings: ObjectSetter<Partial<Errors<Data>>, Path>;
+  setWarnings: ObjectSetter<RecursivePartial<Errors<Data>>, Path>;
   /** Helper function to set the value of the isDirty store */
   setIsDirty: PrimitiveSetter<boolean>;
   /** Helper function to set the value of the isSubmitting store */
@@ -201,9 +209,9 @@ export type FormControl =
 export type ValidationFunction<Data extends Obj> = (
   values: Data
 ) =>
-  | Partial<Errors<Data>>
+  | RecursivePartial<Errors<Data>>
   | undefined
-  | Promise<Partial<Errors<Data>> | undefined>;
+  | Promise<RecursivePartial<Errors<Data>> | undefined>;
 
 export type TransformFunction<Data extends Obj> = (values: unknown) => Data;
 
@@ -353,10 +361,10 @@ export type KnownStores<
   data: Writable<Data> & StoreExt;
 };
 
-type PartialWritable<Data extends Obj> = {
+export type PartialWritable<Data extends Obj> = {
   subscribe: Writable<Data>['subscribe'];
-  set: Writable<Partial<Data>>['set'];
-  update: Writable<Partial<Data>>['update'];
+  set: Writable<RecursivePartial<Data>>['set'];
+  update: Writable<RecursivePartial<Data>>['update'];
 };
 
 /** The stores that `createForm` creates. */
@@ -461,4 +469,4 @@ type TraverseImpl<
 export type Traverse<
   T extends Record<string, any> | Array<any>,
   Path extends string
-> = TraverseImpl<Required<T>, Split<Path>>;
+> = TraverseImpl<RecursiveRequired<T>, Split<Path>>;
