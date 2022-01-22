@@ -1,5 +1,13 @@
 # @felte/validator-vest
 
+## 1.0.0-next.11
+
+### Patch Changes
+
+- Updated dependencies [452fe5a]
+- Updated dependencies [15d0ce2]
+  - @felte/common@1.0.0-next.12
+
 ## 1.0.0-next.10
 
 ### Major Changes

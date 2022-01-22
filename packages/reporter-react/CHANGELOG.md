@@ -1,5 +1,31 @@
 # @felte/reporter-solid
 
+## 1.0.0-next.12
+
+### Major Changes
+
+- 998ed45: BREAKING: Remove `index` prop support
+
+  This was done in order to allow and simplify further improvements of the type system.
+
+  This means this:
+
+  ```html
+  <ValidationMessage index="1" for="email"></ValidationMessage>
+  ```
+
+  Should be changed to this:
+
+  ```html
+  <ValidationMessage for="email.1"></ValidationMessage>
+  ```
+
+### Patch Changes
+
+- Updated dependencies [452fe5a]
+- Updated dependencies [15d0ce2]
+  - @felte/common@1.0.0-next.12
+
 ## 1.0.0-next.11
 
 ### Patch Changes

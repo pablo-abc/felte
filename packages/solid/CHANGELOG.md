@@ -1,5 +1,51 @@
 # @felte/solid
 
+## 1.0.0-next.15
+
+### Major Changes
+
+- 452fe5a: BREAKING: Remove `data-felte-index` attribute support.
+
+  This means that you should replace this:
+
+  ```html
+  <input data-felte-index="1" name="preferences" />
+  ```
+
+  To this:
+
+  ```html
+  <input name="preferences.1" />
+  ```
+
+  This was done in order to allow for future improvements of the type system for TypeScript users, and to also follow the same behaviour the browser would do if JavaScript is disabled
+
+- 15d0ce2: BREAKING: Stop grabbing nested names from fieldset
+
+  This means that this won't work anymore:
+
+  ```html
+  <fieldset name="account">
+    <input name="email" />
+  </fieldset>
+  ```
+
+  So it needs to be changed to this:
+
+  ```html
+  <fieldset>
+    <input name="account.email" />
+  </fieldset>
+  ```
+
+  This was done to allow for future improvements on type-safety, as well to keep consistency with the browser's behaviour when JavaScript is disabled.
+
+### Patch Changes
+
+- Updated dependencies [452fe5a]
+- Updated dependencies [15d0ce2]
+  - @felte/core@1.0.0-next.15
+
 ## 1.0.0-next.14
 
 ### Major Changes
