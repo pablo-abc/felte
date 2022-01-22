@@ -6,6 +6,7 @@ import type {
 } from '../types';
 import { _mergeWith } from './mergeWith';
 import { _isPlainObject } from './isPlainObject';
+import { deepSet } from './deepSet';
 
 type ErrorField = string | Obj | string[];
 
@@ -44,5 +45,36 @@ export async function executeValidation<Data extends Obj>(
   validations?: ValidationFunction<Data>[] | ValidationFunction<Data>
 ) {
   const errors = await Promise.all(runValidations(values, validations));
-  return mergeErrors<Errors<Data>>(errors);
+  const merged = mergeErrors<Errors<Data>>(errors);
+  return syncFieldArrays(values, merged);
+}
+
+function fieldArrayCustomizer(data: any, error: any) {
+  if (_isPlainObject(data)) return;
+  if (!Array.isArray(data) || !Array.isArray(error)) return error;
+  if (data.length === 0) return error;
+  if (data.length === error.length) return;
+  const newError: any[][] = [];
+  for (let i = 0; i < error.length; i++) {
+    const value = error[i];
+    const index = i % data.length;
+    if (isNaN(index) || !value) continue;
+    if (!Array.isArray(newError[index])) newError[index] = [];
+    newError[index].push(value);
+  }
+  return newError.map((e) => {
+    if (e.every((o) => _isPlainObject(o))) return mergeErrors(e);
+    return e;
+  });
+}
+
+export function syncFieldArrays<Data extends Obj>(
+  shape: Data,
+  error: Errors<Data>
+): Errors<Data> {
+  return _mergeWith<Errors<Data>>(
+    deepSet(shape, null),
+    error,
+    fieldArrayCustomizer
+  );
 }

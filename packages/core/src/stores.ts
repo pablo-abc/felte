@@ -17,6 +17,7 @@ import {
   mergeErrors,
   executeTransforms,
   deepSome,
+  syncFieldArrays,
 } from '@felte/common';
 
 function createAbortController() {
@@ -72,16 +73,16 @@ function cancellableValidation<Data extends Obj>(
     validations?: ValidationFunction<Data>[] | ValidationFunction<Data>
   ) {
     if (!validations || !$data) return;
-    let current = deepSet($data, null) as Errors<Data>;
+    let current = {} as Errors<Data>;
     const controller = createAbortController();
     if (activeController) activeController.abort();
     activeController = controller;
     const results = runValidations($data, validations);
-    results.forEach(async (promise) => {
+    results.forEach(async (promise: any) => {
       const result = await promise;
       if (controller.signal.aborted) return;
       current = mergeErrors([current, result]);
-      store.set(current);
+      store.set(syncFieldArrays($data, current));
     });
   };
 }
