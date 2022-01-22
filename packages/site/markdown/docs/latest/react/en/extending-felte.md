@@ -19,7 +19,6 @@ function extender({
   touched,
   config,
   addValidator,
-  addWarnValidator,
   addTransformer,
   setFields,
   validate,
@@ -45,8 +44,9 @@ function extender({
 - `warnings` is an observable that contains the warnings of the form.
 - `touched` is an observable that contains the touched values of the form.
 - `config` is the configuration object passed by the user to `useForm`.
-- `addValidator` is a function that accepts a validation function to add to the user's `validate` configuration.
-- `addWarnValidator` is a function that accepts a validation function to add to the user's `warn` configuration.
+- `addValidator` is a function that accepts a validation function to add to the user's `validate` or `warn` configuration. Optionally accepts an object as second paramenter with the following properties:
+  - `debounce` is a boolean. If `true`, adds to debounced validators. Default: `false`.
+  - `level` is either `"warning"` or `"error"`. Defines if the validator should be added to `warn` or `validate` respectively.
 - `addTransformer` is a function that accepts a transform function to add to the user's `transform` configuration.
 - `setFields` is the same setter described in the [Helper functions section](/docs/react/helper-functions#setters).
 - `validate` is the same helper described in the [Helper functions section](/docs/react/helper-functions#validate).
