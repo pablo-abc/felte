@@ -9,6 +9,7 @@ subsections:
   - data-felte-unset-on-remove
   - Dynamic forms
   - Proxies
+  - Extending
 ---
 
 ## Migrating from 0.x
@@ -166,3 +167,13 @@ Originally we thought it would be a good idea to make the index a _unique_ ident
 Programatically setting the value of an input component using its `value` prop/attribute directly does not trigger any kind of events that Felte can catch. In order to make this more seamless we originally added a proxy to the inputs of forms tracked by Felte. This ended up causing many race conditions and issues that were difficult to debug (and some we did not manage to solve). To ease maintainability, we've decided to remove this.
 
 The recommended way to programatically change the value of a field is now to use the `setFields` helper, which will update _both_ the `data` store and input's value.
+
+### Extending
+
+We've removed the `addWarnValidator` function that was previously passed to extender functions. Instead, now the `addValidator` function receives an object with options as a second argument. This gives a smaller and more unified API, as well as opening to add more options in the future.
+
+If you have an extender using `addWarnValidator`, you must update it by calling `addValidator` instead with the following options:
+
+```javascript
+addValidator(yourValidationFunction, { level: 'warning' });
+```
