@@ -56,10 +56,6 @@ export function Form() {
 
 When using the default handler, if the request fails Felte will throw a `FelteSubmitError`. This is a a JavaScript error that contains a `response` property which is the `Response` object from the `fetch` request. The class for `FelteSubmitError` is exported from this package to allow for comparisons with `instanceof`.
 
-#### Fieldsets
-
-When using this method for submitting form, you **can not** use the `name` attribute of a `fieldset` element to nest properties. Even though the `name` attribute is valid for a `fieldset` element, it is not used by the browser to submit data.
-
 ### Custom handler
 
 `useForm` accepts an `onSubmit` function on its configuration object. If you set `onSubmit`, the default submit handler **wil not** run. Anything returned by this function will be passed as a first argument to `onSuccess`. Anything thrown from this function will be passed as a first argument to `onError`.

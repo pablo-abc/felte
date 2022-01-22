@@ -35,10 +35,10 @@ When a field is removed from the DOM, Felte will also remove it from your stores
 If you set this attribute on a fieldset component, this will be applied to all controls within said fieldset unless a specific fieldset overrides this by adding its own `data-felte-keep-on-remove`.
 
 ```html
-<fieldset name="profile" data-felte-keep-on-remove>
+<fieldset data-felte-keep-on-remove>
   <!-- will be removed from the store if the fieldset is removed -->
-  <input name="name" data-felte-keep-on-remove="false">
+  <input name="profile.name" data-felte-keep-on-remove="false">
   <!-- won't be removed from the store if the fieldset is removed -->
-  <textarea name="bio" />
+  <textarea name="profile.bio" />
 </fieldset>
 ```

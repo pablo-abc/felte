@@ -10,6 +10,8 @@ subsections:
   - Dynamic forms
   - Proxies
   - Extending
+  - Fieldsets
+  - data-felte-index
 ---
 
 ## Migrating from 0.x
@@ -177,3 +179,38 @@ If you have an extender using `addWarnValidator`, you must update it by calling 
 ```javascript
 addValidator(yourValidationFunction, { level: 'warning' });
 ```
+
+### Fieldsets
+
+We've removed the feature of adding a `name` attribute to a `fieldset` element. While the `fieldset` element _does_ support this attribute, browser's ignore it completely when submitting forms with JS disabled (and when constructing `FormData`). In order to keep a consistent behaviour, we're enforcing dot notation for nested forms from now on.
+
+If you were using this feature, you should update your forms by removing the `name` attribute from your fieldset elements and using dot notation on your inputs. For example, instead of this:
+
+```html
+<fieldset name="account">
+  <input name="email" />
+</fieldset>
+```
+
+you should do this:
+
+```html
+<fieldset>
+  <input name="account.email" />
+</fieldset>
+```
+
+### data-felte-index
+
+This was removed for similar reasons to the outlined above. Specifically since we now allow to submit forms using a `FormData` or `urlencoded` content type. To be able to support all these options, we now require for all inputs to use dot notation for this use-case as well.
+
+If you were using this feature, you should update your forms by removing the `data-felte-index` attribute and adding it to your input's name using dot notation. For example, instead of this:
+
+```html
+<input data-felte-index="1" name="friend" />
+```
+
+you should do this:
+
+```html
+<input name="friend.1" />
