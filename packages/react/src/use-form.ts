@@ -39,13 +39,13 @@ function useConst<T>(setup: () => T): T {
   return ref.current;
 }
 
-export function useForm<Data extends Obj = any, Ext extends Obj = any>(
+export function useForm<Data extends Obj = any, Ext extends Obj = Obj>(
   config: FormConfigWithTransformFn<Data> & Ext
 ): Form<Data> & UnknownHelpers<Data, Paths<Data>> & UnknownStores<Data>;
-export function useForm<Data extends Obj = any, Ext extends Obj = any>(
+export function useForm<Data extends Obj = any, Ext extends Obj = Obj>(
   config?: FormConfigWithoutTransformFn<Data> & Ext
 ): Form<Data> & KnownHelpers<Data, Paths<Data>> & KnownStores<Data>;
-export function useForm<Data extends Obj = any>(
+export function useForm<Data extends Obj = Obj>(
   config?: FormConfig<Data>
 ): Form<Data> & Helpers<Data, Paths<Data>> & Stores<Data> {
   const formRef = useRef<HTMLFormElement>(null);

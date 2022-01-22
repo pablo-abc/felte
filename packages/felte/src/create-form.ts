@@ -17,13 +17,13 @@ import type {
 
 type Obj = Record<string, any>;
 
-export function createForm<Data extends Obj = any, Ext extends Obj = any>(
+export function createForm<Data extends Obj = any, Ext extends Obj = Obj>(
   config: FormConfigWithTransformFn<Data> & Ext
 ): Form<Data> & UnknownHelpers<Data, Paths<Data>> & UnknownStores<Data>;
-export function createForm<Data extends Obj = any, Ext extends Obj = any>(
+export function createForm<Data extends Obj = any, Ext extends Obj = Obj>(
   config?: FormConfigWithoutTransformFn<Data> & Ext
 ): Form<Data> & KnownHelpers<Data, Paths<Data>> & KnownStores<Data>;
-export function createForm<Data extends Obj = any, Ext extends Obj = any>(
+export function createForm<Data extends Obj = any, Ext extends Obj = Obj>(
   config?: FormConfig<Data> & Ext
 ): Form<Data> & Helpers<Data, Paths<Data>> & Stores<Data> {
   const { cleanup, startStores, ...rest } = coreCreateForm(config ?? {}, {
