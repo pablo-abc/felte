@@ -1,5 +1,32 @@
 # felte
 
+## 1.0.0-next.14
+
+### Major Changes
+
+- b7ef442: BREAKING: Remove `addWarnValidator` in favour of options to `addValidator`.
+
+  This gives a smaller and more unified API, as well as opening to add more options in the future.
+
+  If you have an extender using `addWarnValidator`, you must update it by calling `addValidator` instead with the following options:
+
+  ```javascript
+  addValidator(yourValidationFunction, { level: 'warning' });
+  ```
+
+### Minor Changes
+
+- a1dbc28: Improve types
+
+### Patch Changes
+
+- Updated dependencies [a1dbc28]
+- Updated dependencies [ec740a0]
+- Updated dependencies [34e0393]
+- Updated dependencies [b7ef442]
+- Updated dependencies [477bb45]
+  - @felte/core@1.0.0-next.14
+
 ## 1.0.0-next.13
 
 ### Patch Changes

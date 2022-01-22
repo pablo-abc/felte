@@ -1,5 +1,26 @@
 # @felte/common
 
+## 1.0.0-next.11
+
+### Major Changes
+
+- b7ef442: BREAKING: Remove `addWarnValidator` in favour of options to `addValidator`.
+
+  This gives a smaller and more unified API, as well as opening to add more options in the future.
+
+  If you have an extender using `addWarnValidator`, you must update it by calling `addValidator` instead with the following options:
+
+  ```javascript
+  addValidator(yourValidationFunction, { level: 'warning' });
+  ```
+
+### Minor Changes
+
+- a1dbc28: Improve types
+- ec740a0: Update types
+- 34e0393: Make string paths for accessors type safe
+- e1ad8cd: Export `mergeErrors` util
+
 ## 1.0.0-next.10
 
 ### Minor Changes
