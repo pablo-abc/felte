@@ -1,7 +1,6 @@
 import { SvelteComponentTyped } from 'svelte';
 
 export interface ValidationMessageProps {
-  index?: string | number;
   level?: 'error' | 'warning';
   for: string;
 }

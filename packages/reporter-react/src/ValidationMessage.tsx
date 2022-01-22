@@ -6,7 +6,6 @@ import { createId } from './utils';
 
 export type ValidationMessageProps = {
   for: string;
-  index?: string | number;
   level?: 'error' | 'warning';
   children: (messages: string | string[] | undefined) => ReactNode;
 };
@@ -24,10 +23,7 @@ export function ValidationMessage(props: ValidationMessageProps) {
     // To guarantee the DOM has rendered we need to setTimeout
     setTimeout(() => {
       const element = document.getElementById(id) as HTMLDivElement;
-      const path =
-        typeof props.index !== 'undefined'
-          ? `${props.for}[${props.index}]`
-          : props.for;
+      const path = props.for;
       const errorPath = getPath(element, path);
       const formElement = getFormElement(element) as HTMLFormElement;
       const reporterId = formElement?.dataset.felteReporterReactId;

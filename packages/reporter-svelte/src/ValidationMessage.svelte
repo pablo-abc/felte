@@ -4,7 +4,6 @@
   import { _get, getPath } from '@felte/common';
   import { errorStores, warningStores } from './stores';
 
-  export let index = undefined;
   export let level = 'error';
   let errorFor;
   export { errorFor as for };
@@ -18,7 +17,7 @@
   }
 
   onMount(() => {
-    const path = typeof index !== 'undefined' ? `${errorFor}[${index}]` : errorFor;
+    const path = errorFor;
     errorPath = getPath(element, path);
     const formElement = getFormElement();
     if (!formElement) errors = writable({});

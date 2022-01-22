@@ -14,7 +14,6 @@ import { createId } from './utils';
 
 export type ValidationMessageProps = {
   for: string;
-  index?: string | number;
   level?: 'error' | 'warning';
   children: (messages: string | string[] | undefined) => JSX.Element;
 };
@@ -36,10 +35,7 @@ export function ValidationMessage<Data extends Obj = Obj>(
   let unsubscribe: (() => void) | undefined;
   onMount(() => {
     const element = document.getElementById(id) as HTMLDivElement;
-    const path =
-      typeof props.index !== 'undefined'
-        ? `${props.for}[${props.index}]`
-        : props.for;
+    const path = props.for;
     setErrorPath(getPath(element, path));
     const formElement = getFormElement(element) as HTMLFormElement;
     const reporterId = formElement?.dataset.felteReporterSolidId;
