@@ -31,14 +31,16 @@ function createSelectElement({
 
 function createLoginForm() {
   const formElement = screen.getByRole('form') as HTMLFormElement;
-  const emailInput = createInputElement({ name: 'email', type: 'email' });
+  const emailInput = createInputElement({
+    name: 'account.email',
+    type: 'email',
+  });
   const passwordInput = createInputElement({
-    name: 'password',
+    name: 'account.password',
     type: 'password',
   });
   const submitInput = createInputElement({ type: 'submit' });
   const accountFieldset = document.createElement('fieldset');
-  accountFieldset.name = 'account';
   accountFieldset.append(emailInput, passwordInput);
   formElement.append(accountFieldset, submitInput);
   return { formElement, emailInput, passwordInput, submitInput };
@@ -46,35 +48,37 @@ function createLoginForm() {
 
 function createSignupForm() {
   const formElement = screen.getByRole('form') as HTMLFormElement;
-  const emailInput = createInputElement({ name: 'email', type: 'email' });
+  const emailInput = createInputElement({
+    name: 'account.email',
+    type: 'email',
+  });
   const passwordInput = createInputElement({
-    name: 'password',
+    name: 'account.password',
     type: 'password',
   });
   const showPasswordInput = createInputElement({
-    name: 'showPassword',
+    name: 'account.showPassword',
     type: 'checkbox',
   });
   const confirmPasswordInput = createInputElement({
-    name: 'confirmPassword',
+    name: 'account.confirmPassword',
     type: 'password',
   });
   const publicEmailYesRadio = createInputElement({
-    name: 'publicEmail',
+    name: 'account.publicEmail',
     value: 'yes',
     type: 'radio',
   });
   const publicEmailNoRadio = createInputElement({
-    name: 'publicEmail',
+    name: 'account.publicEmail',
     value: 'no',
     type: 'radio',
   });
   const accountTypeElement = createSelectElement({
-    name: 'accountType',
+    name: 'account.accountType',
     options: ['user', 'admin'],
   });
   const accountFieldset = document.createElement('fieldset');
-  accountFieldset.name = 'account';
   accountFieldset.append(
     emailInput,
     passwordInput,
@@ -86,10 +90,9 @@ function createSignupForm() {
   );
   formElement.appendChild(accountFieldset);
   const profileFieldset = document.createElement('fieldset');
-  profileFieldset.name = 'profile';
-  const firstNameInput = createInputElement({ name: 'firstName' });
-  const lastNameInput = createInputElement({ name: 'lastName' });
-  const bioInput = createInputElement({ name: 'bio' });
+  const firstNameInput = createInputElement({ name: 'profile.firstName' });
+  const lastNameInput = createInputElement({ name: 'profile.lastName' });
+  const bioInput = createInputElement({ name: 'profile.bio' });
   profileFieldset.append(firstNameInput, lastNameInput, bioInput);
   formElement.appendChild(profileFieldset);
   const pictureInput = createInputElement({
@@ -116,31 +119,30 @@ function createSignupForm() {
   });
   formElement.append(techCheckbox, filmsCheckbox, submitInput);
   const multipleFieldsetElement = document.createElement('fieldset');
-  multipleFieldsetElement.name = 'multiple';
   const extraTextInputs = createMultipleInputElements({
     type: 'text',
-    name: 'extraText',
+    name: 'multiple.extraText',
   });
   const extraNumberInputs = createMultipleInputElements({
     type: 'number',
-    name: 'extraNumber',
+    name: 'multiple.extraNumber',
   });
   const extraFileInputs = createMultipleInputElements({
     type: 'file',
-    name: 'extraFiles',
+    name: 'multiple.extraFiles',
   });
   const extraCheckboxes = createMultipleInputElements({
     type: 'checkbox',
-    name: 'extraCheckbox',
+    name: 'multiple.extraCheckbox',
   });
   const extraPreferences1 = createMultipleInputElements({
     type: 'checkbox',
-    name: 'extraPreference',
+    name: 'multiple.extraPreference',
     value: 'preference1',
   });
   const extraPreferences2 = createMultipleInputElements({
     type: 'checkbox',
-    name: 'extraPreference',
+    name: 'multiple.extraPreference',
     value: 'preference2',
   });
   multipleFieldsetElement.append(
@@ -1041,7 +1043,7 @@ describe('User interactions with form', () => {
     await waitFor(() => {
       expect(window.fetch).toHaveBeenCalledWith(
         expect.stringContaining(
-          '/example?email=zaphod%40beeblebrox.com&password='
+          '/example?account.email=zaphod%40beeblebrox.com&account.password='
         ),
         expect.objectContaining({
           method: 'get',

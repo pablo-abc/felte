@@ -296,12 +296,11 @@ describe('Reporter Tippy Custom Position', () => {
 
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const inputElement = createInputElement({
-      name: 'test',
+      name: 'group.test',
       type: 'text',
       id: 'group-test',
     });
     const fieldsetElement = document.createElement('fieldset');
-    fieldsetElement.name = 'group';
     const labelElement = document.createElement('label');
     labelElement.dataset.felteReporterTippyPositionFor = 'group.test';
     labelElement.htmlFor = 'group-test';

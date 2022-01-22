@@ -12,9 +12,8 @@ describe('Helpers', () => {
   test('setFields should update and touch field', async () => {
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const fieldsetElement = document.createElement('fieldset');
-    fieldsetElement.name = 'account';
     const inputElement = createInputElement({
-      name: 'email',
+      name: 'account.email',
       value: '',
       type: 'text',
     });
@@ -101,9 +100,8 @@ describe('Helpers', () => {
   test('setFields should set all fields', () => {
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const fieldsetElement = document.createElement('fieldset');
-    fieldsetElement.name = 'account';
     const inputElement = createInputElement({
-      name: 'email',
+      name: 'account.email',
       value: '',
       type: 'text',
     });
@@ -257,9 +255,8 @@ describe('Helpers', () => {
   test('reset should reset form to default values', (done) => {
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const accountFieldset = document.createElement('fieldset');
-    accountFieldset.name = 'account';
     const emailInput = createInputElement({
-      name: 'email',
+      name: 'account.email',
       type: 'text',
       value: '',
     });

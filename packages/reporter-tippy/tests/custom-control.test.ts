@@ -51,10 +51,9 @@ describe('Reporter Tippy Custom Control', () => {
       name: 'test',
     });
     const valueElement = createContentEditableInput({
-      name: 'value',
+      name: 'deep.value',
     });
     const fieldsetElement = document.createElement('fieldset');
-    fieldsetElement.name = 'deep';
     fieldsetElement.appendChild(valueElement);
     formElement.appendChild(inputElement);
     formElement.appendChild(fieldsetElement);
@@ -184,10 +183,9 @@ describe('Reporter Tippy Custom Control', () => {
       name: 'test',
     });
     const valueElement = createContentEditableInput({
-      name: 'value',
+      name: 'deep.value',
     });
     const fieldsetElement = document.createElement('fieldset');
-    fieldsetElement.name = 'deep';
     fieldsetElement.appendChild(valueElement);
     formElement.appendChild(fieldsetElement);
     formElement.appendChild(inputElement);

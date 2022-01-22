@@ -18,9 +18,9 @@
     {#each [0, 1, 2] as index}
       <label>
         test
-        <input data-felte-index="{index}" type="text" name="test">
+        <input type="text" name="multiple.test.{index}">
       </label>
-      <ValidationMessage index="{index}" for="test" let:messages={message}>
+      <ValidationMessage index="{index}" for="multiple.test" let:messages={message}>
         <span data-testid="validation-message-{index}">{message || ''}</span>
       </ValidationMessage>
     {/each}

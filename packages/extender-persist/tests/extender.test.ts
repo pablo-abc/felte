@@ -40,22 +40,21 @@ describe('Extender persist', () => {
     });
 
     const fieldsetElement = document.createElement('fieldset');
-    fieldsetElement.name = 'account';
     const emailInput = createInputElement({
-      name: 'email',
+      name: 'account.email',
     });
     const passwordInput = createInputElement({
       type: 'password',
-      name: 'password',
+      name: 'account.password',
     });
     const confirmPasswordInput = createInputElement({
       type: 'text',
-      name: 'confirmPassword',
+      name: 'account.confirmPassword',
     });
     confirmPasswordInput.setAttribute('data-felte-extender-persist-ignore', '');
     const someSecretInput = createInputElement({
       type: 'text',
-      name: 'someSecret',
+      name: 'account.someSecret',
     });
     fieldsetElement.appendChild(emailInput);
     fieldsetElement.appendChild(passwordInput);

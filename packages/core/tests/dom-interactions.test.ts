@@ -27,47 +27,6 @@ describe('Form action DOM mutations', () => {
     expect(formElement).toHaveAttribute('novalidate');
   });
 
-  test('Adds data-felte-fieldset to children of fieldset', () => {
-    const { form } = createForm({
-      onSubmit: jest.fn(),
-    });
-    const formElement = screen.getByRole('form') as HTMLFormElement;
-    const fieldsetElement = document.createElement('fieldset');
-    fieldsetElement.name = 'user';
-    const inputElement = document.createElement('input');
-    inputElement.name = 'email';
-    fieldsetElement.appendChild(inputElement);
-    formElement.appendChild(fieldsetElement);
-    form(formElement);
-    expect(inputElement).toHaveAttribute('data-felte-fieldset');
-  });
-
-  test('Fieldsets can be nested', () => {
-    const { form } = createForm({ onSubmit: jest.fn() });
-    const userFieldset = document.createElement('fieldset');
-    userFieldset.name = 'user';
-    const profileFieldset = document.createElement('fieldset');
-    profileFieldset.name = 'profile';
-    const emailInput = createInputElement({ type: 'email', name: 'email' });
-    const passwordInput = createInputElement({
-      type: 'password',
-      name: 'password',
-    });
-    const nameInput = createInputElement({ name: 'name' });
-    const bioInput = createInputElement({ name: 'bio' });
-    profileFieldset.append(nameInput, bioInput);
-    userFieldset.append(emailInput, passwordInput, profileFieldset);
-    const formElement = screen.getByRole('form') as HTMLFormElement;
-    formElement.appendChild(userFieldset);
-    form(formElement);
-    [emailInput, passwordInput, profileFieldset].forEach((el) => {
-      expect(el).toHaveAttribute('data-felte-fieldset', 'user');
-    });
-    [nameInput, bioInput].forEach((el) => {
-      expect(el).toHaveAttribute('data-felte-fieldset', 'user.profile');
-    });
-  });
-
   test('Propagates felte-keep-on-remove attribute respecting specificity', () => {
     const { form } = createForm({ onSubmit: jest.fn() });
     const outerFieldset = document.createElement('fieldset');
@@ -106,9 +65,10 @@ describe('Form action DOM mutations', () => {
     });
     multipleOuterInputs[1].dataset.felteKeepOnRemove = 'true';
     const innerFieldset = document.createElement('fieldset');
-    innerFieldset.name = 'inner';
-    const innerTextInput = createInputElement({ name: 'innerText' });
-    const innerSecondaryinput = createInputElement({ name: 'innerSecondary' });
+    const innerTextInput = createInputElement({ name: 'inner.innerText' });
+    const innerSecondaryinput = createInputElement({
+      name: 'inner.innerSecondary',
+    });
     innerSecondaryinput.dataset.felteKeepOnRemove = 'true';
     innerFieldset.append(innerTextInput, innerSecondaryinput);
     outerFieldset.append(
@@ -149,9 +109,10 @@ describe('Form action DOM mutations', () => {
     const outerSecondaryInput = createInputElement({ name: 'outerSecondary' });
     outerSecondaryInput.dataset.felteKeepOnRemove = 'true';
     const innerFieldset = document.createElement('fieldset');
-    innerFieldset.name = 'inner';
-    const innerTextInput = createInputElement({ name: 'innerText' });
-    const innerSecondaryinput = createInputElement({ name: 'innerSecondary' });
+    const innerTextInput = createInputElement({ name: 'inner.innerText' });
+    const innerSecondaryinput = createInputElement({
+      name: 'inner.innerSecondary',
+    });
     innerSecondaryinput.dataset.felteKeepOnRemove = 'true';
     innerFieldset.append(innerTextInput, innerSecondaryinput);
     outerFieldset.append(outerTextInput, outerSecondaryInput);

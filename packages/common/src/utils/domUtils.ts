@@ -32,16 +32,6 @@ export function getFormControls(el: Element): FormControl[] {
 export function addAttrsFromFieldset(fieldSet: HTMLFieldSetElement): void {
   for (const element of fieldSet.elements) {
     if (!isFormControl(element) && !isFieldSetElement(element)) continue;
-    if (fieldSet.name && element.name) {
-      const index = getIndex(fieldSet);
-      const fieldsetName =
-        typeof index === 'undefined'
-          ? fieldSet.name
-          : `${fieldSet.name}[${index}]`;
-      element.dataset.felteFieldset = fieldSet.dataset.felteFieldset
-        ? `${fieldSet.dataset.felteFieldset}.${fieldsetName}`
-        : fieldsetName;
-    }
     if (
       fieldSet.hasAttribute('data-felte-keep-on-remove') &&
       !element.hasAttribute('data-felte-keep-on-remove')

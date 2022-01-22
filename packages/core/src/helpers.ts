@@ -129,7 +129,7 @@ export function createHelpers<Data extends Obj>({
     const fieldsSetter = createSetHelper<Data, string>(updateFields);
     fieldsSetter(pathOrValue as any, valueOrUpdater as any);
     if (typeof pathOrValue === 'string' && shouldTouch) {
-      setTouched(pathOrValue, true as any);
+      setTouched<string, any>(pathOrValue, true);
     }
   };
 

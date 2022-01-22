@@ -1,5 +1,5 @@
 import type { FormControl } from '../types';
-import { isFieldSetElement, isFormControl } from './typeGuards';
+import { isFormControl } from './typeGuards';
 import { getIndex } from './getIndex';
 
 /**
@@ -16,17 +16,5 @@ export function getPath(
   } else if (isFormControl(el)) {
     path = el.name;
   }
-  path = typeof index === 'undefined' ? path : `${path}[${index}]`;
-  let parent = el.parentNode;
-  if (!parent) return path;
-  while (parent && parent.nodeName !== 'FORM') {
-    if (isFieldSetElement(parent) && parent.name) {
-      const index = getIndex(parent);
-      const fieldsetName =
-        typeof index === 'undefined' ? parent.name : `${parent.name}[${index}]`;
-      path = `${fieldsetName}.${path}`;
-    }
-    parent = parent.parentNode;
-  }
-  return path;
+  return typeof index === 'undefined' ? path : `${path}[${index}]`;
 }

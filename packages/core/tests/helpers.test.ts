@@ -19,9 +19,8 @@ describe('Helpers', () => {
   test('setFields should update and touch field', () => {
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const fieldsetElement = document.createElement('fieldset');
-    fieldsetElement.name = 'account';
     const inputElement = createInputElement({
-      name: 'email',
+      name: 'account.email',
       value: '',
       type: 'text',
     });
@@ -102,9 +101,8 @@ describe('Helpers', () => {
   test('setFields should set all fields', () => {
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const fieldsetElement = document.createElement('fieldset');
-    fieldsetElement.name = 'account';
     const inputElement = createInputElement({
-      name: 'email',
+      name: 'account.email',
       value: '',
       type: 'text',
     });
@@ -315,9 +313,8 @@ describe('Helpers', () => {
   test('reset should reset form to default values', () => {
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const accountFieldset = document.createElement('fieldset');
-    accountFieldset.name = 'account';
     const emailInput = createInputElement({
-      name: 'email',
+      name: 'account.email',
       type: 'text',
       value: '',
     });
@@ -464,9 +461,8 @@ describe('Helpers', () => {
   test('unsetField removes a field from all stores', async () => {
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const fieldsetElement = document.createElement('fieldset');
-    fieldsetElement.name = 'account';
     const inputElement = createInputElement({
-      name: 'email',
+      name: 'account.email',
       value: '',
       type: 'text',
     });
@@ -515,9 +511,8 @@ describe('Helpers', () => {
   test('resetField resets a field to its initial value', async () => {
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const fieldsetElement = document.createElement('fieldset');
-    fieldsetElement.name = 'account';
     const inputElement = createInputElement({
-      name: 'email',
+      name: 'account.email',
       value: '',
       type: 'text',
     });

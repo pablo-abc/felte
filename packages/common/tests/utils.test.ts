@@ -31,8 +31,6 @@ import {
   setForm,
   executeValidation,
   getInputTextOrNumber,
-  getIndex,
-  getPathFromDataset,
   shouldIgnore,
   executeTransforms,
   getValue,
@@ -40,14 +38,16 @@ import {
 
 function createLoginForm() {
   const formElement = screen.getByRole('form') as HTMLFormElement;
-  const emailInput = createInputElement({ name: 'email', type: 'email' });
+  const emailInput = createInputElement({
+    name: 'account.email',
+    type: 'email',
+  });
   const passwordInput = createInputElement({
-    name: 'password',
+    name: 'account.password',
     type: 'password',
   });
   const submitInput = createInputElement({ type: 'submit' });
   const accountFieldset = document.createElement('fieldset');
-  accountFieldset.name = 'account';
   accountFieldset.append(emailInput, passwordInput);
   formElement.append(accountFieldset, submitInput);
   return { formElement, emailInput, passwordInput, submitInput };
@@ -56,8 +56,7 @@ function createLoginForm() {
 function createMultipleInputElements(attr: InputAttributes, amount = 3) {
   const inputs = [];
   for (let i = 0; i < amount; i++) {
-    const input = createInputElement(attr);
-    input.dataset.felteIndex = String(i);
+    const input = createInputElement({ ...attr, index: i });
     inputs.push(input);
   }
   return inputs;
@@ -65,31 +64,33 @@ function createMultipleInputElements(attr: InputAttributes, amount = 3) {
 
 function createSignupForm() {
   const formElement = screen.getByRole('form') as HTMLFormElement;
-  const emailInput = createInputElement({ name: 'email', type: 'email' });
+  const emailInput = createInputElement({
+    name: 'account.email',
+    type: 'email',
+  });
   const passwordInput = createInputElement({
-    name: 'password',
+    name: 'account.password',
     type: 'password',
   });
   const showPasswordInput = createInputElement({
-    name: 'showPassword',
+    name: 'account.showPassword',
     type: 'checkbox',
   });
   const confirmPasswordInput = createInputElement({
-    name: 'confirmPassword',
+    name: 'account.confirmPassword',
     type: 'password',
   });
   const publicEmailYesRadio = createInputElement({
-    name: 'publicEmail',
+    name: 'account.publicEmail',
     value: 'yes',
     type: 'radio',
   });
   const publicEmailNoRadio = createInputElement({
-    name: 'publicEmail',
+    name: 'account.publicEmail',
     value: 'no',
     type: 'radio',
   });
   const accountFieldset = document.createElement('fieldset');
-  accountFieldset.name = 'account';
   accountFieldset.append(
     emailInput,
     passwordInput,
@@ -100,11 +101,10 @@ function createSignupForm() {
   );
   formElement.appendChild(accountFieldset);
   const profileFieldset = document.createElement('fieldset');
-  profileFieldset.name = 'profile';
-  const firstNameInput = createInputElement({ name: 'firstName' });
-  const lastNameInput = createInputElement({ name: 'lastName' });
-  const bioInput = createInputElement({ name: 'bio' });
-  const ageInput = createInputElement({ name: 'age', type: 'number' });
+  const firstNameInput = createInputElement({ name: 'profile.firstName' });
+  const lastNameInput = createInputElement({ name: 'profile.lastName' });
+  const bioInput = createInputElement({ name: 'profile.bio' });
+  const ageInput = createInputElement({ name: 'profile.age', type: 'number' });
   profileFieldset.append(firstNameInput, lastNameInput, bioInput, ageInput);
   formElement.appendChild(profileFieldset);
   const pictureInput = createInputElement({
@@ -131,31 +131,30 @@ function createSignupForm() {
   });
   formElement.append(techCheckbox, filmsCheckbox, submitInput);
   const multipleFieldsetElement = document.createElement('fieldset');
-  multipleFieldsetElement.name = 'multiple';
   const extraTextInputs = createMultipleInputElements({
     type: 'text',
-    name: 'extraText',
+    name: 'multiple.extraText',
   });
   const extraNumberInputs = createMultipleInputElements({
     type: 'number',
-    name: 'extraNumber',
+    name: 'multiple.extraNumber',
   });
   const extraFileInputs = createMultipleInputElements({
     type: 'file',
-    name: 'extraFiles',
+    name: 'multiple.extraFiles',
   });
   const extraCheckboxes = createMultipleInputElements({
     type: 'checkbox',
-    name: 'extraCheckbox',
+    name: 'multiple.extraCheckbox',
   });
   const extraPreferences1 = createMultipleInputElements({
     type: 'checkbox',
-    name: 'extraPreference',
+    name: 'multiple.extraPreference',
     value: 'preference1',
   });
   const extraPreferences2 = createMultipleInputElements({
     type: 'checkbox',
-    name: 'extraPreference',
+    name: 'multiple.extraPreference',
     value: 'preference2',
   });
   multipleFieldsetElement.append(
@@ -167,10 +166,8 @@ function createSignupForm() {
     ...extraPreferences2
   );
   const fieldsets = [0, 1, 2].map((index) => {
-    const input = createInputElement({ name: 'otherText' });
+    const input = createInputElement({ name: `fieldsets.${index}.otherText` });
     const fieldset = document.createElement('fieldset');
-    fieldset.name = 'fieldsets';
-    fieldset.dataset.felteIndex = String(index);
     fieldset.appendChild(input);
     return fieldset;
   });
@@ -204,6 +201,10 @@ function createSignupForm() {
 }
 
 describe('Utils', () => {
+  beforeEach(createDOM);
+
+  afterEach(cleanupDOM);
+
   test('_some', () => {
     const testObj = {
       username: 'test',
@@ -388,32 +389,18 @@ describe('Utils', () => {
 
   test('getPath', () => {
     const inputElement = document.createElement('input');
-    inputElement.name = 'test';
-    expect(getPath(inputElement)).toBe('test');
-    const fieldsetElement = document.createElement('fieldset');
-    fieldsetElement.name = 'container';
-    fieldsetElement.appendChild(inputElement);
+    inputElement.name = 'container.test';
     expect(getPath(inputElement)).toBe('container.test');
     inputElement.setAttribute('data-felte-index', '1');
     expect(getPath(inputElement)).toBe('container.test[1]');
-    expect(getPath(inputElement, 'overriden')).toBe('container.overriden[1]');
-  });
-
-  test('getPathFromDataset', () => {
-    const inputElement = document.createElement('input');
-    inputElement.name = 'test';
-    expect(getPathFromDataset(inputElement)).toBe('test');
-    inputElement.dataset.felteFieldset = 'container';
-    expect(getPathFromDataset(inputElement)).toBe('container.test');
-    inputElement.setAttribute('data-felte-index', '1');
-    expect(getPathFromDataset(inputElement)).toBe('container.test[1]');
+    expect(getPath(inputElement, 'container.overriden')).toBe(
+      'container.overriden[1]'
+    );
   });
 
   test('getFormControls', () => {
-    createDOM();
     const { formElement } = createLoginForm();
     expect(getFormControls(formElement)).toHaveLength(3);
-    cleanupDOM();
   });
 
   test('addAttrsFromFieldset', () => {
@@ -428,13 +415,8 @@ describe('Utils', () => {
     fieldsetUnset.appendChild(inputUnsetElement);
 
     addAttrsFromFieldset(fieldset);
-    expect(inputElement).toHaveAttribute('data-felte-fieldset', 'container');
 
     addAttrsFromFieldset(fieldsetUnset);
-    expect(inputUnsetElement).toHaveAttribute(
-      'data-felte-fieldset',
-      'containerUnset'
-    );
     expect(inputUnsetElement).toHaveAttribute(
       'data-felte-keep-on-remove',
       'false'
@@ -442,7 +424,6 @@ describe('Utils', () => {
   });
 
   test('getFormDefaultValues', () => {
-    createDOM();
     const { formElement } = createSignupForm();
 
     const { defaultData } = getFormDefaultValues(formElement);
@@ -483,11 +464,9 @@ describe('Utils', () => {
         ]),
       })
     );
-    cleanupDOM();
   });
 
   test('setForm', () => {
-    createDOM();
     const formData = {
       account: {
         email: 'jacek@soplica.com',
@@ -525,7 +504,6 @@ describe('Utils', () => {
     setForm(formElement, formData);
     const { defaultData } = getFormDefaultValues(formElement);
     expect(defaultData).toEqual(formData);
-    cleanupDOM();
   });
 
   test('executeValidation', async () => {
@@ -805,16 +783,6 @@ describe('Utils', () => {
       leftAlone: 'original',
       preferences: ['added', 'leftAlone', 'added'],
     });
-  });
-
-  test('getIndex', () => {
-    const input = createInputElement({ type: 'text', name: 'test' });
-    expect(getIndex(input)).toBe(undefined);
-    const multipleInput = createMultipleInputElements(
-      { type: 'text', name: 'test' },
-      1
-    );
-    expect(getIndex(multipleInput[0])).toBe(0);
   });
 
   test('shouldIgnore', () => {

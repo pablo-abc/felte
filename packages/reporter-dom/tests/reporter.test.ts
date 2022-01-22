@@ -107,23 +107,26 @@ describe('Reporter DOM', () => {
 
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const inputElement = createInputElement({
-      name: 'test',
+      name: 'container.test',
       type: 'text',
       id: 'test',
     });
     const validationMessageElement = document.createElement('div');
     validationMessageElement.setAttribute(
       'data-felte-reporter-dom-for',
-      'test'
+      'container.test'
     );
     const warningMessageElement = document.createElement('div');
-    warningMessageElement.setAttribute('data-felte-reporter-dom-for', 'test');
+    warningMessageElement.setAttribute(
+      'data-felte-reporter-dom-for',
+      'container.test'
+    );
     warningMessageElement.setAttribute(
       'data-felte-reporter-dom-level',
       'warning'
     );
     const multipleInputs = createMultipleInputElements({
-      name: 'multiple',
+      name: 'container.multiple',
       type: 'text',
     });
     const multipleMessages = multipleInputs.map((el, index) => {
@@ -133,7 +136,6 @@ describe('Reporter DOM', () => {
       return mes;
     });
     const fieldsetElement = document.createElement('fieldset');
-    fieldsetElement.name = 'container';
     fieldsetElement.appendChild(inputElement);
     fieldsetElement.appendChild(validationMessageElement);
     fieldsetElement.appendChild(warningMessageElement);
@@ -300,17 +302,16 @@ describe('Reporter DOM', () => {
 
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const inputElement = createInputElement({
-      name: 'test',
+      name: 'container.test',
       type: 'text',
       id: 'test',
     });
     const validationMessageElement = document.createElement('div');
     validationMessageElement.setAttribute(
       'data-felte-reporter-dom-for',
-      'test'
+      'container.test'
     );
     const fieldsetElement = document.createElement('fieldset');
-    fieldsetElement.name = 'container';
     fieldsetElement.appendChild(inputElement);
     fieldsetElement.appendChild(validationMessageElement);
     formElement.appendChild(fieldsetElement);
@@ -358,17 +359,16 @@ describe('Reporter DOM', () => {
 
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const inputElement = createInputElement({
-      name: 'test',
+      name: 'container.test',
       type: 'text',
       id: 'test',
     });
     const validationMessageElement = document.createElement('div');
     validationMessageElement.setAttribute(
       'data-felte-reporter-dom-for',
-      'test'
+      'container.test'
     );
     const fieldsetElement = document.createElement('fieldset');
-    fieldsetElement.name = 'container';
     fieldsetElement.appendChild(inputElement);
     fieldsetElement.appendChild(validationMessageElement);
     formElement.appendChild(fieldsetElement);
