@@ -391,10 +391,8 @@ describe('Utils', () => {
     const inputElement = document.createElement('input');
     inputElement.name = 'container.test';
     expect(getPath(inputElement)).toBe('container.test');
-    inputElement.setAttribute('data-felte-index', '1');
-    expect(getPath(inputElement)).toBe('container.test[1]');
     expect(getPath(inputElement, 'container.overriden')).toBe(
-      'container.overriden[1]'
+      'container.overriden'
     );
   });
 

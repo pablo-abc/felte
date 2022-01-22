@@ -4,7 +4,6 @@ import { _get } from './get';
 import { _set } from './set';
 import { _update } from './update';
 import { getPath } from './getPath';
-import { getIndex } from './getIndex';
 
 /**
  * @ignore
@@ -63,7 +62,6 @@ export function getFormDefaultValues<Data extends Obj>(
     if (isFieldSetElement(el)) addAttrsFromFieldset(el);
     if (!isFormControl(el) || !el.name) continue;
     const elName = getPath(el);
-    const index = getIndex(el);
     if (isInputElement(el)) {
       if (el.type === 'checkbox') {
         if (typeof _get(defaultData, elName) === 'undefined') {
@@ -71,12 +69,6 @@ export function getFormDefaultValues<Data extends Obj>(
             node.querySelectorAll(`[name="${el.name}"]`)
           ).filter((checkbox) => {
             if (!isFormControl(checkbox)) return false;
-            if (typeof index !== 'undefined') {
-              const felteIndex = Number(
-                (checkbox as HTMLInputElement).dataset.felteIndex
-              );
-              return felteIndex === index;
-            }
             return elName === getPath(checkbox);
           });
           if (checkboxes.length === 1) {
@@ -91,8 +83,6 @@ export function getFormDefaultValues<Data extends Obj>(
             defaultData,
             elName,
             (value) => {
-              if (typeof index !== 'undefined' && !Array.isArray(value))
-                value = [];
               return [...value, el.value];
             }
           );

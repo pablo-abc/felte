@@ -43,10 +43,9 @@ describe('Reporter Tippy', () => {
       name: 'multiple',
       type: 'text',
     });
-    const multipleMessages = multipleInputs.map((el, index) => {
+    const multipleMessages = multipleInputs.map((el) => {
       const mes = document.createElement('div');
       mes.setAttribute('data-felte-reporter-dom-for', el.name);
-      mes.setAttribute('data-felte-index', String(index));
       return mes;
     });
     formElement.appendChild(inputElement);
@@ -96,10 +95,9 @@ describe('Reporter Tippy', () => {
       name: 'multiple',
       type: 'text',
     });
-    const multipleMessages = multipleInputs.map((el, index) => {
+    const multipleMessages = multipleInputs.map((el) => {
       const mes = document.createElement('div');
       mes.setAttribute('data-felte-reporter-dom-for', el.name);
-      mes.setAttribute('data-felte-index', String(index));
       return mes;
     });
     formElement.appendChild(inputElement);
@@ -356,10 +354,9 @@ describe('Reporter Tippy', () => {
       name: 'multiple',
       type: 'text',
     });
-    const multipleMessages = multipleInputs.map((el, index) => {
+    const multipleMessages = multipleInputs.map((el) => {
       const mes = document.createElement('div');
       mes.setAttribute('data-felte-reporter-dom-for', el.name);
-      mes.setAttribute('data-felte-index', String(index));
       return mes;
     });
     formElement.appendChild(inputElement);

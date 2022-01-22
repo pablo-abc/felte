@@ -12,7 +12,6 @@ export { _unset } from './utils/unset';
 export { _update } from './utils/update';
 export { deepSet } from './utils/deepSet';
 export { deepSome } from './utils/deepSome';
-export { getIndex } from './utils/getIndex';
 export * from './utils/typeGuards';
 export { getPath } from './utils/getPath';
 export { shouldIgnore } from './utils/shouldIgnore';

@@ -38,10 +38,9 @@ describe('Reporter DOM', () => {
       name: 'multiple',
       type: 'text',
     });
-    const multipleMessages = multipleInputs.map((el, index) => {
+    const multipleMessages = multipleInputs.map((el) => {
       const mes = document.createElement('div');
       mes.setAttribute('data-felte-reporter-dom-for', el.name);
-      mes.setAttribute('data-felte-index', String(index));
       return mes;
     });
     const validationMessageElement = document.createElement('div');
@@ -129,10 +128,9 @@ describe('Reporter DOM', () => {
       name: 'container.multiple',
       type: 'text',
     });
-    const multipleMessages = multipleInputs.map((el, index) => {
+    const multipleMessages = multipleInputs.map((el) => {
       const mes = document.createElement('div');
       mes.setAttribute('data-felte-reporter-dom-for', el.name);
-      mes.setAttribute('data-felte-index', String(index));
       return mes;
     });
     const fieldsetElement = document.createElement('fieldset');
@@ -204,10 +202,9 @@ describe('Reporter DOM', () => {
       name: 'multiple',
       type: 'text',
     });
-    const multipleMessages = multipleInputs.map((el, index) => {
+    const multipleMessages = multipleInputs.map((el) => {
       const mes = document.createElement('div');
       mes.setAttribute('data-felte-reporter-dom-for', el.name);
-      mes.setAttribute('data-felte-index', String(index));
       return mes;
     });
     formElement.appendChild(inputElement);
