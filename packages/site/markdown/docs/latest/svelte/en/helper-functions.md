@@ -167,3 +167,5 @@ Rather than being returned by `createForm`, this is a utility function exported 
   <input name="email">
 </form>
 ```
+
+> **NOTE**: TypeScript users, if using the string path version, must always use dot notation even if referring to arrays. E.g. `user.friends.0.name`.

@@ -23,7 +23,7 @@ const { data } = createForm({ /* ... */ });
 createEffect(() => {
   // This will only run when the value of `email` changes.
   console.log(data(($data) => $data.email));
-  // Alternative (not type safe way) to write this:
+  // Alternative way to write this:
   console.log(data('email'));
 });
 ```

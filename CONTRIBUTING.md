@@ -139,3 +139,4 @@ There are a few minor things I haven't gotten around to solve yet. If you have a
 
 - A way to offer input masking would be nice to have. Integration with `imask` probably would be the way to go, since `svelte-imask` does not play well with Felte.
 - A better alternative to the `multi-step` package is needed. Preferably something that does not depend on any specific framework. Currently we are recommending handling this manually.
+- Some help from someone more experienced with TypeScript could help improve how we internally handle types.

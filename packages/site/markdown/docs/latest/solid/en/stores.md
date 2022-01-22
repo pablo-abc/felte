@@ -12,7 +12,7 @@ subsections:
 
 ## Stores
 
-Felte keeps stores internally to keep track of all of your data, these can be read by using accessors returned by `createForm`. With no arguments, these accessors behave exactly like the accessors returned by Solid's `createSignal`. These accessors also accept a function as a first argument which can be used to obtain derived values from the stores, or to obtain a specific property of the store (in the case of stores that contain objects). The latter can also receive a string path to a property as well, but this is not type safe if using TypeScript.
+Felte keeps stores internally to keep track of all of your data, these can be read by using accessors returned by `createForm`. With no arguments, these accessors behave exactly like the accessors returned by Solid's `createSignal`. These accessors also accept a function as a first argument which can be used to obtain derived values from the stores, or to obtain a specific property of the store (in the case of stores that contain objects). The latter can also receive a string path to a property as well.
 
 If you use the accessor to get only a specific property of a store, then Felte will _only_ update that accessor when that specific property has changed.
 
@@ -21,6 +21,8 @@ If you use the accessor to get only a specific property of a store, then Felte w
 An accessor that contains the form's values. Depending on the field type, the values can be either a `string`, an array of `string`s, a `number`, a `boolean`, a `File`, an array of `File`s or `undefined` if no value has been set.
 
 As described above, we can obtain the value of the whole store by calling `data()`, or a specific field by passing a string path or selector function. E.g. if the store had an `email` property, we could access it either like `data('email')` or `data(($data) => $data.email)`.
+
+> **NOTE**: TypeScript users, if using the string path version, must always use dot notation even if referring to arrays. E.g. `user.friends.0.name`.
 
 The following example showcases using the selector to obtain a derived value:
 
