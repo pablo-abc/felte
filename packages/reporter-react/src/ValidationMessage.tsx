@@ -1,4 +1,3 @@
-import type { Errors, Obj } from '@felte/common';
 import type { ReactNode } from 'react';
 import React, { useState, useEffect, useMemo } from 'react';
 import { _get, getPath } from '@felte/common';
@@ -12,9 +11,7 @@ export type ValidationMessageProps = {
   children: (messages: string | string[] | undefined) => ReactNode;
 };
 
-export function ValidationMessage<Data extends Obj = Obj>(
-  props: ValidationMessageProps
-) {
+export function ValidationMessage(props: ValidationMessageProps) {
   const level = props.level ?? 'error';
   const [messages, setMessages] = useState<string | string[]>();
   const id = useMemo(() => createId(21), []);
