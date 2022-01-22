@@ -5,6 +5,8 @@ subsections:
   - Error handling
   - Multiple validations
   - Warnings
+  - Async validations
+  - Debounced validations
 ---
 
 ## Validation
@@ -102,3 +104,51 @@ const { form } = createForm({
 ```
 
 The `warn` function works exactly the same as the `validate` function. With the same features and constraints. Multiple warn functions can be passed as an array, and the shape of `warnings` can contain either a string or an array of strings.
+
+### Async validations
+
+Felte supports asynchronous validations by default by returning a promise from your validation functions, either for warnings or errors. Felte takes care of possible race conditions by ignoring the results of previous async validations if it's executed again before the previous one finishes.
+
+```javascript
+const { form } = useForm({
+  // ...
+  validate: async (values) => {
+    const response = await someAsyncAction(values);
+    // Do something with the response and return the errors
+  },
+  // ...
+});
+```
+
+Validations execute at every keypress, so make sure to not execute anything you don't want to spam. For these kinds of actions, Felte also supports for your validations to be debounced.
+
+### Debounced validations
+
+If your validation shouldn't be called for every keypress of the user, such as an expensive synchronous validation or an API call, Felte can debounce said validations for you. These validations should be added within the `debounced` property of Felte's configuration:
+
+```javascript
+const { form } = useForm({
+  // ...
+  debounced: {
+    // defaults to 300
+    timeout: 300,
+    validate: async (values) => {
+      const response = await someFetchCall(values);
+      // Do something with the response and return the errors
+    },
+    warn: async (values) => {
+      const response = await someOtherFetchCall(values);
+      // Do something with the response and return the warnings
+    },
+  },
+  // ...
+});
+```
+
+The `debounced` object accepts the following properties:
+
+* `validate` one or more validation funcions, the same as the regular `validate` property.
+* `warn` one or more validation funcions, the same as the regular `validate` property.
+* `timeout` optional time in milliseconds to wait before running validations after the user stops interacting with the form. Defaults to 300ms.
+* `validateTimeout` optional time in milliseconds that overrides the value of `timeout` for the `validate` functions.
+* `warnTimeout` optional time in milliseconds that overrides the value of `timeout` for the `warn` functions.
