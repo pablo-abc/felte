@@ -88,8 +88,6 @@ export type Setter<Data, Path extends string = string> = Data extends Record<
 export type DeepSetResult<Data extends Obj | Obj[], Value> = {
   [key in keyof Data]: Data[key] extends Obj
     ? DeepSetResult<Data[key], Value>
-    : Data[key] extends Obj[]
-    ? DeepSetResult<Data[key], Value>
     : Value;
 };
 
@@ -340,7 +338,7 @@ export type FormConfig<Data extends Obj> =
 
 /** The errors object may contain either a string or array or string per key. */
 export type Errors<Data extends Record<string, any> | Obj[]> = Data extends
-  | Obj
+  | Record<string, any>
   | Obj[]
   ? {
       [key in keyof Data]: Data[key] extends Obj | Obj[]
@@ -351,7 +349,7 @@ export type Errors<Data extends Record<string, any> | Obj[]> = Data extends
 
 /** The touched object may only contain booleans per key. */
 export type Touched<Data extends Record<string, any> | Obj[]> = Data extends
-  | Obj
+  | Record<string, any>
   | Obj[]
   ? {
       [key in keyof Data]: Data[key] extends Obj | Obj[]
@@ -479,8 +477,8 @@ type TraverseImpl<T, Path extends unknown[]> = Path extends [
     : K extends `${number}`
     ? T extends Array<any>
       ? TraverseImpl<T[number], R> | undefined
-      : undefined
-    : undefined
+      : any
+    : any
   : T;
 
 export type Traverse<
