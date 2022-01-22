@@ -205,7 +205,7 @@
       position: sticky;
       top: 2rem;
       min-height: 0;
-      max-height: calc(100vh - 4rem);
+      max-height: calc(100vh - 6rem);
       box-shadow: none;
     }
   }
