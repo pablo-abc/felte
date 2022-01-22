@@ -183,9 +183,9 @@ function AccountSection({ data }) {
   const localData = useAccessor(data);
 
   return (
-    <fieldset name="account">
-      <input name="email" />
-      <input name="password" type="password" />
+    <fieldset>
+      <input name="account.email" />
+      <input name="account.password" type="password" />
       <span>
         The password is {localData((d) => d.account.password.length)} characters long
     </span>
