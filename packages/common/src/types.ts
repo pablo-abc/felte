@@ -146,6 +146,16 @@ export type Helpers<Data extends Obj, Path extends string = string> = {
   setInitialValues(values: Data): void;
 };
 
+export type ValidatorOptions = {
+  debounced?: boolean;
+  level?: 'warning' | 'error';
+};
+
+export type AddValidatorFn<Data extends Obj> = (
+  validator: ValidationFunction<Data>,
+  options?: ValidatorOptions
+) => void;
+
 export type SetupCurrentForm<Data extends Obj> = {
   form?: never;
   controls?: never;
@@ -158,8 +168,7 @@ export type SetupCurrentForm<Data extends Obj> = {
   setFields(values: Data): void;
   reset(): void;
   validate(): Promise<Errors<Data> | void>;
-  addValidator(validator: ValidationFunction<Data>): void;
-  addWarnValidator(validator: ValidationFunction<Data>): void;
+  addValidator: AddValidatorFn<Data>;
   addTransformer(transformer: TransformFunction<Data>): void;
 };
 
@@ -175,8 +184,7 @@ export type MountedCurrentForm<Data extends Obj> = {
   setFields(values: Data): void;
   reset(): void;
   validate(): Promise<Errors<Data> | void>;
-  addValidator(validator: ValidationFunction<Data>): void;
-  addWarnValidator(validator: ValidationFunction<Data>): void;
+  addValidator: AddValidatorFn<Data>;
   addTransformer(transformer: TransformFunction<Data>): void;
 };
 

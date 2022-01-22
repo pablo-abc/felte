@@ -3,13 +3,13 @@ import type {
   Obj,
   Stores,
   FormConfig,
-  ValidationFunction,
   TransformFunction,
   ExtenderHandler,
   FormControl,
   CreateSubmitHandlerConfig,
   Errors,
   Touched,
+  AddValidatorFn,
   Helpers,
 } from '@felte/common';
 import {
@@ -38,17 +38,7 @@ import type { FelteSuccessDetail, FelteErrorDetail } from './events';
 import type { SuccessResponse, FetchResponse } from './error';
 import { get } from './get';
 import { FelteSubmitError } from './error';
-
-function getAllValidators<Data extends Obj>(
-  prop: 'warn' | 'validate',
-  config: FormConfig<Data>
-): ValidationFunction<Data>[] {
-  const validate = config[prop] ?? [];
-  const validations = Array.isArray(validate) ? validate : [validate];
-  const debounced = config.debounced?.[prop] ?? [];
-  const debValidations = Array.isArray(debounced) ? debounced : [debounced];
-  return [...validations, ...debValidations];
-}
+import { getAllValidators } from './get-validators';
 
 function createDefaultSubmitHandler(form?: HTMLFormElement) {
   if (!form) return;
@@ -103,8 +93,7 @@ export type FormActionConfig<Data extends Obj> = {
   config: FormConfig<Data>;
   extender: Extender<Data>[];
   helpers: Helpers<Data, string> & {
-    addValidator(validator: ValidationFunction<Data>): void;
-    addWarnValidator(validator: ValidationFunction<Data>): void;
+    addValidator: AddValidatorFn<Data>;
     addTransformer(transformer: TransformFunction<Data>): void;
   };
   _setFormNode(node: HTMLFormElement): void;
@@ -128,7 +117,6 @@ export function createFormAction<Data extends Obj>({
   const { setFields, setTouched, reset, setInitialValues } = helpers;
   const {
     addValidator,
-    addWarnValidator,
     addTransformer,
     validate,
     setIsDirty,
@@ -239,7 +227,6 @@ export function createFormAction<Data extends Obj>({
           touched,
           config,
           addValidator,
-          addWarnValidator,
           addTransformer,
           setFields,
           validate,

@@ -58,6 +58,6 @@ export function validator<Data extends Obj = Obj>(
     currentForm.config.validateSuite as ReturnType<typeof create>
   );
   currentForm.addValidator(validateFn);
-  currentForm.addWarnValidator(warnFn);
+  currentForm.addValidator(warnFn, { level: 'warning' });
   return {};
 }

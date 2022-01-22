@@ -61,9 +61,9 @@ export function createValidator<Data extends Obj = any>(
       ValidatorConfig;
     currentForm.addValidator(validateStruct(config.validateStruct, transform));
     if (config.warnStruct)
-      currentForm.addWarnValidator(
-        validateStruct(config.warnStruct, transform)
-      );
+      currentForm.addValidator(validateStruct(config.warnStruct, transform), {
+        level: 'warning',
+      });
     if (!config.castValues) return {};
     currentForm.addTransformer(coerceStruct(config));
     return {};

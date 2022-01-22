@@ -15,6 +15,7 @@ import type {
   Helpers,
   UnknownHelpers,
   KnownHelpers,
+  ValidatorOptions,
 } from '@felte/common';
 import {
   _isPlainObject,
@@ -86,31 +87,19 @@ export function createForm<
 
   function addValidator(
     validator: ValidationFunction<Data>,
-    { debounced } = { debounced: false }
-  ) {
-    config.debounced ??= {};
-    const validateConfig = debounced ? config.debounced : config;
-    if (!validateConfig.validate) {
-      validateConfig.validate = [validator];
-    } else {
-      validateConfig.validate = [
-        ...(validateConfig.validate as ValidationFunction<Data>[]),
-        validator,
-      ];
+    { debounced, level }: ValidatorOptions = {
+      debounced: false,
+      level: 'error',
     }
-  }
-
-  function addWarnValidator(
-    validator: ValidationFunction<Data>,
-    { debounced } = { debounced: false }
   ) {
+    const prop = level === 'error' ? 'validate' : 'warn';
     config.debounced ??= {};
     const validateConfig = debounced ? config.debounced : config;
-    if (!validateConfig.warn) {
-      validateConfig.warn = [validator];
+    if (!validateConfig[prop]) {
+      validateConfig[prop] = [validator];
     } else {
-      validateConfig.warn = [
-        ...(validateConfig.warn as ValidationFunction<Data>[]),
+      validateConfig[prop] = [
+        ...(validateConfig[prop] as ValidationFunction<Data>[]),
         validator,
       ];
     }
@@ -181,7 +170,6 @@ export function createForm<
       data: clonedData,
       config,
       addValidator,
-      addWarnValidator,
       addTransformer,
       setFields: helpers.public.setFields,
       reset: helpers.public.reset,
@@ -235,7 +223,6 @@ export function createForm<
       ...helpers.public,
       addTransformer,
       addValidator,
-      addWarnValidator,
     },
     extender,
     _getCurrentExtenders,

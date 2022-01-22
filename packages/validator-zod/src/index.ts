@@ -51,7 +51,7 @@ export function validator<Data extends Obj = Obj>(
   currentForm.addValidator(validateFn);
   if (config.warnSchema) {
     const warnFn = validateSchema<Data>(config.warnSchema);
-    currentForm.addWarnValidator(warnFn);
+    currentForm.addValidator(warnFn, { level: 'warning' });
   }
   return {};
 }

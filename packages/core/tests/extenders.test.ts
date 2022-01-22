@@ -333,10 +333,10 @@ describe('Extenders', () => {
     expect(validator).toHaveBeenCalledTimes(3);
   });
 
-  test('adds warn validator when no validators are present with addWarnValidator', async () => {
+  test('adds warn validator when no validators are present with addValidator', async () => {
     const validator = jest.fn();
     function extender(currentForm: CurrentForm<any>) {
-      currentForm.addWarnValidator(validator);
+      currentForm.addValidator(validator, { level: 'warning' });
       return {};
     }
     const { validate } = createForm({
@@ -347,10 +347,75 @@ describe('Extenders', () => {
     expect(validator).toHaveBeenCalledTimes(1);
   });
 
-  test('adds warn validator when validators are present with addWarnValidator', async () => {
+  test('adds warn validator when validators are present with addValidator', async () => {
     const validator = jest.fn();
     function extender(currentForm: CurrentForm<any>) {
-      currentForm.addWarnValidator(validator);
+      currentForm.addValidator(validator, { level: 'warning' });
+      return {};
+    }
+    const { validate } = createForm({
+      onSubmit: jest.fn(),
+      extend: extender,
+      warn: validator,
+    });
+    await validate();
+    expect(validator).toHaveBeenCalledTimes(3);
+  });
+
+  // DEBOUNCED
+  test('adds debounced validator when no validators are present with addValidator', async () => {
+    const validator = jest.fn();
+    function extender(currentForm: CurrentForm<any>) {
+      currentForm.addValidator(validator, { debounced: true });
+      return {};
+    }
+    const { validate } = createForm({
+      onSubmit: jest.fn(),
+      extend: extender,
+    });
+    await validate();
+    expect(validator).toHaveBeenCalledTimes(1);
+  });
+
+  test('adds debounced validator when validators are present with addValidator', async () => {
+    const validator = jest.fn();
+    function extender(currentForm: CurrentForm<any>) {
+      currentForm.addValidator(validator, { debounced: true });
+      return {};
+    }
+    const { validate } = createForm({
+      onSubmit: jest.fn(),
+      extend: extender,
+      validate: validator,
+    });
+    await validate();
+    expect(validator).toHaveBeenCalledTimes(3);
+  });
+
+  test('adds debounced warn validator when no validators are present with addValidator', async () => {
+    const validator = jest.fn();
+    function extender(currentForm: CurrentForm<any>) {
+      currentForm.addValidator(validator, {
+        level: 'warning',
+        debounced: true,
+      });
+      return {};
+    }
+    const { validate } = createForm({
+      onSubmit: jest.fn(),
+      extend: extender,
+    });
+    await validate();
+    expect(validator).toHaveBeenCalledTimes(1);
+  });
+
+  test('adds debounced warn validator when validators are present with addValidator', async () => {
+    const validator = jest.fn();
+    function extender(currentForm: CurrentForm<any>) {
+      currentForm.addValidator(validator, {
+        level: 'warning',
+        debounced: true,
+      });
       return {};
     }
     const { validate } = createForm({

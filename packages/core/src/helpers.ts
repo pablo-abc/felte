@@ -28,6 +28,7 @@ import {
   _update,
 } from '@felte/common';
 import { get } from './get';
+import { getAllValidators } from './get-validators';
 
 type CreateHelpersOptions<Data extends Obj> = {
   config: FormConfig<Data>;
@@ -193,6 +194,8 @@ export function createHelpers<Data extends Obj>({
   const setIsDirty = createSetHelper(isDirty.update);
 
   async function validate(): Promise<Errors<Data> | void> {
+    const validate = getAllValidators('validate', config);
+    const warn = getAllValidators('warn', config);
     const currentData = get(data);
     const initialErrors = deepSet(currentData, null) as Errors<Data>;
     setTouched((t) => {
@@ -201,10 +204,10 @@ export function createHelpers<Data extends Obj>({
     const partialErrors = await executeValidation<Data>(
       currentData,
 
-      config.validate
+      validate
     );
     const currentErrors = _merge<Errors<Data>>(initialErrors, partialErrors);
-    const currentWarnings = await executeValidation(currentData, config.warn);
+    const currentWarnings = await executeValidation(currentData, warn);
     warnings.set(_merge(initialErrors, currentWarnings || {}));
     errors.set(currentErrors || initialErrors);
     return currentErrors;
