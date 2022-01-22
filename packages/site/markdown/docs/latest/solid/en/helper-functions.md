@@ -28,6 +28,8 @@ Setters for stores that contain objects can be called in four different ways:
 - With an object in order to replace the whole store's value.
 - With an updater function to update the whole store's value.
 
+> **NOTE**: TypeScript users, if using the string path version, must always use dot notation even if referring to arrays. E.g. `user.friends.0.name`.
+
 Using `setData` as an example:
 
 ```javascript
