@@ -38,15 +38,14 @@ const schema = yup.object({
 
 const { form } = createForm({
   // ...
-  extend: validator, // OR `extend: [validator],`
-  validateSchema: schema,
+  extend: validator({ schema }), // OR `extend: [validator({ schema })],`
   // ...
 });
 ```
 
 #### Warnings
 
-Optionally, you can also add a schema that will validate for warnings in your data. Warnings are any validation messages that should not prevent your form for submitting. You can add the schema that will be using for setting this values to the `warnSchema` property on the configuration:
+Optionally, you can tell this package to assign the results of your validations to your `warnings` store by setting the `level` property of the validator function to `warning`. It's `error` by default:
 
 ```javascript
 import { validator } from '@felte/validator-yup';
@@ -68,16 +67,17 @@ const warnSchema = yup.object({
 
 const { form } = createForm({
   // ...
-  extend: validator, // or `extend: [validator],`
-  validateSchema,
-  warnSchema,
+  extend: [
+    validator({ schema }),
+    validator({ schema: warnSchema, level: 'warning' }),
+  ],
   // ...
 });
 ```
 
 #### Typescript
 
-For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
+Yup lets you infer the type of your schema using `yup.InferType`, you can use this to avoid creating a type for your data.
 
 ```typescript
 import type { ValidatorConfig } from '@felte/validator-yup';
@@ -89,7 +89,7 @@ const schema = yup.object({
   password: yup.string().required(),
 });
 
-const { form } = createForm<yup.InferType<typeof schema>, ValidatorConfig>(/* ... */);
+const { form } = createForm<yup.InferType<typeof schema>>(/* ... */);
 ```
 
 ### Using Zod
@@ -117,15 +117,14 @@ const schema = zod.object({
 
 const { form } = createForm({
   // ...
-  extend: validator, // OR `extend: [validator],`
-  validateSchema: schema,
+  extend: validator({ schema }), // OR `extend: [validator],`
   // ...
 });
 ```
 
 #### Warnings
 
-Optionally, you can also add a schema that will validate for warnings in your data. Warnings are any validation messages that should not prevent your form for submitting. You can add the schema that will be using for setting this values to the `warnSchema` property on the configuration:
+Optionally, you can tell this package to assign the results of your validations to your `warnings` store by setting the `level` property of the validator function to `warning`. It's `error` by default:
 
 ```javascript
 import { validator } from '@felte/validator-zod';
@@ -147,16 +146,17 @@ const warnSchema = zod.object({
 
 const { form } = createForm({
   // ...
-  extend: validator, // or `extend: [validator],`
-  validateSchema: schema,
-  warnSchema,
+  extend: [
+    validator({ schema }),
+    validator({ schema: warnSchema, level: 'warning' }),
+  ],
   // ...
 });
 ```
 
 #### Typescript
 
-For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
+Zod lets you infer the type of your schema using `z.infer`. You can use this to avoid needing to create a type for your form's data.
 
 ```typescript
 import type { ValidatorConfig } from '@felte/validator-zod';
@@ -185,7 +185,7 @@ yarn add @felte/validator-superstruct superstruct
 Its usage would look something like:
 
 ```javascript
-import { createValidator } from '@felte/validator-superstruct';
+import { validator } from '@felte/validator-superstruct';
 import { object, string, size } from 'superstruct';
 
 const struct = object({
@@ -195,28 +195,30 @@ const struct = object({
 
 const { form } = createForm({
   // ...
-  extend: createValidator(), // or `extend: [createValidator()],`
-  validateStruct: struct,
+  extend: validator(({ struct })), // or `extend: [validator({ struct })],`
   // ...
 });
 ```
 
-The first argument of `createValidator` is a function that will receive each [`failure`](https://docs.superstructjs.org/api-reference/errors) from Superstruct, you can check the failure there and return an appropriate custom error message.
+The options of `validator` also accept a `transform` property that is a function that will receive each [`failure`](https://docs.superstructjs.org/api-reference/errors) from Superstruct, you can check the failure there and return an appropriate custom error message.
 
 ```javascript
-import { createValidator } from '@felte/validator-superstruct';
+import { validator } from '@felte/validator-superstruct';
 
-const validator = createValidator((value) =>
-  value.type === 'string' ? 'Must not be empty' : 'Not valid'
-);
+const struct = object({ /* ... */ });
+
+const validator = validator({
+  struct,
+  transform: (value) => value.type === 'string' ? 'Must not be empty' : 'Not valid'
+});
 ```
 
 #### Warnings
 
-Optionally, you can also add a struct that will validate for warnings in your data. Warnings are any validation messages that should not prevent your form for submitting. You can add the struct that will be using for setting this values to the `warnStruct` property on the configuration:
+Optionally, you can tell this package to assign the results of your validations to your `warnings` store by setting the `level` property of the validator function to `warning`. It's `error` by default:
 
 ```javascript
-import { createValidator } from '@felte/validator-superstruct';
+import { validator } from '@felte/validator-superstruct';
 import { object, string, size, optional } from 'superstruct';
 
 const validateStruct = object({
@@ -235,19 +237,19 @@ const warnStruct = object({
 
 const { form } = createForm({
   // ...
-  extend: createValidator(), // or `extend: [createValidator()],`
-  validateStruct,
-  warnStruct,
+  extend: [
+    validator({ struct: validateStruct }),
+    validator({ struct: warnStruct, level: 'warning' }),
+  ],
   // ...
 });
 ```
 
 #### Typescript
 
-For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
+Superstruct lets you infer the type of your struct by using `Infer`. This allows you to avoid creating a type for your form's data.
 
 ```typescript
-import type { ValidatorConfig } from '@felte/validator-superstruct';
 import type { Infer } from 'superstruct';
 
 const struct = object({
@@ -255,7 +257,7 @@ const struct = object({
   password: size(string(), 1, Infinity),
 });
 
-const { form } = createForm<Infer<typeof struct>, ValidatorConfig>(/* ... */);
+const { form } = createForm<Infer<typeof struct>>(/* ... */);
 ```
 
 ### Using Vest
@@ -287,8 +289,7 @@ const suite = create('form', (data) => {
 
 const { form } = createForm({
   // ...
-  extend: validator, // OR `extend: [validator],`
-  validateSuite: suite,
+  extend: validator({ suite }), // OR `extend: [validator({ suite })],`
   // ...
 });
 ```
@@ -320,37 +321,6 @@ const suite = create('form', (data) => {
 const { form } = createForm({
   // ...
   validate: validateSuite(suite),
-  // ...
-});
-```
-
-#### Typescript
-
-For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
-
-```typescript
-import { validator, ValidatorConfig } from '@felte/validator-vest';
-import { create, enforce, test } from 'vest';
-
-const initialValues = {
-  email: '',
-  password: '',
-};
-
-const suite = create('form', (data: typeof initialValues) => {
-  test('email', 'Email is required', () => {
-    enforce(data.email).isNotEmpty();
-  });
-  test('password', 'Password is required', () => {
-    enforce(data.password).isNotEmpty();
-  });
-});
-
-const { form } = createForm<typeof initialValues, ValidatorConfig>({
-  // ...
-  initialValues,
-  extend: validator, // or `extend: [validator],`
-  validateSuite: suite,
   // ...
 });
 ```

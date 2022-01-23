@@ -17,10 +17,10 @@ yarn add @felte/validator-superstruct superstruct
 
 ## Usage
 
-This package exports a `createValidator` function that returns a `validator`. Add it to the `extend` option of `createForm` and add your struct to the `validateStruct` property of `createForm`'s config.
+This package exports a `validator` function that returns an `extender`. Call it with your struct in the `struct` property of its configuration and assign it to the `extend` property of `createForm`:
 
 ```javascript
-import { createValidator } from '@felte/validator-superstruct';
+import { validator } from '@felte/validator-superstruct';
 import { object, string, size } from 'superstruct';
 
 const struct = object({
@@ -30,8 +30,7 @@ const struct = object({
 
 const { form } = createForm({
   // ...
-  extend: createValidator(), // or `extend: [createValidator()],`
-  validateStruct: struct,
+  extend: validator({ struct }), // or `extend: [validator({ struct })],`
   // ...
 });
 ```
@@ -56,22 +55,27 @@ const { form } = createForm({
 
 ## Custom error messages
 
-`Superstruct` does not provide a way to add a custom error message to its built-in types, for this reason the first argument of `createValidator` (and second argument of `validateStruct`) is a function that will receive each [`failure`](https://docs.superstructjs.org/api-reference/errors) from Superstruct, you can check the failure there and return an appropriate error message.
+`Superstruct` does not provide a way to add a custom error message to its built-in types, for this reason `validator` also accepts a `transform` function that will receive each [`failure`](https://docs.superstructjs.org/api-reference/errors) from Superstruct, you can check the failure there and return an appropriate error message.
+
+> This function can be also passed to `validateStruct` as its second argument
 
 ```javascript
-import { createValidator } from '@felte/validator-superstruct';
+import { validator } from '@felte/validator-superstruct';
 
-const validator = createValidator((value) =>
-  value.type === 'string' ? 'Must not be empty' : 'Not valid'
-);
+const struct = object({ /* ... */ });
+
+const extender = validator({
+  struct,
+  transform: (value) => value.type === 'string' ? 'Must not be empty' : 'Not valid'
+});
 ```
 
 ## Warnings
 
-Optionally, you can also add a struct that will validate for warnings in your data. Warnings are any validation messages that should not prevent your form for submitting. You can add the struct that will be using for setting this values to the `warnStruct` property on the configuration:
+Optionally, you can tell this package to assign the results of your validations to your `warnings` store by setting the `level` property of the validator function to `warning`. It's `error` by default:
 
 ```javascript
-import { createValidator } from '@felte/validator-superstruct';
+import { validator } from '@felte/validator-superstruct';
 import { object, string, size, optional } from 'superstruct';
 
 const validateStruct = object({
@@ -90,19 +94,22 @@ const warnStruct =  object({
 
 const { form } = createForm({
   // ...
-  extend: createValidator(), // or `extend: [createValidator()],`
-  validateStruct,
-  warnStruct,
+  extend: [
+    validator({ struct: validateStruct }),
+    validator({
+      struct: warnStruct,
+      level: 'warning',
+    }),
+  ],
   // ...
 });
 ```
 
 ## Typescript
 
-For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
+Superstruct allows you to infer the type of your schema using `Infer`. This can be used so you don't need to create a type for your form's data:
 
 ```typescript
-import type { ValidatorConfig } from '@felte/validator-superstruct';
 import type { Infer } from 'superstruct';
 
 const struct = object({
@@ -110,5 +117,5 @@ const struct = object({
   password: size(string(), 1, Infinity),
 });
 
-const { form } = createForm<Infer<typeof struct>, ValidatorConfig>(/* ... */);
+const { form } = createForm<Infer<typeof struct>>(/* ... */);
 ```

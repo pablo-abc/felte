@@ -4,17 +4,18 @@ import type {
   ValidationFunction,
   ExtenderHandler,
   CurrentForm,
+  Extender,
 } from '@felte/common';
 import { _update } from '@felte/common';
-import type { ZodError, ZodTypeAny } from 'zod';
+import type { ZodError, ZodObject } from 'zod';
 
 export type ValidatorConfig = {
-  validateSchema: ZodTypeAny;
-  warnSchema?: ZodTypeAny;
+  schema: ZodObject<any>;
+  level?: 'error' | 'warning';
 };
 
 export function validateSchema<Data extends Obj>(
-  schema: ZodTypeAny
+  schema: ZodObject<any>
 ): ValidationFunction<Data> {
   function shapeErrors(errors: ZodError): Partial<Errors<Data>> {
     return errors.issues.reduce((err, value) => {
@@ -41,17 +42,16 @@ export function validateSchema<Data extends Obj>(
   };
 }
 
-export function validator<Data extends Obj = Obj>(
-  currentForm: CurrentForm<Data>
-): ExtenderHandler<Data> {
-  if (currentForm.stage !== 'SETUP') return {};
-  const config = currentForm.config as CurrentForm<Data>['config'] &
-    ValidatorConfig;
-  const validateFn = validateSchema<Data>(config.validateSchema);
-  currentForm.addValidator(validateFn);
-  if (config.warnSchema) {
-    const warnFn = validateSchema<Data>(config.warnSchema);
-    currentForm.addValidator(warnFn, { level: 'warning' });
-  }
-  return {};
+export function validator<Data extends Obj = Obj>({
+  schema,
+  level = 'error',
+}: ValidatorConfig): Extender<Data> {
+  return function extender(
+    currentForm: CurrentForm<Data>
+  ): ExtenderHandler<Data> {
+    if (currentForm.stage !== 'SETUP') return {};
+    const validateFn = validateSchema<Data>(schema);
+    currentForm.addValidator(validateFn, { level });
+    return {};
+  };
 }

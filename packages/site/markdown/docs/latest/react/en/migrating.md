@@ -10,6 +10,7 @@ subsections:
   - Extending
   - Fieldsets
   - data-felte-index
+  - Validators
 ---
 
 ## Migrating from 0.x felte or @felte/solid
@@ -184,3 +185,23 @@ you should do this:
 
 ```html
 <input name="friend.1" />
+```
+
+### Validators
+
+Validator packages no longer extend Felte's configuration, but accept a configuration object directly by being called as a function. This allows to handle multiple schemas if needed. You should check the [updated documentation](/docs/svelte/validators). But in short, using `zod` as an example, you should change this:
+
+```javascript
+useForm({
+  extend: validator,
+  validateSchema: schema,
+})
+```
+
+To this:
+
+```javascript
+useForm({
+  extend: validator({ schema }),
+})
+```

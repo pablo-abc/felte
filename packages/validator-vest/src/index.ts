@@ -2,13 +2,14 @@ import type {
   Obj,
   Errors,
   ValidationFunction,
+  Extender,
   ExtenderHandler,
 } from '@felte/common';
 import { _set, CurrentForm } from '@felte/common';
 import type { create } from 'vest';
 
 export type ValidatorConfig = {
-  validateSuite: ReturnType<typeof create>;
+  suite: ReturnType<typeof create>;
 };
 
 function shapeErrors<Data extends Obj>(
@@ -47,17 +48,17 @@ export function warnSuite<Data extends Obj>(
   };
 }
 
-export function validator<Data extends Obj = Obj>(
-  currentForm: CurrentForm<Data>
-): ExtenderHandler<Data> {
-  if (currentForm.stage !== 'SETUP') return {};
-  const validateFn = validateSuite<Data>(
-    currentForm.config.validateSuite as ReturnType<typeof create>
-  );
-  const warnFn = warnSuite<Data>(
-    currentForm.config.validateSuite as ReturnType<typeof create>
-  );
-  currentForm.addValidator(validateFn);
-  currentForm.addValidator(warnFn, { level: 'warning' });
-  return {};
+export function validator<Data extends Obj = Obj>({
+  suite,
+}: ValidatorConfig): Extender<Data> {
+  return function extender(
+    currentForm: CurrentForm<Data>
+  ): ExtenderHandler<Data> {
+    if (currentForm.stage !== 'SETUP') return {};
+    const validateFn = validateSuite<Data>(suite);
+    const warnFn = warnSuite<Data>(suite);
+    currentForm.addValidator(validateFn);
+    currentForm.addValidator(warnFn, { level: 'warning' });
+    return {};
+  };
 }

@@ -117,14 +117,10 @@ describe('Validator vest', () => {
         enforce(data.password).longerThanOrEquals(8);
       });
     });
-    const { validate, errors, warnings, data } = createForm<
-      typeof mockData,
-      ValidatorConfig
-    >({
+    const { validate, errors, warnings, data } = createForm<typeof mockData>({
       initialValues: mockData,
       onSubmit: jest.fn(),
-      extend: validator,
-      validateSuite: suite,
+      extend: validator({ suite }),
     });
 
     await validate();
@@ -171,14 +167,10 @@ describe('Validator vest', () => {
         enforce(data.account.password).isNotEmpty();
       });
     });
-    const { validate, errors, data } = createForm<
-      typeof mockData,
-      ValidatorConfig
-    >({
+    const { validate, errors, data } = createForm<typeof mockData>({
       initialValues: mockData,
       onSubmit: jest.fn(),
-      extend: validator,
-      validateSuite: suite,
+      extend: validator({ suite }),
     });
 
     await validate();
@@ -223,14 +215,10 @@ describe('Validator vest', () => {
         enforce(data.account.password).isNotEmpty();
       });
     });
-    const { validate, errors, data } = createForm<
-      typeof mockData,
-      ValidatorConfig
-    >({
+    const { validate, errors, data } = createForm<typeof mockData>({
       initialValues: mockData,
       onSubmit: jest.fn(),
-      extend: validator,
-      validateSuite: suite,
+      extend: validator({ suite }),
       validate: jest.fn(() => ({
         account: {
           email: 'not an email',

@@ -12,6 +12,7 @@ subsections:
   - Extending
   - Fieldsets
   - data-felte-index
+  - Validators
 ---
 
 ## Migrating from 0.x
@@ -214,3 +215,23 @@ you should do this:
 
 ```html
 <input name="friend.1" />
+```
+
+### Validators
+
+Validator packages no longer extend Felte's configuration, but accept a configuration object directly by being called as a function. This allows to handle multiple schemas if needed. You should check the [updated documentation](/docs/solid/validators). But in short, using `zod` as an example, you should change this:
+
+```javascript
+createForm({
+  extend: validator,
+  validateSchema: schema,
+})
+```
+
+To this:
+
+```javascript
+createForm({
+  extend: validator({ schema }),
+})
+```

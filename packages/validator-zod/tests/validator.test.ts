@@ -2,8 +2,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { createForm } from 'felte';
 import type { ValidationFunction } from '@felte/common';
 import { validateSchema, validator } from '../src';
-import type { ValidatorConfig } from '../src';
-import * as zod from 'zod';
+import { z as zod } from 'zod';
 import { get } from 'svelte/store';
 
 jest.mock('svelte', () => ({ onDestroy: jest.fn() }));
@@ -107,15 +106,13 @@ describe('Validator zod', () => {
       email: '',
       password: '',
     };
-    const { validate, errors, warnings, data } = createForm<
-      typeof mockData,
-      ValidatorConfig
-    >({
+    const { validate, errors, warnings, data } = createForm<typeof mockData>({
       initialValues: mockData,
       onSubmit: jest.fn(),
-      extend: validator,
-      validateSchema: schema,
-      warnSchema,
+      extend: [
+        validator({ schema }),
+        validator({ schema: warnSchema, level: 'warning' }),
+      ],
     });
 
     await validate();
@@ -160,14 +157,10 @@ describe('Validator zod', () => {
         password: '',
       },
     };
-    const { validate, errors, data } = createForm<
-      typeof mockData,
-      ValidatorConfig
-    >({
+    const { validate, errors, data } = createForm<typeof mockData>({
       initialValues: mockData,
       onSubmit: jest.fn(),
-      extend: validator,
-      validateSchema: schema,
+      extend: validator({ schema }),
     });
 
     await validate();
@@ -210,14 +203,10 @@ describe('Validator zod', () => {
         password: '',
       },
     };
-    const { validate, errors, data } = createForm<
-      typeof mockData,
-      ValidatorConfig
-    >({
+    const { validate, errors, data } = createForm<typeof mockData>({
       initialValues: mockData,
       onSubmit: jest.fn(),
-      extend: validator,
-      validateSchema: schema,
+      extend: validator({ schema }),
       validate: jest.fn(() => ({
         account: {
           email: 'not an email',

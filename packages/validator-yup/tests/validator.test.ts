@@ -3,7 +3,6 @@ import { createForm } from 'felte';
 import { waitFor } from '@testing-library/dom';
 import type { ValidationFunction } from '@felte/common';
 import { validateSchema, validator } from '../src';
-import type { ValidatorConfig } from '../src';
 import * as yup from 'yup';
 import { get } from 'svelte/store';
 
@@ -108,15 +107,13 @@ describe('Validator yup', () => {
       email: '',
       password: '',
     };
-    const { validate, errors, warnings, data } = createForm<
-      typeof mockData,
-      ValidatorConfig
-    >({
+    const { validate, errors, warnings, data } = createForm<typeof mockData>({
       initialValues: mockData,
       onSubmit: jest.fn(),
-      extend: validator,
-      validateSchema: schema,
-      warnSchema,
+      extend: [
+        validator({ schema }),
+        validator({ schema: warnSchema, level: 'warning' }),
+      ],
     });
 
     await validate();
@@ -161,14 +158,11 @@ describe('Validator yup', () => {
         password: '',
       },
     };
-    const { validate, errors, data } = createForm<
-      typeof mockData,
-      ValidatorConfig
-    >({
+    type Data = yup.InferType<typeof schema>;
+    const { validate, errors, data } = createForm<Data>({
       initialValues: mockData,
       onSubmit: jest.fn(),
-      extend: validator,
-      validateSchema: schema,
+      extend: validator({ schema }),
     });
 
     await validate();
@@ -205,20 +199,17 @@ describe('Validator yup', () => {
         password: yup.string().required(),
       }),
     });
+    type Data = yup.InferType<typeof schema>;
     const mockData = {
       account: {
         email: '',
         password: '',
       },
     };
-    const { validate, errors, data } = createForm<
-      typeof mockData,
-      ValidatorConfig
-    >({
+    const { validate, errors, data } = createForm<Data>({
       initialValues: mockData,
       onSubmit: jest.fn(),
-      extend: validator,
-      validateSchema: schema,
+      extend: validator({ schema }),
       validate: jest.fn(() => ({
         account: {
           email: 'not an email',
@@ -260,11 +251,9 @@ describe('Validator yup', () => {
         .test('number', 'not a number', (value) => !isNaN(value))
         .transform((value) => parseInt(value, 10)),
     });
-    const { data, errors, validate } = createForm<any, ValidatorConfig>({
-      validateSchema: schema,
-      extend: validator,
+    const { data, errors, validate } = createForm<any>({
+      extend: validator({ schema, castValues: true }),
       onSubmit: jest.fn(),
-      castValues: true,
     });
 
     data.set({

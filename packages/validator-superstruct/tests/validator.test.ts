@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom/extend-expect';
 import { createForm } from 'felte';
-import { validateStruct, createValidator } from '../src';
+import { validateStruct, validator } from '../src';
 import type { ValidatorConfig } from '../src';
+import type { Infer } from 'superstruct';
 import { object, string, size, coerce, date, any, refine } from 'superstruct';
 import { get } from 'svelte/store';
 import type { ValidationFunction } from '@felte/common';
@@ -112,17 +113,23 @@ describe('Validator superstruct', () => {
       password: '',
     };
     const { validate, errors, warnings, data } = createForm<
-      typeof mockData,
-      ValidatorConfig
+      Infer<typeof struct>
     >({
       initialValues: mockData,
       onSubmit: jest.fn(),
-      extend: createValidator((failure) => {
-        if (failure.refinement === 'secure') return 'Not secure';
-        return failure.message;
-      }),
-      validateStruct: struct,
-      warnStruct,
+      extend: [
+        validator({
+          struct,
+        }),
+        validator({
+          struct: warnStruct,
+          level: 'warning',
+          transform: (failure) => {
+            if (failure.refinement === 'secure') return 'Not secure';
+            return failure.message;
+          },
+        }),
+      ],
     });
 
     await validate();
@@ -169,14 +176,10 @@ describe('Validator superstruct', () => {
         password: '',
       },
     };
-    const { validate, errors, data } = createForm<
-      typeof mockData,
-      ValidatorConfig
-    >({
+    const { validate, errors, data } = createForm<typeof mockData>({
       initialValues: mockData,
       onSubmit: jest.fn(),
-      extend: createValidator(),
-      validateStruct: struct,
+      extend: validator({ struct }),
     });
 
     await validate();
@@ -221,16 +224,14 @@ describe('Validator superstruct', () => {
         password: '',
       },
     };
-    const { validate, errors, data } = createForm<
-      typeof mockData,
-      ValidatorConfig
-    >({
+    const { validate, errors, data } = createForm<typeof mockData>({
       initialValues: mockData,
       onSubmit: jest.fn(),
-      extend: createValidator((value) =>
-        value.type === 'string' ? 'Must not be empty' : 'Not valid'
-      ),
-      validateStruct: struct,
+      extend: validator({
+        struct,
+        transform: (value) =>
+          value.type === 'string' ? 'Must not be empty' : 'Not valid',
+      }),
     });
 
     await validate();
@@ -273,19 +274,15 @@ describe('Validator superstruct', () => {
         password: '',
       },
     };
-    const { validate, errors, data } = createForm<
-      typeof mockData,
-      ValidatorConfig
-    >({
+    const { validate, errors, data } = createForm<Infer<typeof struct>>({
       initialValues: mockData,
       onSubmit: jest.fn(),
-      extend: createValidator(),
-      validateStruct: struct,
+      extend: validator({ struct }),
       validate: jest.fn(() => ({
         account: {
           email: 'not an email',
         },
-      })) as ValidationFunction<any>,
+      })),
     });
 
     await validate();
@@ -325,15 +322,14 @@ describe('Validator superstruct', () => {
       date: coerce(date(), string(), (value) => new Date(value)),
     });
 
-    const { validate, errors, data } = createForm<any, ValidatorConfig>({
+    const { validate, errors, data } = createForm<Infer<typeof struct>>({
       onSubmit: jest.fn(),
-      extend: createValidator(),
-      validateStruct: struct,
-      castValues: true,
+      extend: validator({ struct, castValues: true }),
     });
 
     data.set({
       name: '',
+      // @ts-expect-error intentionally setting invalid type
       date: 'Not A Date',
     });
 
@@ -351,6 +347,7 @@ describe('Validator superstruct', () => {
 
     data.set({
       name: 'test@email.com',
+      // @ts-expect-error coercing this to a date
       date: '2021-06-09',
     });
 

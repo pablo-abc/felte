@@ -1,21 +1,22 @@
-import type { AnySchema, ValidationError } from 'yup';
+import type { ObjectSchema, ValidationError } from 'yup';
 import type { ValidateOptions } from 'yup/lib/types';
 import type {
   Obj,
   Errors,
   ValidationFunction,
+  Extender,
   ExtenderHandler,
 } from '@felte/common';
 import { _set, CurrentForm } from '@felte/common';
 
 export type ValidatorConfig = {
-  validateSchema: AnySchema;
-  warnSchema?: AnySchema;
+  schema: ObjectSchema<any>;
+  level?: 'error' | 'warning';
   castValues?: boolean;
 };
 
 export function validateSchema<Data extends Obj>(
-  schema: AnySchema,
+  schema: ObjectSchema<any>,
   options?: ValidateOptions
 ): ValidationFunction<Data> {
   function shapeErrors(errors: ValidationError): Partial<Errors<Data>> {
@@ -34,22 +35,22 @@ export function validateSchema<Data extends Obj>(
   };
 }
 
-export function validator<Data extends Obj = Obj>(
-  currentForm: CurrentForm<Data>
-): ExtenderHandler<Data> {
-  if (currentForm.stage !== 'SETUP') return {};
-  const config = currentForm.config as CurrentForm<Data>['config'] &
-    ValidatorConfig;
-  const validateFn = validateSchema<Data>(config.validateSchema);
-  currentForm.addValidator(validateFn);
-  if (config.warnSchema) {
-    const warnFn = validateSchema<Data>(config.warnSchema);
-    currentForm.addValidator(warnFn, { level: 'warning' });
-  }
-  if (!config.castValues) return {};
-  const transformFn = (values: unknown) => {
-    return config.validateSchema.cast(values);
+export function validator<Data extends Obj = Obj>({
+  schema,
+  level = 'error',
+  castValues,
+}: ValidatorConfig): Extender<Data> {
+  return function extender(
+    currentForm: CurrentForm<Data>
+  ): ExtenderHandler<Data> {
+    if (currentForm.stage !== 'SETUP') return {};
+    const validateFn = validateSchema<Data>(schema);
+    currentForm.addValidator(validateFn, { level });
+    if (!castValues) return {};
+    const transformFn = (values: unknown) => {
+      return schema.cast(values);
+    };
+    currentForm.addTransformer(transformFn);
+    return {};
   };
-  currentForm.addTransformer(transformFn);
-  return {};
 }

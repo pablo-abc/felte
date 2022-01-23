@@ -17,7 +17,7 @@ yarn add @felte/validator-yup yup
 
 ## Usage
 
-Extend Felte with the `validator` extender and add your schema to the `validateSchema` property of `createForm`'s config.
+Call `validator` with an object containing your Yup schema in the `schema` property. The result of the call can be passed as an extender to Felte:
 
 ```javascript
 import { validator } from '@felte/validator-yup';
@@ -30,8 +30,7 @@ const schema = yup.object({
 
 const { form } = createForm({
   // ...
-  extend: validator, // or `extend: [validator],`
-  validateSchema: schema,
+  extend: validator({ schema }), // or `extend: [validator({ schema })],`
   // ...
 });
 ```
@@ -56,13 +55,12 @@ const { form } = createForm({
 
 ## Casting values
 
-Unlike `yup`, by default this validator does **not** cast values. If you wish to have this behaviour you may set the `castValues` property to `true` on `createForm`'s configuration object.
+Unlike `yup`, by default this validator does **not** cast values. If you wish to have this behaviour you may set the `castValues` property to `true` on the validator's configuration:
 
 ```javascript
 const { form } = createForm({
   //...
-  validateSchema: schema,
-  castValues: true,
+  extend: validator({ schema, castValues: true }),
   //...
 });
 ```
@@ -80,7 +78,7 @@ const schema = yup.object({
 
 ## Warnings
 
-Optionally, you can also add a schema that will validate for warnings in your data. Warnings are any validation messages that should not prevent your form for submitting. You can add the schema that will be using for setting this values to the `warnSchema` property on the configuration:
+Optionally, you can tell this package to assign the results of your validations to your `warnings` store by setting the `level` property of the validator function to `warning`. It's `error` by default:
 
 ```javascript
 import { validator } from '@felte/validator-yup';
@@ -102,20 +100,19 @@ const warnSchema = yup.object({
 
 const { form } = createForm({
   // ...
-  extend: validator, // or `extend: [validator],`
-  validateSchema,
-  warnSchema,
+  extend: [
+    validator({ schema }),
+    validator({ schema: warnSchema, level: 'warning' }),
+  ],
   // ...
 });
 ```
 
 ## Typescript
 
-For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
+Yup allows you to infer the type of your schema using `yup.InferType`. This can be used so you don't need to create a type for your form's data:
 
 ```typescript
-import type { ValidatorConfig } from '@felte/validator-yup';
-
 import * as yup from 'yup';
 
 const schema = yup.object({
@@ -123,5 +120,5 @@ const schema = yup.object({
   password: yup.string().required(),
 });
 
-const { form } = createForm<yup.InferType<typeof schema>, ValidatorConfig>(/* ... */);
+const { form } = createForm<yup.InferType<typeof schema>>(/* ... */);
 ```
