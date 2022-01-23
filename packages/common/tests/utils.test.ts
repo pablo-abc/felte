@@ -34,6 +34,7 @@ import {
   shouldIgnore,
   executeTransforms,
   getValue,
+  syncFieldArrays,
 } from '../src';
 
 function createLoginForm() {
@@ -805,5 +806,56 @@ describe('Utils', () => {
     expect(getValue(data, ($data) => $data.account.email)).toBe(
       'zaphod@beeblebrox.com'
     );
+  });
+
+  test('syncFieldArrays', () => {
+    const dataObjects = {
+      array: [{ value: '' }, { value: '' }],
+    };
+
+    const errorObjects = {
+      array: [
+        { value: 'Error 1' },
+        { value: null },
+        { value: null },
+        { value: 'Error 2' },
+      ],
+    };
+    expect(syncFieldArrays(dataObjects, errorObjects)).toEqual({
+      array: [{ value: 'Error 1' }, { value: 'Error 2' }],
+    });
+
+    const dataObjectArrays = {
+      array: [{ value: '' }, { value: '' }],
+    };
+
+    const errorObjectArrays = {
+      array: [
+        { value: 'Error 1 1' },
+        { value: 'Error 2 1' },
+        { value: 'Error 1 2' },
+        { value: 'Error 2 2' },
+      ],
+    };
+    expect(syncFieldArrays(dataObjectArrays, errorObjectArrays)).toEqual({
+      array: [
+        { value: ['Error 1 1', 'Error 1 2'] },
+        { value: ['Error 2 1', 'Error 2 2'] },
+      ],
+    });
+
+    const data = {
+      array: ['', ''],
+    };
+
+    const errors = {
+      array: ['Error 1 1', 'Error 2 1', 'Error 1 2', 'Error 2 2'],
+    };
+    expect(syncFieldArrays(data, errors)).toEqual({
+      array: [
+        ['Error 1 1', 'Error 1 2'],
+        ['Error 2 1', 'Error 2 2'],
+      ],
+    });
   });
 });
