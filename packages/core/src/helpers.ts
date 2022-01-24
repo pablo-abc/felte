@@ -103,6 +103,9 @@ export function createHelpers<Data extends Obj>({
   stores,
   config,
 }: CreateHelpersOptions<Data>) {
+  let formNode: HTMLFormElement | undefined;
+  let initialValues = (config.initialValues ?? {}) as Data;
+
   const { data, touched, errors, warnings, isDirty, isSubmitting } = stores;
 
   const setData = createSetHelper<Data, string>(data.update);
@@ -156,10 +159,10 @@ export function createHelpers<Data extends Obj>({
     index?: number
   ) {
     errors.update(($errors) => {
-      return addAtIndex($errors, path, null, index);
+      return addAtIndex($errors, path, [], index);
     });
     warnings.update(($warnings) => {
-      return addAtIndex($warnings, path, null, index);
+      return addAtIndex($warnings, path, [], index);
     });
     touched.update(($touched) => {
       return addAtIndex($touched, path, false, index);
@@ -182,10 +185,10 @@ export function createHelpers<Data extends Obj>({
       return _set($touched, path, false);
     });
     errors.update(($errors) => {
-      return _set($errors, path, null);
+      return _set($errors, path, []);
     });
     warnings.update(($warnings) => {
-      return _set($warnings, path, null);
+      return _set($warnings, path, []);
     });
   }
 
@@ -197,7 +200,7 @@ export function createHelpers<Data extends Obj>({
     const validate = getAllValidators('validate', config);
     const warn = getAllValidators('warn', config);
     const currentData = get(data);
-    const initialErrors = deepSet(currentData, null) as Errors<Data>;
+    const initialErrors = deepSet(currentData, []) as Errors<Data>;
     setTouched((t) => {
       return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
     });
@@ -212,9 +215,6 @@ export function createHelpers<Data extends Obj>({
     errors.set(currentErrors || initialErrors);
     return currentErrors;
   }
-
-  let formNode: HTMLFormElement | undefined;
-  let initialValues = (config.initialValues ?? {}) as Data;
 
   function reset(): void {
     setFields(_cloneDeep(initialValues));
@@ -241,7 +241,7 @@ export function createHelpers<Data extends Obj>({
   };
 
   const privateHelpers = {
-    _setFormNode: (node: HTMLFormElement) => {
+    _setFormNode(node: HTMLFormElement) {
       formNode = node;
     },
     _getFormNode: () => formNode,

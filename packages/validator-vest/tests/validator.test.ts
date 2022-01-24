@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { createForm } from 'felte';
 import { validateSuite, validator } from '../src';
-import type { ValidatorConfig } from '../src';
 import { get } from 'svelte/store';
 import type { ValidationFunction } from '@felte/common';
 import { create, enforce, test as assert, warn } from 'vest';

@@ -1,11 +1,9 @@
 import '@testing-library/jest-dom/extend-expect';
 import { createForm } from 'felte';
 import { validateStruct, validator } from '../src';
-import type { ValidatorConfig } from '../src';
 import type { Infer } from 'superstruct';
 import { object, string, size, coerce, date, any, refine } from 'superstruct';
 import { get } from 'svelte/store';
-import type { ValidationFunction } from '@felte/common';
 
 jest.mock('svelte', () => ({ onDestroy: jest.fn() }));
 

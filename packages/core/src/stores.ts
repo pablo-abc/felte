@@ -17,7 +17,6 @@ import {
   mergeErrors,
   executeTransforms,
   deepSome,
-  syncFieldArrays,
 } from '@felte/common';
 
 function createAbortController() {
@@ -38,9 +37,9 @@ function errorFilterer(
   if (Array.isArray(touchValue)) {
     if (touchValue.some(_isPlainObject)) return;
     const errArray = Array.isArray(errValue) ? errValue : [];
-    return touchValue.map((value, index) => (value && errArray[index]) || null);
+    return touchValue.map((value, index) => (value && errArray[index]) || []);
   }
-  return (touchValue && errValue) || null;
+  return (touchValue && errValue) || [];
 }
 
 function filterErrors<Data extends Obj>([errors, touched]: [
@@ -73,7 +72,7 @@ function cancellableValidation<Data extends Obj>(
     validations?: ValidationFunction<Data>[] | ValidationFunction<Data>
   ) {
     if (!validations || !$data) return;
-    let current = {} as Errors<Data>;
+    let current = deepSet($data, []) as Errors<Data>;
     const controller = createAbortController();
     if (activeController) activeController.abort();
     activeController = controller;
@@ -82,7 +81,7 @@ function cancellableValidation<Data extends Obj>(
       const result = await promise;
       if (controller.signal.aborted) return;
       current = mergeErrors([current, result]);
-      store.set(syncFieldArrays($data, current));
+      store.set(current);
     });
   };
 }
@@ -160,7 +159,7 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     : ({} as Data);
   const data = storeFactory(initialValues);
 
-  const initialErrors = deepSet(initialValues, null) as Errors<Data>;
+  const initialErrors = deepSet(initialValues, []) as Errors<Data>;
   const immediateErrors: PartialWritable<Errors<Data>> &
     StoreExt = storeFactory(initialErrors);
   const debouncedErrors: PartialWritable<Errors<Data>> &
@@ -174,7 +173,7 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     _cloneDeep(initialErrors)
   );
 
-  const initialWarnings = deepSet(initialValues, null) as Errors<Data>;
+  const initialWarnings = deepSet(initialValues, []) as Errors<Data>;
   const immediateWarnings: PartialWritable<Errors<Data>> &
     StoreExt = storeFactory(initialWarnings);
   const debouncedWarnings: PartialWritable<Errors<Data>> &

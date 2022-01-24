@@ -20,7 +20,6 @@ export {
   executeValidation,
   mergeErrors,
   runValidations,
-  syncFieldArrays,
 } from './utils/executeValidation';
 export { executeTransforms } from './utils/executeTransforms';
 export * from './utils/domUtils';
