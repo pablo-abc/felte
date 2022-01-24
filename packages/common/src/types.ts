@@ -1,11 +1,15 @@
 import type { Readable, Writable } from 'svelte/store';
 
-export type RecursivePartial<T> = {
-  [P in keyof T]?: RecursivePartial<T[P]>;
+export type RecursivePartial<T extends Record<string, any>> = {
+  [P in keyof T]?: T[P] extends Record<string, any> | Array<any>
+    ? RecursivePartial<T[P]>
+    : T[P];
 };
 
-export type RecursiveRequired<T> = {
-  [P in keyof T]-?: RecursiveRequired<T[P]>;
+export type RecursiveRequired<T extends Record<string, any>> = {
+  [P in keyof T]-?: T[P] extends Record<string, any> | Array<any>
+    ? RecursiveRequired<T[P]>
+    : T[P];
 };
 
 export type ObjectSetter<Data extends Obj, Path extends string = string> = (<
@@ -257,7 +261,7 @@ type DebouncedConfig<Data extends Obj> = {
 export type FormConfigWithoutTransformFn<Data extends Obj> = {
   transform?: never;
   /** Optional object with the initial values of the form **/
-  initialValues?: Data;
+  initialValues?: RecursivePartial<Data>;
   /** Optional function to validate the data. */
   validate?: ValidationFunction<Data> | ValidationFunction<Data>[];
   /** Optional function to set warnings based on the current state of your data. */
