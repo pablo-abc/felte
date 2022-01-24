@@ -235,11 +235,11 @@ export function createFormAction<Data extends Obj>({
 
     _setCurrentExtenders(extender.map(callExtender('MOUNT')));
     node.noValidate = !!config.validate;
-    const { defaultData } = getFormDefaultValues<Data>(node);
+    const { defaultData, defaultTouched } = getFormDefaultValues<Data>(node);
     _setFormNode(node);
     setInitialValues(_merge(_cloneDeep(defaultData), _getInitialValues()));
     setFields(_getInitialValues());
-    touched.set(deepSet(_getInitialValues(), false) as Touched<Data>);
+    touched.set(defaultTouched);
 
     function setCheckboxValues(target: HTMLInputElement) {
       const elPath = getPath(target);
@@ -370,10 +370,10 @@ export function createFormAction<Data extends Obj>({
           if (!shouldUpdate) continue;
           _getCurrentExtenders().forEach((extender) => extender.destroy?.());
           _setCurrentExtenders(extender.map(callExtender('UPDATE')));
-          const { defaultData: newDefaultData } = getFormDefaultValues<Data>(
-            node
-          );
-          const newDefaultTouched = deepSet(newDefaultData, false);
+          const {
+            defaultData: newDefaultData,
+            defaultTouched: newDefaultTouched,
+          } = getFormDefaultValues<Data>(node);
           data.update(($data) => _defaultsDeep<Data>($data, newDefaultData));
           touched.update(($touched) => {
             return _defaultsDeep($touched, newDefaultTouched);

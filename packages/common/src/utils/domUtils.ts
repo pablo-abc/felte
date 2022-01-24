@@ -1,4 +1,4 @@
-import type { FormControl, Obj, FieldValue } from '../types';
+import type { FormControl, Obj, FieldValue, Touched } from '../types';
 import { isFormControl, isFieldSetElement, isInputElement } from './typeGuards';
 import { _get } from './get';
 import { _set } from './set';
@@ -56,8 +56,9 @@ export function getInputTextOrNumber(
  */
 export function getFormDefaultValues<Data extends Obj>(
   node: HTMLFormElement
-): { defaultData: Data } {
+): { defaultData: Data; defaultTouched: Touched<Data> } {
   let defaultData = {} as Data;
+  let defaultTouched = {} as Touched<Data>;
   for (const el of node.elements) {
     if (isFieldSetElement(el)) addAttrsFromFieldset(el);
     if (!isFormControl(el) || !el.name) continue;
@@ -73,18 +74,18 @@ export function getFormDefaultValues<Data extends Obj>(
           });
           if (checkboxes.length === 1) {
             defaultData = _set(defaultData, elName, el.checked);
+            defaultTouched = _set(defaultTouched, elName, false);
             continue;
           }
           defaultData = _set(defaultData, elName, el.checked ? [el.value] : []);
+          defaultTouched = _set(defaultTouched, elName, false);
           continue;
         }
         if (Array.isArray(_get(defaultData, elName)) && el.checked) {
           defaultData = _update<Data, string[]>(
             defaultData,
             elName,
-            (value) => {
-              return [...value, el.value];
-            }
+            (value) => [...value, el.value]
           );
         }
         continue;
@@ -96,6 +97,7 @@ export function getFormDefaultValues<Data extends Obj>(
           elName,
           el.checked ? el.value : undefined
         );
+        defaultTouched = _set(defaultTouched, elName, false);
         continue;
       }
       if (el.type === 'file') {
@@ -104,13 +106,15 @@ export function getFormDefaultValues<Data extends Obj>(
           elName,
           el.multiple ? Array.from(el.files || []) : el.files?.[0]
         );
+        defaultTouched = _set(defaultTouched, elName, false);
         continue;
       }
     }
     const inputValue = getInputTextOrNumber(el);
     defaultData = _set(defaultData, elName, inputValue);
+    defaultTouched = _set(defaultTouched, elName, false);
   }
-  return { defaultData };
+  return { defaultData, defaultTouched };
 }
 
 export function setControlValue(
