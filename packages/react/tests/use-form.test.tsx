@@ -37,8 +37,8 @@ describe(useForm, () => {
     );
     act(() => result.current.setTouched('email', true));
     expect(result.current.errors()).toEqual({ email: null });
-    act(() => result.current.setErrors({ email: 'not an email' }));
-    expect(result.current.errors()).toEqual({ email: 'not an email' });
+    act(() => result.current.setErrors({ email: ['not an email'] }));
+    expect(result.current.errors()).toEqual({ email: ['not an email'] });
   });
 
   test('updates value with helper', () => {
@@ -51,20 +51,20 @@ describe(useForm, () => {
     );
     act(() => result.current.setTouched('email', true));
     expect(result.current.errors()).toEqual({ email: null });
-    act(() => result.current.setErrors({ email: 'not an email' }));
-    expect(result.current.errors()).toEqual({ email: 'not an email' });
+    act(() => result.current.setErrors({ email: ['not an email'] }));
+    expect(result.current.errors()).toEqual({ email: ['not an email'] });
     act(() => {
       result.current.setErrors((oldErrors) => ({
         ...oldErrors,
-        email: (oldErrors.email as string).toUpperCase(),
+        email: oldErrors.email?.[0].toUpperCase(),
       }));
     });
-    expect(result.current.errors()).toEqual({ email: 'NOT AN EMAIL' });
+    expect(result.current.errors()).toEqual({ email: ['NOT AN EMAIL'] });
     act(() => {
       result.current.setErrors('email', (email) =>
         (email as string).toLowerCase()
       );
     });
-    expect(result.current.errors()).toEqual({ email: 'not an email' });
+    expect(result.current.errors()).toEqual({ email: ['not an email'] });
   });
 });
