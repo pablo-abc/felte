@@ -220,7 +220,7 @@ describe('Validator vest', () => {
       extend: validator({ suite }),
       validate: jest.fn(() => ({
         account: {
-          email: 'not an email',
+          email: ['not an email'],
         },
       })) as ValidationFunction<any>,
     });
@@ -246,7 +246,7 @@ describe('Validator vest', () => {
 
     expect(get(errors)).toEqual({
       account: {
-        email: 'not an email',
+        email: ['not an email'],
         password: null,
       },
     });

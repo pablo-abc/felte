@@ -28,8 +28,8 @@ describe('Validator yup', () => {
 
     expect(get(data)).toEqual(mockData);
     expect(get(errors)).toEqual({
-      email: 'email is a required field',
-      password: 'password is a required field',
+      email: ['email is a required field'],
+      password: ['password is a required field'],
     });
 
     data.set({
@@ -69,8 +69,8 @@ describe('Validator yup', () => {
     expect(get(data)).toEqual(mockData);
     expect(get(errors)).toEqual({
       account: {
-        email: 'account.email is a required field',
-        password: 'account.password is a required field',
+        email: ['account.email is a required field'],
+        password: ['account.password is a required field'],
       },
     });
 
@@ -120,8 +120,8 @@ describe('Validator yup', () => {
 
     expect(get(data)).toEqual(mockData);
     expect(get(errors)).toEqual({
-      email: 'email is a required field',
-      password: 'password is a required field',
+      email: ['email is a required field'],
+      password: ['password is a required field'],
     });
     expect(get(warnings)).toEqual({
       email: null,
@@ -141,7 +141,7 @@ describe('Validator yup', () => {
     });
     expect(get(warnings)).toEqual({
       email: null,
-      password: 'password is not secure',
+      password: ['password is not secure'],
     });
   });
 
@@ -170,8 +170,8 @@ describe('Validator yup', () => {
     expect(get(data)).toEqual(mockData);
     expect(get(errors)).toEqual({
       account: {
-        email: 'account.email is a required field',
-        password: 'account.password is a required field',
+        email: ['account.email is a required field'],
+        password: ['account.password is a required field'],
       },
     });
 
@@ -212,7 +212,7 @@ describe('Validator yup', () => {
       extend: validator({ schema }),
       validate: jest.fn(() => ({
         account: {
-          email: 'not an email',
+          email: ['not an email'],
         },
       })) as ValidationFunction<any>,
     });
@@ -223,7 +223,7 @@ describe('Validator yup', () => {
     expect(get(errors)).toEqual({
       account: {
         email: ['not an email', 'account.email is a required field'],
-        password: 'account.password is a required field',
+        password: ['account.password is a required field'],
       },
     });
 
@@ -238,7 +238,7 @@ describe('Validator yup', () => {
 
     expect(get(errors)).toEqual({
       account: {
-        email: 'not an email',
+        email: ['not an email'],
         password: null,
       },
     });
@@ -267,7 +267,7 @@ describe('Validator yup', () => {
     });
 
     expect(get(errors)).toEqual({
-      shouldBeNumber: 'not a number',
+      shouldBeNumber: ['not a number'],
     });
 
     data.set({

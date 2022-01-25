@@ -209,7 +209,7 @@ describe('Validator zod', () => {
       extend: validator({ schema }),
       validate: jest.fn(() => ({
         account: {
-          email: 'not an email',
+          email: ['not an email'],
         },
       })) as ValidationFunction<any>,
     });
@@ -239,7 +239,7 @@ describe('Validator zod', () => {
 
     expect(get(errors)).toEqual({
       account: {
-        email: 'not an email',
+        email: ['not an email'],
         password: null,
       },
     });

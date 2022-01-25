@@ -27,10 +27,12 @@ describe('Validator superstruct', () => {
 
     expect(get(data)).toEqual(mockData);
     expect(get(errors)).toEqual({
-      email:
+      email: [
         'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
-      password:
+      ],
+      password: [
         'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
+      ],
     });
 
     data.set({
@@ -70,10 +72,12 @@ describe('Validator superstruct', () => {
     expect(get(data)).toEqual(mockData);
     expect(get(errors)).toEqual({
       account: {
-        email:
+        email: [
           'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
-        password:
+        ],
+        password: [
           'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
+        ],
       },
     });
 
@@ -134,10 +138,12 @@ describe('Validator superstruct', () => {
 
     expect(get(data)).toEqual(mockData);
     expect(get(errors)).toEqual({
-      email:
+      email: [
         'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
-      password:
+      ],
+      password: [
         'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
+      ],
     });
     expect(get(warnings)).toEqual({
       email: null,
@@ -157,7 +163,7 @@ describe('Validator superstruct', () => {
     });
     expect(get(warnings)).toEqual({
       email: null,
-      password: 'Not secure',
+      password: ['Not secure'],
     });
   });
 
@@ -185,10 +191,12 @@ describe('Validator superstruct', () => {
     expect(get(data)).toEqual(mockData);
     expect(get(errors)).toEqual({
       account: {
-        email:
+        email: [
           'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
-        password:
+        ],
+        password: [
           'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
+        ],
       },
     });
 
@@ -237,8 +245,8 @@ describe('Validator superstruct', () => {
     expect(get(data)).toEqual(mockData);
     expect(get(errors)).toEqual({
       account: {
-        email: 'Must not be empty',
-        password: 'Must not be empty',
+        email: ['Must not be empty'],
+        password: ['Must not be empty'],
       },
     });
 
@@ -278,7 +286,7 @@ describe('Validator superstruct', () => {
       extend: validator({ struct }),
       validate: jest.fn(() => ({
         account: {
-          email: 'not an email',
+          email: ['not an email'],
         },
       })),
     });
@@ -292,8 +300,9 @@ describe('Validator superstruct', () => {
           'not an email',
           'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
         ],
-        password:
+        password: [
           'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
+        ],
       },
     });
 
@@ -308,7 +317,7 @@ describe('Validator superstruct', () => {
 
     expect(get(errors)).toEqual({
       account: {
-        email: 'not an email',
+        email: ['not an email'],
         password: null,
       },
     });
@@ -338,9 +347,10 @@ describe('Validator superstruct', () => {
     await validate();
 
     expect(get(errors)).toEqual({
-      name:
+      name: [
         'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
-      date: 'Expected a valid `Date` object, but received: Invalid Date',
+      ],
+      date: ['Expected a valid `Date` object, but received: Invalid Date'],
     });
 
     data.set({
