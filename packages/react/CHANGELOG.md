@@ -1,5 +1,16 @@
 # @felte/react
 
+## 1.0.0-next.19
+
+### Major Changes
+
+- a45d56c: BREAKING: `errors` and `warning` stores will either have `null` or an array of strings as errors
+
+### Patch Changes
+
+- Updated dependencies [a45d56c]
+  - @felte/core@1.0.0-next.16
+
 ## 1.0.0-next.18
 
 ### Major Changes

@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.0.0-next.13
+
+### Major Changes
+
+- a45d56c: BREAKING: `errors` and `warning` stores will either have `null` or an array of strings as errors
+
 ## 1.0.0-next.12
 
 ### Major Changes

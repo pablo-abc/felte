@@ -1,5 +1,16 @@
 # @felte/validator-vest
 
+## 1.0.0-next.12
+
+### Major Changes
+
+- 313aa5d: BREAKING: instead of extending Felte's config, now validators accept a configuration object directly. This allows for extending Felte with multiple schemas/suites/structs
+
+### Patch Changes
+
+- Updated dependencies [a45d56c]
+  - @felte/common@1.0.0-next.13
+
 ## 1.0.0-next.11
 
 ### Patch Changes
