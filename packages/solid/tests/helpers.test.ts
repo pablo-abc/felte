@@ -203,7 +203,7 @@ describe('Helpers', () => {
       expect(touched('account.email')).toBe(true);
       expect(errors()).toEqual({
         account: {
-          email: 'Not an email',
+          email: ['Not an email'],
         },
       });
     });
@@ -231,7 +231,11 @@ describe('Helpers', () => {
     validate();
     expect(mockValidate).toHaveBeenCalledTimes(2);
     await waitFor(() => {
-      expect(errors()).toEqual(mockErrors);
+      expect(errors()).toEqual({
+        account: {
+          email: ['Not email'],
+        },
+      });
       expect(touched()).toEqual({
         account: {
           email: true,

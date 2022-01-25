@@ -257,7 +257,7 @@ describe('User interactions with form', () => {
     await waitFor(() => {
       expect(errors()).toMatchObject({
         account: {
-          email: 'Must not be empty',
+          email: ['Must not be empty'],
           password: null,
         },
       });
@@ -266,8 +266,8 @@ describe('User interactions with form', () => {
     await waitFor(() => {
       expect(errors()).toMatchObject({
         account: {
-          email: 'Must not be empty',
-          password: 'Must not be empty',
+          email: ['Must not be empty'],
+          password: ['Must not be empty'],
         },
       });
     });
@@ -623,7 +623,7 @@ describe('User interactions with form', () => {
       expect(errors()).toEqual({
         account: {
           email: null,
-          password: 'Must not be empty',
+          password: ['Must not be empty'],
         },
       });
     });
