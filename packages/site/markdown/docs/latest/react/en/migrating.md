@@ -11,6 +11,7 @@ subsections:
   - Fieldsets
   - data-felte-index
   - Validators
+  - Errors and warnings
 ---
 
 ## Migrating from 0.x felte or @felte/solid
@@ -205,3 +206,9 @@ useForm({
   extend: validator({ schema }),
 })
 ```
+
+`@felte/validator-superstruct` now exports a `validator` function instead of a `createValidator` function.
+
+### Errors and warnings
+
+In order to mantain an always consistent shape, the `errors` and `warnings` store now will always contain `null` or an array of strings if there are errors, even if your validation strategy returns single strings as validation messages.

@@ -199,7 +199,7 @@ describe('Helpers', () => {
         email: null,
       },
     });
-    setTouched('account.email', true);
+    setTouched('account.email', () => true);
     expect(get(touched).account.email).toBe(true);
     expect(get(errors)).toEqual({
       account: {
@@ -611,6 +611,7 @@ describe('Helpers', () => {
     });
 
     addField('todos', { value: 'Second todo' }, 1);
+    addField('todos.1', 'ignored');
 
     await waitFor(() => {
       expect(get(data).todos[1].value).toBe('Second todo');

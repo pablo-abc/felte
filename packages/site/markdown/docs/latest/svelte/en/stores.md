@@ -20,7 +20,7 @@ A writable store that contains the form's values. Depending on the field type, t
 
 ### errors
 
-A writable store that contains the validation errors in the form. It will have the same shape as `data` but containing either a `string` or an array of `string`s with each validation message per field.
+A writable store that contains the validation errors in the form. It will have the same shape as `data` but containing either `null` if there's no errors, or an array of strings if there are.
 
 ### warnings
 
