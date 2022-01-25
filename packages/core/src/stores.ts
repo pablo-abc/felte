@@ -5,7 +5,7 @@ import type {
   Errors,
   Touched,
   ValidationFunction,
-  PartialWritable,
+  PartialWritableErrors,
 } from '@felte/common';
 import type { Writable, Readable, Unsubscriber } from 'svelte/store';
 import {
@@ -64,15 +64,16 @@ function debounce<T extends unknown[]>(
 }
 
 function cancellableValidation<Data extends Obj>(
-  store: PartialWritable<Errors<Data>>
+  store: PartialWritableErrors<Data>
 ) {
   let activeController: ReturnType<typeof createAbortController> | undefined;
   return async function executeValidations(
     $data?: Data,
+    shape?: Errors<Data>,
     validations?: ValidationFunction<Data>[] | ValidationFunction<Data>
   ) {
     if (!validations || !$data) return;
-    let current = deepSet($data, []) as Errors<Data>;
+    let current = shape ?? (deepSet($data, []) as Errors<Data>);
     const controller = createAbortController();
     if (activeController) activeController.abort();
     activeController = controller;
@@ -157,13 +158,16 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
         config.transform
       )
     : ({} as Data);
+  let storesShape = deepSet(initialValues, []) as Errors<Data>;
   const data = storeFactory(initialValues);
 
   const initialErrors = deepSet(initialValues, []) as Errors<Data>;
-  const immediateErrors: PartialWritable<Errors<Data>> &
-    StoreExt = storeFactory(initialErrors);
-  const debouncedErrors: PartialWritable<Errors<Data>> &
-    StoreExt = storeFactory(_cloneDeep(initialErrors));
+  const immediateErrors = storeFactory(
+    initialErrors
+  ) as PartialWritableErrors<Data> & StoreExt;
+  const debouncedErrors = storeFactory(
+    _cloneDeep(initialErrors)
+  ) as PartialWritableErrors<Data> & StoreExt;
   const [errors, startErrors, stopErrors] = derived<Errors<Data>>(
     [
       immediateErrors as Readable<Errors<Data>>,
@@ -174,10 +178,12 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   );
 
   const initialWarnings = deepSet(initialValues, []) as Errors<Data>;
-  const immediateWarnings: PartialWritable<Errors<Data>> &
-    StoreExt = storeFactory(initialWarnings);
-  const debouncedWarnings: PartialWritable<Errors<Data>> &
-    StoreExt = storeFactory(_cloneDeep(initialWarnings));
+  const immediateWarnings = storeFactory(
+    initialWarnings
+  ) as PartialWritableErrors<Data> & StoreExt;
+  const debouncedWarnings = storeFactory(
+    _cloneDeep(initialWarnings)
+  ) as PartialWritableErrors<Data> & StoreExt;
   const [warnings, startWarnings, stopWarnings] = derived<Errors<Data>>(
     [
       immediateWarnings as Readable<Errors<Data>>,
@@ -233,12 +239,16 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
 
   function start() {
     const dataUnsubscriber = data.subscribe(($data) => {
-      validateErrors($data, config.validate);
-      validateWarnings($data, config.warn);
+      validateErrors($data, storesShape, config.validate);
+      validateWarnings($data, storesShape, config.warn);
       debouncedErrors.set({} as Errors<Data>);
-      validateDebouncedErrors($data, config.debounced?.validate);
+      validateDebouncedErrors($data, storesShape, config.debounced?.validate);
       debouncedWarnings.set({} as Errors<Data>);
-      validateDebouncedWarnings($data, config.debounced?.warn);
+      validateDebouncedWarnings($data, storesShape, config.debounced?.warn);
+    });
+
+    touched.subscribe(($touched) => {
+      storesShape = deepSet($touched, []) as Errors<Data>;
     });
 
     startErrors();
@@ -257,15 +267,15 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   }
 
   filteredErrors.set = immediateErrors.set;
-  (filteredErrors as PartialWritable<Errors<Data>>).update =
+  (filteredErrors as PartialWritableErrors<Data>).update =
     immediateErrors.update;
   warnings.set = immediateWarnings.set;
-  (warnings as PartialWritable<Errors<Data>>).update = immediateWarnings.update;
+  (warnings as PartialWritableErrors<Data>).update = immediateWarnings.update;
 
   return {
     data,
-    errors: filteredErrors as PartialWritable<Errors<Data>> & StoreExt,
-    warnings: warnings as PartialWritable<Errors<Data>> & StoreExt,
+    errors: filteredErrors as PartialWritableErrors<Data> & StoreExt,
+    warnings: warnings as PartialWritableErrors<Data> & StoreExt,
     touched,
     isValid,
     isSubmitting,

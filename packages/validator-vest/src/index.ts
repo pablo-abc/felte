@@ -1,9 +1,9 @@
 import type {
   Obj,
-  Errors,
   ValidationFunction,
   Extender,
   ExtenderHandler,
+  AssignableErrors,
 } from '@felte/common';
 import { _set, CurrentForm } from '@felte/common';
 import type { create } from 'vest';
@@ -14,8 +14,8 @@ export type ValidatorConfig = {
 
 function shapeErrors<Data extends Obj>(
   errors: Record<string, string[]>
-): Partial<Errors<Data>> {
-  let err: Partial<Errors<Data>> = {};
+): AssignableErrors<Data> {
+  let err = {} as AssignableErrors<Data>;
   for (const [fieldName, messages] of Object.entries(errors)) {
     err = _set(err, fieldName, messages);
   }
@@ -27,10 +27,10 @@ export function validateSuite<Data extends Obj>(
 ): ValidationFunction<Data> {
   return async function validate(
     values: Data
-  ): Promise<Partial<Errors<Data>> | undefined> {
+  ): Promise<AssignableErrors<Data> | undefined> {
     const results = suite(values);
     if (results.hasErrors()) {
-      return shapeErrors(results.getErrors());
+      return shapeErrors<Data>(results.getErrors());
     }
   };
 }
@@ -40,10 +40,10 @@ export function warnSuite<Data extends Obj>(
 ): ValidationFunction<Data> {
   return async function validate(
     values: Data
-  ): Promise<Partial<Errors<Data>> | undefined> {
+  ): Promise<AssignableErrors<Data> | undefined> {
     const results = suite(values);
     if (results.hasWarnings()) {
-      return shapeErrors(results.getWarnings());
+      return shapeErrors<Data>(results.getWarnings());
     }
   };
 }

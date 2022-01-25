@@ -1,6 +1,6 @@
 import type {
   Obj,
-  Errors,
+  AssignableErrors,
   ValidationFunction,
   ExtenderHandler,
   CurrentForm,
@@ -17,7 +17,7 @@ export type ValidatorConfig = {
 export function validateSchema<Data extends Obj>(
   schema: ZodObject<any>
 ): ValidationFunction<Data> {
-  function shapeErrors(errors: ZodError): Partial<Errors<Data>> {
+  function shapeErrors(errors: ZodError): AssignableErrors<Data> {
     return errors.issues.reduce((err, value) => {
       if (!value.path) return err;
       return _update(
@@ -29,11 +29,11 @@ export function validateSchema<Data extends Obj>(
           return [...currentValue, value.message];
         }
       );
-    }, {});
+    }, {} as AssignableErrors<Data>);
   }
   return async function validate(
     values: Data
-  ): Promise<Partial<Errors<Data>> | undefined> {
+  ): Promise<AssignableErrors<Data> | undefined> {
     try {
       await schema.parseAsync(values);
     } catch (error) {

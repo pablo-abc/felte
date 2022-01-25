@@ -1,7 +1,7 @@
-import type { Errors, PartialWritable } from '@felte/common';
+import type { PartialWritableErrors } from '@felte/common';
 
 export type ErrorStores = {
-  [index: string]: PartialWritable<Errors<any>>;
+  [index: string]: PartialWritableErrors<any>;
 };
 
 export const errorStores: ErrorStores = {};

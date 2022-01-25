@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { screen } from '@testing-library/dom';
+import type { AssignableErrors } from '../src';
 import {
   createInputElement,
   createDOM,
@@ -34,6 +35,7 @@ import {
   shouldIgnore,
   executeTransforms,
   getValue,
+  mergeErrors,
 } from '../src';
 
 function createLoginForm() {
@@ -508,18 +510,19 @@ describe('Utils', () => {
     const mockValues = {
       account: {
         email: '',
+        password: '',
+        confirmPassword: '',
       },
     };
-    const validate = jest.fn(
-      () =>
-        ({
-          account: {
-            email: 'required',
-            password: null,
-            confirmPassword: undefined,
-          },
-        } as any)
-    );
+    type Error = AssignableErrors<typeof mockValues>;
+    const mockErrors: Error = {
+      account: {
+        email: 'required',
+        password: null,
+        confirmPassword: undefined,
+      },
+    };
+    const validate = jest.fn(() => mockErrors);
 
     validate.mockReturnValueOnce({
       account: {
@@ -529,13 +532,17 @@ describe('Utils', () => {
       },
     });
 
-    const errors = await executeValidation(mockValues, [validate, validate]);
+    const errors = await executeValidation(
+      mockValues,
+      deepSet(mockValues, []),
+      [validate, validate]
+    );
 
     expect(errors).toEqual({
       account: {
         email: ['not an email', 'required'],
-        password: 'required',
-        confirmPassword: 'required',
+        password: ['required'],
+        confirmPassword: ['required'],
       },
     });
   });
@@ -805,5 +812,66 @@ describe('Utils', () => {
     expect(getValue(data, ($data) => $data.account.email)).toBe(
       'zaphod@beeblebrox.com'
     );
+  });
+
+  test('mergeErrors', () => {
+    const empty = {
+      account: {
+        array: [
+          {
+            value: [],
+          },
+          {
+            value: [],
+          },
+          {
+            value: [],
+          },
+        ],
+        strings: [],
+      },
+    };
+    const data: any = {
+      account: {
+        array: [
+          undefined,
+          {
+            value: 'test',
+          },
+          {
+            value: ['test in array'],
+          },
+        ],
+        strings: [undefined, 'test', 'test in array'],
+      },
+    };
+    const other: any = {
+      account: {
+        array: [
+          undefined,
+          {
+            value: 'another',
+          },
+          null,
+        ],
+        strings: 'another',
+      },
+    };
+    expect(mergeErrors([empty, data, other])).toEqual({
+      account: {
+        array: [
+          {
+            value: [],
+          },
+          {
+            value: ['test', 'another'],
+          },
+          {
+            value: ['test in array'],
+          },
+        ],
+        strings: ['test', 'test in array', 'another'],
+      },
+    });
   });
 });

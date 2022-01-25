@@ -10,11 +10,11 @@ import type {
   TransformFunction,
   Setter,
   ObjectSetter,
-  PartialObjectSetter,
+  PartialErrorsSetter,
+  AssignableErrors,
   PrimitiveSetter,
   FieldsSetter,
   Helpers,
-  RecursivePartial,
 } from '@felte/common';
 import {
   deepSet,
@@ -22,7 +22,6 @@ import {
   setForm,
   _cloneDeep,
   _get,
-  _merge,
   _set,
   _unset,
   _update,
@@ -61,9 +60,9 @@ function isUpdater<T>(value: unknown): value is (value: T) => T {
 
 function createSetHelper<Data extends Obj, Path extends string>(
   storeSetter: (
-    updater: (value: RecursivePartial<Data>) => RecursivePartial<Data>
+    updater: (value: Errors<Data>) => AssignableErrors<Data>
   ) => void
-): PartialObjectSetter<Data, Path>;
+): PartialErrorsSetter<Data, Path>;
 function createSetHelper<Data extends Obj, Path extends string>(
   storeSetter: (updater: (value: Data) => Data) => void
 ): ObjectSetter<Data, Path>;
@@ -112,9 +111,9 @@ export function createHelpers<Data extends Obj>({
 
   const setTouched = createSetHelper<Touched<Data>, string>(touched.update);
 
-  const setErrors = createSetHelper<Errors<Data>, string>(errors.update);
+  const setErrors = createSetHelper<Data, string>(errors.update);
 
-  const setWarnings = createSetHelper<Errors<Data>, string>(warnings.update);
+  const setWarnings = createSetHelper<Data, string>(warnings.update);
 
   function updateFields(updater: (values: Data) => Data) {
     setData((oldData) => {
@@ -200,19 +199,19 @@ export function createHelpers<Data extends Obj>({
     const validate = getAllValidators('validate', config);
     const warn = getAllValidators('warn', config);
     const currentData = get(data);
-    const initialErrors = deepSet(currentData, []) as Errors<Data>;
+    const shape = deepSet(get(touched), []) as Errors<Data>;
     setTouched((t) => {
       return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
     });
-    const partialErrors = await executeValidation<Data>(
+    const currentErrors = await executeValidation<Data>(
       currentData,
+      shape,
 
       validate
     );
-    const currentErrors = _merge<Errors<Data>>(initialErrors, partialErrors);
-    const currentWarnings = await executeValidation(currentData, warn);
-    warnings.set(_merge(initialErrors, currentWarnings || {}));
-    errors.set(currentErrors || initialErrors);
+    const currentWarnings = await executeValidation(currentData, shape, warn);
+    warnings.set(currentWarnings || shape);
+    errors.set(currentErrors || shape);
     return currentErrors;
   }
 

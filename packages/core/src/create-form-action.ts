@@ -139,12 +139,13 @@ export function createFormAction<Data extends Obj>({
       event?.preventDefault();
       isSubmitting.set(true);
       const currentData = get(data);
-      const partialErrors = await executeValidation(currentData, validate);
-      const currentErrors = _merge(
-        deepSet(currentData, []),
-        partialErrors
-      ) as Errors<Data>;
-      const currentWarnings = await executeValidation(currentData, warn);
+      const shape = deepSet(get(touched), []) as Errors<Data>;
+      const currentErrors = await executeValidation(
+        currentData,
+        shape,
+        validate
+      );
+      const currentWarnings = await executeValidation(currentData, shape, warn);
       if (currentWarnings)
         warnings.set(_merge(deepSet(currentData, []), currentWarnings));
       touched.update((t) => {

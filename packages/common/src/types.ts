@@ -37,19 +37,31 @@ export type UnknownObjectSetter<
   ((updater: (value: Data) => unknown) => void) &
   ((value: unknown) => void);
 
-export type PartialObjectSetter<
+export type PartialErrorsSetter<
   Data extends Obj,
   Path extends string = string
-> = (<P extends Path, V extends Traverse<Data, P> = Traverse<Data, P>>(
+> = (<
+  P extends Path,
+  V extends Traverse<AssignableErrors<Data>, P> = Traverse<
+    AssignableErrors<Data>,
+    P
+  >
+>(
   path: P,
   value: V
 ) => void) &
-  (<P extends Path, V extends Traverse<Data, P> = Traverse<Data, P>>(
+  (<
+    P extends Path,
+    V extends Traverse<AssignableErrors<Data>, P> = Traverse<
+      AssignableErrors<Data>,
+      P
+    >
+  >(
     path: P,
     updater: (value: V) => V
   ) => void) &
-  ((value: RecursivePartial<Data>) => void) &
-  ((updater: (value: Data) => RecursivePartial<Data>) => void);
+  ((value: AssignableErrors<Data>) => void) &
+  ((updater: (value: Errors<Data>) => AssignableErrors<Data>) => void);
 
 export type PrimitiveSetter<Data> = ((value: Data) => void) &
   ((updater: (value: Data) => Data) => void);
@@ -90,7 +102,7 @@ export type Setter<Data, Path extends string = string> = Data extends Record<
   : PrimitiveSetter<Data>;
 
 export type DeepSetResult<Data extends Obj | Obj[], Value> = {
-  [key in keyof Data]: Data[key] extends Obj
+  [key in keyof Data]: Data[key] extends Obj | Obj[]
     ? DeepSetResult<Data[key], Value>
     : Value;
 };
@@ -127,9 +139,9 @@ export type Helpers<Data extends Obj, Path extends string = string> = {
   /** Helper function to touch a specific field. */
   setTouched: ObjectSetter<Touched<Data>, Path>;
   /** Helper function to set an error to a specific field. */
-  setErrors: PartialObjectSetter<Errors<Data>, Path>;
+  setErrors: PartialErrorsSetter<Data, Path>;
   /** Helper function to set a warning on a specific field. */
-  setWarnings: PartialObjectSetter<Errors<Data>, Path>;
+  setWarnings: PartialErrorsSetter<Data, Path>;
   /** Helper function to set the value of the isDirty store */
   setIsDirty: PrimitiveSetter<boolean>;
   /** Helper function to set the value of the isSubmitting store */
@@ -162,8 +174,8 @@ export type SetupCurrentForm<Data extends Obj> = {
   form?: never;
   controls?: never;
   stage: 'SETUP';
-  errors: PartialWritable<Errors<Data>>;
-  warnings: PartialWritable<Errors<Data>>;
+  errors: PartialWritableErrors<Data>;
+  warnings: PartialWritableErrors<Data>;
   data: Writable<Data>;
   touched: Writable<Touched<Data>>;
   config: FormConfig<Data>;
@@ -178,8 +190,8 @@ export type MountedCurrentForm<Data extends Obj> = {
   form: HTMLFormElement;
   controls: FormControl[];
   stage: 'MOUNT' | 'UPDATE';
-  errors: PartialWritable<Errors<Data>>;
-  warnings: PartialWritable<Errors<Data>>;
+  errors: PartialWritableErrors<Data>;
+  warnings: PartialWritableErrors<Data>;
   data: Writable<Data>;
   touched: Writable<Touched<Data>>;
   config: FormConfig<Data>;
@@ -230,9 +242,9 @@ export type FormControl =
 export type ValidationFunction<Data extends Obj> = (
   values: Data
 ) =>
-  | RecursivePartial<Errors<Data>>
+  | AssignableErrors<Data>
   | undefined
-  | Promise<RecursivePartial<Errors<Data>> | undefined>;
+  | Promise<AssignableErrors<Data> | undefined>;
 
 export type TransformFunction<Data extends Obj> = (values: unknown) => Data;
 
@@ -340,27 +352,47 @@ export type FormConfig<Data extends Obj> =
   | FormConfigWithTransformFn<Data>
   | FormConfigWithoutTransformFn<Data>;
 
+type AnyObj = Record<string, any>;
+type AnyArr = Array<any>;
+
 /** The errors object may contain either a string or array or string per key. */
-export type Errors<Data extends Record<string, any> | Obj[]> = Data extends
-  | Record<string, any>
-  | Obj[]
+export type Errors<Data extends AnyObj | AnyArr> = Data extends AnyArr
+  ? Data[number] extends AnyObj
+    ? Errors<Data[number]>[]
+    : string[]
+  : Data extends AnyObj
   ? {
-      [key in keyof Data]: Data[key] extends Obj | Obj[]
+      [key in keyof Data]: Data[key] extends AnyObj | AnyArr
         ? Errors<Data[key]>
-        : string | string[] | null;
+        : string[];
     }
-  : Record<string, any>;
+  : any;
+
+/** The errors object may contain either a string or array or string per key. */
+export type AssignableErrors<Data extends AnyObj | AnyArr> = Data extends AnyArr
+  ? Data[number] extends AnyObj
+    ? AssignableErrors<Data[number]>[]
+    : string | string[] | null | undefined
+  : Data extends AnyObj
+  ? {
+      [key in keyof Data]?: Data[key] extends AnyObj | AnyArr
+        ? AssignableErrors<Data[key]> | undefined
+        : string | string[] | null | undefined;
+    }
+  : any;
 
 /** The touched object may only contain booleans per key. */
-export type Touched<Data extends Record<string, any> | Obj[]> = Data extends
-  | Record<string, any>
-  | Obj[]
+export type Touched<Data extends AnyObj | AnyArr> = Data extends AnyArr
+  ? Data[number] extends AnyObj
+    ? Touched<Data[number]>[]
+    : boolean
+  : Data extends AnyObj
   ? {
-      [key in keyof Data]: Data[key] extends Obj | Obj[]
+      [key in keyof Data]: Data[key] extends AnyObj | AnyArr
         ? Touched<Data[key]>
-        : boolean | boolean[];
+        : boolean;
     }
-  : Record<string, any>;
+  : any;
 
 export type FormAction = (node: HTMLFormElement) => { destroy: () => void };
 
@@ -386,10 +418,10 @@ export type KnownStores<
   data: Writable<Data> & StoreExt;
 };
 
-export type PartialWritable<Data extends Obj> = {
-  subscribe: Writable<Data>['subscribe'];
-  set: Writable<RecursivePartial<Data>>['set'];
-  update: Writable<RecursivePartial<Data>>['update'];
+export type PartialWritableErrors<Data extends Obj> = {
+  subscribe: Writable<Errors<Data>>['subscribe'];
+  set: Writable<AssignableErrors<Data>>['set'];
+  update: (updater: (value: Errors<Data>) => AssignableErrors<Data>) => void;
 };
 
 /** The stores that `createForm` creates. */
@@ -397,9 +429,9 @@ export type Stores<Data extends Obj, StoreExt = Record<string, any>> = {
   /** Writable store that contains the form's data. */
   data: (Writable<Data> | TransWritable<Data>) & StoreExt;
   /** Writable store that contains the form's validation errors. */
-  errors: PartialWritable<Errors<Data>> & StoreExt;
+  errors: PartialWritableErrors<Data> & StoreExt;
   /** Writable store that contains warnings for the form. These won't prevent a submit from happening. */
-  warnings: PartialWritable<Errors<Data>> & StoreExt;
+  warnings: PartialWritableErrors<Data> & StoreExt;
   /** Writable store that denotes if any field has been touched. */
   touched: Writable<Touched<Data>> & StoreExt;
   /** Writable store containing only a boolean that represents if the form is submitting. */

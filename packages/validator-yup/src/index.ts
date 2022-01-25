@@ -2,7 +2,7 @@ import type { ObjectSchema, ValidationError } from 'yup';
 import type { ValidateOptions } from 'yup/lib/types';
 import type {
   Obj,
-  Errors,
+  AssignableErrors,
   ValidationFunction,
   Extender,
   ExtenderHandler,
@@ -19,15 +19,15 @@ export function validateSchema<Data extends Obj>(
   schema: ObjectSchema<any>,
   options?: ValidateOptions
 ): ValidationFunction<Data> {
-  function shapeErrors(errors: ValidationError): Partial<Errors<Data>> {
+  function shapeErrors(errors: ValidationError): AssignableErrors<Data> {
     return errors.inner.reduce((err, value) => {
       if (!value.path) return err;
       return _set(err, value.path, value.message);
-    }, {});
+    }, {} as AssignableErrors<Data>);
   }
   return async function validate(
     values: Data
-  ): Promise<Partial<Errors<Data>> | undefined> {
+  ): Promise<AssignableErrors<Data> | undefined> {
     return schema
       .validate(values, { strict: true, abortEarly: false, ...options })
       .then(() => undefined)

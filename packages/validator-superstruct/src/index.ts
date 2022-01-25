@@ -1,6 +1,7 @@
 import type {
   Obj,
   Errors,
+  AssignableErrors,
   ValidationFunction,
   ExtenderHandler,
   Extender,
@@ -19,12 +20,12 @@ export function validateStruct<Data extends Obj = any>(
   struct: Struct<any, any>,
   transform: (failures: Failure) => string = (failure) => failure.message
 ): ValidationFunction<Data> {
-  function shapeErrors(errors: StructError): Partial<Errors<Data>> {
+  function shapeErrors(errors: StructError): AssignableErrors<Data> {
     return errors.failures().reduce((err, value) => {
       return _set(err, value.path.join('.'), transform(value));
-    }, {});
+    }, {} as AssignableErrors<Data>);
   }
-  return function validate(values: Data): Partial<Errors<Data>> | undefined {
+  return function validate(values: Data): AssignableErrors<Data> | undefined {
     try {
       struct.create(values);
     } catch (error) {

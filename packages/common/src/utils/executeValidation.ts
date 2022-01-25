@@ -6,7 +6,6 @@ import type {
 } from '../types';
 import { _mergeWith } from './mergeWith';
 import { _isPlainObject } from './isPlainObject';
-import { deepSet } from './deepSet';
 
 type ErrorField = Obj | string[] | Obj[] | string;
 
@@ -14,23 +13,28 @@ function executeCustomizer(objValue?: ErrorField, srcValue?: ErrorField) {
   if (_isPlainObject(objValue) || _isPlainObject(srcValue)) return;
   if (objValue === null || objValue === '') return srcValue;
   if (srcValue === null || srcValue === '') return objValue;
+  if (!srcValue) return objValue;
   if (!objValue || !srcValue) return;
-  if (Array.isArray(srcValue) && Array.isArray(objValue)) {
+  if (Array.isArray(objValue)) {
+    if (!Array.isArray(srcValue)) return [...objValue, srcValue];
     const newErrors: any[] = [];
     for (let i = 0; i < srcValue.length; i++) {
-      const src = srcValue[i];
-      const obj = objValue[i];
-      const err =
-        !_isPlainObject(obj) && !_isPlainObject(src)
-          ? [obj, src].filter((v) => v && !Array.isArray(v))
-          : mergeErrors([obj ?? {}, src ?? {}] as any);
-      newErrors.push(err);
+      let obj: any = objValue[i];
+      let src: any = srcValue[i];
+      if (!_isPlainObject(obj) && !_isPlainObject(src)) {
+        if (!Array.isArray(obj)) obj = [obj];
+        if (!Array.isArray(src)) src = [src];
+        newErrors.push(...obj, ...src);
+      } else {
+        newErrors.push(mergeErrors([obj ?? {}, src ?? {}] as any));
+      }
     }
-    return newErrors;
+    return newErrors.filter(Boolean);
   }
-  if (!Array.isArray(objValue)) objValue = [objValue];
   if (!Array.isArray(srcValue)) srcValue = [srcValue];
-  return [...objValue, ...srcValue].filter((v) => v && !Array.isArray(v));
+  return [...objValue, ...srcValue]
+    .reduce((acc, value) => acc.concat(value as string), [] as string[])
+    .filter(Boolean);
 }
 
 export function mergeErrors<Data extends Obj>(
@@ -56,11 +60,9 @@ export function runValidations<Data extends Obj>(
 
 export async function executeValidation<Data extends Obj>(
   values: Data,
+  shape: Errors<Data>,
   validations?: ValidationFunction<Data>[] | ValidationFunction<Data>
 ) {
   const errors = await Promise.all(runValidations(values, validations));
-  return mergeErrors<Errors<Data>>([
-    deepSet(values, []) as Errors<Data>,
-    ...errors,
-  ]);
+  return mergeErrors<Errors<Data>>([shape, ...errors]);
 }
