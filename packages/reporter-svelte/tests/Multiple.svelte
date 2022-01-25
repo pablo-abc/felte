@@ -20,7 +20,7 @@
         test
         <input type="text" name="multiple.test.{index}">
       </label>
-      <ValidationMessage index="{index}" for="multiple.test" let:messages={message}>
+      <ValidationMessage for="multiple.test.{index}" let:messages={message}>
         <span data-testid="validation-message-{index}">{message || ''}</span>
       </ValidationMessage>
     {/each}
