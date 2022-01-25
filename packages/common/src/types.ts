@@ -149,11 +149,18 @@ export type Helpers<Data extends Obj, Path extends string = string> = {
   /** Helper function to set all values of the form. Useful for "initializing" values after the form has loaded. */
   setFields: FieldsSetter<Data, Path> | UnknownFieldsSetter<Data, Path>;
   /** Helper function to unset a field (remove it completely from your stores) */
-  unsetField(path: Path): void;
+  unsetField<P extends Path>(path: P): void;
   /** Helper function to reset a field to its initial value */
-  resetField(path: Path): void;
+  resetField<P extends Path>(path: P): void;
   /** Helper function that adds a field to an array of fields, by default at the end but you can define at which index you want the new item */
-  addField(path: Path, value: FieldValue | FieldValue[], index?: number): void;
+  addField: <
+    P extends Path,
+    V extends Traverse<Data, Path> = Traverse<Data, Path>
+  >(
+    path: P,
+    value: V,
+    index?: number
+  ) => void;
   /** Helper function that validates every fields and touches all of them. It updates the `errors` and `warnings` store. */
   validate(): Promise<Errors<Data> | void>;
   /** Helper function to re-set the initialValues of Felte. No reactivity will be triggered but this will be the data the form will be reset to when caling `reset`. */
@@ -359,12 +366,12 @@ type AnyArr = Array<any>;
 export type Errors<Data extends AnyObj | AnyArr> = Data extends AnyArr
   ? Data[number] extends AnyObj
     ? Errors<Data[number]>[]
-    : string[]
+    : string[] | null
   : Data extends AnyObj
   ? {
       [key in keyof Data]: Data[key] extends AnyObj | AnyArr
         ? Errors<Data[key]>
-        : string[];
+        : string[] | null;
     }
   : any;
 

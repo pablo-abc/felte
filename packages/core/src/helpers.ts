@@ -25,6 +25,7 @@ import {
   _set,
   _unset,
   _update,
+  _isPlainObject,
 } from '@felte/common';
 import { get } from './get';
 import { getAllValidators } from './get-validators';
@@ -152,19 +153,17 @@ export function createHelpers<Data extends Obj>({
     });
   }
 
-  function addField(
-    path: string,
-    value: FieldValue | FieldValue[],
-    index?: number
-  ) {
+  function addField(path: string, value: unknown, index?: number) {
+    const errValue = _isPlainObject(value) ? deepSet(value, []) : [];
+    const touchedValue = _isPlainObject(value) ? deepSet(value, false) : false;
     errors.update(($errors) => {
-      return addAtIndex($errors, path, [], index);
+      return addAtIndex($errors, path, errValue, index);
     });
     warnings.update(($warnings) => {
-      return addAtIndex($warnings, path, [], index);
+      return addAtIndex($warnings, path, errValue, index);
     });
     touched.update(($touched) => {
-      return addAtIndex($touched, path, false, index);
+      return addAtIndex($touched, path, touchedValue, index);
     });
     data.update(($data) => {
       const newData = addAtIndex($data, path, value, index);
@@ -175,19 +174,25 @@ export function createHelpers<Data extends Obj>({
 
   function resetField(path: string) {
     const initialValue = _get(initialValues, path);
+    const errValue: any = _isPlainObject(initialValue)
+      ? deepSet(initialValue, [])
+      : [];
+    const touchedValue: any = _isPlainObject(initialValue)
+      ? deepSet(initialValue, false)
+      : false;
     data.update(($data) => {
       const newData = _set($data, path, initialValue);
       if (formNode) setForm(formNode, newData);
       return newData;
     });
     touched.update(($touched) => {
-      return _set($touched, path, false);
+      return _set($touched, path, touchedValue);
     });
     errors.update(($errors) => {
-      return _set($errors, path, []);
+      return _set($errors, path, errValue);
     });
     warnings.update(($warnings) => {
-      return _set($warnings, path, []);
+      return _set($warnings, path, errValue);
     });
   }
 

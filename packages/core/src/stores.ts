@@ -37,9 +37,34 @@ function errorFilterer(
   if (Array.isArray(touchValue)) {
     if (touchValue.some(_isPlainObject)) return;
     const errArray = Array.isArray(errValue) ? errValue : [];
-    return touchValue.map((value, index) => (value && errArray[index]) || []);
+    return touchValue.map((value, index) => {
+      const err = errArray[index];
+      if (Array.isArray(err) && err.length === 0) return null;
+      return (value && err) || null;
+    });
   }
-  return (touchValue && errValue) || [];
+  if (Array.isArray(errValue) && errValue.length === 0) return null;
+  if (Array.isArray(errValue)) return errValue;
+  return touchValue && errValue ? [errValue] : null;
+}
+
+function warningFilterer(
+  errValue?: string | string[],
+  touchValue?: boolean | boolean[]
+) {
+  if (_isPlainObject(touchValue)) return;
+  if (Array.isArray(touchValue)) {
+    if (touchValue.some(_isPlainObject)) return;
+    const errArray = Array.isArray(errValue) ? errValue : [];
+    return touchValue.map((_, index) => {
+      const err = errArray[index];
+      if (Array.isArray(err) && err.length === 0) return null;
+      return err || null;
+    });
+  }
+  if (Array.isArray(errValue) && errValue.length === 0) return null;
+  if (Array.isArray(errValue)) return errValue;
+  return errValue ? [errValue] : null;
 }
 
 function filterErrors<Data extends Obj>([errors, touched]: [
@@ -47,6 +72,13 @@ function filterErrors<Data extends Obj>([errors, touched]: [
   Touched<Data>
 ]) {
   return _mergeWith<Errors<Data>>(errors, touched, errorFilterer);
+}
+
+function filterWarnings<Data extends Obj>([errors, touched]: [
+  Errors<Data>,
+  Touched<Data>
+]) {
+  return _mergeWith<Errors<Data>>(errors, touched, warningFilterer);
 }
 
 function debounce<T extends unknown[]>(
@@ -205,6 +237,16 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     _cloneDeep(initialErrors)
   );
 
+  const [
+    filteredWarnings,
+    startFilteredWarnings,
+    stopFilteredWarnings,
+  ] = derived(
+    [warnings as Readable<Errors<Data>>, touched as Readable<Touched<Data>>],
+    filterWarnings,
+    _cloneDeep(initialWarnings)
+  );
+
   let firstCalled = false;
   const [isValid, startIsValid, stopIsValid] = derived(
     errors,
@@ -213,7 +255,9 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
         firstCalled = true;
         return !config.validate && !config.debounced?.validate;
       } else {
-        return !deepSome($errors, (error) => !!error);
+        return !deepSome($errors, (error) =>
+          Array.isArray(error) ? error.length >= 1 : !!error
+        );
       }
     },
     !config.validate && !config.debounced?.validate
@@ -255,12 +299,14 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     startIsValid();
     startWarnings();
     startFilteredErrors();
+    startFilteredWarnings();
 
     function cleanup() {
       dataUnsubscriber();
       stopFilteredErrors();
       stopErrors();
       stopWarnings();
+      stopFilteredWarnings();
       stopIsValid();
     }
     return cleanup;
@@ -269,13 +315,14 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   filteredErrors.set = immediateErrors.set;
   (filteredErrors as PartialWritableErrors<Data>).update =
     immediateErrors.update;
-  warnings.set = immediateWarnings.set;
-  (warnings as PartialWritableErrors<Data>).update = immediateWarnings.update;
+  filteredWarnings.set = immediateWarnings.set;
+  (filteredWarnings as PartialWritableErrors<Data>).update =
+    immediateWarnings.update;
 
   return {
     data,
     errors: filteredErrors as PartialWritableErrors<Data> & StoreExt,
-    warnings: warnings as PartialWritableErrors<Data> & StoreExt,
+    warnings: filteredWarnings as PartialWritableErrors<Data> & StoreExt,
     touched,
     isValid,
     isSubmitting,

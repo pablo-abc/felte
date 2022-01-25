@@ -31,6 +31,7 @@ import {
   getFormDefaultValues,
   getFormControls,
   executeValidation,
+  _isPlainObject,
 } from '@felte/common';
 import type { FelteSuccessDetail, FelteErrorDetail } from './events';
 import type { SuccessResponse, FetchResponse } from './error';
@@ -153,7 +154,9 @@ export function createFormAction<Data extends Obj>({
       });
       if (currentErrors) {
         errors.set(currentErrors);
-        const hasErrors = deepSome(currentErrors, (error) => !!error);
+        const hasErrors = deepSome(currentErrors, (error) =>
+          Array.isArray(error) ? error.length >= 1 : !!error
+        );
         if (hasErrors) {
           _getCurrentExtenders().forEach((extender) =>
             extender.onSubmitError?.({
@@ -343,17 +346,31 @@ export function createFormAction<Data extends Obj>({
           control.dataset.felteKeepOnRemove !== 'false'
         )
           continue;
+        const fieldArrayReg = /.*(\[[0-9]+\]|\.[0-9]+)\.[^.]+$/;
+        let fieldName = getPath(control);
+        const shape = get(touched);
+        const isFieldArray = fieldArrayReg.test(fieldName);
+        if (isFieldArray) {
+          const arrayPath = fieldName.split('.').slice(0, -1).join('.');
+          const valueToRemove = _get(shape, arrayPath);
+          if (
+            _isPlainObject(valueToRemove) &&
+            Object.keys(valueToRemove).length <= 1
+          ) {
+            fieldName = arrayPath;
+          }
+        }
         data.update(($data) => {
-          return _unset($data, getPath(control));
+          return _unset($data, fieldName);
         });
         touched.update(($touched) => {
-          return _unset($touched, getPath(control));
+          return _unset($touched, fieldName);
         });
         errors.update(($errors) => {
-          return _unset($errors, getPath(control));
+          return _unset($errors, fieldName);
         });
         warnings.update(($warnings) => {
-          return _unset($warnings, getPath(control));
+          return _unset($warnings, fieldName);
         });
       }
     }

@@ -270,15 +270,61 @@ describe('User interactions with form', () => {
         },
         preferences: expect.arrayContaining([]),
         multiple: {
-          extraText: expect.arrayContaining(['', '', '']),
-          extraNumber: expect.arrayContaining([
-            undefined,
-            undefined,
-            undefined,
+          extraText: expect.arrayContaining([
+            {
+              value: '',
+            },
+            {
+              value: '',
+            },
+            {
+              value: '',
+            },
           ]),
-          extraFiles: expect.arrayContaining([undefined, undefined, undefined]),
-          extraCheckbox: expect.arrayContaining([false, false, false]),
-          extraPreference: expect.arrayContaining([[], [], []]),
+          extraNumber: expect.arrayContaining([
+            {
+              value: undefined,
+            },
+            {
+              value: undefined,
+            },
+            {
+              value: undefined,
+            },
+          ]),
+          extraFiles: expect.arrayContaining([
+            {
+              value: undefined,
+            },
+            {
+              value: undefined,
+            },
+            {
+              value: undefined,
+            },
+          ]),
+          extraCheckbox: expect.arrayContaining([
+            {
+              value: false,
+            },
+            {
+              value: false,
+            },
+            {
+              value: false,
+            },
+          ]),
+          extraPreference: expect.arrayContaining([
+            {
+              value: [],
+            },
+            {
+              value: [],
+            },
+            {
+              value: [],
+            },
+          ]),
         },
       })
     );
@@ -292,12 +338,12 @@ describe('User interactions with form', () => {
     await waitFor(() => {
       expect(get(warnings)).toMatchObject({
         account: {
-          password: 'Should be safer',
+          password: ['Should be safer'],
         },
       });
       expect(get(errors)).toMatchObject({
         account: {
-          email: 'Must not be empty',
+          email: ['Must not be empty'],
           password: null,
         },
       });
@@ -306,8 +352,8 @@ describe('User interactions with form', () => {
     await waitFor(() => {
       expect(get(errors)).toMatchObject({
         account: {
-          email: 'Must not be empty',
-          password: 'Must not be empty',
+          email: ['Must not be empty'],
+          password: ['Must not be empty'],
         },
       });
     });
@@ -364,11 +410,61 @@ describe('User interactions with form', () => {
         },
         preferences: expect.arrayContaining(['technology']),
         multiple: {
-          extraText: expect.arrayContaining(['', 'demo text', '']),
-          extraNumber: expect.arrayContaining([undefined, 1, undefined]),
-          extraFiles: expect.arrayContaining([undefined, undefined, undefined]),
-          extraCheckbox: expect.arrayContaining([false, true, false]),
-          extraPreference: expect.arrayContaining([[], ['preference1'], []]),
+          extraText: expect.arrayContaining([
+            {
+              value: '',
+            },
+            {
+              value: 'demo text',
+            },
+            {
+              value: '',
+            },
+          ]),
+          extraNumber: expect.arrayContaining([
+            {
+              value: undefined,
+            },
+            {
+              value: 1,
+            },
+            {
+              value: undefined,
+            },
+          ]),
+          extraFiles: expect.arrayContaining([
+            {
+              value: undefined,
+            },
+            {
+              value: undefined,
+            },
+            {
+              value: undefined,
+            },
+          ]),
+          extraCheckbox: expect.arrayContaining([
+            {
+              value: false,
+            },
+            {
+              value: true,
+            },
+            {
+              value: false,
+            },
+          ]),
+          extraPreference: expect.arrayContaining([
+            {
+              value: [],
+            },
+            {
+              value: ['preference1'],
+            },
+            {
+              value: [],
+            },
+          ]),
         },
       })
     );
@@ -629,15 +725,61 @@ describe('User interactions with form', () => {
         },
         preferences: expect.arrayContaining([]),
         multiple: {
-          extraText: expect.arrayContaining(['', '', '']),
-          extraNumber: expect.arrayContaining([
-            undefined,
-            undefined,
-            undefined,
+          extraText: expect.arrayContaining([
+            {
+              value: '',
+            },
+            {
+              value: '',
+            },
+            {
+              value: '',
+            },
           ]),
-          extraFiles: expect.arrayContaining([undefined, undefined, undefined]),
-          extraCheckbox: expect.arrayContaining([false, false, false]),
-          extraPreference: expect.arrayContaining([[], [], []]),
+          extraNumber: expect.arrayContaining([
+            {
+              value: undefined,
+            },
+            {
+              value: undefined,
+            },
+            {
+              value: undefined,
+            },
+          ]),
+          extraFiles: expect.arrayContaining([
+            {
+              value: undefined,
+            },
+            {
+              value: undefined,
+            },
+            {
+              value: undefined,
+            },
+          ]),
+          extraCheckbox: expect.arrayContaining([
+            {
+              value: false,
+            },
+            {
+              value: false,
+            },
+            {
+              value: false,
+            },
+          ]),
+          extraPreference: expect.arrayContaining([
+            {
+              value: [],
+            },
+            {
+              value: [],
+            },
+            {
+              value: [],
+            },
+          ]),
         },
       })
     );
@@ -685,11 +827,61 @@ describe('User interactions with form', () => {
         },
         preferences: expect.arrayContaining(['technology']),
         multiple: {
-          extraText: expect.arrayContaining(['', 'demo text', '']),
-          extraNumber: expect.arrayContaining([undefined, 1, undefined]),
-          extraFiles: expect.arrayContaining([undefined, mockFile, undefined]),
-          extraCheckbox: expect.arrayContaining([false, true, false]),
-          extraPreference: expect.arrayContaining([[], ['preference1'], []]),
+          extraText: expect.arrayContaining([
+            {
+              value: '',
+            },
+            {
+              value: 'demo text',
+            },
+            {
+              value: '',
+            },
+          ]),
+          extraNumber: expect.arrayContaining([
+            {
+              value: undefined,
+            },
+            {
+              value: 1,
+            },
+            {
+              value: undefined,
+            },
+          ]),
+          extraFiles: expect.arrayContaining([
+            {
+              value: undefined,
+            },
+            {
+              value: mockFile,
+            },
+            {
+              value: undefined,
+            },
+          ]),
+          extraCheckbox: expect.arrayContaining([
+            {
+              value: false,
+            },
+            {
+              value: true,
+            },
+            {
+              value: false,
+            },
+          ]),
+          extraPreference: expect.arrayContaining([
+            {
+              value: [],
+            },
+            {
+              value: ['preference1'],
+            },
+            {
+              value: [],
+            },
+          ]),
         },
       })
     );
@@ -774,7 +966,7 @@ describe('User interactions with form', () => {
       expect(get(errors)).toEqual({
         account: {
           email: null,
-          password: 'Must not be empty',
+          password: ['Must not be empty'],
         },
       });
     });
