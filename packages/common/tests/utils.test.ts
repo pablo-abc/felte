@@ -373,6 +373,7 @@ describe('Utils', () => {
   test('isFieldSetElement', () => {
     expect(isFieldSetElement(document.createElement('fieldset'))).toBeTruthy();
     expect(isFieldSetElement(document.createElement('input'))).toBeFalsy();
+    expect(isFieldSetElement(undefined as any)).toBeFalsy();
   });
 
   test('isFormControl', () => {
@@ -380,6 +381,7 @@ describe('Utils', () => {
     expect(isFormControl(document.createElement('input'))).toBeTruthy();
     expect(isFormControl(document.createElement('textarea'))).toBeTruthy();
     expect(isFormControl(document.createElement('select'))).toBeTruthy();
+    expect(isFormControl(undefined as any)).toBeFalsy();
   });
 
   test('isElement', () => {
@@ -872,6 +874,18 @@ describe('Utils', () => {
         ],
         strings: ['test', 'test in array', 'another'],
       },
+    });
+    expect(
+      mergeErrors([
+        {
+          test: 'error',
+        },
+        {
+          test: 'another',
+        },
+      ])
+    ).toEqual({
+      test: ['error', 'another'],
     });
   });
 });

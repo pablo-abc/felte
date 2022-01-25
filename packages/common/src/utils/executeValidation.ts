@@ -32,7 +32,7 @@ function executeCustomizer(objValue?: ErrorField, srcValue?: ErrorField) {
     return newErrors.filter(Boolean);
   }
   if (!Array.isArray(srcValue)) srcValue = [srcValue];
-  return [...objValue, ...srcValue]
+  return [objValue, ...srcValue]
     .reduce((acc, value) => acc.concat(value as string), [] as string[])
     .filter(Boolean);
 }
