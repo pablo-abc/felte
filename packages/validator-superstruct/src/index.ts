@@ -1,6 +1,5 @@
 import type {
   Obj,
-  Errors,
   AssignableErrors,
   ValidationFunction,
   ExtenderHandler,
