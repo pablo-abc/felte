@@ -37,13 +37,12 @@ export function Form() {
     <form use:form>
       <input id="email" type="text" name="email" />
       <ValidationMessage for="email">
-        <!-- We assume a single string will be passed as a validation message -->
-        <!-- This can be an array of strings depending on your validation strategy -->
-        {(message) => <span>{message}</span>}
+        <!-- We assume a there's only going to be one message -->
+        {(message) => <span>{message?.[0]}</span>}
       </ValidationMessage>
       <input type="password" name="password" />
       <ValidationMessage for="password">
-        {(message) => <span>{message}</span>}
+        {(message) => <span>{message?.[0]}</span>}
       </ValidationMessage>
       <input type="submit" value="Sign in" />
     </form>
@@ -57,6 +56,6 @@ This reporter can help you display your `warning` messages as well. If you want 
 
 ```html
 <ValidationMessage level="warning" for="email">
-  {(message) => <span>{message}</span>}
+  {(message) => <span>{message?.[0]}</span>}
 </ValidationMessage>
 ```

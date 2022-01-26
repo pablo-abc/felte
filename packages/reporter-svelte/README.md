@@ -39,7 +39,7 @@ In order to show the errors for a field, you'll need to use the reporter's compo
 <label for="email">Email:</label>
 <input id="email" name="email" aria-describedby="email-validation">
 <ValidationMessage for="email" let:messages={messages}>
-  {messages || ''}
+  {messages?.[0] || ''}
 </ValidationMessage>
 ```
 
@@ -47,7 +47,7 @@ The `for` property refers to the ID of the input. The `messages` prop will have 
 
 ```html
 <ValidationMessage for="email" let:messages={message}>
-  <span>{message}</span>
+  <span>{message?.[0]}</span>
   <span slot="placeholder">Some placeholder text</span>
 </ValidationMessage>
 ```
@@ -58,6 +58,6 @@ This reporter can help you display your `warning` messages as well. If you want 
 
 ```html
 <ValidationMessage level="warning" for="email" let:messages={messages}>
-  {messages || ''}
+  {messages?.[0] || ''}
 </ValidationMessage>
 ```
