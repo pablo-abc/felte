@@ -18,7 +18,8 @@ function executeCustomizer(objValue?: ErrorField, srcValue?: ErrorField) {
   if (Array.isArray(objValue)) {
     if (!Array.isArray(srcValue)) return [...objValue, srcValue];
     const newErrors: any[] = [];
-    for (let i = 0; i < srcValue.length; i++) {
+    const errLength = Math.max(srcValue.length, objValue.length);
+    for (let i = 0; i < errLength; i++) {
       let obj: any = objValue[i];
       let src: any = srcValue[i];
       if (!_isPlainObject(obj) && !_isPlainObject(src)) {

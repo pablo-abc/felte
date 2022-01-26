@@ -44,7 +44,7 @@ function errorFilterer(
     });
   }
   if (Array.isArray(errValue) && errValue.length === 0) return null;
-  if (Array.isArray(errValue)) return errValue;
+  if (Array.isArray(errValue)) return touchValue ? errValue : null;
   return touchValue && errValue ? [errValue] : null;
 }
 
