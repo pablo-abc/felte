@@ -1,5 +1,12 @@
 # @felte/react
 
+## 1.0.0-next.20
+
+### Patch Changes
+
+- Updated dependencies [dd52c94]
+  - @felte/core@1.0.0-next.17
+
 ## 1.0.0-next.19
 
 ### Major Changes

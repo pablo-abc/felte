@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.0.0-next.14
+
+### Patch Changes
+
+- dd52c94: Fix error filtering
+
 ## 1.0.0-next.13
 
 ### Major Changes

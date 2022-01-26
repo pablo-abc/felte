@@ -1,5 +1,13 @@
 # @felte/core
 
+## 1.0.0-next.17
+
+### Patch Changes
+
+- dd52c94: Fix error filtering
+- Updated dependencies [dd52c94]
+  - @felte/common@1.0.0-next.14
+
 ## 1.0.0-next.16
 
 ### Major Changes

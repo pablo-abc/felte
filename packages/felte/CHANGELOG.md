@@ -1,5 +1,12 @@
 # felte
 
+## 1.0.0-next.17
+
+### Patch Changes
+
+- Updated dependencies [dd52c94]
+  - @felte/core@1.0.0-next.17
+
 ## 1.0.0-next.16
 
 ### Major Changes
