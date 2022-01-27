@@ -33,10 +33,6 @@ type CreateHelpersOptions<Data extends Obj> = {
   stores: Stores<Data>;
   validateErrors(data: Data): Promise<Errors<Data> | undefined>;
   validateWarnings(data: Data): Promise<Errors<Data> | undefined>;
-  updateErrors(updater: (value: Errors<Data>) => AssignableErrors<Data>): void;
-  updateWarnings(
-    updater: (value: Errors<Data>) => AssignableErrors<Data>
-  ): void;
   extender: Extender<Data>[];
   addValidator(validator: ValidationFunction<Data>): void;
   addTransformer(transformer: TransformFunction<Data>): void;
@@ -108,8 +104,6 @@ export function createHelpers<Data extends Obj>({
   config,
   validateErrors,
   validateWarnings,
-  updateErrors,
-  updateWarnings,
 }: CreateHelpersOptions<Data>) {
   let formNode: HTMLFormElement | undefined;
   let initialValues = (config.initialValues ?? {}) as Data;
@@ -153,10 +147,10 @@ export function createHelpers<Data extends Obj>({
     touched.update(($touched) => {
       return _unset($touched, path);
     });
-    updateErrors(($errors) => {
+    errors.update(($errors) => {
       return _unset($errors, path);
     });
-    updateWarnings(($warnings) => {
+    warnings.update(($warnings) => {
       return _unset($warnings, path);
     });
   }
@@ -164,10 +158,10 @@ export function createHelpers<Data extends Obj>({
   function addField(path: string, value: unknown, index?: number) {
     const errValue = _isPlainObject(value) ? deepSet(value, []) : [];
     const touchedValue = _isPlainObject(value) ? deepSet(value, false) : false;
-    updateErrors(($errors) => {
+    errors.update(($errors) => {
       return addAtIndex($errors, path, errValue, index);
     });
-    updateWarnings(($warnings) => {
+    warnings.update(($warnings) => {
       return addAtIndex($warnings, path, errValue, index);
     });
     touched.update(($touched) => {
@@ -196,10 +190,10 @@ export function createHelpers<Data extends Obj>({
     touched.update(($touched) => {
       return _set($touched, path, touchedValue);
     });
-    updateErrors(($errors) => {
+    errors.update(($errors) => {
       return _set($errors, path, errValue);
     });
-    updateWarnings(($warnings) => {
+    warnings.update(($warnings) => {
       return _set($warnings, path, errValue);
     });
   }

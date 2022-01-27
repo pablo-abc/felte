@@ -410,20 +410,6 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   filteredWarnings.set = publicWarningsSetter;
   (filteredWarnings as PartialWritableErrors<Data>).update = publicWarningsUpdater;
 
-  function updateErrors(
-    updater: (value: Errors<Data>) => AssignableErrors<Data>
-  ): void {
-    immediateErrors.update(updater);
-    debouncedErrors.update(updater);
-  }
-
-  function updateWarnings(
-    updater: (value: Errors<Data>) => AssignableErrors<Data>
-  ): void {
-    immediateWarnings.update(updater);
-    debouncedWarnings.update(updater);
-  }
-
   return {
     data,
     errors: filteredErrors as PartialWritableErrors<Data> & StoreExt,
@@ -434,8 +420,6 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     isDirty,
     validateErrors: executeErrorsValidation,
     validateWarnings: executeWarningsValidation,
-    updateErrors,
-    updateWarnings,
     cleanup: config.preventStoreStart ? () => undefined : start(),
     start,
   };
