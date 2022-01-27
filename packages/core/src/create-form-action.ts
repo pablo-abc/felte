@@ -303,8 +303,6 @@ export function createFormAction<Data extends Obj>({
         return;
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
-      if (config.touchTriggerEvents?.input)
-        setTouched<string, any>(getPath(target), true);
       isDirty.set(true);
       const inputValue = getInputTextOrNumber(target);
       data.update(($data) => {
@@ -316,8 +314,7 @@ export function createFormAction<Data extends Obj>({
       const target = e.target;
       if (!target || !isFormControl(target) || shouldIgnore(target)) return;
       if (!target.name) return;
-      if (config.touchTriggerEvents?.change)
-        setTouched<string, any>(getPath(target), true);
+      setTouched<string, any>(getPath(target), true);
       if (
         isSelectElement(target) ||
         ['checkbox', 'radio', 'file'].includes(target.type)
@@ -339,8 +336,7 @@ export function createFormAction<Data extends Obj>({
       const target = e.target;
       if (!target || !isFormControl(target) || shouldIgnore(target)) return;
       if (!target.name) return;
-      if (config.touchTriggerEvents?.blur)
-        setTouched<string, any>(getPath(target), true);
+      setTouched<string, any>(getPath(target), true);
     }
 
     const mutationOptions = { childList: true, subtree: true };

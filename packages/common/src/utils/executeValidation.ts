@@ -1,9 +1,4 @@
-import type {
-  Obj,
-  ValidationFunction,
-  Errors,
-  RecursivePartial,
-} from '../types';
+import type { Obj, ValidationFunction, RecursivePartial } from '../types';
 import { _mergeWith } from './mergeWith';
 import { _isPlainObject } from './isPlainObject';
 

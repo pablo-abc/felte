@@ -304,12 +304,6 @@ export type FormConfigWithoutTransformFn<Data extends Obj> = {
   ) => Promise<void | Errors<Data>> | void | Errors<Data>;
   /** Optional function/s to extend Felte's functionality. */
   extend?: Extender<Data> | Extender<Data>[];
-  /** Optional array that sets which events should trigger a field to be touched. */
-  touchTriggerEvents?: {
-    change?: boolean;
-    input?: boolean;
-    blur?: boolean;
-  };
   [key: string]: unknown;
 };
 
@@ -343,12 +337,6 @@ export type FormConfigWithTransformFn<Data extends Obj> = {
   ) => Promise<void | Errors<Data>> | void | Errors<Data>;
   /** Optional function/s to extend Felte's functionality. */
   extend?: Extender<Data> | Extender<Data>[];
-  /** Optional array that sets which events should trigger a field to be touched. */
-  touchTriggerEvents?: {
-    change?: boolean;
-    input?: boolean;
-    blur?: boolean;
-  };
   [key: string]: unknown;
 };
 

@@ -71,7 +71,6 @@ export function createForm<
 ): CoreForm<Data> & Helpers<Data> & Stores<Data, StoreExt> {
   config.extend ??= [];
   config.debounced ??= {};
-  config.touchTriggerEvents ??= { change: true, blur: true };
   if (config.validate && !Array.isArray(config.validate))
     config.validate = [config.validate];
 
