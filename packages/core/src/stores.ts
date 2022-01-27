@@ -343,6 +343,8 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     );
   }
 
+  let errorsValue = initialErrors;
+  let warningsValue = initialWarnings;
   function start() {
     const dataUnsubscriber = data.subscribe(($data) => {
       validateErrors($data, storesShape, config.validate);
@@ -351,8 +353,14 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
       _validateDebouncedWarnings($data, storesShape, config.debounced?.warn);
     });
 
-    touched.subscribe(($touched) => {
+    const unsubscribeTouched = touched.subscribe(($touched) => {
       storesShape = deepSet($touched, []) as Errors<Data>;
+    });
+    const unsubscribeErrors = errors.subscribe(($errors) => {
+      errorsValue = $errors;
+    });
+    const unsubscribeWarnings = warnings.subscribe(($warnings) => {
+      warningsValue = $warnings;
     });
 
     startErrors();
@@ -368,6 +376,9 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
       stopWarnings();
       stopFilteredWarnings();
       stopIsValid();
+      unsubscribeTouched();
+      unsubscribeErrors();
+      unsubscribeWarnings();
     }
     return cleanup;
   }
@@ -375,14 +386,14 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   function publicErrorsUpdater(
     updater: (value: Errors<Data>) => AssignableErrors<Data>
   ): void {
-    immediateErrors.update(updater);
+    immediateErrors.set(updater(errorsValue));
     debouncedErrors.set({} as AssignableErrors<Data>);
   }
 
   function publicWarningsUpdater(
     updater: (value: Errors<Data>) => AssignableErrors<Data>
   ): void {
-    immediateWarnings.update(updater);
+    immediateWarnings.set(updater(warningsValue));
     debouncedWarnings.set({} as AssignableErrors<Data>);
   }
 
