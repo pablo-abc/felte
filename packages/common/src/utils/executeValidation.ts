@@ -58,12 +58,3 @@ export function runValidations<Data extends Obj>(
 
   return validations.map((v) => v(values));
 }
-
-export async function executeValidation<Data extends Obj>(
-  values: Data,
-  shape: Errors<Data>,
-  validations?: ValidationFunction<Data>[] | ValidationFunction<Data>
-) {
-  const errors = await Promise.all(runValidations(values, validations));
-  return mergeErrors<Errors<Data>>([shape, ...errors]);
-}

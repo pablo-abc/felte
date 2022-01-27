@@ -11,6 +11,7 @@ import type {
   Touched,
   AddValidatorFn,
   Helpers,
+  ValidationFunction,
 } from '@felte/common';
 import {
   isFormControl,
@@ -30,14 +31,12 @@ import {
   deepSome,
   getFormDefaultValues,
   getFormControls,
-  executeValidation,
   _isPlainObject,
 } from '@felte/common';
 import type { FelteSuccessDetail, FelteErrorDetail } from './events';
 import type { SuccessResponse, FetchResponse } from './error';
 import { get } from './get';
 import { FelteSubmitError } from './error';
-import { getAllValidators } from './get-validators';
 
 function createDefaultSubmitHandler(form?: HTMLFormElement) {
   if (!form) return;
@@ -91,6 +90,14 @@ export type FormActionConfig<Data extends Obj> = {
   stores: Stores<Data>;
   config: FormConfig<Data>;
   extender: Extender<Data>[];
+  validateErrors(
+    data: Data,
+    altValidate?: ValidationFunction<Data> | ValidationFunction<Data>[]
+  ): Promise<Errors<Data> | undefined>;
+  validateWarnings(
+    data: Data,
+    altWarn?: ValidationFunction<Data> | ValidationFunction<Data>[]
+  ): Promise<Errors<Data> | undefined>;
   helpers: Helpers<Data, string> & {
     addValidator: AddValidatorFn<Data>;
     addTransformer(transformer: TransformFunction<Data>): void;
@@ -107,6 +114,8 @@ export function createFormAction<Data extends Obj>({
   stores,
   config,
   extender,
+  validateErrors,
+  validateWarnings,
   _setFormNode,
   _getFormNode,
   _getInitialValues,
@@ -125,9 +134,6 @@ export function createFormAction<Data extends Obj>({
   const { data, errors, warnings, touched, isSubmitting, isDirty } = stores;
 
   function createSubmitHandler(altConfig?: CreateSubmitHandlerConfig<Data>) {
-    const validate =
-      altConfig?.validate ?? getAllValidators('validate', config);
-    const warn = altConfig?.warn ?? getAllValidators('warn', config);
     const onError = altConfig?.onError ?? config.onError;
     const onSuccess = altConfig?.onSuccess ?? config.onSuccess;
     return async function handleSubmit(event?: Event) {
@@ -140,20 +146,20 @@ export function createFormAction<Data extends Obj>({
       event?.preventDefault();
       isSubmitting.set(true);
       const currentData = get(data);
-      const shape = deepSet(get(touched), []) as Errors<Data>;
-      const currentErrors = await executeValidation(
+      const currentErrors = await validateErrors(
         currentData,
-        shape,
-        validate
+        altConfig?.validate
       );
-      const currentWarnings = await executeValidation(currentData, shape, warn);
+      const currentWarnings = await validateWarnings(
+        currentData,
+        altConfig?.warn
+      );
       if (currentWarnings)
         warnings.set(_merge(deepSet(currentData, []), currentWarnings));
       touched.update((t) => {
         return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
       });
       if (currentErrors) {
-        errors.set(currentErrors);
         const hasErrors = deepSome(currentErrors, (error) =>
           Array.isArray(error) ? error.length >= 1 : !!error
         );

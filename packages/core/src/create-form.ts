@@ -131,6 +131,10 @@ export function createForm<
     isDirty,
     cleanup,
     start,
+    validateErrors,
+    validateWarnings,
+    updateErrors,
+    updateWarnings,
   } = createStores(adapters.storeFactory, config);
   const originalUpdate = data.update;
   const originalSet = data.set;
@@ -150,6 +154,10 @@ export function createForm<
     config,
     addValidator,
     addTransformer,
+    validateErrors,
+    validateWarnings,
+    updateErrors,
+    updateWarnings,
     stores: {
       data: clonedData,
       errors,
@@ -225,6 +233,8 @@ export function createForm<
       addValidator,
     },
     extender,
+    validateErrors,
+    validateWarnings,
     _getCurrentExtenders,
     _setCurrentExtenders,
     ...helpers.private,

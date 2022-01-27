@@ -18,7 +18,6 @@ import type {
 } from '@felte/common';
 import {
   deepSet,
-  executeValidation,
   setForm,
   _cloneDeep,
   _get,
@@ -28,11 +27,16 @@ import {
   _isPlainObject,
 } from '@felte/common';
 import { get } from './get';
-import { getAllValidators } from './get-validators';
 
 type CreateHelpersOptions<Data extends Obj> = {
   config: FormConfig<Data>;
   stores: Stores<Data>;
+  validateErrors(data: Data): Promise<Errors<Data> | undefined>;
+  validateWarnings(data: Data): Promise<Errors<Data> | undefined>;
+  updateErrors(updater: (value: Errors<Data>) => AssignableErrors<Data>): void;
+  updateWarnings(
+    updater: (value: Errors<Data>) => AssignableErrors<Data>
+  ): void;
   extender: Extender<Data>[];
   addValidator(validator: ValidationFunction<Data>): void;
   addTransformer(transformer: TransformFunction<Data>): void;
@@ -102,6 +106,10 @@ function createSetHelper<Data extends Obj | boolean>(
 export function createHelpers<Data extends Obj>({
   stores,
   config,
+  validateErrors,
+  validateWarnings,
+  updateErrors,
+  updateWarnings,
 }: CreateHelpersOptions<Data>) {
   let formNode: HTMLFormElement | undefined;
   let initialValues = (config.initialValues ?? {}) as Data;
@@ -145,10 +153,10 @@ export function createHelpers<Data extends Obj>({
     touched.update(($touched) => {
       return _unset($touched, path);
     });
-    errors.update(($errors) => {
+    updateErrors(($errors) => {
       return _unset($errors, path);
     });
-    warnings.update(($warnings) => {
+    updateWarnings(($warnings) => {
       return _unset($warnings, path);
     });
   }
@@ -156,10 +164,10 @@ export function createHelpers<Data extends Obj>({
   function addField(path: string, value: unknown, index?: number) {
     const errValue = _isPlainObject(value) ? deepSet(value, []) : [];
     const touchedValue = _isPlainObject(value) ? deepSet(value, false) : false;
-    errors.update(($errors) => {
+    updateErrors(($errors) => {
       return addAtIndex($errors, path, errValue, index);
     });
-    warnings.update(($warnings) => {
+    updateWarnings(($warnings) => {
       return addAtIndex($warnings, path, errValue, index);
     });
     touched.update(($touched) => {
@@ -188,10 +196,10 @@ export function createHelpers<Data extends Obj>({
     touched.update(($touched) => {
       return _set($touched, path, touchedValue);
     });
-    errors.update(($errors) => {
+    updateErrors(($errors) => {
       return _set($errors, path, errValue);
     });
-    warnings.update(($warnings) => {
+    updateWarnings(($warnings) => {
       return _set($warnings, path, errValue);
     });
   }
@@ -201,22 +209,12 @@ export function createHelpers<Data extends Obj>({
   const setIsDirty = createSetHelper(isDirty.update);
 
   async function validate(): Promise<Errors<Data> | void> {
-    const validate = getAllValidators('validate', config);
-    const warn = getAllValidators('warn', config);
     const currentData = get(data);
-    const shape = deepSet(get(touched), []) as Errors<Data>;
     setTouched((t) => {
       return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
     });
-    const currentErrors = await executeValidation<Data>(
-      currentData,
-      shape,
-
-      validate
-    );
-    const currentWarnings = await executeValidation(currentData, shape, warn);
-    warnings.set(currentWarnings || shape);
-    errors.set(currentErrors || shape);
+    const currentErrors = await validateErrors(currentData);
+    await validateWarnings(currentData);
     return currentErrors;
   }
 

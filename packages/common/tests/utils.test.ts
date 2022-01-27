@@ -30,7 +30,6 @@ import {
   addAttrsFromFieldset,
   getFormDefaultValues,
   setForm,
-  executeValidation,
   getInputTextOrNumber,
   shouldIgnore,
   executeTransforms,
@@ -506,47 +505,6 @@ describe('Utils', () => {
     setForm(formElement, formData);
     const { defaultData } = getFormDefaultValues(formElement);
     expect(defaultData).toEqual(formData);
-  });
-
-  test('executeValidation', async () => {
-    const mockValues = {
-      account: {
-        email: '',
-        password: '',
-        confirmPassword: '',
-      },
-    };
-    type Error = AssignableErrors<typeof mockValues>;
-    const mockErrors: Error = {
-      account: {
-        email: 'required',
-        password: null,
-        confirmPassword: undefined,
-      },
-    };
-    const validate = jest.fn(() => mockErrors);
-
-    validate.mockReturnValueOnce({
-      account: {
-        email: 'not an email',
-        password: 'required',
-        confirmPassword: 'required',
-      },
-    });
-
-    const errors = await executeValidation(
-      mockValues,
-      deepSet(mockValues, []),
-      [validate, validate]
-    );
-
-    expect(errors).toEqual({
-      account: {
-        email: ['not an email', 'required'],
-        password: ['required'],
-        confirmPassword: ['required'],
-      },
-    });
   });
 
   test('executeTransforms', () => {

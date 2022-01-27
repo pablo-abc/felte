@@ -16,11 +16,7 @@ export * from './utils/typeGuards';
 export { getPath } from './utils/getPath';
 export { shouldIgnore } from './utils/shouldIgnore';
 export { getValue } from './utils/getValue';
-export {
-  executeValidation,
-  mergeErrors,
-  runValidations,
-} from './utils/executeValidation';
+export { mergeErrors, runValidations } from './utils/executeValidation';
 export { executeTransforms } from './utils/executeTransforms';
 export * from './utils/domUtils';
 export * from './types';

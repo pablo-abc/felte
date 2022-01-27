@@ -6,6 +6,7 @@ import type {
   Touched,
   ValidationFunction,
   PartialWritableErrors,
+  AssignableErrors,
 } from '@felte/common';
 import type { Writable, Readable, Unsubscriber } from 'svelte/store';
 import {
@@ -19,8 +20,16 @@ import {
   deepSome,
 } from '@felte/common';
 
-function createAbortController() {
-  const signal = { aborted: false };
+type ValidationController = {
+  signal: {
+    readonly aborted: boolean;
+    readonly priority: boolean;
+  };
+  abort(): void;
+};
+
+function createValidationController(priority = false): ValidationController {
+  const signal = { aborted: false, priority };
   return {
     signal,
     abort() {
@@ -98,17 +107,21 @@ function debounce<T extends unknown[]>(
 function cancellableValidation<Data extends Obj>(
   store: PartialWritableErrors<Data>
 ) {
-  let activeController: ReturnType<typeof createAbortController> | undefined;
+  let activeController: ValidationController | undefined;
   return async function executeValidations(
     $data?: Data,
     shape?: Errors<Data>,
-    validations?: ValidationFunction<Data>[] | ValidationFunction<Data>
+    validations?: ValidationFunction<Data>[] | ValidationFunction<Data>,
+    priority = false
   ) {
     if (!validations || !$data) return;
     let current = shape ?? (deepSet($data, []) as Errors<Data>);
-    const controller = createAbortController();
-    if (activeController) activeController.abort();
-    activeController = controller;
+    const controller = createValidationController(priority);
+    if (!activeController?.signal.priority || priority) {
+      activeController?.abort();
+      activeController = controller;
+    }
+    if (activeController.signal.priority && !priority) return;
     const results = runValidations($data, validations);
     results.forEach(async (promise: any) => {
       const result = await promise;
@@ -116,6 +129,9 @@ function cancellableValidation<Data extends Obj>(
       current = mergeErrors([current, result]);
       store.set(current);
     });
+    await Promise.all(results);
+    activeController = undefined;
+    return current;
   };
 }
 
@@ -272,23 +288,67 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
 
   const validateErrors = cancellableValidation(immediateErrors);
   const validateWarnings = cancellableValidation(immediateWarnings);
-  const validateDebouncedErrors = debounce(
-    cancellableValidation(debouncedErrors),
+  const validateDebouncedErrors = cancellableValidation(debouncedErrors);
+  const validateDebouncedWarnings = cancellableValidation(debouncedWarnings);
+  const _validateDebouncedErrors = debounce(
+    validateDebouncedErrors,
     config.debounced?.validateTimeout ?? config.debounced?.timeout
   );
-  const validateDebouncedWarnings = debounce(
-    cancellableValidation(debouncedWarnings),
+  const _validateDebouncedWarnings = debounce(
+    validateDebouncedWarnings,
     config.debounced?.warnTimeout ?? config.debounced?.timeout
   );
+
+  async function executeErrorsValidation(
+    data: Data,
+    altValidate?: ValidationFunction<Data> | ValidationFunction<Data>[]
+  ): Promise<Errors<Data> | undefined> {
+    const errors = validateErrors(
+      data,
+      storesShape,
+      altValidate ?? config.validate,
+      true
+    );
+    if (altValidate) return errors;
+    const debouncedErrors = validateDebouncedErrors(
+      data,
+      storesShape,
+      config.debounced?.validate,
+      true
+    );
+    return mergeErrors<Errors<Data>>(
+      await Promise.all([errors, debouncedErrors])
+    );
+  }
+
+  async function executeWarningsValidation(
+    data: Data,
+    altWarn?: ValidationFunction<Data> | ValidationFunction<Data>[]
+  ): Promise<Errors<Data> | undefined> {
+    const warnings = validateWarnings(
+      data,
+      storesShape,
+      altWarn ?? config.warn,
+      true
+    );
+    if (altWarn) return warnings;
+    const debouncedWarnings = validateDebouncedWarnings(
+      data,
+      storesShape,
+      config.debounced?.warn,
+      true
+    );
+    return mergeErrors<Errors<Data>>(
+      await Promise.all([warnings, debouncedWarnings])
+    );
+  }
 
   function start() {
     const dataUnsubscriber = data.subscribe(($data) => {
       validateErrors($data, storesShape, config.validate);
       validateWarnings($data, storesShape, config.warn);
-      debouncedErrors.set({} as Errors<Data>);
-      validateDebouncedErrors($data, storesShape, config.debounced?.validate);
-      debouncedWarnings.set({} as Errors<Data>);
-      validateDebouncedWarnings($data, storesShape, config.debounced?.warn);
+      _validateDebouncedErrors($data, storesShape, config.debounced?.validate);
+      _validateDebouncedWarnings($data, storesShape, config.debounced?.warn);
     });
 
     touched.subscribe(($touched) => {
@@ -312,12 +372,46 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     return cleanup;
   }
 
-  filteredErrors.set = immediateErrors.set;
-  (filteredErrors as PartialWritableErrors<Data>).update =
-    immediateErrors.update;
-  filteredWarnings.set = immediateWarnings.set;
-  (filteredWarnings as PartialWritableErrors<Data>).update =
-    immediateWarnings.update;
+  function publicErrorsUpdater(
+    updater: (value: Errors<Data>) => AssignableErrors<Data>
+  ): void {
+    immediateErrors.update(updater);
+    debouncedErrors.set({} as AssignableErrors<Data>);
+  }
+
+  function publicWarningsUpdater(
+    updater: (value: Errors<Data>) => AssignableErrors<Data>
+  ): void {
+    immediateWarnings.update(updater);
+    debouncedWarnings.set({} as AssignableErrors<Data>);
+  }
+
+  function publicErrorsSetter(value: AssignableErrors<Data>): void {
+    publicErrorsUpdater(() => value);
+  }
+
+  function publicWarningsSetter(value: AssignableErrors<Data>): void {
+    publicWarningsUpdater(() => value);
+  }
+
+  filteredErrors.set = publicErrorsSetter;
+  (filteredErrors as PartialWritableErrors<Data>).update = publicErrorsUpdater;
+  filteredWarnings.set = publicWarningsSetter;
+  (filteredWarnings as PartialWritableErrors<Data>).update = publicWarningsUpdater;
+
+  function updateErrors(
+    updater: (value: Errors<Data>) => AssignableErrors<Data>
+  ): void {
+    immediateErrors.update(updater);
+    debouncedErrors.update(updater);
+  }
+
+  function updateWarnings(
+    updater: (value: Errors<Data>) => AssignableErrors<Data>
+  ): void {
+    immediateWarnings.update(updater);
+    debouncedWarnings.update(updater);
+  }
 
   return {
     data,
@@ -327,6 +421,10 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     isValid,
     isSubmitting,
     isDirty,
+    validateErrors: executeErrorsValidation,
+    validateWarnings: executeWarningsValidation,
+    updateErrors,
+    updateWarnings,
     cleanup: config.preventStoreStart ? () => undefined : start(),
     start,
   };
