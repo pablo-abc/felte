@@ -28,7 +28,7 @@ type ValidationController = {
   abort(): void;
 };
 
-function createValidationController(priority = false): ValidationController {
+function createValidationController(priority: boolean): ValidationController {
   const signal = { aborted: false, priority };
   return {
     signal,
@@ -109,13 +109,13 @@ function cancellableValidation<Data extends Obj>(
 ) {
   let activeController: ValidationController | undefined;
   return async function executeValidations(
-    $data?: Data,
-    shape?: Errors<Data>,
+    $data: Data,
+    shape: Errors<Data>,
     validations?: ValidationFunction<Data>[] | ValidationFunction<Data>,
     priority = false
   ) {
     if (!validations || !$data) return;
-    let current = shape ?? (deepSet($data, []) as Errors<Data>);
+    let current = shape;
     const controller = createValidationController(priority);
     if (!activeController?.signal.priority || priority) {
       activeController?.abort();
