@@ -250,41 +250,6 @@ describe('Helpers', () => {
     });
   });
 
-  test('setting directly to data should touch value', () => {
-    type Data = {
-      account: {
-        email: string;
-        password: string;
-      };
-    };
-    const { data, touched } = createForm<Data>({
-      initialValues: {
-        account: {
-          email: '',
-          password: '',
-        },
-      },
-      onSubmit: jest.fn(),
-    });
-
-    expect(get(data).account.email).toBe('');
-    expect(get(data).account.password).toBe('');
-
-    data.set({
-      account: { email: 'jacek@soplica.com', password: '' },
-    });
-
-    expect(get(data).account.email).toBe('jacek@soplica.com');
-    expect(get(data).account.password).toBe('');
-
-    expect(get(touched)).toEqual({
-      account: {
-        email: true,
-        password: false,
-      },
-    });
-  });
-
   test('reset should reset form to default values', () => {
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const accountFieldset = document.createElement('fieldset');
@@ -300,26 +265,24 @@ describe('Helpers', () => {
         email: string;
       };
     };
-    const { data, touched, reset, form, isDirty } = createForm<Data>({
-      initialValues: {
-        account: {
-          email: '',
+    const { data, touched, reset, form, setFields, isDirty } = createForm<Data>(
+      {
+        initialValues: {
+          account: {
+            email: '',
+          },
         },
-      },
-      onSubmit: jest.fn(),
-    });
+        onSubmit: jest.fn(),
+      }
+    );
 
     expect(get(data).account.email).toBe('');
 
-    expect(get(isDirty)).toBe(false);
-
-    data.set({
-      account: { email: 'jacek@soplica.com' },
-    });
+    setFields('account.email', 'jacek@soplica.com', true);
 
     expect(get(data).account.email).toBe('jacek@soplica.com');
 
-    expect(get(isDirty)).toBe(true);
+    expect(get(touched).account.email).toBe(true);
 
     reset();
 
@@ -384,8 +347,8 @@ describe('Helpers', () => {
       data,
       setInitialValues,
       touched,
-      isDirty,
       reset,
+      setFields,
     } = createForm<Data>({
       initialValues: {
         account: {
@@ -397,24 +360,20 @@ describe('Helpers', () => {
 
     expect(get(data).account.email).toBe('');
     expect(get(touched).account.email).toBe(false);
-    expect(get(isDirty)).toBe(false);
 
     setInitialValues({ account: { email: 'zaphod@beeblebrox.com' } });
 
     expect(get(data).account.email).toBe('');
     expect(get(touched).account.email).toBe(false);
-    expect(get(isDirty)).toBe(false);
 
-    data.set({ account: { email: 'jacek@soplica.com' } });
+    setFields('account.email', 'jacek@soplica.com', true);
 
     expect(get(data).account.email).toBe('jacek@soplica.com');
     expect(get(touched).account.email).toBe(true);
-    expect(get(isDirty)).toBe(true);
 
     reset();
 
     expect(get(data).account.email).toBe('zaphod@beeblebrox.com');
     expect(get(touched).account.email).toBe(false);
-    expect(get(isDirty)).toBe(false);
   });
 });

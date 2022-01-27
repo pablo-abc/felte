@@ -4,7 +4,6 @@ import type {
   FormConfigWithTransformFn,
   FormConfigWithoutTransformFn,
   ExtenderHandler,
-  Touched,
   StoreFactory,
   Obj,
   ValidationFunction,
@@ -17,12 +16,7 @@ import type {
   KnownHelpers,
   ValidatorOptions,
 } from '@felte/common';
-import {
-  _isPlainObject,
-  _cloneDeep,
-  _mergeWith,
-  executeTransforms,
-} from '@felte/common';
+import { executeTransforms } from '@felte/common';
 import { createHelpers } from './helpers';
 import { createFormAction } from './create-form-action';
 import type { FormActionConfig } from './create-form-action';
@@ -122,6 +116,7 @@ export function createForm<
   let currentExtenders: ExtenderHandler<Data>[] = [];
   const {
     isSubmitting,
+    isValidating,
     data,
     errors,
     warnings,
@@ -143,8 +138,8 @@ export function createForm<
   const transSet: typeof data.set = (values) =>
     originalSet(executeTransforms(values, config.transform));
 
-  const clonedData = { ...data, set: transSet, update: transUpdate };
   data.update = transUpdate;
+  data.set = transSet;
 
   const helpers = createHelpers<Data>({
     extender,
@@ -154,11 +149,12 @@ export function createForm<
     validateErrors,
     validateWarnings,
     stores: {
-      data: clonedData,
+      data,
       errors,
       warnings,
       touched,
       isValid,
+      isValidating,
       isSubmitting,
       isDirty,
     },
@@ -170,7 +166,7 @@ export function createForm<
       errors,
       warnings,
       touched,
-      data: clonedData,
+      data,
       config,
       addValidator,
       addTransformer,
@@ -184,41 +180,16 @@ export function createForm<
   const _setCurrentExtenders = (extenders: ExtenderHandler<Data>[]) => {
     currentExtenders = extenders;
   };
-  function dataSetCustomizer(dataValue: unknown, initialValue: unknown) {
-    if (_isPlainObject(dataValue)) return;
-    return dataValue !== initialValue;
-  }
-
-  function dataSetTouchedCustomizer(dataValue: unknown, touchedValue: boolean) {
-    if (_isPlainObject(dataValue)) return;
-    return touchedValue || dataValue;
-  }
-
-  function newDataSet(values: Data) {
-    touched.update((current) => {
-      const changed = _mergeWith<Touched<Data>>(
-        _cloneDeep(values),
-        config.initialValues,
-        dataSetCustomizer
-      );
-      return _mergeWith<Touched<Data>>(
-        changed,
-        current,
-        dataSetTouchedCustomizer
-      );
-    });
-    isDirty.set(true);
-    return clonedData.set(values);
-  }
 
   const formActionConfig: FormActionConfig<Data> = {
     config,
     stores: {
-      data: clonedData,
+      data,
       touched,
       errors,
       warnings,
       isSubmitting,
+      isValidating,
       isValid,
       isDirty,
     },
@@ -239,8 +210,6 @@ export function createForm<
     formActionConfig
   );
 
-  data.set = newDataSet;
-
   return {
     data,
     errors,
@@ -248,6 +217,7 @@ export function createForm<
     touched,
     isValid,
     isSubmitting,
+    isValidating,
     isDirty,
     form,
     handleSubmit,

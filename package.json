@@ -8,7 +8,7 @@
     "site:dev": "pnpm -r --filter='@felte/site' dev",
     "test": "pnpm -r test",
     "test:ci": "pnpm -r test:ci",
-    "lint": "eslint packages --ignore-pattern *packages/site*",
+    "lint": "eslint packages --max-warnings=0 --ignore-pattern *packages/site*",
     "build": "pnpm -r build --filter='!@felte/site'",
     "dev": "pnpm -r --parallel dev --filter='!@felte/site'",
     "postinstall": "husky install",

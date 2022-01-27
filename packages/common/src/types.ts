@@ -433,6 +433,8 @@ export type Stores<Data extends Obj, StoreExt = Record<string, any>> = {
   isSubmitting: Writable<boolean> & StoreExt;
   /** Readable store containing only a boolean that represents if the form is valid. */
   isValid: Readable<boolean> & StoreExt;
+  /** Readable store containing only a boolean that represents if the form is currently validating. */
+  isValidating: Readable<boolean> & StoreExt;
   /** Readable store containing only a boolean that represents if the form is dirty. */
   isDirty: Writable<boolean> & StoreExt;
 };

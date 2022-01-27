@@ -104,37 +104,6 @@ function debounce<T extends unknown[]>(
   };
 }
 
-function cancellableValidation<Data extends Obj>(
-  store: PartialWritableErrors<Data>
-) {
-  let activeController: ValidationController | undefined;
-  return async function executeValidations(
-    $data: Data,
-    shape: Errors<Data>,
-    validations?: ValidationFunction<Data>[] | ValidationFunction<Data>,
-    priority = false
-  ) {
-    if (!validations || !$data) return;
-    let current = shape;
-    const controller = createValidationController(priority);
-    if (!activeController?.signal.priority || priority) {
-      activeController?.abort();
-      activeController = controller;
-    }
-    if (activeController.signal.priority && !priority) return;
-    const results = runValidations($data, validations);
-    results.forEach(async (promise: any) => {
-      const result = await promise;
-      if (controller.signal.aborted) return;
-      current = mergeErrors([current, result]);
-      store.set(current);
-    });
-    await Promise.all(results);
-    activeController = undefined;
-    return current;
-  };
-}
-
 type Readables =
   | Readable<any>
   | [Readable<any>, ...Array<Readable<any>>]
@@ -149,6 +118,8 @@ type PossibleWritable<T> = Readable<T> & {
   set?: (v: T) => void;
 };
 
+// A `derived` store factory that can defer subscription and be constructed
+// with any store factory.
 export function createDerivedFactory<StoreExt = Record<string, any>>(
   storeFactory: StoreFactory<StoreExt>
 ) {
@@ -206,6 +177,70 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
         config.transform
       )
     : ({} as Data);
+  const initialTouched = deepSet<Data, boolean>(
+    initialValues,
+    false
+  ) as Touched<Data>;
+  const touched = storeFactory(initialTouched);
+
+  const validationCount = storeFactory(0);
+  const [isValidating, startIsValidating, stopIsValidating] = derived(
+    [touched, validationCount],
+    ([$touched, $validationCount]) => {
+      const isTouched = deepSome($touched as Obj, (t) => !!t);
+      return isTouched && $validationCount >= 1;
+    },
+    false
+  );
+
+  // It is important not to destructure stores created with the factory
+  // since some stores may be callable.
+  delete isValidating.set;
+  delete isValidating.update;
+
+  function cancellableValidation<Data extends Obj>(
+    store: PartialWritableErrors<Data>
+  ) {
+    let activeController: ValidationController | undefined;
+    return async function executeValidations(
+      $data: Data,
+      shape: Errors<Data>,
+      validations?: ValidationFunction<Data>[] | ValidationFunction<Data>,
+      priority = false
+    ) {
+      if (!validations || !$data) return;
+      let current = shape;
+
+      // Keeping a controller allows us to cancel previous asynchronous
+      // validations if they've become stale.
+      const controller = createValidationController(priority);
+
+      // By assigning `priority` we can prevent specific validations
+      // from being aborted. Used when submitting the form or
+      // calling the `validate` helper.
+      if (!activeController?.signal.priority || priority) {
+        activeController?.abort();
+        activeController = controller;
+      }
+
+      // If the current controller has priority and we're not trying to
+      // override it, completely prevent validations
+      if (activeController.signal.priority && !priority) return;
+      validationCount.update((c) => c + 1);
+      const results = runValidations($data, validations);
+      results.forEach(async (promise: any) => {
+        const result = await promise;
+        if (controller.signal.aborted) return;
+        current = mergeErrors([current, result]);
+        store.set(current);
+      });
+      await Promise.all(results);
+      activeController = undefined;
+      validationCount.update((c) => c - 1);
+      return current;
+    };
+  }
+
   let storesShape = deepSet(initialValues, []) as Errors<Data>;
   const data = storeFactory(initialValues);
 
@@ -241,12 +276,6 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     _cloneDeep(initialWarnings)
   );
 
-  const initialTouched = deepSet<Data, boolean>(
-    initialValues,
-    false
-  ) as Touched<Data>;
-  const touched = storeFactory(initialTouched);
-
   const [filteredErrors, startFilteredErrors, stopFilteredErrors] = derived(
     [errors as Readable<Errors<Data>>, touched as Readable<Touched<Data>>],
     filterErrors,
@@ -263,6 +292,9 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     _cloneDeep(initialWarnings)
   );
 
+  // This is necessary since, on the first run, validations
+  // have not run yet. We assume the form is not valid in the first calling
+  // if there's validation functions assigned in the configuration.
   let firstCalled = false;
   const [isValid, startIsValid, stopIsValid] = derived(
     errors,
@@ -368,6 +400,7 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     startWarnings();
     startFilteredErrors();
     startFilteredWarnings();
+    startIsValidating();
 
     function cleanup() {
       dataUnsubscriber();
@@ -376,6 +409,7 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
       stopWarnings();
       stopFilteredWarnings();
       stopIsValid();
+      stopIsValidating();
       unsubscribeTouched();
       unsubscribeErrors();
       unsubscribeWarnings();
@@ -418,6 +452,7 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     isValid,
     isSubmitting,
     isDirty,
+    isValidating,
     validateErrors: executeErrorsValidation,
     validateWarnings: executeWarningsValidation,
     cleanup: config.preventStoreStart ? () => undefined : start(),
