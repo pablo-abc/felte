@@ -33,7 +33,7 @@ export default {
     }),
     resolve({ browser: true }),
     commonjs(),
-    typescript(),
+    typescript({ browserslist: false }),
     renameNodeModules('external', prod),
   ],
 };

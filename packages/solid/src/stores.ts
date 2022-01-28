@@ -14,7 +14,7 @@ export const storeFactory: StoreFactory<FelteAccessor<any>> = <Value>(
   }
 
   function signalUpdater(updater: (value: Value) => Value) {
-    signalSetter(updater(signal()));
+    setSignal(updater as any);
   }
 
   const accessor = (createAccessor(signal) as unknown) as Writable<any> &
