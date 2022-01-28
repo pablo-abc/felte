@@ -24,7 +24,12 @@ You may also use any of the returned [helpers from `createForm`](/docs/svelte/he
 <script>
   import { createForm } from 'felte';
 
-  const { form, setFields } = createForm({ /* ... */ });
+  const { form, setFields } = createForm({
+    initialValues: {
+      customControlName: '',
+    },
+    // ...
+  });
 
   function handleChange(event) {
     setFields('customControlName', event.detail.value, true);
@@ -36,4 +41,6 @@ You may also use any of the returned [helpers from `createForm`](/docs/svelte/he
 </form>
 ```
 
-> **NOTE**: If your custom form control uses an `input` or other native form control behind the scenes, you may dispatch an `input` or `change` event from it when the value of it changes (if your control does not do this already). Felte listens to `change` events for `<input type="checkbox">`, `<input type="radio">`, `<select>` and `<input type="file">` elements; and for `input` events on any other type of `input`.
+> **NOTE**: If you have custom form controls that do not use a native HTML element to store its value, you _must_ set its initial value using `createForm`'s `initialValues` property.
+
+If your custom form control uses an `input` or other native form control behind the scenes, you may dispatch an `input` or `change` event from it when the value of it changes (if your control does not do this already). Felte listens to `change` events for `<input type="checkbox">`, `<input type="radio">`, `<select>` and `<input type="file">` elements; and for `input` events on any other type of `input`.
