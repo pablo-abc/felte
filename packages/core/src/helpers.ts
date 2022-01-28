@@ -25,9 +25,11 @@ import {
   _unset,
   _update,
   _isPlainObject,
+  createId,
 } from '@felte/common';
 import { get } from './get';
 import { deepSetTouched } from './deep-set-touched';
+import { deepSetKey } from './deep-set-key';
 
 type CreateHelpersOptions<Data extends Obj> = {
   config: FormConfig<Data>;
@@ -107,7 +109,7 @@ export function createHelpers<Data extends Obj>({
   validateWarnings,
 }: CreateHelpersOptions<Data>) {
   let formNode: HTMLFormElement | undefined;
-  let initialValues = (config.initialValues ?? {}) as Data;
+  let initialValues = deepSetKey((config.initialValues ?? {}) as Data);
 
   const { data, touched, errors, warnings, isDirty, isSubmitting } = stores;
 
@@ -163,6 +165,7 @@ export function createHelpers<Data extends Obj>({
     const errValue = _isPlainObject(touchedValue)
       ? deepSet(touchedValue, [])
       : [];
+    value = _isPlainObject(value) ? { ...value, key: createId() } : value;
     errors.update(($errors) => {
       return addAtIndex($errors, path, errValue, index);
     });
@@ -235,7 +238,7 @@ export function createHelpers<Data extends Obj>({
     resetField,
     addField,
     setInitialValues: (values: Data) => {
-      initialValues = values;
+      initialValues = deepSetKey(values);
     },
   };
 

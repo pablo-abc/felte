@@ -1,6 +1,6 @@
 import type { Errors, Obj } from '@felte/common';
 import type { JSX } from 'solid-js';
-import { _get, getPath } from '@felte/common';
+import { _get, getPath, createId } from '@felte/common';
 import {
   onMount,
   createSignal,
@@ -10,7 +10,6 @@ import {
   mergeProps,
 } from 'solid-js';
 import { errorStores, warningStores } from './stores';
-import { createId } from './utils';
 
 export type ValidationMessageProps = {
   for: string;

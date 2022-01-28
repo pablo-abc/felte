@@ -20,7 +20,7 @@ export default [
       nodeResolve({
         extensions: ['.js', '.ts', '.tsx'],
       }),
-      typescript(),
+      typescript({ browserlist: false }),
       babel({
         extensions: ['.js', '.ts', '.tsx'],
         babelHelpers: 'bundled',
@@ -47,7 +47,7 @@ export default [
       nodeResolve({
         extensions: ['.js', '.ts', '.tsx'],
       }),
-      typescript(),
+      typescript({ browserlist: false }),
       babel({
         extensions: ['.js', '.ts', '.tsx'],
         babelHelpers: 'bundled',

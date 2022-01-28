@@ -272,56 +272,71 @@ describe('User interactions with form', () => {
         multiple: {
           extraText: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: '',
             },
             {
+              key: expect.any(String),
               value: '',
             },
             {
+              key: expect.any(String),
               value: '',
             },
           ]),
           extraNumber: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: undefined,
             },
             {
+              key: expect.any(String),
               value: undefined,
             },
             {
+              key: expect.any(String),
               value: undefined,
             },
           ]),
           extraFiles: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: undefined,
             },
             {
+              key: expect.any(String),
               value: undefined,
             },
             {
+              key: expect.any(String),
               value: undefined,
             },
           ]),
           extraCheckbox: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: false,
             },
             {
+              key: expect.any(String),
               value: false,
             },
             {
+              key: expect.any(String),
               value: false,
             },
           ]),
           extraPreference: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: [],
             },
             {
+              key: expect.any(String),
               value: [],
             },
             {
+              key: expect.any(String),
               value: [],
             },
           ]),
@@ -412,56 +427,71 @@ describe('User interactions with form', () => {
         multiple: {
           extraText: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: '',
             },
             {
+              key: expect.any(String),
               value: 'demo text',
             },
             {
+              key: expect.any(String),
               value: '',
             },
           ]),
           extraNumber: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: undefined,
             },
             {
+              key: expect.any(String),
               value: 1,
             },
             {
+              key: expect.any(String),
               value: undefined,
             },
           ]),
           extraFiles: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: undefined,
             },
             {
+              key: expect.any(String),
               value: undefined,
             },
             {
+              key: expect.any(String),
               value: undefined,
             },
           ]),
           extraCheckbox: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: false,
             },
             {
+              key: expect.any(String),
               value: true,
             },
             {
+              key: expect.any(String),
               value: false,
             },
           ]),
           extraPreference: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: [],
             },
             {
+              key: expect.any(String),
               value: ['preference1'],
             },
             {
+              key: expect.any(String),
               value: [],
             },
           ]),
@@ -727,56 +757,71 @@ describe('User interactions with form', () => {
         multiple: {
           extraText: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: '',
             },
             {
+              key: expect.any(String),
               value: '',
             },
             {
+              key: expect.any(String),
               value: '',
             },
           ]),
           extraNumber: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: undefined,
             },
             {
+              key: expect.any(String),
               value: undefined,
             },
             {
+              key: expect.any(String),
               value: undefined,
             },
           ]),
           extraFiles: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: undefined,
             },
             {
+              key: expect.any(String),
               value: undefined,
             },
             {
+              key: expect.any(String),
               value: undefined,
             },
           ]),
           extraCheckbox: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: false,
             },
             {
+              key: expect.any(String),
               value: false,
             },
             {
+              key: expect.any(String),
               value: false,
             },
           ]),
           extraPreference: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: [],
             },
             {
+              key: expect.any(String),
               value: [],
             },
             {
+              key: expect.any(String),
               value: [],
             },
           ]),
@@ -829,56 +874,71 @@ describe('User interactions with form', () => {
         multiple: {
           extraText: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: '',
             },
             {
+              key: expect.any(String),
               value: 'demo text',
             },
             {
+              key: expect.any(String),
               value: '',
             },
           ]),
           extraNumber: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: undefined,
             },
             {
+              key: expect.any(String),
               value: 1,
             },
             {
+              key: expect.any(String),
               value: undefined,
             },
           ]),
           extraFiles: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: undefined,
             },
             {
+              key: expect.any(String),
               value: mockFile,
             },
             {
+              key: expect.any(String),
               value: undefined,
             },
           ]),
           extraCheckbox: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: false,
             },
             {
+              key: expect.any(String),
               value: true,
             },
             {
+              key: expect.any(String),
               value: false,
             },
           ]),
           extraPreference: expect.arrayContaining([
             {
+              key: expect.any(String),
               value: [],
             },
             {
+              key: expect.any(String),
               value: ['preference1'],
             },
             {
+              key: expect.any(String),
               value: [],
             },
           ]),

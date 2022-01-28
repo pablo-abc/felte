@@ -85,12 +85,15 @@ describe('Form action DOM mutations', () => {
       outerSecondary: '',
       multiple: [
         {
+          key: expect.any(String),
           value: '',
         },
         {
+          key: expect.any(String),
           value: '',
         },
         {
+          key: expect.any(String),
           value: '',
         },
       ],
@@ -103,7 +106,12 @@ describe('Form action DOM mutations', () => {
     await waitFor(() => {
       expect(get(data)).toEqual({
         outerSecondary: '',
-        multiple: [{ value: '' }],
+        multiple: [
+          {
+            key: expect.any(String),
+            value: '',
+          },
+        ],
         inner: {
           innerSecondary: '',
         },

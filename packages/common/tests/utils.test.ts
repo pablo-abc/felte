@@ -36,6 +36,7 @@ import {
   executeTransforms,
   getValue,
   mergeErrors,
+  createId,
 } from '../src';
 
 function createLoginForm() {
@@ -885,5 +886,10 @@ describe('Utils', () => {
     ).toEqual({
       test: ['error', 'another'],
     });
+  });
+
+  test('createId', () => {
+    expect(createId()).toHaveLength(8);
+    expect(createId(21)).toHaveLength(21);
   });
 });

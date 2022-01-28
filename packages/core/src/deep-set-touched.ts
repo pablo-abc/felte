@@ -10,7 +10,10 @@ export function deepSetTouched<Data extends Obj>(
     if (Array.isArray(prop)) {
       if (prop.length === 0 || prop.every((p) => typeof p === 'string'))
         return value;
-      return prop.map((p) => deepSetTouched(p as Obj, value));
+      return prop.map((p) => {
+        const { key, ...field } = deepSetTouched(p as Obj, value);
+        return field;
+      });
     }
     return value;
   }) as Touched<Data>;

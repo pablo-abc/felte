@@ -1,7 +1,7 @@
 import type { CurrentForm, Obj } from '@felte/common';
 import type { ExtenderHandler } from '@felte/common';
 import { errorStores, warningStores } from './stores';
-import { createId } from './utils';
+import { createId } from '@felte/common';
 
 export function reporter<Data extends Obj>(
   currentForm: CurrentForm<Data>

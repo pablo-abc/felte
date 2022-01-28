@@ -20,6 +20,7 @@ import {
   deepSome,
 } from '@felte/common';
 import { deepSetTouched } from './deep-set-touched';
+import { deepSetKey } from './deep-set-key';
 
 type ValidationController = {
   signal: {
@@ -183,9 +184,11 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
 ) {
   const derived = createDerivedFactory(storeFactory);
   const initialValues = config.initialValues
-    ? executeTransforms(
-        _cloneDeep(config.initialValues as Data),
-        config.transform
+    ? deepSetKey(
+        executeTransforms(
+          _cloneDeep(config.initialValues as Data),
+          config.transform
+        )
       )
     : ({} as Data);
   const initialTouched = deepSetTouched(initialValues, false);

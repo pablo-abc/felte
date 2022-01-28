@@ -1,8 +1,7 @@
 import type { ReactNode } from 'react';
 import React, { useState, useEffect, useMemo } from 'react';
-import { _get, getPath } from '@felte/common';
+import { _get, getPath, createId } from '@felte/common';
 import { errorStores, warningStores } from './stores';
-import { createId } from './utils';
 
 export type ValidationMessageProps = {
   for: string;
