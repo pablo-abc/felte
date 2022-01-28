@@ -51,7 +51,7 @@ describe('createStores', () => {
           value: true,
         },
       ],
-      strings: true,
+      strings: [true],
     });
     await waitFor(() => {
       expect(get(errors)).toEqual({
@@ -60,7 +60,7 @@ describe('createStores', () => {
             value: ['test error'],
           },
         ],
-        strings: null,
+        strings: [null],
       });
     });
     cleanup();
