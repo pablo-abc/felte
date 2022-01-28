@@ -26,7 +26,7 @@ describe('createStores', () => {
             value: null,
           },
         ],
-        strings: [null],
+        strings: null,
       });
       expect(get(warnings)).toEqual({
         arr: [
@@ -34,7 +34,7 @@ describe('createStores', () => {
             value: null,
           },
         ],
-        strings: [null],
+        strings: null,
       });
     });
     errors.set({

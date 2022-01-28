@@ -329,7 +329,12 @@ describe('Validator superstruct', () => {
       date: coerce(date(), string(), (value) => new Date(value)),
     });
 
-    const { validate, errors, data } = createForm<Infer<typeof struct>>({
+    type Data = {
+      name: string;
+      date: Date;
+    };
+
+    const { validate, errors, data } = createForm<Data>({
       onSubmit: jest.fn(),
       extend: validator({ struct, castValues: true }),
     });

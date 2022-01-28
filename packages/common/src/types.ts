@@ -355,6 +355,8 @@ export type Errors<Data extends AnyObj | AnyArr> = Data extends AnyArr
   ? Data[number] extends AnyObj
     ? Errors<Data[number]>[]
     : string[] | null
+  : Data extends Date | File | File[]
+  ? string[] | null
   : Data extends AnyObj
   ? {
       [key in keyof Data]: Data[key] extends AnyObj | AnyArr
@@ -368,6 +370,8 @@ export type AssignableErrors<Data extends AnyObj | AnyArr> = Data extends AnyArr
   ? Data[number] extends AnyObj
     ? AssignableErrors<Data[number]>[]
     : string | string[] | null | undefined
+  : Data extends Date | File | File[]
+  ? string | string[] | null | undefined
   : Data extends AnyObj
   ? {
       [key in keyof Data]?: Data[key] extends AnyObj | AnyArr
@@ -381,6 +385,8 @@ export type Touched<Data extends AnyObj | AnyArr> = Data extends AnyArr
   ? Data[number] extends AnyObj
     ? Touched<Data[number]>[]
     : boolean
+  : Data extends Date | File | File[]
+  ? boolean
   : Data extends AnyObj
   ? {
       [key in keyof Data]: Data[key] extends AnyObj | AnyArr

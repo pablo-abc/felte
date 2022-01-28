@@ -41,6 +41,12 @@ describe('Reporter Tippy Custom Control', () => {
     const mockErrors = { test: 'An error', deep: { value: 'Deep error' } };
     const mockValidate = jest.fn(() => mockErrors);
     const { form, validate } = createForm<Data>({
+      initialValues: {
+        test: '',
+        deep: {
+          value: '',
+        },
+      },
       onSubmit: jest.fn(),
       validate: mockValidate,
       extend: reporter(),
@@ -86,6 +92,9 @@ describe('Reporter Tippy Custom Control', () => {
     const mockErrors = { test: 'A test error' };
     const mockValidate = jest.fn(() => mockErrors);
     const { form, validate } = createForm({
+      initialValues: {
+        test: '',
+      },
       onSubmit: jest.fn(),
       validate: mockValidate,
       extend: reporter(),
@@ -137,6 +146,9 @@ describe('Reporter Tippy Custom Control', () => {
     const mockErrors = { test: 'An error' };
     const mockValidate = jest.fn(() => mockErrors);
     const { form, validate } = createForm({
+      initialValues: {
+        test: '',
+      },
       onSubmit: jest.fn(),
       validate: mockValidate,
       extend: reporter(),
@@ -173,6 +185,12 @@ describe('Reporter Tippy Custom Control', () => {
     const mockErrors = { test: 'An error', deep: { value: 'Deep error' } };
     const mockValidate = jest.fn(() => mockErrors);
     const { form } = createForm<Data>({
+      initialValues: {
+        test: '',
+        deep: {
+          value: '',
+        },
+      },
       onSubmit: jest.fn(),
       validate: mockValidate,
       extend: reporter(),
@@ -210,6 +228,9 @@ describe('Reporter Tippy Custom Control', () => {
     const mockErrors = { test: 'An error' };
     const mockValidate = jest.fn(() => mockErrors);
     const { form, validate } = createForm({
+      initialValues: {
+        test: '',
+      },
       onSubmit: jest.fn(),
       validate: mockValidate,
       extend: reporter({
@@ -249,6 +270,9 @@ describe('Reporter Tippy Custom Control', () => {
       test: string;
     };
     const { form, validate } = createForm<TestData>({
+      initialValues: {
+        test: '',
+      },
       onSubmit: jest.fn(),
       validate: mockValidate,
       extend: reporter<TestData>({

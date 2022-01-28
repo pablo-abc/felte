@@ -19,6 +19,7 @@ import {
   executeTransforms,
   deepSome,
 } from '@felte/common';
+import { deepSetTouched } from './deep-set-touched';
 
 type ValidationController = {
   signal: {
@@ -39,10 +40,15 @@ function createValidationController(priority: boolean): ValidationController {
 }
 
 function errorFilterer(
-  errValue?: string | string[],
-  touchValue?: boolean | boolean[]
+  touchValue?: boolean | boolean[],
+  errValue?: string | string[]
 ) {
-  if (_isPlainObject(touchValue)) return;
+  if (_isPlainObject(touchValue)) {
+    if (_isPlainObject(errValue) && Object.keys(errValue).length === 0) {
+      return deepSet(touchValue, null);
+    }
+    return;
+  }
   if (Array.isArray(touchValue)) {
     if (touchValue.some(_isPlainObject)) return;
     const errArray = Array.isArray(errValue) ? errValue : [];
@@ -58,10 +64,15 @@ function errorFilterer(
 }
 
 function warningFilterer(
-  errValue?: string | string[],
-  touchValue?: boolean | boolean[]
+  touchValue?: boolean | boolean[],
+  errValue?: string | string[]
 ) {
-  if (_isPlainObject(touchValue)) return;
+  if (_isPlainObject(touchValue)) {
+    if (_isPlainObject(errValue) && Object.keys(errValue).length === 0) {
+      return deepSet(touchValue, null);
+    }
+    return;
+  }
   if (Array.isArray(touchValue)) {
     if (touchValue.some(_isPlainObject)) return;
     const errArray = Array.isArray(errValue) ? errValue : [];
@@ -80,14 +91,14 @@ function filterErrors<Data extends Obj>([errors, touched]: [
   Errors<Data>,
   Touched<Data>
 ]) {
-  return _mergeWith<Errors<Data>>(errors, touched, errorFilterer);
+  return _mergeWith<Errors<Data>>(touched, errors, errorFilterer);
 }
 
 function filterWarnings<Data extends Obj>([errors, touched]: [
   Errors<Data>,
   Touched<Data>
 ]) {
-  return _mergeWith<Errors<Data>>(errors, touched, warningFilterer);
+  return _mergeWith<Errors<Data>>(touched, errors, warningFilterer);
 }
 
 function debounce<T extends unknown[]>(
@@ -177,10 +188,7 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
         config.transform
       )
     : ({} as Data);
-  const initialTouched = deepSet<Data, boolean>(
-    initialValues,
-    false
-  ) as Touched<Data>;
+  const initialTouched = deepSetTouched(initialValues, false);
   const touched = storeFactory(initialTouched);
 
   const validationCount = storeFactory(0);
@@ -209,7 +217,10 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
       priority = false
     ) {
       if (!validations || !$data) return;
-      let current = shape;
+      let current =
+        shape && Object.keys(shape).length > 0
+          ? shape
+          : (deepSet($data, []) as Errors<Data>);
 
       // Keeping a controller allows us to cancel previous asynchronous
       // validations if they've become stale.

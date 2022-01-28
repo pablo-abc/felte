@@ -27,6 +27,7 @@ import {
   _isPlainObject,
 } from '@felte/common';
 import { get } from './get';
+import { deepSetTouched } from './deep-set-touched';
 
 type CreateHelpersOptions<Data extends Obj> = {
   config: FormConfig<Data>;
@@ -156,8 +157,12 @@ export function createHelpers<Data extends Obj>({
   }
 
   function addField(path: string, value: unknown, index?: number) {
-    const errValue = _isPlainObject(value) ? deepSet(value, []) : [];
-    const touchedValue = _isPlainObject(value) ? deepSet(value, false) : false;
+    const touchedValue = _isPlainObject(value)
+      ? deepSetTouched(value, false)
+      : false;
+    const errValue = _isPlainObject(touchedValue)
+      ? deepSet(touchedValue, [])
+      : [];
     errors.update(($errors) => {
       return addAtIndex($errors, path, errValue, index);
     });
@@ -176,12 +181,12 @@ export function createHelpers<Data extends Obj>({
 
   function resetField(path: string) {
     const initialValue = _get(initialValues, path);
-    const errValue: any = _isPlainObject(initialValue)
-      ? deepSet(initialValue, [])
-      : [];
     const touchedValue: any = _isPlainObject(initialValue)
-      ? deepSet(initialValue, false)
+      ? deepSetTouched(initialValue, false)
       : false;
+    const errValue: any = _isPlainObject(touchedValue)
+      ? deepSet(touchedValue, [])
+      : [];
     data.update(($data) => {
       const newData = _set($data, path, initialValue);
       if (formNode) setForm(formNode, newData);
@@ -204,9 +209,7 @@ export function createHelpers<Data extends Obj>({
 
   async function validate(): Promise<Errors<Data> | void> {
     const currentData = get(data);
-    setTouched((t) => {
-      return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
-    });
+    touched.set(deepSetTouched(currentData, true));
     const currentErrors = await validateErrors(currentData);
     await validateWarnings(currentData);
     return currentErrors;

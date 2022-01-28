@@ -8,7 +8,6 @@ import type {
   FormControl,
   CreateSubmitHandlerConfig,
   Errors,
-  Touched,
   AddValidatorFn,
   Helpers,
   ValidationFunction,
@@ -37,6 +36,7 @@ import type { FelteSuccessDetail, FelteErrorDetail } from './events';
 import type { SuccessResponse, FetchResponse } from './error';
 import { get } from './get';
 import { FelteSubmitError } from './error';
+import { deepSetTouched } from './deep-set-touched';
 
 function createDefaultSubmitHandler(form?: HTMLFormElement) {
   if (!form) return;
@@ -156,9 +156,7 @@ export function createFormAction<Data extends Obj>({
       );
       if (currentWarnings)
         warnings.set(_merge(deepSet(currentData, []), currentWarnings));
-      touched.update((t) => {
-        return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
-      });
+      touched.set(deepSetTouched(currentData, true));
       if (currentErrors) {
         const hasErrors = deepSome(currentErrors, (error) =>
           Array.isArray(error) ? error.length >= 1 : !!error

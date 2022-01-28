@@ -10,9 +10,11 @@ export function _mergeWith<T extends Obj>(...args: any[]): T {
   if (args.length === 0) return obj;
   for (const source of args) {
     if (!source) continue;
+    let rsValue = customizer(obj, source);
+    if (typeof rsValue !== 'undefined') return rsValue;
     const keys = Object.keys(source);
     for (const key of keys) {
-      const rsValue = customizer(obj[key], source[key]);
+      rsValue = customizer(obj[key], source[key]);
       if (typeof rsValue !== 'undefined') {
         obj[key] = rsValue;
       } else if (_isPlainObject(source[key]) && _isPlainObject(obj[key])) {
