@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.0.0-next.15
+
+### Minor Changes
+
+- 093482a: Add isValidating store
+
 ## 1.0.0-next.14
 
 ### Patch Changes

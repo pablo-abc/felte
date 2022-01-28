@@ -1,5 +1,21 @@
 # @felte/react
 
+## 1.0.0-next.21
+
+### Major Changes
+
+- 093482a: BREAKING: Setting directly to `data` using `data.set` no longer touches the field. The `setFields` helper should be used instead if this behaviour is desired.
+
+### Minor Changes
+
+- 093482a: Add isValidating store
+
+### Patch Changes
+
+- Updated dependencies [093482a]
+- Updated dependencies [093482a]
+  - @felte/core@1.0.0-next.18
+
 ## 1.0.0-next.20
 
 ### Patch Changes
