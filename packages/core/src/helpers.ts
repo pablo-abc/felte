@@ -138,6 +138,7 @@ export function createHelpers<Data extends Obj>({
     fieldsSetter(pathOrValue as any, valueOrUpdater as any);
     if (typeof pathOrValue === 'string' && shouldTouch) {
       setTouched<string, any>(pathOrValue, true);
+      isDirty.set(true);
     }
   };
 
