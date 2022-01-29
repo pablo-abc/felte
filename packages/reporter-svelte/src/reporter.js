@@ -20,7 +20,9 @@ export function reporter(currentForm) {
     onSubmitError() {
       const firstInvalidElement =
         currentForm &&
-        currentForm.form.querySelector('[data-felte-validation-message]');
+        currentForm.form.querySelector(
+          '[data-felte-validation-message]:not([type="hidden"])'
+        );
       firstInvalidElement && firstInvalidElement.focus();
     },
   };

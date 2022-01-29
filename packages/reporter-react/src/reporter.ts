@@ -22,7 +22,7 @@ export function reporter<Data extends Obj>(
   return {
     onSubmitError() {
       const firstInvalidElement = currentForm?.form?.querySelector(
-        '[data-felte-validation-message]'
+        '[data-felte-validation-message]:not([type="hidden"])'
       ) as HTMLElement;
       firstInvalidElement?.focus();
     },
