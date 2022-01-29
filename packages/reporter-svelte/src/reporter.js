@@ -21,7 +21,7 @@ export function reporter(currentForm) {
       const firstInvalidElement =
         currentForm &&
         currentForm.form.querySelector(
-          '[data-felte-validation-message]:not([type="hidden"])'
+          '[aria-invalid="true"]:not([type="hidden"])'
         );
       firstInvalidElement && firstInvalidElement.focus();
     },

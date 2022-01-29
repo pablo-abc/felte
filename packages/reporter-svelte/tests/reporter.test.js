@@ -4,12 +4,15 @@ import NoPlaceholder from './NoPlaceholder.svelte';
 import Placeholder from './Placeholder.svelte';
 import Multiple from './Multiple.svelte';
 
+jest.useFakeTimers();
+
 describe('Reporter Svelte', () => {
   test('sets aria-invalid to input', async () => {
     render(NoPlaceholder);
     const inputElement = screen.getByRole('textbox', { name: 'test' });
     const formElement = screen.getByRole('form');
     formElement.submit();
+    jest.runAllTimers();
     await waitFor(() => {
       expect(inputElement).toHaveAttribute('aria-invalid');
     });
@@ -20,7 +23,8 @@ describe('Reporter Svelte', () => {
     const formElement = screen.getByRole('form');
     const validationMessageElement = screen.getByTestId('validation-message');
     const warningMessageElement = screen.getByTestId('warning-message');
-    formElement.submit();
+    formElement.requestSubmit();
+    jest.runAllTimers();
     await waitFor(() => {
       expect(validationMessageElement).toHaveTextContent('An error message');
       expect(warningMessageElement).toHaveTextContent('A warning message');
@@ -32,6 +36,7 @@ describe('Reporter Svelte', () => {
     const formElement = screen.getByRole('form');
     const placeholderElement = screen.getByTestId('placeholder');
     formElement.submit();
+    jest.runAllTimers();
     await waitFor(() => {
       expect(placeholderElement).toBeInTheDocument();
       expect(placeholderElement).toHaveTextContent('Placeholder text');
@@ -42,6 +47,7 @@ describe('Reporter Svelte', () => {
     render(Multiple);
     const formElement = screen.getByRole('form');
     formElement.submit();
+    jest.runAllTimers();
     for (const index of [0, 1, 2]) {
       const validationMessageElement = screen.getByTestId(
         `validation-message-${index}`
