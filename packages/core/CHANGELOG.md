@@ -1,5 +1,14 @@
 # @felte/core
 
+## 1.0.0-next.20
+
+### Patch Changes
+
+- 2e7aad3: Fix some values disappearing from DOM when removing a field from an array
+- 2e7aad3: Add type for keyed Data
+- Updated dependencies [2e7aad3]
+  - @felte/common@1.0.0-next.17
+
 ## 1.0.0-next.19
 
 ### Minor Changes

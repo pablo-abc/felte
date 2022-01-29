@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.0.0-next.17
+
+### Patch Changes
+
+- 2e7aad3: Add type for keyed Data
+
 ## 1.0.0-next.16
 
 ### Minor Changes

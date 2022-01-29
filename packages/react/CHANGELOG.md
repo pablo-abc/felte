@@ -1,5 +1,14 @@
 # @felte/react
 
+## 1.0.0-next.23
+
+### Patch Changes
+
+- 2e7aad3: Add type for keyed Data
+- Updated dependencies [2e7aad3]
+- Updated dependencies [2e7aad3]
+  - @felte/core@1.0.0-next.20
+
 ## 1.0.0-next.22
 
 ### Minor Changes
