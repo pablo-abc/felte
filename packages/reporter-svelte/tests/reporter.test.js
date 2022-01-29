@@ -4,9 +4,12 @@ import NoPlaceholder from './NoPlaceholder.svelte';
 import Placeholder from './Placeholder.svelte';
 import Multiple from './Multiple.svelte';
 
-jest.useFakeTimers();
-
 describe('Reporter Svelte', () => {
+  beforeEach(() => jest.useFakeTimers());
+  afterEach(() => {
+    jest.runOnlyPendingTimers();
+    jest.useRealTimers();
+  });
   test('sets aria-invalid to input', async () => {
     render(NoPlaceholder);
     const inputElement = screen.getByRole('textbox', { name: 'test' });
