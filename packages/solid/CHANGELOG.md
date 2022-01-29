@@ -1,5 +1,17 @@
 # @felte/solid
 
+## 1.0.0-next.19
+
+### Minor Changes
+
+- c8c1511: Add unique key to field arrays
+
+### Patch Changes
+
+- 53cb8b2: Fix updater subscribing to whole store when calling
+- Updated dependencies [c8c1511]
+  - @felte/core@1.0.0-next.19
+
 ## 1.0.0-next.18
 
 ### Major Changes

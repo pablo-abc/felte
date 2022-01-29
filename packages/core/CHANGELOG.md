@@ -1,5 +1,16 @@
 # @felte/core
 
+## 1.0.0-next.19
+
+### Minor Changes
+
+- c8c1511: Add unique key to field arrays
+
+### Patch Changes
+
+- Updated dependencies [c8c1511]
+  - @felte/common@1.0.0-next.16
+
 ## 1.0.0-next.18
 
 ### Major Changes

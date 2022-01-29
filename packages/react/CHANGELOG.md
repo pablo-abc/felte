@@ -1,5 +1,16 @@
 # @felte/react
 
+## 1.0.0-next.22
+
+### Minor Changes
+
+- c8c1511: Add unique key to field arrays
+
+### Patch Changes
+
+- Updated dependencies [c8c1511]
+  - @felte/core@1.0.0-next.19
+
 ## 1.0.0-next.21
 
 ### Major Changes

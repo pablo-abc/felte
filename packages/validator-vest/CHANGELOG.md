@@ -1,5 +1,12 @@
 # @felte/validator-vest
 
+## 1.0.0-next.15
+
+### Patch Changes
+
+- Updated dependencies [c8c1511]
+  - @felte/common@1.0.0-next.16
+
 ## 1.0.0-next.14
 
 ### Patch Changes

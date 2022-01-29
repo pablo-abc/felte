@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.0.0-next.16
+
+### Minor Changes
+
+- c8c1511: Add unique key to field arrays
+
 ## 1.0.0-next.15
 
 ### Minor Changes
