@@ -12,11 +12,18 @@ import type {
   UnknownHelpers,
   FormConfigWithTransformFn,
   FormConfigWithoutTransformFn,
+  Keyed,
+  KeyedWritable,
 } from '@felte/core';
 import type { Writable } from 'svelte/store';
 import { createForm as coreCreateForm } from '@felte/core';
 import { writable } from './stores';
-import type { Stores, UnknownStores, KnownStores } from './use-accessor';
+import type {
+  Stores,
+  UnknownStores,
+  KnownStores,
+  Accessor,
+} from './use-accessor';
 import { useAccessor } from './use-accessor';
 
 /** The return type for the `createForm` function. */
@@ -67,7 +74,8 @@ export function useForm<Data extends Obj = Obj>(
     return { form, ...rest };
   });
 
-  const data = useAccessor<Data>(rest.data);
+  const data = useAccessor<Keyed<Data>>(rest.data) as Accessor<Keyed<Data>> &
+    KeyedWritable<Data>;
   const errors = useAccessor<Errors<Data>>(
     rest.errors as Writable<Errors<Data>>
   );

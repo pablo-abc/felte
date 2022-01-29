@@ -183,7 +183,7 @@ export type SetupCurrentForm<Data extends Obj> = {
   stage: 'SETUP';
   errors: PartialWritableErrors<Data>;
   warnings: PartialWritableErrors<Data>;
-  data: Writable<Data>;
+  data: KeyedWritable<Data>;
   touched: Writable<Touched<Data>>;
   config: FormConfig<Data>;
   setFields(values: Data): void;
@@ -199,7 +199,7 @@ export type MountedCurrentForm<Data extends Obj> = {
   stage: 'MOUNT' | 'UPDATE';
   errors: PartialWritableErrors<Data>;
   warnings: PartialWritableErrors<Data>;
-  data: Writable<Data>;
+  data: KeyedWritable<Data>;
   touched: Writable<Touched<Data>>;
   config: FormConfig<Data>;
   setFields(values: Data): void;
@@ -365,6 +365,20 @@ export type Errors<Data extends AnyObj | AnyArr> = Data extends AnyArr
     }
   : any;
 
+export type Keyed<Data extends AnyObj | AnyArr> = Data extends AnyArr
+  ? Data[number] extends AnyObj
+    ? (Keyed<Data[number]> & { key: string })[]
+    : Data[number][]
+  : Data extends Date | File | File[]
+  ? Data
+  : Data extends AnyObj
+  ? {
+      [key in keyof Data]: Data[key] extends AnyObj | AnyArr
+        ? Keyed<Data[key]>
+        : Data[key];
+    }
+  : any;
+
 /** The errors object may contain either a string or array or string per key. */
 export type AssignableErrors<Data extends AnyObj | AnyArr> = Data extends AnyArr
   ? Data[number] extends AnyObj
@@ -397,10 +411,8 @@ export type Touched<Data extends AnyObj | AnyArr> = Data extends AnyArr
 
 export type FormAction = (node: HTMLFormElement) => { destroy: () => void };
 
-export type TransWritable<Data extends Obj> = Omit<
-  Writable<Data>,
-  'set' | 'update'
-> & {
+export type TransWritable<Data extends Obj> = {
+  subscribe(subscriber: (values: Keyed<Data>) => any): () => void;
   set(value: unknown): void;
   update(updater: (value: Data) => unknown): void;
 };
@@ -416,7 +428,7 @@ export type KnownStores<
   Data extends Obj,
   StoreExt = Record<string, any>
 > = Omit<Stores<Data, StoreExt>, 'data'> & {
-  data: Writable<Data> & StoreExt;
+  data: KeyedWritable<Data> & StoreExt;
 };
 
 export type PartialWritableErrors<Data extends Obj> = {
@@ -425,10 +437,17 @@ export type PartialWritableErrors<Data extends Obj> = {
   update: (updater: (value: Errors<Data>) => AssignableErrors<Data>) => void;
 };
 
+export type KeyedWritable<Data extends Obj> = Omit<
+  Writable<Data>,
+  'subscribe'
+> & {
+  subscribe(subscriber: (values: Keyed<Data>) => any): () => void;
+};
+
 /** The stores that `createForm` creates. */
 export type Stores<Data extends Obj, StoreExt = Record<string, any>> = {
   /** Writable store that contains the form's data. */
-  data: (Writable<Data> | TransWritable<Data>) & StoreExt;
+  data: (KeyedWritable<Data> | TransWritable<Data>) & StoreExt;
   /** Writable store that contains the form's validation errors. */
   errors: PartialWritableErrors<Data> & StoreExt;
   /** Writable store that contains warnings for the form. These won't prevent a submit from happening. */

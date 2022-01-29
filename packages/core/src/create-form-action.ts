@@ -11,6 +11,7 @@ import type {
   AddValidatorFn,
   Helpers,
   ValidationFunction,
+  Keyed,
 } from '@felte/common';
 import {
   isFormControl,
@@ -37,6 +38,7 @@ import type { SuccessResponse, FetchResponse } from './error';
 import { get } from './get';
 import { FelteSubmitError } from './error';
 import { deepSetTouched } from './deep-set-touched';
+import { deepRemoveKey } from './deep-set-key';
 
 function createDefaultSubmitHandler(form?: HTMLFormElement) {
   if (!form) return;
@@ -91,11 +93,11 @@ export type FormActionConfig<Data extends Obj> = {
   config: FormConfig<Data>;
   extender: Extender<Data>[];
   validateErrors(
-    data: Data,
+    data: Data | Keyed<Data>,
     altValidate?: ValidationFunction<Data> | ValidationFunction<Data>[]
   ): Promise<Errors<Data> | undefined>;
   validateWarnings(
-    data: Data,
+    data: Data | Keyed<Data>,
     altWarn?: ValidationFunction<Data> | ValidationFunction<Data>[]
   ): Promise<Errors<Data> | undefined>;
   helpers: Helpers<Data, string> & {
@@ -145,7 +147,7 @@ export function createFormAction<Data extends Obj>({
       if (!onSubmit) return;
       event?.preventDefault();
       isSubmitting.set(true);
-      const currentData = get(data);
+      const currentData = deepRemoveKey(get(data));
       const currentErrors = await validateErrors(
         currentData,
         altConfig?.validate

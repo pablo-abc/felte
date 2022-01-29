@@ -1,12 +1,14 @@
 import type {
   StoreFactory,
   Obj,
+  Keyed,
   FormConfig,
   Errors,
   Touched,
   ValidationFunction,
   PartialWritableErrors,
   AssignableErrors,
+  KeyedWritable,
 } from '@felte/common';
 import type { Writable, Readable, Unsubscriber } from 'svelte/store';
 import {
@@ -20,7 +22,7 @@ import {
   deepSome,
 } from '@felte/common';
 import { deepSetTouched } from './deep-set-touched';
-import { deepSetKey } from './deep-set-key';
+import { deepRemoveKey, deepSetKey } from './deep-set-key';
 
 type ValidationController = {
   signal: {
@@ -183,14 +185,14 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   config: FormConfig<Data> & { preventStoreStart?: boolean }
 ) {
   const derived = createDerivedFactory(storeFactory);
-  const initialValues = config.initialValues
+  const initialValues = (config.initialValues = config.initialValues
     ? deepSetKey(
         executeTransforms(
           _cloneDeep(config.initialValues as Data),
           config.transform
         )
       )
-    : ({} as Data);
+    : ({} as Data));
   const initialTouched = deepSetTouched(initialValues, false);
   const touched = storeFactory(initialTouched);
 
@@ -346,18 +348,19 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   );
 
   async function executeErrorsValidation(
-    data: Data,
+    data: Data | Keyed<Data>,
     altValidate?: ValidationFunction<Data> | ValidationFunction<Data>[]
   ): Promise<Errors<Data> | undefined> {
+    const $data = deepRemoveKey(data);
     const errors = validateErrors(
-      data,
+      $data,
       storesShape,
       altValidate ?? config.validate,
       true
     );
     if (altValidate) return errors;
     const debouncedErrors = validateDebouncedErrors(
-      data,
+      $data,
       storesShape,
       config.debounced?.validate,
       true
@@ -368,18 +371,19 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   }
 
   async function executeWarningsValidation(
-    data: Data,
+    data: Data | Keyed<Data>,
     altWarn?: ValidationFunction<Data> | ValidationFunction<Data>[]
   ): Promise<Errors<Data> | undefined> {
+    const $data = deepRemoveKey(data);
     const warnings = validateWarnings(
-      data,
+      $data,
       storesShape,
       altWarn ?? config.warn,
       true
     );
     if (altWarn) return warnings;
     const debouncedWarnings = validateDebouncedWarnings(
-      data,
+      $data,
       storesShape,
       config.debounced?.warn,
       true
@@ -392,7 +396,8 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   let errorsValue = initialErrors;
   let warningsValue = initialWarnings;
   function start() {
-    const dataUnsubscriber = data.subscribe(($data) => {
+    const dataUnsubscriber = data.subscribe(($keyedData) => {
+      const $data = deepRemoveKey($keyedData);
       validateErrors($data, storesShape, config.validate);
       validateWarnings($data, storesShape, config.warn);
       _validateDebouncedErrors($data, storesShape, config.debounced?.validate);
@@ -459,7 +464,7 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   (filteredWarnings as PartialWritableErrors<Data>).update = publicWarningsUpdater;
 
   return {
-    data,
+    data: data as KeyedWritable<Data> & StoreExt,
     errors: filteredErrors as PartialWritableErrors<Data> & StoreExt,
     warnings: filteredWarnings as PartialWritableErrors<Data> & StoreExt,
     touched,

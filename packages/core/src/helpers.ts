@@ -15,6 +15,7 @@ import type {
   PrimitiveSetter,
   FieldsSetter,
   Helpers,
+  Keyed,
 } from '@felte/common';
 import {
   deepSet,
@@ -34,8 +35,8 @@ import { deepSetKey } from './deep-set-key';
 type CreateHelpersOptions<Data extends Obj> = {
   config: FormConfig<Data>;
   stores: Stores<Data>;
-  validateErrors(data: Data): Promise<Errors<Data> | undefined>;
-  validateWarnings(data: Data): Promise<Errors<Data> | undefined>;
+  validateErrors(data: Data | Keyed<Data>): Promise<Errors<Data> | undefined>;
+  validateWarnings(data: Data | Keyed<Data>): Promise<Errors<Data> | undefined>;
   extender: Extender<Data>[];
   addValidator(validator: ValidationFunction<Data>): void;
   addTransformer(transformer: TransformFunction<Data>): void;
@@ -145,7 +146,7 @@ export function createHelpers<Data extends Obj>({
   function unsetField(path: string) {
     data.update(($data) => {
       const newData = _unset($data, path);
-      if (formNode) setForm(formNode, newData);
+      setTimeout(() => formNode && setForm(formNode, newData));
       return newData;
     });
     touched.update(($touched) => {
@@ -186,7 +187,7 @@ export function createHelpers<Data extends Obj>({
   function resetField(path: string) {
     const initialValue = _get(initialValues, path);
     const touchedValue: any = _isPlainObject(initialValue)
-      ? deepSetTouched(initialValue, false)
+      ? deepSetTouched(initialValue as Obj, false)
       : false;
     const errValue: any = _isPlainObject(touchedValue)
       ? deepSet(touchedValue, [])

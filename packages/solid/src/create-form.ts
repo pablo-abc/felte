@@ -11,7 +11,9 @@ import type {
   Helpers,
   UnknownHelpers,
   KnownHelpers,
+  Keyed,
   Paths,
+  KeyedWritable,
 } from '@felte/core';
 import type {
   Stores,
@@ -66,7 +68,7 @@ export function createForm<Data extends Obj = any, Ext extends Obj = Obj>(
 
   return {
     ...rest,
-    data: data as Writable<Data> & FelteAccessor<Data>,
+    data: data as KeyedWritable<Data> & FelteAccessor<Keyed<Data>>,
     errors: errors as Writable<Errors<Data>> & FelteAccessor<Errors<Data>>,
     warnings: warnings as Writable<Errors<Data>> & FelteAccessor<Errors<Data>>,
     touched: touched as Writable<Touched<Data>> & FelteAccessor<Touched<Data>>,

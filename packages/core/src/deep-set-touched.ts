@@ -1,8 +1,8 @@
-import type { Obj, Touched } from '@felte/common';
+import type { Obj, Touched, Keyed } from '@felte/common';
 import { _mapValues, _isPlainObject } from '@felte/common';
 
 export function deepSetTouched<Data extends Obj>(
-  obj: Data,
+  obj: Data | Keyed<Data>,
   value: boolean
 ): Touched<Data> {
   return _mapValues(obj, (prop) => {

@@ -6,6 +6,8 @@ import type {
   TransWritable,
   Traverse,
   Paths,
+  Keyed,
+  KeyedWritable,
 } from '@felte/core';
 import type { Readable, Writable } from 'svelte/store';
 import { getValue, getValueFromStore } from '@felte/core';
@@ -22,15 +24,15 @@ export type Accessor<T> = T extends Obj
   : (<R>(deriveFn: (storeValue: T) => R) => R) & (() => T);
 
 export type UnknownStores<Data extends Obj> = Omit<Stores<Data>, 'data'> & {
-  data: Accessor<Data> & TransWritable<Data>;
+  data: Accessor<Keyed<Data>> & TransWritable<Data>;
 };
 
 export type KnownStores<Data extends Obj> = Omit<Stores<Data>, 'data'> & {
-  data: Accessor<Data> & Writable<Data>;
+  data: Accessor<Keyed<Data>> & KeyedWritable<Data>;
 };
 
 export type Stores<Data extends Obj> = {
-  data: Accessor<Data> & Writable<Data>;
+  data: Accessor<Keyed<Data>> & KeyedWritable<Data>;
   errors: Accessor<Errors<Data>> & Writable<Errors<Data>>;
   warnings: Accessor<Errors<Data>> & Writable<Errors<Data>>;
   touched: Accessor<Touched<Data>> & Writable<Touched<Data>>;

@@ -21,6 +21,7 @@ import { createHelpers } from './helpers';
 import { createFormAction } from './create-form-action';
 import type { FormActionConfig } from './create-form-action';
 import { createStores } from './stores';
+import { deepSetKey } from './deep-set-key';
 
 export type Adapters<StoreExt = Record<string, any>> = {
   storeFactory: StoreFactory<StoreExt>;
@@ -133,10 +134,10 @@ export function createForm<
 
   const transUpdate: typeof data.update = (updater) =>
     originalUpdate((values) =>
-      executeTransforms(updater(values), config.transform)
+      deepSetKey(executeTransforms(updater(values), config.transform))
     );
   const transSet: typeof data.set = (values) =>
-    originalSet(executeTransforms(values, config.transform));
+    originalSet(deepSetKey(executeTransforms(values, config.transform)));
 
   data.update = transUpdate;
   data.set = transSet;
