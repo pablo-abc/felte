@@ -1,5 +1,12 @@
 # @felte/solid
 
+## 1.0.0-next.21
+
+### Patch Changes
+
+- Updated dependencies [0b38b98]
+  - @felte/core@1.0.0-next.21
+
 ## 1.0.0-next.20
 
 ### Patch Changes

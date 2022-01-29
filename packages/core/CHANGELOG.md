@@ -1,5 +1,13 @@
 # @felte/core
 
+## 1.0.0-next.21
+
+### Patch Changes
+
+- 0b38b98: Prevent key assignment to errors and touched stores
+- Updated dependencies [70cfada]
+  - @felte/common@1.0.0-next.18
+
 ## 1.0.0-next.20
 
 ### Patch Changes
