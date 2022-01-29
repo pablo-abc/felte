@@ -10,7 +10,7 @@ import type {
 } from '@felte/core';
 import type { Accessor } from 'solid-js';
 import type { Writable, Readable } from 'svelte/store';
-import { getValue } from '@felte/core';
+import { getValue, isEqual } from '@felte/core';
 import { untrack, createSignal, createEffect } from 'solid-js';
 
 export type FelteAccessor<T> = T extends Obj
@@ -67,7 +67,7 @@ export function createAccessor<T, R>(store: Accessor<T>): FelteAccessor<T> {
       const subscriber = subscribed[key];
       const newValue = getValue(storeValue, subscriber) as unknown;
       const [value, setValue] = signals[subscriber.toString()];
-      if (newValue === untrack(value)) continue;
+      if (isEqual(newValue, untrack(value))) continue;
       setValue(newValue);
     }
   });

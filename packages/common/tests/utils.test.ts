@@ -37,6 +37,7 @@ import {
   getValue,
   mergeErrors,
   createId,
+  isEqual,
 } from '../src';
 
 function createLoginForm() {
@@ -919,5 +920,80 @@ describe('Utils', () => {
   test('createId', () => {
     expect(createId()).toHaveLength(8);
     expect(createId(21)).toHaveLength(21);
+  });
+
+  test('isEqual', () => {
+    expect(isEqual(1, 1)).toBe(true);
+    expect(isEqual(1, 2)).toBe(false);
+    expect(isEqual('1', '1')).toBe(true);
+    expect(isEqual([1, 2, 3], [1, 2, 3])).toBe(true);
+    expect(isEqual([1, 2, 3], [1, 3, 2])).toBe(false);
+    expect(isEqual([1, 2, 3], [1, 2, 3, 4])).toBe(false);
+    expect(isEqual([1, 2, 3], { name: 'test' })).toBe(false);
+    expect(
+      isEqual(
+        {
+          account: {
+            name: 'test',
+            likes: 1,
+            friends: [
+              {
+                name: 'friend1',
+              },
+              {
+                name: 'friend2',
+              },
+            ],
+          },
+        },
+        {
+          account: {
+            friends: [
+              {
+                name: 'friend1',
+              },
+              {
+                name: 'friend2',
+              },
+            ],
+            likes: 1,
+            name: 'test',
+          },
+        }
+      )
+    ).toBe(true);
+    expect(
+      isEqual(
+        {
+          account: {
+            name: 'test',
+            likes: 1,
+            friends: [
+              {
+                name: 'friend1',
+              },
+              {
+                name: 'friend2',
+              },
+            ],
+          },
+        },
+        {
+          account: {
+            friends: [
+              {
+                name: 'friend1',
+              },
+              {
+                name: 'friend2',
+              },
+            ],
+            preferences: [],
+            likes: 1,
+            name: 'test',
+          },
+        }
+      )
+    ).toBe(false);
   });
 });

@@ -10,7 +10,7 @@ import type {
   KeyedWritable,
 } from '@felte/core';
 import type { Readable, Writable } from 'svelte/store';
-import { getValue, getValueFromStore } from '@felte/core';
+import { getValue, getValueFromStore, isEqual } from '@felte/core';
 
 export type Accessor<T> = T extends Obj
   ? (<R>(selector: (storeValue: T) => R) => R) &
@@ -101,7 +101,7 @@ export function useAccessor<T>(
       for (const key of keys) {
         const selector = subscribedRef.current[key];
         const newValue = getValue($store, selector);
-        if (newValue !== values.current[selector.toString()]) {
+        if (!isEqual(newValue, values.current[selector.toString()])) {
           values.current[selector.toString()] = newValue;
           hasChanged = true;
         }
