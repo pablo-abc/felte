@@ -12,5 +12,5 @@ export function isEqual(val1: unknown, val2: unknown): boolean {
     if (keys1.length !== keys2.length) return false;
     return keys1.every((k) => isEqual(val1[k], val2[k]));
   }
-  return val1 === val2;
+  return false;
 }
