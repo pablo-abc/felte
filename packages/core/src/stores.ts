@@ -193,7 +193,7 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
         )
       )
     : ({} as Data));
-  const initialTouched = deepSetTouched(initialValues, false);
+  const initialTouched = deepSetTouched(deepRemoveKey(initialValues), false);
   const touched = storeFactory(initialTouched);
 
   const validationCount = storeFactory(0);
@@ -257,10 +257,10 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     };
   }
 
-  let storesShape = deepSet(initialValues, []) as Errors<Data>;
+  let storesShape = deepSet(initialTouched, []) as Errors<Data>;
   const data = storeFactory(initialValues);
 
-  const initialErrors = deepSet(initialValues, []) as Errors<Data>;
+  const initialErrors = deepSet(initialTouched, []) as Errors<Data>;
   const immediateErrors = storeFactory(
     initialErrors
   ) as PartialWritableErrors<Data> & StoreExt;
@@ -276,7 +276,7 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     _cloneDeep(initialErrors)
   );
 
-  const initialWarnings = deepSet(initialValues, []) as Errors<Data>;
+  const initialWarnings = deepSet(initialTouched, []) as Errors<Data>;
   const immediateWarnings = storeFactory(
     initialWarnings
   ) as PartialWritableErrors<Data> & StoreExt;
