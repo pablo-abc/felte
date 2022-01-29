@@ -373,6 +373,12 @@ describe('Utils', () => {
       account: {
         username: 'test',
         password: '',
+        strings: ['string1'],
+        friends: [
+          {
+            name: 'name1',
+          },
+        ],
       },
     };
     const truthyResult = deepSome(
@@ -386,6 +392,11 @@ describe('Utils', () => {
       (value) => typeof value === 'string' && value === 'not in object'
     );
     expect(falsyResult).toBeFalsy();
+
+    expect(deepSome(testObj, (value) => value === 'name1')).toBeTruthy();
+    expect(
+      deepSome(testObj, (value) => Array.isArray(value) && value.length === 1)
+    ).toBeTruthy();
   });
 
   test('isFieldSetElement', () => {
