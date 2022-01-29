@@ -47,7 +47,10 @@ function errorFilterer(
   errValue?: string | string[]
 ) {
   if (_isPlainObject(touchValue)) {
-    if (_isPlainObject(errValue) && Object.keys(errValue).length === 0) {
+    if (
+      !errValue ||
+      (_isPlainObject(errValue) && Object.keys(errValue).length === 0)
+    ) {
       return deepSet(touchValue, null);
     }
     return;
@@ -71,7 +74,10 @@ function warningFilterer(
   errValue?: string | string[]
 ) {
   if (_isPlainObject(touchValue)) {
-    if (_isPlainObject(errValue) && Object.keys(errValue).length === 0) {
+    if (
+      !errValue ||
+      (_isPlainObject(errValue) && Object.keys(errValue).length === 0)
+    ) {
       return deepSet(touchValue, null);
     }
     return;

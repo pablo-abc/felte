@@ -12,7 +12,9 @@ export function _mergeWith<T extends Obj>(...args: any[]): T {
     if (!source) continue;
     let rsValue = customizer(obj, source);
     if (typeof rsValue !== 'undefined') return rsValue;
-    const keys = Object.keys(source);
+    const keys = Array.from(
+      new Set(Object.keys(obj).concat(Object.keys(source)))
+    );
     for (const key of keys) {
       rsValue = customizer(obj[key], source[key]);
       if (typeof rsValue !== 'undefined') {
