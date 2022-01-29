@@ -25,6 +25,7 @@ import type {
   Accessor,
 } from './use-accessor';
 import { useAccessor } from './use-accessor';
+import { useConst } from './use-const';
 
 /** The return type for the `createForm` function. */
 export type Form<Data extends Obj> = {
@@ -37,14 +38,6 @@ export type Form<Data extends Obj> = {
     altConfig?: CreateSubmitHandlerConfig<Data>
   ): (e?: Event) => void;
 };
-
-function useConst<T>(setup: () => T): T {
-  const ref = useRef<T>();
-  if (ref.current === undefined) {
-    ref.current = setup();
-  }
-  return ref.current;
-}
 
 export function useForm<Data extends Obj = any, Ext extends Obj = Obj>(
   config: FormConfigWithTransformFn<Data> & Ext

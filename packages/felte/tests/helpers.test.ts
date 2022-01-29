@@ -1,6 +1,6 @@
 import { waitFor, screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
-import { createForm } from '../src';
+import { createForm, getValue, createField } from '../src';
 import { createInputElement, createDOM, cleanupDOM } from './common';
 import { get } from 'svelte/store';
 
@@ -375,5 +375,25 @@ describe('Helpers', () => {
 
     expect(get(data).account.email).toBe('zaphod@beeblebrox.com');
     expect(get(touched).account.email).toBe(false);
+  });
+
+  test('getValue', () => {
+    const data = {
+      account: {
+        email: 'zaphod@beeblebrox.com',
+      },
+    };
+    expect(getValue(data, 'account.email')).toBe('zaphod@beeblebrox.com');
+    expect(getValue(data, ($data) => $data.account.email)).toBe(
+      'zaphod@beeblebrox.com'
+    );
+  });
+
+  test('createField', () => {
+    expect(createField('name')).toEqual({
+      field: expect.any(Function),
+      onChange: expect.any(Function),
+      onBlur: expect.any(Function),
+    });
   });
 });
