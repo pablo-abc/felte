@@ -339,6 +339,15 @@ describe('Utils', () => {
         username: 'test',
         password: '',
         preferences: ['tech', 'film'],
+        friends: [
+          {
+            name: 'name1',
+            key: 'key1',
+          },
+          {
+            name: 'name2',
+          },
+        ],
       },
     };
 
@@ -347,6 +356,14 @@ describe('Utils', () => {
         username: true,
         password: true,
         preferences: [true, true],
+        friends: [
+          {
+            name: true,
+          },
+          {
+            name: true,
+          },
+        ],
       },
     });
   });
