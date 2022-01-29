@@ -164,6 +164,7 @@ export function createFormAction<Data extends Obj>({
           Array.isArray(error) ? error.length >= 1 : !!error
         );
         if (hasErrors) {
+          await new Promise((r) => setTimeout(r));
           _getCurrentExtenders().forEach((extender) =>
             extender.onSubmitError?.({
               data: currentData,
@@ -205,6 +206,7 @@ export function createFormAction<Data extends Obj>({
         const serverErrors = await onError(e, context);
         if (serverErrors) {
           errors.set(serverErrors);
+          await new Promise((r) => setTimeout(r));
           _getCurrentExtenders().forEach((extender) =>
             extender.onSubmitError?.({
               data: currentData,
