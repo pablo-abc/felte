@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.0.0-next.19
+
+### Minor Changes
+
+- a174e87: Add isEqual utility to check for strict equality
+
 ## 1.0.0-next.18
 
 ### Patch Changes

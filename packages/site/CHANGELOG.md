@@ -1,5 +1,18 @@
 # @felte/site
 
+## 0.0.9-next.1
+
+### Patch Changes
+
+- a174e87: Check for strict equality on value change
+- Updated dependencies [02fd56e]
+- Updated dependencies [c412050]
+  - @felte/reporter-dom@1.0.0-next.18
+  - @felte/reporter-svelte@1.0.0-next.18
+  - @felte/reporter-tippy@1.0.0-next.19
+  - felte@1.0.0-next.22
+  - @felte/validator-yup@1.0.0-next.18
+
 ## 0.0.9-next.0
 
 ### Patch Changes

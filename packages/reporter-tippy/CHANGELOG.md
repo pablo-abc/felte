@@ -1,5 +1,16 @@
 # @felte/reporter-tippy
 
+## 1.0.0-next.19
+
+### Minor Changes
+
+- 02fd56e: Ensure good behaviour with controls created by `useField`/`createField` by only focusing non-hidden inputs
+
+### Patch Changes
+
+- Updated dependencies [a174e87]
+  - @felte/common@1.0.0-next.19
+
 ## 1.0.0-next.18
 
 ### Patch Changes

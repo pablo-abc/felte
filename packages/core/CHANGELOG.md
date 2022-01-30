@@ -1,5 +1,16 @@
 # @felte/core
 
+## 1.0.0-next.22
+
+### Minor Changes
+
+- b9ea48d: Add support for custom controls with `createField`
+
+### Patch Changes
+
+- Updated dependencies [a174e87]
+  - @felte/common@1.0.0-next.19
+
 ## 1.0.0-next.21
 
 ### Patch Changes

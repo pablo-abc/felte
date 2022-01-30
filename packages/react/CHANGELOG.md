@@ -1,5 +1,17 @@
 # @felte/react
 
+## 1.0.0-next.25
+
+### Minor Changes
+
+- c412050: Add support for custom controls with `createField`/`useField`
+
+### Patch Changes
+
+- a174e87: Check for strict equality on value change
+- Updated dependencies [b9ea48d]
+  - @felte/core@1.0.0-next.22
+
 ## 1.0.0-next.24
 
 ### Patch Changes

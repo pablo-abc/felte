@@ -1,5 +1,16 @@
 # @felte/solid
 
+## 1.0.0-next.22
+
+### Minor Changes
+
+- c412050: Add support for custom controls with `createField`/`useField`
+
+### Patch Changes
+
+- Updated dependencies [b9ea48d]
+  - @felte/core@1.0.0-next.22
+
 ## 1.0.0-next.21
 
 ### Patch Changes
