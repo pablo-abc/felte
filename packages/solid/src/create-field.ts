@@ -1,10 +1,6 @@
-import type { Field as CoreField, FieldConfig } from '@felte/core';
+import type { Field, FieldConfig } from '@felte/core';
 import { onCleanup } from 'solid-js';
 import { createField as coreCreateField } from '@felte/core';
-
-export type Field = CoreField & {
-  onInput: CoreField['onChange'];
-};
 
 export function createField(
   name: string,
@@ -15,7 +11,7 @@ export function createField(
   nameOrConfig: FieldConfig | string,
   config?: Omit<FieldConfig, 'name'>
 ): Field {
-  const { field: coreField, onChange, onBlur } = coreCreateField(
+  const { field: coreField, onChange, onInput, onBlur } = coreCreateField(
     nameOrConfig,
     config
   );
@@ -29,7 +25,7 @@ export function createField(
   return {
     field,
     onChange,
-    onInput: onChange,
+    onInput,
     onBlur,
   };
 }

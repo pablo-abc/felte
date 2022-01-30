@@ -9,6 +9,7 @@ export type FieldConfig = {
 
 export type Field = {
   field(node: HTMLElement): { destroy?(): void };
+  onInput(value: FieldValue): void;
   onChange(value: FieldValue): void;
   onBlur(): void;
 };
@@ -113,7 +114,7 @@ export function createField(
     }
   }
 
-  function onChange(value: FieldValue) {
+  function onInput(value: FieldValue) {
     dispatchEvent(touchOnChange ? 'change' : 'input', value);
   }
 
@@ -122,7 +123,8 @@ export function createField(
   }
   return {
     field,
-    onChange,
+    onInput,
+    onChange: onInput,
     onBlur,
   };
 }
