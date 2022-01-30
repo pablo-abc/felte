@@ -58,7 +58,7 @@ function CustomInput({ name, labelId }) {
   return (
     <div
       ref={field}
-      onChange={handleChange}
+      onInput={handleChange}
       onBlur={onBlur}
       aria-labelledby={labelId}
       role="textbox"
@@ -86,6 +86,7 @@ The options accepted by `useField` are:
 
 - `field`: a ref that _must_ be assigned to the focusable (tabIndex === 0) element of your control. It must be assigned in order for the following functions to do anything.
 - `onChange`: a function that receives a value to be assigned to the field.
+- `onInput`: an alias for `onChange`.
 - `onBlur`: a function that needs to be called in order to mark a field as "touched" if `touchOnChange` is `false`. Not needed if `touchOnChange` is `true`. Useful if your custom control should behave like a text box.
 
 > **NOTE**: when creating custom controls like this, be mindful of the accessibility of your component. Handling proper keyboard interactions, roles and labels is a must for your custom control to be seen as an input by assistive technologies.
