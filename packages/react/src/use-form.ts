@@ -79,6 +79,7 @@ export function useForm<Data extends Obj = Obj>(
   const isSubmitting = useAccessor<boolean>(rest.isSubmitting);
   const isDirty = useAccessor<boolean>(rest.isDirty);
   const isValid = useAccessor<boolean>(rest.isValid);
+  const isValidating = useAccessor<boolean>(rest.isValidating);
 
   useEffect(() => {
     const cleanup = startStores();
@@ -99,5 +100,6 @@ export function useForm<Data extends Obj = Obj>(
     isSubmitting,
     isDirty,
     isValid,
+    isValidating,
   };
 }

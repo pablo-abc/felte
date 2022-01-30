@@ -100,7 +100,7 @@ export function createField(
           const input = document.createElement('input');
           input.type = 'hidden';
           input.name = name;
-          parent.insertBefore(input, node);
+          parent.insertBefore(input, node.nextSibling);
           control = input;
         } else {
           control = foundControl;
