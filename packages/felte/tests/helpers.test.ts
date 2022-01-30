@@ -394,6 +394,7 @@ describe('Helpers', () => {
       field: expect.any(Function),
       onChange: expect.any(Function),
       onBlur: expect.any(Function),
+      onInput: expect.any(Function),
     });
   });
 });
