@@ -1,5 +1,11 @@
 # @felte/core
 
+## 1.0.0-next.23
+
+### Patch Changes
+
+- 8282a70: Wait for DOM element to be mounted on createField/useField
+
 ## 1.0.0-next.22
 
 ### Minor Changes
