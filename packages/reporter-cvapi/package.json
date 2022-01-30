@@ -30,10 +30,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@felte/common": "^1.0.0-next.19"
+    "@felte/common": "workspace:*"
   },
   "devDependencies": {
-    "felte": "^1.0.0-next.22"
+    "felte": "workspace:*"
   },
   "publishConfig": {
     "access": "public"
