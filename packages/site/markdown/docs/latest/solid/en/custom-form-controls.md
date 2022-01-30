@@ -47,8 +47,8 @@ You might want to create a shareable component that should work with Felte witho
 ```jsx
 import { createField } from '@felte/solid';
 
-function CustomInput({ name, labelId }) {
-  const { field, onInput, onBlur } = createField(name);
+function CustomInput(props) {
+  const { field, onInput, onBlur } = createField(props.name);
 
   function handleInput(e) {
     onInput(e.currentTarget.innerText);
@@ -59,7 +59,7 @@ function CustomInput({ name, labelId }) {
       use:field
       onInput={handleInput}
       onBlur={onBlur}
-      aria-labelledby={labelId}
+      aria-labelledby={props.labelId}
       role="textbox"
       contentEditable
       tabIndex={0}
