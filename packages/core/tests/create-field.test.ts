@@ -15,7 +15,7 @@ describe('Custom controls with createField', () => {
   beforeEach(createDOM);
   afterEach(cleanupDOM);
 
-  test('adds hidden input when none is present', () => {
+  test('adds hidden input when none is present', async () => {
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const inputElement = createContentEditable();
     formElement.appendChild(inputElement);
@@ -26,7 +26,11 @@ describe('Custom controls with createField', () => {
 
     field(inputElement);
 
-    expect(formElement.querySelector('input[name="test"]')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        formElement.querySelector('input[name="test"]')
+      ).toBeInTheDocument();
+    });
   });
 
   test('does not add hidden input when one is already present', () => {
@@ -45,7 +49,7 @@ describe('Custom controls with createField', () => {
     expect(formElement.querySelectorAll('input[name="test"]').length).toBe(1);
   });
 
-  test('does not add hidden input when assigning to a native input', () => {
+  test('does not add hidden input when assigning to a native input', async () => {
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const inputElement = createInputElement({ name: '', type: 'text' });
     formElement.appendChild(inputElement);
@@ -56,11 +60,15 @@ describe('Custom controls with createField', () => {
 
     field(inputElement);
 
-    expect(formElement.querySelectorAll('input[name="test"]').length).toBe(1);
-    expect(formElement.querySelector('input[name="test"]')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(formElement.querySelectorAll('input[name="test"]').length).toBe(1);
+      expect(
+        formElement.querySelector('input[name="test"]')
+      ).toBeInTheDocument();
+    });
   });
 
-  test('dispatches input events', () => {
+  test('dispatches input events', async () => {
     const inputListener = jest.fn();
     const blurListener = jest.fn();
     const formElement = screen.getByRole('form') as HTMLFormElement;
@@ -82,35 +90,37 @@ describe('Custom controls with createField', () => {
 
     field(inputElement);
 
-    const hiddenElement = document.querySelector(
-      'input[name="test"]'
-    ) as HTMLInputElement;
+    await waitFor(() => {
+      const hiddenElement = document.querySelector(
+        'input[name="test"]'
+      ) as HTMLInputElement;
 
-    expect(hiddenElement).not.toBe(null);
+      expect(hiddenElement).not.toBe(null);
 
-    onChange('new value');
+      onChange('new value');
 
-    expect(hiddenElement.value).toBe('new value');
-    expect(inputListener).toHaveBeenCalledWith(
-      expect.objectContaining({
-        target: hiddenElement,
-      })
-    );
-    expect(blurListener).not.toHaveBeenCalled();
+      expect(hiddenElement.value).toBe('new value');
+      expect(inputListener).toHaveBeenCalledWith(
+        expect.objectContaining({
+          target: hiddenElement,
+        })
+      );
+      expect(blurListener).not.toHaveBeenCalled();
 
-    onBlur();
+      onBlur();
 
-    expect(blurListener).toHaveBeenCalledWith(
-      expect.objectContaining({
-        target: hiddenElement,
-      })
-    );
+      expect(blurListener).toHaveBeenCalledWith(
+        expect.objectContaining({
+          target: hiddenElement,
+        })
+      );
+    });
 
     formElement.removeEventListener('input', inputListener);
     formElement.removeEventListener('focusout', blurListener);
   });
 
-  test('dispatches change events', () => {
+  test('dispatches change events', async () => {
     const changeListener = jest.fn();
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const inputElement = createContentEditable();
@@ -127,11 +137,13 @@ describe('Custom controls with createField', () => {
 
     const { destroy } = field(inputElement);
 
-    const hiddenElement = document.querySelector(
-      'input[name="test"]'
-    ) as HTMLInputElement;
+    await waitFor(() => {
+      const hiddenElement = document.querySelector(
+        'input[name="test"]'
+      ) as HTMLInputElement;
 
-    expect(hiddenElement).not.toBe(null);
+      expect(hiddenElement).not.toBe(null);
+    });
 
     onChange('new value');
 
@@ -150,6 +162,8 @@ describe('Custom controls with createField', () => {
     const { field } = createField('test');
 
     field(inputElement);
+
+    await new Promise((r) => setTimeout(r, 10));
 
     hiddenElement.setAttribute('aria-invalid', 'true');
     await waitFor(() => {
@@ -176,6 +190,8 @@ describe('Custom controls with createField', () => {
   test('does nothing with unmounted element', () => {
     const inputElement = createContentEditable();
     const { field } = createField('test');
-    expect(field(inputElement)).toEqual({});
+    expect(field(inputElement)).toEqual({
+      destroy: expect.any(Function),
+    });
   });
 });

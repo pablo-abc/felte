@@ -13,7 +13,9 @@ describe('createField export', () => {
     const field = createField('test');
 
     const r = field.field(inputElement);
-    expect(r).toEqual({});
+    expect(r).toEqual({
+      destroy: expect.any(Function),
+    });
     expect(field).toEqual({
       field: expect.any(Function),
       onChange: expect.any(Function),

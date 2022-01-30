@@ -85,30 +85,34 @@ export function createField(
 
   function field(node: HTMLElement) {
     fieldNode = node;
+    let observer: MutationObserver;
     if (isFormControl(node)) {
       control = node;
       control.name = name;
       return {};
     } else {
-      const parent = fieldNode.parentNode;
-      if (!parent || !isElement(parent)) return {};
-      const foundControl = parent.querySelector(`[name="${name}"]`);
-      if (!foundControl || !isFormControl(foundControl)) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = name;
-        parent.insertBefore(input, node);
-        control = input;
-      } else {
-        control = foundControl;
-      }
-      setControlValue(control, defaultValue);
+      // This setTimeout is necessary to guarantee the node has been mounted
+      setTimeout(() => {
+        const parent = fieldNode.parentNode;
+        if (!parent || !isElement(parent)) return;
+        const foundControl = parent.querySelector(`[name="${name}"]`);
+        if (!foundControl || !isFormControl(foundControl)) {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = name;
+          parent.insertBefore(input, node);
+          control = input;
+        } else {
+          control = foundControl;
+        }
+        setControlValue(control, defaultValue);
 
-      const observer = new MutationObserver(mutationCallback);
-      observer.observe(control, observerConfig);
+        observer = new MutationObserver(mutationCallback);
+        observer.observe(control, observerConfig);
+      });
       return {
         destroy() {
-          observer.disconnect();
+          observer?.disconnect();
         },
       };
     }

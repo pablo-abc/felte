@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { useField } from '../src';
 
 describe('correctly uses useField', () => {
-  test('adds hidden input', () => {
+  test('adds hidden input', async () => {
     function CustomInput() {
       const { field, onChange, onBlur } = useField('test');
 
@@ -21,7 +21,9 @@ describe('correctly uses useField', () => {
     }
     const { unmount } = render(<CustomInput />);
 
-    expect(document.querySelector('[name="test"]')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(document.querySelector('[name="test"]')).toBeInTheDocument();
+    });
     unmount();
   });
 });
