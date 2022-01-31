@@ -146,9 +146,9 @@ describe('Form action DOM mutations', () => {
     expect(addEventListener).not.toHaveBeenCalled();
     expect(removeEventListener).not.toHaveBeenCalled();
     const { destroy } = form(formElement);
-    expect(addEventListener).toHaveBeenCalledTimes(4);
+    expect(addEventListener).toHaveBeenCalledTimes(5);
     expect(removeEventListener).not.toHaveBeenCalled();
     destroy();
-    expect(removeEventListener).toHaveBeenCalledTimes(4);
+    expect(removeEventListener).toHaveBeenCalledTimes(5);
   });
 });
