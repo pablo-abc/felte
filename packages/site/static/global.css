@@ -1,5 +1,8 @@
 :root, body.light {
-  --primary-color: rgb(255, 62, 0);
+  --primary-color: hsl(15, 100%, 50%);
+  --highlight-background: hsl(15, 100%, 43%);
+  --highlight-background-hover: hsl(15, 100%, 50%);
+  --on-highlight-background: hsl(0, 0%, 0%);
   --on-primary-color: #FFFFF9;
   --primary-color-hover: rgb(255, 113, 51);
   --primary-background: #FFFFF0;

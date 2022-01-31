@@ -61,7 +61,7 @@
 </script>
 
 <header>
-  <nav>
+  <nav aria-label="main">
     <h1>
       <a
         href="/"

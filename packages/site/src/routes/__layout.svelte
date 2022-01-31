@@ -3,25 +3,31 @@
   import '../app.postcss';
   import Nav from '$lib/components/Nav.svelte';
   import 'tippy.js/dist/tippy.css';
+  import { onMount } from 'svelte';
+
+  onMount(() => {
+    window.Prism = window.Prism || {};
+    Prism.manual = true;
+  });
 
   const currentVersion = import.meta.env.VITE_FELTE_VERSION;
   const altVersion = import.meta.env.VITE_FELTE_ALT_VERSION;
   const altLink = import.meta.env.VITE_FELTE_ALT_LINK;
 </script>
 
-<div class="banner mobile">
+<aside class="banner mobile">
   If you're looking for the documentation for {altVersion}, <a href="{altLink}" re="external">click here</a>.
-</div>
-<div class="banner desktop">
+</aside>
+<aside class="banner desktop">
   This is the documentation for Felte {currentVersion}. If you're looking for the documentation for {altVersion}, <a href="{altLink}" re="external">click here</a>.
-</div>
+</aside>
 <Nav />
 
 <slot></slot>
 
 <style>
   .banner {
-    background-color: var(--primary-color);
+    background-color: var(--highlight-background);
     color: #FFF;
     font-size: 0.9rem;
     padding: 0.5rem;

@@ -26,18 +26,16 @@
   });
 </script>
 
-<nav on:click={clickHandler}>
-  <ul class=sections>
-    {#each items as item (item.id)}
-      <li>
-        <a
-          href={`/docs/${framework}/${item.id}`}
-          aria-current="{$page.url.pathname === `/docs/${framework}/${item.id}`}"
-          sveltekit:prefetch
-          >
-          {item.section}
-        </a>
-      </li>
+<ul class=sections on:click={clickHandler}>
+  {#each items as item (item.id)}
+    <li>
+      <a
+        href={`/docs/${framework}/${item.id}`}
+        aria-current="{$page.url.pathname === `/docs/${framework}/${item.id}`}"
+        sveltekit:prefetch
+        >
+        {item.section}
+      </a>
       {#if item.subsections}
         <ul class=subsections>
           {#each item.subsections as subsection (subsection.id)}
@@ -45,6 +43,7 @@
               <a
                 sveltekit:prefetch
                 href={`/docs/${framework}/${item.id}#${subsection.id}`}
+                aria-label="{item.section} - {subsection.name}"
                 >
                 {subsection.name}
               </a>
@@ -52,9 +51,9 @@
           {/each}
         </ul>
       {/if}
-    {/each}
-  </ul>
-</nav>
+    </li>
+  {/each}
+</ul>
 
 <style>
   .sections {

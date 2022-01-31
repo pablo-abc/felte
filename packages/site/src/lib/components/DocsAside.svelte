@@ -76,7 +76,7 @@
 </script>
 
 <div class="desktop-menu">
-  <div class="sidebar">
+  <nav class="sidebar" aria-label="side menu">
     <label for="framework-select">Choose your framework:</label>
     <select
       id="framework-select"
@@ -88,7 +88,7 @@
       <option value="react">React</option>
     </select>
     <DocsNav framework={$session.framework ?? 'svelte'} items={asideItems} />
-  </div>
+  </nav>
 </div>
 
 <div class="mobile-menu">
@@ -99,10 +99,10 @@
     on:click="{handleClickOutside}"
     transition:fade
   >
-    <div
+    <nav
       use:focusOn
       class="sidebar"
-      aria-label="Side menu"
+      aria-label="side menu"
       transition:menuTransition
     >
       <div class="actions">
@@ -138,7 +138,7 @@
       </select>
       <DocsNav framework={$session.framework ?? 'svelte'} on:close="{() => (open
       = false)}" items={asideItems} />
-    </div>
+    </nav>
   </div>
   {:else}
   <div class="menu-button" transition:fade="{{ duration: 200 }}">
