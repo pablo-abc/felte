@@ -146,6 +146,8 @@ export type Helpers<Data extends Obj, Path extends string = string> = {
   setIsDirty: PrimitiveSetter<boolean>;
   /** Helper function to set the value of the isSubmitting store */
   setIsSubmitting: PrimitiveSetter<boolean>;
+  /** Helper function the set the value of the interacted store */
+  setInteracted: PrimitiveSetter<string | null>;
   /** Helper function to set all values of the form. Useful for "initializing" values after the form has loaded. */
   setFields: FieldsSetter<Data, Path> | UnknownFieldsSetter<Data, Path>;
   /** Helper function to unset a field (remove it completely from your stores) */
@@ -259,7 +261,10 @@ export type SubmitContext<Data extends Obj> = {
   form?: HTMLFormElement;
   controls?: FormControl[];
   config: FormConfig<Data>;
-} & Omit<Helpers<Data>, 'validate' | 'setIsSubmitting' | 'setIsDirty'>;
+} & Omit<
+  Helpers<Data>,
+  'validate' | 'setIsSubmitting' | 'setIsDirty' | 'setInteracted'
+>;
 
 type DebouncedConfig<Data extends Obj> = {
   /** Optional function to validate the data. */
@@ -462,6 +467,8 @@ export type Stores<Data extends Obj, StoreExt = Record<string, any>> = {
   isValidating: Readable<boolean> & StoreExt;
   /** Readable store containing only a boolean that represents if the form is dirty. */
   isDirty: Writable<boolean> & StoreExt;
+  /** Writable store containing either `null` or the name of the last field the user interacted with. */
+  interacted: Writable<string | null> & StoreExt;
 };
 
 /** The return type for the `createForm` function. */

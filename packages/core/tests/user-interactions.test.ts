@@ -708,7 +708,7 @@ describe('User interactions with form', () => {
       };
       preferences: any[];
     };
-    const { form, touched, data } = createForm<Data>({
+    const { form, touched, data, interacted, isDirty } = createForm<Data>({
       onSubmit: jest.fn(),
     });
     const {
@@ -830,8 +830,12 @@ describe('User interactions with form', () => {
     );
 
     const mockFile = new File(['test file'], 'test.png', { type: 'image/png' });
+    expect(get(isDirty)).toBe(false);
+    expect(get(interacted)).toBe(null);
     userEvent.type(emailInput, 'jacek@soplica.com');
     expect(get(touched).account.email).toBe(false);
+    expect(get(isDirty)).toBe(true);
+    expect(get(interacted)).toBe(emailInput.name);
     userEvent.type(passwordInput, 'password');
     expect(get(touched).account.email).toBe(true);
     userEvent.type(confirmPasswordInput, 'password');

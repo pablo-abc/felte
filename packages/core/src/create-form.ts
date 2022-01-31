@@ -128,6 +128,7 @@ export function createForm<
     start,
     validateErrors,
     validateWarnings,
+    interacted,
   } = createStores(adapters.storeFactory, config);
   const originalUpdate = data.update;
   const originalSet = data.set;
@@ -158,6 +159,7 @@ export function createForm<
       isValidating,
       isSubmitting,
       isDirty,
+      interacted,
     },
   });
 
@@ -193,6 +195,7 @@ export function createForm<
       isValidating,
       isValid,
       isDirty,
+      interacted,
     },
     helpers: {
       ...helpers.public,
@@ -220,6 +223,7 @@ export function createForm<
     isSubmitting,
     isValidating,
     isDirty,
+    interacted,
     form,
     handleSubmit,
     createSubmitHandler,

@@ -133,7 +133,15 @@ export function createFormAction<Data extends Obj>({
     setIsSubmitting,
     ...contextHelpers
   } = helpers;
-  const { data, errors, warnings, touched, isSubmitting, isDirty } = stores;
+  const {
+    data,
+    errors,
+    warnings,
+    touched,
+    isSubmitting,
+    isDirty,
+    interacted,
+  } = stores;
 
   function createSubmitHandler(altConfig?: CreateSubmitHandlerConfig<Data>) {
     const onError = altConfig?.onError ?? config.onError;
@@ -147,6 +155,7 @@ export function createFormAction<Data extends Obj>({
       if (!onSubmit) return;
       event?.preventDefault();
       isSubmitting.set(true);
+      interacted.set(null);
       const currentData = deepRemoveKey(get(data));
       const currentErrors = await validateErrors(
         currentData,
@@ -307,6 +316,7 @@ export function createFormAction<Data extends Obj>({
       if (!target.name) return;
       isDirty.set(true);
       const inputValue = getInputTextOrNumber(target);
+      interacted.set(target.name);
       data.update(($data) => {
         return _set($data, getPath(target), inputValue);
       });
@@ -317,13 +327,14 @@ export function createFormAction<Data extends Obj>({
       if (!target || !isFormControl(target) || shouldIgnore(target)) return;
       if (!target.name) return;
       setTouched<string, any>(getPath(target), true);
+      interacted.set(target.name);
       if (
         isSelectElement(target) ||
-        ['checkbox', 'radio', 'file'].includes(target.type)
+        ['checkbox', 'radio', 'file', 'hidden'].includes(target.type)
       ) {
         isDirty.set(true);
       }
-      if (isSelectElement(target)) {
+      if (isSelectElement(target) || target.type === 'hidden') {
         data.update(($data) => {
           return _set($data, getPath(target), target.value);
         });
@@ -339,6 +350,7 @@ export function createFormAction<Data extends Obj>({
       if (!target || !isFormControl(target) || shouldIgnore(target)) return;
       if (!target.name) return;
       setTouched<string, any>(getPath(target), true);
+      interacted.set(target.name);
     }
 
     const mutationOptions = { childList: true, subtree: true };

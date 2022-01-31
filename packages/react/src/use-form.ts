@@ -80,6 +80,7 @@ export function useForm<Data extends Obj = Obj>(
   const isDirty = useAccessor<boolean>(rest.isDirty);
   const isValid = useAccessor<boolean>(rest.isValid);
   const isValidating = useAccessor<boolean>(rest.isValidating);
+  const interacted = useAccessor<string | null>(rest.interacted);
 
   useEffect(() => {
     const cleanup = startStores();
@@ -101,5 +102,6 @@ export function useForm<Data extends Obj = Obj>(
     isDirty,
     isValid,
     isValidating,
+    interacted,
   };
 }

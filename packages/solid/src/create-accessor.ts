@@ -22,7 +22,7 @@ export type FelteAccessor<T> = T extends Obj
         path: P
       ) => V) &
       (() => T)
-  : T extends boolean | string
+  : T extends boolean | string | null
   ? (<R>(deriveFn: (storeValue: T) => R) => R) & (() => T)
   : ((selector: (storeValue: any) => any) => any) &
       ((path: string) => any) &
@@ -45,6 +45,7 @@ export type Stores<Data extends Obj> = {
   isValid: FelteAccessor<boolean> & Readable<boolean>;
   isDirty: FelteAccessor<boolean> & Writable<boolean>;
   isValidating: FelteAccessor<boolean> & Readable<boolean>;
+  interacted: FelteAccessor<string | null> & Writable<string | null>;
 };
 
 type SelectorOrPath<T, R> = string | ((value: T) => R);

@@ -21,7 +21,7 @@ export type Accessor<T> = T extends Obj
         path: P
       ) => V) &
       (() => T)
-  : T extends string | boolean
+  : T extends string | boolean | null
   ? (<R>(deriveFn: (storeValue: T) => R) => R) & (() => T)
   : ((selector: (storeValue: any) => any) => any) &
       ((path: string) => any) &
@@ -44,6 +44,7 @@ export type Stores<Data extends Obj> = {
   isValid: Accessor<boolean> & Readable<boolean>;
   isDirty: Accessor<boolean> & Writable<boolean>;
   isValidating: Accessor<boolean> & Readable<boolean>;
+  interacted: Accessor<string | null> & Writable<string | null>;
 };
 
 type SelectorOrPath<T> = string | (<R>(value: T) => R);

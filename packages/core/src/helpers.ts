@@ -71,7 +71,7 @@ function createSetHelper<Data extends Obj, Path extends string>(
 function createSetHelper<Data extends Obj, Path extends string>(
   storeSetter: (updater: (value: Data) => Data) => void
 ): ObjectSetter<Data, Path>;
-function createSetHelper<Data extends boolean>(
+function createSetHelper<Data extends boolean | string | null>(
   storeSetter: (updater: (value: Data) => Data) => void
 ): PrimitiveSetter<Data>;
 function createSetHelper<Data extends Obj | boolean>(
@@ -112,7 +112,15 @@ export function createHelpers<Data extends Obj>({
   let formNode: HTMLFormElement | undefined;
   let initialValues = deepSetKey((config.initialValues ?? {}) as Data);
 
-  const { data, touched, errors, warnings, isDirty, isSubmitting } = stores;
+  const {
+    data,
+    touched,
+    errors,
+    warnings,
+    isDirty,
+    isSubmitting,
+    interacted,
+  } = stores;
 
   const setData = createSetHelper<Data, string>(data.update);
 
@@ -139,7 +147,6 @@ export function createHelpers<Data extends Obj>({
     fieldsSetter(pathOrValue as any, valueOrUpdater as any);
     if (typeof pathOrValue === 'string' && shouldTouch) {
       setTouched<string, any>(pathOrValue, true);
-      isDirty.set(true);
     }
   };
 
@@ -212,9 +219,12 @@ export function createHelpers<Data extends Obj>({
 
   const setIsDirty = createSetHelper(isDirty.update);
 
+  const setInteracted = createSetHelper(interacted.update);
+
   async function validate(): Promise<Errors<Data> | void> {
     const currentData = get(data);
     touched.set(deepSetTouched(currentData, true));
+    interacted.set(null);
     const currentErrors = await validateErrors(currentData);
     await validateWarnings(currentData);
     return currentErrors;
@@ -223,6 +233,7 @@ export function createHelpers<Data extends Obj>({
   function reset(): void {
     setFields(_cloneDeep(initialValues));
     setTouched(($touched) => deepSet($touched, false) as Touched<Data>);
+    interacted.set(null);
     isDirty.set(false);
   }
 
@@ -234,6 +245,7 @@ export function createHelpers<Data extends Obj>({
     setWarnings,
     setIsSubmitting,
     setIsDirty,
+    setInteracted,
     validate,
     reset,
     unsetField,

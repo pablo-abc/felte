@@ -340,6 +340,8 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
 
   const isDirty = storeFactory(false);
 
+  const interacted = storeFactory<string | null>(null);
+
   const validateErrors = cancellableValidation(immediateErrors);
   const validateWarnings = cancellableValidation(immediateWarnings);
   const validateDebouncedErrors = cancellableValidation(debouncedErrors);
@@ -478,6 +480,7 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     isSubmitting,
     isDirty,
     isValidating,
+    interacted,
     validateErrors: executeErrorsValidation,
     validateWarnings: executeWarningsValidation,
     cleanup: config.preventStoreStart ? () => undefined : start(),
