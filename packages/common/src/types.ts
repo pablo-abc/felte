@@ -154,6 +154,10 @@ export type Helpers<Data extends Obj, Path extends string = string> = {
   unsetField<P extends Path>(path: P): void;
   /** Helper function to reset a field to its initial value */
   resetField<P extends Path>(path: P): void;
+  /** Helper function to swap the position of two fields in an array */
+  swapFields<P extends Path>(path: P, from: number, to: number): void;
+  /** Helper function to move a field to a new position */
+  moveField<P extends Path>(path: P, from: number, to: number): void;
   /** Helper function that adds a field to an array of fields, by default at the end but you can define at which index you want the new item */
   addField: <
     P extends Path,

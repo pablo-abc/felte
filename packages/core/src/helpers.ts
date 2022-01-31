@@ -61,6 +61,32 @@ function addAtIndex<Data extends Obj>(
   });
 }
 
+function swapInArray<Data extends Obj>(
+  storeValue: Data,
+  path: string,
+  from: number,
+  to: number
+) {
+  return _update(storeValue, path, (oldValue) => {
+    if (!oldValue || !Array.isArray(oldValue)) return oldValue;
+    [oldValue[from], oldValue[to]] = [oldValue[to], oldValue[from]];
+    return oldValue;
+  });
+}
+
+function moveInArray<Data extends Obj>(
+  storeValue: Data,
+  path: string,
+  from: number,
+  to: number
+) {
+  return _update(storeValue, path, (oldValue) => {
+    if (!oldValue || !Array.isArray(oldValue)) return oldValue;
+    oldValue.splice(to, 0, oldValue.splice(from, 1)[0] as any);
+    return oldValue;
+  });
+}
+
 function isUpdater<T>(value: unknown): value is (value: T) => T {
   return typeof value === 'function';
 }
@@ -152,23 +178,6 @@ export function createHelpers<Data extends Obj>({
     }
   };
 
-  function unsetField(path: string) {
-    data.update(($data) => {
-      const newData = _unset($data, path);
-      setTimeout(() => formNode && setForm(formNode, newData));
-      return newData;
-    });
-    touched.update(($touched) => {
-      return _unset($touched, path);
-    });
-    errors.update(($errors) => {
-      return _unset($errors, path);
-    });
-    warnings.update(($warnings) => {
-      return _unset($warnings, path);
-    });
-  }
-
   function addField(path: string, value: unknown, index?: number) {
     const touchedValue = _isPlainObject(value)
       ? deepSetTouched(value, false)
@@ -191,6 +200,29 @@ export function createHelpers<Data extends Obj>({
       setTimeout(() => formNode && setForm(formNode, newData));
       return newData;
     });
+  }
+
+  function updateAll(updater: <Data extends Obj>(storeValue: Data) => Data) {
+    errors.update(updater);
+    warnings.update(updater);
+    touched.update(updater);
+    data.update(($data) => {
+      const newData = updater($data);
+      setTimeout(() => formNode && setForm(formNode, newData));
+      return newData;
+    });
+  }
+
+  function unsetField(path: string) {
+    updateAll((storeValue) => _unset(storeValue, path));
+  }
+
+  function swapFields(path: string, from: number, to: number) {
+    updateAll((storeValue) => swapInArray(storeValue, path, from, to));
+  }
+
+  function moveField(path: string, from: number, to: number) {
+    updateAll((storeValue) => moveInArray(storeValue, path, from, to));
   }
 
   function resetField(path: string) {
@@ -253,6 +285,8 @@ export function createHelpers<Data extends Obj>({
     unsetField,
     resetField,
     addField,
+    swapFields,
+    moveField,
     setInitialValues: (values: Data) => {
       initialValues = deepSetKey(values);
     },

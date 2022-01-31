@@ -360,6 +360,32 @@ describe('Helpers', () => {
     });
 
     expect(get(isDirty)).toBe(false);
+
+    userEvent.click(emailInput);
+    userEvent.click(formElement);
+
+    expect(get(isDirty)).toBe(false);
+
+    userEvent.type(emailInput, 'jacek@soplica.com');
+    expect(get(data).account.email).toBe('jacek@soplica.com');
+
+    expect(get(isDirty)).toBe(true);
+
+    formElement.reset();
+
+    expect(get(data)).toEqual({
+      account: {
+        email: '',
+      },
+    });
+
+    expect(get(touched)).toEqual({
+      account: {
+        email: false,
+      },
+    });
+
+    expect(get(isDirty)).toBe(false);
   });
 
   test('setInitialValues sets new initial values', () => {
@@ -536,6 +562,8 @@ describe('Helpers', () => {
       errors,
       addField,
       unsetField,
+      swapFields,
+      moveField,
     } = createForm<Data>({
       initialValues: {
         todos: new Array(3).fill({ value: '' }),
@@ -606,6 +634,28 @@ describe('Helpers', () => {
       expect(get(data).todos[3].value).toBe('Fifth todo');
       expect(get(touched).todos[3].value).toBe(false);
       expect(get(errors).todos[3].value).toBe(null);
+    });
+
+    swapFields('todos', 1, 3);
+
+    await waitFor(() => {
+      expect(get(data).todos[3].value).toBe('Second todo');
+      expect(get(touched).todos[3].value).toBe(false);
+      expect(get(errors).todos?.[3].value).toBe(null);
+      expect(get(data).todos[1].value).toBe('Fifth todo');
+      expect(get(touched).todos[1].value).toBe(false);
+      expect(get(errors).todos[1].value).toBe(null);
+    });
+
+    moveField('todos', 3, 0);
+
+    await waitFor(() => {
+      expect(get(data).todos[0].value).toBe('Second todo');
+      expect(get(touched).todos[0].value).toBe(false);
+      expect(get(errors).todos?.[0].value).toBe(null);
+      expect(get(data).todos[1].value).toBe('First todo');
+      expect(get(touched).todos[1].value).toBe(true);
+      expect(get(errors).todos?.[1].value).toBe(null);
     });
   });
 });
