@@ -353,6 +353,11 @@ export function createFormAction<Data extends Obj>({
       interacted.set(target.name);
     }
 
+    function handleReset(e: Event) {
+      e.preventDefault();
+      reset();
+    }
+
     const mutationOptions = { childList: true, subtree: true };
 
     function unsetTaggedForRemove(formControls: FormControl[]) {
@@ -433,6 +438,7 @@ export function createFormAction<Data extends Obj>({
     node.addEventListener('change', handleChange);
     node.addEventListener('focusout', handleBlur);
     node.addEventListener('submit', handleSubmit);
+    node.addEventListener('reset', handleReset);
     const unsubscribeErrors = errors.subscribe(($errors) => {
       for (const el of node.elements) {
         if (!isFormControl(el) || !el.name) continue;
@@ -460,6 +466,7 @@ export function createFormAction<Data extends Obj>({
         node.removeEventListener('change', handleChange);
         node.removeEventListener('focusout', handleBlur);
         node.removeEventListener('submit', handleSubmit);
+        node.removeEventListener('reset', handleReset);
         unsubscribeErrors();
         _getCurrentExtenders().forEach((extender) => extender.destroy?.());
       },
