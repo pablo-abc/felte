@@ -1,6 +1,6 @@
 <script>
   import Prism from 'prismjs';
-  import 'prismjs/components/prism-shell-session.js';
+  import 'prismjs/components/prism-bash.js';
   import 'prismjs/components/prism-typescript.js';
   import 'prismjs/components/prism-jsx.js';
   import 'prismjs/components/prism-tsx.js';
@@ -9,7 +9,7 @@
   export let text;
 
   let langKey = lang;
-  if (lang === 'sh') langKey = 'shell-session';
+  if (lang === 'sh') langKey = 'bash';
   let language = Prism.languages[langKey];
   let code = Prism.highlight(text, language, langKey);
 </script>
