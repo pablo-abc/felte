@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.0.0-next.20
+
+### Minor Changes
+
+- 990034e: Add `interacted` store to show which is the last field the user has interacted with
+
 ## 1.0.0-next.19
 
 ### Minor Changes

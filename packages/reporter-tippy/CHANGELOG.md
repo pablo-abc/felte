@@ -1,5 +1,12 @@
 # @felte/reporter-tippy
 
+## 1.0.0-next.20
+
+### Patch Changes
+
+- Updated dependencies [990034e]
+  - @felte/common@1.0.0-next.20
+
 ## 1.0.0-next.19
 
 ### Minor Changes

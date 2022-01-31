@@ -1,5 +1,18 @@
 # @felte/core
 
+## 1.0.0-next.24
+
+### Minor Changes
+
+- 990034e: Add `interacted` store to show which is the last field the user has interacted with
+- 0faaa8f: Add isValidating store
+
+### Patch Changes
+
+- 5c71750: Calls `reset` helper when a `reset` event is dispatched by the form (e.g. when using a `button[type="reset"]`
+- Updated dependencies [990034e]
+  - @felte/common@1.0.0-next.20
+
 ## 1.0.0-next.23
 
 ### Patch Changes

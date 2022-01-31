@@ -1,5 +1,19 @@
 # felte
 
+## 1.0.0-next.24
+
+### Minor Changes
+
+- 990034e: Add `interacted` store to show which is the last field the user has interacted with
+- 0faaa8f: Add isValidating store
+
+### Patch Changes
+
+- Updated dependencies [990034e]
+- Updated dependencies [5c71750]
+- Updated dependencies [0faaa8f]
+  - @felte/core@1.0.0-next.24
+
 ## 1.0.0-next.23
 
 ### Patch Changes
