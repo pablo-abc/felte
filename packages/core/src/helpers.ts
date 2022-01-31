@@ -49,7 +49,9 @@ function addAtIndex<Data extends Obj>(
   index?: number
 ) {
   return _update(storeValue, path, (oldValue) => {
-    if (!Array.isArray(oldValue)) return oldValue;
+    if (typeof oldValue !== 'undefined' && !Array.isArray(oldValue))
+      return oldValue;
+    if (!oldValue) oldValue = [];
     if (typeof index === 'undefined') {
       oldValue.push(value);
     } else {
