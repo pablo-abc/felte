@@ -74,7 +74,7 @@ setTouched('tag[1]', true)
 
 * `getField` is no longer returned from `createForm`, this has been replaced by a new utility function exported from `felte` called `getValue` that works for any store.
 
-```html
+```svelte
 <script>
   import { createForm } from 'felte';
 
@@ -85,7 +85,7 @@ setTouched('tag[1]', true)
 </script>
 ```
 should now be
-```html
+```svelte
 <script>
   import { getValue, createForm } from 'felte';
 
@@ -194,7 +194,7 @@ We've removed the feature of adding a `name` attribute to a `fieldset` element. 
 
 If you were using this feature, you should update your forms by removing the `name` attribute from your fieldset elements and using dot notation on your inputs. For example, instead of this:
 
-```html
+```svelte
 <fieldset name="account">
   <input name="email" />
 </fieldset>
@@ -202,7 +202,7 @@ If you were using this feature, you should update your forms by removing the `na
 
 you should do this:
 
-```html
+```svelte
 <fieldset>
   <input name="account.email" />
 </fieldset>
@@ -214,13 +214,13 @@ This was removed for similar reasons to the outlined above. Specifically since w
 
 If you were using this feature, you should update your forms by removing the `data-felte-index` attribute and adding it to your input's name using dot notation. For example, instead of this:
 
-```html
+```svelte
 <input data-felte-index="1" name="friend" />
 ```
 
 you should do this:
 
-```html
+```svelte
 <input name="friend.1" />
 ```
 

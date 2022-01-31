@@ -1,12 +1,20 @@
 <script>
-  import hljs from 'highlight.js';
+  import Prism from 'prismjs';
+  import 'prismjs/components/prism-shell-session.js';
+  import 'prismjs/components/prism-typescript.js';
+  import 'prismjs/components/prism-jsx.js';
+  import 'prismjs/components/prism-tsx.js';
+  import 'prism-svelte';
   export let lang;
   export let text;
 
-  let code = hljs.highlight(text, { language: lang }).value;
+  let langKey = lang;
+  if (lang === 'sh') langKey = 'shell-session';
+  let language = Prism.languages[langKey];
+  let code = Prism.highlight(text, language, langKey);
 </script>
 
-<pre class={`hljs ${lang}`}><code class=hljs>{@html code}</code></pre>
+<pre class={`prism language-${lang}`}><code class=prism>{@html code}</code></pre>
 
 <style>
   pre {

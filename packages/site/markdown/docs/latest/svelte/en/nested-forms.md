@@ -6,7 +6,7 @@ section: Nested forms
 
 You can do much more complex form shapes by using "nested" forms, this can be done easily by setting your component name to one using a notation like `"account.email"`.
 
-```html
+```svelte
 <form use:form>
   <input name="account.email" type="email">
   <input name="account.password" type="password">
@@ -34,7 +34,7 @@ Names may also contain an index (e.g. `"email.0.value"`) to indicate that the va
 
 > **NOTE**: In order to differentiate checkbox values from arrays of fields, array of fields _require_ its name to refer to the property of an object (e.g. `"email.0.value"`).
 
-```html
+```svelte
 <form use:form>
   {#each [0, 1, 2] as index}
     <input name="account.{index}.email" type="email">

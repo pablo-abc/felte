@@ -17,7 +17,7 @@ Felte supports creating fields from arrays by adding an index to its name. There
 
 Using field arrays would look something like this:
 
-```html
+```svelte
 <script>
   import { createForm } from 'felte';
 

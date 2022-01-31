@@ -37,7 +37,7 @@ It exports a `reporter` function and a `ValidationMessage` component. Pass the `
 
 The `ValidationMessage` component needs a `for` prop set with the **name** of the input it corresponds to, the error messages will be passed to you via the `messages` slot prop. The default slot will be rendered when there are errors, and the `placeholder` slot when there aren't any. The `placeholder` slot is optional and if not used, you'll need to handle any falsy values for `messages` yourself.
 
-```html
+```svelte
 <script>
   import { reporter, ValidationMessage } from '@felte/reporter-svelte';
   import { createForm } from 'felte';
@@ -68,7 +68,7 @@ The `ValidationMessage` component needs a `for` prop set with the **name** of th
 
 You may also display warning messages from your `warnings` store by adding a prop `level="warning"` to the `ValidationMessage` component.
 
-```html
+```svelte
 <ValidationMessage level="warning" for="email" let:messages={messages}>
   {messages || ''}
 </ValidationMessage>
@@ -112,7 +112,7 @@ const { form } = createForm({
 
 In order to show the errors for a field, you'll need to add a container for each of these elements. For example
 
-```html
+```svelte
 <label for="email">Email:</label>
 <input name="email" aria-describedby="email-validation">
 <div id="email-validation" data-felte-reporter-dom-for="email" aria-live="polite" />
@@ -124,7 +124,7 @@ You can choose individually if you want to show errors as a `span` or a list wit
 
 This reporter can help you display your `warning` messages as well. If you want this reporter to insert a warning message in a DOM element, you'll want to set the attribute `data-felte-reporter-dom-level` with the value `warning`. By default it would display errors.
 
-```html
+```svelte
 <label for="email">Email:</label>
 <input name="email" aria-describedby="email-validation">
 <div
@@ -213,7 +213,7 @@ reporter({
 
 You may also opt-out of this package reporting your errors for a specific field by adding `data-felte-reporter-tippy-ignore` to the input:
 
-```html
+```svelte
 <input name="email" data-felte-reporter-tippy-ignore>
 ```
 
@@ -224,14 +224,14 @@ If you're using a custom control not managed by Felte, you can still make use of
 
 The custom control will always be a trigger for tippy, the second argument is useful if you want to trigger Tippy with another element such as a label to mimic this package's default behaviour.
 
-```html
+```svelte
 <span id="email-label" data-felte-reporter-tippy-trigger-for="email">Email:</span>
 <div contenteditable data-felte-reporter-tippy-for="email" aria-labelledby="email-label" tabindex="0" />
 ```
 
 If you need to show your Tippy in a different position, you may use the `data-felte-reporter-tippy-position-for` attribute. This would be useful if you're using a custom control that does use a valid HTML input behind the scenes but hides it:
 
-```html
+```svelte
 <!-- Tippy will be shown on top of this div -->
 <div data-felte-reporter-tippy-position-for="email" />
 <!-- Not on top of this input -->

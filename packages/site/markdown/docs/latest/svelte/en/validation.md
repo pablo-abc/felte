@@ -60,7 +60,7 @@ Alternatively, you can capture the `felteerror` custom event from your `form` el
 
 `createForm` returns also its `errors` and `touched` fields as stores.
 
-```html
+```svelte
 <script>
   import { createForm } from 'felte';
 

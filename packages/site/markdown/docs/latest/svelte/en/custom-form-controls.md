@@ -14,7 +14,7 @@ If for some reason you're not using an HTML5 input, select or textarea element a
 
 You can bind to the `data` store in order to let Felte manage your custom controls. You'll also need to update your `touched` store appropriately.
 
-```html
+```svelte
 <script>
   import { createForm } from 'felte';
 
@@ -38,7 +38,7 @@ You can bind to the `data` store in order to let Felte manage your custom contro
 
 You may also use any of the returned [helpers from `createForm`](/docs/svelte/helper-functions) for this as well.
 
-```html
+```svelte
 <script>
   import { createForm } from 'felte';
 
@@ -67,7 +67,7 @@ You might want to create a shareable component that should work with Felte witho
 
 `createField` provides you with some helpers to make your custom control visible to Felte without needing to use any of `createForm`'s helpers. Its usage looks something like:
 
-```html
+```svelte
 <script>
   import { createField } from 'felte';
 

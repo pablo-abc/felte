@@ -127,7 +127,7 @@ A helper function that sets the initialValues Felte handles internally. If calle
 
 A function that creates a submit handler with overriden `onSubmit`, `onError` and/or `validate` functions. If nothing is passed as a first argument, or if any of the three accepted properties is undefined, it will use the values from the `createForm` configuration object as a default.
 
-```html
+```svelte
 <script>
   const { form, createSubmitHandler } = createForm({
     onSubmit: (values) => console.log('Default onSubmit'),
@@ -154,7 +154,7 @@ A function that creates a submit handler with overriden `onSubmit`, `onError` an
 
 Rather than being returned by `createForm`, this is a utility function exported directly from `felte`. It allows you to get derived values from a store using a selector function, or to obtain a specific property using a string path.
 
-```html
+```svelte
 <script>
   import { createForm, getValue } from 'felte';
 

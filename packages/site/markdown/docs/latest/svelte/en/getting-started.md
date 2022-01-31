@@ -16,7 +16,7 @@ yarn add felte
 
 Then, inside of the Svelte component where you have your form, import the `createForm` function and call it with a configuration object containing an `onSubmit` function. The `createForm` function returns an action that you can use in any form. This is all you need to make your form reactive.
 
-```html
+```svelte
 <script>
   import { createForm } from 'felte';
 
@@ -36,7 +36,7 @@ Then, inside of the Svelte component where you have your form, import the `creat
 
 The `onSubmit` handler is actually optional. If no handler is provided, Felte will send a request using `fetch` with the `action`, `method` and `enctype` attributes of your `form` element. It will send the request as `multipart/form-data` if you specify it with the `enctype` (which you should do if your form contains an `<input type=file>`), or `application/x-www-form-urlencoded`.
 
-```html
+```svelte
 <script>
   import { createForm } from 'felte';
 

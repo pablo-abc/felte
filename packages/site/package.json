@@ -15,7 +15,6 @@
     "dotenv": "^11.0.0",
     "eslint-plugin-svelte3": "^3.2.0",
     "front-matter": "^4.0.2",
-    "highlight.js": "^10.7.1",
     "mdsvex": "^0.9.0",
     "postcss": "^8.4.5",
     "postcss-load-config": "^3.1.0",
@@ -37,6 +36,8 @@
     "flexsearch": "^0.7.21",
     "focus-visible": "^5.2.0",
     "html-minifier": "^4.0.0",
+    "prism-svelte": "^0.4.7",
+    "prismjs": "^1.26.0",
     "svelte-lazy": "^1.1.0",
     "svelte-markdown": "^0.2.2",
     "svelte-portal": "^2.1.2"

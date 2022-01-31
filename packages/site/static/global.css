@@ -89,6 +89,9 @@ a:hover {
 code {
   font-family: inconsolata, monospace;
   font-size: calc(1em - 2px);
+}
+
+code:not([class*="prism"]) {
   color: var(--primary-font-color);
   background-color: var(--header-background);
   padding: 0.2em 0.4em;

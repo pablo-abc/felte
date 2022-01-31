@@ -16,7 +16,7 @@ Each page can be made the same as how you would do a single page form, with a fe
 
 The easiest way to do this would be to pass our initial values and handlers as props, but you may use custom events or context for this. As an example, we will use props in this case:
 
-```html
+```svelte
 <script>
   import { createForm } from 'felte';
 
@@ -42,7 +42,7 @@ The easiest way to do this would be to pass our initial values and handlers as p
 
 Our parent component's purpose will be to handle the state of all of our pages, to keep track of the current page we're in and to handle when the user submits a form or goes back to a previous page.
 
-```html
+```svelte
 <script>
   // We import our page components (similar to the one above).
   import Page1 from './Page1.svelte';

@@ -3,7 +3,6 @@
   import '../app.postcss';
   import Nav from '$lib/components/Nav.svelte';
   import 'tippy.js/dist/tippy.css';
-  import 'highlight.js/styles/a11y-dark.css';
 
   const currentVersion = import.meta.env.VITE_FELTE_VERSION;
   const altVersion = import.meta.env.VITE_FELTE_ALT_VERSION;

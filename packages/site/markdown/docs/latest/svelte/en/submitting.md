@@ -24,7 +24,7 @@ If the request fails, Felte will emit a `felteerror` event that you can handle o
 
 > These events **do not** bubble.
 
-```html
+```svelte
 <script>
   import { createForm } from 'felte';
 
@@ -67,7 +67,7 @@ When using the default handler, if the request fails Felte will throw a `FelteSu
 
 `createForm` accepts an `onSubmit` function on its configuration object. If you set `onSubmit`, the default submit handler **wil not** run. Anything returned by this function will be passed as a first argument to `onSuccess`, and as the `detail` property of the `feltesuccess` custom event. Anything thrown from this function will be passed as a first argument to `onError`, and as the `detail` property of the `felteerror` custom event.
 
-```html
+```svelte
 <script>
   import { createForm } from 'felte';
 
