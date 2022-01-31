@@ -8,6 +8,8 @@ subsections:
   - isValid
   - isSubmitting
   - isDirty
+  - isValidating
+  - interacted
 ---
 
 ## Stores
@@ -67,3 +69,11 @@ An accessor containing a single boolean that tells if the form is submitting or 
 ### isDirty
 
 An accessor containing a single boolean that tells if the form is dirty or not. This accessor can not be called with a string path.
+
+### isValidating
+
+An accessor containing a single boolean that tells if the form is currently validating. Useful to know if an async or debounced validation is running.
+
+### interacted
+
+An accessor containing either `null` or the name of the field the user last interacted with as a `string`. Note that this only updates on user events triggered from native fields or fields created using `useField`. Its value gets reset to `null` on form submission, calls to `validate` and calls to `reset`.

@@ -67,12 +67,12 @@ This is, basically, a special version of `setData` that also updates the value i
   - Set the updated value to the HTML input with name `firstName`.
   - Set the property `firstName` of `touched` to `true`.
 
-#### Primitive Setters (`setIsDirty` and `setIsSubmitting`)
+#### Primitive Setters (`setIsDirty`, `setIsSubmitting` and `setInteracted`)
 
-The stores `isDirty` and `isSubmitting` do not store an object but a boolean. Their setters can only be called in two different ways:
+The stores `isDirty` and `isSubmitting` do not store an object but a boolean; and `interacted` stores either a string or `null`. Their setters can only be called in two different ways:
 
-- With a boolean to replace the value of the store.
-- With an updater function to update the whole store.
+- With a value to replace the current value of the store.
+- With an updater function to update the store based on its current value.
 
 Using `setIsDirty` as an example:
 

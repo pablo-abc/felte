@@ -8,6 +8,8 @@ subsections:
   - isValid
   - isSubmitting
   - isDirty
+  - isValidating
+  - interacted
 ---
 
 ## Stores
@@ -41,3 +43,11 @@ A readable store containing a single boolean that tells if the form is submittin
 ### isDirty
 
 A writable store containing a single boolean that tells if the form is dirty or not.
+
+### isValidating
+
+A readable store containing a single boolean that tells if the form is currently validating. Useful to know if an async or debounced validation is running.
+
+### interacted
+
+A writable store containing either `null` or the name of the field the user last interacted with as a `string`. Note that this only updates on user events triggered from native fields or fields created using `createField`. Its value gets reset to `null` on form submission, calls to `validate` and calls to `reset`.
