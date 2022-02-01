@@ -13,6 +13,7 @@ subsections:
   - data-felte-index
   - Validators
   - Errors and warnings
+  - data.set
 ---
 
 ## Migrating from 0.x
@@ -248,3 +249,17 @@ createForm({
 ### Errors and warnings
 
 In order to mantain an always consistent shape, the `errors` and `warnings` store now will always contain `null` or an array of strings if there are errors, even if your validation strategy returns single strings as validation messages.
+
+### data.set
+
+Previously, setting directly to the `data` store either by using `$data =` or `data.set` would touch the changed fields. This is no longer the case and using the `setFields` helper is recommended in order to touch and change a field at the same time. If you want this behaviour, this:
+
+```javascript
+$data.email = 'zaphod@beeblebrox.com';
+```
+
+Should be changed to this:
+
+```javascript
+setFields('email', 'zaphod@beeblebrox.com', true);
+```
