@@ -16,8 +16,8 @@
     "vite-plugin-solid": "^2.2.5"
   },
   "dependencies": {
-    "@felte/reporter-solid": "workspace:^1.0.0-next.20",
-    "@felte/solid": "workspace:^1.0.0-next.25",
+    "@felte/reporter-solid": "next",
+    "@felte/solid": "next",
     "solid-js": "^1.3.3"
   }
 }

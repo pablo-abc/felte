@@ -125,8 +125,8 @@ importers:
 
   examples/react/basic:
     specifiers:
-      '@felte/react': workspace:^1.0.0-next.28
-      '@felte/reporter-react': workspace:^1.0.0-next.21
+      '@felte/react': next
+      '@felte/reporter-react': next
       '@testing-library/jest-dom': ^5.16.1
       '@testing-library/react': ^12.1.2
       '@testing-library/user-event': ^13.5.0
@@ -157,8 +157,8 @@ importers:
 
   examples/solid/basic:
     specifiers:
-      '@felte/reporter-solid': workspace:^1.0.0-next.20
-      '@felte/solid': workspace:^1.0.0-next.25
+      '@felte/reporter-solid': next
+      '@felte/solid': next
       solid-js: ^1.3.3
       typescript: ^4.5.5
       vite: ^2.7.13
@@ -174,12 +174,12 @@ importers:
 
   examples/svelte/basic:
     specifiers:
-      '@felte/reporter-svelte': workspace:^1.0.0-next.20
+      '@felte/reporter-svelte': next
       '@rollup/plugin-commonjs': ^17.0.0
       '@rollup/plugin-node-resolve': ^11.0.0
       '@rollup/plugin-typescript': ^8.0.0
       '@tsconfig/svelte': ^2.0.0
-      felte: workspace:^1.0.0-next.25
+      felte: next
       rollup: ^2.3.4
       rollup-plugin-css-only: ^3.1.0
       rollup-plugin-livereload: ^2.0.0

@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@felte/react": "workspace:^1.0.0-next.28",
-    "@felte/reporter-react": "workspace:^1.0.0-next.21",
+    "@felte/react": "next",
+    "@felte/reporter-react": "next",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
