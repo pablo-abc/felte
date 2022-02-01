@@ -126,7 +126,6 @@ importers:
   examples/svelte/basic:
     specifiers:
       '@felte/reporter-svelte': workspace:^1.0.0-next.20
-      '@felte/validator-zod': workspace:^1.0.0-next.20
       '@rollup/plugin-commonjs': ^17.0.0
       '@rollup/plugin-node-resolve': ^11.0.0
       '@rollup/plugin-typescript': ^8.0.0
@@ -143,13 +142,10 @@ importers:
       svelte-preprocess: ^4.0.0
       tslib: ^2.0.0
       typescript: ^4.0.0
-      zod: ^3.11.6
     dependencies:
       '@felte/reporter-svelte': link:../../../packages/reporter-svelte
-      '@felte/validator-zod': link:../../../packages/validator-zod
       felte: link:../../../packages/felte
       sirv-cli: 2.0.2
-      zod: 3.11.6
     devDependencies:
       '@rollup/plugin-commonjs': 17.1.0_rollup@2.61.1
       '@rollup/plugin-node-resolve': 11.2.1_rollup@2.61.1
@@ -10801,10 +10797,6 @@ packages:
   /zod/1.11.13:
     resolution: {integrity: sha512-10+KA7eWa8g1hbKIXkOnhjJ4RKEwX85ECz3VJzP+pWkJOFKn76bHy1kG0d1JHBwmdElLcCsaB0O9HqIfT1vZnw==}
     dev: true
-
-  /zod/3.11.6:
-    resolution: {integrity: sha512-daZ80A81I3/9lIydI44motWe6n59kRBfNzTuS2bfzVh1nAXi667TOTWWtatxyG+fwgNUiagSj/CWZwRRbevJIg==}
-    dev: false
 
   /zod/3.2.0:
     resolution: {integrity: sha512-yvcO3FZ8URR+LliMGqaW7tlVOOTzmup3vzKEe9Ds7twyJtdhvYa7dIYr0FbD1wVfWC1OuS83vZfHtCKslPuRhA==}
