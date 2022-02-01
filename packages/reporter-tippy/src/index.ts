@@ -243,6 +243,7 @@ function tippyReporter<Data extends Obj = any>({
         unsubscribe();
       },
       onSubmitError({ errors }) {
+        if (level !== 'error') return;
         const firstInvalidElement = form.querySelector(
           '[aria-invalid="true"]:not([type="hidden"])'
         ) as FormControl | null;
