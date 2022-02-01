@@ -141,7 +141,7 @@ importers:
       web-vitals: ^2.1.4
     dependencies:
       '@felte/react': link:../../../packages/react
-      '@felte/reporter-react': link:../../../packages/reporter-react
+      '@felte/reporter-react': 1.0.0-next.21_react@17.0.2
       '@testing-library/jest-dom': 5.16.1
       '@testing-library/react': 12.1.2_react-dom@17.0.2+react@17.0.2
       '@testing-library/user-event': 13.5.0_@testing-library+dom@7.30.3
@@ -164,7 +164,7 @@ importers:
       vite: ^2.7.13
       vite-plugin-solid: ^2.2.5
     dependencies:
-      '@felte/reporter-solid': link:../../../packages/reporter-solid
+      '@felte/reporter-solid': 1.0.0-next.20_solid-js@1.3.5
       '@felte/solid': link:../../../packages/solid
       solid-js: 1.3.5
     devDependencies:
@@ -192,7 +192,7 @@ importers:
       tslib: ^2.0.0
       typescript: ^4.0.0
     dependencies:
-      '@felte/reporter-svelte': link:../../../packages/reporter-svelte
+      '@felte/reporter-svelte': 1.0.0-next.20_svelte@3.44.3
       felte: link:../../../packages/felte
       sirv-cli: 2.0.2
     devDependencies:
@@ -3810,6 +3810,41 @@ packages:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@felte/common/1.0.0-next.21:
+    resolution: {integrity: sha512-iGZDwehJ5rnqzk06iuL6L/ybdyUCt0gRcLMM57scz6T7ckf8/bMtquSI9nxPXfffWrYNe0LiLbEY7U5/CA7Bbw==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dev: false
+
+  /@felte/reporter-react/1.0.0-next.21_react@17.0.2:
+    resolution: {integrity: sha512-rjj7a39Lxb8vtVXv0y27T8cchv2jR39WH8JM+kb5wYnMbItnPVaR8AKsjT2pVS8WHFWOOr6USuNnjox5STxYZQ==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    peerDependencies:
+      react: ^16.8.0 || >=17.0.0
+    dependencies:
+      '@felte/common': 1.0.0-next.21
+      react: 17.0.2
+    dev: false
+
+  /@felte/reporter-solid/1.0.0-next.20_solid-js@1.3.5:
+    resolution: {integrity: sha512-NVc2dismD3V9puGKSTnSFlWWC53qpIAO01mqHXWGAPCAu9GpOn/S8OfxQPF5qklhncsreDPv1LhyKfBp90Bnvg==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    peerDependencies:
+      solid-js: ^1.2.0
+    dependencies:
+      '@felte/common': 1.0.0-next.21
+      solid-js: 1.3.5
+    dev: false
+
+  /@felte/reporter-svelte/1.0.0-next.20_svelte@3.44.3:
+    resolution: {integrity: sha512-pegK5SXVgK8shlw9AgMiD7jHP/WLaqs182+p6/0/ZhUflIe5zk1fFh7BdqHyCQAn3oe0GNTB6lt8V/GSJOkZ0Q==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    peerDependencies:
+      svelte: ^3.31.0
+    dependencies:
+      '@felte/common': 1.0.0-next.21
+      svelte: 3.44.3
     dev: false
 
   /@humanwhocodes/config-array/0.9.3:
@@ -11392,7 +11427,7 @@ packages:
     dependencies:
       universalify: 2.0.0
     optionalDependencies:
-      graceful-fs: 4.2.6
+      graceful-fs: 4.2.9
 
   /jsonparse/1.3.1:
     resolution: {integrity: sha1-P02uSpH6wxX3EGL4UhzCOfE2YoA=}
