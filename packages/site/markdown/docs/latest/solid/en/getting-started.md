@@ -8,9 +8,17 @@ Felte is a JavaScript library that tries to help you ease the management of form
 
 ```sh
 npm i -S @felte/solid
+```
 
-# Or if you use yarn
+If you use pnpm:
 
+```sh
+pnpm add @felte/solid
+```
+
+If you use yarn:
+
+```sh
 yarn add @felte/solid
 ```
 
