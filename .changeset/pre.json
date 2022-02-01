@@ -18,7 +18,10 @@
     "@felte/validator-superstruct": "0.3.2",
     "@felte/validator-vest": "0.1.0",
     "@felte/validator-yup": "0.2.13",
-    "@felte/validator-zod": "0.3.8"
+    "@felte/validator-zod": "0.3.8",
+    "@example/react-basic": "0.1.0",
+    "@example/solid-basic": "0.0.0",
+    "@example/svelte-basic": "1.0.0"
   },
   "changesets": [
     "angry-cooks-yell",
@@ -58,6 +61,7 @@
     "mighty-years-matter",
     "nasty-geckos-invent",
     "neat-seals-tickle",
+    "nine-birds-knock",
     "ninety-trees-sneeze",
     "perfect-socks-crash",
     "pink-walls-prove",

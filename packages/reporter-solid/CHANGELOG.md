@@ -1,5 +1,11 @@
 # @felte/reporter-solid
 
+## 1.0.0-next.21
+
+### Patch Changes
+
+- ed1cbe3: Fix types
+
 ## 1.0.0-next.20
 
 ### Patch Changes
