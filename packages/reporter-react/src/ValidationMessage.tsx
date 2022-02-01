@@ -6,12 +6,12 @@ import { errorStores, warningStores } from './stores';
 export type ValidationMessageProps = {
   for: string;
   level?: 'error' | 'warning';
-  children: (messages: string | string[] | undefined) => ReactNode;
+  children: (messages: string[] | null) => ReactNode;
 };
 
 export function ValidationMessage(props: ValidationMessageProps) {
   const level = props.level ?? 'error';
-  const [messages, setMessages] = useState<string | string[]>();
+  const [messages, setMessages] = useState<string[] | null>(null);
   const id = useMemo(() => createId(21), []);
   function getFormElement(element: HTMLDivElement) {
     return element.closest('form');

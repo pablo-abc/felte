@@ -3,7 +3,7 @@
   "version": "1.0.0-next.21",
   "description": "An error reporter for Felte using a React component",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/esm/index.js",
   "sideEffects": false,
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
@@ -23,9 +23,9 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
+      "import": "./dist/esm/index.js",
       "require": "./dist/index.js",
-      "default": "./dist/index.mjs"
+      "default": "./dist/esm/index.js"
     },
     "./package.json": "./package.json"
   },

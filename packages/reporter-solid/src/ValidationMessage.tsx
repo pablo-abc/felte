@@ -14,7 +14,7 @@ import { errorStores, warningStores } from './stores';
 export type ValidationMessageProps = {
   for: string;
   level?: 'error' | 'warning';
-  children: (messages: string | string[] | undefined) => JSX.Element;
+  children: (messages: string[] | null) => JSX.Element;
 };
 
 export function ValidationMessage<Data extends Obj = Obj>(
@@ -25,7 +25,7 @@ export function ValidationMessage<Data extends Obj = Obj>(
   const [errors, setErrors] = createSignal<Errors<Data> | Record<string, any>>(
     {}
   );
-  const [messages, setMessages] = createSignal<string | string[]>();
+  const [messages, setMessages] = createSignal<null | string[]>(null);
   function getFormElement(element: HTMLDivElement) {
     return element.closest('form');
   }

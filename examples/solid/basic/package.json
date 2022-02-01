@@ -1,0 +1,23 @@
+{
+  "name": "@example/solid-basic",
+  "private": true,
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.5.5",
+    "vite": "^2.7.13",
+    "vite-plugin-solid": "^2.2.5"
+  },
+  "dependencies": {
+    "@felte/reporter-solid": "workspace:^1.0.0-next.20",
+    "@felte/solid": "workspace:^1.0.0-next.25",
+    "solid-js": "^1.3.3"
+  }
+}
