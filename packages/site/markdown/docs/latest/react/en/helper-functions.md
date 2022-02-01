@@ -7,6 +7,8 @@ subsections:
   - unsetField
   - resetField
   - addField
+  - swapFields
+  - moveField
   - setInitialValues
   - createSubmitHandler
   - useAccessor
@@ -105,19 +107,45 @@ resetField('account.email');
 
 ### addField
 
-A function specifically to be used when dealing with arrays of inputs. It adds the value provided as second argument to the end of the array in the path provided on the first argument. It accepts an index as a third argument to specify where specifically the field should be added.
+A function specifically to be used when dealing with arrays of fields. It adds the value provided as second argument to the end of the array in the path provided on the first argument. It accepts an index as a third argument to specify where specifically the field should be added.
+
+> **NOTE**: field arrays _must_ be arrays of objects.
 
 ```javascript
-// Assuming the property 'todos' contains an array of strings
+// Assuming the property 'todos' contains an of fields
 
 // Adds an empty string to the end of the array in `todos`
-addField('todos', '');
+addField('todos', { value: '' });
 
 // Adds an empty string to index 2 of the array (pushing the rest a position)
-addField('todos', '', 2);
+addField('todos', { value: '' }, 2);
 ```
 
 `addField` updates the respective properties on `touched`, `errors` and `warnings` accordingly.
+
+### swapFields
+
+A function specifically to be used when dealing with arrays of fields. It swaps fields from a specific path using the provided indexes:
+
+```javascript
+// Assuming the property 'todos' contains an of fields
+
+// Swaps the fields of index 1 and 3
+swapFields('todos', 1, 3);
+```
+
+### moveField
+
+A function specifically to be used when dealing with arrays of fields. It moves a field from a specific path from one index to another:
+
+```javascript
+// Assuming the property 'todos' contains an of fields
+
+// Moves the field at index 1 to index 3
+moveField('todos', 1, 3);
+```
+
+It will move the other fields accordingly.
 
 ### setInitialValues
 

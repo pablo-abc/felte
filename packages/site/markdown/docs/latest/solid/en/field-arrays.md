@@ -14,6 +14,8 @@ Felte supports creating fields from arrays by adding an index to its name. There
 
 * [`addField`](/docs/solid/helper-functions#addfield) to add a field at a specific index, or at the end if no index is provided.
 * [`unsetField`](/docs/solid/helper-functions#unsetfield) to remove a field completely from your stores.
+* [`swapFields`](/docs/solid/helper-functions#swapfields) to swap the position of two fields.
+* [`moveField`](/docs/solid/helper-functions#movefield) to move a field from one position to another.
 
 Using field arrays would look something like this:
 
