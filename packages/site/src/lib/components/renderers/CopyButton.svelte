@@ -14,6 +14,7 @@
       .then(() => {
         copied = true;
         instance.setContent('Copied!');
+        instance.show();
         setTimeout(() => {
           copied = false;
           instance.setContent('Copy to clipboard');
