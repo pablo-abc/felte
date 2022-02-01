@@ -19,7 +19,7 @@ The `createForm` function also returns some additional helpers that can help wit
 
 ### Setters
 
-`createForm` returns setters for each one of our stores (except `isValid` since it's derived from `errors`). Based on _how_ they can be called, there are three different kinds of setters.
+`createForm` returns setters for each one of our writable stores. Based on _how_ they can be called, there are three different kinds of setters.
 
 #### Object Setters (`setData`, `setTouched`, `setErrors` and `setWarnings`)
 

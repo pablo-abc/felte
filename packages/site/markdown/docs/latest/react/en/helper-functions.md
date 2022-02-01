@@ -20,7 +20,7 @@ The `useForm` function also returns some additional helpers that can help with s
 
 ### Setters
 
-`useForm` returns setters for each one of our stores (except `isValid` since it's derived from `errors`). Based on _how_ they can be called, there are three different kinds of setters.
+`useForm` returns setters for each one of our writable stores. Based on _how_ they can be called, there are three different kinds of setters.
 
 #### Object Setters (`setData`, `setTouched`, `setErrors` and `setWarnings`)
 
