@@ -1,5 +1,16 @@
 # @felte/solid
 
+## 1.0.0-next.25
+
+### Minor Changes
+
+- fcbdaed: Add `swapFields` and `moveField` helper functions
+
+### Patch Changes
+
+- Updated dependencies [fcbdaed]
+  - @felte/core@1.0.0-next.25
+
 ## 1.0.0-next.24
 
 ### Minor Changes

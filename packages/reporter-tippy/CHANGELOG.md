@@ -1,5 +1,13 @@
 # @felte/reporter-tippy
 
+## 1.0.0-next.21
+
+### Patch Changes
+
+- d2fe263: `onSubmitError` does nothing when `level !== 'error'`
+- Updated dependencies [fcbdaed]
+  - @felte/common@1.0.0-next.21
+
 ## 1.0.0-next.20
 
 ### Patch Changes

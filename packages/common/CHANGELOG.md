@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.0.0-next.21
+
+### Minor Changes
+
+- fcbdaed: Add `swapFields` and `moveField` helper functions
+
 ## 1.0.0-next.20
 
 ### Minor Changes

@@ -1,5 +1,12 @@
 # @felte/validator-zod
 
+## 1.0.0-next.20
+
+### Patch Changes
+
+- Updated dependencies [fcbdaed]
+  - @felte/common@1.0.0-next.21
+
 ## 1.0.0-next.19
 
 ### Patch Changes
