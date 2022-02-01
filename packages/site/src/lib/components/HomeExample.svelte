@@ -16,8 +16,7 @@
       };
     },
     onError: error => error,
-    extend: [validator, reporter()],
-    validateSchema: schema,
+    extend: [validator({ schema }), reporter()],
   });
 </script>
 
