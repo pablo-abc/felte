@@ -326,6 +326,12 @@
 - Updated dependencies [2c0f874]
   - @felte/core@1.0.0-next.0
 
+## 0.3.1
+
+### Patch Changes
+
+- fca331b: Change default type of Ext to `Obj`
+
 ## 0.3.0
 
 ### Minor Changes
