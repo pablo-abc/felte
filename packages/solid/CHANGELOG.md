@@ -1,5 +1,11 @@
 # @felte/solid
 
+## 0.3.1
+
+### Patch Changes
+
+- fca331b: Change default type of Ext to `Obj`
+
 ## 0.3.0
 
 ### Minor Changes
