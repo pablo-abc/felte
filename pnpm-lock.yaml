@@ -141,7 +141,7 @@ importers:
       web-vitals: ^2.1.4
     dependencies:
       '@felte/react': link:../../../packages/react
-      '@felte/reporter-react': 1.0.0-next.21_react@17.0.2
+      '@felte/reporter-react': link:../../../packages/reporter-react
       '@testing-library/jest-dom': 5.16.1
       '@testing-library/react': 12.1.2_react-dom@17.0.2+react@17.0.2
       '@testing-library/user-event': 13.5.0_@testing-library+dom@7.30.3
@@ -164,7 +164,7 @@ importers:
       vite: ^2.7.13
       vite-plugin-solid: ^2.2.5
     dependencies:
-      '@felte/reporter-solid': 1.0.0-next.20_solid-js@1.3.5
+      '@felte/reporter-solid': link:../../../packages/reporter-solid
       '@felte/solid': link:../../../packages/solid
       solid-js: 1.3.5
     devDependencies:
@@ -173,6 +173,31 @@ importers:
       vite-plugin-solid: 2.2.5
 
   examples/svelte/basic:
+    specifiers:
+      '@felte/reporter-svelte': workspace:^1.0.0-next.21
+      '@sveltejs/vite-plugin-svelte': ^1.0.0-next.30
+      '@tsconfig/svelte': ^2.0.1
+      felte: workspace:^1.0.0-next.25
+      svelte: ^3.44.0
+      svelte-check: ^2.2.7
+      svelte-preprocess: ^4.9.8
+      tslib: ^2.3.1
+      typescript: ^4.4.4
+      vite: ^2.7.2
+    dependencies:
+      '@felte/reporter-svelte': link:../../../packages/reporter-svelte
+      felte: link:../../../packages/felte
+    devDependencies:
+      '@sveltejs/vite-plugin-svelte': 1.0.0-next.32_svelte@3.44.3+vite@2.7.13
+      '@tsconfig/svelte': 2.0.1
+      svelte: 3.44.3
+      svelte-check: 2.4.1_@babel+core@7.16.5+svelte@3.44.3
+      svelte-preprocess: 4.10.2_5b116515eaad79b1466c2a63a5acaa8e
+      tslib: 2.3.1
+      typescript: 4.5.5
+      vite: 2.7.13
+
+  examples/svelte/basic-rollup:
     specifiers:
       '@felte/reporter-svelte': next
       '@rollup/plugin-commonjs': ^17.0.0
@@ -192,7 +217,7 @@ importers:
       tslib: ^2.0.0
       typescript: ^4.0.0
     dependencies:
-      '@felte/reporter-svelte': 1.0.0-next.20_svelte@3.44.3
+      '@felte/reporter-svelte': link:../../../packages/reporter-svelte
       felte: link:../../../packages/felte
       sirv-cli: 2.0.2
     devDependencies:
@@ -3812,41 +3837,6 @@ packages:
       - supports-color
     dev: false
 
-  /@felte/common/1.0.0-next.21:
-    resolution: {integrity: sha512-iGZDwehJ5rnqzk06iuL6L/ybdyUCt0gRcLMM57scz6T7ckf8/bMtquSI9nxPXfffWrYNe0LiLbEY7U5/CA7Bbw==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dev: false
-
-  /@felte/reporter-react/1.0.0-next.21_react@17.0.2:
-    resolution: {integrity: sha512-rjj7a39Lxb8vtVXv0y27T8cchv2jR39WH8JM+kb5wYnMbItnPVaR8AKsjT2pVS8WHFWOOr6USuNnjox5STxYZQ==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    peerDependencies:
-      react: ^16.8.0 || >=17.0.0
-    dependencies:
-      '@felte/common': 1.0.0-next.21
-      react: 17.0.2
-    dev: false
-
-  /@felte/reporter-solid/1.0.0-next.20_solid-js@1.3.5:
-    resolution: {integrity: sha512-NVc2dismD3V9puGKSTnSFlWWC53qpIAO01mqHXWGAPCAu9GpOn/S8OfxQPF5qklhncsreDPv1LhyKfBp90Bnvg==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    peerDependencies:
-      solid-js: ^1.2.0
-    dependencies:
-      '@felte/common': 1.0.0-next.21
-      solid-js: 1.3.5
-    dev: false
-
-  /@felte/reporter-svelte/1.0.0-next.20_svelte@3.44.3:
-    resolution: {integrity: sha512-pegK5SXVgK8shlw9AgMiD7jHP/WLaqs182+p6/0/ZhUflIe5zk1fFh7BdqHyCQAn3oe0GNTB6lt8V/GSJOkZ0Q==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    peerDependencies:
-      svelte: ^3.31.0
-    dependencies:
-      '@felte/common': 1.0.0-next.21
-      svelte: 3.44.3
-    dev: false
-
   /@humanwhocodes/config-array/0.9.3:
     resolution: {integrity: sha512-3xSMlXHh03hCcCmFc0rbKp3Ivt2PFEJnQUJDDMTJQ2wkECZWdq4GePs2ctc5H8zV+cHPaq8k2vU8mrQjA6iHdQ==}
     engines: {node: '>=10.10.0'}
@@ -4124,7 +4114,7 @@ packages:
     engines: {node: '>= 10.14.2'}
     dependencies:
       callsites: 3.1.0
-      graceful-fs: 4.2.6
+      graceful-fs: 4.2.9
       source-map: 0.6.1
     dev: true
 
@@ -4162,7 +4152,7 @@ packages:
     engines: {node: '>= 10.14.2'}
     dependencies:
       '@jest/test-result': 26.6.2
-      graceful-fs: 4.2.6
+      graceful-fs: 4.2.9
       jest-haste-map: 26.6.2
       jest-runner: 26.6.3
       jest-runtime: 26.6.3
@@ -4410,7 +4400,7 @@ packages:
       glob: 7.2.0
       is-reference: 1.2.1
       magic-string: 0.25.7
-      resolve: 1.20.0
+      resolve: 1.22.0
       rollup: 2.61.1
     dev: true
 
@@ -4518,7 +4508,7 @@ packages:
       typescript: '>=3.7.0'
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.61.1
-      resolve: 1.20.0
+      resolve: 1.22.0
       rollup: 2.61.1
       tslib: 2.3.1
       typescript: 4.5.5
@@ -4626,6 +4616,29 @@ packages:
       - less
       - sass
       - stylus
+      - supports-color
+    dev: true
+
+  /@sveltejs/vite-plugin-svelte/1.0.0-next.32_svelte@3.44.3+vite@2.7.13:
+    resolution: {integrity: sha512-Lhf5BxVylosHIW6U2s6WDQA39ycd+bXivC8gHsXCJeLzxoHj7Pv7XAOk25xRSXT4wHg9DWFMBQh2DFU0DxHZ2g==}
+    engines: {node: ^14.13.1 || >= 16}
+    peerDependencies:
+      diff-match-patch: ^1.0.5
+      svelte: ^3.44.0
+      vite: ^2.7.0
+    peerDependenciesMeta:
+      diff-match-patch:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 4.1.2
+      debug: 4.3.3
+      kleur: 4.1.4
+      magic-string: 0.25.7
+      require-relative: 0.8.7
+      svelte: 3.44.3
+      svelte-hmr: 0.14.7_svelte@3.44.3
+      vite: 2.7.13
+    transitivePeerDependencies:
       - supports-color
     dev: true
 
@@ -6634,6 +6647,10 @@ packages:
     dependencies:
       node-int64: 0.4.0
 
+  /buffer-crc32/0.2.13:
+    resolution: {integrity: sha1-DTM+PwDqxQqhRUq9MO+MKl2ackI=}
+    dev: true
+
   /buffer-from/1.1.1:
     resolution: {integrity: sha512-MQcXEUbCKtEo7bhqEs6560Hyd4XaovZlO/k9V3hjVUF/zwW7KBVdSK4gIt/bzwS9MbR5qob+F5jusZsb0YQK2A==}
 
@@ -7961,6 +7978,10 @@ packages:
       is-date-object: 1.0.5
       is-symbol: 1.0.4
     dev: false
+
+  /es6-promise/3.3.1:
+    resolution: {integrity: sha1-oIzd6EzNvzTQJ6FFG8kdS80ophM=}
+    dev: true
 
   /esbuild-android-arm64/0.13.15:
     resolution: {integrity: sha512-m602nft/XXeO8YQPUDVoHfjyRVPdPgjyyXOxZ44MK/agewFFkPa8tUo6lAzSWh5Ui5PB4KR9UIFTSBKh/RrCmg==}
@@ -9994,7 +10015,6 @@ packages:
     resolution: {integrity: sha512-SdNCUs284hr40hFTFP6l0IfZ/RSrMXF3qgoRHd3/79unUTvrFO/JoXwkGm+5J/Oe3E/b5GsnG330uUNgRpu1PA==}
     dependencies:
       has: 1.0.3
-    dev: false
 
   /is-data-descriptor/0.1.4:
     resolution: {integrity: sha1-C17mSDiOLIYCgueT8YVv7D8wG1Y=}
@@ -11042,7 +11062,7 @@ packages:
     engines: {node: '>= 10.14.2'}
     dependencies:
       '@types/node': 14.14.39
-      graceful-fs: 4.2.6
+      graceful-fs: 4.2.9
     dev: true
 
   /jest-serializer/27.4.0:
@@ -11419,7 +11439,7 @@ packages:
   /jsonfile/4.0.0:
     resolution: {integrity: sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=}
     optionalDependencies:
-      graceful-fs: 4.2.6
+      graceful-fs: 4.2.9
     dev: false
 
   /jsonfile/6.1.0:
@@ -11540,7 +11560,7 @@ packages:
       chokidar: 3.5.3
       livereload-js: 3.3.3
       opts: 2.0.2
-      ws: 7.4.4
+      ws: 7.5.6
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -11550,7 +11570,7 @@ packages:
     resolution: {integrity: sha512-OfCBkGEw4nN6JLtgRidPX6QxjBQGQf72q3si2uvqyFEMbycSFFHwAZeXx6cJgFM9wmLrf9zBwCP3Ivqa+LLZPw==}
     engines: {node: '>=6'}
     dependencies:
-      graceful-fs: 4.2.6
+      graceful-fs: 4.2.9
       js-yaml: 3.14.1
       pify: 4.0.1
       strip-bom: 3.0.0
@@ -11975,7 +11995,6 @@ packages:
     hasBin: true
     dependencies:
       minimist: 1.2.5
-    dev: false
 
   /mkdirp/1.0.4:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
@@ -14068,7 +14087,6 @@ packages:
       is-core-module: 2.8.1
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
-    dev: false
 
   /resolve/2.0.0-next.3:
     resolution: {integrity: sha512-W8LucSynKUIDu9ylraa7ueVZ7hc0uAgJBxVsQSKOXOyle8a93qXhcz+XAXZ8bIq2d6i4Ehddn6Evt+0/UwKk6Q==}
@@ -14104,6 +14122,13 @@ packages:
 
   /rgba-regex/1.0.0:
     resolution: {integrity: sha1-QzdOLiyglosO8VI0YLfXMP8i7rM=}
+
+  /rimraf/2.7.1:
+    resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
+    hasBin: true
+    dependencies:
+      glob: 7.2.0
+    dev: true
 
   /rimraf/3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
@@ -14307,6 +14332,15 @@ packages:
 
   /safer-buffer/2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
+
+  /sander/0.5.1:
+    resolution: {integrity: sha1-dB4kXiMfB8r7b98PEzrfohalAq0=}
+    dependencies:
+      es6-promise: 3.3.1
+      graceful-fs: 4.2.9
+      mkdirp: 0.5.5
+      rimraf: 2.7.1
+    dev: true
 
   /sane/4.1.0:
     resolution: {integrity: sha512-hhbzAgTIX8O7SHfp2c8/kREfEn4qO/9q8C9beyY6+tvZ87EpoZ3i1RIEvp27YBswnNbY9mWd6paKVmKbAgLfZA==}
@@ -14680,6 +14714,16 @@ packages:
     dependencies:
       '@testing-library/dom': 7.30.3
       solid-js: 1.2.6
+    dev: true
+
+  /sorcery/0.10.0:
+    resolution: {integrity: sha1-iukK19fLBfxZ8asMY3hF1cFaUrc=}
+    hasBin: true
+    dependencies:
+      buffer-crc32: 0.2.13
+      minimist: 1.2.5
+      sander: 0.5.1
+      sourcemap-codec: 1.4.8
     dev: true
 
   /source-list-map/2.0.1:
@@ -15099,7 +15143,6 @@ packages:
   /supports-preserve-symlinks-flag/1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
-    dev: false
 
   /svelte-check/2.4.1_@babel+core@7.16.5+svelte@3.44.3:
     resolution: {integrity: sha512-xhf3ShP5rnRwBokrgTBJ/0cO9QIc1DAVu1NWNRTfCDsDBNjGmkS3HgitgUadRuoMKj1+irZR/yHJ+Uqobnkbrw==}
@@ -15115,7 +15158,7 @@ packages:
       sade: 1.7.4
       source-map: 0.7.3
       svelte: 3.44.3
-      svelte-preprocess: 4.7.4_5b116515eaad79b1466c2a63a5acaa8e
+      svelte-preprocess: 4.10.2_5b116515eaad79b1466c2a63a5acaa8e
       typescript: 4.5.5
     transitivePeerDependencies:
       - '@babel/core'
@@ -15185,6 +15228,58 @@ packages:
 
   /svelte-portal/2.1.2:
     resolution: {integrity: sha512-u1ONI4ZJDNhVJPDW7tH6RH1ZIzALt6kJZbF00Hz9bgNIVRlzvzimsnwf35rGFMtPFA+FYenvsTHUR815yYNc9A==}
+
+  /svelte-preprocess/4.10.2_5b116515eaad79b1466c2a63a5acaa8e:
+    resolution: {integrity: sha512-aPpkCreSo8EL/y8kJSa1trhiX0oyAtTjlNNM7BNjRAsMJ8Yy2LtqHt0zyd4pQPXt+D4PzbO3qTjjio3kwOxDlA==}
+    engines: {node: '>= 9.11.2'}
+    requiresBuild: true
+    peerDependencies:
+      '@babel/core': ^7.10.2
+      coffeescript: ^2.5.1
+      less: ^3.11.3 || ^4.0.0
+      node-sass: '*'
+      postcss: ^7 || ^8
+      postcss-load-config: ^2.1.0 || ^3.0.0
+      pug: ^3.0.0
+      sass: ^1.26.8
+      stylus: ^0.55.0
+      sugarss: ^2.0.0
+      svelte: ^3.23.0
+      typescript: ^4.5.2
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      coffeescript:
+        optional: true
+      less:
+        optional: true
+      node-sass:
+        optional: true
+      postcss:
+        optional: true
+      postcss-load-config:
+        optional: true
+      pug:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      '@babel/core': 7.16.5
+      '@types/pug': 2.0.4
+      '@types/sass': 1.16.0
+      detect-indent: 6.0.0
+      magic-string: 0.25.7
+      sorcery: 0.10.0
+      strip-indent: 3.0.0
+      svelte: 3.44.3
+      typescript: 4.5.5
+    dev: true
 
   /svelte-preprocess/4.7.0_09e26a7187acd1be975dd112cb3c8ba9:
     resolution: {integrity: sha512-iNrY4YGqi0LD2e6oT9YbdSzOKntxk8gmzfqso1z/lUJOZh4o6fyIqkirmiZ8/dDJFqtIE1spVgDFWgkfhLEYlw==}
@@ -16678,7 +16773,6 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
-    dev: false
 
   /ws/8.4.2:
     resolution: {integrity: sha512-Kbk4Nxyq7/ZWqr/tarI9yIt/+iNNFOjBXEWgTb4ydaNHBNGgvf2QHbS9fdfsndfjFlFwEd4Al+mw83YkaD10ZA==}
