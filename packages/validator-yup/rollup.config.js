@@ -16,7 +16,7 @@ export default {
   external: ['yup'],
   output: [
     {
-      file: pkg.browser,
+      file: pkg.main,
       format: 'cjs',
       sourcemap: prod,
       exports: 'named',

@@ -5,7 +5,7 @@
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/common",
   "license": "MIT",
-  "main": "dist/cjs/index.js",
+  "main": "dist/cjs/index.cjs",
   "browser": "dist/esm/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
@@ -43,7 +43,7 @@
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js",
+      "require": "./dist/cjs/index.cjs",
       "default": "./dist/esm/index.js"
     },
     "./package.json": "./package.json"

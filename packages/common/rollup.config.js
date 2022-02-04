@@ -2,6 +2,7 @@ import typescript from 'rollup-plugin-ts';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
+import pkg from './package.json';
 
 const prod = process.env.NODE_ENV === 'production';
 
@@ -9,7 +10,7 @@ export default {
   input: './src/index.ts',
   output: [
     {
-      dir: 'dist/cjs',
+      file: pkg.main,
       format: 'cjs',
       sourcemap: prod,
     },

@@ -1,6 +1,7 @@
 import typescript from 'rollup-plugin-ts';
 import babel from '@rollup/plugin-babel';
 import nodeResolve from '@rollup/plugin-node-resolve';
+import pkg from './package.json';
 
 export default {
   input: 'src/index.tsx',
@@ -14,7 +15,7 @@ export default {
       preserveModulesRoot: 'src',
     },
     {
-      file: 'dist/index.js',
+      file: pkg.main,
       format: 'cjs',
     },
   ],

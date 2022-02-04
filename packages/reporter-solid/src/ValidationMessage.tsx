@@ -21,7 +21,7 @@ export function ValidationMessage(props: ValidationMessageProps) {
   onMount(() => {
     const element = document.getElementById(id) as HTMLDivElement;
     const path = props.for;
-    const formElement = getFormElement(element) as HTMLFormElement;
+    const formElement = getFormElement(element);
     const reporterId = formElement?.dataset.felteReporterSolidId;
     if (!reporterId) return;
     if (props.level === 'error') {

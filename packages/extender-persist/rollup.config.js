@@ -16,7 +16,7 @@ export default {
   external: ['tippy.js'],
   output: [
     {
-      file: pkg.browser,
+      file: pkg.main,
       format: 'cjs',
       sourcemap: prod,
       exports: 'named',

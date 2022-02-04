@@ -2,7 +2,7 @@
   "name": "@felte/react",
   "version": "1.0.0-next.28",
   "description": "An extensible form library for ReactJS",
-  "main": "dist/cjs/index.js",
+  "main": "dist/cjs/index.cjs",
   "browser": "dist/esm/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
@@ -56,7 +56,7 @@
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js",
+      "require": "./dist/cjs/index.cjs",
       "default": "./dist/esm/index.js"
     },
     "./package.json": "./package.json"

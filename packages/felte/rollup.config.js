@@ -3,6 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import renameNodeModules from 'rollup-plugin-rename-node-modules';
+import pkg from './package.json';
 
 const prod = process.env.NODE_ENV === 'production';
 
@@ -11,7 +12,7 @@ export default {
   external: ['svelte/store', 'svelte'],
   output: [
     {
-      dir: 'dist/cjs',
+      file: pkg.main,
       format: 'cjs',
       sourcemap: prod,
     },
