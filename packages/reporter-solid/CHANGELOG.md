@@ -195,6 +195,12 @@
 - Updated dependencies [2c0f874]
   - @felte/common@1.0.0-next.0
 
+## 0.1.15
+
+### Patch Changes
+
+- a576a95: Fix bug when hydrating on SSR. Validation messages would get rendered at the end of the parent element
+
 ## 0.1.14
 
 ### Patch Changes
