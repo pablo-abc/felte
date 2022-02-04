@@ -1,7 +1,6 @@
-import type { Errors, Obj } from '@felte/common';
 import type { JSX } from 'solid-js';
 import { _get, getPath } from '@felte/common';
-import { onMount, createSignal, Show, createEffect, onCleanup } from 'solid-js';
+import { onMount, createSignal, onCleanup } from 'solid-js';
 import { errorStores } from './stores';
 import { createId } from './utils';
 
@@ -11,11 +10,7 @@ export type ValidationMessageProps = {
   children: (messages: string | string[] | undefined) => JSX.Element;
 };
 
-export function ValidationMessage<Data extends Obj = Obj>(
-  props: ValidationMessageProps
-) {
-  const [errorPath, setErrorPath] = createSignal<string>();
-  const [errors, setErrors] = createSignal<Errors<Data>>({});
+export function ValidationMessage(props: ValidationMessageProps) {
   const [messages, setMessages] = createSignal<string | string[]>();
   function getFormElement(element: HTMLDivElement) {
     let form = element.parentNode;
@@ -30,31 +25,27 @@ export function ValidationMessage<Data extends Obj = Obj>(
   let unsubscribe: (() => void) | undefined;
   onMount(() => {
     const element = document.getElementById(id) as HTMLDivElement;
-    const path =
+    const path = getPath(
+      element,
       typeof props.index !== 'undefined'
         ? `${props.for}[${props.index}]`
-        : props.for;
-    setErrorPath(getPath(element, path));
+        : props.for
+    );
     const formElement = getFormElement(element) as HTMLFormElement;
     const reporterId = formElement?.dataset.felteReporterSvelteId;
     if (!reporterId) return;
     const store = errorStores[reporterId];
-    unsubscribe = store?.subscribe(($errors: Errors<Data>) =>
-      setErrors(() => $errors)
+    unsubscribe = store?.subscribe(($errors: any) =>
+      setMessages(_get($errors, path) as any)
     );
   });
 
   onCleanup(() => unsubscribe?.());
 
-  createEffect(() => {
-    const path = errorPath();
-    if (path) setMessages(_get(errors(), path) as any);
-  });
-
   return (
     <>
       <div id={id} style="display: none;" />
-      <Show when={errorPath()}>{props.children(messages())}</Show>
+      {props.children(messages())}
     </>
   );
 }
