@@ -1,5 +1,11 @@
 # @felte/reporter-solid
 
+## 1.0.0-next.22
+
+### Patch Changes
+
+- 50638a8: Apply patch from 0.1.15
+
 ## 1.0.0-next.21
 
 ### Patch Changes
