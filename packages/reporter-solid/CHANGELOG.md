@@ -1,5 +1,11 @@
 # @felte/reporter-solid
 
+## 0.1.15
+
+### Patch Changes
+
+- a576a95: Fix bug when hydrating on SSR. Validation messages would get rendered at the end of the parent element
+
 ## 0.1.14
 
 ### Patch Changes
