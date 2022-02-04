@@ -155,8 +155,8 @@ importers:
       vite: ^2.7.13
       vite-plugin-solid: ^2.2.5
     dependencies:
-      '@felte/reporter-solid': link:../../../packages/reporter-solid
-      '@felte/solid': link:../../../packages/solid
+      '@felte/reporter-solid': 1.0.0-next.22_solid-js@1.3.5
+      '@felte/solid': 1.0.0-next.25_solid-js@1.3.5
       solid-js: 1.3.5
     devDependencies:
       typescript: 4.5.5
@@ -2820,6 +2820,38 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@felte/common/1.0.0-next.21:
+    resolution: {integrity: sha512-iGZDwehJ5rnqzk06iuL6L/ybdyUCt0gRcLMM57scz6T7ckf8/bMtquSI9nxPXfffWrYNe0LiLbEY7U5/CA7Bbw==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dev: false
+
+  /@felte/core/1.0.0-next.25:
+    resolution: {integrity: sha512-+SruC3wHNU5HJa9aCiqMuhBoqpGaNeiotVfLMZDCLKF3G7i8mWooYe2VmPMw6pauYvxy94PaTeQBVfjKT9Qj5g==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dependencies:
+      '@felte/common': 1.0.0-next.21
+    dev: false
+
+  /@felte/reporter-solid/1.0.0-next.22_solid-js@1.3.5:
+    resolution: {integrity: sha512-HCfkYVt+FuI0wD3DV6KLVFyhBX5+r0jFKFvUiJDo4KjfcF8Gy7NQVcXZqN57CSNVyQNUoLQE2xzctN3Nrpb/3g==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    peerDependencies:
+      solid-js: ^1.2.0
+    dependencies:
+      '@felte/common': 1.0.0-next.21
+      solid-js: 1.3.5
+    dev: false
+
+  /@felte/solid/1.0.0-next.25_solid-js@1.3.5:
+    resolution: {integrity: sha512-xvfPKzTZvqkaW1sDBdwyI6jwVm3KNLUumze9JJZnRhS2Mo/upm9O0fmZlulm1ykdFywWtjD/A0QNaJQJk8pEEg==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    peerDependencies:
+      solid-js: ^1.2.0
+    dependencies:
+      '@felte/core': 1.0.0-next.25
+      solid-js: 1.3.5
+    dev: false
 
   /@istanbuljs/load-nyc-config/1.1.0:
     resolution: {integrity: sha512-VjeHSlIzpv/NyD3N0YuHfXOPDIixcA1q2ZV98wsMqcYlPmv2n3Yb2lYP9XMElnaFVXg5A7YLTeLu6V84uQDjmQ==}
