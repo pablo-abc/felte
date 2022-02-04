@@ -1,5 +1,13 @@
 # @felte/reporter-cvapi
 
+## 1.0.0-next.4
+
+### Patch Changes
+
+- 4853b7e: Change cjs output to have an extension of `.cjs`
+- Updated dependencies [4853b7e]
+  - @felte/common@1.0.0-next.22
+
 ## 1.0.0-next.3
 
 ### Patch Changes

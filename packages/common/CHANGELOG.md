@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.0.0-next.22
+
+### Patch Changes
+
+- 4853b7e: Change cjs output to have an extension of `.cjs`
+
 ## 1.0.0-next.21
 
 ### Minor Changes

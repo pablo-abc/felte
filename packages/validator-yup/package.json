@@ -1,6 +1,6 @@
 {
   "name": "@felte/validator-yup",
-  "version": "1.0.0-next.20",
+  "version": "1.0.0-next.21",
   "description": "A package to use Yup with Felte",
   "main": "dist/index.cjs",
   "browser": "dist/index.mjs",

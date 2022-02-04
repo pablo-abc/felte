@@ -1,5 +1,13 @@
 # @felte/validator-vest
 
+## 1.0.0-next.21
+
+### Patch Changes
+
+- 4853b7e: Change cjs output to have an extension of `.cjs`
+- Updated dependencies [4853b7e]
+  - @felte/common@1.0.0-next.22
+
 ## 1.0.0-next.20
 
 ### Patch Changes

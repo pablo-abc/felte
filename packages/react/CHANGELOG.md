@@ -1,5 +1,13 @@
 # @felte/react
 
+## 1.0.0-next.29
+
+### Patch Changes
+
+- 4853b7e: Change cjs output to have an extension of `.cjs`
+- Updated dependencies [4853b7e]
+  - @felte/core@1.0.0-next.26
+
 ## 1.0.0-next.28
 
 ### Minor Changes
