@@ -12,7 +12,7 @@ type Data = {
 const App: Component = () => {
   const [submitted, setSubmitted] = createSignal<Data>();
 
-  const { form } = createForm({
+  const { form } = createForm<Data>({
     onSubmit(values) {
       setSubmitted(values);
     },
