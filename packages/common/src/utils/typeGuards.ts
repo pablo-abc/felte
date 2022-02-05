@@ -1,3 +1,4 @@
+/* c8 ignore next */
 import type { FormControl } from '../types';
 
 /**
