@@ -38,9 +38,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "devDependencies": {
-    "ts-jest": "^26.5.0"
-  },
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
