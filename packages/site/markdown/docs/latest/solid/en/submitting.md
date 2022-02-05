@@ -128,4 +128,53 @@ const { form } = createForm({
 
 Events contain these same properties from context alongside a `response` property for the `feltesuccess` event, and an `error`property for the `felteerror` event.
 
+```js
+// `feltesuccess` event handler
+function onFelteSuccess({
+  detail: {
+    // The response from the fetch call
+    response,
+    // Context properties
+    form,
+    controls,
+    config,
+    setFields,
+    setData,
+    setTouched,
+    setErrors,
+    setWarnings,
+    unsetField,
+    addField,
+    resetField,
+    reset,
+    setInitialValues,
+  },
+}) {
+  // ...
+}
+// `felteerror` event handler
+function onFelteError({
+  detail: {
+    // Instance of `FelteSubmitError`
+    error,
+    // Context properties
+    form,
+    controls,
+    config,
+    setFields,
+    setData,
+    setTouched,
+    setErrors,
+    setWarnings,
+    unsetField,
+    addField,
+    resetField,
+    reset,
+    setInitialValues,
+  },
+}) {
+  // ...
+}
+```
+
 > **NOTE**: TypeScript users may import the types `FelteSuccessEvent`, `FelteErrorEvent`, `FelteSuccessDetail` and `FelteErrorDetail` from this package.
