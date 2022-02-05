@@ -1,4 +1,3 @@
-import React from 'react';
 import * as sinon from 'sinon';
 import { createForm } from 'felte';
 import { suite } from 'uvu';
