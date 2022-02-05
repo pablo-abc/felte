@@ -75,7 +75,7 @@ function createDefaultSubmitHandler(form?: HTMLFormElement) {
       };
     }
 
-    const response: FetchResponse = await fetch(
+    const response: FetchResponse = await window.fetch(
       action.toString(),
       fetchOptions
     );

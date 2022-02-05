@@ -26,8 +26,8 @@
     "docs:build": "typedoc --out ../../docs",
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build && pnpm test",
-    "test": "jest",
-    "test:ci": "jest --coverage"
+    "test": "uvu -r tsm -r global-jsdom/register tests -i common",
+    "test:ci": "nyc pnpm test"
   },
   "files": [
     "dist"
