@@ -80,6 +80,7 @@ describe('reporter', () => {
   test('reports validation message', async () => {
     render(Wrapper);
 
+    jest.useFakeTimers();
     const formElement = screen.getByTestId('test-form') as HTMLFormElement;
     const emailInput = screen.getByRole('textbox', { name: 'Email' });
     const passwordInput = screen.getByRole('textbox', { name: 'Password' });
@@ -94,6 +95,7 @@ describe('reporter', () => {
 
     formElement.submit();
 
+    jest.runOnlyPendingTimers();
     await waitFor(() => {
       expect(emailInput).toBeInvalid();
       expect(passwordInput).toBeInvalid();
@@ -109,6 +111,7 @@ describe('reporter', () => {
     userEvent.type(emailInput, 'zaphod@beeblebrox.com');
     userEvent.type(passwordInput, '1234');
 
+    jest.runOnlyPendingTimers();
     await waitFor(() => {
       expect(emailInput).toBeValid();
       expect(passwordInput).toBeInvalid();
@@ -120,5 +123,6 @@ describe('reporter', () => {
       expect(passwordMessage).toHaveTextContent('Must be at least 8 chars');
       expect(passwordWarning).toHaveTextContent('Not secure enough');
     });
+    jest.useRealTimers();
   });
 });
