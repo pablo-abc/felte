@@ -82,11 +82,10 @@ export function getFormDefaultValues<Data extends Obj>(
           continue;
         }
         if (Array.isArray(_get(defaultData, elName)) && el.checked) {
-          defaultData = _update<Data, string[]>(
-            defaultData,
-            elName,
-            (value) => [...value, el.value]
-          );
+          defaultData = _update<Data>(defaultData, elName, (value) => [
+            ...value,
+            el.value,
+          ]);
         }
         continue;
       }

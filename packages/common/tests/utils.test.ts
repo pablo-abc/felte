@@ -316,12 +316,15 @@ describe('Utils', () => {
       _update(testObj, 'account.password', () => 'password').account.password
     ).toBe('password');
     expect(
-      _update(testObj, 'account.toExist', () => 'value').account.toExist
+      _update(testObj, ['account', 'toExist'], () => 'value').account.toExist
     ).toBe('value');
     expect(
       _update(undefined as any, 'account[0].toExist', () => 'value').account[0]
         .toExist
     ).toBe('value');
+    expect(_update({}, 'account[0][0]', () => 'value')).toMatchObject({
+      account: [['value']],
+    });
   });
 
   test('_isPlainObject', () => {
