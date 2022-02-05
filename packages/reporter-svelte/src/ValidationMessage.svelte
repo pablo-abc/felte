@@ -28,8 +28,8 @@
 </script>
 
 <div bind:this={element} style="display: none;" />
-{#if errorPath && (messages || !$$slots.placeholder)}
+{#if !$$slots.placeholder || messages}
   <slot {messages}></slot>
-{:else if errorPath}
+{:else}
   <slot name="placeholder"></slot>
 {/if}

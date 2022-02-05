@@ -239,11 +239,13 @@ importers:
       '@felte/core': workspace:*
       module-alias: ^2.2.2
       svelte: ^3.46.4
+      uvu: ^0.5.3
     dependencies:
       '@felte/core': link:../core
     devDependencies:
       module-alias: 2.2.2
       svelte: 3.46.4
+      uvu: 0.5.3
 
   packages/react:
     specifiers:
@@ -374,22 +376,26 @@ importers:
     specifiers:
       '@babel/preset-env': ^7.16.5
       '@felte/common': workspace:*
+      '@testing-library/svelte': ^3.0.3
       felte: workspace:*
       module-alias: ^2.2.2
       pirates: ^4.0.5
       rollup-plugin-svelte: ^7.1.0
       svelte: ^3.46.4
       svelte-preprocess: ^4.6.9
+      uvu: ^0.5.3
     dependencies:
       '@felte/common': link:../common
     devDependencies:
       '@babel/preset-env': 7.16.5_@babel+core@7.16.5
+      '@testing-library/svelte': 3.0.3_svelte@3.46.4
       felte: link:../felte
       module-alias: 2.2.2
       pirates: 4.0.5
       rollup-plugin-svelte: 7.1.0_rollup@2.45.2+svelte@3.46.4
       svelte: 3.46.4
       svelte-preprocess: 4.7.0_3fd0024ffa665ca710c2e599a99053d6
+      uvu: 0.5.3
 
   packages/reporter-tippy:
     specifiers:
@@ -3452,6 +3458,16 @@ packages:
     dependencies:
       '@testing-library/dom': 7.30.3
       svelte: 3.37.0
+    dev: true
+
+  /@testing-library/svelte/3.0.3_svelte@3.46.4:
+    resolution: {integrity: sha512-GxafAllShGM2nkntFGURZ7fYVlUYwv7K62lqv1aFqtTYzzeZ2Cu8zTVhtE/Qt3bk2zMl6+FPKP03wjLip/G8mA==}
+    engines: {node: '>= 8'}
+    peerDependencies:
+      svelte: 3.x
+    dependencies:
+      '@testing-library/dom': 7.30.3
+      svelte: 3.46.4
     dev: true
 
   /@testing-library/user-event/13.1.3_@testing-library+dom@7.30.3:

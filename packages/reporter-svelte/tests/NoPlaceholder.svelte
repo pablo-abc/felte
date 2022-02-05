@@ -1,14 +1,16 @@
 <script>
+  import * as sinon from 'sinon';
   import { createForm } from 'felte';
-  import { reporter, ValidationMessage } from '../src';
+  import { reporter } from '../src/index.js';
+  import ValidationMessage from '../src/ValidationMessage.svelte';
 
   const { form } = createForm({
-    onSubmit: jest.fn(),
+    onSubmit: sinon.fake(),
     extend: reporter,
-    validate: jest.fn(() => ({
+    validate: sinon.fake(() => ({
       test: 'An error message',
     })),
-    warn: jest.fn(() => ({
+    warn: sinon.fake(() => ({
       test: 'A warning message',
     })),
   });

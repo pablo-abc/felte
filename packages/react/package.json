@@ -28,7 +28,7 @@
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build && pnpm test",
     "test": "uvu -r tsm -r global-jsdom/register tests -i common",
-    "test:ci": "nyc pnpm test"
+    "test:ci": "nyc -n src pnpm test"
   },
   "files": [
     "dist"

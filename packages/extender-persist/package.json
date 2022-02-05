@@ -25,7 +25,7 @@
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build && pnpm test",
     "test": "uvu -r module-alias/register -r tsm -r global-jsdom/register tests -i common -i mocks",
-    "test:ci": "nyc pnpm test"
+    "test:ci": "nyc -n src pnpm test"
   },
   "license": "MIT",
   "dependencies": {
