@@ -7739,7 +7739,7 @@ packages:
       jest-runtime: 26.6.3
       jest-util: 26.6.2
       jest-worker: 26.6.2
-      source-map-support: 0.5.19
+      source-map-support: 0.5.21
       throat: 5.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -10595,6 +10595,13 @@ packages:
 
   /source-map-support/0.5.19:
     resolution: {integrity: sha512-Wonm7zOCIJzBGQdB+thsPar0kYuCIzYvxZwlBa87yi/Mdjv7Tip2cyVbLj5o0cFPN4EVkuTwb3GDDyUx2DGnGw==}
+    dependencies:
+      buffer-from: 1.1.1
+      source-map: 0.6.1
+    dev: true
+
+  /source-map-support/0.5.21:
+    resolution: {integrity: sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==}
     dependencies:
       buffer-from: 1.1.1
       source-map: 0.6.1
