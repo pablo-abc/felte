@@ -34,8 +34,8 @@
     "build": "pnpm prebuild && cross-env NODE_ENV=production rollup -c",
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build && pnpm test",
-    "test": "uvu -r tsm -r jsdom-global/register tests -i common",
-    "test:ci": "c8 -n src pnpm test && c8 report -r lcov > coverage/lcov.info"
+    "test": "uvu -r tsm -r global-jsdom/register tests -i common",
+    "test:ci": "nyc pnpm test"
   },
   "bugs": {
     "url": "https://github.com/pablo-abc/felte/issues"
