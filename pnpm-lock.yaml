@@ -29,7 +29,6 @@ importers:
       babel-jest: ^26.6.3
       babel-plugin-annotate-pure-calls: ^0.4.0
       babel-plugin-dev-expression: ^0.2.2
-      c8: ^7.11.0
       chai: ^4.3.6
       chai-dom: ^1.11.0
       cross-env: ^7.0.3
@@ -104,7 +103,6 @@ importers:
       '@typescript-eslint/parser': 5.9.1_eslint@7.24.0+typescript@4.5.5
       all-contributors-cli: 6.20.0
       babel-jest: 26.6.3_@babel+core@7.16.5
-      c8: 7.11.0
       chai: 4.3.6
       chai-dom: 1.11.0_chai@4.3.6
       cross-env: 7.0.3
@@ -4586,25 +4584,6 @@ packages:
   /builtin-modules/3.2.0:
     resolution: {integrity: sha512-lGzLKcioL90C7wMczpkY0n/oART3MbBa8R9OFGE1rJxoVI86u4WAGfEk8Wjv10eKSyTHVGkSo3bvBylCEtk7LA==}
     engines: {node: '>=6'}
-    dev: true
-
-  /c8/7.11.0:
-    resolution: {integrity: sha512-XqPyj1uvlHMr+Y1IeRndC2X5P7iJzJlEJwBpCdBbq2JocXOgJfr+JVfJkyNMGROke5LfKrhSFXGFXnwnRJAUJw==}
-    engines: {node: '>=10.12.0'}
-    hasBin: true
-    dependencies:
-      '@bcoe/v8-coverage': 0.2.3
-      '@istanbuljs/schema': 0.1.3
-      find-up: 5.0.0
-      foreground-child: 2.0.0
-      istanbul-lib-coverage: 3.2.0
-      istanbul-lib-report: 3.0.0
-      istanbul-reports: 3.0.2
-      rimraf: 3.0.2
-      test-exclude: 6.0.0
-      v8-to-istanbul: 8.1.1
-      yargs: 16.2.0
-      yargs-parser: 20.2.9
     dev: true
 
   /cache-base/1.0.1:
@@ -11567,15 +11546,6 @@ packages:
   /v8-to-istanbul/7.1.1:
     resolution: {integrity: sha512-p0BB09E5FRjx0ELN6RgusIPsSPhtgexSRcKETybEs6IGOTXJSZqfwxp7r//55nnu0f1AxltY5VvdVqy2vZf9AA==}
     engines: {node: '>=10.10.0'}
-    dependencies:
-      '@types/istanbul-lib-coverage': 2.0.3
-      convert-source-map: 1.7.0
-      source-map: 0.7.3
-    dev: true
-
-  /v8-to-istanbul/8.1.1:
-    resolution: {integrity: sha512-FGtKtv3xIpR6BYhvgH8MI/y78oT7d8Au3ww4QIxymrCtZEh5b8gCw2siywE+puhEmuWKDtmfrvF5UlB298ut3w==}
-    engines: {node: '>=10.12.0'}
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.3
       convert-source-map: 1.7.0
