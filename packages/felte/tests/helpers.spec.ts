@@ -1,4 +1,3 @@
-import { onDestroy } from 'svelte';
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
 import { expect, use } from 'chai';
