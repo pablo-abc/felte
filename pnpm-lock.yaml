@@ -233,11 +233,19 @@ importers:
   packages/felte:
     specifiers:
       '@felte/core': workspace:*
+      module-alias: ^2.2.2
+      svelte: ^3.46.4
+      testdouble: ^3.16.4
       ts-jest: ^26.5.0
+      uvu: ^0.5.3
     dependencies:
       '@felte/core': link:../core
     devDependencies:
+      module-alias: 2.2.2
+      svelte: 3.46.4
+      testdouble: 3.16.4
       ts-jest: 26.5.4_jest@26.6.3+typescript@4.5.5
+      uvu: 0.5.3
 
   packages/react:
     specifiers:
@@ -7252,6 +7260,11 @@ packages:
       '@types/estree': 0.0.47
     dev: true
 
+  /is-regexp/1.0.0:
+    resolution: {integrity: sha1-/S2INUXEa6xaYz57mgnof6LLUGk=}
+    engines: {node: '>=0.10.0'}
+    dev: true
+
   /is-resolvable/1.1.0:
     resolution: {integrity: sha512-qgDYXFSR5WvEfuS5dMj6oTMEbrrSaM0CrFk2Yiq/gXnBvD9pMa2jGXxyhGLfvhZpuMZe18CJpFxAt3CRs42NMg==}
     dev: true
@@ -8435,6 +8448,10 @@ packages:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
     engines: {node: '>=10'}
     hasBin: true
+    dev: true
+
+  /module-alias/2.2.2:
+    resolution: {integrity: sha512-A/78XjoX2EmNvppVWEhM2oGk3x4lLxnkEA4jTbaK97QKSDjkIoOsKQlfylt/d3kKKi596Qy3NP5XrXJ6fZIC9Q==}
     dev: true
 
   /mri/1.1.6:
@@ -9756,6 +9773,14 @@ packages:
   /queue-microtask/1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
+  /quibble/0.6.8:
+    resolution: {integrity: sha512-HQ89ZADQ4uZjyePn1yACZADE3OUQ16Py5gkVxcoPvV6IRiItAgGMBkeQ5f1rOnnnsVKccMdhic0xABd7+cY/jA==}
+    engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
+    dependencies:
+      lodash: 4.17.21
+      resolve: 1.22.0
+    dev: true
+
   /quick-lru/4.0.1:
     resolution: {integrity: sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==}
     engines: {node: '>=8'}
@@ -10701,6 +10726,14 @@ packages:
       safe-buffer: 5.2.1
     dev: true
 
+  /stringify-object-es5/2.5.0:
+    resolution: {integrity: sha1-BXw8mpChJzObudFwSikLt70KHsU=}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      is-plain-obj: 1.1.0
+      is-regexp: 1.0.0
+    dev: true
+
   /strip-ansi/3.0.1:
     resolution: {integrity: sha1-ajhfuIU9lS1f8F0Oiq+UJ43GPc8=}
     engines: {node: '>=0.10.0'}
@@ -11044,6 +11077,11 @@ packages:
     engines: {node: '>= 8'}
     dev: true
 
+  /svelte/3.46.4:
+    resolution: {integrity: sha512-qKJzw6DpA33CIa+C/rGp4AUdSfii0DOTCzj/2YpSKKayw5WGSS624Et9L1nU1k2OVRS9vaENQXp2CVZNU+xvIg==}
+    engines: {node: '>= 8'}
+    dev: true
+
   /svgo/2.3.1:
     resolution: {integrity: sha512-riDDIQgXpEnn0BEl9Gvhh1LNLIyiusSpt64IR8upJu7MwxnzetmF/Y57pXQD2NMX2lVyMRzXt5f2M5rO4wG7Dw==}
     engines: {node: '>=10.13.0'}
@@ -11109,6 +11147,16 @@ packages:
       minimatch: 3.0.4
     dev: true
 
+  /testdouble/3.16.4:
+    resolution: {integrity: sha512-NM8gzFurcf3tgf9miWx3ussoJWUxtT1MwJ7Xpe+sqJBbiwgqLDBqh64bnuDmGCHqhQ3Vou3Z5HtRjiAs7U/mug==}
+    engines: {node: '>= 4.0.0'}
+    dependencies:
+      lodash: 4.17.21
+      quibble: 0.6.8
+      stringify-object-es5: 2.5.0
+      theredoc: 1.0.0
+    dev: true
+
   /text-extensions/1.9.0:
     resolution: {integrity: sha512-wiBrwC1EhBelW12Zy26JeOUkQ5mRu+5o8rpsJk5+2t+Y5vE7e842qtZDQ2g1NpX/29HdyFeJ4nSIhI47ENSxlQ==}
     engines: {node: '>=0.10'}
@@ -11116,6 +11164,10 @@ packages:
 
   /text-table/0.2.0:
     resolution: {integrity: sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=}
+    dev: true
+
+  /theredoc/1.0.0:
+    resolution: {integrity: sha512-KU3SA3TjRRM932jpNfD3u4Ec3bSvedyo5ITPI7zgWYnKep7BwQQaxlhI9qbO+lKJoRnoAbEVfMcAHRuKVYikDA==}
     dev: true
 
   /throat/5.0.0:

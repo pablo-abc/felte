@@ -27,8 +27,8 @@
     "docs:build": "typedoc --out ../../docs",
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build && pnpm test",
-    "test": "jest",
-    "test:ci": "jest --ci --coverage"
+    "test": "uvu -r module-alias/register -r tsm -r global-jsdom/register tests -i common -i mocks",
+    "test:ci": "nyc pnpm test"
   },
   "peerDependencies": {
     "svelte": "^3.31.0"
@@ -43,7 +43,8 @@
     "access": "public"
   },
   "devDependencies": {
-    "ts-jest": "^26.5.0"
+    "module-alias": "^2.2.2",
+    "svelte": "^3.46.4"
   },
   "exports": {
     ".": {
@@ -52,5 +53,9 @@
       "default": "./dist/esm/index.js"
     },
     "./package.json": "./package.json"
+  },
+  "_moduleAliases": {
+    "svelte": "tests/mocks/svelte.js",
+    "svelte/store": "node_modules/svelte/store/index.mjs"
   }
 }

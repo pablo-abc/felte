@@ -24,7 +24,7 @@ export function createInputElement(attrs: InputAttributes): HTMLInputElement {
   if (attrs.value) inputElement.value = attrs.value;
   if (attrs.checked) inputElement.checked = attrs.checked;
   if (typeof attrs.index !== 'undefined')
-    inputElement.name = `${attrs.name}.${attrs.index}`;
+    inputElement.name = `${attrs.name}.${attrs.index}.value`;
   inputElement.required = !!attrs.required;
   return inputElement;
 }
