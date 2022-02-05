@@ -24,15 +24,17 @@
     "build": "pnpm prebuild && cross-env NODE_ENV=production rollup -c",
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build && pnpm test",
-    "test": "jest",
-    "test:ci": "jest --ci --coverage"
+    "test": "uvu -r module-alias/register -r tsm -r global-jsdom/register tests -i common -i mocks",
+    "test:ci": "nyc pnpm test"
   },
   "license": "MIT",
   "dependencies": {
     "@felte/common": "workspace:*"
   },
   "devDependencies": {
-    "felte": "workspace:*"
+    "felte": "workspace:*",
+    "module-alias": "^2.2.2",
+    "svelte": "^3.46.4"
   },
   "publishConfig": {
     "access": "public"
@@ -44,5 +46,9 @@
       "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
+  },
+  "_moduleAliases": {
+    "svelte": "tests/mocks/svelte.js",
+    "svelte/store": "node_modules/svelte/store/index.mjs"
   }
 }

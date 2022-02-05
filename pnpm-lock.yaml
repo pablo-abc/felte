@@ -225,10 +225,14 @@ importers:
     specifiers:
       '@felte/common': workspace:*
       felte: workspace:*
+      module-alias: ^2.2.2
+      svelte: ^3.46.4
     dependencies:
       '@felte/common': link:../common
     devDependencies:
       felte: link:../felte
+      module-alias: 2.2.2
+      svelte: 3.46.4
 
   packages/felte:
     specifiers:
@@ -245,44 +249,44 @@ importers:
     specifiers:
       '@felte/common': workspace:*
       '@felte/core': workspace:*
-      '@testing-library/jest-dom': ^5.11.9
       '@testing-library/react': ^12.1.2
       '@testing-library/react-hooks': ^7.0.2
       '@types/react': ^17.0.37
       react: ^17.0.2
       react-dom: ^17.0.2
       react-test-renderer: ^17.0.2
-      ts-jest: ^26.5.0
     dependencies:
       '@felte/core': link:../core
     devDependencies:
       '@felte/common': link:../common
-      '@testing-library/jest-dom': 5.11.10
       '@testing-library/react': 12.1.2_react-dom@17.0.2+react@17.0.2
       '@testing-library/react-hooks': 7.0.2_fc2bb8a5b006d3f25c5f84ea777e678d
       '@types/react': 17.0.37
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-test-renderer: 17.0.2_react@17.0.2
-      ts-jest: 26.5.4_jest@26.6.3+typescript@4.5.5
 
   packages/reporter-cvapi:
     specifiers:
       '@felte/common': workspace:*
       felte: workspace:*
+      svelte: ^3.46.4
     dependencies:
       '@felte/common': link:../common
     devDependencies:
       felte: link:../felte
+      svelte: 3.46.4
 
   packages/reporter-dom:
     specifiers:
       '@felte/common': workspace:*
       felte: workspace:*
+      svelte: ^3.46.4
     dependencies:
       '@felte/common': link:../common
     devDependencies:
       felte: link:../felte
+      svelte: 3.46.4
 
   packages/reporter-react:
     specifiers:
@@ -371,26 +375,32 @@ importers:
       '@babel/preset-env': ^7.16.5
       '@felte/common': workspace:*
       felte: workspace:*
+      module-alias: ^2.2.2
+      pirates: ^4.0.5
       rollup-plugin-svelte: ^7.1.0
-      svelte: ^3.31.0
+      svelte: ^3.46.4
       svelte-preprocess: ^4.6.9
     dependencies:
       '@felte/common': link:../common
     devDependencies:
       '@babel/preset-env': 7.16.5_@babel+core@7.16.5
       felte: link:../felte
-      rollup-plugin-svelte: 7.1.0_rollup@2.45.2+svelte@3.37.0
-      svelte: 3.37.0
-      svelte-preprocess: 4.7.0_09e26a7187acd1be975dd112cb3c8ba9
+      module-alias: 2.2.2
+      pirates: 4.0.5
+      rollup-plugin-svelte: 7.1.0_rollup@2.45.2+svelte@3.46.4
+      svelte: 3.46.4
+      svelte-preprocess: 4.7.0_3fd0024ffa665ca710c2e599a99053d6
 
   packages/reporter-tippy:
     specifiers:
       '@felte/common': workspace:*
       felte: workspace:*
+      svelte: ^3.46.4
     dependencies:
       '@felte/common': link:../common
     devDependencies:
       felte: link:../felte
+      svelte: 3.46.4
 
   packages/site:
     specifiers:
@@ -479,43 +489,51 @@ importers:
       '@felte/common': workspace:*
       felte: workspace:*
       superstruct: ^0.15.0
+      svelte: ^3.46.4
     dependencies:
       '@felte/common': link:../common
     devDependencies:
       felte: link:../felte
       superstruct: 0.15.1
+      svelte: 3.46.4
 
   packages/validator-vest:
     specifiers:
       '@felte/common': workspace:*
       felte: workspace:*
+      svelte: ^3.46.4
       vest: ^4.0.1
     dependencies:
       '@felte/common': link:../common
     devDependencies:
       felte: link:../felte
+      svelte: 3.46.4
       vest: 4.0.1
 
   packages/validator-yup:
     specifiers:
       '@felte/common': workspace:*
       felte: workspace:*
+      svelte: ^3.46.4
       yup: ^0.32.9
     dependencies:
       '@felte/common': link:../common
     devDependencies:
       felte: link:../felte
+      svelte: 3.46.4
       yup: 0.32.9
 
   packages/validator-zod:
     specifiers:
       '@felte/common': workspace:*
       felte: workspace:*
+      svelte: ^3.46.4
       zod: ^3.2.0
     dependencies:
       '@felte/common': link:../common
     devDependencies:
       felte: link:../felte
+      svelte: 3.46.4
       zod: 3.2.0
 
 packages:
@@ -8952,6 +8970,11 @@ packages:
       node-modules-regexp: 1.0.0
     dev: true
 
+  /pirates/4.0.5:
+    resolution: {integrity: sha512-8V9+HQPupnaXMA23c5hvl69zXvTwTzyAYasnkb0Tts4XvO4CliqONMOnvlq26rkhLC3nWDFBJf73LU1e1VZLaQ==}
+    engines: {node: '>= 6'}
+    dev: true
+
   /pkg-dir/4.2.0:
     resolution: {integrity: sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==}
     engines: {node: '>=8'}
@@ -10151,6 +10174,20 @@ packages:
       rollup: 2.45.2
       rollup-pluginutils: 2.8.2
       svelte: 3.37.0
+    dev: false
+
+  /rollup-plugin-svelte/7.1.0_rollup@2.45.2+svelte@3.46.4:
+    resolution: {integrity: sha512-vopCUq3G+25sKjwF5VilIbiY6KCuMNHP1PFvx2Vr3REBNMDllKHFZN2B9jwwC+MqNc3UPKkjXnceLPEjTjXGXg==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      rollup: '>=2.0.0'
+      svelte: '>=3.5.0'
+    dependencies:
+      require-relative: 0.8.7
+      rollup: 2.45.2
+      rollup-pluginutils: 2.8.2
+      svelte: 3.46.4
+    dev: true
 
   /rollup-plugin-terser/7.0.2_rollup@2.52.7:
     resolution: {integrity: sha512-w3iIaU4OxcF52UUXiZNsNeuXIMDvFrr+ZXK6bFZ0Q60qyVfq4uLptoS4bbq3paG3x216eQllFZX7zt6TIImguQ==}
@@ -10987,6 +11024,57 @@ packages:
       strip-indent: 3.0.0
       svelte: 3.37.0
       typescript: 4.5.5
+    dev: false
+
+  /svelte-preprocess/4.7.0_3fd0024ffa665ca710c2e599a99053d6:
+    resolution: {integrity: sha512-iNrY4YGqi0LD2e6oT9YbdSzOKntxk8gmzfqso1z/lUJOZh4o6fyIqkirmiZ8/dDJFqtIE1spVgDFWgkfhLEYlw==}
+    engines: {node: '>= 9.11.2'}
+    requiresBuild: true
+    peerDependencies:
+      '@babel/core': ^7.10.2
+      coffeescript: ^2.5.1
+      less: ^3.11.3
+      node-sass: '*'
+      postcss: ^7 || ^8
+      postcss-load-config: ^2.1.0 || ^3.0.0
+      pug: ^3.0.0
+      sass: ^1.26.8
+      stylus: ^0.54.7
+      sugarss: ^2.0.0
+      svelte: ^3.23.0
+      typescript: ^3.9.5 || ^4.0.0
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      coffeescript:
+        optional: true
+      less:
+        optional: true
+      node-sass:
+        optional: true
+      postcss:
+        optional: true
+      postcss-load-config:
+        optional: true
+      pug:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      '@babel/core': 7.16.5
+      '@types/pug': 2.0.4
+      '@types/sass': 1.16.0
+      detect-indent: 6.0.0
+      strip-indent: 3.0.0
+      svelte: 3.46.4
+      typescript: 4.5.5
+    dev: true
 
   /svelte-preprocess/4.7.4_86939f4f251c1ecf5c985a45d60ac8fc:
     resolution: {integrity: sha512-mDAmaltQl6e5zU2VEtoWEf7eLTfuOTGr9zt+BpA3AGHo8MIhKiNSPE9OLTCTOMgj0vj/uL9QBbaNmpG4G1CgIA==}

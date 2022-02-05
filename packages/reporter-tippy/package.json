@@ -35,7 +35,8 @@
     "tippy.js": "^6.0.0"
   },
   "devDependencies": {
-    "felte": "workspace:*"
+    "felte": "workspace:*",
+    "svelte": "^3.46.4"
   },
   "license": "MIT",
   "publishConfig": {

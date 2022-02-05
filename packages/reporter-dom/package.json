@@ -33,7 +33,8 @@
     "@felte/common": "workspace:*"
   },
   "devDependencies": {
-    "felte": "workspace:*"
+    "felte": "workspace:*",
+    "svelte": "^3.46.4"
   },
   "publishConfig": {
     "access": "public"

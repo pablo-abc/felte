@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "felte": "workspace:*",
+    "svelte": "^3.46.4",
     "yup": "^0.32.9"
   },
   "peerDependencies": {

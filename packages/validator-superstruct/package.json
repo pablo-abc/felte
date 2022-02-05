@@ -35,7 +35,8 @@
   },
   "devDependencies": {
     "felte": "workspace:*",
-    "superstruct": "^0.15.0"
+    "superstruct": "^0.15.0",
+    "svelte": "^3.46.4"
   },
   "peerDependencies": {
     "superstruct": "^0.15.0"

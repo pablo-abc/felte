@@ -27,6 +27,7 @@
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build && pnpm test",
     "test": "jest",
+    "test:uvu": "uvu -r tsm -r ./svelte-register.js -r global-jsdom/register tests -i common -i test -i .svelte",
     "test:ci": "jest --ci --coverage"
   },
   "license": "MIT",
@@ -44,8 +45,10 @@
   "devDependencies": {
     "@babel/preset-env": "^7.16.5",
     "felte": "workspace:*",
+    "module-alias": "^2.2.2",
+    "pirates": "^4.0.5",
     "rollup-plugin-svelte": "^7.1.0",
-    "svelte": "^3.31.0",
+    "svelte": "^3.46.4",
     "svelte-preprocess": "^4.6.9"
   },
   "peerDependencies": {
