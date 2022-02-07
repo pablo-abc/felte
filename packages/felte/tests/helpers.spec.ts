@@ -1,7 +1,7 @@
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
 import { expect, use } from 'chai';
-import chaiDom = require('chai-dom');
+import chaiDom from 'chai-jsdom';
 import { waitFor, screen } from '@testing-library/dom';
 import { writable, get } from 'svelte/store';
 import userEvent from '@testing-library/user-event';
@@ -494,7 +494,7 @@ Helpers('unsetField removes a field from all stores', async () => {
     expect(get(touched)).to.deep.equal({ account: {} });
     expect(get(errors)).to.deep.equal({ account: {} });
     expect(get(warnings)).to.deep.equal({ account: {} });
-    expect(inputElement).to.have.value('');
+    expect(inputElement).to.not.have.a.value;
   });
 });
 
@@ -542,7 +542,7 @@ Helpers('resetField resets a field to its initial value', async () => {
     expect(get(data).account.email).to.equal('zaphod@beeblebrox.com');
     expect(get(touched).account.email).to.equal(false);
     expect(get(errors).account?.email).to.equal(null);
-    expect(inputElement).to.have.value('zaphod@beeblebrox.com');
+    expect(inputElement).to.have.value.that.equals('zaphod@beeblebrox.com');
   });
 });
 
@@ -611,11 +611,11 @@ Helpers(
       expect(get(data).todos[1].value).to.equal('Second todo');
       expect(get(touched).todos[1].value).to.equal(false);
       expect(get(errors).todos?.[1].value).to.equal(null);
-      expect(multipleInputs[1]).to.have.value('Second todo');
+      expect(multipleInputs[1]).to.have.value.that.equals('Second todo');
       expect(get(data).todos[2].value).to.equal('Third todo');
       expect(get(touched).todos[2].value).to.equal(true);
       expect(get(errors).todos?.[2].value).to.deep.equal(['Invalid']);
-      expect(multipleInputs[2]).to.have.value('Third todo');
+      expect(multipleInputs[2]).to.have.value.that.equals('Third todo');
     });
 
     unsetField('todos.2.');
@@ -624,11 +624,11 @@ Helpers(
       expect(get(data).todos[1].value).to.equal('Second todo');
       expect(get(touched).todos[1].value).to.equal(false);
       expect(get(errors).todos?.[1].value).to.equal(null);
-      expect(multipleInputs[1]).to.have.value('Second todo');
+      expect(multipleInputs[1]).to.have.value.that.equals('Second todo');
       expect(get(data).todos[2].value).to.equal('Fourth todo');
       expect(get(touched).todos[2].value).to.equal(false);
       expect(get(errors).todos?.[2].value).to.equal(null);
-      expect(multipleInputs[2]).to.have.value('Fourth todo');
+      expect(multipleInputs[2]).to.have.value.that.equals('Fourth todo');
     });
 
     addField('todos', { value: 'Fifth todo' });
@@ -637,7 +637,7 @@ Helpers(
       expect(get(data).todos[2].value).to.equal('Fourth todo');
       expect(get(touched).todos[2].value).to.equal(false);
       expect(get(errors).todos[2].value).to.equal(null);
-      expect(multipleInputs[2]).to.have.value('Fourth todo');
+      expect(multipleInputs[2]).to.have.value.that.equals('Fourth todo');
       expect(get(data).todos[3].value).to.equal('Fifth todo');
       expect(get(touched).todos[3].value).to.equal(false);
       expect(get(errors).todos[3].value).to.equal(null);

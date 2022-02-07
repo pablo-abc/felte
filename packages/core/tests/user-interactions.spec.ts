@@ -1,7 +1,7 @@
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
 import { expect, use } from 'chai';
-import chaiDom = require('chai-dom');
+import chaiDom from 'chai-jsdom';
 import { waitFor, screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import {

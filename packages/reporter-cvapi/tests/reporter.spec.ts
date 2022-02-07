@@ -2,7 +2,7 @@ import * as sinon from 'sinon';
 import { createForm } from 'felte';
 import { suite } from 'uvu';
 import { expect, use } from 'chai';
-import chaiDom = require('chai-dom');
+import chaiDom from 'chai-jsdom';
 import userEvent from '@testing-library/user-event';
 import { screen, waitFor } from '@testing-library/dom';
 import { createDOM, cleanupDOM, createInputElement } from './common';

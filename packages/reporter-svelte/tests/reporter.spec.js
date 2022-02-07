@@ -1,4 +1,4 @@
-import chaiDom from 'chai-dom';
+import chaiDom from 'chai-jsdom';
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
 import { expect, use } from 'chai';
@@ -40,8 +40,12 @@ Reporter('renders error message', async () => {
   formElement.requestSubmit();
   clock.runAllAsync();
   await waitFor(() => {
-    expect(validationMessageElement).to.contain.text('An error message');
-    expect(warningMessageElement).to.contain.text('A warning message');
+    expect(validationMessageElement).to.have.text.that.contains(
+      'An error message'
+    );
+    expect(warningMessageElement).to.have.text.that.contains(
+      'A warning message'
+    );
   });
 });
 
@@ -53,7 +57,7 @@ Reporter('renders placeholder', async () => {
   clock.runAll();
   await waitFor(() => {
     expect(placeholderElement).to.not.be.null;
-    expect(placeholderElement).to.contain.text('Placeholder text');
+    expect(placeholderElement).to.have.text.that.contains('Placeholder text');
   });
 });
 
@@ -67,7 +71,9 @@ Reporter('renders multiple errors', async () => {
       `validation-message-${index}`
     );
     await waitFor(() => {
-      expect(validationMessageElement).to.contain.text('An error message');
+      expect(validationMessageElement).to.have.text.that.contains(
+        'An error message'
+      );
     });
   }
 });

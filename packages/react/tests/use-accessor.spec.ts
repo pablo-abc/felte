@@ -1,10 +1,8 @@
 import { suite } from 'uvu';
-import { expect, use } from 'chai';
-import chaiDom = require('chai-dom');
+import { expect } from 'chai';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { writable } from 'svelte/store';
 import { useAccessor } from '../src/use-accessor';
-use(chaiDom);
 
 const Accessor = suite('useAccessor');
 

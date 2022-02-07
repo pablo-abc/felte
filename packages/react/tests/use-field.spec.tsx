@@ -1,7 +1,7 @@
 import React from 'react';
 import { suite } from 'uvu';
 import { expect, use } from 'chai';
-import chaiDom = require('chai-dom');
+import chaiDom from 'chai-jsdom';
 import { render, waitFor } from '@testing-library/react';
 import { useField } from '../src';
 use(chaiDom);
@@ -26,7 +26,7 @@ Field('adds hidden input', async () => {
   const { unmount } = render(<CustomInput />);
 
   await waitFor(() => {
-    expect(document.querySelector('[name="test"]')).to.not.be.null;
+    expect(document.querySelector('[name="test"]')).to.not.be.in.document;
   });
   unmount();
 });

@@ -2,7 +2,7 @@ import React from 'react';
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
 import { expect, use } from 'chai';
-import chaiDom = require('chai-dom');
+import chaiDom from 'chai-jsdom';
 import { render, screen, waitFor, act } from '@testing-library/react';
 import { useForm } from '@felte/react';
 import userEvent from '@testing-library/user-event';
@@ -104,10 +104,14 @@ Reporter('reports validation message', async () => {
     emailMessage = screen.getByTestId('email-message');
     passwordMessage = screen.getByTestId('password-message');
     passwordWarning = screen.getByTestId('password-warning');
-    expect(emailMessage).to.contain.text('Must not be empty');
-    expect(passwordMessage).to.contain.text('Must not be empty');
-    expect(passwordMessage).to.contain.text('Must be at least 8 chars');
-    expect(passwordWarning).not.to.contain.text('Not secure enough');
+    expect(emailMessage).to.have.text.that.contains('Must not be empty');
+    expect(passwordMessage).to.have.text.that.contains('Must not be empty');
+    expect(passwordMessage).to.have.text.that.contains(
+      'Must be at least 8 chars'
+    );
+    expect(passwordWarning).to.have.text.that.does.not.contain(
+      'Not secure enough'
+    );
   });
 
   act(() => {
@@ -122,9 +126,13 @@ Reporter('reports validation message', async () => {
     passwordMessage = screen.getByTestId('password-message');
     passwordWarning = screen.getByTestId('password-warning');
     expect(emailMessage).to.be.empty;
-    expect(passwordMessage).not.to.contain.text('Must not be empty');
-    expect(passwordMessage).to.contain.text('Must be at least 8 chars');
-    expect(passwordWarning).to.contain.text('Not secure enough');
+    expect(passwordMessage).to.have.text.that.does.not.contain(
+      'Must not be empty'
+    );
+    expect(passwordMessage).to.have.text.that.contains(
+      'Must be at least 8 chars'
+    );
+    expect(passwordWarning).to.have.text.that.contains('Not secure enough');
   });
 });
 

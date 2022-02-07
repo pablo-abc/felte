@@ -1,7 +1,7 @@
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
 import { expect, use } from 'chai';
-import chaiDom = require('chai-dom');
+import chaiJSDOM from 'chai-jsdom';
 import { screen } from '@testing-library/dom';
 import type { AssignableErrors } from '../src';
 import {
@@ -43,7 +43,7 @@ import {
   isEqual,
 } from '../src';
 
-use(chaiDom);
+use(chaiJSDOM);
 
 function createLoginForm() {
   const formElement = screen.getByRole('form') as HTMLFormElement;
@@ -444,6 +444,7 @@ Utils('getPath', () => {
 
 Utils('getFormControls', () => {
   const { formElement } = createLoginForm();
+  expect(formElement).to.not.be.focused;
   expect(getFormControls(formElement)).to.have.lengthOf(3);
 });
 

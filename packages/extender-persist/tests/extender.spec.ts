@@ -3,7 +3,7 @@ import { waitFor, screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { createDOM, cleanupDOM, createInputElement } from './common';
 import { extender } from '../src';
-import chaiDom = require('chai-dom');
+import chaiDom from 'chai-jsdom';
 import { get } from 'svelte/store';
 import * as sinon from 'sinon';
 import { suite } from 'uvu';

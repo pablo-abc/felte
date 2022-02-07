@@ -2,7 +2,7 @@ import * as sinon from 'sinon';
 import { createForm } from 'felte';
 import { suite } from 'uvu';
 import { expect, use } from 'chai';
-import chaiDom = require('chai-dom');
+import chaiDom from 'chai-jsdom';
 import userEvent from '@testing-library/user-event';
 import { screen, waitFor } from '@testing-library/dom';
 import {
@@ -170,7 +170,9 @@ Reporter(
     await validate();
 
     await waitFor(() => {
-      expect(validationMessageElement).not.to.contain.text('An error');
+      expect(validationMessageElement).to.have.text.that.does.not.contain(
+        'An error'
+      );
       multipleMessages.forEach((mes) =>
         expect(mes).not.to.contain.html(
           '<li data-felte-reporter-dom-list-message="">An error</li>'
@@ -241,7 +243,9 @@ Reporter(
     await validate();
 
     await waitFor(() => {
-      expect(validationMessageElement).not.to.contain.text('An error');
+      expect(validationMessageElement).to.have.text.that.does.not.contain(
+        'An error'
+      );
       multipleMessages.forEach((mes) =>
         expect(mes).not.to.contain.html(
           '<span aria-live="polite" data-felte-reporter-dom-single-message="">An error</span>'
@@ -282,7 +286,9 @@ Reporter(
 
     await waitFor(() => {
       expect(inputElement).to.equal(document.activeElement);
-      expect(validationMessageElement).to.contain.text('A test error');
+      expect(validationMessageElement).to.have.text.that.contains(
+        'A test error'
+      );
     });
   }
 );
@@ -333,8 +339,8 @@ Reporter('sets classes for reporter list elements', async () => {
   await waitFor(() => {
     const listElement = validationMessageElement.querySelector('ul');
     const messageElement = validationMessageElement.querySelector('li');
-    expect(listElement).to.have.class('ul-class');
-    expect(messageElement).to.have.class('li-class');
+    expect(listElement).to.have.class.that.contains('ul-class');
+    expect(messageElement).to.have.class.that.contains('li-class');
   });
 
   mockValidate.returns({});
@@ -342,7 +348,9 @@ Reporter('sets classes for reporter list elements', async () => {
   await validate();
 
   await waitFor(() => {
-    expect(validationMessageElement).not.to.contain.text('An error');
+    expect(validationMessageElement).to.have.text.that.does.not.contain(
+      'An error'
+    );
   });
 });
 
@@ -389,7 +397,7 @@ Reporter('sets classes for reporter single elements', async () => {
 
   await waitFor(() => {
     const messageElement = validationMessageElement.querySelector('span');
-    expect(messageElement).to.have.class('span-class');
+    expect(messageElement).to.have.class.that.contains('span-class');
   });
 
   mockValidate.returns({});
@@ -397,7 +405,9 @@ Reporter('sets classes for reporter single elements', async () => {
   await validate();
 
   await waitFor(() => {
-    expect(validationMessageElement).not.to.contain.text('An error');
+    expect(validationMessageElement).to.have.text.that.does.not.contain(
+      'An error'
+    );
   });
 });
 

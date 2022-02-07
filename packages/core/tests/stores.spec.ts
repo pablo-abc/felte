@@ -1,6 +1,6 @@
 import { suite } from 'uvu';
 import { expect, use } from 'chai';
-import chaiDom = require('chai-dom');
+import chaiDom from 'chai-jsdom';
 import { waitFor } from '@testing-library/dom';
 import { createStores } from '../src/stores';
 import { writable, get } from 'svelte/store';

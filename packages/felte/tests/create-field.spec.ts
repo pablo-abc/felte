@@ -1,7 +1,7 @@
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
 import { expect, use } from 'chai';
-import chaiDom = require('chai-dom');
+import chaiDom from 'chai-jsdom';
 import { waitFor, screen } from '@testing-library/dom';
 import { createInputElement, createDOM, cleanupDOM } from './common';
 import { createField } from '../src';
@@ -72,8 +72,7 @@ Field(
       expect(
         formElement.querySelectorAll('input[name="test"]').length
       ).to.equal(1);
-      expect(formElement.querySelector('input[name="test"]')).to.be.visible.and
-        .displayed;
+      expect(formElement.querySelector('input[name="test"]')).to.be.visible;
     });
   }
 );
