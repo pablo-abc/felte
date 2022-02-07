@@ -1,7 +1,7 @@
 import React from 'react';
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
-import { expect, use } from 'chai';
+import { expect } from 'chai';
 import { render, screen, waitFor } from '@testing-library/react';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { useForm } from '../src';
