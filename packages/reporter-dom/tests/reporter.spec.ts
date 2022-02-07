@@ -134,10 +134,19 @@ Reporter(
       return mes;
     });
     const fieldsetElement = document.createElement('fieldset');
+
+    const validElement = createInputElement({
+      name: 'container.valid',
+      type: 'text',
+      id: 'test',
+    });
+    const validMessageElement = document.createElement('div');
+    validMessageElement.setAttribute('data-felte-reporter-dom-for', '');
     fieldsetElement.appendChild(inputElement);
     fieldsetElement.appendChild(validationMessageElement);
     fieldsetElement.appendChild(warningMessageElement);
     fieldsetElement.append(...multipleInputs, ...multipleMessages);
+    fieldsetElement.append(validElement, validMessageElement);
     formElement.appendChild(fieldsetElement);
 
     form(formElement);
