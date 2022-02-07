@@ -54,11 +54,15 @@ DomMutations(
     form(formElement);
     [outerFieldset, outerTextInput, innerFieldset, innerTextInput].forEach(
       (el) => {
-        expect(el).to.have.attribute('data-felte-keep-on-remove', 'false');
+        expect(el)
+          .to.have.attribute('data-felte-keep-on-remove')
+          .that.equals('false');
       }
     );
     [outerSecondaryInput, innerSecondaryinput].forEach((el) => {
-      expect(el).to.have.attribute('data-felte-keep-on-remove', 'true');
+      expect(el)
+        .to.have.attribute('data-felte-keep-on-remove')
+        .that.equals('true');
     });
   }
 );

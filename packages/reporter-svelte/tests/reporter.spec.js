@@ -28,7 +28,7 @@ Reporter('sets aria-invalid to input', async () => {
   formElement.submit();
   clock.runAllAsync();
   await waitFor(() => {
-    expect(inputElement).to.have.attribute('aria-invalid');
+    expect(inputElement).to.be.invalid;
   });
 });
 

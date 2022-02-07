@@ -59,10 +59,8 @@ Reporter('sets aria-invalid to input and removes if valid', async () => {
   await validate();
 
   await waitFor(() => {
-    expect(inputElement).to.have.attribute('aria-invalid');
-    multipleInputs.forEach((input) =>
-      expect(input).to.have.attribute('aria-invalid')
-    );
+    expect(inputElement).to.be.invalid;
+    multipleInputs.forEach((input) => expect(input).to.be.invalid);
   });
 
   mockValidate.returns({} as any);
@@ -70,10 +68,8 @@ Reporter('sets aria-invalid to input and removes if valid', async () => {
   await validate();
 
   await waitFor(() => {
-    expect(inputElement).not.to.have.attribute('aria-invalid');
-    multipleInputs.forEach((input) =>
-      expect(input).not.to.have.attribute('aria-invalid')
-    );
+    expect(inputElement).to.be.valid;
+    multipleInputs.forEach((input) => expect(input).to.be.valid);
   });
 
   destroy();

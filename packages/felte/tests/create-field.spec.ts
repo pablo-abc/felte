@@ -178,19 +178,18 @@ Field('listens to hidden input attribute changes', async () => {
 
   hiddenElement.setAttribute('aria-invalid', 'true');
   await waitFor(() => {
-    expect(inputElement).to.have.attribute('aria-invalid', 'true');
+    expect(inputElement).to.to.be.invalid;
   });
   hiddenElement.removeAttribute('aria-invalid');
   await waitFor(() => {
-    expect(inputElement).not.to.have.attribute('aria-invalid');
+    expect(inputElement).not.be.valid;
   });
 
   hiddenElement.setAttribute('data-felte-validation-message', 'a message');
   await waitFor(() => {
-    expect(inputElement).to.have.attribute(
-      'data-felte-validation-message',
-      'a message'
-    );
+    expect(inputElement)
+      .to.have.attribute('data-felte-validation-message')
+      .that.equals('a message');
   });
   hiddenElement.removeAttribute('data-felte-validation-message');
   await waitFor(() => {

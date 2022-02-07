@@ -462,10 +462,9 @@ Utils('addAttrsFromFieldset', () => {
   addAttrsFromFieldset(fieldset);
 
   addAttrsFromFieldset(fieldsetUnset);
-  expect(inputUnsetElement).to.have.attribute(
-    'data-felte-keep-on-remove',
-    'false'
-  );
+  expect(inputUnsetElement)
+    .to.have.attribute('data-felte-keep-on-remove')
+    .that.equals('false');
 });
 
 Utils('getFormDefaultValues', () => {

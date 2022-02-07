@@ -92,15 +92,15 @@ Reporter('reports validation message', async () => {
   let passwordMessage = screen.getByTestId('password-message');
   let passwordWarning = screen.getByTestId('password-warning');
 
-  expect(emailInput).to.not.have.attribute('aria-invalid', 'true');
+  expect(emailInput).to.not.be.invalid;
   expect(emailMessage).to.be.empty;
   expect(passwordMessage).to.be.empty;
 
   act(() => formElement.submit());
 
   await waitFor(() => {
-    expect(emailInput).to.have.attribute('aria-invalid', 'true');
-    expect(passwordInput).to.have.attribute('aria-invalid', 'true');
+    expect(emailInput).to.be.invalid;
+    expect(passwordInput).to.to.be.invalid;
     emailMessage = screen.getByTestId('email-message');
     passwordMessage = screen.getByTestId('password-message');
     passwordWarning = screen.getByTestId('password-warning');
@@ -120,8 +120,8 @@ Reporter('reports validation message', async () => {
   });
 
   await waitFor(() => {
-    expect(emailInput).to.not.have.attribute('aria-invalid', 'true');
-    expect(passwordInput).to.have.attribute('aria-invalid', 'true');
+    expect(emailInput).to.not.to.be.invalid;
+    expect(passwordInput).to.to.be.invalid;
     emailMessage = screen.getByTestId('email-message');
     passwordMessage = screen.getByTestId('password-message');
     passwordWarning = screen.getByTestId('password-warning');
