@@ -1,3 +1,4 @@
 {
-  "reporter": ["clover", "lcov", "text"]
+  "extends": "@istanbuljs/nyc-config-typescript",
+  "reporter": ["json", "lcov", "clover", "text"]
 }
