@@ -12,7 +12,6 @@ const mutationConfig: MutationObserverInit = {
 
 function mutationCallback(mutationList: MutationRecord[]) {
   for (const mutation of mutationList) {
-    if (mutation.type !== 'attributes') continue;
     if (mutation.attributeName !== 'data-felte-validation-message') continue;
     const target = mutation.target as FormControl;
     const validationMessage = target.dataset.felteValidationMessage;
