@@ -312,6 +312,7 @@ Utils('_unset', () => {
   ).to.deep.equal(['tech', 'fashion']);
   expect(_unset(undefined, 'account.noExist')).to.equal(undefined);
   expect(_unset({}, 'account.noExist')).to.deep.equal({});
+  expect(_unset(testObj, '')).to.deep.equal(testObj);
 });
 
 Utils('_update', () => {
@@ -334,6 +335,7 @@ Utils('_update', () => {
   expect(_update({}, 'account[0][0]', () => 'value')).to.deep.include({
     account: [['value']],
   });
+  expect(_update({}, '', () => 'value')).to.deep.equal({});
 });
 
 Utils('_isPlainObject', () => {
@@ -410,6 +412,7 @@ Utils('deepSome', () => {
   expect(
     deepSome(testObj, (value) => Array.isArray(value) && value.length === 1)
   ).to.be.true;
+  expect(deepSome({ test: { value: [true] } }, (v) => !!v)).to.be.true;
 });
 
 Utils('isFieldSetElement', () => {
@@ -440,6 +443,7 @@ Utils('getPath', () => {
   expect(getPath(inputElement, 'container.overriden')).to.equal(
     'container.overriden'
   );
+  expect(getPath(document.createElement('div'))).to.equal('');
 });
 
 Utils('getFormControls', () => {
@@ -786,6 +790,9 @@ Utils('_mergeWith', () => {
     email: null,
     password: null,
   });
+  expect(_mergeWith(null, null, errorFilterer)).to.deep.equal({});
+  expect(_mergeWith('test')).to.deep.equal({});
+  expect(_mergeWith({}, {}, () => 'test')).to.equal('test');
 });
 
 Utils('_defaultsDeep', () => {
@@ -797,6 +804,7 @@ Utils('_defaultsDeep', () => {
     },
     leftAlone: 'original',
     preferences: [null, 'leftAlone'],
+    friends: [],
   };
   const source1 = {
     account: {
@@ -812,6 +820,8 @@ Utils('_defaultsDeep', () => {
     },
     added: 'value',
     preferences: ['added', 'ignored', 'added'],
+    friends: [{ name: 'name' }],
+    other: [],
   };
   expect(_defaultsDeep(obj, source1)).to.deep.equal({
     account: {
@@ -826,6 +836,8 @@ Utils('_defaultsDeep', () => {
     added: 'value',
     leftAlone: 'original',
     preferences: ['added', 'leftAlone', 'added'],
+    friends: [{ name: 'name' }],
+    other: [],
   });
 });
 
@@ -851,6 +863,7 @@ Utils('getValue', () => {
   expect(getValue(data, ($data) => $data.account.email)).to.equal(
     'zaphod@beeblebrox.com'
   );
+  expect(getValue('test')).to.equal('test');
 });
 
 Utils('mergeErrors', () => {

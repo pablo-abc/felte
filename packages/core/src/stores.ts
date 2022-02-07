@@ -42,10 +42,7 @@ function createValidationController(priority: boolean): ValidationController {
   };
 }
 
-function errorFilterer(
-  touchValue?: boolean | boolean[],
-  errValue?: string | string[]
-) {
+export function errorFilterer(touchValue?: unknown, errValue?: unknown) {
   if (_isPlainObject(touchValue)) {
     if (
       !errValue ||
@@ -69,10 +66,7 @@ function errorFilterer(
   return touchValue && errValue ? [errValue] : null;
 }
 
-function warningFilterer(
-  touchValue?: boolean | boolean[],
-  errValue?: string | string[]
-) {
+export function warningFilterer(touchValue?: unknown, errValue?: unknown) {
   if (_isPlainObject(touchValue)) {
     if (
       !errValue ||

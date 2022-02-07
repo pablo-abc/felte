@@ -3,7 +3,8 @@ import { suite } from 'uvu';
 import { expect, use } from 'chai';
 import chaiDom from 'chai-jsdom';
 import { waitFor, screen } from '@testing-library/dom';
-import { writable, get } from 'svelte/store';
+import { writable } from 'svelte/store';
+import { get } from '../src/get';
 import userEvent from '@testing-library/user-event';
 import {
   createInputElement,
