@@ -29,7 +29,7 @@ importers:
       babel-plugin-annotate-pure-calls: ^0.4.0
       babel-plugin-dev-expression: ^0.2.2
       chai: ^4.3.6
-      chai-jsdom: ^0.2.2
+      chai-jsdom: ^0.2.3
       cross-env: ^7.0.3
       eslint: ^7.18.0
       eslint-config-prettier: ^8.2.0
@@ -102,7 +102,7 @@ importers:
       all-contributors-cli: 6.20.0
       babel-jest: 26.6.3_@babel+core@7.16.5
       chai: 4.3.6
-      chai-jsdom: 0.2.2_chai@4.3.6
+      chai-jsdom: 0.2.3_chai@4.3.6
       cross-env: 7.0.3
       eslint: 7.24.0
       eslint-config-prettier: 8.2.0_eslint@7.24.0
@@ -4719,8 +4719,8 @@ packages:
     resolution: {integrity: sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=}
     dev: true
 
-  /chai-jsdom/0.2.2_chai@4.3.6:
-    resolution: {integrity: sha512-8rekAt5DYCZCW6fYVXO33DM1dt+TCbmOVnpEdDnQJUH/fgf16YEtbRRMHnxGZVbxJX/DadMa4VYd0YGywZeyDg==}
+  /chai-jsdom/0.2.3_chai@4.3.6:
+    resolution: {integrity: sha512-3uoh8PQfqsJeGAeBIwoCHjh6zyWUN/gK7WX6km4b4DEIlf061aVewJ9c/NX5/ivV6CaZP2mfrVhufQD9TYjdFQ==}
     peerDependencies:
       chai: ^4.0.0
     dependencies:
@@ -10603,6 +10603,7 @@ packages:
 
   /source-map-resolve/0.5.3:
     resolution: {integrity: sha512-Htz+RnsXWk5+P2slx5Jh3Q66vhQj1Cllm0zvnaY98+NFx+Dv2CF/f5O/t8x+KaNdrdIAsruNzoh/KpialbqAnw==}
+    deprecated: See https://github.com/lydell/source-map-resolve#deprecated
     dependencies:
       atob: 2.1.2
       decode-uri-component: 0.2.0
