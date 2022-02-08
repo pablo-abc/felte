@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.0.0-next.23
+
+### Patch Changes
+
+- 7f3d8b8: Refactor \_update and \_set methods
+
 ## 1.0.0-next.22
 
 ### Patch Changes

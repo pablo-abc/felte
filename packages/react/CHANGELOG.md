@@ -1,5 +1,11 @@
 # @felte/react
 
+## 1.0.0-next.30
+
+### Patch Changes
+
+- @felte/core@1.0.0-next.27
+
 ## 1.0.0-next.29
 
 ### Patch Changes

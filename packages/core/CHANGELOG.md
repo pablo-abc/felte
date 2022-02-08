@@ -1,5 +1,12 @@
 # @felte/core
 
+## 1.0.0-next.27
+
+### Patch Changes
+
+- Updated dependencies [7f3d8b8]
+  - @felte/common@1.0.0-next.23
+
 ## 1.0.0-next.26
 
 ### Patch Changes

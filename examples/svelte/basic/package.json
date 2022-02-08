@@ -20,7 +20,7 @@
     "vite": "^2.7.2"
   },
   "dependencies": {
-    "@felte/reporter-svelte": "^1.0.0-next.21",
-    "felte": "^1.0.0-next.25"
+    "@felte/reporter-svelte": "next",
+    "felte": "next"
   }
 }

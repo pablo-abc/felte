@@ -1,5 +1,11 @@
 # @felte/solid
 
+## 1.0.0-next.27
+
+### Patch Changes
+
+- @felte/core@1.0.0-next.27
+
 ## 1.0.0-next.26
 
 ### Patch Changes
