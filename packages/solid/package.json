@@ -28,8 +28,8 @@
     "docs:build": "typedoc --out ../../docs",
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build && pnpm test",
-    "test": "jest",
-    "test:ci": "jest --ci --coverage"
+    "test": "node --conditions browser node_modules/uvu/bin.js -r tsm -r global-jsdom/register tests -i common",
+    "test:ci": "nyc -n src pnpm test"
   },
   "peerDependencies": {
     "solid-js": "^1.2.0"
@@ -45,10 +45,8 @@
   },
   "devDependencies": {
     "@felte/common": "workspace:*",
-    "@testing-library/jest-dom": "^5.11.9",
     "solid-js": "^1.2.0",
-    "solid-testing-library": "^0.2.1",
-    "ts-jest": "^26.5.0"
+    "uvu": "^0.5.3"
   },
   "exports": {
     ".": {

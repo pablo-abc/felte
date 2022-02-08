@@ -18,6 +18,7 @@ export function createField(
 
   function field(node: HTMLElement) {
     const { destroy } = coreField(node);
+    /* istanbul ignore next */
     onCleanup(() => destroy?.());
     return { destroy };
   }
