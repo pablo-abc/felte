@@ -493,12 +493,14 @@ importers:
   packages/validator-superstruct:
     specifiers:
       '@felte/common': workspace:*
+      '@felte/core': workspace:*
       felte: workspace:*
       superstruct: ^0.15.0
       svelte: ^3.46.4
     dependencies:
       '@felte/common': link:../common
     devDependencies:
+      '@felte/core': link:../core
       felte: link:../felte
       superstruct: 0.15.1
       svelte: 3.46.4
@@ -506,12 +508,14 @@ importers:
   packages/validator-vest:
     specifiers:
       '@felte/common': workspace:*
+      '@felte/core': workspace:*
       felte: workspace:*
       svelte: ^3.46.4
       vest: ^4.0.1
     dependencies:
       '@felte/common': link:../common
     devDependencies:
+      '@felte/core': link:../core
       felte: link:../felte
       svelte: 3.46.4
       vest: 4.0.1
@@ -519,12 +523,14 @@ importers:
   packages/validator-yup:
     specifiers:
       '@felte/common': workspace:*
+      '@felte/core': workspace:*
       felte: workspace:*
       svelte: ^3.46.4
       yup: ^0.32.9
     dependencies:
       '@felte/common': link:../common
     devDependencies:
+      '@felte/core': link:../core
       felte: link:../felte
       svelte: 3.46.4
       yup: 0.32.9
@@ -532,12 +538,14 @@ importers:
   packages/validator-zod:
     specifiers:
       '@felte/common': workspace:*
+      '@felte/core': workspace:*
       felte: workspace:*
       svelte: ^3.46.4
       zod: ^3.2.0
     dependencies:
       '@felte/common': link:../common
     devDependencies:
+      '@felte/core': link:../core
       felte: link:../felte
       svelte: 3.46.4
       zod: 3.2.0

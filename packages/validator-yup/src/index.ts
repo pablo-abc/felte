@@ -21,6 +21,7 @@ export function validateSchema<Data extends Obj>(
 ): ValidationFunction<Data> {
   function shapeErrors(errors: ValidationError): AssignableErrors<Data> {
     return errors.inner.reduce((err, value) => {
+      /* istanbul ignore next */
       if (!value.path) return err;
       return _set(err, value.path, value.message);
     }, {} as AssignableErrors<Data>);

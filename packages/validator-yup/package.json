@@ -25,14 +25,15 @@
     "build": "pnpm prebuild && cross-env NODE_ENV=production rollup -c",
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build && pnpm test",
-    "test": "jest",
-    "test:ci": "jest --ci --coverage"
+    "test": "uvu -r tsm -r global-jsdom/register tests -i common",
+    "test:ci": "nyc -n src pnpm test"
   },
   "license": "MIT",
   "dependencies": {
     "@felte/common": "workspace:*"
   },
   "devDependencies": {
+    "@felte/core": "workspace:*",
     "felte": "workspace:*",
     "svelte": "^3.46.4",
     "yup": "^0.32.9"
