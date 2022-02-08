@@ -1,6 +1,5 @@
 {
   "env": {
-    "jest/globals": true,
     "node": true,
     "browser": true,
     "es6": true
@@ -8,17 +7,10 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:jest-dom/recommended",
     "plugin:compat/recommended",
     "prettier"
   ],
-  "plugins": [
-    "@typescript-eslint",
-    "jest",
-    "testing-library",
-    "jest-dom",
-    "prettier"
-  ],
+  "plugins": ["@typescript-eslint", "testing-library", "prettier"],
   "parser": "@typescript-eslint/parser",
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
