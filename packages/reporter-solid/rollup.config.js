@@ -5,6 +5,8 @@ import jsxPlugin from '@solid-reach/rollup-plugin-jsx';
 import jsx from 'acorn-jsx';
 import bundleSize from 'rollup-plugin-bundle-size';
 
+const prod = process.env.NODE_ENV === 'production';
+
 export default [
   {
     input: 'src/index.tsx',
@@ -12,6 +14,7 @@ export default [
       {
         file: 'dist/index.jsx',
         format: 'es',
+        sourcemap: prod,
       },
     ],
     external: ['solid-js', 'solid-js/web', 'solid-js/store'],
@@ -24,6 +27,7 @@ export default [
       babel({
         extensions: ['.js', '.ts', '.tsx'],
         babelHelpers: 'bundled',
+        presets: [],
         plugins: [
           '@babel/plugin-syntax-jsx',
           'babel-plugin-annotate-pure-calls',
@@ -40,6 +44,7 @@ export default [
       {
         file: 'dist/index.js',
         format: 'es',
+        sourcemap: prod,
       },
     ],
     external: ['solid-js', 'solid-js/web', 'solid-js/store'],
