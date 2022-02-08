@@ -400,11 +400,13 @@ importers:
   packages/reporter-tippy:
     specifiers:
       '@felte/common': workspace:*
+      '@felte/core': workspace:*
       felte: workspace:*
       svelte: ^3.46.4
     dependencies:
       '@felte/common': link:../common
     devDependencies:
+      '@felte/core': link:../core
       felte: link:../felte
       svelte: 3.46.4
 
