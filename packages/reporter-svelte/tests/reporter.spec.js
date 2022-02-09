@@ -1,12 +1,11 @@
-import uvuDOM from 'uvu-expect-dom';
+import 'uvu-expect-dom/extend';
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
-import { expect, extend } from 'uvu-expect';
+import { expect } from 'uvu-expect';
 import { render, screen, waitFor, cleanup } from '@testing-library/svelte';
 import NoPlaceholder from './NoPlaceholder.svelte';
 import Placeholder from './Placeholder.svelte';
 import Multiple from './Multiple.svelte';
-extend(uvuDOM);
 
 const Reporter = suite('Reporter Svelte');
 

@@ -1,10 +1,8 @@
 import { suite } from 'uvu';
-import { expect, extend } from 'uvu-expect';
-import uvuDOM from 'uvu-expect-dom';
+import { expect } from 'uvu-expect';
 import { waitFor } from '@testing-library/dom';
 import { createStores, errorFilterer, warningFilterer } from '../src/stores';
 import { writable, get } from 'svelte/store';
-extend(uvuDOM);
 
 const Stores = suite('createStores');
 

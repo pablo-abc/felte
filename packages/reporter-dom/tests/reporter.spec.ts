@@ -1,8 +1,7 @@
 import * as sinon from 'sinon';
 import { createForm } from 'felte';
 import { suite } from 'uvu';
-import { expect, extend } from 'uvu-expect';
-import uvuDOM from 'uvu-expect-dom';
+import { expect } from 'uvu-expect';
 import userEvent from '@testing-library/user-event';
 import { screen, waitFor } from '@testing-library/dom';
 import {
@@ -12,7 +11,6 @@ import {
   createMultipleInputElements,
 } from './common';
 import reporter from '../src';
-extend(uvuDOM);
 
 const Reporter = suite('Reporter DOM');
 

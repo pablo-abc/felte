@@ -1,13 +1,12 @@
 import React from 'react';
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
-import { expect, extend } from 'uvu-expect';
-import uvuDOM from 'uvu-expect-dom';
+import { expect } from 'uvu-expect';
+import 'uvu-expect-dom/extend';
 import { render, screen, waitFor, act } from '@testing-library/react';
 import { useForm } from '@felte/react';
 import userEvent from '@testing-library/user-event';
 import { ValidationMessage, reporter } from '../src';
-extend(uvuDOM);
 
 type Data = {
   email: string;

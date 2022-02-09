@@ -1,14 +1,12 @@
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
-import { expect, extend } from 'uvu-expect';
-import uvuDOM from 'uvu-expect-dom';
+import { expect } from 'uvu-expect';
 import { waitFor } from '@testing-library/dom';
 import type { ValidationFunction } from '@felte/common';
 import { createForm } from './common';
 import { validateSchema, validator } from '../src';
 import * as yup from 'yup';
 import { get } from 'svelte/store';
-extend(uvuDOM);
 
 const Validator = suite('Validator yup');
 

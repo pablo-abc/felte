@@ -1,7 +1,6 @@
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
-import { expect, extend } from 'uvu-expect';
-import uvuDOM from 'uvu-expect-dom';
+import { expect } from 'uvu-expect';
 import { waitFor, screen } from '@testing-library/dom';
 import { writable } from 'svelte/store';
 import { get } from '../src/get';
@@ -13,7 +12,6 @@ import {
   cleanupDOM,
   createForm,
 } from './common';
-extend(uvuDOM);
 
 const Helpers = suite('Helpers');
 

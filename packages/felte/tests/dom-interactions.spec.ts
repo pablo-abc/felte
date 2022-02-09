@@ -1,7 +1,6 @@
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
-import { expect, extend } from 'uvu-expect';
-import uvuDOM from 'uvu-expect-dom';
+import { expect } from 'uvu-expect';
 import { waitFor, screen } from '@testing-library/dom';
 import {
   createInputElement,
@@ -11,7 +10,6 @@ import {
 } from './common';
 import { get } from 'svelte/store';
 import { createForm } from '../src';
-extend(uvuDOM);
 
 const DomMutations = suite('Form action DOM mutations');
 

@@ -1,13 +1,11 @@
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
-import { expect, extend } from 'uvu-expect';
-import uvuDOM from 'uvu-expect-dom';
+import { expect } from 'uvu-expect';
 import userEvent from '@testing-library/user-event';
 import type { Instance, Props } from 'tippy.js';
 import { createForm, createDOM, cleanupDOM } from './common';
 import { screen, waitFor } from '@testing-library/dom';
 import reporter from '../src';
-extend(uvuDOM);
 
 function getTippy(element: any): Instance<Props> | undefined {
   return element?._tippy;

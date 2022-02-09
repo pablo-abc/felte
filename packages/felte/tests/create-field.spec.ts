@@ -1,11 +1,9 @@
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
-import { expect, extend } from 'uvu-expect';
-import uvuDOM from 'uvu-expect-dom';
+import { expect } from 'uvu-expect';
 import { waitFor, screen } from '@testing-library/dom';
 import { createInputElement, createDOM, cleanupDOM } from './common';
 import { createField } from '../src';
-extend(uvuDOM);
 
 function createContentEditable() {
   const input = document.createElement('div');

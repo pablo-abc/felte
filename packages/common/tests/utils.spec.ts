@@ -1,7 +1,7 @@
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
-import { expect, extend } from 'uvu-expect';
-import uvuDOM from 'uvu-expect-dom';
+import { expect } from 'uvu-expect';
+import 'uvu-expect-dom/extend';
 import { screen } from '@testing-library/dom';
 import type { AssignableErrors } from '../src';
 import {
@@ -42,8 +42,6 @@ import {
   createId,
   isEqual,
 } from '../src';
-
-extend(uvuDOM);
 
 function createLoginForm() {
   const formElement = screen.getByRole('form') as HTMLFormElement;

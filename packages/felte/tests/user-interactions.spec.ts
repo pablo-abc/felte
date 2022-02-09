@@ -1,7 +1,6 @@
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
-import { expect, extend } from 'uvu-expect';
-import uvuDOM from 'uvu-expect-dom';
+import { expect } from 'uvu-expect';
 import { waitFor, screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import {
@@ -13,7 +12,6 @@ import {
 import { get } from 'svelte/store';
 import { isFormControl } from '@felte/core';
 import { FelteSubmitError, createForm } from '../src';
-extend(uvuDOM);
 
 function createSelectElement({
   name,
