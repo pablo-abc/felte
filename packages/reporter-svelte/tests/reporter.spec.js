@@ -1,12 +1,12 @@
-import chaiDom from 'chai-jsdom';
+import uvuDOM from 'uvu-expect-dom';
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
-import { expect, use } from 'chai';
+import { expect, extend } from 'uvu-expect';
 import { render, screen, waitFor, cleanup } from '@testing-library/svelte';
 import NoPlaceholder from './NoPlaceholder.svelte';
 import Placeholder from './Placeholder.svelte';
 import Multiple from './Multiple.svelte';
-use(chaiDom);
+extend(uvuDOM);
 
 const Reporter = suite('Reporter Svelte');
 

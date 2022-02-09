@@ -1,7 +1,7 @@
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
-import { expect, use } from 'chai';
-import chaiDom from 'chai-jsdom';
+import { expect, extend } from 'uvu-expect';
+import uvuDOM from 'uvu-expect-dom';
 import { waitFor, screen } from '@testing-library/dom';
 import { writable, get } from 'svelte/store';
 import userEvent from '@testing-library/user-event';
@@ -12,7 +12,7 @@ import {
   cleanupDOM,
 } from './common';
 import { createForm } from '../src';
-use(chaiDom);
+extend(uvuDOM);
 
 const Helpers = suite('Helpers');
 

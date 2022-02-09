@@ -1,7 +1,7 @@
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
-import { expect, use } from 'chai';
-import chaiDom from 'chai-jsdom';
+import { expect, extend } from 'uvu-expect';
+import uvuDOM from 'uvu-expect-dom';
 import { waitFor, screen } from '@testing-library/dom';
 import {
   createInputElement,
@@ -11,7 +11,7 @@ import {
   createMultipleInputElements,
 } from './common';
 import { get } from 'svelte/store';
-use(chaiDom);
+extend(uvuDOM);
 
 const DomMutations = suite('Form action DOM mutations');
 

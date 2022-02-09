@@ -1,5 +1,5 @@
 import { suite } from 'uvu';
-import { expect } from 'chai';
+import { expect } from 'uvu-expect';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { writable } from 'svelte/store';
 import { useAccessor } from '../src/use-accessor';

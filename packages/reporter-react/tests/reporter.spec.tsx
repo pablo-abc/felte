@@ -1,13 +1,13 @@
 import React from 'react';
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
-import { expect, use } from 'chai';
-import chaiDom from 'chai-jsdom';
+import { expect, extend } from 'uvu-expect';
+import uvuDOM from 'uvu-expect-dom';
 import { render, screen, waitFor, act } from '@testing-library/react';
 import { useForm } from '@felte/react';
 import userEvent from '@testing-library/user-event';
 import { ValidationMessage, reporter } from '../src';
-use(chaiDom);
+extend(uvuDOM);
 
 type Data = {
   email: string;

@@ -1,10 +1,10 @@
 import React from 'react';
 import { suite } from 'uvu';
-import { expect, use } from 'chai';
-import chaiDom from 'chai-jsdom';
+import { expect, extend } from 'uvu-expect';
+import uvuDOM from 'uvu-expect-dom';
 import { render, waitFor } from '@testing-library/react';
 import { useField } from '../src';
-use(chaiDom);
+extend(uvuDOM);
 
 const Field = suite('Correctly uses useField');
 

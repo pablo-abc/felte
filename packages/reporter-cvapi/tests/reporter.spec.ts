@@ -1,13 +1,13 @@
 import * as sinon from 'sinon';
 import { createForm } from 'felte';
 import { suite } from 'uvu';
-import { expect, use } from 'chai';
-import chaiDom from 'chai-jsdom';
+import { expect, extend } from 'uvu-expect';
+import uvuDOM from 'uvu-expect-dom';
 import userEvent from '@testing-library/user-event';
 import { screen, waitFor } from '@testing-library/dom';
 import { createDOM, cleanupDOM, createInputElement } from './common';
 import reporter from '../src';
-use(chaiDom);
+extend(uvuDOM);
 
 const Reporter = suite('Reporter CVAPI');
 

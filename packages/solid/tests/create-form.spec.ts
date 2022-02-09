@@ -1,6 +1,6 @@
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
-import { expect } from 'chai';
+import { expect } from 'uvu-expect';
 import { waitFor, screen } from '@testing-library/dom';
 import { createForm, FelteSubmitError } from '../src';
 import { createDOM, cleanupDOM, createInputElement } from './common';

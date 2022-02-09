@@ -3,12 +3,12 @@ import { waitFor, screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { createDOM, cleanupDOM, createInputElement } from './common';
 import { extender } from '../src';
-import chaiDom from 'chai-jsdom';
+import uvuDOM from 'uvu-expect-dom';
 import { get } from 'svelte/store';
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
-import { expect, use } from 'chai';
-use(chaiDom);
+import { expect, extend } from 'uvu-expect';
+extend(uvuDOM);
 
 const Extender = suite('Extender persist');
 

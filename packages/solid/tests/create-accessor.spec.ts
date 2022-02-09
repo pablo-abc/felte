@@ -1,5 +1,5 @@
 import { suite } from 'uvu';
-import { expect } from 'chai';
+import { expect } from 'uvu-expect';
 import { createAccessor } from '../src/create-accessor';
 import { createRoot } from 'solid-js';
 import { storeFactory } from '../src/stores';

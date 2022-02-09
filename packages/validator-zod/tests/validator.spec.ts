@@ -1,13 +1,13 @@
 import * as sinon from 'sinon';
 import type { ValidationFunction } from '@felte/common';
 import { suite } from 'uvu';
-import { expect, use } from 'chai';
-import chaiDom from 'chai-jsdom';
+import { expect, extend } from 'uvu-expect';
+import uvuDOM from 'uvu-expect-dom';
 import { createForm } from './common';
 import { validateSchema, validator } from '../src';
 import { z as zod } from 'zod';
 import { get } from 'svelte/store';
-use(chaiDom);
+extend(uvuDOM);
 
 const Validator = suite('Validator zod');
 

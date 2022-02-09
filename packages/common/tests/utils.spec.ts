@@ -1,7 +1,7 @@
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
-import { expect, use } from 'chai';
-import chaiJSDOM from 'chai-jsdom';
+import { expect, extend } from 'uvu-expect';
+import uvuDOM from 'uvu-expect-dom';
 import { screen } from '@testing-library/dom';
 import type { AssignableErrors } from '../src';
 import {
@@ -43,7 +43,7 @@ import {
   isEqual,
 } from '../src';
 
-use(chaiJSDOM);
+extend(uvuDOM);
 
 function createLoginForm() {
   const formElement = screen.getByRole('form') as HTMLFormElement;

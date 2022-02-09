@@ -1,11 +1,11 @@
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
-import { expect, use } from 'chai';
-import chaiDom from 'chai-jsdom';
+import { expect, extend } from 'uvu-expect';
+import uvuDOM from 'uvu-expect-dom';
 import { waitFor, screen } from '@testing-library/dom';
 import { createInputElement, createDOM, cleanupDOM } from './common';
 import { createField } from '../src';
-use(chaiDom);
+extend(uvuDOM);
 
 function createContentEditable() {
   const input = document.createElement('div');

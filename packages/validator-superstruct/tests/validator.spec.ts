@@ -1,13 +1,13 @@
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
-import { expect, use } from 'chai';
-import chaiDom from 'chai-jsdom';
+import { expect, extend } from 'uvu-expect';
+import uvuDOM from 'uvu-expect-dom';
 import { createForm } from './common';
 import { validateStruct, validator } from '../src';
 import type { Infer } from 'superstruct';
 import { object, string, size, coerce, date, any, refine } from 'superstruct';
 import { get } from 'svelte/store';
-use(chaiDom);
+extend(uvuDOM);
 
 const Validator = suite('Validator superstruct');
 

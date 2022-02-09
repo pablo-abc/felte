@@ -1,13 +1,13 @@
 import * as sinon from 'sinon';
 import { createForm } from '@felte/solid';
 import { suite } from 'uvu';
-import { expect, use } from 'chai';
-import chaiDom from 'chai-jsdom';
+import { expect, extend } from 'uvu-expect';
+import uvuDOM from 'uvu-expect-dom';
 import { screen, render, waitFor, cleanup } from 'solid-testing-library';
 import { Index } from 'solid-js';
 import userEvent from '@testing-library/user-event';
 import { ValidationMessage, reporter } from '../src';
-use(chaiDom);
+extend(uvuDOM);
 
 type Data = {
   email: string;

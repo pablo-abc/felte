@@ -1,5 +1,5 @@
 import { suite } from 'uvu';
-import { expect } from 'chai';
+import { expect } from 'uvu-expect';
 import { createField } from '../src';
 import { createRoot } from 'solid-js';
 
