@@ -406,8 +406,8 @@ UserInteractions('Calls validation function on submit', async () => {
   const { formElement } = createLoginForm();
   form(formElement);
   formElement.submit();
-  sinon.assert.called(validate);
-  sinon.assert.called(warn);
+  expect(validate).to.have.been.called;
+  expect(warn).to.have.been.called;
   await waitFor(() => {
     sinon.assert.calledWith(
       onSubmit,
@@ -448,10 +448,10 @@ UserInteractions(
     const { formElement } = createLoginForm();
     form(formElement);
     formElement.submit();
-    sinon.assert.called(validate);
-    sinon.assert.called(warn);
+    expect(validate).to.have.been.called;
+    expect(warn).to.have.been.called;
     await waitFor(() => {
-      sinon.assert.notCalled(onSubmit);
+      expect(onSubmit).to.have.not.been.called;
     });
     expect(get(isValid)).not.to.be.ok;
     await waitFor(() => {
@@ -474,8 +474,8 @@ UserInteractions('Calls validate on input', async () => {
   form(formElement);
   userEvent.type(emailInput, 'jacek@soplica.com');
   await waitFor(() => {
-    sinon.assert.called(validate);
-    sinon.assert.called(warn);
+    expect(validate).to.have.been.called;
+    expect(warn).to.have.been.called;
     expect(get(isValid)).to.be.ok;
   });
 });
@@ -532,8 +532,8 @@ UserInteractions(
     userEvent.type(emailInput, 'jacek@soplica.com');
     clock.runAll();
     await waitFor(() => {
-      sinon.assert.called(validate);
-      sinon.assert.called(warn);
+      expect(validate).to.have.been.called;
+      expect(warn).to.have.been.called;
       expect(get(isValid)).to.be.ok;
     });
     clock.restore();
@@ -562,8 +562,8 @@ UserInteractions(
     userEvent.type(emailInput, 'jacek@soplica.com');
     clock.runAll();
     await waitFor(() => {
-      sinon.assert.called(validate);
-      sinon.assert.called(warn);
+      expect(validate).to.have.been.called;
+      expect(warn).to.have.been.called;
       expect(get(isValid)).to.be.ok;
     });
     clock.restore();
@@ -790,12 +790,12 @@ UserInteractions('calls onError', async () => {
 
   form(formElement);
 
-  sinon.assert.notCalled(onError);
+  expect(onError).to.have.not.been.called;
 
   formElement.submit();
 
   await waitFor(() => {
-    sinon.assert.called(onSubmit);
+    expect(onSubmit).to.have.been.called;
     sinon.assert.calledWith(onError, mockErrors);
     expect(get(isSubmitting)).not.to.be.ok;
   });
@@ -833,10 +833,10 @@ UserInteractions('use createSubmitHandler to override submit', async () => {
 
   await waitFor(() => {
     sinon.assert.calledOnce(mockValidate);
-    sinon.assert.notCalled(defaultConfig.onSubmit);
+    expect(defaultConfig.onSubmit).to.have.not.been.called;
     sinon.assert.calledOnce(mockOnSubmit);
-    sinon.assert.notCalled(defaultConfig.onError);
-    sinon.assert.notCalled(mockOnError);
+    expect(defaultConfig.onError).to.have.not.been.called;
+    expect(mockOnError).to.have.not.been.called;
     expect(get(isSubmitting)).not.to.be.ok;
   });
 
@@ -847,7 +847,7 @@ UserInteractions('use createSubmitHandler to override submit', async () => {
   userEvent.click(submitInput);
 
   await waitFor(() => {
-    sinon.assert.called(mockOnError);
+    expect(mockOnError).to.have.been.called;
     sinon.assert.calledTwice(mockValidate);
     sinon.assert.calledOnce(mockOnSubmit);
     expect(get(isSubmitting)).not.to.be.ok;
@@ -862,7 +862,7 @@ UserInteractions('calls submit handler without event', async () => {
   const altOnSubmit = createSubmitHandler({ onSubmit: mockOnSubmit });
   altOnSubmit();
   await waitFor(() => {
-    sinon.assert.called(mockOnSubmit);
+    expect(mockOnSubmit).to.have.been.called;
     expect(get(isSubmitting)).not.to.be.ok;
   });
 });
@@ -974,7 +974,7 @@ UserInteractions('submits without requestSubmit', async () => {
   formElement.submit();
 
   await waitFor(() => {
-    sinon.assert.called(onSubmit);
+    expect(onSubmit).to.have.been.called;
   });
 });
 

@@ -67,8 +67,8 @@
     "typedoc": "^0.22.10",
     "typescript": "^4.5.5",
     "uvu": "^0.5.3",
-    "uvu-expect": "^0.2.2",
-    "uvu-expect-dom": "^0.2.1",
+    "uvu-expect": "^0.3.0",
+    "uvu-expect-dom": "^0.2.2",
     "vest": "^4.0.1",
     "yup": "^0.32.9",
     "zod": "^1.11.13"
