@@ -1,3 +1,4 @@
+import 'uvu-expect-dom/extend';
 import React from 'react';
 import { suite } from 'uvu';
 import { expect } from 'uvu-expect';

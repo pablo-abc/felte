@@ -86,14 +86,14 @@ Field('dispatches input events', async () => {
 
   const { field, onChange, onBlur } = createField('test');
 
-  sinon.assert.notCalled(inputListener);
-  sinon.assert.notCalled(blurListener);
+  expect(inputListener).to.have.not.been.called;
+  expect(blurListener).to.have.not.been.called;
 
   onChange('ignored value');
   onBlur();
 
-  sinon.assert.notCalled(inputListener);
-  sinon.assert.notCalled(blurListener);
+  expect(inputListener).to.have.not.been.called;
+  expect(blurListener).to.have.not.been.called;
 
   field(inputElement);
 
@@ -107,19 +107,17 @@ Field('dispatches input events', async () => {
     onChange('new value');
 
     expect(hiddenElement.value).to.equal('new value');
-    sinon.assert.calledWith(
-      inputListener,
-      sinon.match({
+    expect(inputListener).to.have.been.called.with(
+      expect.match({
         target: hiddenElement,
       })
     );
-    sinon.assert.notCalled(blurListener);
+    expect(blurListener).to.have.not.been.called;
 
     onBlur();
 
-    sinon.assert.calledWith(
-      blurListener,
-      sinon.match({
+    expect(blurListener).to.have.been.called.with(
+      expect.match({
         target: hiddenElement,
       })
     );
@@ -138,11 +136,11 @@ Field('dispatches change events', async () => {
 
   const { field, onChange } = createField('test', { touchOnChange: true });
 
-  sinon.assert.notCalled(changeListener);
+  expect(changeListener).to.have.not.been.called;
 
   onChange('ignored value');
 
-  sinon.assert.notCalled(changeListener);
+  expect(changeListener).to.have.not.been.called;
 
   const { destroy } = field(inputElement);
 
@@ -155,6 +153,7 @@ Field('dispatches change events', async () => {
   });
 
   onChange('new value');
+  expect(changeListener).to.have.been.called;
 
   formElement.removeEventListener('change', changeListener);
 
@@ -175,10 +174,12 @@ Field('listens to hidden input attribute changes', async () => {
   await new Promise((r) => setTimeout(r, 10));
 
   hiddenElement.setAttribute('aria-invalid', 'true');
+  expect(inputElement).to.be.valid;
   await waitFor(() => {
-    expect(inputElement).to.to.be.invalid;
+    expect(inputElement).to.be.invalid;
   });
   hiddenElement.removeAttribute('aria-invalid');
+  expect(inputElement).to.be.invalid;
   await waitFor(() => {
     expect(inputElement).to.be.valid;
   });

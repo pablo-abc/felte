@@ -512,14 +512,13 @@ UserInteractions('Calls debounced validate on input', async () => {
 UserInteractions(
   'Calls debounced validate on input with custom timeout',
   async () => {
-    const clock = sinon.useFakeTimers({ toFake: ['setTimeout'] });
     const validate = sinon.fake(() => ({}));
     const warn = sinon.fake(() => ({}));
     const onSubmit = sinon.fake();
     const { form, isValid } = createForm({
       onSubmit,
       debounced: {
-        timeout: 1000,
+        timeout: 100,
         validate,
         warn,
       },
@@ -528,43 +527,38 @@ UserInteractions(
     expect(get(isValid)).to.be.false;
     form(formElement);
     userEvent.type(emailInput, 'jacek@soplica.com');
-    clock.runAll();
     await waitFor(() => {
       sinon.assert.called(validate);
       sinon.assert.called(warn);
       expect(get(isValid)).to.be.ok;
     });
-    clock.restore();
   }
 );
 
 UserInteractions(
   'Calls debounced validate on input with validate and warn timeout',
   async () => {
-    const clock = sinon.useFakeTimers({ toFake: ['setTimeout'] });
     const validate = sinon.fake(() => ({}));
     const warn = sinon.fake(() => ({}));
     const onSubmit = sinon.fake();
     const { form, isValid } = createForm({
       onSubmit,
       debounced: {
-        validateTimeout: 1000,
+        validateTimeout: 100,
         validate,
         warn,
-        warnTimeout: 1000,
+        warnTimeout: 100,
       },
     });
     const { formElement, emailInput } = createLoginForm();
     expect(get(isValid)).to.be.false;
     form(formElement);
     userEvent.type(emailInput, 'jacek@soplica.com');
-    clock.runAll();
     await waitFor(() => {
       sinon.assert.called(validate);
       sinon.assert.called(warn);
       expect(get(isValid)).to.be.ok;
     });
-    clock.restore();
   }
 );
 

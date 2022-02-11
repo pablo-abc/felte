@@ -11,7 +11,7 @@ const Reporter = suite('Reporter Svelte');
 
 let clock;
 Reporter.before.each(() => {
-  clock = sinon.useFakeTimers({ toFake: ['setTimeout'] });
+  clock = sinon.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
 });
 
 Reporter.after.each(() => {

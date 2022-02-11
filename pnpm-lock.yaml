@@ -61,8 +61,8 @@ importers:
       typedoc: ^0.22.10
       typescript: ^4.5.5
       uvu: ^0.5.3
-      uvu-expect: ^0.3.0
-      uvu-expect-dom: ^0.2.2
+      uvu-expect: ^0.4.3
+      uvu-expect-dom: ^0.2.3
       vest: ^4.0.1
       yup: ^0.32.9
       zod: ^1.11.13
@@ -125,8 +125,8 @@ importers:
       typedoc: 0.22.10_typescript@4.5.5
       typescript: 4.5.5
       uvu: 0.5.3
-      uvu-expect: 0.3.0_uvu@0.5.3
-      uvu-expect-dom: 0.2.2_uvu-expect@0.3.0+uvu@0.5.3
+      uvu-expect: 0.4.3_uvu@0.5.3
+      uvu-expect-dom: 0.2.3_uvu-expect@0.4.3+uvu@0.5.3
       vest: 4.0.1
       yup: 0.32.9
       zod: 1.11.13
@@ -11389,25 +11389,27 @@ packages:
     hasBin: true
     dev: true
 
-  /uvu-expect-dom/0.2.2_uvu-expect@0.3.0+uvu@0.5.3:
-    resolution: {integrity: sha512-jNc0GrafmRJkHw+q5DjmmMQvqng7+0TiM2280J3i2ctIhUgcJq9TlF4zRy+w4SVTrNiWr/bVbtW9Prk6D8w4Og==}
+  /uvu-expect-dom/0.2.3_uvu-expect@0.4.3+uvu@0.5.3:
+    resolution: {integrity: sha512-lJRAhM4GFXQ7GPEmrjs62zAxjmnaTfmiJ98bM5ySvrBnBrv0wUeL2j1xMUGoAjpKLGmh+39ofUXak153ycPpsQ==}
     peerDependencies:
       uvu: ^0.5.3
-      uvu-expect: ^0.3.0
+      uvu-expect: '>=0.3.0'
     dependencies:
       '@testing-library/jest-dom': 5.16.2
       css: 3.0.0
       dom-accessibility-api: 0.5.11
       redent: 4.0.0
       uvu: 0.5.3
-      uvu-expect: 0.3.0_uvu@0.5.3
+      uvu-expect: 0.4.3_uvu@0.5.3
     dev: true
 
-  /uvu-expect/0.3.0_uvu@0.5.3:
-    resolution: {integrity: sha512-vpyGgjyPU6N6COEzTA2jKlu/dY0qmyYQF+FliKyZ6toDmxfBVMOsXor/jhmz+VTsitGN89WJgY/jwrCx0YMhjg==}
+  /uvu-expect/0.4.3_uvu@0.5.3:
+    resolution: {integrity: sha512-bIA2Xg5Rwf6TSLZbrMs/KY8X0GKMx0G0TTGywBE0w6lsDg5m8+GMKagJtv5VfAH+WZhLXxorvKhsbgXKKYPjlg==}
     peerDependencies:
       uvu: ^0.5.3
     dependencies:
+      '@sinonjs/samsam': 6.1.1
+      kleur: 4.1.4
       lodash: 4.17.21
       tslib: 2.3.1
       uvu: 0.5.3
