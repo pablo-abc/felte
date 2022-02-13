@@ -11,10 +11,8 @@
     "lint": "eslint packages --max-warnings=0 --ignore-pattern *packages/site*",
     "build": "pnpm -r build --filter='!@felte/site' --filter='!@example/*'",
     "dev": "pnpm -r --parallel dev --filter='!@felte/site' --filter='!@example/*'",
-    "postinstall": "husky install",
-    "prepublishOnly": "pinst --disable",
-    "publish": "pnpm i && pnpm lint && pnpm -r publish",
-    "postpublish": "pinst --enable"
+    "prepare": "husky install",
+    "publish": "pnpm i && pnpm lint && pnpm -r publish"
   },
   "devDependencies": {
     "@babel/core": "^7.16.5",
@@ -43,11 +41,10 @@
     "eslint-plugin-testing-library": "^4.0.1",
     "front-matter": "^4.0.2",
     "global-jsdom": "^8.4.0",
-    "husky": "^6.0.0",
+    "husky": "^7.0.4",
     "jsdom": "^19.0.0",
     "mdsvex": "^0.9.0",
     "nyc": "^15.1.0",
-    "pinst": "^2.1.4",
     "pnpm": "^6.29.1",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
