@@ -1,30 +1,34 @@
-import type { Obj, FieldValue } from '../types';
-import { _get } from './get';
+import type { Obj } from '../types';
+import { _cloneDeep } from './cloneDeep';
+import { _isPlainObject } from './isPlainObject';
 
 /** @ignore */
-export function _update<Data extends Obj, Value = FieldValue>(
+export function _update<Data extends Obj>(
   obj: Data | undefined,
-  path: string,
-  updater: (value: Value) => Value
+  path: string | string[],
+  updater: (value: any) => any
 ) {
-  if (Object(obj) !== obj) obj = {} as Data; // When obj is not an object
-  // If not yet an array, get the keys from the string-path
-  let newPath = path.toString().match(/[^.[\]]+/g) || [];
-  newPath.slice(0, -1).reduce(
-    (
-      a: any,
-      c: any,
-      i: any // Iterate all of them except the last one
-    ) =>
-      Object(a[c]) === a[c] // Does the key exist and is its value an object?
-        ? // Yes: then follow that path
-          a[c]
-        : // No: create the key. Is the next key a potential array-index?
-          (a[c] =
-            Math.abs(Number(newPath[i + 1])) >> 0 === +newPath[i + 1]
-              ? [] // Yes: assign a new array object
-              : {}), // No: assign a new plain object
-    obj
-  )[newPath[newPath.length - 1]] = updater(_get(obj as Data, path) as Value); // Finally assign the value to the last key
-  return obj as Data; // Return the top-level object to allow chaining
+  if (obj) obj = _cloneDeep<Data>(obj);
+  if (!_isPlainObject(obj)) obj = {} as Data;
+  const splitPath = !Array.isArray(path) ? path.match(/[^.[\]]+/g) || [] : path;
+  const lastSection = splitPath[splitPath.length - 1];
+  if (!lastSection) return obj;
+  let property: any = obj;
+  for (let i = 0; i < splitPath.length - 1; i++) {
+    const section = splitPath[i];
+    if (
+      !property[section] ||
+      (!_isPlainObject(property[section]) && !Array.isArray(property[section]))
+    ) {
+      const nextSection = splitPath[i + 1];
+      if (isNaN(Number(nextSection))) {
+        property[section] = {};
+      } else {
+        property[section] = [];
+      }
+    }
+    property = property[section];
+  }
+  property[lastSection] = updater(property[lastSection]);
+  return obj;
 }

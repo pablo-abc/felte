@@ -1,5 +1,203 @@
 # @felte/common
 
+## 1.0.0-next.23
+
+### Patch Changes
+
+- 7f3d8b8: Refactor \_update and \_set methods
+
+## 1.0.0-next.22
+
+### Patch Changes
+
+- 4853b7e: Change cjs output to have an extension of `.cjs`
+
+## 1.0.0-next.21
+
+### Minor Changes
+
+- fcbdaed: Add `swapFields` and `moveField` helper functions
+
+## 1.0.0-next.20
+
+### Minor Changes
+
+- 990034e: Add `interacted` store to show which is the last field the user has interacted with
+
+## 1.0.0-next.19
+
+### Minor Changes
+
+- a174e87: Add isEqual utility to check for strict equality
+
+## 1.0.0-next.18
+
+### Patch Changes
+
+- 70cfada: Fix deepSome handling arrays
+
+## 1.0.0-next.17
+
+### Patch Changes
+
+- 2e7aad3: Add type for keyed Data
+
+## 1.0.0-next.16
+
+### Minor Changes
+
+- c8c1511: Add unique key to field arrays
+
+## 1.0.0-next.15
+
+### Minor Changes
+
+- 093482a: Add isValidating store
+
+## 1.0.0-next.14
+
+### Patch Changes
+
+- dd52c94: Fix error filtering
+
+## 1.0.0-next.13
+
+### Major Changes
+
+- a45d56c: BREAKING: `errors` and `warning` stores will either have `null` or an array of strings as errors
+
+## 1.0.0-next.12
+
+### Major Changes
+
+- 452fe5a: BREAKING: Remove `data-felte-index` attribute support.
+
+  This means that you should replace this:
+
+  ```html
+  <input data-felte-index="1" name="preferences" />
+  ```
+
+  To this:
+
+  ```html
+  <input name="preferences.1" />
+  ```
+
+  This was done in order to allow for future improvements of the type system for TypeScript users, and to also follow the same behaviour the browser would do if JavaScript is disabled
+
+- 15d0ce2: BREAKING: Stop grabbing nested names from fieldset
+
+  This means that this won't work anymore:
+
+  ```html
+  <fieldset name="account">
+    <input name="email" />
+  </fieldset>
+  ```
+
+  So it needs to be changed to this:
+
+  ```html
+  <fieldset>
+    <input name="account.email" />
+  </fieldset>
+  ```
+
+  This was done to allow for future improvements on type-safety, as well to keep consistency with the browser's behaviour when JavaScript is disabled.
+
+## 1.0.0-next.11
+
+### Major Changes
+
+- b7ef442: BREAKING: Remove `addWarnValidator` in favour of options to `addValidator`.
+
+  This gives a smaller and more unified API, as well as opening to add more options in the future.
+
+  If you have an extender using `addWarnValidator`, you must update it by calling `addValidator` instead with the following options:
+
+  ```javascript
+  addValidator(yourValidationFunction, { level: 'warning' });
+  ```
+
+### Minor Changes
+
+- a1dbc28: Improve types
+- ec740a0: Update types
+- 34e0393: Make string paths for accessors type safe
+- e1ad8cd: Export `mergeErrors` util
+
+## 1.0.0-next.10
+
+### Minor Changes
+
+- dc1f21a: Add helper functions to context passed to `onSuccess`, `onSubmit` and `onError`
+- eea3afa: Pass context data to `onError` and `onSuccess`
+
+## 1.0.0-next.9
+
+### Patch Changes
+
+- 38fbb49: Point "browser" field to esm bundle
+
+## 1.0.0-next.8
+
+### Patch Changes
+
+- c86a82a: Preserve modules in CJS
+
+## 1.0.0-next.7
+
+### Patch Changes
+
+- e49c094: Use `preserveModules` for better tree-shaking
+
+## 1.0.0-next.6
+
+### Patch Changes
+
+- d1b62bf: Allow for `onError` and `onSuccess` to be asynchronous
+
+## 1.0.0-next.5
+
+### Patch Changes
+
+- e2f4e18: Clone object on update function
+
+## 1.0.0-next.3
+
+### Patch Changes
+
+- 8c29b4a: Fix unset on Safari
+
+## 1.0.0-next.2
+
+### Minor Changes
+
+- 6f48123: Add `addField` helper function
+
+## 1.0.0-next.1
+
+### Major Changes
+
+- 02a77e3: BREAKING: When removing an input from an array of inputs, Felte now splices the array instead of setting the value to `null`/`undefined`. This means that an `index` on an array of inputs is no longer a _unique_ identifier and the value can move around if fields are added/removed.
+
+## 1.0.0-next.0
+
+### Major Changes
+
+- 9a48a40: Pass a new property `stage` to extenders to distinguish between setup, mount and update stages
+- 0d22bc6: BREAKING: Helpers have been completely reworked.
+  `setField` and `setFields` have been unified in a single `setFields` helper.
+  Others such as `setError` and `setWarning` have been pluralized to `setErrors` and `setWarnings` since now they can accept the whole object.
+  `setTouched` now requires to be passed the value to assign. E.g. `setTouched('path')` is now `setTouched('path', true)`. It no longer accepts an index as an argument since that can be assigned in the path itself using `[]`.
+- 3d571bb: BREAKING: Remove `getField` helper in favor of `getValue` export. E.g. `getField('email')` now is `getValue($data, 'email')` and accessors.
+- 2c0f874: Make type of helpers and stores looser when using a transform function
+
+### Minor Changes
+
+- c1f32a0: Add `unsetField` and `resetField` helper functions
+
 ## 0.6.0
 
 ### Minor Changes

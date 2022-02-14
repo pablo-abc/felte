@@ -1,56 +1,119 @@
+import 'dotenv/config';
 import fm from 'front-matter';
 import path from 'path';
 import fs from 'fs/promises';
 
 export const sections = {
-  svelte: [
-    'getting-started',
-    'validation',
-    'validators',
-    'transformations',
-    'default-data',
-    'nested-forms',
-    'dynamic-forms',
-    'stores',
-    'helper-functions',
-    'reporters',
-    'custom-form-controls',
-    'multi-page-forms',
-    'accessibility',
-    'extending-felte',
-    'configuration-reference',
-  ],
-  solid: [
-    'getting-started',
-    'validation',
-    'validators',
-    'transformations',
-    'default-data',
-    'nested-forms',
-    'dynamic-forms',
-    'stores',
-    'helper-functions',
-    'reporters',
-    'custom-form-controls',
-    'accessibility',
-    'extending-felte',
-    'configuration-reference',
-  ],
+  latest: {
+    svelte: [
+      'getting-started',
+      'submitting',
+      'validation',
+      'validators',
+      'transformations',
+      'default-data',
+      'nested-forms',
+      'dynamic-forms',
+      'stores',
+      'helper-functions',
+      'field-arrays',
+      'reporters',
+      'custom-form-controls',
+      'multi-page-forms',
+      'accessibility',
+      'extending-felte',
+      'configuration-reference',
+      'migrating',
+    ],
+    solid: [
+      'getting-started',
+      'submitting',
+      'validation',
+      'validators',
+      'transformations',
+      'default-data',
+      'nested-forms',
+      'dynamic-forms',
+      'stores',
+      'helper-functions',
+      'field-arrays',
+      'reporters',
+      'custom-form-controls',
+      'multi-page-forms',
+      'accessibility',
+      'extending-felte',
+      'configuration-reference',
+      'migrating',
+    ],
+    react: [
+      'getting-started',
+      'submitting',
+      'validation',
+      'validators',
+      'transformations',
+      'default-data',
+      'nested-forms',
+      'dynamic-forms',
+      'stores',
+      'helper-functions',
+      'field-arrays',
+      'reporters',
+      'custom-form-controls',
+      'multi-page-forms',
+      'accessibility',
+      'extending-felte',
+      'configuration-reference',
+      'migrating',
+    ],
+  },
+  v0: {
+    svelte: [
+      'getting-started',
+      'validation',
+      'validators',
+      'transformations',
+      'default-data',
+      'nested-forms',
+      'dynamic-forms',
+      'stores',
+      'helper-functions',
+      'reporters',
+      'custom-form-controls',
+      'multi-page-forms',
+      'accessibility',
+      'extending-felte',
+      'configuration-reference',
+    ],
+    solid: [
+      'getting-started',
+      'validation',
+      'validators',
+      'transformations',
+      'default-data',
+      'nested-forms',
+      'dynamic-forms',
+      'stores',
+      'helper-functions',
+      'reporters',
+      'custom-form-controls',
+      'multi-page-forms',
+      'accessibility',
+      'extending-felte',
+      'configuration-reference',
+    ],
+  },
 };
 
 function idfy(value) {
   return value.toLowerCase().replace(/[^a-zA-Z0-9]/g, '-');
 }
 
-export default async function getDocs({
-  lang = 'en',
-  version = 'latest',
-  framework = 'svelte',
-  section,
-}) {
+export default async function getDocs({ framework = 'svelte', section }) {
+  const version = process.env.FELTE_VERSION ?? 'latest';
+  const lang = 'en';
   const getFilePath = (fileName) =>
     path.resolve(
-      `./markdown/docs/${framework}/${lang}/${version}/${fileName}.md`
+      `./markdown/docs/${version}/${framework}/${lang}/${fileName}.md`
     );
 
   async function readMd(fileName) {
@@ -68,7 +131,7 @@ export default async function getDocs({
   try {
     if (section === 'all')
       return await Promise.all(
-        sections[framework].map((section) => readMd(section))
+        sections[version][framework].map((section) => readMd(section))
       );
     if (section) return await readMd(section);
     return await readMd('introduction');

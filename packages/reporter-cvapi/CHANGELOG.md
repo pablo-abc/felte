@@ -1,5 +1,60 @@
 # @felte/reporter-cvapi
 
+## 1.0.0-next.5
+
+### Patch Changes
+
+- Updated dependencies [7f3d8b8]
+  - @felte/common@1.0.0-next.23
+
+## 1.0.0-next.4
+
+### Patch Changes
+
+- 4853b7e: Change cjs output to have an extension of `.cjs`
+- Updated dependencies [4853b7e]
+  - @felte/common@1.0.0-next.22
+
+## 1.0.0-next.3
+
+### Patch Changes
+
+- Updated dependencies [fcbdaed]
+  - @felte/common@1.0.0-next.21
+
+## 1.0.0-next.2
+
+### Patch Changes
+
+- Updated dependencies [990034e]
+  - @felte/common@1.0.0-next.20
+
+## 1.0.0-next.1
+
+### Minor Changes
+
+- 02fd56e: Ensure good behaviour with controls created by `useField`/`createField` by only focusing non-hidden inputs
+
+### Patch Changes
+
+- Updated dependencies [a174e87]
+  - @felte/common@1.0.0-next.19
+
+## 1.0.0-next.0
+
+### Major Changes
+
+- 9a48a40: Pass a new property `stage` to extenders to distinguish between setup, mount and update stages
+
+### Patch Changes
+
+- Updated dependencies [9a48a40]
+- Updated dependencies [0d22bc6]
+- Updated dependencies [3d571bb]
+- Updated dependencies [c1f32a0]
+- Updated dependencies [2c0f874]
+  - @felte/common@1.0.0-next.0
+
 ## 0.1.16
 
 ### Patch Changes

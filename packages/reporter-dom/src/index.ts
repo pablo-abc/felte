@@ -22,21 +22,10 @@ export interface DomReporterOptions {
   };
 }
 
-const mutationConfig: MutationObserverInit = {
-  attributes: true,
-  subtree: true,
-};
-
 function removeAllChildren(parent: Node): void {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild);
   }
-}
-
-function setInvalidState(target: FormControl) {
-  const validationMessage = target.dataset.felteValidationMessage;
-  if (!validationMessage) target.removeAttribute('aria-invalid');
-  else target.setAttribute('aria-invalid', 'true');
 }
 
 function setValidationMessage<Data extends Obj>(
@@ -116,37 +105,43 @@ function setValidationMessage<Data extends Obj>(
   }
 }
 
-function domReporter<Data extends Obj = Obj>(
+function handleSubscription<Data extends Obj>(
+  form: HTMLFormElement,
+  level: 'error' | 'warning',
+  options?: DomReporterOptions
+) {
+  return function (messages: Errors<Data>) {
+    const elements: NodeListOf<HTMLElement> = form.querySelectorAll(
+      '[data-felte-reporter-dom-for]'
+    );
+    for (const element of elements) {
+      const elementLevel = element.dataset.felteReporterDomLevel || 'error';
+      if (level !== elementLevel) continue;
+      setValidationMessage(element, messages, options ?? {});
+    }
+  };
+}
+
+function domReporter<Data extends Obj = any>(
   options?: DomReporterOptions
 ): Extender<Data> {
-  function mutationCallback(mutationList: MutationRecord[]) {
-    for (const mutation of mutationList) {
-      if (mutation.type !== 'attributes') continue;
-      if (mutation.attributeName !== 'data-felte-validation-message') continue;
-      const target = mutation.target as FormControl;
-      setInvalidState(target);
-    }
-  }
-
   return (currentForm: CurrentForm<Data>): ExtenderHandler<Data> => {
-    const form = currentForm.form;
-    if (!form) return {};
-    const mutationObserver = new MutationObserver(mutationCallback);
-    mutationObserver.observe(form, mutationConfig);
-    const unsubscribe = currentForm.errors.subscribe(($errors) => {
-      const elements = form.querySelectorAll('[data-felte-reporter-dom-for]');
-      for (const element of elements) {
-        setValidationMessage(element as HTMLElement, $errors, options ?? {});
-      }
-    });
+    if (currentForm.stage === 'SETUP') return {};
+    const { form } = currentForm;
+    const unsubscribeErrors = currentForm.errors.subscribe(
+      handleSubscription(form, 'error', options)
+    );
+    const unsubscribeWarnings = currentForm.warnings.subscribe(
+      handleSubscription(form, 'warning', options)
+    );
     return {
       destroy() {
-        mutationObserver.disconnect();
-        unsubscribe();
+        unsubscribeErrors();
+        unsubscribeWarnings();
       },
       onSubmitError() {
         const firstInvalidElement = form.querySelector(
-          '[data-felte-validation-message]'
+          '[data-felte-validation-message]:not([type="hidden"])'
         ) as FormControl;
         firstInvalidElement?.focus();
       },

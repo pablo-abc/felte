@@ -1,19 +1,9 @@
-import type {
-  FormControl,
-  Obj,
-  FieldValue,
-  ValidationFunction,
-  Errors,
-  TransformFunction,
-} from '../types';
+import type { FormControl, Obj, FieldValue, Touched } from '../types';
 import { isFormControl, isFieldSetElement, isInputElement } from './typeGuards';
-import { _mergeWith } from './mergeWith';
-import { _isPlainObject } from './isPlainObject';
 import { _get } from './get';
 import { _set } from './set';
 import { _update } from './update';
 import { getPath } from './getPath';
-import { getIndex } from './getIndex';
 
 /**
  * @ignore
@@ -41,21 +31,11 @@ export function getFormControls(el: Element): FormControl[] {
 export function addAttrsFromFieldset(fieldSet: HTMLFieldSetElement): void {
   for (const element of fieldSet.elements) {
     if (!isFormControl(element) && !isFieldSetElement(element)) continue;
-    if (fieldSet.name && element.name) {
-      const index = getIndex(fieldSet);
-      const fieldsetName =
-        typeof index === 'undefined'
-          ? fieldSet.name
-          : `${fieldSet.name}[${index}]`;
-      element.dataset.felteFieldset = fieldSet.dataset.felteFieldset
-        ? `${fieldSet.dataset.felteFieldset}.${fieldsetName}`
-        : fieldsetName;
-    }
     if (
-      fieldSet.dataset.felteUnsetOnRemove === 'true' &&
-      !element.hasAttribute('data-felte-unset-on-remove')
+      fieldSet.hasAttribute('data-felte-keep-on-remove') &&
+      !element.hasAttribute('data-felte-keep-on-remove')
     ) {
-      element.dataset.felteUnsetOnRemove = 'true';
+      element.dataset.felteKeepOnRemove = fieldSet.dataset.felteKeepOnRemove;
     }
   }
 }
@@ -76,13 +56,13 @@ export function getInputTextOrNumber(
  */
 export function getFormDefaultValues<Data extends Obj>(
   node: HTMLFormElement
-): { defaultData: Data } {
+): { defaultData: Data; defaultTouched: Touched<Data> } {
   let defaultData = {} as Data;
+  let defaultTouched = {} as Touched<Data>;
   for (const el of node.elements) {
     if (isFieldSetElement(el)) addAttrsFromFieldset(el);
     if (!isFormControl(el) || !el.name) continue;
     const elName = getPath(el);
-    const index = getIndex(el);
     if (isInputElement(el)) {
       if (el.type === 'checkbox') {
         if (typeof _get(defaultData, elName) === 'undefined') {
@@ -90,27 +70,22 @@ export function getFormDefaultValues<Data extends Obj>(
             node.querySelectorAll(`[name="${el.name}"]`)
           ).filter((checkbox) => {
             if (!isFormControl(checkbox)) return false;
-            if (typeof index !== 'undefined') {
-              const felteIndex = Number(
-                (checkbox as HTMLInputElement).dataset.felteIndex
-              );
-              return felteIndex === index;
-            }
             return elName === getPath(checkbox);
           });
           if (checkboxes.length === 1) {
             defaultData = _set(defaultData, elName, el.checked);
+            defaultTouched = _set(defaultTouched, elName, false);
             continue;
           }
           defaultData = _set(defaultData, elName, el.checked ? [el.value] : []);
+          defaultTouched = _set(defaultTouched, elName, false);
           continue;
         }
         if (Array.isArray(_get(defaultData, elName)) && el.checked) {
-          _update<Data, string[]>(defaultData, elName, (value) => {
-            if (typeof index !== 'undefined' && !Array.isArray(value))
-              value = [];
-            return [...value, el.value];
-          });
+          defaultData = _update<Data>(defaultData, elName, (value) => [
+            ...value,
+            el.value,
+          ]);
         }
         continue;
       }
@@ -121,6 +96,7 @@ export function getFormDefaultValues<Data extends Obj>(
           elName,
           el.checked ? el.value : undefined
         );
+        defaultTouched = _set(defaultTouched, elName, false);
         continue;
       }
       if (el.type === 'file') {
@@ -129,13 +105,15 @@ export function getFormDefaultValues<Data extends Obj>(
           elName,
           el.multiple ? Array.from(el.files || []) : el.files?.[0]
         );
+        defaultTouched = _set(defaultTouched, elName, false);
         continue;
       }
     }
     const inputValue = getInputTextOrNumber(el);
     defaultData = _set(defaultData, elName, inputValue);
+    defaultTouched = _set(defaultTouched, elName, false);
   }
-  return { defaultData };
+  return { defaultData, defaultTouched };
 }
 
 export function setControlValue(
@@ -191,35 +169,4 @@ export function setForm<Data extends Obj>(
     const elName = getPath(el);
     setControlValue(el, _get(data, elName));
   }
-}
-
-type ErrorField = string | Obj | string[];
-
-function executeCustomizer(objValue?: ErrorField, srcValue?: ErrorField) {
-  if (_isPlainObject(objValue) || _isPlainObject(srcValue)) return;
-  if (objValue === null) return srcValue;
-  if (srcValue === null) return objValue;
-  if (!objValue || !srcValue) return;
-  if (!Array.isArray(objValue)) objValue = [objValue as string];
-  if (!Array.isArray(srcValue)) srcValue = [srcValue as string];
-  return [...objValue, ...srcValue];
-}
-
-export async function executeValidation<Data extends Obj>(
-  values: Data,
-  validations?: ValidationFunction<Data>[] | ValidationFunction<Data>
-): Promise<ReturnType<ValidationFunction<Data>>> {
-  if (!validations) return;
-  if (!Array.isArray(validations)) return validations(values);
-  const errorArray = await Promise.all(validations.map((v) => v(values)));
-  return _mergeWith<Errors<Data>>(...errorArray, executeCustomizer);
-}
-
-export function executeTransforms<Data extends Obj>(
-  values: Obj,
-  transforms?: TransformFunction<Data>[] | TransformFunction<Data>
-): ReturnType<TransformFunction<Data>> {
-  if (!transforms) return values as Data;
-  if (!Array.isArray(transforms)) return transforms(values);
-  return transforms.reduce((res, t) => t(res), values) as Data;
 }

@@ -1,0 +1,62 @@
+{
+  "name": "@felte/react",
+  "version": "1.0.0-next.30",
+  "description": "An extensible form library for ReactJS",
+  "main": "dist/cjs/index.cjs",
+  "browser": "dist/esm/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "type": "module",
+  "engines": {
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+  },
+  "sideEffects": false,
+  "author": "Pablo Berganza <pablo@berganza.dev>",
+  "license": "MIT",
+  "homepage": "https://felte.dev",
+  "repository": "github:pablo-abc/felte",
+  "funding": "https://www.buymeacoffee.com/pablo.abc",
+  "keywords": [
+    "reactjs",
+    "react",
+    "forms",
+    "validation"
+  ],
+  "scripts": {
+    "prebuild": "rimraf ./dist",
+    "build": "pnpm prebuild && cross-env NODE_ENV=production rollup -c",
+    "dev": "rollup -cw",
+    "prepublishOnly": "pnpm build && pnpm test",
+    "test": "uvu -r tsm -r global-jsdom/register tests -i common",
+    "test:ci": "nyc -n src pnpm test"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@felte/core": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || >=17.0.0"
+  },
+  "devDependencies": {
+    "@felte/common": "workspace:*",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/react-hooks": "^7.0.2",
+    "@types/react": "^17.0.37",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-test-renderer": "^17.0.2"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs",
+      "default": "./dist/esm/index.js"
+    },
+    "./package.json": "./package.json"
+  }
+}

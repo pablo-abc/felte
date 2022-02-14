@@ -4,7 +4,10 @@ import { _isPlainObject } from './isPlainObject';
 
 function handleArray<Value>(value: Value) {
   return function (propVal: Obj) {
-    if (_isPlainObject(propVal)) return deepSet(propVal as Obj, value);
+    if (_isPlainObject(propVal)) {
+      const { key, ...field } = deepSet(propVal as Obj, value);
+      return field;
+    }
     return value;
   };
 }

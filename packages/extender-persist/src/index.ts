@@ -1,7 +1,6 @@
-import type { Obj, ExtenderHandler, FormControl } from '@felte/common';
+import type { Obj, ExtenderHandler } from '@felte/common';
 import {
   _unset,
-  _get,
   CurrentForm,
   setForm,
   _cloneDeep,
@@ -19,8 +18,8 @@ export function extender(config: ExtenderConfig) {
   return function <Data extends Obj = Obj>(
     currentForm: CurrentForm<Data>
   ): ExtenderHandler<Data> {
+    if (currentForm.stage === 'SETUP') return {};
     const { controls, form } = currentForm;
-    if (!controls || !form) return {};
     const unsubscribe = currentForm.data.subscribe(($data) => {
       if (!loaded[config.id]) return;
       let savedData = _cloneDeep($data);

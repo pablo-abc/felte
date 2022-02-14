@@ -5,7 +5,7 @@ import adapter from '@sveltejs/adapter-static';
 import { sections } from './src/routes/docs/_docs.js';
 
 function getFrameworkRoutes(framework) {
-  return sections[framework].map((section) => {
+  return sections.latest[framework].map((section) => {
     return `/docs/${framework}/${section}`;
   });
 }
@@ -25,9 +25,6 @@ const config = {
     // specifying a different adapter
     adapter: adapter(),
 
-    // hydrate the <div id="svelte"> element in src/app.html
-    target: '#svelte',
-
     vite: {
       ssr: {
         noExternal: ['svelte-portal'],
@@ -44,6 +41,7 @@ const config = {
         '/docs/svelte/search',
         ...getFrameworkRoutes('solid'),
         ...getFrameworkRoutes('svelte'),
+        ...getFrameworkRoutes('react'),
       ],
     },
   },

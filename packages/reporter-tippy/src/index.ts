@@ -13,10 +13,6 @@ import {
 import { _get } from '@felte/common';
 import { get } from 'svelte/store';
 
-function isLabelElement(node: Node): node is HTMLLabelElement {
-  return node.nodeName === 'LABEL';
-}
-
 type TippyFieldProps = Partial<Omit<Props, 'content'>>;
 
 type TippyPropsMap<Data extends Obj> = {
@@ -39,16 +35,16 @@ function getTippyInstance(
   return (el as any)?._tippy ?? (customPosition as any)?._tippy;
 }
 
-function getControlLabel(control: FormControl): HTMLLabelElement | undefined {
+function getControlLabel(control: FormControl): HTMLLabelElement[] {
   const labels = control.labels;
-  if (labels?.[0]) return labels[0];
-  const parentNode = control.parentNode;
-  if (parentNode && isLabelElement(parentNode)) return parentNode;
-  if (!control.id) return;
+  if (labels && labels.length > 0) return Array.from(labels);
+  const labelNode = control.closest('label');
+  if (labelNode) return [labelNode];
+  if (!control.id) return [];
   const labelElement = document.querySelector(
     `label[for="${control.id}"]`
   ) as HTMLLabelElement | null;
-  return labelElement || undefined;
+  return labelElement ? [labelElement] : [];
 }
 
 export type TippyReporterOptions<Data extends Obj> = {
@@ -58,10 +54,12 @@ export type TippyReporterOptions<Data extends Obj> = {
   ) => string | undefined;
   tippyProps?: TippyFieldProps;
   tippyPropsMap?: TippyPropsMap<Data>;
+  level?: 'error' | 'warning';
 };
 
-function tippyReporter<Data extends Obj = Obj>({
+function tippyReporter<Data extends Obj = any>({
   setContent,
+  level = 'error',
   tippyProps,
   tippyPropsMap = {},
 }: TippyReporterOptions<Data> = {}): Extender<Data> {
@@ -80,6 +78,7 @@ function tippyReporter<Data extends Obj = Obj>({
       ...tippyFieldProps,
     });
     instance.popper.setAttribute('aria-live', 'polite');
+    instance.popper.dataset.felteReporterTippyLevel = level;
     if (!content) instance.disable();
     return instance;
   }
@@ -92,23 +91,24 @@ function tippyReporter<Data extends Obj = Obj>({
     const tippyInstance = getTippyInstance(form, control);
     if (!tippyInstance) return;
     if (validationMessage) {
-      control.setAttribute('aria-invalid', 'true');
+      if (!isFormControl(control)) control.setAttribute('aria-invalid', 'true');
       tippyInstance.setContent(validationMessage);
       !tippyInstance.state.isEnabled && tippyInstance.enable();
       if (document.activeElement === control && !tippyInstance.state.isShown) {
         tippyInstance.show();
       }
     } else {
-      control.removeAttribute('aria-invalid');
+      if (!isFormControl(control)) control.removeAttribute('aria-invalid');
       tippyInstance.disable();
     }
   }
 
-  return function reporter<Data extends Obj = Obj>(
+  return function reporter(
     currentForm: CurrentForm<Data>
   ): ExtenderHandler<Data> {
+    if (currentForm.stage === 'SETUP') return {};
     const { controls, form } = currentForm;
-    if (!form) return {};
+    const store = level === 'error' ? currentForm.errors : currentForm.warnings;
     let tippyInstances: Instance<Props>[] = [];
     let customControls = Array.from(
       form.querySelectorAll('[data-felte-reporter-tippy-for]')
@@ -130,7 +130,7 @@ function tippyReporter<Data extends Obj = Obj>({
       ) as HTMLElement | null;
       const triggerTarget = [
         control,
-        getControlLabel(control),
+        ...getControlLabel(control),
         ...customTriggerTarget,
       ].filter(Boolean) as HTMLElement[];
       if (control.hasAttribute('data-felte-reporter-tippy-ignore')) return;
@@ -179,7 +179,7 @@ function tippyReporter<Data extends Obj = Obj>({
                   .filter(Boolean) as Instance<Props>[])
               : []),
             ...(customControls
-              .map(createCustomControlInstance(get(currentForm.errors)))
+              .map(createCustomControlInstance(get(store)))
               .filter(Boolean) as Instance<Props>[]),
           ];
         }
@@ -195,17 +195,20 @@ function tippyReporter<Data extends Obj = Obj>({
     tippyInstances = [
       ...tippyInstances,
       ...(customControls
-        .map(createCustomControlInstance(get(currentForm.errors)))
+        .map(createCustomControlInstance(get(store)))
         .filter(Boolean) as Instance<Props>[]),
     ];
 
     const observer = new MutationObserver(mutationCallback);
     observer.observe(form, { childList: true });
-    const unsubscribe = currentForm.errors.subscribe(($errors) => {
+    const unsubscribe = store.subscribe(($messages) => {
       for (const control of customControls) {
         const elPath = getPath(control, control.dataset.felteReporterTippyFor);
         if (!elPath) continue;
-        const message = _get($errors, elPath) as string | string[] | undefined;
+        const message = _get($messages, elPath) as
+          | string
+          | string[]
+          | undefined;
         const transformedMessage =
           typeof message !== 'undefined' && !Array.isArray(message)
             ? [message]
@@ -219,7 +222,10 @@ function tippyReporter<Data extends Obj = Obj>({
       for (const control of controls) {
         const elPath = getPath(control, control.dataset.felteReporterTippyFor);
         if (!elPath) continue;
-        const message = _get($errors, elPath) as string | string[] | undefined;
+        const message = _get($messages, elPath) as
+          | string
+          | string[]
+          | undefined;
         const transformedMessage =
           typeof message !== 'undefined' && !Array.isArray(message)
             ? [message]
@@ -237,8 +243,9 @@ function tippyReporter<Data extends Obj = Obj>({
         unsubscribe();
       },
       onSubmitError({ errors }) {
+        if (level !== 'error') return;
         const firstInvalidElement = form.querySelector(
-          '[aria-invalid="true"]'
+          '[aria-invalid="true"]:not([type="hidden"])'
         ) as FormControl | null;
         firstInvalidElement?.focus();
         const tippyInstance = firstInvalidElement

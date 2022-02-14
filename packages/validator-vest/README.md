@@ -17,7 +17,7 @@ yarn add @felte/validator-vest vest
 
 ## Usage
 
-Extend Felte with the `validator` extender and add your schema to the `validateSuite` property of `createForm`'s config.
+Extend Felte by calling `validator` and adding your suite to its `suite`.
 
 ```javascript
 import { validator } from '@felte/validator-vest';
@@ -34,8 +34,7 @@ const suite = create('form', (data) => {
 
 const { form } = createForm({
   // ...
-  extend: validator, // or `extend: [validator],`
-  validateSuite: suite,
+  extend: validator({ suite }), // or `extend: [validator({ suite })],`
   // ...
 });
 ```
@@ -89,37 +88,6 @@ const suite = create('form', (data) => {
 const { form } = createForm({
   // ...
   validate: validateSuite(suite),
-  // ...
-});
-```
-
-## Typescript
-
-For typechecking add the exported type `ValidatorConfig` as a second argument to `createForm` generic.
-
-```typescript
-import { validator, ValidatorConfig } from '@felte/validator-vest';
-import { create, enforce, test } from 'vest';
-
-const initialValues = {
-  email: '',
-  password: ''
-}
-
-const suite = create('form', (data: typeof initialValues) => {
-  test('email', 'Email is required', () => {
-    enforce(data.email).isNotEmpty();
-  });
-  test('password', 'Password is required', () => {
-    enforce(data.password).isNotEmpty();
-  });
-});
-
-const { form } = createForm<typeof initialValues, ValidatorConfig>({
-  // ...
-  initialValues,
-  extend: validator, // or `extend: [validator],`
-  validateSuite: suite,
   // ...
 });
 ```

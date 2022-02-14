@@ -1,62 +1,35 @@
-import { _cloneDeep, _isPlainObject, _mergeWith } from '@felte/core';
-import { createEffect, createSignal, createRoot, batch } from 'solid-js';
-import { createStore, reconcile } from 'solid-js/store';
+import type { StoreFactory } from '@felte/core';
+import type { FelteAccessor } from './create-accessor';
+import type { Writable } from 'svelte/store';
+import { createSignal, observable } from 'solid-js';
+import { createAccessor } from './create-accessor';
 
-const isCallback = (
-  maybeFunction: any
-): maybeFunction is (...args: any[]) => void =>
-  typeof maybeFunction === 'function';
+export const storeFactory: StoreFactory<FelteAccessor<any>> = <Value>(
+  initialValue: Value
+) => {
+  const [signal, setSignal] = createSignal<Value>(initialValue);
 
-function createSubscriber<T>(store: T | (() => T)) {
-  return function subscribe(fn: (data: T) => void) {
-    const value = isCallback(store) ? store : () => store;
-    fn(value());
-    let disposer: () => void | undefined;
-    createRoot((dispose) => {
-      disposer = dispose;
-      createEffect(() => fn(value()));
-      return dispose;
-    });
-    return () => disposer();
-  };
-}
-
-export const storeFactory = <Value>(initialValue: Value) => {
-  if (!_isPlainObject(initialValue)) {
-    const [signal, setSignal] = createSignal<Value>(initialValue);
-
-    function signalSetter(value: Value) {
-      setSignal(() => value);
-    }
-
-    function signalUpdater(updater: (value: Value) => Value) {
-      signalSetter(updater(signal()));
-    }
-    return {
-      subscribe: createSubscriber<Value>(signal),
-      update: signalUpdater,
-      set: signalSetter,
-      getSolidValue: () => signal,
-    };
-  }
-  const [store, setStore] = createStore<Value>(initialValue);
-
-  function storeSetter(value: Value) {
-    batch(() => {
-      setStore(value);
-      setStore(reconcile(value));
-    });
+  function signalSetter(value: Value) {
+    setSignal(() => value);
   }
 
-  function storeUpdater(updater: (value: Value) => Value) {
-    const updatedStore = updater(store) as Value;
-    storeSetter(updatedStore);
+  function signalUpdater(updater: (value: Value) => Value) {
+    setSignal(updater as any);
   }
 
-  return {
-    subscribe: createSubscriber<Value>(store),
-    update: storeUpdater,
-    set: storeSetter,
-    getSolidValue: () => store,
-  };
+  const accessor = (createAccessor(signal) as unknown) as Writable<any> &
+    FelteAccessor<any>;
+
+  const obs = observable(signal);
+
+  function subscribe(subscriber: (value: Value) => void) {
+    const { unsubscribe } = obs.subscribe({ next: subscriber });
+    return unsubscribe;
+  }
+
+  accessor.subscribe = subscribe;
+  accessor.set = signalSetter;
+  accessor.update = signalUpdater;
+
+  return accessor;
 };

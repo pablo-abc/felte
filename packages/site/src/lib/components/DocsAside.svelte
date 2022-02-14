@@ -53,7 +53,7 @@
     const framework = e.currentTarget.value;
     $session.framework = framework;
     updateItems(framework);
-    let path = $page.path.split('/');
+    let path = $page.url.pathname.split('/');
     if (path.length === 2) return;
     path[2] = framework;
     path = path.join('/');
@@ -76,7 +76,7 @@
 </script>
 
 <div class="desktop-menu">
-  <div class="sidebar">
+  <nav class="sidebar" aria-label="side menu">
     <label for="framework-select">Choose your framework:</label>
     <select
       id="framework-select"
@@ -85,9 +85,10 @@
     >
       <option value="svelte">Svelte</option>
       <option value="solid">Solid</option>
+      <option value="react">React</option>
     </select>
     <DocsNav framework={$session.framework ?? 'svelte'} items={asideItems} />
-  </div>
+  </nav>
 </div>
 
 <div class="mobile-menu">
@@ -98,10 +99,10 @@
     on:click="{handleClickOutside}"
     transition:fade
   >
-    <div
+    <nav
       use:focusOn
       class="sidebar"
-      aria-label="Side menu"
+      aria-label="side menu"
       transition:menuTransition
     >
       <div class="actions">
@@ -137,7 +138,7 @@
       </select>
       <DocsNav framework={$session.framework ?? 'svelte'} on:close="{() => (open
       = false)}" items={asideItems} />
-    </div>
+    </nav>
   </div>
   {:else}
   <div class="menu-button" transition:fade="{{ duration: 200 }}">
@@ -204,7 +205,7 @@
       position: sticky;
       top: 2rem;
       min-height: 0;
-      max-height: calc(100vh - 4rem);
+      max-height: calc(100vh - 6rem);
       box-shadow: none;
     }
   }

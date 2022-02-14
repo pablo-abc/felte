@@ -25,12 +25,17 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm i -g pnpm
-    - run: pnpm i
-    - run: pnpm build
+    - name: Install pnpm
+      run: npm i -g pnpm
+    - name: Install dependencies
+      run: pnpm i
+    - name: Build packages
+      run: pnpm build
+    - name: Lint code
+      run: pnpm lint
     - name: Run tests and generate coverage
       run: pnpm test:ci
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
+      uses: codecov/codecov-action@v2
       with:
         directory: ./packages

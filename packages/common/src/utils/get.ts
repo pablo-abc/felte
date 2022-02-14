@@ -7,7 +7,7 @@ export function _get<Data extends Obj, Default = undefined>(
   obj: Data,
   path: string,
   defaultValue?: Default
-): Default | FieldValue | FieldValue[] | undefined {
+): Default | FieldValue | FieldValue[] {
   const travel = (regexp: RegExp) =>
     String.prototype.split
       .call(path, regexp)

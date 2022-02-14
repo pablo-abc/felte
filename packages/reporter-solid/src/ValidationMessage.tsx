@@ -1,43 +1,40 @@
 import type { JSX } from 'solid-js';
-import { _get, getPath } from '@felte/common';
-import { onMount, createSignal, onCleanup } from 'solid-js';
-import { errorStores } from './stores';
-import { createId } from './utils';
+import { _get, createId } from '@felte/common';
+import { onMount, createSignal, onCleanup, mergeProps } from 'solid-js';
+import { errorStores, warningStores } from './stores';
 
 export type ValidationMessageProps = {
   for: string;
-  index?: string | number;
-  children: (messages: string | string[] | undefined) => JSX.Element;
+  level?: 'error' | 'warning';
+  children: (messages: string[] | null) => JSX.Element;
 };
 
 export function ValidationMessage(props: ValidationMessageProps) {
-  const [messages, setMessages] = createSignal<string | string[]>();
+  props = mergeProps({ level: 'error' }, props);
+  const [messages, setMessages] = createSignal<null | string[]>(null);
   function getFormElement(element: HTMLDivElement) {
-    let form = element.parentNode;
-    if (!form) return;
-    while (form && form.nodeName !== 'FORM') {
-      form = form.parentNode;
-    }
-    return form;
+    return element.closest('form');
   }
 
   const id = createId(21);
   let unsubscribe: (() => void) | undefined;
   onMount(() => {
     const element = document.getElementById(id) as HTMLDivElement;
-    const path = getPath(
-      element,
-      typeof props.index !== 'undefined'
-        ? `${props.for}[${props.index}]`
-        : props.for
-    );
-    const formElement = getFormElement(element) as HTMLFormElement;
-    const reporterId = formElement?.dataset.felteReporterSvelteId;
+    const path = props.for;
+    const formElement = getFormElement(element);
+    const reporterId = formElement?.dataset.felteReporterSolidId;
     if (!reporterId) return;
-    const store = errorStores[reporterId];
-    unsubscribe = store?.subscribe(($errors: any) =>
-      setMessages(_get($errors, path) as any)
-    );
+    if (props.level === 'error') {
+      const errors = errorStores[reporterId];
+      unsubscribe = errors.subscribe(($errors) =>
+        setMessages(_get($errors, path) as string[] | null)
+      );
+    } else {
+      const warnings = warningStores[reporterId];
+      unsubscribe = warnings.subscribe(($warnings) =>
+        setMessages(_get($warnings, path) as string[] | null)
+      );
+    }
   });
 
   onCleanup(() => unsubscribe?.());

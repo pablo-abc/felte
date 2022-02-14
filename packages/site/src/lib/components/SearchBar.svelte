@@ -175,6 +175,9 @@
       placement: 'bottom',
       appendTo: formElement,
       animation: false,
+      aria: {
+        expanded: null,
+      },
     });
     document.addEventListener('keydown', handleKeyDown);
   });
@@ -208,6 +211,7 @@
   aria-haspopup="listbox"
   aria-expanded="{expanded}"
   aria-owns="search-results"
+  aria-controls="search-results"
   action="/docs/{$session.framework}/search"
   on:submit="{handleSubmit}"
   bind:this="{formElement}"
@@ -217,7 +221,6 @@
     <input
       name="q"
       autocomplete="off"
-      aria-controls="search-results"
       aria-autocomplete="list"
       aria-activedescendant="{$activeDescendant ?? ''}"
       on:keydown="{handleArrowKeys}"

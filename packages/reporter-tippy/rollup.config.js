@@ -2,7 +2,6 @@ import typescript from 'rollup-plugin-ts';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
-import { terser } from 'rollup-plugin-terser';
 import bundleSize from 'rollup-plugin-bundle-size';
 import pkg from './package.json';
 
@@ -34,8 +33,7 @@ export default {
     }),
     resolve({ browser: true }),
     commonjs(),
-    typescript(),
-    prod && terser(),
+    typescript({ browserlist: false }),
     prod && bundleSize(),
   ],
 };

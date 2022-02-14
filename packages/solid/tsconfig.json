@@ -10,12 +10,7 @@
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
     "declarationMap": true,
-    "declarationDir": "./dist"
-  },
-  "typedocOptions": {
-    "entryPoints": ["src/index.ts"],
-    "out": "docs",
-    "categoryOrder": ["Main", "Helper", "*"]
+    "declarationDir": "./dist/types"
   },
   "include": ["src"]
 }

@@ -1,13 +1,15 @@
-/// <reference types="svelte" />
 import { SvelteComponentTyped } from 'svelte';
 
 export interface ValidationMessageProps {
-  index?: string | number;
+  level?: 'error' | 'warning';
   for: string;
 }
 
 export default class ValidationMessage extends SvelteComponentTyped<
   ValidationMessageProps,
-  {},
-  { default: { messages: string | string[] | undefined }; placeholder: {} }
+  Record<string, never>,
+  {
+    default: { messages: string[] | null };
+    placeholder: Record<string, never>;
+  }
 > {}

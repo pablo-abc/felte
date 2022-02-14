@@ -1,20 +1,21 @@
 import type {
   Obj,
-  Errors,
   ValidationFunction,
+  Extender,
   ExtenderHandler,
+  AssignableErrors,
 } from '@felte/common';
 import { _set, CurrentForm } from '@felte/common';
 import type { create } from 'vest';
 
 export type ValidatorConfig = {
-  validateSuite: ReturnType<typeof create>;
+  suite: ReturnType<typeof create>;
 };
 
 function shapeErrors<Data extends Obj>(
   errors: Record<string, string[]>
-): Errors<Data> {
-  let err: Errors<Data> = {};
+): AssignableErrors<Data> {
+  let err = {} as AssignableErrors<Data>;
   for (const [fieldName, messages] of Object.entries(errors)) {
     err = _set(err, fieldName, messages);
   }
@@ -26,10 +27,10 @@ export function validateSuite<Data extends Obj>(
 ): ValidationFunction<Data> {
   return async function validate(
     values: Data
-  ): Promise<Errors<Data> | undefined> {
+  ): Promise<AssignableErrors<Data> | undefined> {
     const results = suite(values);
     if (results.hasErrors()) {
-      return shapeErrors(results.getErrors());
+      return shapeErrors<Data>(results.getErrors());
     }
   };
 }
@@ -39,25 +40,25 @@ export function warnSuite<Data extends Obj>(
 ): ValidationFunction<Data> {
   return async function validate(
     values: Data
-  ): Promise<Errors<Data> | undefined> {
+  ): Promise<AssignableErrors<Data> | undefined> {
     const results = suite(values);
     if (results.hasWarnings()) {
-      return shapeErrors(results.getWarnings());
+      return shapeErrors<Data>(results.getWarnings());
     }
   };
 }
 
-export function validator<Data extends Obj = Obj>(
-  currentForm: CurrentForm<Data>
-): ExtenderHandler<Data> {
-  if (currentForm.form) return {};
-  const validateFn = validateSuite<Data>(
-    currentForm.config.validateSuite as ReturnType<typeof create>
-  );
-  const warnFn = warnSuite<Data>(
-    currentForm.config.validateSuite as ReturnType<typeof create>
-  );
-  currentForm.addValidator(validateFn);
-  currentForm.addWarnValidator(warnFn);
-  return {};
+export function validator<Data extends Obj = Obj>({
+  suite,
+}: ValidatorConfig): Extender<Data> {
+  return function extender(
+    currentForm: CurrentForm<Data>
+  ): ExtenderHandler<Data> {
+    if (currentForm.stage !== 'SETUP') return {};
+    const validateFn = validateSuite<Data>(suite);
+    const warnFn = warnSuite<Data>(suite);
+    currentForm.addValidator(validateFn);
+    currentForm.addValidator(warnFn, { level: 'warning' });
+    return {};
+  };
 }

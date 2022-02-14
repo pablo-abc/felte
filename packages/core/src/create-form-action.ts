@@ -3,20 +3,22 @@ import type {
   Obj,
   Stores,
   FormConfig,
-  ValidationFunction,
   TransformFunction,
   ExtenderHandler,
   FormControl,
   CreateSubmitHandlerConfig,
-  Touched,
   Errors,
+  AddValidatorFn,
+  Helpers,
+  ValidationFunction,
+  Keyed,
 } from '@felte/common';
 import {
   isFormControl,
   shouldIgnore,
   isInputElement,
   isSelectElement,
-  isTextAreaElement,
+  isElement,
   getInputTextOrNumber,
   _get,
   _set,
@@ -25,30 +27,82 @@ import {
   _cloneDeep,
   _defaultsDeep,
   getPath,
-  getIndex,
   deepSet,
   deepSome,
-  getPathFromDataset,
   getFormDefaultValues,
-  isElement,
   getFormControls,
-  executeValidation,
+  _isPlainObject,
 } from '@felte/common';
+import type { FelteSuccessDetail, FelteErrorDetail } from './events';
+import type { SuccessResponse, FetchResponse } from './error';
 import { get } from './get';
+import { FelteSubmitError } from './error';
+import { deepSetTouched } from './deep-set-touched';
+import { deepRemoveKey } from './deep-set-key';
 
-type Configuration<Data extends Obj> = {
+function createDefaultSubmitHandler(form?: HTMLFormElement) {
+  if (!form) return;
+  return async function onSubmit(): Promise<SuccessResponse> {
+    let body: FormData | URLSearchParams = new FormData(form);
+    const action = new URL(form.action);
+    const method =
+      form.method.toLowerCase() === 'get'
+        ? 'get'
+        : action.searchParams.get('_method') || form.method;
+    let enctype = form.enctype;
+
+    if (form.querySelector('input[type="file"]')) {
+      enctype = 'multipart/form-data';
+    }
+    if (method === 'get' || enctype === 'application/x-www-form-urlencoded') {
+      body = new URLSearchParams(body as any);
+    }
+
+    let fetchOptions: RequestInit;
+
+    if (method === 'get') {
+      (body as URLSearchParams).forEach((value, key) => {
+        action.searchParams.append(key, value);
+      });
+      fetchOptions = { method };
+    } else {
+      fetchOptions = {
+        method,
+        body,
+        headers: {
+          'Content-Type': enctype,
+        },
+      };
+    }
+
+    const response: FetchResponse = await window.fetch(
+      action.toString(),
+      fetchOptions
+    );
+
+    if (response.ok) return response;
+    throw new FelteSubmitError(
+      'An error occurred while submitting the form',
+      response
+    );
+  };
+}
+
+export type FormActionConfig<Data extends Obj> = {
   stores: Stores<Data>;
   config: FormConfig<Data>;
   extender: Extender<Data>[];
-  helpers: {
-    reset(): void;
-    validate(): Promise<Errors<Data> | void>;
-    addValidator(validator: ValidationFunction<Data>): void;
-    addWarnValidator(validator: ValidationFunction<Data>): void;
+  validateErrors(
+    data: Data | Keyed<Data>,
+    altValidate?: ValidationFunction<Data> | ValidationFunction<Data>[]
+  ): Promise<Errors<Data> | undefined>;
+  validateWarnings(
+    data: Data | Keyed<Data>,
+    altWarn?: ValidationFunction<Data> | ValidationFunction<Data>[]
+  ): Promise<Errors<Data> | undefined>;
+  helpers: Helpers<Data, string> & {
+    addValidator: AddValidatorFn<Data>;
     addTransformer(transformer: TransformFunction<Data>): void;
-    setFields(values: Data): void;
-    setTouched(fieldName: string, index?: number): void;
-    setInitialValues(values: Data): void;
   };
   _setFormNode(node: HTMLFormElement): void;
   _getFormNode(): HTMLFormElement | undefined;
@@ -62,47 +116,66 @@ export function createFormAction<Data extends Obj>({
   stores,
   config,
   extender,
+  validateErrors,
+  validateWarnings,
   _setFormNode,
   _getFormNode,
   _getInitialValues,
   _setCurrentExtenders,
   _getCurrentExtenders,
-}: Configuration<Data>) {
+}: FormActionConfig<Data>) {
+  const { setFields, setTouched, reset, setInitialValues } = helpers;
   const {
-    setFields,
-    setTouched,
-    reset,
-    validate,
     addValidator,
-    addWarnValidator,
     addTransformer,
-    setInitialValues,
+    validate,
+    setIsDirty,
+    setIsSubmitting,
+    ...contextHelpers
   } = helpers;
-  const { data, errors, warnings, touched, isSubmitting, isDirty } = stores;
+  const {
+    data,
+    errors,
+    warnings,
+    touched,
+    isSubmitting,
+    isDirty,
+    interacted,
+  } = stores;
 
   function createSubmitHandler(altConfig?: CreateSubmitHandlerConfig<Data>) {
-    const onSubmit = altConfig?.onSubmit ?? config.onSubmit;
-    const validate = altConfig?.validate ?? config.validate;
-    const warn = altConfig?.warn ?? config.warn;
     const onError = altConfig?.onError ?? config.onError;
+    const onSuccess = altConfig?.onSuccess ?? config.onSuccess;
     return async function handleSubmit(event?: Event) {
       const formNode = _getFormNode();
+      const onSubmit =
+        altConfig?.onSubmit ??
+        config.onSubmit ??
+        createDefaultSubmitHandler(formNode);
+      if (!onSubmit) return;
       event?.preventDefault();
       isSubmitting.set(true);
-      const currentData = get(data);
-      const currentErrors = await executeValidation(currentData, validate);
-      const currentWarnings = await executeValidation(currentData, warn);
+      interacted.set(null);
+      const currentData = deepRemoveKey(get(data));
+      const currentErrors = await validateErrors(
+        currentData,
+        altConfig?.validate
+      );
+      const currentWarnings = await validateWarnings(
+        currentData,
+        altConfig?.warn
+      );
       if (currentWarnings)
-        warnings.set(_merge(deepSet(currentData, null), currentWarnings));
-      touched.update((t) => {
-        return deepSet<Touched<Data>, boolean>(t, true) as Touched<Data>;
-      });
+        warnings.set(_merge(deepSet(currentData, []), currentWarnings));
+      touched.set(deepSetTouched(currentData, true));
       if (currentErrors) {
-        errors.set(currentErrors);
-        const hasErrors = deepSome(currentErrors, (error) => !!error);
+        const hasErrors = deepSome(currentErrors, (error) =>
+          Array.isArray(error) ? error.length >= 1 : !!error
+        );
         if (hasErrors) {
+          await new Promise((r) => setTimeout(r));
           _getCurrentExtenders().forEach((extender) =>
-            extender?.onSubmitError?.({
+            extender.onSubmitError?.({
               data: currentData,
               errors: currentErrors,
             })
@@ -111,20 +184,40 @@ export function createFormAction<Data extends Obj>({
           return;
         }
       }
+      const context = {
+        ...contextHelpers,
+        form: formNode,
+        controls:
+          formNode && Array.from(formNode.elements).filter(isFormControl),
+        config: { ...config, ...altConfig },
+      };
       try {
-        await onSubmit(currentData, {
-          form: formNode,
-          controls:
-            formNode && Array.from(formNode.elements).filter(isFormControl),
-          config: { ...config, ...altConfig },
-        });
+        const response = await onSubmit(currentData, context);
+        formNode?.dispatchEvent(
+          new CustomEvent<FelteSuccessDetail<Data>>('feltesuccess', {
+            detail: {
+              response,
+              ...context,
+            },
+          })
+        );
+        await onSuccess?.(response, context);
       } catch (e) {
-        if (!onError) throw e;
-        const serverErrors = onError(e);
+        formNode?.dispatchEvent(
+          new CustomEvent<FelteErrorDetail<Data>>('felteerror', {
+            detail: {
+              error: e,
+              ...context,
+            },
+          })
+        );
+        if (!onError) return;
+        const serverErrors = await onError(e, context);
         if (serverErrors) {
           errors.set(serverErrors);
+          await new Promise((r) => setTimeout(r));
           _getCurrentExtenders().forEach((extender) =>
-            extender?.onSubmitError?.({
+            extender.onSubmitError?.({
               data: currentData,
               errors: serverErrors,
             })
@@ -139,90 +232,42 @@ export function createFormAction<Data extends Obj>({
   const handleSubmit = createSubmitHandler();
 
   function form(node: HTMLFormElement) {
-    if (!node.requestSubmit) node.requestSubmit = handleSubmit;
-    function callExtender(extender: Extender<Data>) {
-      return extender({
-        form: node,
-        controls: Array.from(node.elements).filter(isFormControl),
-        data,
-        errors,
-        warnings,
-        touched,
-        config,
-        addValidator,
-        addWarnValidator,
-        addTransformer,
-        setFields,
-        validate,
-        reset,
-      });
-    }
-
-    function proxyInputs() {
-      for (const control of Array.from(node.elements).filter(isFormControl)) {
-        if (shouldIgnore(control) || !control.name) continue;
-        let propName = 'value';
-        if (
-          isInputElement(control) &&
-          ['checkbox', 'radio'].includes(control.type)
-        ) {
-          propName = 'checked';
-        }
-        if (isInputElement(control) && control.type === 'file') {
-          propName = 'files';
-        }
-        const prop = Object.getOwnPropertyDescriptor(
-          isSelectElement(control)
-            ? HTMLSelectElement.prototype
-            : isTextAreaElement(control)
-            ? HTMLTextAreaElement.prototype
-            : HTMLInputElement.prototype,
-          propName
-        );
-        Object.defineProperty(control, propName, {
-          configurable: true,
-          set(newValue) {
-            prop?.set?.call(control, newValue);
-
-            if (isInputElement(control)) {
-              if (control.type === 'checkbox')
-                return setCheckboxValues(control);
-              if (control.type === 'radio') return setRadioValues(control);
-              if (control.type === 'file') return setFileValue(control);
-            }
-            const inputValue = isSelectElement(control)
-              ? control.value
-              : getInputTextOrNumber(control);
-            data.update(($data) => {
-              return _set($data, getPath(control), inputValue);
-            });
-          },
-          get: prop?.get,
+    if (!node.requestSubmit)
+      node.requestSubmit = handleSubmit as typeof node.requestSubmit;
+    function callExtender(stage: 'MOUNT' | 'UPDATE') {
+      return function (extender: Extender<Data>) {
+        return extender({
+          form: node,
+          stage,
+          controls: Array.from(node.elements).filter(isFormControl),
+          data,
+          errors,
+          warnings,
+          touched,
+          config,
+          addValidator,
+          addTransformer,
+          setFields,
+          validate,
+          reset,
         });
-      }
+      };
     }
 
-    _setCurrentExtenders(extender.map(callExtender));
+    _setCurrentExtenders(extender.map(callExtender('MOUNT')));
     node.noValidate = !!config.validate;
-    const { defaultData } = getFormDefaultValues<Data>(node);
+    const { defaultData, defaultTouched } = getFormDefaultValues<Data>(node);
     _setFormNode(node);
     setInitialValues(_merge(_cloneDeep(defaultData), _getInitialValues()));
     setFields(_getInitialValues());
-    touched.set(deepSet(_getInitialValues(), false));
+    touched.set(defaultTouched);
 
     function setCheckboxValues(target: HTMLInputElement) {
-      const index = getIndex(target);
       const elPath = getPath(target);
       const checkboxes = Array.from(
         node.querySelectorAll(`[name="${target.name}"]`)
       ).filter((checkbox) => {
         if (!isFormControl(checkbox)) return false;
-        if (typeof index !== 'undefined') {
-          const felteIndex = Number(
-            (checkbox as HTMLInputElement).dataset.felteIndex
-          );
-          return felteIndex === index;
-        }
         return elPath === getPath(checkbox);
       });
       if (checkboxes.length === 0) return;
@@ -252,13 +297,9 @@ export function createFormAction<Data extends Obj>({
     }
 
     function setFileValue(target: HTMLInputElement) {
-      const files = target.files;
+      const files = Array.from(target.files ?? []);
       data.update(($data) => {
-        return _set(
-          $data,
-          getPath(target),
-          target.multiple ? Array.from(files ?? []) : files?.[0]
-        );
+        return _set($data, getPath(target), target.multiple ? files : files[0]);
       });
     }
 
@@ -273,9 +314,9 @@ export function createFormAction<Data extends Obj>({
         return;
       if (['checkbox', 'radio', 'file'].includes(target.type)) return;
       if (!target.name) return;
-      if (config.touchTriggerEvents?.input) setTouched(getPath(target));
       isDirty.set(true);
       const inputValue = getInputTextOrNumber(target);
+      interacted.set(target.name);
       data.update(($data) => {
         return _set($data, getPath(target), inputValue);
       });
@@ -285,14 +326,15 @@ export function createFormAction<Data extends Obj>({
       const target = e.target;
       if (!target || !isFormControl(target) || shouldIgnore(target)) return;
       if (!target.name) return;
-      if (config.touchTriggerEvents?.change) setTouched(getPath(target));
+      setTouched<string, any>(getPath(target), true);
+      interacted.set(target.name);
       if (
         isSelectElement(target) ||
-        ['checkbox', 'radio', 'file'].includes(target.type)
+        ['checkbox', 'radio', 'file', 'hidden'].includes(target.type)
       ) {
         isDirty.set(true);
       }
-      if (isSelectElement(target)) {
+      if (isSelectElement(target) || target.type === 'hidden') {
         data.update(($data) => {
           return _set($data, getPath(target), target.value);
         });
@@ -307,16 +349,49 @@ export function createFormAction<Data extends Obj>({
       const target = e.target;
       if (!target || !isFormControl(target) || shouldIgnore(target)) return;
       if (!target.name) return;
-      if (config.touchTriggerEvents?.blur) setTouched(getPath(target));
+      setTouched<string, any>(getPath(target), true);
+      interacted.set(target.name);
+    }
+
+    function handleReset(e: Event) {
+      e.preventDefault();
+      reset();
     }
 
     const mutationOptions = { childList: true, subtree: true };
 
     function unsetTaggedForRemove(formControls: FormControl[]) {
-      for (const control of formControls) {
-        if (control.dataset.felteUnsetOnRemove !== 'true') continue;
+      for (const control of formControls.reverse()) {
+        if (
+          control.hasAttribute('data-felte-keep-on-remove') &&
+          control.dataset.felteKeepOnRemove !== 'false'
+        )
+          continue;
+        const fieldArrayReg = /.*(\[[0-9]+\]|\.[0-9]+)\.[^.]+$/;
+        let fieldName = getPath(control);
+        const shape = get(touched);
+        const isFieldArray = fieldArrayReg.test(fieldName);
+        if (isFieldArray) {
+          const arrayPath = fieldName.split('.').slice(0, -1).join('.');
+          const valueToRemove = _get(shape, arrayPath);
+          if (
+            _isPlainObject(valueToRemove) &&
+            Object.keys(valueToRemove).length <= 1
+          ) {
+            fieldName = arrayPath;
+          }
+        }
         data.update(($data) => {
-          return _unset($data, getPathFromDataset(control));
+          return _unset($data, fieldName);
+        });
+        touched.update(($touched) => {
+          return _unset($touched, fieldName);
+        });
+        errors.update(($errors) => {
+          return _unset($errors, fieldName);
+        });
+        warnings.update(($warnings) => {
+          return _unset($warnings, fieldName);
         });
       }
     }
@@ -325,7 +400,6 @@ export function createFormAction<Data extends Obj>({
       for (const mutation of mutationList) {
         if (mutation.type !== 'childList') continue;
         if (mutation.addedNodes.length > 0) {
-          proxyInputs();
           const shouldUpdate = Array.from(mutation.addedNodes).some((node) => {
             if (!isElement(node)) return false;
             if (isFormControl(node)) return true;
@@ -333,12 +407,12 @@ export function createFormAction<Data extends Obj>({
             return formControls.length > 0;
           });
           if (!shouldUpdate) continue;
-          _getCurrentExtenders().forEach((extender) => extender?.destroy?.());
-          _setCurrentExtenders(extender.map(callExtender));
-          const { defaultData: newDefaultData } = getFormDefaultValues<Data>(
-            node
-          );
-          const newDefaultTouched = deepSet(newDefaultData, false);
+          _getCurrentExtenders().forEach((extender) => extender.destroy?.());
+          _setCurrentExtenders(extender.map(callExtender('UPDATE')));
+          const {
+            defaultData: newDefaultData,
+            defaultTouched: newDefaultTouched,
+          } = getFormDefaultValues<Data>(node);
           data.update(($data) => _defaultsDeep<Data>($data, newDefaultData));
           touched.update(($touched) => {
             return _defaultsDeep($touched, newDefaultTouched);
@@ -349,8 +423,8 @@ export function createFormAction<Data extends Obj>({
             if (!isElement(removedNode)) continue;
             const formControls = getFormControls(removedNode);
             if (formControls.length === 0) continue;
-            _getCurrentExtenders().forEach((extender) => extender?.destroy?.());
-            _setCurrentExtenders(extender.map(callExtender));
+            _getCurrentExtenders().forEach((extender) => extender.destroy?.());
+            _setCurrentExtenders(extender.map(callExtender('UPDATE')));
             unsetTaggedForRemove(formControls);
           }
         }
@@ -360,11 +434,11 @@ export function createFormAction<Data extends Obj>({
     const observer = new MutationObserver(mutationCallback);
 
     observer.observe(node, mutationOptions);
-    proxyInputs();
     node.addEventListener('input', handleInput);
     node.addEventListener('change', handleChange);
     node.addEventListener('focusout', handleBlur);
     node.addEventListener('submit', handleSubmit);
+    node.addEventListener('reset', handleReset);
     const unsubscribeErrors = errors.subscribe(($errors) => {
       for (const el of node.elements) {
         if (!isFormControl(el) || !el.name) continue;
@@ -375,8 +449,13 @@ export function createFormAction<Data extends Obj>({
           ? fieldErrors
           : undefined;
         if (message === el.dataset.felteValidationMessage) continue;
-        if (message) el.dataset.felteValidationMessage = message;
-        else delete el.dataset.felteValidationMessage;
+        if (message) {
+          el.dataset.felteValidationMessage = message;
+          el.setAttribute('aria-invalid', 'true');
+        } else {
+          delete el.dataset.felteValidationMessage;
+          el.removeAttribute('aria-invalid');
+        }
       }
     });
 
@@ -387,8 +466,9 @@ export function createFormAction<Data extends Obj>({
         node.removeEventListener('change', handleChange);
         node.removeEventListener('focusout', handleBlur);
         node.removeEventListener('submit', handleSubmit);
+        node.removeEventListener('reset', handleReset);
         unsubscribeErrors();
-        _getCurrentExtenders().forEach((extender) => extender?.destroy?.());
+        _getCurrentExtenders().forEach((extender) => extender.destroy?.());
       },
     };
   }

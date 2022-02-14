@@ -1,6 +1,6 @@
 import type {
   Obj,
-  Errors,
+  AssignableErrors,
   ValidationFunction,
   ExtenderHandler,
   Extender,
@@ -9,20 +9,22 @@ import { _set, CurrentForm } from '@felte/common';
 import type { Struct, StructError, Failure } from 'superstruct';
 
 export type ValidatorConfig = {
-  validateStruct: Struct<any, any>;
-  warnStruct?: Struct<any, any>;
+  struct: Struct<any, any>;
+  level?: 'error' | 'warning';
+  transform?: (failures: Failure) => string;
+  castValues?: boolean;
 };
 
-export function validateStruct<Data extends Obj>(
+export function validateStruct<Data extends Obj = any>(
   struct: Struct<any, any>,
   transform: (failures: Failure) => string = (failure) => failure.message
 ): ValidationFunction<Data> {
-  function shapeErrors(errors: StructError): Errors<Data> {
+  function shapeErrors(errors: StructError): AssignableErrors<Data> {
     return errors.failures().reduce((err, value) => {
       return _set(err, value.path.join('.'), transform(value));
-    }, {});
+    }, {} as AssignableErrors<Data>);
   }
-  return function validate(values: Data): Errors<Data> | undefined {
+  return function validate(values: Data): AssignableErrors<Data> | undefined {
     try {
       struct.create(values);
     } catch (error) {
@@ -34,10 +36,10 @@ export function validateStruct<Data extends Obj>(
 // superstruct does not provide a way to get a coerced value
 // without applying the validation (and possibly throwing)
 // so we catch the error and extract the coerced value
-function coerceStruct(config: ValidatorConfig) {
-  return (values: Obj) => {
+function coerceStruct({ struct }: ValidatorConfig) {
+  return (values: unknown) => {
     try {
-      return config.validateStruct.create(values);
+      return struct.create(values);
     } catch (error) {
       return (error as StructError)
         .failures()
@@ -50,22 +52,19 @@ function coerceStruct(config: ValidatorConfig) {
   };
 }
 
-export function createValidator<Data extends Obj = Obj>(
-  transform?: (failures: Failure) => string
-): Extender<Data> {
-  return function validator<Data extends Obj = Obj>(
+export function validator<Data extends Obj = any>({
+  struct,
+  transform,
+  level = 'error',
+  castValues,
+}: ValidatorConfig): Extender<Data> {
+  return function extender<Data extends Obj = Obj>(
     currentForm: CurrentForm<Data>
   ): ExtenderHandler<Data> {
-    if (currentForm.form) return {};
-    const config = currentForm.config as CurrentForm<Data>['config'] &
-      ValidatorConfig;
-    currentForm.addValidator(validateStruct(config.validateStruct, transform));
-    if (config.warnStruct)
-      currentForm.addWarnValidator(
-        validateStruct(config.warnStruct, transform)
-      );
-    if (!config.castValues) return {};
-    currentForm.addTransformer(coerceStruct(config));
+    if (currentForm.stage !== 'SETUP') return {};
+    currentForm.addValidator(validateStruct(struct, transform), { level });
+    if (!castValues) return {};
+    currentForm.addTransformer(coerceStruct({ struct }));
     return {};
   };
 }

@@ -16,8 +16,7 @@
       };
     },
     onError: error => error,
-    extend: [validator, reporter()],
-    validateSchema: schema,
+    extend: [validator({ schema }), reporter()],
   });
 </script>
 
@@ -61,15 +60,15 @@
     font-size: 0.8em;
     font-weight: 700;
     padding: 0.7em;
-    background: var(--primary-color);
+    background: var(--highlight-background);
     border-radius: 10px;
     border: none;
-    color: var(--on-primary-color);
+    color: var(--on-highlight-color);
     transition: transform 0.1s;
   }
 
   button:hover {
-    background: var(--primary-color-hover);
+    background: var(--highlight-background-hover);
   }
 
   button:active {

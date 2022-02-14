@@ -1,7 +1,7 @@
 <script context="module">
-  export async function load({ fetch, page }) {
-    const framework = page.params.framework;
-    const res = await fetch(`/docs/${framework}/${page.params.section}.json`);
+  export async function load({ fetch, params }) {
+    const framework = params.framework;
+    const res = await fetch(`/docs/${framework}/${params.section}.json`);
     const section = await res.json();
     if (res.ok) {
       return {

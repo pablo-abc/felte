@@ -1,23 +1,25 @@
 import type {
   Obj,
-  Errors,
+  AssignableErrors,
   ValidationFunction,
   ExtenderHandler,
   CurrentForm,
+  Extender,
 } from '@felte/common';
 import { _update } from '@felte/common';
-import type { ZodError, ZodTypeAny } from 'zod';
+import type { ZodError, ZodObject } from 'zod';
 
 export type ValidatorConfig = {
-  validateSchema: ZodTypeAny;
-  warnSchema?: ZodTypeAny;
+  schema: ZodObject<any>;
+  level?: 'error' | 'warning';
 };
 
 export function validateSchema<Data extends Obj>(
-  schema: ZodTypeAny
+  schema: ZodObject<any>
 ): ValidationFunction<Data> {
-  function shapeErrors(errors: ZodError): Errors<Data> {
+  function shapeErrors(errors: ZodError): AssignableErrors<Data> {
     return errors.issues.reduce((err, value) => {
+      /* istanbul ignore next */
       if (!value.path) return err;
       return _update(
         err,
@@ -28,30 +30,29 @@ export function validateSchema<Data extends Obj>(
           return [...currentValue, value.message];
         }
       );
-    }, {});
+    }, {} as AssignableErrors<Data>);
   }
   return async function validate(
     values: Data
-  ): Promise<Errors<Data> | undefined> {
+  ): Promise<AssignableErrors<Data> | undefined> {
     try {
       await schema.parseAsync(values);
     } catch (error) {
-      return shapeErrors(error);
+      return shapeErrors(error as ZodError<any>);
     }
   };
 }
 
-export function validator<Data extends Obj = Obj>(
-  currentForm: CurrentForm<Data>
-): ExtenderHandler<Data> {
-  if (currentForm.form) return {};
-  const config = currentForm.config as CurrentForm<Data>['config'] &
-    ValidatorConfig;
-  const validateFn = validateSchema<Data>(config.validateSchema);
-  currentForm.addValidator(validateFn);
-  if (config.warnSchema) {
-    const warnFn = validateSchema<Data>(config.warnSchema);
-    currentForm.addWarnValidator(warnFn);
-  }
-  return {};
+export function validator<Data extends Obj = Obj>({
+  schema,
+  level = 'error',
+}: ValidatorConfig): Extender<Data> {
+  return function extender(
+    currentForm: CurrentForm<Data>
+  ): ExtenderHandler<Data> {
+    if (currentForm.stage !== 'SETUP') return {};
+    const validateFn = validateSchema<Data>(schema);
+    currentForm.addValidator(validateFn, { level });
+    return {};
+  };
 }

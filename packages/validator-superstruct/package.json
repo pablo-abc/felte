@@ -1,11 +1,15 @@
 {
   "name": "@felte/validator-superstruct",
-  "version": "0.3.2",
+  "version": "1.0.0-next.22",
   "description": "A package to use Superstruct validation with Felte",
-  "main": "dist/index.js",
-  "browser": "dist/index.js",
+  "main": "dist/index.cjs",
+  "browser": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "type": "module",
+  "engines": {
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+  },
   "sideEffects": false,
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
@@ -19,19 +23,21 @@
   ],
   "scripts": {
     "prebuild": "rimraf ./dist",
-    "build": "cross-env NODE_ENV=production rollup -c",
+    "build": "pnpm prebuild && cross-env NODE_ENV=production rollup -c",
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build && pnpm test",
-    "test": "jest",
-    "test:ci": "jest --ci --coverage"
+    "test": "uvu -r tsm -r global-jsdom/register tests -i common",
+    "test:ci": "nyc -n src pnpm test"
   },
   "license": "MIT",
   "dependencies": {
     "@felte/common": "workspace:*"
   },
   "devDependencies": {
+    "@felte/core": "workspace:*",
     "felte": "workspace:*",
-    "superstruct": "^0.15.0"
+    "superstruct": "^0.15.0",
+    "svelte": "^3.46.4"
   },
   "peerDependencies": {
     "superstruct": "^0.15.0"
@@ -42,7 +48,7 @@
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
+      "require": "./dist/index.cjs",
       "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"

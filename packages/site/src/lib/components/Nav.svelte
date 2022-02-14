@@ -61,11 +61,11 @@
 </script>
 
 <header>
-  <nav>
+  <nav aria-label="main">
     <h1>
       <a
         href="/"
-        aria-current="{$page.path === '/' ? 'page' : undefined}"
+        aria-current="{$page.url.pathname === '/' ? 'page' : undefined}"
         >
         <span class="sr-only">Felte Home</span>
         <Logo />
@@ -74,7 +74,7 @@
     <ul>
       <li>
         <a
-          aria-current="{$page.path === '/docs' ? 'page' : undefined}"
+          aria-current="{$page.url.pathname === '/docs' ? 'page' : undefined}"
           aria-label="Documentation"
           href="/docs"
           sveltekit:prefetch
@@ -82,11 +82,10 @@
           docs
         </a>
       </li>
-      <li><a href="https://api.felte.dev">API</a></li>
       <li>
         <a
           class=icon-link
-          rel=noreferrer
+          rel="noreferrer external"
           href="https://github.com/pablo-abc/felte"
           >
           <span class="sr-only">Github Repository</span>

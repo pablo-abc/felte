@@ -137,5 +137,6 @@ Running this command will generate a markdown file in the `.changeset/` director
 
 There are a few minor things I haven't gotten around to solve yet. If you have an idea on how to solve them, you may give it a try:
 
-- `@felte/common` is not tree-shakeable yet. This makes some extender packages slightly bigger than I'd like them to be but I haven't quite figured out how to do this yet.
-- The current API for extending Felte is not so great. While it's "easy" to use, it's not "simple". It's quite easy to break Felte accidentally. I still haven't figured out how a simple and safe API would look like for this.
+- A way to offer input masking would be nice to have. Integration with `imask` probably would be the way to go, since `svelte-imask` does not play well with Felte.
+- A better alternative to the `multi-step` package is needed. Preferably something that does not depend on any specific framework. Currently we are recommending handling this manually.
+- Some help from someone more experienced with TypeScript could help improve how we internally handle types.

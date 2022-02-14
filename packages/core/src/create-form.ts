@@ -1,96 +1,107 @@
 import type {
   Form,
   FormConfig,
-  FormConfigWithInitialValues,
-  FormConfigWithoutInitialValues,
+  FormConfigWithTransformFn,
+  FormConfigWithoutTransformFn,
   ExtenderHandler,
-  Touched,
   StoreFactory,
   Obj,
   ValidationFunction,
   TransformFunction,
+  UnknownStores,
+  Stores,
+  KnownStores,
+  Helpers,
+  UnknownHelpers,
+  KnownHelpers,
+  ValidatorOptions,
 } from '@felte/common';
-import {
-  _unset,
-  _set,
-  _isPlainObject,
-  _get,
-  _cloneDeep,
-  _mergeWith,
-  _merge,
-  _defaultsDeep,
-  executeTransforms,
-} from '@felte/common';
+import { executeTransforms } from '@felte/common';
 import { createHelpers } from './helpers';
 import { createFormAction } from './create-form-action';
+import type { FormActionConfig } from './create-form-action';
 import { createStores } from './stores';
+import { deepSetKey } from './deep-set-key';
 
-export type Adapters = {
-  storeFactory: StoreFactory;
+export type Adapters<StoreExt = Record<string, any>> = {
+  storeFactory: StoreFactory<StoreExt>;
 };
 
-type CoreForm<Data extends Obj = any> = Form<Data> & {
+export type CoreForm<Data extends Obj = any> = Form<Data> & {
   cleanup(): void;
+  startStores(): () => void;
 };
 
-/**
- * Creates the stores and `form` action to make the form reactive.
- * In order to use auto-subscriptions with the stores, call this function at the top-level scope of the component.
- *
- * @param config - Configuration for the form itself. Since `initialValues` is set, `Data` will not be undefined
- *
- * @category Main
- */
-export function createForm<Data extends Obj = any, Ext extends Obj = any>(
-  config: FormConfigWithInitialValues<Data> & Ext,
-  adapters: Adapters
-): CoreForm<Data>;
-/**
- * Creates the stores and `form` action to make the form reactive.
- * In order to use auto-subscriptions with the stores, call this function at the top-level scope of the component.
- *
- * @param config - Configuration for the form itself. Since `initialValues` is not set (when only using the `form` action), `Data` will be undefined until the `form` element loads.
- */
-export function createForm<Data extends Obj = any, Ext extends Obj = any>(
-  config: FormConfigWithoutInitialValues<Data> & Ext,
-  adapters: Adapters
-): CoreForm<Data>;
-export function createForm<Data extends Obj = any, Ext extends Obj = any>(
+export function createForm<
+  Data extends Obj = Obj,
+  Ext extends Obj = Obj,
+  StoreExt = Record<string, any>
+>(
+  config: FormConfigWithTransformFn<Data> & Ext,
+  adapters: Adapters<StoreExt>
+): CoreForm<Data> & UnknownHelpers<Data> & UnknownStores<Data, StoreExt>;
+export function createForm<
+  Data extends Obj = Obj,
+  Ext extends Obj = Obj,
+  StoreExt = Record<string, any>
+>(
+  config: FormConfigWithoutTransformFn<Data> & Ext,
+  adapters: Adapters<StoreExt>
+): CoreForm<Data> & KnownHelpers<Data> & KnownStores<Data, StoreExt>;
+export function createForm<
+  Data extends Obj = Obj,
+  Ext extends Obj = Obj,
+  StoreExt = Record<string, any>
+>(
   config: FormConfig<Data> & Ext,
-  adapters: Adapters
-): CoreForm<Data> {
+  adapters: Adapters<StoreExt>
+): CoreForm<Data> & Helpers<Data> & Stores<Data, StoreExt>;
+export function createForm<
+  Data extends Obj = Obj,
+  Ext extends Obj = Obj,
+  StoreExt = Record<string, any>
+>(
+  config: FormConfig<Data> & { preventStoreStart?: boolean } & Ext,
+  adapters: Adapters<StoreExt>
+): CoreForm<Data> & Helpers<Data> & Stores<Data, StoreExt> {
   config.extend ??= [];
-  config.touchTriggerEvents ??= { change: true, blur: true };
+  config.debounced ??= {};
   if (config.validate && !Array.isArray(config.validate))
     config.validate = [config.validate];
+
+  if (config.debounced.validate && !Array.isArray(config.debounced.validate))
+    config.debounced.validate = [config.debounced.validate];
 
   if (config.transform && !Array.isArray(config.transform))
     config.transform = [config.transform];
 
   if (config.warn && !Array.isArray(config.warn)) config.warn = [config.warn];
+  if (config.debounced.warn && !Array.isArray(config.debounced.warn))
+    config.debounced.warn = [config.debounced.warn];
 
-  function addValidator(validator: ValidationFunction<Data>) {
-    if (!config.validate) {
-      config.validate = [validator];
+  function addValidator(
+    validator: ValidationFunction<Data>,
+    { debounced, level }: ValidatorOptions = {
+      debounced: false,
+      level: 'error',
+    }
+  ) {
+    const prop = level === 'error' ? 'validate' : 'warn';
+    config.debounced ??= {};
+    const validateConfig = debounced ? config.debounced : config;
+    if (!validateConfig[prop]) {
+      validateConfig[prop] = [validator];
     } else {
-      config.validate = [
-        ...(config.validate as ValidationFunction<Data>[]),
+      validateConfig[prop] = [
+        ...(validateConfig[prop] as ValidationFunction<Data>[]),
         validator,
       ];
     }
   }
 
-  function addWarnValidator(validator: ValidationFunction<Data>) {
-    if (!config.warn) {
-      config.warn = [validator];
-    } else {
-      config.warn = [...(config.warn as ValidationFunction<Data>[]), validator];
-    }
-  }
-
   function addTransformer(transformer: TransformFunction<Data>) {
     if (!config.transform) {
-      config.transform = [transformer];
+      (config as FormConfig<Data>).transform = [transformer];
     } else {
       config.transform = [
         ...(config.transform as TransformFunction<Data>[]),
@@ -106,6 +117,7 @@ export function createForm<Data extends Obj = any, Ext extends Obj = any>(
   let currentExtenders: ExtenderHandler<Data>[] = [];
   const {
     isSubmitting,
+    isValidating,
     data,
     errors,
     warnings,
@@ -113,42 +125,53 @@ export function createForm<Data extends Obj = any, Ext extends Obj = any>(
     isValid,
     isDirty,
     cleanup,
+    start,
+    validateErrors,
+    validateWarnings,
+    interacted,
   } = createStores(adapters.storeFactory, config);
   const originalUpdate = data.update;
   const originalSet = data.set;
 
-  data.update = (updater) =>
+  const transUpdate: typeof data.update = (updater) =>
     originalUpdate((values) =>
-      executeTransforms(updater(values), config.transform)
+      deepSetKey(executeTransforms(updater(values), config.transform))
     );
-  data.set = (values) =>
-    originalSet(executeTransforms(values, config.transform));
+  const transSet: typeof data.set = (values) =>
+    originalSet(deepSetKey(executeTransforms(values, config.transform)));
+
+  data.update = transUpdate;
+  data.set = transSet;
 
   const helpers = createHelpers<Data>({
     extender,
     config,
     addValidator,
     addTransformer,
+    validateErrors,
+    validateWarnings,
     stores: {
       data,
       errors,
       warnings,
       touched,
       isValid,
+      isValidating,
       isSubmitting,
       isDirty,
+      interacted,
     },
   });
 
   currentExtenders = extender.map((extender) =>
     extender({
+      stage: 'SETUP',
       errors,
       warnings,
       touched,
       data,
       config,
       addValidator,
-      addWarnValidator,
       addTransformer,
       setFields: helpers.public.setFields,
       reset: helpers.public.reset,
@@ -160,60 +183,52 @@ export function createForm<Data extends Obj = any, Ext extends Obj = any>(
   const _setCurrentExtenders = (extenders: ExtenderHandler<Data>[]) => {
     currentExtenders = extenders;
   };
-  function dataSetCustomizer(dataValue: unknown, initialValue: unknown) {
-    if (_isPlainObject(dataValue)) return;
-    return dataValue !== initialValue;
-  }
 
-  function dataSetTouchedCustomizer(dataValue: unknown, touchedValue: boolean) {
-    if (_isPlainObject(dataValue)) return;
-    return touchedValue || dataValue;
-  }
-
-  function newDataSet(values: Data) {
-    touched.update((current) => {
-      const changed = _mergeWith<Touched<Data>>(
-        _cloneDeep(values),
-        config.initialValues,
-        dataSetCustomizer
-      );
-      return _mergeWith<Touched<Data>>(
-        changed,
-        current,
-        dataSetTouchedCustomizer
-      );
-    });
-    isDirty.set(true);
-    return data.set(values);
-  }
-
-  const { form, createSubmitHandler, handleSubmit } = createFormAction<Data>({
+  const formActionConfig: FormActionConfig<Data> = {
     config,
-    stores: { data, touched, errors, warnings, isSubmitting, isValid, isDirty },
+    stores: {
+      data,
+      touched,
+      errors,
+      warnings,
+      isSubmitting,
+      isValidating,
+      isValid,
+      isDirty,
+      interacted,
+    },
     helpers: {
       ...helpers.public,
       addTransformer,
       addValidator,
-      addWarnValidator,
     },
     extender,
+    validateErrors,
+    validateWarnings,
     _getCurrentExtenders,
     _setCurrentExtenders,
     ...helpers.private,
-  });
+  };
+
+  const { form, createSubmitHandler, handleSubmit } = createFormAction<Data>(
+    formActionConfig
+  );
 
   return {
-    data: { ...data, set: newDataSet },
+    data,
     errors,
     warnings,
     touched,
     isValid,
     isSubmitting,
+    isValidating,
     isDirty,
+    interacted,
     form,
     handleSubmit,
     createSubmitHandler,
     cleanup,
+    startStores: start,
     ...helpers.public,
   };
 }

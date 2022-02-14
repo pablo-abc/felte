@@ -1,11 +1,15 @@
 {
   "name": "@felte/core",
-  "version": "0.3.0",
-  "description": "Core package for FelteJS",
-  "main": "dist/index.js",
-  "browser": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "version": "1.0.0-next.27",
+  "description": "Core utility for Felte's integration with front-end frameworks",
+  "main": "dist/cjs/index.cjs",
+  "browser": "dist/esm/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "type": "module",
+  "engines": {
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+  },
   "sideEffects": false,
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "license": "MIT",
@@ -18,12 +22,12 @@
   ],
   "scripts": {
     "prebuild": "rimraf ./dist",
-    "build": "cross-env NODE_ENV=production rollup -c",
+    "build": "pnpm prebuild && cross-env NODE_ENV=production rollup -c",
     "docs:build": "typedoc --out ../../docs",
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build && pnpm test",
-    "test": "jest",
-    "test:ci": "jest --coverage"
+    "test": "uvu -r tsm -r global-jsdom/register tests -i common",
+    "test:ci": "nyc -n src pnpm test"
   },
   "files": [
     "dist"
@@ -34,14 +38,11 @@
   "publishConfig": {
     "access": "public"
   },
-  "devDependencies": {
-    "ts-jest": "^26.5.0"
-  },
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "default": "./dist/index.mjs"
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs",
+      "default": "./dist/esm/index.js"
     },
     "./package.json": "./package.json"
   }

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "target": "es2017",
+    "newLine": "LF",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react",
+    "outDir": "./dist",
+    "module": "esnext"
+  },
+  "include": ["./src", "./tests"],
+  "exclude": ["node_modules/"]
+}

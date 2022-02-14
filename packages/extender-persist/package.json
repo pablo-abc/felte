@@ -1,11 +1,15 @@
 {
   "name": "@felte/extender-persist",
-  "version": "0.1.17",
+  "version": "1.0.0-next.22",
   "description": "Use localStorage to persist your Felte forms",
-  "main": "dist/index.js",
-  "browser": "dist/index.js",
+  "main": "dist/index.cjs",
+  "browser": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "type": "module",
+  "engines": {
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+  },
   "sideEffects": false,
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
@@ -17,18 +21,20 @@
   ],
   "scripts": {
     "prebuild": "rimraf ./dist",
-    "build": "cross-env NODE_ENV=production rollup -c",
+    "build": "pnpm prebuild && cross-env NODE_ENV=production rollup -c",
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build && pnpm test",
-    "test": "jest",
-    "test:ci": "jest --ci --coverage"
+    "test": "uvu -r module-alias/register -r tsm -r global-jsdom/register tests -i common -i mocks",
+    "test:ci": "nyc -n src pnpm test"
   },
   "license": "MIT",
   "dependencies": {
     "@felte/common": "workspace:*"
   },
   "devDependencies": {
-    "felte": "workspace:*"
+    "felte": "workspace:*",
+    "module-alias": "^2.2.2",
+    "svelte": "^3.46.4"
   },
   "publishConfig": {
     "access": "public"
@@ -36,9 +42,13 @@
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
+      "require": "./dist/index.cjs",
       "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
+  },
+  "_moduleAliases": {
+    "svelte": "tests/mocks/svelte.js",
+    "svelte/store": "node_modules/svelte/store/index.mjs"
   }
 }

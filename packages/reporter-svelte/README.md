@@ -19,16 +19,16 @@ If you're using sapper, you might want to add this reporter as a dev dependency.
 
 ## Usage
 
-The package exports a reporter function `svelteReporter` and a Svelte component `ValidationMessage`. These can be used in conjunction to report errors.
+The package exports a reporter function `reporter` and a Svelte component `ValidationMessage`. These can be used in conjunction to report errors.
 
 Add the reporter to the `extend` property of `createForm` configuration.
 
 ```javascript
-import { svelteReporter, ValidationMessage } from '@felte/reporter-svelte';
+import { reporter, ValidationMessage } from '@felte/reporter-svelte';
 
 const { form } = createForm({
   // ...
-  extend: svelteReporter,
+  extend: reporter,
   // ...
 });
 ```
@@ -39,7 +39,7 @@ In order to show the errors for a field, you'll need to use the reporter's compo
 <label for="email">Email:</label>
 <input id="email" name="email" aria-describedby="email-validation">
 <ValidationMessage for="email" let:messages={messages}>
-  {messages || ''}
+  {messages?.[0] || ''}
 </ValidationMessage>
 ```
 
@@ -47,7 +47,17 @@ The `for` property refers to the ID of the input. The `messages` prop will have 
 
 ```html
 <ValidationMessage for="email" let:messages={message}>
-  <span>{message}</span>
+  <span>{message?.[0]}</span>
   <span slot="placeholder">Some placeholder text</span>
+</ValidationMessage>
+```
+
+## Warnings
+
+This reporter can help you display your `warning` messages as well. If you want your `ValidationMessage` component to display the warnings for a field you'll need to set the `level` prop to the value `warning`. By default this prop has a value of `error`.
+
+```html
+<ValidationMessage level="warning" for="email" let:messages={messages}>
+  {messages?.[0] || ''}
 </ValidationMessage>
 ```

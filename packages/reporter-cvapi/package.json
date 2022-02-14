@@ -1,11 +1,15 @@
 {
   "name": "@felte/reporter-cvapi",
-  "version": "0.1.16",
+  "version": "1.0.0-next.5",
   "description": "An error reporter for Felte using the browser's Constraint Validation API",
-  "main": "dist/index.js",
-  "browser": "dist/index.js",
+  "main": "dist/index.cjs",
+  "browser": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "type": "module",
+  "engines": {
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+  },
   "sideEffects": false,
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "repository": "github:pablo-abc/felte",
@@ -18,18 +22,19 @@
   ],
   "scripts": {
     "prebuild": "rimraf ./dist",
-    "build": "cross-env NODE_ENV=production rollup -c",
+    "build": "pnpm prebuild && cross-env NODE_ENV=production rollup -c",
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build && pnpm test",
-    "test": "jest",
-    "test:ci": "jest --ci --coverage"
+    "test": "uvu -r tsm -r global-jsdom/register -r module-alias/register tests -i common -i mocks",
+    "test:ci": "nyc -n src pnpm test"
   },
   "license": "MIT",
   "dependencies": {
-    "@felte/common": "^0.6.0"
+    "@felte/common": "workspace:*"
   },
   "devDependencies": {
-    "felte": "^0.9.0"
+    "felte": "workspace:*",
+    "svelte": "^3.46.4"
   },
   "publishConfig": {
     "access": "public"
@@ -37,9 +42,13 @@
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
+      "require": "./dist/index.cjs",
       "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
+  },
+  "_moduleAliases": {
+    "svelte": "tests/mocks/svelte.js",
+    "svelte/store": "node_modules/svelte/store/index.mjs"
   }
 }

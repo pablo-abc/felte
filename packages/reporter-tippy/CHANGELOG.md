@@ -1,5 +1,198 @@
 # @felte/reporter-tippy
 
+## 1.0.0-next.23
+
+### Patch Changes
+
+- Updated dependencies [7f3d8b8]
+  - @felte/common@1.0.0-next.23
+
+## 1.0.0-next.22
+
+### Patch Changes
+
+- 4853b7e: Change cjs output to have an extension of `.cjs`
+- Updated dependencies [4853b7e]
+  - @felte/common@1.0.0-next.22
+
+## 1.0.0-next.21
+
+### Patch Changes
+
+- d2fe263: `onSubmitError` does nothing when `level !== 'error'`
+- Updated dependencies [fcbdaed]
+  - @felte/common@1.0.0-next.21
+
+## 1.0.0-next.20
+
+### Patch Changes
+
+- Updated dependencies [990034e]
+  - @felte/common@1.0.0-next.20
+
+## 1.0.0-next.19
+
+### Minor Changes
+
+- 02fd56e: Ensure good behaviour with controls created by `useField`/`createField` by only focusing non-hidden inputs
+
+### Patch Changes
+
+- Updated dependencies [a174e87]
+  - @felte/common@1.0.0-next.19
+
+## 1.0.0-next.18
+
+### Patch Changes
+
+- Updated dependencies [70cfada]
+  - @felte/common@1.0.0-next.18
+
+## 1.0.0-next.17
+
+### Patch Changes
+
+- Updated dependencies [2e7aad3]
+  - @felte/common@1.0.0-next.17
+
+## 1.0.0-next.16
+
+### Patch Changes
+
+- Updated dependencies [c8c1511]
+  - @felte/common@1.0.0-next.16
+
+## 1.0.0-next.15
+
+### Patch Changes
+
+- Updated dependencies [093482a]
+  - @felte/common@1.0.0-next.15
+
+## 1.0.0-next.14
+
+### Patch Changes
+
+- Updated dependencies [dd52c94]
+  - @felte/common@1.0.0-next.14
+
+## 1.0.0-next.13
+
+### Patch Changes
+
+- Updated dependencies [a45d56c]
+  - @felte/common@1.0.0-next.13
+
+## 1.0.0-next.12
+
+### Patch Changes
+
+- Updated dependencies [452fe5a]
+- Updated dependencies [15d0ce2]
+  - @felte/common@1.0.0-next.12
+
+## 1.0.0-next.11
+
+### Patch Changes
+
+- Updated dependencies [a1dbc28]
+- Updated dependencies [ec740a0]
+- Updated dependencies [34e0393]
+- Updated dependencies [b7ef442]
+- Updated dependencies [e1ad8cd]
+  - @felte/common@1.0.0-next.11
+
+## 1.0.0-next.10
+
+### Patch Changes
+
+- Updated dependencies [dc1f21a]
+- Updated dependencies [eea3afa]
+  - @felte/common@1.0.0-next.10
+
+## 1.0.0-next.9
+
+### Patch Changes
+
+- Updated dependencies [38fbb49]
+  - @felte/common@1.0.0-next.9
+
+## 1.0.0-next.8
+
+### Patch Changes
+
+- Updated dependencies [c86a82a]
+  - @felte/common@1.0.0-next.8
+
+## 1.0.0-next.7
+
+### Patch Changes
+
+- Updated dependencies [e49c094]
+  - @felte/common@1.0.0-next.7
+
+## 1.0.0-next.6
+
+### Patch Changes
+
+- 7ccfdc8: Set appropriate store depending on level
+
+## 1.0.0-next.5
+
+### Patch Changes
+
+- Updated dependencies [d1b62bf]
+  - @felte/common@1.0.0-next.6
+
+## 1.0.0-next.4
+
+### Patch Changes
+
+- Updated dependencies [e2f4e18]
+  - @felte/common@1.0.0-next.5
+
+## 1.0.0-next.3
+
+### Patch Changes
+
+- Updated dependencies [8c29b4a]
+  - @felte/common@1.0.0-next.3
+
+## 1.0.0-next.2
+
+### Patch Changes
+
+- Updated dependencies [6f48123]
+  - @felte/common@1.0.0-next.2
+
+## 1.0.0-next.1
+
+### Patch Changes
+
+- Updated dependencies [02a77e3]
+  - @felte/common@1.0.0-next.1
+
+## 1.0.0-next.0
+
+### Major Changes
+
+- 9a48a40: Pass a new property `stage` to extenders to distinguish between setup, mount and update stages
+- 2c0f874: Make type of helpers and stores looser when using a transform function
+
+### Minor Changes
+
+- 1bc036e: Change responsibility for adding `aria-invalid` to fields to `@felte/core`
+- c9f9d9f: Add support for displaying warnings.
+
+### Patch Changes
+
+- Updated dependencies [9a48a40]
+- Updated dependencies [0d22bc6]
+- Updated dependencies [3d571bb]
+- Updated dependencies [c1f32a0]
+- Updated dependencies [2c0f874]
+  - @felte/common@1.0.0-next.0
+
 ## 0.3.12
 
 ### Patch Changes

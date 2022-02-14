@@ -1,11 +1,15 @@
 {
   "name": "@felte/solid",
-  "version": "0.3.1",
+  "version": "1.0.0-next.27",
   "description": "An extensible form library for SolidJS",
-  "main": "dist/index.js",
-  "browser": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.cjs",
+  "browser": "dist/esm/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "type": "module",
+  "engines": {
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+  },
   "sideEffects": false,
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "license": "MIT",
@@ -20,12 +24,12 @@
   ],
   "scripts": {
     "prebuild": "rimraf ./dist",
-    "build": "cross-env NODE_ENV=production rollup -c",
+    "build": "pnpm prebuild && cross-env NODE_ENV=production rollup -c",
     "docs:build": "typedoc --out ../../docs",
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build && pnpm test",
-    "test": "jest",
-    "test:ci": "jest --ci --coverage"
+    "test": "node --conditions browser node_modules/uvu/bin.js -r tsm -r global-jsdom/register tests -i common",
+    "test:ci": "nyc -n src pnpm test"
   },
   "peerDependencies": {
     "solid-js": "^1.2.0"
@@ -41,16 +45,14 @@
   },
   "devDependencies": {
     "@felte/common": "workspace:*",
-    "@testing-library/jest-dom": "^5.11.9",
     "solid-js": "^1.2.0",
-    "solid-testing-library": "^0.2.1",
-    "ts-jest": "^26.5.0"
+    "uvu": "^0.5.3"
   },
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "default": "./dist/index.mjs"
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs",
+      "default": "./dist/esm/index.js"
     },
     "./package.json": "./package.json"
   }

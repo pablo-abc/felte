@@ -2,21 +2,26 @@ import typescript from 'rollup-plugin-ts';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
-import { terser } from 'rollup-plugin-terser';
-import bundleSize from 'rollup-plugin-bundle-size';
+import renameNodeModules from 'rollup-plugin-rename-node-modules';
 import pkg from './package.json';
 
 const prod = process.env.NODE_ENV === 'production';
-const name = pkg.name
-  .replace(/^(@\S+\/)?(svelte-)?(\S+)/, '$3')
-  .replace(/^\w/, (m) => m.toUpperCase())
-  .replace(/-\w/g, (m) => m[1].toUpperCase());
 
 export default {
   input: './src/index.ts',
   output: [
-    { file: pkg.browser, format: 'cjs', sourcemap: prod, name },
-    { file: pkg.module, format: 'esm', sourcemap: prod },
+    {
+      file: pkg.main,
+      format: 'cjs',
+      sourcemap: prod,
+    },
+    {
+      dir: 'dist/esm',
+      format: 'esm',
+      sourcemap: prod,
+      preserveModules: true,
+      preserveModulesRoot: 'src',
+    },
   ],
   plugins: [
     replace({
@@ -27,8 +32,7 @@ export default {
     }),
     resolve({ browser: true }),
     commonjs(),
-    typescript(),
-    prod && terser(),
-    prod && bundleSize(),
+    typescript({ browserslist: false }),
+    renameNodeModules('external', prod),
   ],
 };

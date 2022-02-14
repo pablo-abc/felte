@@ -1,6 +1,6 @@
 ![Felte](./packages/site/static/felte-logo-thin.png)
 
-# Felte: A form library for Svelte and Solid
+# Felte: A form library for Svelte, Solid and React
 
 [![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)](https://github.com/pablo-abc/felte/actions/workflows/test.yml)
 [![Bundle size](https://img.shields.io/bundlephobia/min/felte)](https://bundlephobia.com/result?p=felte)
@@ -12,12 +12,20 @@
 
 - [Features](#features)
 - [Simple usage example](#simple-usage-example)
+  - [Svelte](#svelte)
+  - [Solid](#solid)
+  - [React](#react)
 - [Why](#why)
 - [Packages](#packages)
-  - [Core](#core)
+  - [Svelte](#svelte-1)
     - [`felte`](./packages/felte/README.md)
+    - [`@felte/reporter-svelte`](./packages/reporter-svelte/README.md)
+  - [Solid](#solid-1)
     - [`@felte/solid`](./packages/solid/README.md)
-    - [`@felte/common`](./packages/common/README.md)
+    - [`@felte/reporter-solid`](./packages/reporter-solid/README.md)
+  - [React](#react-1)
+    - [`@felte/react`](./packages/react/README.md)
+    - [`@felte/reporter-react`](./packages/reporter-react/README.md)
   - [Validators](#validators)
     - [`@felte/validator-yup`](./packages/validator-yup/README.md)
     - [`@felte/validator-zod`](./packages/validator-zod/README.md)
@@ -27,14 +35,10 @@
     - [`@felte/reporter-tippy`](./packages/reporter-tippy/README.md)
     - [`@felte/reporter-cvapi`](./packages/reporter-cvapi/README.md)
     - [`@felte/reporter-dom`](./packages/reporter-dom/README.md)
-    - [`@felte/reporter-svelte`](./packages/reporter-svelte/README.md)
-    - [`@felte/reporter-solid`](./packages/reporter-solid/README.md)
 - [Contributing](#contributing)
 - [Contributors](#contributors-)
 
-Felte is a simple to use form library for Svelte and Solid. No `Field` or `Form` components are needed, just plain stores and actions to build your form however you like. You can see it in action in this [CodeSandbox demo](https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte)!
-
-**STATUS:** Getting ready for the release of v1.0.0! You can check the new docs (and their migration guide from v0.x) [here](https://next.felte.dev) if you want to prepare for this. All packages are already available with the `next` tag on npm as well.
+Felte is a simple to use form library for Svelte, Solid and React. No `Field` or `Form` components are needed, just plain stores and actions to build your form however you like. You can see it in action in this [CodeSandbox demo](https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte)!
 
 ## Features
 
@@ -46,9 +50,11 @@ Felte is a simple to use form library for Svelte and Solid. No `Field` or `Form`
 - Official solutions for error reporting using `reporter` packages.
 - Well tested. Currently at [99% code coverage](https://app.codecov.io/gh/pablo-abc/felte) and constantly working on improving test quality.
 - Supports validation with [yup](./packages/validator-yup/README.md), [zod](./packages/validator-zod/README.md), [superstruct](./packages/validator-superstruct/README.md) and [vest](./packages/validator-vest/README.md).
-- Easily [extend its functionality](https://felte.dev/docs#extending-felte).
+- Easily [extend its functionality](https://felte.dev/docs/svelte/extending-felte).
 
 ## Simple usage example
+
+### Svelte
 
 ```html
 <script>
@@ -64,29 +70,97 @@ Felte is a simple to use form library for Svelte and Solid. No `Field` or `Form`
 <form use:form>
   <input type=text name=email>
   <input type=password name=password>
-  <input type=submit value="Sign in">
+  <button type=submit>Sign In</button>
 </form>
+```
+
+### Solid
+
+```jsx
+import { createForm } from '@felte/solid';
+
+function Form() {
+  const { form } = createForm({
+    onSubmit: async (values) => {
+      /* call to an api */
+    },
+  })
+
+  return (
+    <form use:form>
+      <input type="text" name="email" />
+      <input type="password" name="password" />
+      <button type="submit">Sign In</button>
+    </form>
+  );
+}
+```
+
+### React
+
+```jsx
+import { useForm } from '@felte/react';
+
+function Form() {
+  const { form } = useForm({
+    onSubmit: async (values) => {
+      /* call to an api */
+    },
+  })
+
+  return (
+    <form ref={form}>
+      <input type="text" name="email" />
+      <input type="password" name="password" />
+      <button type="submit">Sign In</button>
+    </form>
+  );
+}
 ```
 
 ## Packages
 
 This repository is a mono-repo containing multiple packages located in the `packages` directory. Maintained using [pnpm](https://pnpm.io) and [Changesets](https://github.com/atlassian/changesets).
 
-### Core
+### Svelte
+
+We provide two packages that are specific to Svelte:
 
 #### [felte](./packages/felte/README.md)
 
 This is the core package that contains all the basic functionality you need to handle your forms in Svelte. Felte optionally allows you to use error reporters (see them as plugins) to prevent you from needing to find a way to display your errors on your form manually. For this we provide already some reporter packages contained in this same repo.
 
+#### [@felte/reporter-svelte](./packages/reporter-svelte/README.md)
+
+A reporter package that uses a Svelte component to pass the validation messages for you to display. This provides an API that might feel the most familiar to most developers.
+
+### Solid
+
+We provide two packages that are specific to Solid:
+
 #### [@felte/solid](./packages/solid/README.md)
 
 This is the core package that contains all the basic functionality you need to handle your forms in Solid. Same as `felte` but specifically made for Solid.
 
-#### [@felte/common](./packages/common/README.md)
+#### [@felte/reporter-solid](./packages/reporter-solid/README.md)
 
-Common utilities that can be used for any felte package.
+A reporter package that uses a Solid component to pass the validation messages for you to display. This provides an API that might feel the most familiar to most developers.
+
+### React
+
+We provide two packages that are specific to React:
+
+#### [@felte/react](./packages/react/README.md)
+
+This is the main package that contains the basic functionality you need to handle your forms in React. Same as `felte` but specifically made for React.
+
+#### [@felte/reporter-react](./packages/reporter-react/README.md)
+
+A reporter packages that uses a React component to pass the validation messages for you to display. This provides an API that might feel the most familiar to most developers.
 
 ### Validators
+
+The following packages can be used with any of the framework specific `felte` wrappers:
 
 #### [@felte/validator-yup](./packages/validator-yup/README.md)
 
@@ -106,6 +180,8 @@ A utility package to help you validate your form with [Vest](https://vest.vercel
 
 ### Reporters
 
+The following packages can be used with any of the framework specific `felte` wrappers:
+
 #### [@felte/reporter-tippy](./packages/reporter-tippy/README.md)
 
 A reporter that uses [Tippy.js](https://atomiks.github.io/tippyjs/) to display your validation messages without needing any extra work.
@@ -118,17 +194,9 @@ A reporter that uses the browser's [constraint validation API](https://developer
 
 A reporter that displays the error messages in the DOM, either as a single element or a list of elements.
 
-#### [@felte/reporter-svelte](./packages/reporter-svelte/README.md)
-
-A reporter that uses a Svelte component to pass the validation messages for you to display.
-
-#### [@felte/reporter-solid](./packages/reporter-solid/README.md)
-
-A reporter that uses a Solid component to pass the validation messages for you to display.
-
 ## Contributing
 
-If you want to contribute to this project you may check [`CONTRIBUTING.md`](./CONTRIBUTING.md) for instructions on how to contribute.
+If you want to contribute to this project you may check [`CONTRIBUTING.md`](./CONTRIBUTING.md) for general guidelines on how to do so.
 
 ## Contributors ✨
 
@@ -166,3 +234,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 ## License
 
 MIT
+
+## Browser support
+
+While further testing would be needed to provide an accurate answer, Felte should work in all evergreen browsers. Polyfills might be needed if you target older browsers such as IE 11 for, at least, `Promise.all`, `Element.closest`, `URLSearchParams`, `fetch`, `CustomEvent` and iterators.
