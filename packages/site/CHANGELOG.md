@@ -1,5 +1,61 @@
 # @felte/site
 
+## 0.0.9
+
+### Patch Changes
+
+- b007b7f: Check for strict equality on value change
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+  - felte@1.0.0
+  - @felte/reporter-dom@1.0.0
+  - @felte/reporter-svelte@1.0.0
+  - @felte/reporter-tippy@1.0.0
+  - @felte/validator-yup@1.0.0
+
 ## 0.0.9-next.1
 
 ### Patch Changes

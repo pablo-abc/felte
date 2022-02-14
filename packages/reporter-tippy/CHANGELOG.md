@@ -1,5 +1,58 @@
 # @felte/reporter-tippy
 
+## 1.0.0
+
+### Major Changes
+
+- b007b7f: Pass a new property `stage` to extenders to distinguish between setup, mount and update stages
+- b007b7f: Make type of helpers and stores looser when using a transform function
+
+### Minor Changes
+
+- b007b7f: Change responsibility for adding `aria-invalid` to fields to `@felte/core`
+- b007b7f: Ensure good behaviour with controls created by `useField`/`createField` by only focusing non-hidden inputs
+- b007b7f: Add support for displaying warnings.
+
+### Patch Changes
+
+- b007b7f: Set appropriate store depending on level
+- b007b7f: `onSubmitError` does nothing when `level !== 'error'`
+- b007b7f: Change cjs output to have an extension of `.cjs`
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+  - @felte/common@1.0.0
+
 ## 1.0.0-next.23
 
 ### Patch Changes

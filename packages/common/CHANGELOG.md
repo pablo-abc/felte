@@ -1,5 +1,94 @@
 # @felte/common
 
+## 1.0.0
+
+### Major Changes
+
+- b007b7f: BREAKING: When removing an input from an array of inputs, Felte now splices the array instead of setting the value to `null`/`undefined`. This means that an `index` on an array of inputs is no longer a _unique_ identifier and the value can move around if fields are added/removed.
+- b007b7f: BREAKING: `errors` and `warning` stores will either have `null` or an array of strings as errors
+- b007b7f: BREAKING: Remove `addWarnValidator` in favour of options to `addValidator`.
+
+  This gives a smaller and more unified API, as well as opening to add more options in the future.
+
+  If you have an extender using `addWarnValidator`, you must update it by calling `addValidator` instead with the following options:
+
+  ```javascript
+  addValidator(yourValidationFunction, { level: 'warning' });
+  ```
+
+- b007b7f: Pass a new property `stage` to extenders to distinguish between setup, mount and update stages
+- b007b7f: BREAKING: Helpers have been completely reworked.
+  `setField` and `setFields` have been unified in a single `setFields` helper.
+  Others such as `setError` and `setWarning` have been pluralized to `setErrors` and `setWarnings` since now they can accept the whole object.
+  `setTouched` now requires to be passed the value to assign. E.g. `setTouched('path')` is now `setTouched('path', true)`. It no longer accepts an index as an argument since that can be assigned in the path itself using `[]`.
+- b007b7f: BREAKING: Remove `getField` helper in favor of `getValue` export. E.g. `getField('email')` now is `getValue($data, 'email')` and accessors.
+- b007b7f: BREAKING: Remove `data-felte-index` attribute support.
+
+  This means that you should replace this:
+
+  ```html
+  <input data-felte-index="1" name="preferences" />
+  ```
+
+  To this:
+
+  ```html
+  <input name="preferences.1" />
+  ```
+
+  This was done in order to allow for future improvements of the type system for TypeScript users, and to also follow the same behaviour the browser would do if JavaScript is disabled
+
+- b007b7f: Make type of helpers and stores looser when using a transform function
+- b007b7f: BREAKING: Stop grabbing nested names from fieldset
+
+  This means that this won't work anymore:
+
+  ```html
+  <fieldset name="account">
+    <input name="email" />
+  </fieldset>
+  ```
+
+  So it needs to be changed to this:
+
+  ```html
+  <fieldset>
+    <input name="account.email" />
+  </fieldset>
+  ```
+
+  This was done to allow for future improvements on type-safety, as well to keep consistency with the browser's behaviour when JavaScript is disabled.
+
+### Minor Changes
+
+- b007b7f: Add `addField` helper function
+- b007b7f: Improve types
+- b007b7f: Add isValidating store
+- b007b7f: Update types
+- b007b7f: Make string paths for accessors type safe
+- b007b7f: Add helper functions to context passed to `onSuccess`, `onSubmit` and `onError`
+- b007b7f: Add `interacted` store to show which is the last field the user has interacted with
+- b007b7f: Add isEqual utility to check for strict equality
+- b007b7f: Add `swapFields` and `moveField` helper functions
+- b007b7f: Export `mergeErrors` util
+- b007b7f: Add `unsetField` and `resetField` helper functions
+- b007b7f: Add unique key to field arrays
+- b007b7f: Pass context data to `onError` and `onSuccess`
+
+### Patch Changes
+
+- b007b7f: Fix unset on Safari
+- b007b7f: Point "browser" field to esm bundle
+- b007b7f: Clone object on update function
+- b007b7f: Use `preserveModules` for better tree-shaking
+- b007b7f: Add type for keyed Data
+- b007b7f: Fix deepSome handling arrays
+- b007b7f: Preserve modules in CJS
+- b007b7f: Fix error filtering
+- b007b7f: Change cjs output to have an extension of `.cjs`
+- b007b7f: Allow for `onError` and `onSuccess` to be asynchronous
+- b007b7f: Refactor \_update and \_set methods
+
 ## 1.0.0-next.23
 
 ### Patch Changes

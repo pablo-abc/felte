@@ -1,5 +1,53 @@
 # @felte/reporter-cvapi
 
+## 1.0.0
+
+### Major Changes
+
+- b007b7f: Pass a new property `stage` to extenders to distinguish between setup, mount and update stages
+
+### Minor Changes
+
+- b007b7f: Ensure good behaviour with controls created by `useField`/`createField` by only focusing non-hidden inputs
+
+### Patch Changes
+
+- b007b7f: Change cjs output to have an extension of `.cjs`
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+  - @felte/common@1.0.0
+
 ## 1.0.0-next.5
 
 ### Patch Changes

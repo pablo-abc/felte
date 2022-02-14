@@ -1,5 +1,75 @@
 # @felte/reporter-dom
 
+## 1.0.0
+
+### Major Changes
+
+- b007b7f: BREAKING: change export name to `reporter` to be consistent with other packages
+- b007b7f: BREAKING: Remove `index` prop support
+
+  This was done in order to allow and simplify further improvements of the type system.
+
+  This means this:
+
+  ```html
+  <ValidationMessage index="1" for="email"></ValidationMessage>
+  ```
+
+  Should be changed to this:
+
+  ```html
+  <ValidationMessage for="email.1"></ValidationMessage>
+  ```
+
+- b007b7f: Pass a new property `stage` to extenders to distinguish between setup, mount and update stages
+- b007b7f: Make type of helpers and stores looser when using a transform function
+
+### Minor Changes
+
+- b007b7f: Change responsibility for adding `aria-invalid` to fields to `@felte/core`
+- b007b7f: Add `level` prop to select from which store to obtain validation message. Possible values: `'error' | 'warning'`
+- b007b7f: Ensure good behaviour with controls created by `useField`/`createField` by only focusing non-hidden inputs
+
+### Patch Changes
+
+- b007b7f: Fix types
+- b007b7f: Change cjs output to have an extension of `.cjs`
+- b007b7f: Show message/slot as soon as render happens
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+  - @felte/common@1.0.0
+
 ## 1.0.0-next.23
 
 ### Patch Changes

@@ -1,5 +1,50 @@
 # @felte/validator-yup
 
+## 1.0.0
+
+### Major Changes
+
+- b007b7f: Pass a new property `stage` to extenders to distinguish between setup, mount and update stages
+
+### Patch Changes
+
+- b007b7f: Fix unset on Safari
+- b007b7f: Change cjs output to have an extension of `.cjs`
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+  - @felte/common@1.0.0
+
 ## 1.0.0-next.22
 
 ### Patch Changes

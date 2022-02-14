@@ -1,5 +1,144 @@
 # felte
 
+## 1.0.0
+
+### Major Changes
+
+- b007b7f: BREAKING: Stop proxying inputs. This was causing all sorts of race conditions which were a headache to solve. Instead we're going to keep a single recommendation: If you wish to programatically set the value of an input, use the `setFields` helper.
+- b007b7f: BREAKING: When removing an input from an array of inputs, Felte now splices the array instead of setting the value to `null`/`undefined`. This means that an `index` on an array of inputs is no longer a _unique_ identifier and the value can move around if fields are added/removed.
+- b007b7f: BREAKING: `errors` and `warning` stores will either have `null` or an array of strings as errors
+- b007b7f: BREAKING: `setFields` no longer touches a field by default. It needs to be explicit and it's only possible when passing a string path. E.g. `setField(‘email’ , 'zaphod@beeblebrox.com')` now is `setFields('email', 'zaphod@beeblebrox.com', true)`.
+- b007b7f: BREAKING: Remove `data-felte-unset-on-remove` in favour of `data-felte-keep-on-remove`. Felte will now remove fields by default if removed from the DOM.
+
+  To keep the same behaviour as before, add `data-felte-keep-on-remove` to any dynamic inputs you had that didn't have `data-felte-unset-on-remove` previously. And remove `data-felte-unset-on-remove` from the inputs that had it, or replace it for `data-felte-keep-on-remove="false"` if it was used to override a parent's attribute.
+
+- b007b7f: BREAKING: apply transforms to initialValues
+- b007b7f: BREAKING: Remove `addWarnValidator` in favour of options to `addValidator`.
+
+  This gives a smaller and more unified API, as well as opening to add more options in the future.
+
+  If you have an extender using `addWarnValidator`, you must update it by calling `addValidator` instead with the following options:
+
+  ```javascript
+  addValidator(yourValidationFunction, { level: 'warning' });
+  ```
+
+- b007b7f: BREAKING: Helpers have been completely reworked.
+  `setField` and `setFields` have been unified in a single `setFields` helper.
+  Others such as `setError` and `setWarning` have been pluralized to `setErrors` and `setWarnings` since now they can accept the whole object.
+  `setTouched` now requires to be passed the value to assign. E.g. `setTouched('path')` is now `setTouched('path', true)`. It no longer accepts an index as an argument since that can be assigned in the path itself using `[]`.
+- b007b7f: BREAKING: Remove `getField` helper in favor of `getValue` export. E.g. `getField('email')` now is `getValue($data, 'email')` and accessors.
+- b007b7f: BREAKING: Remove `data-felte-index` attribute support.
+
+  This means that you should replace this:
+
+  ```html
+  <input data-felte-index="1" name="preferences" />
+  ```
+
+  To this:
+
+  ```html
+  <input name="preferences.1" />
+  ```
+
+  This was done in order to allow for future improvements of the type system for TypeScript users, and to also follow the same behaviour the browser would do if JavaScript is disabled
+
+- b007b7f: Make type of helpers and stores looser when using a transform function
+- b007b7f: BREAKING: Setting directly to `data` using `data.set` no longer touches the field. The `setFields` helper should be used instead if this behaviour is desired.
+- b007b7f: BREAKING: Stop grabbing nested names from fieldset
+
+  This means that this won't work anymore:
+
+  ```html
+  <fieldset name="account">
+    <input name="email" />
+  </fieldset>
+  ```
+
+  So it needs to be changed to this:
+
+  ```html
+  <fieldset>
+    <input name="account.email" />
+  </fieldset>
+  ```
+
+  This was done to allow for future improvements on type-safety, as well to keep consistency with the browser's behaviour when JavaScript is disabled.
+
+### Minor Changes
+
+- b007b7f: Add `addField` helper function
+- b007b7f: Improve types
+- b007b7f: Add isValidating store
+- b007b7f: Add `feltesuccess` and `felteerror` events
+- b007b7f: Add helper functions to context passed to `onSuccess`, `onSubmit` and `onError`
+- b007b7f: Add `interacted` store to show which is the last field the user has interacted with
+- b007b7f: Add isValidating store
+- b007b7f: Add `swapFields` and `moveField` helper functions
+- b007b7f: Add support for custom controls with `createField`/`useField`
+- b007b7f: Add default submit handler
+- b007b7f: Add `unsetField` and `resetField` helper functions
+- b007b7f: Add unique key to field arrays
+- b007b7f: Pass context data to `onError` and `onSuccess`
+
+### Patch Changes
+
+- b007b7f: Fix unset on Safari
+- b007b7f: Point "browser" field to esm bundle
+- b007b7f: Fix when publishing as modules
+- b007b7f: Use `preserveModules` for better tree-shaking
+- b007b7f: Add type for keyed Data
+- b007b7f: Export events as types
+- b007b7f: Change cjs output to have an extension of `.cjs`
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+  - @felte/core@1.0.0
+
 ## 1.0.0-next.27
 
 ### Patch Changes

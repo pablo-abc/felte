@@ -1,5 +1,61 @@
 # @felte/validator-superstruct
 
+## 1.0.0
+
+### Major Changes
+
+- b007b7f: BREAKING: instead of extending Felte's config, now validators accept a configuration object directly. This allows for extending Felte with multiple schemas/suites/structs
+- b007b7f: BREAKING: Remove `addWarnValidator` in favour of options to `addValidator`.
+
+  This gives a smaller and more unified API, as well as opening to add more options in the future.
+
+  If you have an extender using `addWarnValidator`, you must update it by calling `addValidator` instead with the following options:
+
+  ```javascript
+  addValidator(yourValidationFunction, { level: 'warning' });
+  ```
+
+- b007b7f: Pass a new property `stage` to extenders to distinguish between setup, mount and update stages
+- b007b7f: Make type of helpers and stores looser when using a transform function
+
+### Patch Changes
+
+- b007b7f: Change cjs output to have an extension of `.cjs`
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+- Updated dependencies [b007b7f]
+  - @felte/common@1.0.0
+
 ## 1.0.0-next.22
 
 ### Patch Changes

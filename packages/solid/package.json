@@ -1,6 +1,6 @@
 {
   "name": "@felte/solid",
-  "version": "1.0.0-next.27",
+  "version": "1.0.0",
   "description": "An extensible form library for SolidJS",
   "main": "dist/cjs/index.cjs",
   "browser": "dist/esm/index.js",
