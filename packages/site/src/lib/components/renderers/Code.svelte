@@ -18,10 +18,11 @@
   let code = Prism.highlight(text, language, langKey);
 </script>
 
-<div class=container>
-  <pre class={`prism language-${lang}`} tabindex="0">
-    <code class=prism>{@html code}</code>
-  </pre>
+<div class="container">
+  <pre
+    class="{`prism language-${lang}`}"
+    tabindex="0"
+  ><code class=prism>{@html code}</code></pre>
   <CopyButton {text} />
 </div>
 
