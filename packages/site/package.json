@@ -24,7 +24,7 @@
     "svelte-focus-on": "0.1.4",
     "svelte-preprocess": "4.7.4",
     "tippy.js": "6.3.1",
-    "yup": "0.32.9"
+    "yup": "0.32.11"
   },
   "type": "module",
   "dependencies": {
