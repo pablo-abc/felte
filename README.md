@@ -15,7 +15,6 @@
   - [Svelte](#svelte)
   - [Solid](#solid)
   - [React](#react)
-- [Why](#why)
 - [Packages](#packages)
   - [Svelte](#svelte-1)
     - [`felte`](./packages/felte/README.md)
