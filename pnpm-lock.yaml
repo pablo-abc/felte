@@ -413,7 +413,7 @@ importers:
       focus-visible: 5.2.0
       front-matter: 4.0.2
       html-minifier: 4.0.0
-      mdsvex: 0.9.0
+      mdsvex: 0.10.5
       postcss: 8.4.5
       postcss-load-config: 3.1.0
       postcss-preset-env: 7.0.2
@@ -449,7 +449,7 @@ importers:
       dotenv: 11.0.0
       eslint-plugin-svelte3: 3.2.0_eslint@7.24.0+svelte@3.44.3
       front-matter: 4.0.2
-      mdsvex: 0.9.0_svelte@3.44.3
+      mdsvex: 0.10.5_svelte@3.44.3
       postcss: 8.4.5
       postcss-load-config: 3.1.0
       postcss-preset-env: 7.0.2_postcss@8.4.5
@@ -8197,6 +8197,18 @@ packages:
     resolution: {integrity: sha512-dn6wd0uw5GsdswPFfsgMp5NSB0/aDe6fK94YJV/AJDYXL6HVLWBsxeq7js7Ad+mU2K9LAlwpk6kN2D5mwCPVow==}
     dev: true
 
+  /mdsvex/0.10.5_svelte@3.44.3:
+    resolution: {integrity: sha512-/B23WZn5Vjrjh7Qp2YsOXLkU9YFm59IEylKNXC10o05ZaCP4LNv32tGXKP6aEssss6hk/LdISJuneELHFIS2pQ==}
+    peerDependencies:
+      svelte: 3.x
+    dependencies:
+      '@types/unist': 2.0.3
+      prism-svelte: 0.4.7
+      prismjs: 1.26.0
+      svelte: 3.44.3
+      vfile-message: 2.0.4
+    dev: true
+
   /mdsvex/0.9.0_svelte@3.37.0:
     resolution: {integrity: sha512-1REYRZPgGWoEkA4N0xxeJLdjOzkOwXJeQGgx8F6Gm/dVZkoBmfY49EVc0PGql/fmwj7Qrkc8eGoPg7z6Q1U5hA==}
     peerDependencies:
@@ -8205,17 +8217,6 @@ packages:
       '@types/unist': 2.0.3
       prismjs: 1.26.0
       svelte: 3.37.0
-      vfile-message: 2.0.4
-    dev: true
-
-  /mdsvex/0.9.0_svelte@3.44.3:
-    resolution: {integrity: sha512-1REYRZPgGWoEkA4N0xxeJLdjOzkOwXJeQGgx8F6Gm/dVZkoBmfY49EVc0PGql/fmwj7Qrkc8eGoPg7z6Q1U5hA==}
-    peerDependencies:
-      svelte: 3.x
-    dependencies:
-      '@types/unist': 2.0.3
-      prismjs: 1.26.0
-      svelte: 3.44.3
       vfile-message: 2.0.4
     dev: true
 
@@ -9568,7 +9569,6 @@ packages:
 
   /prism-svelte/0.4.7:
     resolution: {integrity: sha512-yABh19CYbM24V7aS7TuPYRNMqthxwbvx6FF/Rw920YbyBWO3tnyPIqRMgHuSVsLmuHkkBS1Akyof463FVdkeDQ==}
-    dev: false
 
   /prismjs/1.26.0:
     resolution: {integrity: sha512-HUoH9C5Z3jKkl3UunCyiD5jwk0+Hz0fIgQ2nbwU2Oo/ceuTAQAg+pPVnfdt2TJWRVLcxKh9iuoYDUSc8clb5UQ==}
