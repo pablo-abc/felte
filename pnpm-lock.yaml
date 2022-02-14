@@ -417,7 +417,6 @@ importers:
       postcss: 8.4.5
       postcss-load-config: 3.1.0
       postcss-preset-env: 7.0.2
-      prettier: 2.2.1
       prism-svelte: 0.4.7
       prismjs: 1.26.0
       svelte: 3.44.3
@@ -426,7 +425,7 @@ importers:
       svelte-markdown: 0.2.2
       svelte-portal: 2.1.2
       svelte-preprocess: 4.7.4
-      tippy.js: 6.3.1
+      tippy.js: 6.3.7
       yup: 0.32.11
     dependencies:
       '@felte/reporter-dom': link:../reporter-dom
@@ -454,11 +453,10 @@ importers:
       postcss: 8.4.5
       postcss-load-config: 3.1.0
       postcss-preset-env: 7.0.2_postcss@8.4.5
-      prettier: 2.2.1
       svelte: 3.44.3
       svelte-focus-on: 0.1.4
       svelte-preprocess: 4.7.4_86939f4f251c1ecf5c985a45d60ac8fc
-      tippy.js: 6.3.1
+      tippy.js: 6.3.7
       yup: 0.32.11
 
   packages/solid:
@@ -11008,6 +11006,12 @@ packages:
 
   /tippy.js/6.3.1:
     resolution: {integrity: sha512-JnFncCq+rF1dTURupoJ4yPie5Cof978inW6/4S6kmWV7LL9YOSEVMifED3KdrVPEG+Z/TFH2CDNJcQEfaeuQww==}
+    dependencies:
+      '@popperjs/core': 2.9.2
+    dev: true
+
+  /tippy.js/6.3.7:
+    resolution: {integrity: sha512-E1d3oP2emgJ9dRQZdf3Kkn0qJgI6ZLpyS5z6ZkY1DF3kaQaBsGZsndEpHwx+eC+tYM41HaSNvNtLx8tU57FzTQ==}
     dependencies:
       '@popperjs/core': 2.9.2
     dev: true
