@@ -21,7 +21,7 @@
     "postcss-preset-env": "7.0.2",
     "svelte": "3.44.3",
     "svelte-focus-on": "0.1.4",
-    "svelte-preprocess": "4.7.4",
+    "svelte-preprocess": "4.10.2",
     "tippy.js": "6.3.7",
     "yup": "0.32.11"
   },
