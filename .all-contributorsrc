@@ -128,6 +128,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "KoichiKiyokawa",
+      "name": "Koichi Kiyokawa",
+      "avatar_url": "https://avatars.githubusercontent.com/u/40315079?v=4",
+      "profile": "https://github.com/KoichiKiyokawa",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7

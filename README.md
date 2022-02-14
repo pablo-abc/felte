@@ -7,7 +7,7 @@
 [![NPM Version](https://img.shields.io/npm/v/felte)](https://www.npmjs.com/package/felte)
 [![codecov](https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC)](https://codecov.io/gh/pablo-abc/felte)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 - [Features](#features)
@@ -220,6 +220,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/basaran"><img src="https://avatars.githubusercontent.com/u/30809170?v=4?s=100" width="100px;" alt=""/><br /><sub><b>basaran</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=basaran" title="Code">💻</a> <a href="https://github.com/pablo-abc/felte/issues?q=author%3Abasaran" title="Bug reports">🐛</a></td>
     <td align="center"><a href="http://ealush.com/"><img src="https://avatars.githubusercontent.com/u/11255103?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Evyatar</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=ealush" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/schurhammer"><img src="https://avatars.githubusercontent.com/u/2063443?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Julian Schurhammer</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=schurhammer" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/KoichiKiyokawa"><img src="https://avatars.githubusercontent.com/u/40315079?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Koichi Kiyokawa</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=KoichiKiyokawa" title="Documentation">📖</a></td>
   </tr>
 </table>
 
