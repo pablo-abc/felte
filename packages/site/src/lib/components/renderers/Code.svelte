@@ -7,6 +7,8 @@
   import 'prism-svelte';
   import CopyButton from './CopyButton.svelte';
 
+  Prism.manual = true;
+
   export let lang;
   export let text;
 

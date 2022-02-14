@@ -5,11 +5,6 @@
   import 'tippy.js/dist/tippy.css';
   import { onMount } from 'svelte';
 
-  onMount(() => {
-    window.Prism = window.Prism || {};
-    Prism.manual = true;
-  });
-
   const currentVersion = import.meta.env.VITE_FELTE_VERSION;
   const altVersion = import.meta.env.VITE_FELTE_ALT_VERSION;
   const altLink = import.meta.env.VITE_FELTE_ALT_LINK;
