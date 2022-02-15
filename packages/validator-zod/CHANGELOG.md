@@ -1,5 +1,11 @@
 # @felte/validator-zod
 
+## 1.0.1
+
+### Patch Changes
+
+- 34ecc46: Fix broken build output
+
 ## 1.0.0
 
 ### Major Changes
