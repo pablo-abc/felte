@@ -2,8 +2,8 @@
   "name": "@felte/reporter-tippy",
   "version": "1.0.0",
   "description": "An error reporter for Felte using Tippy.js",
-  "main": "dist/index.js",
-  "browser": "dist/index.js",
+  "main": "dist/index.cjs",
+  "browser": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "type": "module",
@@ -46,7 +46,7 @@
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
+      "require": "./dist/index.cjs",
       "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
