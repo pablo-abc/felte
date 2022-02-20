@@ -1,5 +1,11 @@
 # @felte/solid
 
+## 1.0.1
+
+### Patch Changes
+
+- 6ef4bf4: Fix warning appearing on submit
+
 ## 1.0.0
 
 ### Major Changes
