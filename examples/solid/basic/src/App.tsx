@@ -32,7 +32,7 @@ const App: Component = () => {
   return (
     <main>
       <h1>Basic Example - Solid</h1>
-      <form ref={form}>
+      <form use:form>
         <fieldset>
           <legend>Sign In</legend>
           <label for="email">Email:</label>
