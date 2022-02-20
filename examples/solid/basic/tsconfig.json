@@ -9,6 +9,6 @@
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "types": ["vite/client"],
-    "typeRoots": ["./typings"]
+    "typeRoots": ["./types"]
   }
 }
