@@ -1,8 +1,17 @@
 import type { StoreFactory } from '@felte/core';
 import type { FelteAccessor } from './create-accessor';
 import type { Writable } from 'svelte/store';
-import { createSignal, observable } from 'solid-js';
+import { createSignal, createRoot, createEffect } from 'solid-js';
 import { createAccessor } from './create-accessor';
+
+function createSubscriber<T>(signal: () => T) {
+  return function subscribe(fn: (data: T) => void) {
+    return createRoot((dispose) => {
+      createEffect(() => fn(signal()));
+      return dispose;
+    });
+  };
+}
 
 export const storeFactory: StoreFactory<FelteAccessor<any>> = <Value>(
   initialValue: Value
@@ -20,12 +29,7 @@ export const storeFactory: StoreFactory<FelteAccessor<any>> = <Value>(
   const accessor = (createAccessor(signal) as unknown) as Writable<any> &
     FelteAccessor<any>;
 
-  const obs = observable(signal);
-
-  function subscribe(subscriber: (value: Value) => void) {
-    const { unsubscribe } = obs.subscribe({ next: subscriber });
-    return unsubscribe;
-  }
+  const subscribe = createSubscriber(signal);
 
   accessor.subscribe = subscribe;
   accessor.set = signalSetter;
