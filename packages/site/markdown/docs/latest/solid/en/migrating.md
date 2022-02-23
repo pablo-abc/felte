@@ -51,11 +51,11 @@ Although undocumented, we used to return a property `observables` from `createFo
 The returned helpers have changed.
 * `setField` and `setFields` are now only one function: `setFields` that accepts both signatures (and more). For example:
 ```javascript
-setField('email', 'zaphod@beeblebrox.com`)
+setField('email', 'zaphod@beeblebrox.com')
 ```
 should now be
 ```javascript
-setField('email', 'zaphod@beeblebrox.com')
+setFields('email', 'zaphod@beeblebrox.com')
 ```
 * `setFields` does not touch a field by default. It needs to be explicit and needs a string path. E.g. `setField(‘email’ , 'zaphod@beeblebrox.com')` now is `setFields('email', 'zaphod@beeblebrox.com', true)`. For example:
 ```javascript
