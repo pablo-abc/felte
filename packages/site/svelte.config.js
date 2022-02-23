@@ -35,6 +35,7 @@ const config = {
     prerender: {
       entries: [
         '*',
+        '/sitemap.xml',
         '/docs/solid',
         '/docs/svelte',
         '/docs/react',
