@@ -158,6 +158,27 @@ function createSignupForm() {
   );
   formElement.appendChild(multipleFieldsetElement);
 
+  const selectElement = document.createElement('select');
+  selectElement.name = 'select';
+  const optionElements = [0, 1, 2].map((index) => {
+    const option = document.createElement('option');
+    option.value = String(index);
+    return option;
+  });
+  selectElement.append(...optionElements);
+  formElement.appendChild(selectElement);
+
+  const multipleSelectElement = document.createElement('select');
+  multipleSelectElement.name = 'multipleSelect';
+  multipleSelectElement.multiple = true;
+  const multipleOptionElements = [0, 1, 2].map((index) => {
+    const option = document.createElement('option');
+    option.value = String(index);
+    return option;
+  });
+  multipleSelectElement.append(...multipleOptionElements);
+  formElement.appendChild(multipleSelectElement);
+
   return {
     formElement,
     emailInput,
@@ -182,6 +203,8 @@ function createSignupForm() {
     extraPreferences2,
     accountFieldset,
     accountTypeElement,
+    selectElement,
+    multipleSelectElement,
   };
 }
 
@@ -221,6 +244,8 @@ UserInteractions('Sets default data correctly', () => {
       pictures: [],
     },
     preferences: [],
+    select: '0',
+    multipleSelect: [],
   });
   cleanup();
 });
@@ -328,6 +353,8 @@ UserInteractions('Sets custom default data correctly', () => {
     extraCheckboxes,
     extraPreferences1,
     accountTypeElement,
+    selectElement,
+    multipleSelectElement,
   } = createSignupForm();
   emailInput.value = 'jacek@soplica.com';
   const bioTest = 'Litwo! Ojczyzno moja! ty jesteś jak zdrowie';
@@ -339,6 +366,10 @@ UserInteractions('Sets custom default data correctly', () => {
   extraNumberInputs[1].value = '1';
   extraCheckboxes[1].checked = true;
   extraPreferences1[1].checked = true;
+  Array.from(selectElement.options)[1].selected = true;
+  const options = Array.from(multipleSelectElement.options);
+  options[1].selected = true;
+  options[2].selected = true;
   accountTypeElement.value = 'admin';
   form(formElement);
   const $data = get(data);
@@ -373,6 +404,8 @@ UserInteractions('Sets custom default data correctly', () => {
       pictures: [],
     },
     preferences: ['technology'],
+    select: '1',
+    multipleSelect: ['1', '2'],
   });
   expect(get(isValid)).to.be.ok;
 });

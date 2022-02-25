@@ -303,6 +303,21 @@ export function createFormAction<Data extends Obj>({
       });
     }
 
+    function setSelectValue(target: HTMLSelectElement) {
+      if (!target.multiple) {
+        data.update(($data) => {
+          return _set($data, getPath(target), target.value);
+        });
+      } else {
+        const selectedOptions = Array.from(target.options)
+          .filter((opt) => opt.selected)
+          .map((opt) => opt.value);
+        data.update(($data) => {
+          return _set($data, getPath(target), selectedOptions);
+        });
+      }
+    }
+
     function handleInput(e: Event) {
       const target = e.target;
       if (
@@ -334,15 +349,16 @@ export function createFormAction<Data extends Obj>({
       ) {
         isDirty.set(true);
       }
-      if (isSelectElement(target) || target.type === 'hidden') {
+      if (target.type === 'hidden') {
         data.update(($data) => {
           return _set($data, getPath(target), target.value);
         });
       }
-      if (!isInputElement(target)) return;
-      if (target.type === 'checkbox') setCheckboxValues(target);
-      if (target.type === 'radio') setRadioValues(target);
-      if (target.type === 'file') setFileValue(target);
+      if (isSelectElement(target)) setSelectValue(target);
+      else if (!isInputElement(target)) return;
+      else if (target.type === 'checkbox') setCheckboxValues(target);
+      else if (target.type === 'radio') setRadioValues(target);
+      else if (target.type === 'file') setFileValue(target);
     }
 
     function handleBlur(e: Event) {

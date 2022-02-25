@@ -116,8 +116,7 @@ export function getFormDefaultValues<Data extends Obj>(
     } else if (isSelectElement(el)) {
       const multiple = el.multiple;
       if (!multiple) {
-        const inputValue = getInputTextOrNumber(el);
-        defaultData = _set(defaultData, elName, inputValue);
+        defaultData = _set(defaultData, elName, el.value);
       } else {
         const selectedOptions = Array.from(el.options)
           .filter((opt) => opt.selected)
