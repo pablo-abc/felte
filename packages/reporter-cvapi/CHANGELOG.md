@@ -1,5 +1,12 @@
 # @felte/reporter-cvapi
 
+## 1.0.1
+
+### Patch Changes
+
+- Updated dependencies [9b492e0]
+  - @felte/common@1.0.1
+
 ## 1.0.0
 
 ### Major Changes

@@ -1,5 +1,13 @@
 # @felte/solid
 
+## 1.0.2
+
+### Patch Changes
+
+- 9b492e0: Fix handling of `<select multiple>` elements
+- Updated dependencies [9b492e0]
+  - @felte/core@1.0.1
+
 ## 1.0.1
 
 ### Patch Changes
