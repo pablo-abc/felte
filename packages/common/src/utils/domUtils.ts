@@ -1,5 +1,10 @@
 import type { FormControl, Obj, FieldValue, Touched } from '../types';
-import { isFormControl, isFieldSetElement, isInputElement } from './typeGuards';
+import {
+  isFormControl,
+  isFieldSetElement,
+  isInputElement,
+  isSelectElement,
+} from './typeGuards';
 import { _get } from './get';
 import { _set } from './set';
 import { _update } from './update';
@@ -108,6 +113,19 @@ export function getFormDefaultValues<Data extends Obj>(
         defaultTouched = _set(defaultTouched, elName, false);
         continue;
       }
+    } else if (isSelectElement(el)) {
+      const multiple = el.multiple;
+      if (!multiple) {
+        const inputValue = getInputTextOrNumber(el);
+        defaultData = _set(defaultData, elName, inputValue);
+      } else {
+        const selectedOptions = Array.from(el.options)
+          .filter((opt) => opt.selected)
+          .map((opt) => opt.value);
+        defaultData = _set(defaultData, elName, selectedOptions);
+      }
+      defaultTouched = _set(defaultTouched, elName, false);
+      continue;
     }
     const inputValue = getInputTextOrNumber(el);
     defaultData = _set(defaultData, elName, inputValue);
@@ -153,6 +171,28 @@ export function setControlValue(
       el.value = '';
       return;
     }
+  } else if (isSelectElement(el)) {
+    const multiple = el.multiple;
+    if (!multiple) {
+      el.value = String(fieldValue ?? '');
+      for (const option of el.options) {
+        if (option.value === fieldValue) {
+          option.selected = true;
+        } else {
+          option.selected = false;
+        }
+      }
+    } else if (Array.isArray(fieldValue)) {
+      el.value = String(fieldValue[0] ?? '');
+      for (const option of el.options) {
+        if ((fieldValue as string[]).includes(option.value)) {
+          option.selected = true;
+        } else {
+          option.selected = false;
+        }
+      }
+    }
+    return;
   }
 
   el.value = String(fieldValue ?? '');

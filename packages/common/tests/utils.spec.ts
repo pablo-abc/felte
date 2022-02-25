@@ -179,6 +179,27 @@ function createSignupForm() {
     return fieldset;
   });
   formElement.appendChild(multipleFieldsetElement);
+  const selectElement = document.createElement('select');
+  selectElement.name = 'select';
+  const optionElements = [0, 1, 2].map((index) => {
+    const option = document.createElement('option');
+    option.value = String(index);
+    return option;
+  });
+  selectElement.append(...optionElements);
+  formElement.appendChild(selectElement);
+
+  const multipleSelectElement = document.createElement('select');
+  multipleSelectElement.name = 'multipleSelect';
+  multipleSelectElement.multiple = true;
+  const multipleOptionElements = [0, 1, 2].map((index) => {
+    const option = document.createElement('option');
+    option.value = String(index);
+    return option;
+  });
+  multipleSelectElement.append(...multipleOptionElements);
+  formElement.appendChild(multipleSelectElement);
+
   formElement.append(...fieldsets);
 
   return {
@@ -204,6 +225,8 @@ function createSignupForm() {
     extraCheckboxes,
     extraPreferences1,
     extraPreferences2,
+    selectElement,
+    multipleSelectElement,
   };
 }
 
@@ -500,6 +523,8 @@ Utils('getFormDefaultValues', () => {
       extraPreference: [[], [], []],
     },
     fieldsets: [{ otherText: '' }, { otherText: '' }, { otherText: '' }],
+    select: '0',
+    multipleSelect: [],
   });
 });
 
@@ -535,12 +560,24 @@ Utils('setForm', () => {
       { otherText: 'other' },
       { otherText: 'more' },
     ],
+    select: '1',
+    multipleSelect: ['1', '2'],
   };
-  const { formElement } = createSignupForm();
+  const {
+    formElement,
+    selectElement,
+    multipleSelectElement,
+  } = createSignupForm();
 
   setForm(formElement, formData);
   const { defaultData } = getFormDefaultValues(formElement);
   expect(defaultData).to.deep.equal(formData);
+  const multipleOptions = Array.from(multipleSelectElement.options);
+  expect(multipleOptions[0].selected).to.be.false;
+  expect(multipleOptions[1].selected).to.be.true;
+  expect(multipleOptions[2].selected).to.be.true;
+  expect(multipleSelectElement.value).to.equal('1');
+  expect(selectElement.value).to.equal('1');
 });
 
 Utils('runValidations', async () => {
