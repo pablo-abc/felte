@@ -12,10 +12,10 @@ export type ValidationMessageProps = {
 };
 
 export function ValidationMessage(props: ValidationMessageProps) {
-  let { level, for: propFor, children, as, id, ...rest } = props;
-  level = props.level ?? 'error';
+  const { level: _level, for: path, children, as, id: _id, ...rest } = props;
+  const level = props.level ?? 'error';
   const [messages, setMessages] = useState<string[] | null>(null);
-  id = useMemo(() => id ?? createId(21), []);
+  const id = useMemo(() => props.id ?? createId(21), []);
   function getFormElement(element: HTMLDivElement) {
     return element.closest('form');
   }
@@ -25,7 +25,6 @@ export function ValidationMessage(props: ValidationMessageProps) {
     // To guarantee the DOM has rendered we need to setTimeout
     setTimeout(() => {
       const element = document.getElementById(id) as HTMLDivElement;
-      const path = props.for;
       const errorPath = getPath(element, path);
       const formElement = getFormElement(element) as HTMLFormElement;
       const reporterId = formElement?.dataset.felteReporterReactId;
@@ -45,17 +44,13 @@ export function ValidationMessage(props: ValidationMessageProps) {
     return unsubscriber;
   }, []);
 
-  if (!props.as) {
+  if (!as) {
     return (
       <>
         <div id={id} style={{ display: 'none' }} />
-        {props.children(messages)}
+        {children(messages)}
       </>
     );
   }
-  return React.createElement(
-    props.as,
-    { ...rest, id },
-    props.children(messages)
-  );
+  return React.createElement(as, { ...rest, id }, children(messages));
 }
