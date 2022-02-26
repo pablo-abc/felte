@@ -56,7 +56,7 @@ export function Form() {
 }
 ```
 
-To prevent nesting, the `ValidationMessage` component also accepts an `as` prop to render `ValidationMessage` as a component instead of a partial. Every other prop assigned to `ValidationMessage` except `for` and `level` will be forwarded as props.
+_(Since v1.1.0)_: To prevent nesting, the `ValidationMessage` component also accepts an `as` prop to render `ValidationMessage` as a component instead of a partial. Every other prop assigned to `ValidationMessage` except `for` and `level` will be forwarded as props.
 
 ```jsx
 import { reporter, ValidationMessage } from '@felte/reporter-solid';
