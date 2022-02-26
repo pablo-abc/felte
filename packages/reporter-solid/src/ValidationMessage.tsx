@@ -1,22 +1,38 @@
-import type { JSX } from 'solid-js';
+import type { JSX, Component } from 'solid-js';
 import { _get, createId } from '@felte/common';
-import { onMount, createSignal, onCleanup, mergeProps } from 'solid-js';
+import {
+  onMount,
+  createSignal,
+  onCleanup,
+  mergeProps,
+  splitProps,
+} from 'solid-js';
+import { Dynamic } from 'solid-js/web';
 import { errorStores, warningStores } from './stores';
 
 export type ValidationMessageProps = {
+  [key: string]: any;
   for: string;
   level?: 'error' | 'warning';
   children: (messages: string[] | null) => JSX.Element;
+  as?: Component<any> | string | keyof JSX.IntrinsicElements;
 };
 
 export function ValidationMessage(props: ValidationMessageProps) {
   props = mergeProps({ level: 'error' }, props);
+  const [, others] = splitProps(props, [
+    'for',
+    'level',
+    'children',
+    'as',
+    'id',
+  ]);
   const [messages, setMessages] = createSignal<null | string[]>(null);
   function getFormElement(element: HTMLDivElement) {
     return element.closest('form');
   }
 
-  const id = createId(21);
+  const id = props.id ?? createId(21);
   let unsubscribe: (() => void) | undefined;
   onMount(() => {
     const element = document.getElementById(id) as HTMLDivElement;
@@ -39,10 +55,18 @@ export function ValidationMessage(props: ValidationMessageProps) {
 
   onCleanup(() => unsubscribe?.());
 
+  if (!props.as) {
+    return (
+      <>
+        <div id={id} style="display: none;" />
+        {props.children(messages())}
+      </>
+    );
+  }
+
   return (
-    <>
-      <div id={id} style="display: none;" />
+    <Dynamic component={props.as} {...others} id={id}>
       {props.children(messages())}
-    </>
+    </Dynamic>
   );
 }

@@ -4,15 +4,18 @@ import { _get, getPath, createId } from '@felte/common';
 import { errorStores, warningStores } from './stores';
 
 export type ValidationMessageProps = {
+  [key: string]: any;
   for: string;
   level?: 'error' | 'warning';
   children: (messages: string[] | null) => ReactNode;
+  as?: string | React.ElementType;
 };
 
 export function ValidationMessage(props: ValidationMessageProps) {
-  const level = props.level ?? 'error';
+  let { level, for: propFor, children, as, id, ...rest } = props;
+  level = props.level ?? 'error';
   const [messages, setMessages] = useState<string[] | null>(null);
-  const id = useMemo(() => createId(21), []);
+  id = useMemo(() => id ?? createId(21), []);
   function getFormElement(element: HTMLDivElement) {
     return element.closest('form');
   }
@@ -42,10 +45,17 @@ export function ValidationMessage(props: ValidationMessageProps) {
     return unsubscriber;
   }, []);
 
-  return (
-    <>
-      <div id={id} style={{ display: 'none' }} />
-      {props.children(messages)}
-    </>
+  if (!props.as) {
+    return (
+      <>
+        <div id={id} style={{ display: 'none' }} />
+        {props.children(messages)}
+      </>
+    );
+  }
+  return React.createElement(
+    props.as,
+    { ...rest, id },
+    props.children(messages)
   );
 }

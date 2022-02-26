@@ -63,13 +63,15 @@ function Wrapper() {
       <div>
         <label for="password">Password</label>
         <input name="password" id="password" />
-        <ValidationMessage for="password">
+        <ValidationMessage
+          for="password"
+          as="ul"
+          data-testid="password-message"
+        >
           {(messages) => (
-            <ul data-testid="password-message">
-              <Index each={(messages as string[] | undefined) ?? []}>
-                {(message) => <li>{message()}</li>}
-              </Index>
-            </ul>
+            <Index each={(messages as string[] | undefined) ?? []}>
+              {(message) => <li>{message()}</li>}
+            </Index>
           )}
         </ValidationMessage>
         <ValidationMessage for="password" level="warning">
@@ -96,6 +98,7 @@ Reporter('reports validation message', async () => {
 
   expect(emailInput).to.be.valid;
   expect(emailMessage).to.be.empty;
+  passwordMessage.childNodes.forEach((c) => console.log(c.nodeName));
   expect(passwordMessage).to.be.empty;
   expect(passwordWarning).to.be.empty;
 

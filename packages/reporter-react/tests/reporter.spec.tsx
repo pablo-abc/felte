@@ -63,13 +63,15 @@ function Wrapper() {
       <div>
         <label htmlFor="password">Password</label>
         <input name="password" id="password" />
-        <ValidationMessage for="password">
-          {(messages) => (
-            <ul data-testid="password-message">
-              {Array.isArray(messages) &&
-                messages.map((message) => <li key={message}>{message}</li>)}
-            </ul>
-          )}
+        <ValidationMessage
+          for="password"
+          as="ul"
+          data-testid="password-message"
+        >
+          {(messages) =>
+            Array.isArray(messages) &&
+            messages.map((message) => <li key={message}>{message}</li>)
+          }
         </ValidationMessage>
         <ValidationMessage for="password" level="warning">
           {(message) => <span data-testid="password-warning">{message}</span>}
