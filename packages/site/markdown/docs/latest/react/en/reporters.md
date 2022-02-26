@@ -27,7 +27,7 @@ It exports a `reporter` function and a `ValidationMessage` component. Pass the `
 
 The `ValidationMessage` component needs a `for` prop set with the **name** of the input it corresponds to, the child of `ValidationMessage` is a function that takes the error messages as an argument. This can be either a `string`, an array of `strings`, or `undefined`.
 
-```tsx
+```jsx
 import { reporter, ValidationMessage } from '@felte/reporter-react';
 import { useForm } from '@felte/react';
 
@@ -43,13 +43,44 @@ export function Form() {
     <form ref={form}>
       <input id="email" type="text" name="email" />
       <ValidationMessage for="email">
-        {/* We assume a single string will be passed as a validation message */}
-        {/* This can be an array of strings depending on your validation strategy */}
-        {(message) => <span>{message}</span>}
+        {/* We assume there will only be one message */}
+        {(messages) => <span>{messages?.[0]}</span>}
       </ValidationMessage>
       <input type="password" name="password" />
       <ValidationMessage for="password">
-        {(message) => <span>{message}</span>}
+        {(messages) => <span>{messages?.[0]}</span>}
+      </ValidationMessage>
+      <input type="submit" value="Sign in" />
+    </form>
+  );
+}
+```
+
+To prevent nesting, the `ValidationMessage` component also accepts an `as` prop to render `ValidationMessage` as a component instead of a partial. Every other prop assigned to `ValidationMessage` except `for` and `level` will be forwarded as props.
+
+```jsx
+import { reporter, ValidationMessage } from '@felte/reporter-react';
+import { useForm } from '@felte/react';
+import CustomList from './CustomList.jsx';
+
+export function Form() {
+  const { form } = useForm({
+      // ...
+      extend: reporter, // or [reporter]
+      // ...
+    },
+  })
+
+  return (
+    <form ref={form}>
+      <input id="email" type="text" name="email" />
+      {/* `aria-live` gets forwarded to `<ul>` */}
+      <ValidationMessage for="email" as="ul" aria-live="polite">
+        {(messages) => messages?.map((message) => <li key={message}>{message}</li>)}
+      </ValidationMessage>
+      <input type="password" name="password" />
+      <ValidationMessage for="password" as={CustomList} aria-live="polite">
+        {(messages) => messages?.map((message) => <li key={message}>{message}</li>)}
       </ValidationMessage>
       <input type="submit" value="Sign in" />
     </form>

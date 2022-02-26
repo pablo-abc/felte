@@ -27,7 +27,7 @@ It exports a `reporter` function and a `ValidationMessage` component. Pass the `
 
 The `ValidationMessage` component needs a `for` prop set with the **name** of the input it corresponds to, the child of `ValidationMessage` is a function that takes the error messages as an argument. This can be either a `string`, an array of `strings`, or `undefined`.
 
-```tsx
+```jsx
 import { reporter, ValidationMessage } from '@felte/reporter-solid';
 import { createForm } from '@felte/solid';
 
@@ -43,13 +43,52 @@ export function Form() {
     <form use:form>
       <input id="email" type="text" name="email" />
       <ValidationMessage for="email">
-        <!-- We assume a single string will be passed as a validation message -->
-        <!-- This can be an array of strings depending on your validation strategy -->
-        {(message) => <span>{message}</span>}
+        <!-- We assume there will only be a single message -->
+        {(messages) => <span>{messages?.[0]}</span>}
       </ValidationMessage>
       <input type="password" name="password" />
       <ValidationMessage for="password">
-        {(message) => <span>{message}</span>}
+        {(messages) => <span>{messages?.[0]}</span>}
+      </ValidationMessage>
+      <input type="submit" value="Sign in" />
+    </form>
+  );
+}
+```
+
+To prevent nesting, the `ValidationMessage` component also accepts an `as` prop to render `ValidationMessage` as a component instead of a partial. Every other prop assigned to `ValidationMessage` except `for` and `level` will be forwarded as props.
+
+```jsx
+import { reporter, ValidationMessage } from '@felte/reporter-solid';
+import { createForm } from '@felte/solid';
+import { Index } from 'solid-js';
+import CustomList from './CustomList.jsx';
+
+export function Form() {
+  const { form } = createForm({
+      // ...
+      extend: reporter, // or [reporter]
+      // ...
+    },
+  })
+
+  return (
+    <form use:form>
+      <input id="email" type="text" name="email" />
+      <ValidationMessage for="email" as="ul" aria-live="polite">
+        {(messages) => (
+          <Index each={messages ?? []}>
+            {(message) => <li>{message()}</li>}
+          </Index>
+        )}
+      </ValidationMessage>
+      <input type="password" name="password" />
+      <ValidationMessage for="password" as={CustomList} aria-live="polite">
+        {(messages) => (
+          <Index each={messages ?? []}>
+            {(message) => <li>{message()}</li>}
+          </Index>
+        )}
       </ValidationMessage>
       <input type="submit" value="Sign in" />
     </form>
@@ -64,6 +103,10 @@ You may also display warning messages from your `warnings` store by adding a pro
   {(message) => <span>{message}</span>}
 </ValidationMessage>
 ```
+
+#### SSR
+
+There _might_ be some issues when using this package with Solid's SSR. Without an `as` prop, ValidationMessage returns a partial which sometimes does not work as expected. In order to guarantee your component will work as expected, you should use `ValidationMessage` with `as` assigned to something.
 
 ### Using Tippy.js
 
