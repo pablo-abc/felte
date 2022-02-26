@@ -100,13 +100,13 @@ You may also display warning messages from your `warnings` store by adding a pro
 
 ```html
 <ValidationMessage level="warning" for="email">
-  {(message) => <span>{message}</span>}
+  {(messages) => <span>{messages?.[0]}</span>}
 </ValidationMessage>
 ```
 
 #### SSR
 
-There _might_ be some issues when using this package with Solid's SSR. Without an `as` prop, ValidationMessage returns a partial which sometimes does not work as expected. In order to guarantee your component will work as expected, you should use `ValidationMessage` with `as` assigned to something.
+You _might_ encounter some issues when using this package with SSR. Without an `as` prop, ValidationMessage returns a partial which sometimes does not work as expected. In order to guarantee your component will work as expected, you should use `ValidationMessage` with `as` assigned to an element or component.
 
 ### Using Tippy.js
 

@@ -92,7 +92,7 @@ You may also display warning messages from your `warnings` store by adding a pro
 
 ```html
 <ValidationMessage level="warning" for="email">
-  {(message) => <span>{message}</span>}
+  {(messages) => <span>{messages?.[0]}</span>}
 </ValidationMessage>
 ```
 
