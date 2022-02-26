@@ -1,5 +1,11 @@
 # @felte/reporter-solid
 
+## 1.1.0
+
+### Minor Changes
+
+- b67f646: Add `as` prop to dynamically set a component for `ValidationMessage`
+
 ## 1.0.1
 
 ### Patch Changes
