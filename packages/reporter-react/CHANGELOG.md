@@ -1,5 +1,11 @@
 # @felte/reporter-solid
 
+## 1.1.1
+
+### Patch Changes
+
+- cd74413: Fix type declaration not being generated properly
+
 ## 1.1.0
 
 ### Minor Changes
