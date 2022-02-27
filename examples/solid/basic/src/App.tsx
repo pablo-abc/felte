@@ -37,24 +37,20 @@ const App: Component = () => {
           <legend>Sign In</legend>
           <label for="email">Email:</label>
           <input type="email" name="email" id="email" />
-          <ValidationMessage for="email">
+          <ValidationMessage for="email" as="ul" aria-live="polite">
             {(messages) => (
-              <ul aria-live="polite">
-                <Index each={messages ?? []}>
-                  {(message) => <li>* {message}</li>}
-                </Index>
-              </ul>
+              <Index each={messages ?? []}>
+                {(message) => <li>* {message}</li>}
+              </Index>
             )}
           </ValidationMessage>
           <label for="password">Password:</label>
           <input type="password" name="password" id="password" />
-          <ValidationMessage for="password">
+          <ValidationMessage for="password" as="ul" aria-live="polite">
             {(messages) => (
-              <ul aria-live="polite">
-                <Index each={messages ?? []}>
-                  {(message) => <li>* {message}</li>}
-                </Index>
-              </ul>
+              <Index each={messages ?? []}>
+                {(message) => <li>* {message}</li>}
+              </Index>
             )}
           </ValidationMessage>
         </fieldset>
