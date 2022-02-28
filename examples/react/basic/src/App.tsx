@@ -35,12 +35,12 @@ function App() {
           <label htmlFor="email">Email:</label>
           <input type="email" name="email" id="email" />
           <ValidationMessage for="email" as="ul" aria-live="polite">
-            {(messages) => messages?.map((message) => <li>* {message}</li>)}
+            {(messages) => messages?.map((message) => <li>{message}</li>)}
           </ValidationMessage>
           <label htmlFor="password">Password:</label>
           <input type="password" name="password" id="password" />
           <ValidationMessage for="password" as="ul" aria-live="polite">
-            {(messages) => messages?.map((message) => <li>* {message}</li>)}
+            {(messages) => messages?.map((message) => <li>{message}</li>)}
           </ValidationMessage>
         </fieldset>
         <button type="submit">Submit</button>

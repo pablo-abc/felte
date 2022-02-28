@@ -18,7 +18,7 @@
 
 body {
   margin: 0;
-  font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont, Segoe UI,
+  font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, Segoe UI,
     Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   font-size: 14px;
   line-height: 1.5;
@@ -33,7 +33,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Cabin", sans-serif;
+  font-family: 'Cabin', sans-serif;
   margin: 1rem;
   font-weight: 700;
   line-height: 1.2;
@@ -75,10 +75,10 @@ code {
   border-radius: 2px;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
-[contenteditable="true"],
+input[type='text'],
+input[type='email'],
+input[type='password'],
+[contenteditable='true'],
 textarea {
   font-size: 1em;
   border: 1px solid #aaa;
@@ -90,8 +90,8 @@ textarea {
   color: black;
 }
 
-input[aria-invalid="true"],
-[contenteditable][aria-invalid="true"] {
+input[aria-invalid='true'],
+[contenteditable][aria-invalid='true'] {
   border: 2px solid var(--error-color);
 }
 
@@ -117,16 +117,16 @@ button {
   transition: transform 0.1s;
 }
 
-button:not([aria-disabled="true"]):hover {
+button:not([aria-disabled='true']):hover {
   cursor: pointer;
   background: var(--primary-color-hover);
 }
 
-button:not([aria-disabled="true"]):active {
+button:not([aria-disabled='true']):active {
   transform: scale(0.9);
 }
 
-button[aria-disabled="true"] {
+button[aria-disabled='true'] {
   background: var(--primary-color-hover);
   cursor: not-allowed;
 }
@@ -137,4 +137,8 @@ form ul {
 
 label {
   display: block;
+}
+
+li {
+  list-style: disc inside;
 }

@@ -40,7 +40,7 @@ const App: Component = () => {
           <ValidationMessage for="email" as="ul" aria-live="polite">
             {(messages) => (
               <Index each={messages ?? []}>
-                {(message) => <li>* {message}</li>}
+                {(message) => <li>{message}</li>}
               </Index>
             )}
           </ValidationMessage>
@@ -49,7 +49,7 @@ const App: Component = () => {
           <ValidationMessage for="password" as="ul" aria-live="polite">
             {(messages) => (
               <Index each={messages ?? []}>
-                {(message) => <li>* {message}</li>}
+                {(message) => <li>{message}</li>}
               </Index>
             )}
           </ValidationMessage>

@@ -34,7 +34,7 @@
       <ValidationMessage for="email" let:messages={messages}>
         <ul aria-live="polite">
           {#each messages ?? [] as message}
-            <li>* {message}</li>
+            <li>{message}</li>
           {/each}
         </ul>
       </ValidationMessage>
@@ -43,7 +43,7 @@
       <ValidationMessage for="password" let:messages={messages}>
         <ul aria-live="polite">
           {#each messages ?? [] as message}
-            <li>* {message}</li>
+            <li>{message}</li>
           {/each}
         </ul>
       </ValidationMessage>
