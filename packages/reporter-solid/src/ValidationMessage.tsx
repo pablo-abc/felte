@@ -6,6 +6,7 @@ import {
   onCleanup,
   mergeProps,
   splitProps,
+  Show,
 } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 import { errorStores, warningStores } from './stores';
@@ -55,18 +56,19 @@ export function ValidationMessage(props: ValidationMessageProps) {
 
   onCleanup(() => unsubscribe?.());
 
-  if (!props.as) {
-    return (
-      <>
-        <div id={id} style="display: none;" />
-        {props.children(messages())}
-      </>
-    );
-  }
-
   return (
-    <Dynamic component={props.as} {...others} id={id}>
-      {props.children(messages())}
-    </Dynamic>
+    <Show
+      when={props.as}
+      fallback={
+        <>
+          <div id={id} style="display: none;" />
+          {props.children(messages())}
+        </>
+      }
+    >
+      <Dynamic component={props.as} {...others} id={id}>
+        {props.children(messages())}
+      </Dynamic>
+    </Show>
   );
 }

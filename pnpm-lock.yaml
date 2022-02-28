@@ -39,7 +39,7 @@ importers:
       jsdom: ^19.0.0
       mdsvex: ^0.9.0
       nyc: ^15.1.0
-      pnpm: ^6.29.1
+      pnpm: ^6.32.2
       prettier: ^2.2.1
       rimraf: ^3.0.2
       rollup: ^2.38.0
@@ -104,7 +104,7 @@ importers:
       jsdom: 19.0.0
       mdsvex: 0.9.0_svelte@3.37.0
       nyc: 15.1.0
-      pnpm: 6.29.1
+      pnpm: 6.32.2
       prettier: 2.2.1
       rimraf: 3.0.2
       rollup: 2.45.2
@@ -8845,8 +8845,8 @@ packages:
     dependencies:
       find-up: 4.1.0
 
-  /pnpm/6.29.1:
-    resolution: {integrity: sha512-ZOTHREJQSwLgK9psbH+BxGFY6Wvky4XYBYTZsULihuj1GPEsGcRZpxFgkX73OdLrYaZBeGMPadCYqGeK5gZu1A==}
+  /pnpm/6.32.2:
+    resolution: {integrity: sha512-uPZDMVfB4SEygvfUJHBTNXUCrMCxkXV5QHaoEURCeHP5GDojKH21L1Onk2Qft+kYBmLCmipV3JCGfojSQV3epw==}
     engines: {node: '>=12.17'}
     hasBin: true
     dev: true
