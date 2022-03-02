@@ -3,6 +3,7 @@
   import Features from '$lib/components/Features.svelte';
   import Example from '$lib/components/Example.svelte';
   import Head from '$lib/components/Head.svelte';
+  import Articles from '$lib/components/Articles.svelte';
   import { setLocale } from 'yup';
 
   setLocale({
@@ -32,6 +33,9 @@
   </div>
   <div class=row>
     <Features />
+  </div>
+  <div class=row>
+    <Articles />
   </div>
   <div class=row>
     <Example title="Using Svelte">

@@ -44,6 +44,7 @@
 <style>
   .main-container {
     display: grid;
+    margin-top: 1rem;
     grid-template-areas: 'search' 'main';
     margin-bottom: 4rem;
     grid-template-columns: 1fr;
