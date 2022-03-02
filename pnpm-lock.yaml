@@ -131,8 +131,8 @@ importers:
 
   examples/preact/basic:
     specifiers:
-      '@felte/preact': workspace:*
-      '@felte/reporter-preact': workspace:*
+      '@felte/preact': latest
+      '@felte/reporter-preact': latest
       '@preact/preset-vite': ^2.1.5
       preact: ^10.5.15
       typescript: ^4.5.4

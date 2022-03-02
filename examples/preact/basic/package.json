@@ -8,8 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@felte/preact": "workspace:*",
-    "@felte/reporter-preact": "workspace:*",
+    "@felte/preact": "latest",
+    "@felte/reporter-preact": "latest",
     "preact": "^10.5.15"
   },
   "devDependencies": {
