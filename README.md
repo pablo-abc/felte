@@ -14,7 +14,7 @@
 - [Simple usage example](#simple-usage-example)
   - [Svelte](#svelte)
   - [Solid](#solid)
-  - [React](#react)
+  - [React/Preact](#react-preact)
 - [Packages](#packages)
   - [Svelte](#svelte-1)
     - [`felte`](./packages/felte/README.md)
@@ -22,9 +22,12 @@
   - [Solid](#solid-1)
     - [`@felte/solid`](./packages/solid/README.md)
     - [`@felte/reporter-solid`](./packages/reporter-solid/README.md)
-  - [React](#react-1)
+  - [React](#react)
     - [`@felte/react`](./packages/react/README.md)
     - [`@felte/reporter-react`](./packages/reporter-react/README.md)
+  - [Preact](#preact)
+    - [`@felte/preact`](./packages/preact/README.md)
+    - [`@felte/reporter-preact`](./packages/reporter-preact/README.md)
   - [Validators](#validators)
     - [`@felte/validator-yup`](./packages/validator-yup/README.md)
     - [`@felte/validator-zod`](./packages/validator-zod/README.md)
@@ -95,10 +98,11 @@ function Form() {
 }
 ```
 
-### React
+### React/Preact
 
 ```jsx
 import { useForm } from '@felte/react';
+// if using preact, use `@felte/preact`
 
 function Form() {
   const { form } = useForm({
@@ -156,6 +160,18 @@ This is the main package that contains the basic functionality you need to handl
 #### [@felte/reporter-react](./packages/reporter-react/README.md)
 
 A reporter packages that uses a React component to pass the validation messages for you to display. This provides an API that might feel the most familiar to most developers.
+
+### Preact
+
+We provide two packages that are specific to Preact:
+
+#### [@felte/preact](./packages/preact/README.md)
+
+This is the main package that contains the basic functionality you need to handle your forms in Preact. Same as `felte` but specifically made for Preact. The API is the same as `@felte/react` so you can refer to the same documentation.
+
+#### [@felte/reporter-preact](./packages/reporter-preact/README.md)
+
+A reporter packages that uses a Preact component to pass the validation messages for you to display. This provides an API that might feel the most familiar to most developers. The API is the same as `@felte/react` so you can refer to the same documentation.
 
 ### Validators
 
