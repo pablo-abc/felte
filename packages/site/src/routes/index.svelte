@@ -1,3 +1,16 @@
+<script context="module">
+  /** @type {import('@sveltejs/kit').Load} */
+  export async function load({ fetch }) {
+    const response = await fetch('/articles.json');
+    return {
+      status: response.status,
+      props: {
+        articles: response.ok && (await response.json()),
+      },
+    }
+  }
+</script>
+
 <script>
   import HomeExample from '$lib/components/HomeExample.svelte';
   import Features from '$lib/components/Features.svelte';
@@ -5,6 +18,8 @@
   import Head from '$lib/components/Head.svelte';
   import Articles from '$lib/components/Articles.svelte';
   import { setLocale } from 'yup';
+
+  export let articles;
 
   setLocale({
     mixed: {
@@ -35,7 +50,7 @@
     <Features />
   </div>
   <div class=row>
-    <Articles />
+    <Articles {articles} />
   </div>
   <div class=row>
     <Example title="Using Svelte">
