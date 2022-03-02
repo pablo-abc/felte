@@ -148,8 +148,8 @@ importers:
 
   examples/react/basic:
     specifiers:
-      '@felte/react': next
-      '@felte/reporter-react': next
+      '@felte/react': latest
+      '@felte/reporter-react': latest
       '@types/react': ^17.0.33
       '@types/react-dom': ^17.0.10
       '@vitejs/plugin-react': ^1.0.7
@@ -188,10 +188,10 @@ importers:
 
   examples/svelte/basic:
     specifiers:
-      '@felte/reporter-svelte': next
+      '@felte/reporter-svelte': latest
       '@sveltejs/vite-plugin-svelte': ^1.0.0-next.30
       '@tsconfig/svelte': ^2.0.1
-      felte: next
+      felte: latest
       svelte: ^3.44.0
       svelte-check: ^2.2.7
       svelte-preprocess: ^4.9.8
