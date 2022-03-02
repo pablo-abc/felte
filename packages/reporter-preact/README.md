@@ -1,29 +1,31 @@
-# @felte/reporter-react
+# @felte/reporter-preact
 
-[![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-react)](https://bundlephobia.com/result?p=@felte/reporter-react)
-[![NPM Version](https://img.shields.io/npm/v/@felte/reporter-react)](https://www.npmjs.com/package/@felte/reporter-react)
+[![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-preact)](https://bundlephobia.com/result?p=@felte/reporter-preact)
+[![NPM Version](https://img.shields.io/npm/v/@felte/reporter-preact)](https://www.npmjs.com/package/@felte/reporter-preact)
 
-A Felte reporter that uses a custom React component to report errors.
+A Felte reporter that uses a custom Preact component to report errors.
 
 ## Installation
 
 ```sh
 # npm
-npm i -S @felte/reporter-react
+npm i -S @felte/reporter-preact
 
 # yarn
-yarn add @felte/reporter-react
+yarn add @felte/reporter-preact
 ```
 
 ## Usage
+
+Its usage is exactly the same as `@felte/reporter-react` except for the import statements.
 
 The package exports a `reporter` function and a `ValidationMessage` component. Pass the `reporter` function to the `extend` option of `useForm` and add the `ValidationMessage` component wherever you want your validation messages to be displayed.
 
 The `ValidationMessage` component needs a `for` prop set with the **name** of the input it corresponds to, the child of `ValidationMessage` is a function that takes the error messages as an argument. This can be either a `string`, an array of `strings`, or `undefined`.
 
 ```tsx
-import { reporter, ValidationMessage } from '@felte/reporter-react';
-import { useForm } from '@felte/react';
+import { reporter, ValidationMessage } from '@felte/reporter-preact';
+import { useForm } from '@felte/preact';
 
 export function Form() {
   const { form } = useForm({

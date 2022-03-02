@@ -1,0 +1,59 @@
+{
+  "name": "@felte/preact",
+  "version": "1.0.0",
+  "description": "An extensible form library for Preact",
+  "main": "dist/cjs/index.cjs",
+  "browser": "dist/esm/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "type": "module",
+  "engines": {
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+  },
+  "sideEffects": false,
+  "author": "Pablo Berganza <pablo@berganza.dev>",
+  "license": "MIT",
+  "homepage": "https://felte.dev",
+  "repository": "github:pablo-abc/felte",
+  "funding": "https://www.buymeacoffee.com/pablo.abc",
+  "keywords": [
+    "preact",
+    "preactjs",
+    "forms",
+    "validation"
+  ],
+  "scripts": {
+    "prebuild": "rimraf ./dist",
+    "build": "pnpm prebuild && cross-env NODE_ENV=production rollup -c",
+    "dev": "rollup -cw",
+    "prepublishOnly": "pnpm build && pnpm test",
+    "test": "uvu -r tsm -r global-jsdom/register tests -i common",
+    "test:ci": "nyc -n src pnpm test"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@felte/core": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "preact": "^10.0.0"
+  },
+  "devDependencies": {
+    "@felte/common": "workspace:*",
+    "@testing-library/preact": "^2.0.1",
+    "@testing-library/preact-hooks": "^1.1.0",
+    "preact": "^10.5.15"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs",
+      "default": "./dist/esm/index.js"
+    },
+    "./package.json": "./package.json"
+  }
+}
