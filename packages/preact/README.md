@@ -3,7 +3,7 @@
 [![Bundle size](https://img.shields.io/bundlephobia/min/@felte/preact)](https://bundlephobia.com/result?p=@felte/preact)
 [![NPM Version](https://img.shields.io/npm/v/@felte/preact)](https://www.npmjs.com/package/@felte/preact)
 
-Felte is an extensible form library originally built for Svelte but easily integrated with Preact using this package. Felte, on its most simple form, only requires you to set a `ref` to your form element to work. No custom `Field`or `Form` components are needed, making custom styles really easy to do.
+Felte is an extensible form library originally built for Svelte but easily integrated with Preact using this package. Felte, on its most simple form, only requires you to set a `ref` to your form element to work. No custom `Field`or `Form` components are needed, making custom styles really easy to do. If you want to see it in action, you can check this [CodeSandbox demo](https://codesandbox.io/s/felte-preact-demo-svkbbe?file=/src/App.js).
 
 ## Features
 
