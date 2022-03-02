@@ -23,6 +23,8 @@ npm i -S @felte/reporter-react
 yarn add @felte/reporter-react
 ```
 
+> **NOTE**: If you're using preact, you can use `@felte/reporter-preact` instead. The API is the same so you can refer to this documentation for it as well!
+
 It exports a `reporter` function and a `ValidationMessage` component. Pass the `reporter` function to the `extend` option of `useForm` and add the `ValidationMessage` component wherever you want your validation messages to be displayed.
 
 The `ValidationMessage` component needs a `for` prop set with the **name** of the input it corresponds to, the child of `ValidationMessage` is a function that takes the error messages as an argument. This can be either a `string`, an array of `strings`, or `undefined`.

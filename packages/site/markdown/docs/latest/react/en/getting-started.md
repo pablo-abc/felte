@@ -22,6 +22,8 @@ If you use yarn:
 yarn add @felte/react
 ```
 
+> **NOTE**: If you're using preact, you can use `@felte/preact` instead. The API is the same so you can refer to this documentation for it as well!
+
 Then, inside of the React component where you have your form, import the `useForm` function and call it with a configuration object containing an `onSubmit` function. The `useForm` function returns a function that you can use in any form as a `ref` to the HTML form element. This is all you need to make Felte track your form.
 
 ```tsx
