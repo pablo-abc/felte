@@ -1,5 +1,11 @@
 # @felte/reporter-solid
 
+## 1.1.1
+
+### Patch Changes
+
+- 71f4a47: Improve handling of `as` prop
+
 ## 1.1.0
 
 ### Minor Changes
