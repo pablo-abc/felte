@@ -14,7 +14,7 @@
 - [Simple usage example](#simple-usage-example)
   - [Svelte](#svelte)
   - [Solid](#solid)
-  - [React/Preact](#react-preact)
+  - [React/Preact](#reactpreact)
 - [Packages](#packages)
   - [Svelte](#svelte-1)
     - [`felte`](./packages/felte/README.md)
