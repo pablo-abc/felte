@@ -137,6 +137,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "rschristian",
+      "name": "Ryan Christian",
+      "avatar_url": "https://avatars.githubusercontent.com/u/33403762?v=4",
+      "profile": "https://github.com/rschristian",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7
