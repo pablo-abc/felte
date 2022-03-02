@@ -1,4 +1,5 @@
 import type { VNode, ComponentType } from 'preact';
+// eslint-disable-next-line
 import { h, Fragment } from 'preact';
 import { useState, useEffect, useMemo } from 'preact/hooks';
 import { _get, getPath, createId } from '@felte/common';

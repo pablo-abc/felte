@@ -1,5 +1,6 @@
 /** @jsx h */
 import 'uvu-expect-dom/extend';
+// eslint-disable-next-line
 import { h } from 'preact';
 import { suite } from 'uvu';
 import { expect } from 'uvu-expect';

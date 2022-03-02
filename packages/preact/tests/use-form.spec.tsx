@@ -1,4 +1,5 @@
 /** @jsx h */
+// eslint-disable-next-line
 import { h } from 'preact';
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
@@ -12,9 +13,9 @@ const UseForm = suite('useForm');
 UseForm('calls onSubmit without a form ref', async () => {
   const mockSubmit = sinon.fake();
   const { result } = renderHook(() => useForm({ onSubmit: mockSubmit }));
-  const submit = result.current!.createSubmitHandler();
+  const submit = result.current?.createSubmitHandler();
   sinon.assert.notCalled(mockSubmit);
-  submit();
+  submit?.();
   await waitFor(() => {
     sinon.assert.called(mockSubmit);
   });
@@ -40,10 +41,10 @@ UseForm('sets value with helper', () => {
   const { result, unmount } = renderHook(() =>
     useForm({ onSubmit: mockSubmit, initialValues: { email: '' } })
   );
-  act(() => result.current!.setTouched('email', true));
-  expect(result.current!.errors()).to.deep.equal({ email: null });
-  act(() => result.current!.setErrors({ email: ['not an email'] }));
-  expect(result.current!.errors()).to.deep.equal({ email: ['not an email'] });
+  act(() => result.current?.setTouched('email', true));
+  expect(result.current?.errors()).to.deep.equal({ email: null });
+  act(() => result.current?.setErrors({ email: ['not an email'] }));
+  expect(result.current?.errors()).to.deep.equal({ email: ['not an email'] });
   unmount();
 });
 
@@ -55,23 +56,23 @@ UseForm('updates value with helper', () => {
   const { result } = renderHook(() =>
     useForm<Data>({ onSubmit: mockSubmit, initialValues: { email: '' } })
   );
-  act(() => result.current!.setTouched('email', true));
-  expect(result.current!.errors()).to.deep.equal({ email: null });
-  act(() => result.current!.setErrors({ email: ['not an email'] }));
-  expect(result.current!.errors()).to.deep.equal({ email: ['not an email'] });
+  act(() => result.current?.setTouched('email', true));
+  expect(result.current?.errors()).to.deep.equal({ email: null });
+  act(() => result.current?.setErrors({ email: ['not an email'] }));
+  expect(result.current?.errors()).to.deep.equal({ email: ['not an email'] });
   act(() => {
-    result.current!.setErrors((oldErrors) => ({
+    result.current?.setErrors((oldErrors) => ({
       ...oldErrors,
       email: oldErrors.email?.[0].toUpperCase(),
     }));
   });
-  expect(result.current!.errors()).to.deep.equal({ email: ['NOT AN EMAIL'] });
+  expect(result.current?.errors()).to.deep.equal({ email: ['NOT AN EMAIL'] });
   act(() => {
-    result.current!.setErrors('email', (email) =>
+    result.current?.setErrors('email', (email) =>
       (email as string).toLowerCase()
     );
   });
-  expect(result.current!.errors()).to.deep.equal({ email: ['not an email'] });
+  expect(result.current?.errors()).to.deep.equal({ email: ['not an email'] });
 });
 
 UseForm.run();

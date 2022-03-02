@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import { h } from 'preact';
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
