@@ -1,16 +1,23 @@
 <script>
-  import Lazy from 'svelte-lazy';
-  import Loader from './Loader.svelte';
-
   export let title;
+
+  let show = false;
+
+  $: id = title.replace(/ /g, '-').toLowerCase();
 </script>
 
-<div class="example">
-  <h2>{title}</h2>
-  <Lazy height="500px" placeholder={Loader} placeholderProps={{}} fadeOption={{ duration: 0 }}>
+<section class="example" aria-labelledby={id}>
+  <h2 {id}>{title}</h2>
+  {#if show}
     <div class="iframe-container"><slot></slot></div>
-  </Lazy>
-</div>
+  {:else}
+    <div class="container">
+      <button on:click="{() => (show = true)}" class="primary">
+        Load example <span class=sr-only>on {title}</span>
+      </button>
+    </div>
+  {/if}
+</section>
 
 <style>
   .example {
@@ -21,16 +28,19 @@
     margin: 2rem auto;
   }
 
-  .example :global(.svelte-lazy-placeholder) {
-    position: absolute;
-    left: 50%;
-    transform: translateY(-50%) translateX(-50%);
-    top: 50%;
+  .iframe-container, .container {
+    border: 2px solid var(--primary-color);
+    background: #222;
   }
 
-  .iframe-container {
-    border: 2px solid var(--primary-color);
-    background: var(--example-background);
+  .container {
+    height: 500px;
+    display: grid;
+    place-items: center;
+  }
+
+  .container button {
+    font-size: 1.1rem;
   }
 
   @media (min-width: 966px) {

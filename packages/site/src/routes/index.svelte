@@ -20,13 +20,13 @@
 
 <main>
   <div class=row>
-    <section class=title>
-      <h1>FELTE</h1>
-      <h2>
+    <section class=title aria-labelledby="felte-title">
+      <h1 id="felte-title">FELTE</h1>
+      <p>
         An extensible <span class=bold>f</span>orm library for Sv<span class=bold>elte</span>, Solid and React
-      </h2>
+      </p>
     </section>
-    <section>
+    <section aria-label="Functional example">
       <HomeExample />
     </section>
   </div>
@@ -64,6 +64,16 @@
               ></iframe>
     </Example>
   </div>
+  <div class=row>
+    <Example title="Using Preact">
+      <iframe src="https://codesandbox.io/embed/felte-preact-demo-svkbbe?fontsize=14&hidenavigation=1&module=%2Fsrc%2FApp.js&theme=dark"
+              style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+              title="felte-preact-demo"
+              allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+              sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+              ></iframe>
+    </Example>
+  </div>
 </main>
 
 <style>
@@ -92,10 +102,12 @@
     text-transform: uppercase;
     font-weight: 700;
     letter-spacing: 0.1em;
-    margin: 0 0 0.5em 0;
+    margin: 0 0 0.2em 0;
   }
 
-  h2 {
+  p {
+    margin: 0;
+    font-size: 1.5rem;
     font-weight: 400;
   }
 

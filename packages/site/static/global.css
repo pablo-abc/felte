@@ -124,3 +124,23 @@ label input[aria-invalid="true"] {
   white-space: nowrap;
   width: 1px;
 }
+
+button.primary {
+  margin-top: 0.7em;
+  font-size: 0.8em;
+  font-weight: 700;
+  padding: 0.7em;
+  background: var(--highlight-background);
+  border-radius: 10px;
+  border: none;
+  color: white;
+  transition: transform 0.1s;
+}
+
+button.primary:hover {
+  background: var(--highlight-background-hover);
+}
+
+button.primary:active {
+  transform: scale(0.9);
+}

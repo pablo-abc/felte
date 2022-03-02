@@ -30,7 +30,7 @@
     <span>Password:</span>
     <input name="password" type="password">
   </label>
-  <button type="submit">Fail to sign in</button>
+  <button class="primary" type="submit">Fail to sign in</button>
 </form>
 
 <style>
@@ -53,25 +53,5 @@
   label span {
     font-weight: 700;
     margin-top: 0.7em;
-  }
-
-  button {
-    margin-top: 0.7em;
-    font-size: 0.8em;
-    font-weight: 700;
-    padding: 0.7em;
-    background: var(--highlight-background);
-    border-radius: 10px;
-    border: none;
-    color: var(--on-highlight-color);
-    transition: transform 0.1s;
-  }
-
-  button:hover {
-    background: var(--highlight-background-hover);
-  }
-
-  button:active {
-    transform: scale(0.9);
   }
 </style>
