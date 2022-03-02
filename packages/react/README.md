@@ -18,7 +18,7 @@ Felte is an extensible form library originally built for Svelte but easily integ
 - Supports validation with [yup](./packages/validator-yup/README.md), [zod](./packages/validator-zod/README.md) and [superstruct](./packages/validator-superstruct/README.md).
 - Easily [extend its functionality](https://felte.dev/docs/react/extending-felte).
 
-## Simple ussage example
+## Simple usage example
 
 ```jsx
 import React, { useEffect } from 'react';
