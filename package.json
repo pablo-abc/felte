@@ -9,7 +9,7 @@
     "test": "pnpm -r test",
     "test:ci": "pnpm -r test:ci",
     "lint": "eslint packages --max-warnings=0 --ignore-pattern *packages/site*",
-    "build_": "pnpm -r build --filter='!@felte/site' --filter='!@example/*'",
+    "build_": "pnpm -r build --filter='!root' --filter='!@felte/site' --filter='!@example/*'",
     "build": "pnpm turbo run build",
     "<!-- Turbo bug / missing feature -->": "https://github.com/vercel/turborepo/pull/81#issuecomment-1058911676 --scope=\"@felte/*\" --scope=\"felte\" --scope=\"!@example/*\" --scope=\"!@felte/site\" --ignore=\"examples/**/*\" --ignore=\"packages/site/**/*\"",
     "dev": "pnpm -r --parallel dev --filter='!@felte/site' --filter='!@example/*'",
