@@ -13,7 +13,7 @@
     "build": "pnpm turbo run build",
     "<!-- Turbo bug / missing feature -->": "https://github.com/vercel/turborepo/pull/81#issuecomment-1058911676 --scope=\"@felte/*\" --scope=\"felte\" --scope=\"!@example/*\" --scope=\"!@felte/site\" --ignore=\"examples/**/*\" --ignore=\"packages/site/**/*\"",
     "dev_": "pnpm -r --parallel dev --filter='!@felte/site' --filter='!@example/*'",
-    "dev": "pnpm build && chokidar \"packages/**/*.ts\" \"packages/**/*.js\" \"packages/**/*.cjs\" \"packages/**/*.mjs\" \"packages/**/*.tsx\" \"packages/**/*.css\" \"packages/**/*.json\" \"packages/**/*.md\" \"packages/**/*.svg\" \"packages/**/*.png\" --ignore \"**/node_modules/**/*\" --ignore \"**/.turbo/**/*\" --ignore \"**/dist/**/*\" --ignore \"**/.svelte-kit/**/*\" --ignore \"**/build/**/*\" -c \"pnpm build\"",
+    "dev": "pnpm build && pnpm chokidar \"packages/**/*.ts\" \"packages/**/*.js\" \"packages/**/*.cjs\" \"packages/**/*.mjs\" \"packages/**/*.tsx\" \"packages/**/*.css\" \"packages/**/*.json\" \"packages/**/*.md\" \"packages/**/*.svg\" \"packages/**/*.png\" --ignore \"**/node_modules/**/*\" --ignore \"**/.turbo/**/*\" --ignore \"**/dist/**/*\" --ignore \"**/.svelte-kit/**/*\" --ignore \"**/build/**/*\" -c \"pnpm build\"",
     "prepare": "husky install",
     "publish": "pnpm i && pnpm lint && pnpm -r publish",
     "clean-turbo": "rimraf \"**/node_modules/.cache/turbo\" && rimraf \"**/.turbo\""
