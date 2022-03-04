@@ -9,10 +9,13 @@
     "test": "pnpm -r test",
     "test:ci": "pnpm -r test:ci",
     "lint": "eslint packages --max-warnings=0 --ignore-pattern *packages/site*",
-    "build": "pnpm -r build --filter='!@felte/site' --filter='!@example/*'",
+    "build_": "pnpm -r build --filter='!@felte/site' --filter='!@example/*'",
+    "build": "pnpm turbo run build",
+    "<!-- Turbo bug / missing feature -->": "https://github.com/vercel/turborepo/pull/81#issuecomment-1058911676 --scope=\"@felte/*\" --scope=\"felte\" --scope=\"!@example/*\" --scope=\"!@felte/site\" --ignore=\"examples/**/*\" --ignore=\"packages/site/**/*\"",
     "dev": "pnpm -r --parallel dev --filter='!@felte/site' --filter='!@example/*'",
     "prepare": "husky install",
-    "publish": "pnpm i && pnpm lint && pnpm -r publish"
+    "publish": "pnpm i && pnpm lint && pnpm -r publish",
+    "clean-turbo": "rimraf \"**/node_modules/.cache/turbo\" && rimraf \"**/.turbo\""
   },
   "devDependencies": {
     "@babel/core": "^7.16.5",
@@ -61,6 +64,7 @@
     "tippy.js": "^6.0.0",
     "tslib": "^2.3.1",
     "tsm": "^2.2.1",
+    "turbo": "^1.1.5",
     "typedoc": "^0.22.10",
     "typescript": "^4.5.5",
     "uvu": "^0.5.3",
@@ -74,6 +78,7 @@
     "node": "14.15.5",
     "npm": "6.14.13"
   },
+  "packageManager": "pnpm@6.32.2",
   "dependencies": {
     "@babel/plugin-syntax-jsx": "^7.14.5",
     "@changesets/cli": "^2.20.0",

@@ -1,3 +1,4 @@
+import { h } from 'preact';
 import { useState } from 'preact/hooks';
 import { useForm } from '@felte/preact';
 import { reporter, ValidationMessage } from '@felte/reporter-preact';

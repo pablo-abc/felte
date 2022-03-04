@@ -1,3 +1,5 @@
+import { h } from 'preact';
+
 export const Logo = () => (
   <svg
     class="logo"
