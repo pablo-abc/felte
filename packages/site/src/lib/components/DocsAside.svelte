@@ -85,7 +85,7 @@
     >
       <option value="svelte">Svelte</option>
       <option value="solid">Solid</option>
-      <option value="react">React</option>
+      <option value="react">React/Preact</option>
     </select>
     <DocsNav framework={$session.framework ?? 'svelte'} items={asideItems} />
   </nav>
