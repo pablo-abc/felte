@@ -1,0 +1,36 @@
+{
+  "name": "@felte/reporter-element",
+  "version": "0.1.0",
+  "description": "An error reporter for Felte using custom elements",
+  "main": "dist/index.cjs",
+  "module": "dist/esm/index.js",
+  "browser": "dist/esm/index.js",
+  "type": "module",
+  "scripts": {
+    "prebuild": "rimraf ./dist",
+    "build": "pnpm prebuild && NODE_ENV=production rollup -c",
+    "dev": "rollup -cw",
+    "prepublishOnly": "pnpm run build",
+    "test": "node --conditions browser node_modules/uvu/bin.js -r solid-register tests -i common -i setup",
+    "test:ci": "nyc pnpm test"
+  },
+  "author": "Pablo Berganza <pablo@berganza.dev>",
+  "license": "MIT",
+  "repository": "github:pablo-abc/felte",
+  "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/reporter-element",
+  "devDependencies": {
+    "tslib": "^2.3.1"
+  },
+  "dependencies": {
+    "@felte/common": "workspace:*",
+    "lit": "^2.2.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/esm/index.js"
+    },
+    "./package.json": "./package.json"
+  }
+}
