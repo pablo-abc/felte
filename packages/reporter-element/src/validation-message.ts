@@ -98,9 +98,16 @@ export class FelteValidationMessage extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    setTimeout(() => {
-      this._setup();
-      this._start();
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        try {
+          this._setup();
+          this._start();
+          resolve(undefined);
+        } catch (error) {
+          reject(error);
+        }
+      });
     });
   }
 

@@ -34,7 +34,7 @@ export default {
       ),
       preventAssignment: true,
     }),
-    resolve({ browser: true }),
+    resolve({ browser: true, exportConditions: prod ? [] : ['development'] }),
     commonjs(),
     typescript({ browserslist: false }),
     prod && bundleSize(),
