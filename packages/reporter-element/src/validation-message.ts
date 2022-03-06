@@ -108,3 +108,9 @@ export class FelteValidationMessage extends LitElement {
     return html`<slot></slot>`;
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'felte-validation-message': FelteValidationMessage;
+  }
+}

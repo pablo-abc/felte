@@ -11,7 +11,7 @@
     "build": "pnpm prebuild && NODE_ENV=production rollup -c",
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm run build",
-    "test": "node --conditions browser node_modules/uvu/bin.js -r solid-register tests -i common -i setup",
+    "test": "uvu -r tsm -r global-jsdom/register tests -i common",
     "test:ci": "nyc pnpm test"
   },
   "author": "Pablo Berganza <pablo@berganza.dev>",
@@ -19,7 +19,9 @@
   "repository": "github:pablo-abc/felte",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/reporter-element",
   "devDependencies": {
-    "tslib": "^2.3.1"
+    "@felte/core": "workspace:*",
+    "tslib": "^2.3.1",
+    "uvu": "^0.5.3"
   },
   "dependencies": {
     "@felte/common": "workspace:*",
