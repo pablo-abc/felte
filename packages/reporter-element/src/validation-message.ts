@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, PropertyValues } from 'lit';
 import { customElement, state, property } from 'lit/decorators.js';
 import { warningStores, errorStores } from './stores';
 import { _get } from '@felte/common';
@@ -81,7 +81,7 @@ export class FelteValidationMessage extends LitElement {
     });
   }
 
-  updated(changedProperties: Map<string, any>) {
+  updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has('items') && this.container) {
       for (const child of Array.from(this.container.childNodes)) {
         if (this.items.includes(child as HTMLElement)) continue;
