@@ -232,9 +232,13 @@ Reporter(
       name: 'multiple',
       type: 'text',
     });
+    const templateElement = document.createElement('template');
+    templateElement.id = 'validation-message';
+    templateElement.innerHTML = '<span part="item"></span>';
+    formElement.appendChild(templateElement);
     const multipleMessages = multipleInputs.map((el) => {
       const mes = document.createElement('felte-validation-message');
-      mes.innerHTML = spanTemplate;
+      mes.templateId = templateElement.id;
       mes.setAttribute('for', el.name);
       return mes;
     });
