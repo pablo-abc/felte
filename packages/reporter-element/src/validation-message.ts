@@ -17,6 +17,9 @@ export class FelteValidationMessage extends LitElement {
   @property()
   templateId?: string;
 
+  @property({ attribute: false })
+  messages: string[] | null = null;
+
   @state()
   container?: HTMLElement | ShadowRoot | null;
 
@@ -42,16 +45,10 @@ export class FelteValidationMessage extends LitElement {
           .find(
             (node) => node instanceof HTMLTemplateElement
           ) as HTMLTemplateElement | null);
-    if (!template)
-      throw new Error(
-        '<felte-validation-message> requires one <template> element as a direct child'
-      );
+    if (!template) return;
     const node = document.importNode(template.content, true);
     const item = node.querySelector('[part="item"]');
-    if (!item)
-      throw new Error(
-        'An element with an attribute [part="item"] must be within the template on <felte-validation-message>'
-      );
+    if (!item) return;
     this.item = item?.cloneNode(true) as HTMLElement | null;
     this.container = item?.parentElement ?? this.renderRoot;
     if (item) (item.parentElement ?? node)?.removeChild(item);
@@ -76,6 +73,7 @@ export class FelteValidationMessage extends LitElement {
       const itemTemplate = this.item;
       if (!$messages || !itemTemplate) return;
       const messages = _get($messages, path) as string[];
+      this.messages = messages;
       if (!messages || messages.length === 0) {
         this.items = [];
         return;
@@ -122,7 +120,7 @@ export class FelteValidationMessage extends LitElement {
   }
 
   render() {
-    return html`<slot></slot>`;
+    return html`<slot @slotchange=${this._setup}></slot>`;
   }
 }
 
@@ -130,4 +128,6 @@ declare global {
   interface HTMLElementTagNameMap {
     'felte-validation-message': FelteValidationMessage;
   }
+
+  type HTMLFelteValidationMessageElement = FelteValidationMessage;
 }

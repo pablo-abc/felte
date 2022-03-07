@@ -131,6 +131,21 @@ importers:
       yup: 0.32.9
       zod: 1.11.13
 
+  examples/lit/basic:
+    specifiers:
+      '@felte/reporter-element': workspace:*
+      '@felte/vanilla': workspace:*
+      lit: ^2.0.2
+      typescript: ^4.5.4
+      vite: ^2.8.0
+    dependencies:
+      '@felte/reporter-element': link:../../../packages/reporter-element
+      '@felte/vanilla': link:../../../packages/vanilla
+      lit: 2.2.0
+    devDependencies:
+      typescript: 4.5.5
+      vite: 2.8.4
+
   examples/preact/basic:
     specifiers:
       '@felte/preact': latest
@@ -621,6 +636,15 @@ importers:
       felte: link:../felte
       svelte: 3.46.4
       zod: 3.2.0
+
+  packages/vanilla:
+    specifiers:
+      '@felte/common': workspace:*
+      '@felte/core': workspace:*
+    dependencies:
+      '@felte/core': link:../core
+    devDependencies:
+      '@felte/common': link:../common
 
 packages:
 
