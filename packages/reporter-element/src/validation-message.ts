@@ -14,6 +14,9 @@ export class FelteValidationMessage extends LitElement {
   @property({ type: Number })
   max?: number;
 
+  @property()
+  templateId?: string;
+
   @state()
   container?: HTMLElement | ShadowRoot | null;
 
@@ -27,11 +30,18 @@ export class FelteValidationMessage extends LitElement {
 
   private _setup() {
     const slot = this.renderRoot.querySelector('slot') as HTMLSlotElement;
-    const template = slot
-      .assignedNodes({ flatten: true })
-      .find(
-        (node) => node instanceof HTMLTemplateElement
-      ) as HTMLTemplateElement | null;
+    const rootNode = this.getRootNode() as ShadowRoot | null;
+    const hostNode = rootNode?.host?.shadowRoot;
+    const template = this.templateId
+      ? ((hostNode?.getElementById(this.templateId) ||
+          document.getElementById(
+            this.templateId
+          )) as HTMLTemplateElement | null)
+      : (slot
+          .assignedNodes({ flatten: true })
+          .find(
+            (node) => node instanceof HTMLTemplateElement
+          ) as HTMLTemplateElement | null);
     if (!template)
       throw new Error(
         '<felte-validation-message> requires one <template> element as a direct child'

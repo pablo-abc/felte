@@ -1,18 +1,21 @@
 {
   "compilerOptions": {
     "moduleResolution": "node",
-    "target": "es2017",
-    "importsNotUsedAsValues": "error",
-    "experimentalDecorators": true,
+    "target": "es2019",
+    "module": "ES2015",
+    "lib": ["ES2019", "dom"],
     "useDefineForClassFields": false,
+    "importsNotUsedAsValues": "error",
     "isolatedModules": true,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
     "declaration": true,
     "declarationMap": true,
-    "declarationDir": "./dist"
+    "jsx": "react",
+    "declarationDir": "./dist/types"
   },
-  "include": ["src"]
+  "include": ["./src", "./tests"]
 }

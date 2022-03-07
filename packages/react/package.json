@@ -15,7 +15,6 @@
   "license": "MIT",
   "homepage": "https://felte.dev",
   "repository": "github:pablo-abc/felte",
-  "funding": "https://www.buymeacoffee.com/pablo.abc",
   "keywords": [
     "reactjs",
     "react",
@@ -46,7 +45,8 @@
     "@felte/common": "workspace:*",
     "@testing-library/react": "^12.1.2",
     "@testing-library/react-hooks": "^7.0.2",
-    "@types/react": "^17.0.37",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.13",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-test-renderer": "^17.0.2"

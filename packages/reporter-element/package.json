@@ -5,6 +5,7 @@
   "main": "dist/index.cjs",
   "module": "dist/esm/index.js",
   "browser": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
   "type": "module",
   "scripts": {
     "prebuild": "rimraf ./dist",
@@ -17,7 +18,14 @@
   "author": "Pablo Berganza <pablo@berganza.dev>",
   "license": "MIT",
   "repository": "github:pablo-abc/felte",
-  "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/reporter-element",
+  "homepage": "https://felte.dev",
+  "keywords": [
+    "webcomponents",
+    "wc",
+    "forms",
+    "validation",
+    "felte"
+  ],
   "devDependencies": {
     "@felte/core": "workspace:*",
     "tslib": "^2.3.1",

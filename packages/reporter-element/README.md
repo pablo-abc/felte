@@ -25,8 +25,9 @@ The package exports a `reporter` function. Pass the `reporter` function to the `
 * `for`: (required) the name of the field you want to display the validation messages for.
 * `max`: (optional) the maximun amount of validation messages to display for the given field. Useful if you can get multiple validation messages but you only want to display a few at a time.
 * `level`: (optional) the kind of validation messages this element should display. Set it to `warning` to display warning messages. Default: `error`.
+* `templateid` or `templateId`: (optional) the id of the template element to be used for this element.
 
-It expects a `<template>` element as its slot, which will be used as the template for your validation messages. This template will be cloned into the shadow DOM and updated when validation messages change. The template **must** have an element with an attribute `part="item"`. This element is the one that will contain the validation message, and it will be appended for each message. Optionally you can add an element with `part="message"` deeper within the item element if you want your message somewhere else.
+It expects a `<template>` element as its slot (or assigned using `templateid`), which will be used as the template for your validation messages. This template will be cloned into the shadow DOM and updated when validation messages change. The template **must** have an element with an attribute `part="item"`. This element is the one that will contain the validation message, and it will be appended for each message. Optionally you can add an element with `part="message"` deeper within the item element if you want your message somewhere else.
 
 An example of its usage:
 
@@ -42,6 +43,22 @@ An example of its usage:
 </felte-validation-message>
 ```
 
+When using `templateid`, this package expects the template to be either on the light DOM, or on the immediate parent's shadow root. If it's somewhere else, it _will not_ find it.
+
+```html
+<template id="message-template">
+  <ul aria-live="polite">
+    <li part="item">
+      <em part="message"></em>
+    </li>
+  </ul>
+</template>
+
+<felte-validation-message for="email" templateid="message-template"></felte-validation-message>
+
+<felte-validation-message for="password" templateid="message-template"></felte-validation-message>
+```
+
 A more complete example using SolidJS:
 
 
@@ -51,10 +68,9 @@ import { createForm } from '@felte/solid';
 
 export function Form() {
   const { form } = createForm({
-      // ...
-      extend: reporter,
-      // ...
-    },
+    // ...
+    extend: reporter,
+    // ...
   })
 
   // For the first element, we assume there will only be a single message at all times
