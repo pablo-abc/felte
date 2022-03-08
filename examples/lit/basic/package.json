@@ -1,5 +1,5 @@
 {
-  "name": "basic",
+  "name": "@example/lit-basic",
   "private": true,
   "version": "0.0.0",
   "main": "dist/sign-in-form.es.js",

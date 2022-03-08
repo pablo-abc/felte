@@ -320,22 +320,29 @@ Reporter(
   }
 );
 
-Reporter('throws error when no template is given', async () => {
+Reporter('throws when no template is given', async () => {
   const element = document.createElement('felte-validation-message');
+  element.for = 'email';
   await expect(element.connectedCallback())
     .rejects.to.have.property('message')
     .that.equals(
-      '<felte-validation-message> requires one <template> element as a direct child'
+      'No form has been set. Maybe you forgot to extend Felte with the reporter?'
     );
 });
 
 Reporter('throws error when no `part="item"` element is given', async () => {
   const element = document.createElement('felte-validation-message');
+  element.for = 'email';
+  const template = document.createElement('template');
+  element.appendChild(template);
+  const span = document.createElement('span');
+  span.setAttribute('part', 'item');
+  template.content.appendChild(span);
   element.appendChild(document.createElement('template'));
   await expect(element.connectedCallback())
     .rejects.to.have.property('message')
     .that.equals(
-      'An element with an attribute [part="item"] must be within the template on <felte-validation-message>'
+      'No form has been set. Maybe you forgot to extend Felte with the reporter?'
     );
 });
 

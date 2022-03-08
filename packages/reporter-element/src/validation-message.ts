@@ -1,4 +1,4 @@
-import { LitElement, html, PropertyValues } from 'lit';
+import { LitElement, html, PropertyValues, nothing } from 'lit';
 import { customElement, state, property } from 'lit/decorators.js';
 import { warningStores, errorStores } from './stores';
 import { _get } from '@felte/common';
@@ -29,10 +29,14 @@ export class FelteValidationMessage extends LitElement {
   @state()
   items: HTMLElement[] = [];
 
+  @state()
+  content: DocumentFragment | typeof nothing = nothing;
+
   cleanup?: () => void;
 
   private _setup() {
     const slot = this.renderRoot.querySelector('slot') as HTMLSlotElement;
+    if (!slot) return;
     const rootNode = this.getRootNode() as ShadowRoot | null;
     const hostNode = rootNode?.host?.shadowRoot;
     const template = this.templateId
@@ -46,13 +50,12 @@ export class FelteValidationMessage extends LitElement {
             (node) => node instanceof HTMLTemplateElement
           ) as HTMLTemplateElement | null);
     if (!template) return;
-    const node = document.importNode(template.content, true);
-    const item = node.querySelector('[part="item"]');
+    this.content = document.importNode(template.content, true);
+    const item = this.content.querySelector('[part="item"]');
     if (!item) return;
-    this.item = item?.cloneNode(true) as HTMLElement | null;
-    this.container = item?.parentElement ?? this.renderRoot;
-    if (item) (item.parentElement ?? node)?.removeChild(item);
-    this.renderRoot.appendChild(node);
+    this.item = item.cloneNode(true) as HTMLElement | null;
+    this.container = item.parentElement;
+    (this.container || this.content)?.removeChild(item);
   }
 
   private _start() {
@@ -120,7 +123,10 @@ export class FelteValidationMessage extends LitElement {
   }
 
   render() {
-    return html`<slot @slotchange=${this._setup}></slot>`;
+    return html`
+      <slot @slotchange=${this._setup}></slot>
+      ${this.content} ${this.container ? nothing : this.items}
+    `;
   }
 }
 
