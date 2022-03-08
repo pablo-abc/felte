@@ -47,6 +47,7 @@ const subscriber_queue: any[] = [];
 const noop = () => undefined;
 
 export function safe_not_equal(a: unknown, b: unknown) {
+  /* istanbul ignore next */
   return a != a
     ? b == b
     : a !== b || (a && typeof a === 'object') || typeof a === 'function';

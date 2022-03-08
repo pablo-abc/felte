@@ -1,9 +1,9 @@
-# @felte/react
+# @felte/vanilla
 
-[![Bundle size](https://img.shields.io/bundlephobia/min/@felte/react)](https://bundlephobia.com/result?p=@felte/react)
-[![NPM Version](https://img.shields.io/npm/v/@felte/react)](https://www.npmjs.com/package/@felte/react)
+[![Bundle size](https://img.shields.io/bundlephobia/min/@felte/vanilla)](https://bundlephobia.com/result?p=@felte/vanilla)
+[![NPM Version](https://img.shields.io/npm/v/@felte/vanilla)](https://www.npmjs.com/package/@felte/vanilla)
 
-Felte is an extensible form library originally built for Svelte but easily integrated with React using this package. Felte, on its most simple form, only requires you to set a `ref` to your form element to work. No custom `Field`or `Form` components are needed, making custom styles really easy to do. You can see it in action in this [CodeSandbox demo](https://codesandbox.io/s/felte-react-demo-q2xxw?file=/src/App.js)
+Felte is an extensible form library originally built for Svelte. This package removes all integrations with frameworks so it can be used with vanilal JS. Unlike `@felte/core`, this package already comes with a store implementation. Felte, on its most simple form, only requires you to pass it your `<form>` element. No custom `Field`or `Form` components are needed, making custom styles really easy to do.
 
 ## Features
 
@@ -16,39 +16,51 @@ Felte is an extensible form library originally built for Svelte but easily integ
 - Official solutions for error reporting using `reporter` packages.
 - Well tested. Currently at [99% code coverage](https://app.codecov.io/gh/pablo-abc/felte) and constantly working on improving test quality.
 - Supports validation with [yup](./packages/validator-yup/README.md), [zod](./packages/validator-zod/README.md) and [superstruct](./packages/validator-superstruct/README.md).
-- Easily [extend its functionality](https://felte.dev/docs/react/extending-felte).
+- Easily [extend its functionality](https://felte.dev/docs/svelte/extending-felte).
 
 ## Simple usage example
 
-```jsx
-import React, { useEffect } from 'react';
-import { useForm } from '@felte/react';
+```html
+<!-- inside some index.html -->
+<form id="signin-form">
+  <input name="email">
+  <input name="password" type="password">
+  <button type="submit">Submit</button>
+</form>
+```
 
-function Form() {
-  const { form } = useForm({
-    onSubmit: (values) => console.log(values),
-  });
+```javascript
+// inside some .mjs/.js file
+import { createForm } from '@felte/vanilla';
 
-  return (
-    <form ref={form}>
-      <input name="email" />
-      <input name="password" type="password" />
-      <button type="submit">Submit</button>
-    </form>
-  );
-}
+const { form } = createForm({
+  onSubmit: (values) => console.log(values);
+});
+
+form(document.getElementById('signin-form'));
 ```
 
 ## Installation
 
 ```sh
-npm install --save @felte/react
+npm install --save @felte/vanilla
 
 # Or, if you use yarn
 
-yarn add @felte/react
+yarn add @felte/vanilla
 ```
 
 ## Usage
 
-To learn more about how to use `@felte/react` to handle your forms, check the [official documentation](https://felte.dev/docs/react/getting-started).
+This package is not meant for users as of now. But it can be used as a better starter point to build integrations with other frameworks that do not have their own compatible reactive stores. It's API is the same as the `felte` package without its lifecycle management. Also, unlike other integrations, stores won't get synchronized until you call `form` with your `<form>` element. You may use [`felte`'s documentation](https://felte.dev/docs/svelte/getting-started) as a reference for the most part and just replace any imports of `felte` for `@felte/vanilla`.
+
+Since this package does not attach to any lifecycle hooks, you'll need to handle it manually by calling `destroy` when your form gets unmounted:
+
+```javascript
+const { form } = createForm({ /* ... */ });
+
+const { destroy } = form(document.getElementById('signin-form'));
+
+// Call `destroy` when unmounting the form:
+destroy();
+```

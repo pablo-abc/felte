@@ -32,8 +32,7 @@ export function createForm<Data extends Obj = Obj>(
   );
   return {
     ...rest,
-    form: (el?: HTMLFormElement) => {
-      if (!el) return { destroy: () => undefined };
+    form: (el: HTMLFormElement) => {
       const { destroy } = form(el);
       const cleanup = startStores();
       return {
