@@ -35,6 +35,9 @@
     "@felte/common": "workspace:*",
     "lit": "^2.2.0"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
