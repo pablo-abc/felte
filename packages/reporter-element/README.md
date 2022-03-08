@@ -138,4 +138,27 @@ Since the contents of your template will be inserted on the shadow DOM, you'll n
 </felte-validation-message>
 ```
 
+You may also add a `<style>` tag inside of the template:
+
+```html
+<felte-validation-message level="warning" for="email">
+  <template>
+    <style>
+      ul {
+        color: #ff3a43;
+        margin: 0;
+        padding: 0;
+      }
+
+      li {
+        list-style: disc inside;
+      }
+    </style>
+    <ul aria-live="polite" part="container">
+      <li part="item"></li>
+    </ul>
+  </template>
+</felte-validation-message>
+```
+
 You are in control of the contents of the shadow DOM of this element, so you can freely add parts to it for easier styling. The only parts that have "special" meaning are `item` and `message`.
