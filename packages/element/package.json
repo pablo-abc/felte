@@ -1,0 +1,46 @@
+{
+  "name": "@felte/element",
+  "version": "0.1.0",
+  "description": "An extensible form library that can be used as a custom element",
+  "main": "dist/index.cjs",
+  "module": "dist/esm/index.js",
+  "browser": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "prebuild": "rimraf ./dist",
+    "build": "pnpm prebuild && NODE_ENV=production rollup -c",
+    "dev": "rollup -cw",
+    "prepublishOnly": "pnpm run build",
+    "test": "uvu -r tsm -r global-jsdom/register tests -i common",
+    "test:ci": "nyc pnpm test"
+  },
+  "author": "Pablo Berganza <pablo@berganza.dev>",
+  "license": "MIT",
+  "repository": "github:pablo-abc/felte",
+  "homepage": "https://felte.dev",
+  "keywords": [
+    "webcomponents",
+    "wc",
+    "forms",
+    "validation",
+    "felte"
+  ],
+  "devDependencies": {
+    "@felte/core": "workspace:*",
+    "tslib": "^2.3.1",
+    "uvu": "^0.5.3"
+  },
+  "dependencies": {
+    "@felte/common": "workspace:*",
+    "lit": "^2.2.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/esm/index.js"
+    },
+    "./package.json": "./package.json"
+  }
+}

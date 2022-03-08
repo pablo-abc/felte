@@ -9,7 +9,6 @@ Felte is an extensible form library originally built for Svelte. This package re
 
 - Single action to make your form reactive.
 - Use HTML5 native elements to create your form. (Only the `name` attribute is necessary).
-- No re-renders at all unless you need to use a specific field's value within your component.
 - Provides stores and helper functions to handle more complex use cases.
 - No assumptions on your validation strategy. Use any validation library you want or write your own strategy.
 - Handles addition and removal of form controls during runtime.

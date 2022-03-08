@@ -2,7 +2,7 @@ import { html, css, LitElement, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { reporter } from '@felte/reporter-element';
 
-import { prepareForm } from './felte-form';
+import { prepareForm } from '@felte/element';
 
 type Data = {
   email: string;
@@ -119,51 +119,15 @@ export class SignInForm extends LitElement {
   `;
 
   @state()
-  submitted?: Record<string, any>;
-
-  // private destroy?: () => void;
-
-  // connectedCallback() {
-  //   super.connectedCallback();
-  //   const { form } = createForm<Data>({
-  //     onSubmit: (values) => {
-  //       this.submitted = values;
-  //     },
-  //     validate(values) {
-  //       const errors: { email: string[]; password: string[] } = {
-  //         email: [],
-  //         password: [],
-  //       };
-  //       if (!values.email) errors.email.push('Must not be empty');
-  //       if (!/[a-zA-Z][^@]*@[a-zA-Z][^@.]*\.[a-z]{2,}/.test(values.email))
-  //         errors.email.push('Must be a valid email');
-  //       if (!values.password) errors.password.push('Must not be empty');
-  //       return errors;
-  //     },
-  //     extend: [reporter],
-  //   });
-
-  //   setTimeout(() => {
-  //     const formElement = this.renderRoot.querySelector(
-  //       'form'
-  //     ) as HTMLFormElement;
-  //     const { destroy } = form(formElement);
-  //     this.destroy = destroy;
-  //   });
-  // }
-
-  // disconnectedCallback() {
-  //   super.disconnectedCallback();
-  //   this.destroy?.();
-  // }
+  submitted?: Data;
 
   connectedCallback() {
     super.connectedCallback();
-    const config = {
-      onSubmit: (values: Data) => {
+    prepareForm<Data>('signin', {
+      onSubmit: (values) => {
         this.submitted = values;
       },
-      validate(values: Data) {
+      validate(values) {
         const errors: { email: string[]; password: string[] } = {
           email: [],
           password: [],
@@ -175,8 +139,7 @@ export class SignInForm extends LitElement {
         return errors;
       },
       extend: [reporter],
-    };
-    prepareForm('signin', config);
+    });
   }
 
   render() {
@@ -197,15 +160,13 @@ export class SignInForm extends LitElement {
             <felte-validation-message
               for="email"
               templateid="validation-message"
-            >
-            </felte-validation-message>
+            ></felte-validation-message>
             <label for="password">Password:</label>
             <input type="password" name="password" id="password" />
             <felte-validation-message
               for="password"
               templateid="validation-message"
-            >
-            </felte-validation-message>
+            ></felte-validation-message>
           </fieldset>
           <button type="submit">Submit</button>
           <button type="reset">Reset</button>
