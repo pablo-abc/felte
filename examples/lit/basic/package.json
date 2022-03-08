@@ -16,9 +16,8 @@
     "build": "tsc && vite build"
   },
   "dependencies": {
-    "@felte/vanilla": "workspace:*",
-    "@felte/element": "workspace:*",
-    "@felte/reporter-element": "workspace:*",
+    "@felte/element": "latest",
+    "@felte/reporter-element": "latest",
     "lit": "^2.0.2"
   },
   "devDependencies": {
