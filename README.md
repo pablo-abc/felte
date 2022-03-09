@@ -15,6 +15,7 @@
   - [Svelte](#svelte)
   - [Solid](#solid)
   - [React/Preact](#reactpreact)
+  - [VanillaJS with Web Components](#vanillajswithwebcomponents)
 - [Packages](#packages)
   - [Svelte](#svelte-1)
     - [`felte`](./packages/felte/README.md)
@@ -28,6 +29,10 @@
   - [Preact](#preact)
     - [`@felte/preact`](./packages/preact/README.md)
     - [`@felte/reporter-preact`](./packages/reporter-preact/README.md)
+  - [VanillaJS](#vanillajs)
+    - [`@felte/element`](./packages/element/README.md)
+    - [`@felte/reporter-element`](./packages/reporter-element/README.md)
+    - [`@felte/vanilla`](./packages/vanilla/README.md)
   - [Validators](#validators)
     - [`@felte/validator-yup`](./packages/validator-yup/README.md)
     - [`@felte/validator-zod`](./packages/validator-zod/README.md)
@@ -120,6 +125,34 @@ function Form() {
   );
 }
 ```
+
+### VanillaJS with Web Components
+
+```html
+<script type="module">
+  import { prepareForm } from 'https://unpkg.com/@felte/element@0.1.0/dist/esm/index.min.js'
+
+  prepareForm('signin', {
+    onSubmit: async (values) => {
+      console.log(values);
+    },
+  })
+</script>
+
+<felte-form id="signin">
+  <form>
+    <input type=text name=email>
+    <input type=password name=password>
+    <button type=submit>Sign In</button>
+  </form>
+</felte-form>
+```
+
+> This example works without a bundler! Copy its contents to an HTML file and open it on your browser. A more complete example like this, with validation and error reporting, can be found [here](./examples/webcomponents/cdn).
+
+## More examples
+
+You can find fully functional examples on the [/examples](./examples) directory of this repository. You should be able to open them on CodeSandbox by replacing github's url to `githubbox`. E.g. Replace `https://github.com/pablo-abc/felte/tree/main/examples/svelte/basic` with `https://githubbox.com/pablo-abc/felte/tree/main/examples/svelte/basic`.
 
 ## Packages
 
