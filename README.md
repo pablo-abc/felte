@@ -15,7 +15,7 @@
   - [Svelte](#svelte)
   - [Solid](#solid)
   - [React/Preact](#reactpreact)
-  - [VanillaJS with Web Components](#vanillajswithwebcomponents)
+  - [VanillaJS with Web Components](#vanillajs-with-web-components)
 - [Packages](#packages)
   - [Svelte](#svelte-1)
     - [`felte`](./packages/felte/README.md)
@@ -205,6 +205,22 @@ This is the main package that contains the basic functionality you need to handl
 #### [@felte/reporter-preact](./packages/reporter-preact/README.md)
 
 A reporter packages that uses a Preact component to pass the validation messages for you to display. This provides an API that might feel the most familiar to most developers. The API is the same as `@felte/react` so you can refer to the same documentation.
+
+### VanillaJS
+
+We provide three packages that can be used with only VanillaJS. Two of them using [Web Components](https://www.webcomponents.org/introduction).
+
+#### [@felte/element](./packages/element/README.md)
+
+This is the main package that contains the basic functionality you need to handle your forms in vanilla JS using a web component. Similar to `felte` but specifically made to be used as a web component. This is the recommended way to handle your forms when using Vanilla JS. Web components are [well supported by all major browsers](https://caniuse.com/custom-elementsv1) so this should be a safe option unless you need to support legacy browsers.
+
+#### [@felte/reporter-element](./packages/reporter-element/README.md)
+
+A reporter packages that uses a web component to display validation messages on the DOM. This the recommended way to display your validation messages when using vanilla JS.
+
+#### [@felte/vanilla](./packages/vanilla/README.md)
+
+This is the main package that contains the basic functionality you need to handle your forms in vanilla JS using a web component. Similar to `felte` and other integrations but with all code related to frameworks removed. This requires a bit more work to use, since you'll be the one in charge of cleaning up subscribers and listeners on it. It's API is basically the same as `felte` (Svelte's integration) so you _can_ use Svelte's documentation as a reference. This can be used as a starting point to create your own integration/package for other environments. When it comes to vanilla JS we'd recommend using `@felte/element` using web components.
 
 ### Validators
 
