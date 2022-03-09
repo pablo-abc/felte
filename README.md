@@ -16,6 +16,7 @@
   - [Solid](#solid)
   - [React/Preact](#reactpreact)
   - [VanillaJS with Web Components](#vanillajs-with-web-components)
+- [More examples](#more-examples)
 - [Packages](#packages)
   - [Svelte](#svelte-1)
     - [`felte`](./packages/felte/README.md)
@@ -148,7 +149,7 @@ function Form() {
 </felte-form>
 ```
 
-> This example works without a bundler! Copy its contents to an HTML file and open it on your browser. A more complete example like this, with validation and error reporting, can be found [here](./examples/webcomponents/cdn).
+> This example works without a bundler! Copy its contents to an HTML file and open it on your browser. A more complete example like this, with validation and error reporting, can be found [here](./examples/web-component/cdn).
 
 ## More examples
 
