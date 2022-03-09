@@ -25,10 +25,8 @@ Felte is an extensible form library originally bult for Svelte. This package aim
 
 Using Svelte as an example:
 
-**TODO**: Add proper example
-
 ```html
-<script>
+<script type="module">
   import { prepareForm } from '@felte/element'
 
   prepareForm('signin', {
