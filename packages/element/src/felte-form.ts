@@ -152,6 +152,16 @@ export class FelteForm<Data extends Obj = any> extends LitElement {
     return this._storeValues.interacted;
   }
 
+  private _readyResolve?: (value: boolean) => void;
+
+  private _ready = new Promise<boolean>((resolve) => {
+    this._readyResolve = resolve;
+  });
+
+  get ready() {
+    return this._ready;
+  }
+
   setInteracted: Helpers<Data, Paths<Data>>['setInteracted'] = () => undefined;
 
   validate: Helpers<Data, Paths<Data>>['validate'] = async () =>
@@ -249,6 +259,8 @@ export class FelteForm<Data extends Obj = any> extends LitElement {
       formElement.removeEventListener('felteerror', this._handleFelteError);
       unsubs.forEach((unsub) => unsub());
     };
+    this._readyResolve?.(true);
+    this.dispatchEvent(new Event('ready'));
   }
 
   disconnectedCallback() {
@@ -266,7 +278,7 @@ declare global {
     'felte-form': FelteForm;
   }
 
-  type HTMLFelteFormElement<Data extends Obj> = FelteForm<Data>;
+  type HTMLFelteFormElement<Data extends Obj = any> = FelteForm<Data>;
 
   interface Window {
     __FELTE__: {
