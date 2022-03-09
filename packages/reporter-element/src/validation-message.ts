@@ -1,7 +1,7 @@
 import { LitElement, html, PropertyValues, nothing } from 'lit';
 import { customElement, state, property } from 'lit/decorators.js';
 import { warningStores, errorStores } from './stores';
-import { _get } from '@felte/common';
+import { _get, isEqual } from '@felte/common';
 
 @customElement('felte-validation-message')
 export class FelteValidationMessage extends LitElement {
@@ -17,26 +17,42 @@ export class FelteValidationMessage extends LitElement {
   @property()
   templateId?: string;
 
-  @property({ attribute: false })
   messages: string[] | null = null;
 
-  @state()
-  container?: HTMLElement | ShadowRoot | null;
+  private container?: HTMLElement | ShadowRoot | null;
 
-  @state()
-  item?: HTMLElement | null;
+  private item?: HTMLElement | null;
 
-  @state()
+  @state({
+    hasChanged(value, oldValue) {
+      return !isEqual(value, oldValue);
+    },
+  })
   items: HTMLElement[] = [];
 
-  @state()
-  content: DocumentFragment | typeof nothing = nothing;
+  private content: DocumentFragment | typeof nothing = nothing;
 
-  cleanup?: () => void;
+  private _prevSiblings: Node[] = [];
+
+  private _nextSiblings: Node[] = [];
+
+  private _handleLoad = (e: Event) => {
+    const target = e.currentTarget as HTMLFormElement;
+    const reporterId = target.dataset.felteReporterElementId;
+    if (!reporterId) return;
+    this._start(reporterId);
+    this.formElement?.removeEventListener(
+      'feltereporterelement:load',
+      this._handleLoad
+    );
+  };
+
+  private cleanup?: () => void;
+
+  private formElement?: HTMLFormElement;
 
   private _setup() {
     const slot = this.renderRoot.querySelector('slot') as HTMLSlotElement;
-    if (!slot) return;
     const rootNode = this.getRootNode() as ShadowRoot | null;
     const hostNode = rootNode?.host?.shadowRoot;
     const template = this.templateId
@@ -55,19 +71,18 @@ export class FelteValidationMessage extends LitElement {
     if (!item) return;
     this.item = item.cloneNode(true) as HTMLElement | null;
     this.container = item.parentElement;
-    (this.container || this.content)?.removeChild(item);
+    const elements = Array.from((this.container || this.content).childNodes);
+    const itemIndex = elements.findIndex((el) => el === item);
+    this._prevSiblings = elements.slice(0, itemIndex);
+    this._nextSiblings = elements.slice(itemIndex + 1);
+    (this.container || this.content).removeChild(item);
   }
 
-  private _start() {
-    const formElement = this.closest('form');
+  private _start(reporterId: string) {
+    if (this.cleanup || !reporterId) return;
     const path = this.for;
     if (!path)
       throw new Error('<felte-validation-message> requires a `for` attribute');
-    const reporterId = formElement?.dataset.felteReporterElementId;
-    if (!reporterId)
-      throw new Error(
-        'No form has been set. Maybe you forgot to extend Felte with the reporter?'
-      );
     const store =
       this.level === 'error'
         ? errorStores[reporterId]
@@ -82,23 +97,28 @@ export class FelteValidationMessage extends LitElement {
         return;
       }
       if (this.max != null) messages.splice(this.max);
+      const newItems = [...this.items];
       messages.forEach((message: string, index) => {
         const item = this.items[index] ?? itemTemplate.cloneNode(true);
         const messageElement = item.querySelector('[part="message"]') ?? item;
         messageElement.textContent = message;
-        this.items[index] = item;
+        newItems[index] = item;
       });
-      this.items = this.items.slice(0, messages.length);
+      this.items = newItems.slice(0, messages.length);
     });
   }
 
-  updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has('items') && this.container) {
+  updated(changed: PropertyValues<this>) {
+    if (changed.has('items') && this.container) {
       for (const child of Array.from(this.container.childNodes)) {
         if (this.items.includes(child as HTMLElement)) continue;
         this.container.removeChild(child);
       }
-      this.container.append(...this.items);
+      this.container.append(
+        ...this._prevSiblings,
+        ...this.items,
+        ...this._nextSiblings
+      );
     }
   }
 
@@ -109,23 +129,31 @@ export class FelteValidationMessage extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        try {
-          this._setup();
-          this._start();
-          resolve(undefined);
-        } catch (error) {
-          reject(error);
-        }
-      });
-    });
+    const formElement = this.closest('form');
+    if (!formElement)
+      throw new Error(
+        '<felte-validation-message> must be a child of a <form> element'
+      );
+    this.formElement = formElement;
+  }
+
+  firstUpdated() {
+    const reporterId = this.formElement?.dataset.felteReporterElementId;
+    if (!reporterId)
+      this.formElement?.addEventListener(
+        'feltereporterelement:load',
+        this._handleLoad
+      );
+    this._setup();
+    if (reporterId) this._start(reporterId);
   }
 
   render() {
     return html`
       <slot @slotchange=${this._setup}></slot>
-      ${this.content} ${this.container ? nothing : this.items}
+      ${this.content} ${this.container ? nothing : this._prevSiblings}
+      ${this.container ? nothing : this.items}
+      ${this.container ? nothing : this._nextSiblings}
     `;
   }
 }

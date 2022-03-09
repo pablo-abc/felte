@@ -1,5 +1,6 @@
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
+import { unreachable } from 'uvu/assert';
 import { expect } from 'uvu-expect';
 import userEvent from '@testing-library/user-event';
 import { screen, waitFor } from '@testing-library/dom';
@@ -320,45 +321,19 @@ Reporter(
   }
 );
 
-Reporter('throws when no template is given', async () => {
-  const element = document.createElement('felte-validation-message');
-  element.for = 'email';
-  await expect(element.connectedCallback())
-    .rejects.to.have.property('message')
-    .that.equals(
-      'No form has been set. Maybe you forgot to extend Felte with the reporter?'
-    );
-});
-
-Reporter('throws error when no `part="item"` element is given', async () => {
-  const element = document.createElement('felte-validation-message');
-  element.for = 'email';
-  const template = document.createElement('template');
-  element.appendChild(template);
-  const span = document.createElement('span');
-  span.setAttribute('part', 'item');
-  template.content.appendChild(span);
-  element.appendChild(document.createElement('template'));
-  await expect(element.connectedCallback())
-    .rejects.to.have.property('message')
-    .that.equals(
-      'No form has been set. Maybe you forgot to extend Felte with the reporter?'
-    );
-});
-
 Reporter('throws error when no `for` attribute is given', async () => {
   const element = document.createElement('felte-validation-message');
-  const template = document.createElement('template');
-  element.appendChild(template);
-  const span = document.createElement('span');
-  span.setAttribute('part', 'item');
-  template.content.appendChild(span);
-  await expect(element.connectedCallback())
-    .rejects.to.have.property('message')
-    .that.equals('<felte-validation-message> requires a `for` attribute');
+  try {
+    (element as any)._start('test-id');
+    unreachable();
+  } catch (err: any) {
+    expect(err.message).to.equal(
+      '<felte-validation-message> requires a `for` attribute'
+    );
+  }
 });
 
-Reporter('throws error when no `form` has been set', async () => {
+Reporter('throws error when not a child of a form', () => {
   const element = document.createElement('felte-validation-message');
   element.setAttribute('for', 'email');
   const template = document.createElement('template');
@@ -366,11 +341,81 @@ Reporter('throws error when no `form` has been set', async () => {
   const span = document.createElement('span');
   span.setAttribute('part', 'item');
   template.content.appendChild(span);
-  await expect(element.connectedCallback())
-    .rejects.to.have.property('message')
-    .that.equals(
-      'No form has been set. Maybe you forgot to extend Felte with the reporter?'
-    );
+  try {
+    element.connectedCallback();
+    unreachable();
+  } catch (err) {
+    expect(err)
+      .to.have.property('message')
+      .that.equals(
+        '<felte-validation-message> must be a child of a <form> element'
+      );
+  }
+});
+
+Reporter('calls start on load event', async () => {
+  const formElement = screen.getByRole('form') as HTMLFormElement;
+  const element = document.createElement('felte-validation-message');
+  const spy = sinon.stub(element as any, '_start').returns(true);
+
+  (element as any)._handleLoad({
+    currentTarget: formElement,
+  });
+
+  expect(spy).to.not.have.been.called;
+
+  formElement.dataset.felteReporterElementId = 'test-id';
+  (element as any)._handleLoad({
+    currentTarget: formElement,
+  });
+  await waitFor(() => {
+    expect(spy).to.have.been.called.once;
+  });
+
+  spy.resetHistory();
+
+  (element as any).formElement = formElement;
+  (element as any)._handleLoad({
+    currentTarget: formElement,
+  });
+  await waitFor(() => {
+    expect(spy).to.have.been.called.once;
+  });
+});
+
+Reporter('does not fail without a template', () => {
+  const formElement = screen.getByRole('form') as HTMLFormElement;
+  const element = document.createElement('felte-validation-message');
+  formElement.appendChild(element);
+  element.setAttribute('for', 'email');
+
+  expect(element.connectedCallback()).to.be.undefined;
+});
+
+Reporter('does not fail without an item', () => {
+  const formElement = screen.getByRole('form') as HTMLFormElement;
+  const element = document.createElement('felte-validation-message');
+  const template = document.createElement('template');
+  element.appendChild(template);
+  formElement.appendChild(element);
+  element.setAttribute('for', 'email');
+
+  expect(element.connectedCallback()).to.be.undefined;
+});
+
+Reporter('does not fail with a template on a parent shadow root', () => {
+  const div = document.createElement('div');
+  div.attachShadow({ mode: 'open' });
+  const formElement = screen.getByRole('form') as HTMLFormElement;
+  const element = document.createElement('felte-validation-message');
+  element.setAttribute('templateid', 'template');
+  const template = document.createElement('template');
+  template.id = 'template';
+  div.shadowRoot?.append(formElement, template);
+  formElement.appendChild(element);
+  element.setAttribute('for', 'email');
+
+  expect(element.connectedCallback()).to.be.undefined;
 });
 
 Reporter.run();

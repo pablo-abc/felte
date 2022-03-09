@@ -1,7 +1,7 @@
 import type { CurrentForm, Obj } from '@felte/common';
 import type { ExtenderHandler } from '@felte/common';
-import { errorStores, warningStores } from './stores';
 import { createId } from '@felte/common';
+import { errorStores, warningStores } from './stores';
 
 export function reporter<Data extends Obj>(
   currentForm: CurrentForm<Data>
@@ -18,6 +18,7 @@ export function reporter<Data extends Obj>(
   }
   if (!currentForm.form.hasAttribute('data-felte-reporter-element-id')) {
     currentForm.form.dataset.felteReporterElementId = config.__felteReporterElementId as string;
+    currentForm.form.dispatchEvent(new Event('feltereporterelement:load'));
   }
   return {
     onSubmitError() {
