@@ -243,7 +243,11 @@ Extenders('calls onSubmitError', async () => {
       mockExtenderHandler.onSubmitError,
       sinon.match({
         data: sinon.match(get(data)),
-        errors: mockErrors,
+        errors: {
+          account: {
+            email: ['Not email'],
+          },
+        },
       })
     );
   });
@@ -277,7 +281,11 @@ Extenders('calls onSubmitError on multiple extenders', async () => {
       mockExtenderHandler.onSubmitError,
       sinon.match({
         data: get(data),
-        errors: mockErrors,
+        errors: {
+          account: {
+            email: ['Not email'],
+          },
+        },
       })
     );
     sinon.assert.callCount(mockExtenderHandler.onSubmitError, 2);
@@ -294,7 +302,11 @@ Extenders('calls onSubmitError on multiple extenders', async () => {
       mockExtenderHandler.onSubmitError,
       sinon.match({
         data: get(data),
-        errors: mockErrors,
+        errors: {
+          account: {
+            email: ['Not email'],
+          },
+        },
       })
     );
     sinon.assert.callCount(mockExtenderHandler.onSubmitError, 4);

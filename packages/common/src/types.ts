@@ -310,7 +310,7 @@ export type FormConfigWithoutTransformFn<Data extends Obj> = {
   onError?: (
     error: unknown,
     context: SubmitContext<Data>
-  ) => Promise<void | Errors<Data>> | void | Errors<Data>;
+  ) => Promise<void | AssignableErrors<Data>> | void | AssignableErrors<Data>;
   /** Optional function/s to extend Felte's functionality. */
   extend?: Extender<Data> | Extender<Data>[];
   [key: string]: unknown;
@@ -343,7 +343,7 @@ export type FormConfigWithTransformFn<Data extends Obj> = {
   onError?: (
     error: unknown,
     context: SubmitContext<Data>
-  ) => Promise<void | Errors<Data>> | void | Errors<Data>;
+  ) => Promise<void | AssignableErrors<Data>> | void | AssignableErrors<Data>;
   /** Optional function/s to extend Felte's functionality. */
   extend?: Extender<Data> | Extender<Data>[];
   [key: string]: unknown;
