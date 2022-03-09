@@ -228,7 +228,7 @@ importers:
       typescript: 4.5.5
       vite: 2.7.13
 
-  examples/webcomponent/basic:
+  examples/web-component/basic:
     specifiers:
       '@felte/element': latest
       '@felte/reporter-element': latest
