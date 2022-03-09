@@ -228,6 +228,19 @@ importers:
       typescript: 4.5.5
       vite: 2.7.13
 
+  examples/webcomponent/basic:
+    specifiers:
+      '@felte/element': latest
+      '@felte/reporter-element': latest
+      typescript: ^4.5.4
+      vite: ^2.8.0
+    dependencies:
+      '@felte/element': link:../../../packages/element
+      '@felte/reporter-element': link:../../../packages/reporter-element
+    devDependencies:
+      typescript: 4.5.5
+      vite: 2.8.4
+
   packages/common:
     specifiers: {}
 
