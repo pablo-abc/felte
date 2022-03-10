@@ -59,41 +59,41 @@ When using `templateid`, this package expects the template to be either on the l
 <felte-validation-message for="password" templateid="message-template"></felte-validation-message>
 ```
 
-A more complete example using SolidJS:
+A more complete example using `@felte/element`:
 
 
-```jsx
-import { reporter } from '@felte/reporter-element';
-import { createForm } from '@felte/solid';
+```html
+<script type="module">
+  import { reporter } from '@felte/reporter-element';
+  import { prepareForm } from '@felte/element';
 
-export function Form() {
-  const { form } = createForm({
+  prepareForm('signin', {
     // ...
     extend: reporter,
     // ...
   })
+</script>
 
-  // For the first element, we assume there will only be a single message at all times
-  return (
-    <form use:form>
-      <input id="email" type="text" name="email" />
-      <felte-validation-message for="email" max="1">
-        <template>
-          <span part="message" />
-        </template>
-      </felte-validation-message>
-      <input type="password" name="password" />
-      <felte-validation-message for="password">
-        <template>
-          <ul aria-live="polite">
-            <li part="item" />
-          </ul>
-        </template>
-      </felte-validation-message>
-      <input type="submit" value="Sign in" />
-    </form>
-  );
-}
+<!-- For the first element, we assume there will only be a single message at all times -->
+<felte-form id="signin">
+  <form>
+    <input id="email" type="text" name="email" />
+    <felte-validation-message for="email" max="1">
+      <template>
+        <span part="message" />
+      </template>
+    </felte-validation-message>
+    <input type="password" name="password" />
+    <felte-validation-message for="password">
+      <template>
+        <ul aria-live="polite">
+          <li part="item" />
+        </ul>
+      </template>
+    </felte-validation-message>
+    <input type="submit" value="Sign in" />
+  </form>
+</felte-form>
 ```
 
 ## Warnings

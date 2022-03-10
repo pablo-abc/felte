@@ -1,11 +1,19 @@
 import { suite } from 'uvu';
+import { unreachable } from 'uvu/assert';
 import * as sinon from 'sinon';
 import { expect } from 'uvu-expect';
-import { waitFor } from '@testing-library/dom';
+import { waitFor, screen } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 import { cleanupDOM } from './common';
 import { prepareForm } from '../src';
 
 const FelteForm = suite('FelteForm');
+
+function waitForReady(form: HTMLFelteFormElement) {
+  return new Promise((resolve) => {
+    form.onfelteready = () => resolve(true);
+  });
+}
 
 FelteForm.after.each(cleanupDOM);
 
@@ -28,7 +36,9 @@ FelteForm('calls on submit', async () => {
   ) as HTMLFelteFormElement;
   expect(felteForm).to.not.be.null;
   expect(onSubmit).to.have.not.been.called;
-  await expect(felteForm.ready).resolves.to.true;
+  expect(felteForm.ready).to.be.false;
+  await expect(waitForReady(felteForm)).resolves.to.true;
+  expect(felteForm.ready).to.be.true;
   felteForm.submit();
   await waitFor(() => {
     expect(onSubmit).to.have.been.called;
@@ -40,42 +50,35 @@ FelteForm('sets value with helper', async () => {
   prepareForm('test-form', {
     onSubmit,
   });
-  const html = `
-<felte-form id="test-form">
-  <form>
-    <input name="email">
-    <input name="password">
-  </form>
-</felte-form>
-`;
+  const html = /* HTML */ `
+    <felte-form id="test-form">
+      <form>
+        <input name="email" />
+        <input name="password" />
+      </form>
+    </felte-form>
+  `;
   document.body.innerHTML = html;
   const felteForm = document.querySelector(
     'felte-form'
   ) as HTMLFelteFormElement;
   expect(felteForm).to.not.be.null;
-  felteForm.setInitialValues({});
-  felteForm.createSubmitHandler({})();
-  felteForm.setIsSubmitting(false);
-  felteForm.validate();
-  felteForm.setInteracted(null);
-  felteForm.setData({});
-  felteForm.setErrors({});
-  felteForm.setFields({});
-  felteForm.setTouched({});
-  felteForm.setIsDirty(true);
-  felteForm.addField('a', {});
-  felteForm.unsetField('a');
-  felteForm.moveField('a', 0, 1);
-  felteForm.swapFields('a', 0, 1);
-  felteForm.reset();
-  felteForm.resetField('a');
-  felteForm.submit();
+  try {
+    felteForm.setInitialValues({});
+    unreachable();
+  } catch (err) {
+    expect(err)
+      .to.have.property('message')
+      .that.equals(
+        'Can\'t call "setInitialValues" on HTMLFelteFormElement. The element is not ready yet.'
+      );
+  }
   await new Promise((resolve) => {
     const onReady = () => {
       resolve(true);
-      felteForm.removeEventListener('ready', onReady);
+      felteForm.removeEventListener('felteready', onReady);
     };
-    felteForm.addEventListener('ready', onReady);
+    felteForm.addEventListener('felteready', onReady);
   });
   const onTouchedChange = sinon.fake();
   const onErrorsChange = sinon.fake();
@@ -125,14 +128,14 @@ FelteForm('handles submit error event', async () => {
   prepareForm('test-form', {
     onSubmit,
   });
-  const html = `
-<felte-form id="test-form">
-  <form>
-    <input name="email">
-    <input name="password">
-  </form>
-</felte-form>
-`;
+  const html = /* HTML */ `
+    <felte-form id="test-form">
+      <form>
+        <input name="email" />
+        <input name="password" />
+      </form>
+    </felte-form>
+  `;
   document.body.innerHTML = html;
   const felteForm = document.querySelector(
     'felte-form'
@@ -144,11 +147,44 @@ FelteForm('handles submit error event', async () => {
   });
   felteForm.addEventListener('felteerror', handleError);
   expect(handleError).to.have.not.been.called;
-  await expect(felteForm.ready).resolves.to.true;
+  await waitForReady(felteForm);
   felteForm.submit();
   await waitFor(() => {
     expect(onSubmit).to.have.been.called;
     expect(handleError).to.have.been.called;
+  });
+});
+
+FelteForm('sets configuration using method', async () => {
+  const onSubmit = sinon.fake();
+  const html = /* HTML */ `
+    <felte-form>
+      <form>
+        <input name="email" />
+        <input name="password" />
+        <button type="submit">Submit</button>
+      </form>
+    </felte-form>
+  `;
+  document.body.innerHTML = html;
+  const felteForm = document.querySelector(
+    'felte-form'
+  ) as HTMLFelteFormElement;
+  expect(felteForm).to.not.be.null;
+  felteForm.setConfiguration({ onSubmit });
+  await waitForReady(felteForm);
+  const button = screen.queryByRole('button', {
+    name: 'Submit',
+  }) as HTMLButtonElement;
+  userEvent.click(button);
+  await waitFor(() => {
+    expect(onSubmit).to.have.been.called.with(
+      {
+        email: '',
+        password: '',
+      },
+      expect.match.any
+    );
   });
 });
 

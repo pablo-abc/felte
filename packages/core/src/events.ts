@@ -1,7 +1,6 @@
 import type {
   SubmitContext,
   Obj,
-  Errors,
   CreateSubmitHandlerConfig,
   AssignableErrors,
 } from '@felte/common';

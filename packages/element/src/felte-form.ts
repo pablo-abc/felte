@@ -1,3 +1,4 @@
+import type { PropertyValues } from 'lit';
 import type { Readable } from 'svelte/store';
 import type {
   Obj,
@@ -16,6 +17,7 @@ import {
   customElement,
   queryAssignedElements,
   property,
+  state,
 } from 'lit/decorators.js';
 import {
   createForm,
@@ -57,14 +59,53 @@ if (typeof window !== 'undefined' && !window.__FELTE__) {
 export function prepareForm<Data extends Obj = any>(
   id: string,
   config: FormConfig<Data>
-) {
+): Promise<HTMLFelteFormElement> {
   window.__FELTE__.configs[id] = config;
+
+  return new Promise((resolve) => {
+    function handleReady(e: Event) {
+      const felteForm = e.composedPath()[0] as HTMLFelteFormElement;
+      if (felteForm.id !== id) return;
+      resolve(felteForm);
+      document.removeEventListener('felteready', handleReady);
+    }
+    document.addEventListener('felteready', handleReady);
+  });
 }
+
+function failFor(name: string) {
+  return function () {
+    throw new TypeError(
+      `Can't call "${name}" on HTMLFelteFormElement. The element is not ready yet.`
+    );
+  };
+}
+
+const storeKeys = [
+  'data',
+  'errors',
+  'touched',
+  'warnings',
+  'isSubmitting',
+  'isDirty',
+  'isValid',
+  'isValidating',
+  'interacted',
+];
 
 @customElement('felte-form')
 export class FelteForm<Data extends Obj = any> extends LitElement {
+  [key: string]: unknown;
+
   @property()
   id = '';
+
+  @state()
+  _configuration: FormConfig<Data> = {};
+
+  setConfiguration(config: FormConfig<Data>) {
+    this._configuration = config;
+  }
 
   elements?: HTMLFormElement['elements'];
 
@@ -85,92 +126,113 @@ export class FelteForm<Data extends Obj = any> extends LitElement {
     return this._storeValues.data;
   }
 
-  setData: ObjectSetter<Data, Paths<Data>> = () => undefined;
+  ondatachange?(data: Data): void;
 
-  setFields: FieldsSetter<Data, Paths<Data>> = () => undefined;
+  setData: ObjectSetter<Data, Paths<Data>> = failFor('setData');
 
-  setInitialValues: Helpers<Data, Paths<Data>>['setInitialValues'] = () =>
-    undefined;
+  setFields: FieldsSetter<Data, Paths<Data>> = failFor('setFields');
 
-  addField: Helpers<Data, Paths<Data>>['addField'] = () => undefined;
+  setInitialValues: Helpers<Data, Paths<Data>>['setInitialValues'] = failFor(
+    'setInitialValues'
+  );
 
-  unsetField: Helpers<Data, Paths<Data>>['unsetField'] = () => undefined;
+  addField: Helpers<Data, Paths<Data>>['addField'] = failFor('addField');
 
-  swapFields: Helpers<Data, Paths<Data>>['swapFields'] = () => undefined;
+  unsetField: Helpers<Data, Paths<Data>>['unsetField'] = failFor('unsetField');
 
-  moveField: Helpers<Data, Paths<Data>>['moveField'] = () => undefined;
+  swapFields: Helpers<Data, Paths<Data>>['swapFields'] = failFor('swapFields');
 
-  resetField: Helpers<Data, Paths<Data>>['resetField'] = () => undefined;
+  moveField: Helpers<Data, Paths<Data>>['moveField'] = failFor('moveField');
 
-  reset: Helpers<Data, Paths<Data>>['reset'] = () => undefined;
+  resetField: Helpers<Data, Paths<Data>>['resetField'] = failFor('resetField');
 
-  submit: () => void = () => undefined;
+  reset: Helpers<Data, Paths<Data>>['reset'] = failFor('reset');
 
-  createSubmitHandler: Form<Data>['createSubmitHandler'] = () => () =>
-    undefined;
+  submit: () => void = failFor('submit');
+
+  createSubmitHandler: Form<Data>['createSubmitHandler'] = failFor(
+    'createSubmitHandler'
+  );
 
   get errors() {
     return this._storeValues.errors;
   }
 
-  setErrors: Helpers<Data, Paths<Data>>['setErrors'] = () => undefined;
+  onerrorschange?(errors: Errors<Data>): void;
+
+  setErrors: Helpers<Data, Paths<Data>>['setErrors'] = failFor('setErrors');
 
   get touched() {
     return this._storeValues.touched;
   }
 
-  setTouched: Helpers<Data, Paths<Data>>['setTouched'] = () => undefined;
+  ontouchedchange?(touched: Touched<Data>): void;
+
+  setTouched: Helpers<Data, Paths<Data>>['setTouched'] = failFor('setTouched');
 
   get warnings() {
     return this._storeValues.warnings;
   }
 
-  setWarnings: Helpers<Data, Paths<Data>>['setWarnings'] = () => undefined;
+  onwarningschange?(warnings: Errors<Data>): void;
+
+  setWarnings: Helpers<Data, Paths<Data>>['setWarnings'] = failFor(
+    'setWarnings'
+  );
 
   get isSubmitting() {
     return this._storeValues.isSubmitting;
   }
 
-  setIsSubmitting: Helpers<Data, Paths<Data>>['setIsSubmitting'] = () =>
-    undefined;
+  onissubmittingchange?(isSubmitting: boolean): void;
+
+  setIsSubmitting: Helpers<Data, Paths<Data>>['setIsSubmitting'] = failFor(
+    'setIsSubmitting'
+  );
 
   get isDirty() {
     return this._storeValues.isDirty;
   }
 
-  setIsDirty: Helpers<Data, Paths<Data>>['setIsDirty'] = () => undefined;
+  onisdirtychange?(isDirty: boolean): void;
+
+  setIsDirty: Helpers<Data, Paths<Data>>['setIsDirty'] = failFor('setIsDirty');
 
   get isValid() {
     return this._storeValues.isValid;
   }
 
+  onisvalidchange?(isValid: boolean): void;
+
   get isValidating() {
     return this._storeValues.isValidating;
   }
+
+  onisvalidatingchange?(isValidating: boolean): void;
 
   get interacted() {
     return this._storeValues.interacted;
   }
 
-  private _readyResolve?: (value: boolean) => void;
+  oninteractedchange?(interacted: string | null): void;
 
-  private _ready = new Promise<boolean>((resolve) => {
-    this._readyResolve = resolve;
-  });
+  setInteracted: Helpers<Data, Paths<Data>>['setInteracted'] = failFor(
+    'setInteracted'
+  );
 
+  private _ready = false;
   get ready() {
     return this._ready;
   }
 
-  setInteracted: Helpers<Data, Paths<Data>>['setInteracted'] = () => undefined;
+  onfelteready?(element: this): void;
 
-  validate: Helpers<Data, Paths<Data>>['validate'] = async () =>
-    ({} as Errors<Data>);
+  validate: Helpers<Data, Paths<Data>>['validate'] = failFor('validate');
 
   @queryAssignedElements({ selector: 'form', flatten: true })
   formElements!: HTMLFormElement[];
 
-  private destroy?: () => void;
+  private _destroy?: () => void;
 
   private _handleFelteSubmit = (e: Event) => {
     const event = e as FelteSubmitEvent;
@@ -196,15 +258,10 @@ export class FelteForm<Data extends Obj = any> extends LitElement {
     if (errorEvent.defaultPrevented) event.preventDefault();
   };
 
-  firstUpdated() {
+  private _createForm(config: FormConfig<Data>) {
     const [formElement] = this.formElements;
-    if (!formElement || this.destroy) return;
+    if (!formElement || this._destroy) return;
     this.elements = formElement.elements;
-    const { configs } = window.__FELTE__;
-    let config = {};
-    if (this.id) {
-      config = configs[this.id];
-    }
 
     const { form, cleanup, ...rest } = createForm<Data>(config, {
       storeFactory: writable,
@@ -227,23 +284,16 @@ export class FelteForm<Data extends Obj = any> extends LitElement {
     this.reset = rest.reset;
     this.submit = rest.handleSubmit;
     this.createSubmitHandler = rest.createSubmitHandler;
-    const storeKeys = [
-      'data',
-      'errors',
-      'touched',
-      'warnings',
-      'isSubmitting',
-      'isDirty',
-      'isValid',
-      'isValidating',
-      'interacted',
-    ];
+
     const unsubs = storeKeys.map((key) => {
       return (rest[key as keyof typeof rest] as Readable<any>).subscribe(
         ($value) => {
           if (isEqual($value, this._storeValues[key as string])) return;
           this._storeValues[key as string] = $value;
-          this.dispatchEvent(new Event(`${key.toLowerCase()}change`));
+          const k = key.toLowerCase();
+          const handler = this[`on${k}change`];
+          if (typeof handler === 'function') handler($value);
+          this.dispatchEvent(new Event(`${k}change`));
         }
       );
     });
@@ -251,7 +301,7 @@ export class FelteForm<Data extends Obj = any> extends LitElement {
     formElement.addEventListener('feltesubmit', this._handleFelteSubmit);
     formElement.addEventListener('feltesuccess', this._handleFelteSuccess);
     formElement.addEventListener('felteerror', this._handleFelteError);
-    this.destroy = () => {
+    this._destroy = () => {
       destroy();
       cleanup();
       formElement.removeEventListener('feltesubmit', this._handleFelteSubmit);
@@ -259,13 +309,33 @@ export class FelteForm<Data extends Obj = any> extends LitElement {
       formElement.removeEventListener('felteerror', this._handleFelteError);
       unsubs.forEach((unsub) => unsub());
     };
-    this._readyResolve?.(true);
-    this.dispatchEvent(new Event('ready'));
+    this._ready = true;
+    this.onfelteready?.(this);
+    this.dispatchEvent(
+      new Event('felteready', { bubbles: true, composed: true })
+    );
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    const { configs } = window.__FELTE__;
+    if (this.id) {
+      this._configuration = configs[this.id] || this._configuration;
+    }
+  }
+
+  updated(changed: PropertyValues<this>) {
+    if (changed.has('_configuration')) {
+      this._destroy?.();
+      this._destroy = undefined;
+      this._ready = false;
+      this._createForm(this._configuration);
+    }
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.destroy?.();
+    this._destroy?.();
   }
 
   render() {

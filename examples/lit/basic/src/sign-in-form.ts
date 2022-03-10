@@ -1,5 +1,5 @@
 import { html, LitElement, nothing } from 'lit';
-import { customElement, state, query } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
 import { reporter } from '@felte/reporter-element';
 import { prepareForm } from '@felte/element';
 import styles from './sign-in-form.styles';
@@ -16,9 +16,18 @@ export class SignInForm extends LitElement {
   @state()
   submitted?: Data;
 
-  @query('felte-form')
-  felteFormElement?: HTMLFelteFormElement<Data>;
+  handleReset() {
+    this.submitted = undefined;
+  }
 
+  /**
+   * Running `prepareForm` on `connectedCallback` allows us to guarantee
+   * we set the configuration before the form loads.
+   * `prepareForm` does nothing if the form has already loadad.
+   *
+   * If you need to change the form's configuration after load,
+   * use `HTMLFelteFormElement.setConfiguration`.
+   */
   connectedCallback() {
     super.connectedCallback();
     prepareForm<Data>('signin', {
@@ -40,10 +49,6 @@ export class SignInForm extends LitElement {
     });
   }
 
-  _handleReset() {
-    this.submitted = undefined;
-  }
-
   render() {
     return html`
       <h1>Basic Example - Lit</h1>
@@ -53,7 +58,7 @@ export class SignInForm extends LitElement {
           <li part="item"></li>
         </ul>
       </template>
-      <felte-form id="signin" @reset=${this._handleReset}>
+      <felte-form id="signin" @reset=${this.handleReset}>
         <form>
           <fieldset>
             <legend>Sign In</legend>
