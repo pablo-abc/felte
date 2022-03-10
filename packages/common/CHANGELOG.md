@@ -1,5 +1,12 @@
 # @felte/common
 
+## 1.0.2
+
+### Patch Changes
+
+- c00d0e1: Allow onError to return partial errors
+- c00d0e1: Update type of submit handler
+
 ## 1.0.1
 
 ### Patch Changes
