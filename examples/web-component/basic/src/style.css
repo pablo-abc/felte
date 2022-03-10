@@ -105,12 +105,12 @@ label {
   display: block;
 }
 
-felte-validation-message::part(container) {
+ul {
   margin: 0;
   padding: 0;
   color: var(--error-color);
 }
 
-felte-validation-message::part(item) {
+li {
   list-style: disc inside;
 }

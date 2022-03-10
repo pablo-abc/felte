@@ -1,11 +1,7 @@
 import type { PropertyValues } from 'lit';
 import type { FieldValue } from '@felte/core';
-import { LitElement, html } from 'lit';
-import {
-  customElement,
-  queryAssignedElements,
-  property,
-} from 'lit/decorators.js';
+import { LitElement } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import { createField } from '@felte/core';
 
 function failFor(name: string) {
@@ -46,9 +42,6 @@ export class FelteField<
     this._onBlur();
   }
 
-  @queryAssignedElements({ flatten: true })
-  _assignedElements!: HTMLElement[];
-
   private _destroy?: () => void;
 
   private _ready = false;
@@ -67,7 +60,7 @@ export class FelteField<
       value: defaultValue,
     } = this;
     if (!name) throw new Error('<felte-field> must have a "name" attribute');
-    const [element] = this._assignedElements;
+    const element = this.children.item(0) as HTMLElement;
     if (!element) return;
     (element as any)[this.valueProp] = defaultValue;
     const { field, onInput, onBlur } = createField(name, {
@@ -108,8 +101,8 @@ export class FelteField<
     this._destroy?.();
   }
 
-  render() {
-    return html`<slot></slot>`;
+  createRenderRoot() {
+    return this;
   }
 }
 

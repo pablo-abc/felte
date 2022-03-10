@@ -24,7 +24,7 @@ Reporter.after.each(() => {
 const template = `
 <template>
   <ul>
-    <li part="item"></li>
+    <li data-part="item"></li>
   </ul>
 </template>
 `;
@@ -171,13 +171,13 @@ Reporter(
     await waitFor(() => {
       expect(
         validationMessageElement.renderRoot.querySelector('ul')
-      ).to.contain.html('<li part="item">An error</li>');
+      ).to.contain.html('<li data-part="item">An error</li>');
       expect(
         warningMessageElement.renderRoot.querySelector('ul')
-      ).to.contain.html('<li part="item">A warning</li>');
+      ).to.contain.html('<li data-part="item">A warning</li>');
       multipleMessages.forEach((mes) =>
         expect(mes.renderRoot.querySelector('ul')).to.contain.html(
-          '<li part="item">An error</li>'
+          '<li data-part="item">An error</li>'
         )
       );
     });
@@ -201,7 +201,7 @@ Reporter(
 
 const spanTemplate = `
 <template>
-  <span part="item"></span>
+  <span data-part="item"></span>
 </template>`;
 
 Reporter(
@@ -235,7 +235,7 @@ Reporter(
     });
     const templateElement = document.createElement('template');
     templateElement.id = 'validation-message';
-    templateElement.innerHTML = '<span part="item"></span>';
+    templateElement.innerHTML = '<span data-part="item"></span>';
     formElement.appendChild(templateElement);
     const multipleMessages = multipleInputs.map((el) => {
       const mes = document.createElement('felte-validation-message');
@@ -257,10 +257,10 @@ Reporter(
     await waitFor(() => {
       expect(
         validationMessageElement.renderRoot.querySelector('span')
-      ).to.be.html('<span part="item">An error</span>');
+      ).to.be.html('<span data-part="item">An error</span>');
       multipleMessages.forEach((mes) => {
         expect(mes.renderRoot.querySelector('span')).to.contain.html(
-          '<span part="item">An error</span>'
+          '<span data-part="item">An error</span>'
         );
       });
     });

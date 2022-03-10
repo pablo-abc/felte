@@ -62,8 +62,8 @@ export class SignInForm extends LitElement {
       <h1>Custom Field Example - Lit</h1>
 
       <template id="validation-message">
-        <ul aria-live="polite" part="container">
-          <li part="item"></li>
+        <ul aria-live="polite">
+          <li data-part="item"></li>
         </ul>
       </template>
       <felte-form
@@ -87,7 +87,8 @@ export class SignInForm extends LitElement {
             <felte-validation-message
               for="email"
               templateid="validation-message"
-            ></felte-validation-message>
+            >
+            </felte-validation-message>
             <div id="password-label">Password:</div>
             <felte-field name="password" valueprop="textContent">
               <div

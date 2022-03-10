@@ -12,15 +12,8 @@ const builds = [
   {
     input: './src/index.ts',
     output: [
-      {
-        file: pkg.main,
-        format: 'umd',
-        sourcemap: prod,
-        exports: 'named',
-        name: 'FelteReporterElement',
-      },
       prod && {
-        file: 'dist/esm/index.min.js',
+        file: 'dist/index.min.js',
         format: 'esm',
         sourcemap: prod,
         exports: 'named',
@@ -53,21 +46,14 @@ if (prod) {
     input: './src/felte-form.ts',
     output: [
       {
-        file: 'dist/felte-form.cjs',
-        format: 'umd',
-        sourcemap: prod,
-        exports: 'named',
-        name: 'FelteReporterElement',
-      },
-      {
-        file: 'dist/esm/felte-form.min.js',
+        file: 'dist/felte-form.min.js',
         format: 'esm',
         sourcemap: prod,
         exports: 'named',
         plugins: [terser()],
       },
       {
-        file: 'dist/esm/felte-form.js',
+        file: 'dist/felte-form.js',
         format: 'esm',
         sourcemap: prod,
         exports: 'named',
@@ -91,21 +77,14 @@ if (prod) {
     input: './src/felte-field.ts',
     output: [
       {
-        file: 'dist/felte-field.cjs',
-        format: 'umd',
-        sourcemap: prod,
-        exports: 'named',
-        name: 'FelteReporterElement',
-      },
-      {
-        file: 'dist/esm/felte-field.min.js',
+        file: 'dist/felte-field.min.js',
         format: 'esm',
         sourcemap: prod,
         exports: 'named',
         plugins: [terser()],
       },
       {
-        file: 'dist/esm/felte-field.js',
+        file: 'dist/felte-field.js',
         format: 'esm',
         sourcemap: prod,
         exports: 'named',

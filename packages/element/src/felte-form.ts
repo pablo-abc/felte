@@ -21,13 +21,8 @@ import type {
   FelteErrorEvent,
   FelteSuccessEvent,
 } from '@felte/core';
-import { LitElement, html } from 'lit';
-import {
-  customElement,
-  queryAssignedElements,
-  property,
-  state,
-} from 'lit/decorators.js';
+import { LitElement } from 'lit';
+import { customElement, query, property, state } from 'lit/decorators.js';
 import { createForm, isEqual, createEventConstructors } from '@felte/core';
 import { writable } from './stores';
 
@@ -52,36 +47,6 @@ type StoreValues<Data extends Obj> = {
 
   interacted: string | null;
 };
-
-if (typeof window !== 'undefined' && !window.__FELTE__) {
-  window.__FELTE__ = {
-    configs: {},
-  };
-}
-
-export function prepareForm<Data extends Obj = any>(
-  id: string,
-  config: FormConfig<Data>
-): Promise<HTMLFelteFormElement> {
-  function handleConnect(e: Event) {
-    const felteForm = e.composedPath()[0] as HTMLFelteFormElement;
-    if (felteForm.id !== id) return;
-    felteForm.setConfiguration(config);
-    document.removeEventListener('felteconnect', handleConnect);
-  }
-
-  document.addEventListener('felteconnect', handleConnect);
-
-  return new Promise((resolve) => {
-    function handleReady(e: Event) {
-      const felteForm = e.composedPath()[0] as HTMLFelteFormElement;
-      if (felteForm.id !== id) return;
-      resolve(felteForm);
-      document.removeEventListener('felteready', handleReady);
-    }
-    document.addEventListener('felteready', handleReady);
-  });
-}
 
 function failFor(name: string) {
   return function () {
@@ -239,13 +204,13 @@ export class FelteForm<Data extends Obj = any> extends LitElement {
 
   validate: Helpers<Data, Paths<Data>>['validate'] = failFor('validate');
 
-  @queryAssignedElements({ selector: 'form', flatten: true })
-  formElements!: HTMLFormElement[];
+  @query('form')
+  formElement?: HTMLFormElement;
 
   private _destroy?: () => void;
 
   private _createForm(config: FormConfig<Data>) {
-    const [formElement] = this.formElements;
+    const formElement = this.formElement;
     if (!formElement || this._destroy) return;
     this.elements = formElement.elements;
 
@@ -353,8 +318,8 @@ export class FelteForm<Data extends Obj = any> extends LitElement {
     this._destroy?.();
   }
 
-  render() {
-    return html`<slot></slot>`;
+  createRenderRoot() {
+    return this;
   }
 }
 
@@ -364,10 +329,4 @@ declare global {
   }
 
   type HTMLFelteFormElement<Data extends Obj = any> = FelteForm<Data>;
-
-  interface Window {
-    __FELTE__: {
-      configs: Record<string, FormConfig<any>>;
-    };
-  }
 }

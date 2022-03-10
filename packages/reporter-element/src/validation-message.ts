@@ -52,7 +52,6 @@ export class FelteValidationMessage extends LitElement {
   private formElement?: HTMLFormElement;
 
   private _setup() {
-    const slot = this.renderRoot.querySelector('slot') as HTMLSlotElement;
     const rootNode = this.getRootNode() as ShadowRoot | null;
     const hostNode = rootNode?.host?.shadowRoot;
     const template = this.templateId
@@ -60,14 +59,10 @@ export class FelteValidationMessage extends LitElement {
           document.getElementById(
             this.templateId
           )) as HTMLTemplateElement | null)
-      : (slot
-          .assignedNodes({ flatten: true })
-          .find(
-            (node) => node instanceof HTMLTemplateElement
-          ) as HTMLTemplateElement | null);
+      : (this.querySelector('template') as HTMLTemplateElement | null);
     if (!template) return;
     this.content = document.importNode(template.content, true);
-    const item = this.content.querySelector('[part="item"]');
+    const item = this.content.querySelector('[data-part="item"]');
     if (!item) return;
     this.item = item.cloneNode(true) as HTMLElement | null;
     this.container = item.parentElement;
@@ -100,26 +95,13 @@ export class FelteValidationMessage extends LitElement {
       const newItems = [...this.items];
       messages.forEach((message: string, index) => {
         const item = this.items[index] ?? itemTemplate.cloneNode(true);
-        const messageElement = item.querySelector('[part="message"]') ?? item;
+        const messageElement =
+          item.querySelector('[data-part="message"]') ?? item;
         messageElement.textContent = message;
         newItems[index] = item;
       });
       this.items = newItems.slice(0, messages.length);
     });
-  }
-
-  updated(changed: PropertyValues<this>) {
-    if (changed.has('items') && this.container) {
-      for (const child of Array.from(this.container.childNodes)) {
-        if (this.items.includes(child as HTMLElement)) continue;
-        this.container.removeChild(child);
-      }
-      this.container.append(
-        ...this._prevSiblings,
-        ...this.items,
-        ...this._nextSiblings
-      );
-    }
   }
 
   disconnectedCallback() {
@@ -137,7 +119,7 @@ export class FelteValidationMessage extends LitElement {
     this.formElement = formElement;
   }
 
-  firstUpdated() {
+  willUpdate() {
     const reporterId = this.formElement?.dataset.felteReporterElementId;
     if (!reporterId)
       this.formElement?.addEventListener(
@@ -148,13 +130,30 @@ export class FelteValidationMessage extends LitElement {
     if (reporterId) this._start(reporterId);
   }
 
+  updated(changed: PropertyValues<this>) {
+    if (changed.has('items') && this.container) {
+      for (const child of Array.from(this.container.childNodes)) {
+        if (this.items.includes(child as HTMLElement)) continue;
+        this.container.removeChild(child);
+      }
+      this.container.append(
+        ...this._prevSiblings,
+        ...this.items,
+        ...this._nextSiblings
+      );
+    }
+  }
+
   render() {
     return html`
-      <slot @slotchange=${this._setup}></slot>
       ${this.content} ${this.container ? nothing : this._prevSiblings}
       ${this.container ? nothing : this.items}
       ${this.container ? nothing : this._nextSiblings}
     `;
+  }
+
+  createRenderRoot() {
+    return this;
   }
 }
 

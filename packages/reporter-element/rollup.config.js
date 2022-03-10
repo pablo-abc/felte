@@ -11,15 +11,8 @@ const prod = !process.env.ROLLUP_WATCH;
 export default {
   input: './src/index.ts',
   output: [
-    {
-      file: pkg.main,
-      format: 'umd',
-      sourcemap: prod,
-      exports: 'named',
-      name: 'FelteReporterElement',
-    },
     prod && {
-      file: 'dist/esm/index.min.js',
+      file: 'dist/index.min.js',
       format: 'esm',
       sourcemap: prod,
       exports: 'named',

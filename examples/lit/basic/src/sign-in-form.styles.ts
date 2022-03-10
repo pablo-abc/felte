@@ -92,7 +92,7 @@ const styles = css`
     cursor: not-allowed;
   }
 
-  felte-validation-message::part(container) {
+  ul {
     color: var(--error-color);
     margin: 0;
     padding: 0;
@@ -102,7 +102,7 @@ const styles = css`
     display: block;
   }
 
-  felte-validation-message::part(item) {
+  li {
     list-style: disc inside;
   }
 `;

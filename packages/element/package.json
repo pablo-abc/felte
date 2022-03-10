@@ -2,9 +2,9 @@
   "name": "@felte/element",
   "version": "0.2.2",
   "description": "An extensible form library that can be used as a custom element",
-  "main": "dist/index.cjs",
-  "module": "dist/esm/index.js",
-  "browser": "dist/esm/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "browser": "dist/index.js",
   "types": "dist/types/index.d.ts",
   "type": "module",
   "scripts": {
@@ -26,6 +26,9 @@
     "validation",
     "felte"
   ],
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "tslib": "^2.3.1",
     "uvu": "^0.5.3"
@@ -38,21 +41,9 @@
     "access": "public"
   },
   "exports": {
-    ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/index.cjs",
-      "default": "./dist/esm/index.js"
-    },
-    "./dist/esm/felte-form": {
-      "import": "./dist/esm/felte-form.js",
-      "require": "./dist/felte-form.cjs",
-      "default": "./dist/esm/felte-form.js"
-    },
-    "./dist/esm/felte-field": {
-      "import": "./dist/esm/felte-field.js",
-      "require": "./dist/felte-field.cjs",
-      "default": "./dist/esm/felte-field.js"
-    },
+    ".": "./dist/index.js",
+    "./dist/felte-form": "./dist/felte-form.js",
+    "./dist/felte-field": "./dist/felte-field.js",
     "./package.json": "./package.json"
   }
 }

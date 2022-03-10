@@ -54,8 +54,8 @@ export class SignInForm extends LitElement {
       <h1>Basic Example - Lit</h1>
 
       <template id="validation-message">
-        <ul aria-live="polite" part="container">
-          <li part="item"></li>
+        <ul aria-live="polite">
+          <li data-part="item"></li>
         </ul>
       </template>
       <felte-form id="signin" @reset=${this.handleReset}>
