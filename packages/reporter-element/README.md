@@ -162,3 +162,7 @@ You may also add a `<style>` tag inside of the template:
 ```
 
 You are in control of the contents of the shadow DOM of this element, so you can freely add parts to it for easier styling. The only parts that have "special" meaning are `item` and `message`.
+
+## Framework compatibility
+
+This element should work nicely with any framework except React due to an issue on [how React renders `<template>` elements](https://github.com/facebook/react/issues/19932) (although anyway a [specific package for React exists for this same purpose](../reporter-react).

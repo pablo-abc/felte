@@ -19,30 +19,30 @@
 - [More examples](#more-examples)
 - [Packages](#packages)
   - [Svelte](#svelte-1)
-    - [`felte`](./packages/felte/README.md)
-    - [`@felte/reporter-svelte`](./packages/reporter-svelte/README.md)
+    - [`felte`](./packages/felte)
+    - [`@felte/reporter-svelte`](./packages/reporter-svelte)
   - [Solid](#solid-1)
-    - [`@felte/solid`](./packages/solid/README.md)
-    - [`@felte/reporter-solid`](./packages/reporter-solid/README.md)
+    - [`@felte/solid`](./packages/solid)
+    - [`@felte/reporter-solid`](./packages/reporter-solid)
   - [React](#react)
-    - [`@felte/react`](./packages/react/README.md)
-    - [`@felte/reporter-react`](./packages/reporter-react/README.md)
+    - [`@felte/react`](./packages/react)
+    - [`@felte/reporter-react`](./packages/reporter-react)
   - [Preact](#preact)
-    - [`@felte/preact`](./packages/preact/README.md)
-    - [`@felte/reporter-preact`](./packages/reporter-preact/README.md)
+    - [`@felte/preact`](./packages/preact)
+    - [`@felte/reporter-preact`](./packages/reporter-preact)
   - [VanillaJS](#vanillajs)
-    - [`@felte/element`](./packages/element/README.md)
-    - [`@felte/reporter-element`](./packages/reporter-element/README.md)
-    - [`@felte/vanilla`](./packages/vanilla/README.md)
+    - [`@felte/element`](./packages/element)
+    - [`@felte/reporter-element`](./packages/reporter-element)
+    - [`@felte/vanilla`](./packages/vanilla)
   - [Validators](#validators)
-    - [`@felte/validator-yup`](./packages/validator-yup/README.md)
-    - [`@felte/validator-zod`](./packages/validator-zod/README.md)
-    - [`@felte/validator-superstruct`](./packages/validator-superstruct/README.md)
-    - [`@felte/validator-vest`](./packages/validator-vest/README.md)
+    - [`@felte/validator-yup`](./packages/validator-yup)
+    - [`@felte/validator-zod`](./packages/validator-zod)
+    - [`@felte/validator-superstruct`](./packages/validator-superstruct)
+    - [`@felte/validator-vest`](./packages/validator-vest)
   - [Reporters](#reporters)
-    - [`@felte/reporter-tippy`](./packages/reporter-tippy/README.md)
-    - [`@felte/reporter-cvapi`](./packages/reporter-cvapi/README.md)
-    - [`@felte/reporter-dom`](./packages/reporter-dom/README.md)
+    - [`@felte/reporter-tippy`](./packages/reporter-tippy)
+    - [`@felte/reporter-cvapi`](./packages/reporter-cvapi)
+    - [`@felte/reporter-dom`](./packages/reporter-dom)
 - [Contributing](#contributing)
 - [Contributors](#contributors-)
 
@@ -57,7 +57,7 @@ Felte is a simple to use form library for Svelte, Solid and React. No `Field` or
 - Handles addition and removal of form controls during runtime.
 - Official solutions for error reporting using `reporter` packages.
 - Well tested. Currently at [99% code coverage](https://app.codecov.io/gh/pablo-abc/felte) and constantly working on improving test quality.
-- Supports validation with [yup](./packages/validator-yup/README.md), [zod](./packages/validator-zod/README.md), [superstruct](./packages/validator-superstruct/README.md) and [vest](./packages/validator-vest/README.md).
+- Supports validation with [yup](./packages/validator-yup), [zod](./packages/validator-zod), [superstruct](./packages/validator-superstruct) and [vest](./packages/validator-vest).
 - Easily [extend its functionality](https://felte.dev/docs/svelte/extending-felte).
 
 ## Simple usage example
@@ -163,11 +163,11 @@ This repository is a mono-repo containing multiple packages located in the `pack
 
 We provide two packages that are specific to Svelte:
 
-#### [felte](./packages/felte/README.md)
+#### [felte](./packages/felte)
 
 This is the core package that contains all the basic functionality you need to handle your forms in Svelte. Felte optionally allows you to use error reporters (see them as plugins) to prevent you from needing to find a way to display your errors on your form manually. For this we provide already some reporter packages contained in this same repo.
 
-#### [@felte/reporter-svelte](./packages/reporter-svelte/README.md)
+#### [@felte/reporter-svelte](./packages/reporter-svelte)
 
 A reporter package that uses a Svelte component to pass the validation messages for you to display. This provides an API that might feel the most familiar to most developers.
 
@@ -175,11 +175,11 @@ A reporter package that uses a Svelte component to pass the validation messages 
 
 We provide two packages that are specific to Solid:
 
-#### [@felte/solid](./packages/solid/README.md)
+#### [@felte/solid](./packages/solid)
 
 This is the core package that contains all the basic functionality you need to handle your forms in Solid. Same as `felte` but specifically made for Solid.
 
-#### [@felte/reporter-solid](./packages/reporter-solid/README.md)
+#### [@felte/reporter-solid](./packages/reporter-solid)
 
 A reporter package that uses a Solid component to pass the validation messages for you to display. This provides an API that might feel the most familiar to most developers.
 
@@ -187,11 +187,11 @@ A reporter package that uses a Solid component to pass the validation messages f
 
 We provide two packages that are specific to React:
 
-#### [@felte/react](./packages/react/README.md)
+#### [@felte/react](./packages/react)
 
 This is the main package that contains the basic functionality you need to handle your forms in React. Same as `felte` but specifically made for React.
 
-#### [@felte/reporter-react](./packages/reporter-react/README.md)
+#### [@felte/reporter-react](./packages/reporter-react)
 
 A reporter packages that uses a React component to pass the validation messages for you to display. This provides an API that might feel the most familiar to most developers.
 
@@ -199,11 +199,11 @@ A reporter packages that uses a React component to pass the validation messages 
 
 We provide two packages that are specific to Preact:
 
-#### [@felte/preact](./packages/preact/README.md)
+#### [@felte/preact](./packages/preact)
 
 This is the main package that contains the basic functionality you need to handle your forms in Preact. Same as `felte` but specifically made for Preact. The API is the same as `@felte/react` so you can refer to the same documentation.
 
-#### [@felte/reporter-preact](./packages/reporter-preact/README.md)
+#### [@felte/reporter-preact](./packages/reporter-preact)
 
 A reporter packages that uses a Preact component to pass the validation messages for you to display. This provides an API that might feel the most familiar to most developers. The API is the same as `@felte/react` so you can refer to the same documentation.
 
@@ -211,15 +211,15 @@ A reporter packages that uses a Preact component to pass the validation messages
 
 We provide three packages that can be used with only VanillaJS. Two of them using [Web Components](https://www.webcomponents.org/introduction).
 
-#### [@felte/element](./packages/element/README.md)
+#### [@felte/element](./packages/element)
 
 This is the main package that contains the basic functionality you need to handle your forms in vanilla JS using a web component. Similar to `felte` but specifically made to be used as a web component. This is the recommended way to handle your forms when using Vanilla JS. Web components are [well supported by all major browsers](https://caniuse.com/custom-elementsv1) so this should be a safe option unless you need to support legacy browsers.
 
-#### [@felte/reporter-element](./packages/reporter-element/README.md)
+#### [@felte/reporter-element](./packages/reporter-element)
 
 A reporter packages that uses a web component to display validation messages on the DOM. This the recommended way to display your validation messages when using vanilla JS.
 
-#### [@felte/vanilla](./packages/vanilla/README.md)
+#### [@felte/vanilla](./packages/vanilla)
 
 This is the main package that contains the basic functionality you need to handle your forms in vanilla JS using a web component. Similar to `felte` and other integrations but with all code related to frameworks removed. This requires a bit more work to use, since you'll be the one in charge of cleaning up subscribers and listeners on it. It's API is basically the same as `felte` (Svelte's integration) so you _can_ use Svelte's documentation as a reference. This can be used as a starting point to create your own integration/package for other environments. When it comes to vanilla JS we'd recommend using `@felte/element` using web components.
 
@@ -227,19 +227,19 @@ This is the main package that contains the basic functionality you need to handl
 
 The following packages can be used with any of the framework specific `felte` wrappers:
 
-#### [@felte/validator-yup](./packages/validator-yup/README.md)
+#### [@felte/validator-yup](./packages/validator-yup)
 
 A utility package to help you validate your form with [Yup](https://github.com/jquense/yup).
 
-#### [@felte/validator-zod](./packages/validator-zod/README.md)
+#### [@felte/validator-zod](./packages/validator-zod)
 
 A utility package to help you validate your form with [Zod](https://github.com/colinhacks/zod).
 
-#### [@felte/validator-superstruct](./packages/validator-superstruct/README.md)
+#### [@felte/validator-superstruct](./packages/validator-superstruct)
 
 A utility package to help you validate your form with [Superstruct](https://docs.superstructjs.org).
 
-#### [@felte/validator-vest](./packages/validator-vest/README.md)
+#### [@felte/validator-vest](./packages/validator-vest)
 
 A utility package to help you validate your form with [Vest](https://vest.vercel.app).
 
@@ -247,15 +247,15 @@ A utility package to help you validate your form with [Vest](https://vest.vercel
 
 The following packages can be used with any of the framework specific `felte` wrappers:
 
-#### [@felte/reporter-tippy](./packages/reporter-tippy/README.md)
+#### [@felte/reporter-tippy](./packages/reporter-tippy)
 
 A reporter that uses [Tippy.js](https://atomiks.github.io/tippyjs/) to display your validation messages without needing any extra work.
 
-#### [@felte/reporter-cvapi](./packages/reporter-cvapi/README.md)
+#### [@felte/reporter-cvapi](./packages/reporter-cvapi)
 
 A reporter that uses the browser's [constraint validation API](https://developer.mozilla.org/en-US/docs/Web/API/Constraint_validation) to display your validation messages.
 
-#### [@felte/reporter-dom](./packages/reporter-dom/README.md)
+#### [@felte/reporter-dom](./packages/reporter-dom)
 
 A reporter that displays the error messages in the DOM, either as a single element or a list of elements.
 

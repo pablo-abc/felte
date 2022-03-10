@@ -6,7 +6,6 @@
 [![NPM Downloads](https://img.shields.io/npm/dw/@felte/element)](https://www.npmjs.com/package/@felte/element)
 [![codecov](https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC)](https://codecov.io/gh/pablo-abc/felte)
 
-
 Felte is an extensible form library originally bult for Svelte. This package aims to provide Felte's functionality using a custom element. Felte, on its most simple form, only requires you to provide a `<form>` element to it in order to work.
 
 ## Features
@@ -27,20 +26,20 @@ Using Svelte as an example:
 
 ```html
 <script type="module">
-  import { prepareForm } from '@felte/element'
+  import { prepareForm } from '@felte/element';
 
   prepareForm('signin', {
     onSubmit: async (values) => {
       /* call to an api */
     },
-  })
+  });
 </script>
 
 <felte-form id="signin">
   <form>
-    <input type=text name=email>
-    <input type=password name=password>
-    <input type=submit value="Sign in">
+    <input type="text" name="email" />
+    <input type="password" name="password" />
+    <input type="submit" value="Sign in" />
   </form>
 </felte-form>
 ```
@@ -58,3 +57,7 @@ yarn add @felte/element
 ## Usage
 
 To learn more about how to use `felte` to handle your forms, check the [official documentation](https://felte.dev/docs/element/getting-started). **TODO**: Add documentation
+
+## Framework compatibility
+
+This package should work nicely with any framework. Specially if you're using the `prepareForm` method of creating your form. It also works really nice with frameworks that set attributes as properties or frameworks that provide syntax to set values to properties of elements instead of attributes.
