@@ -1,6 +1,6 @@
 {
   "name": "@felte/element",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "An extensible form library that can be used as a custom element",
   "main": "dist/index.cjs",
   "module": "dist/esm/index.js",
