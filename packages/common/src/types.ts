@@ -484,7 +484,7 @@ export type Form<Data extends Obj> = {
   /** Function that creates a submit handler. If a function is passed as first argument it overrides the default `onSubmit` function set in the `createForm` config object. */
   createSubmitHandler: (
     altConfig?: CreateSubmitHandlerConfig<Data>
-  ) => (e?: Event) => void;
+  ) => (e?: Event) => Promise<void>;
 };
 
 export type StoreFactory<Ext = Record<string, any>> = <Value>(

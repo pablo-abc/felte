@@ -61,7 +61,7 @@ importers:
       typedoc: ^0.22.10
       typescript: ^4.5.5
       uvu: ^0.5.3
-      uvu-expect: ^0.4.4
+      uvu-expect: ^0.5.0
       uvu-expect-dom: ^0.2.4
       vest: ^4.0.1
       yup: ^0.32.9
@@ -125,8 +125,8 @@ importers:
       typedoc: 0.22.10_typescript@4.5.5
       typescript: 4.5.5
       uvu: 0.5.3
-      uvu-expect: 0.4.4_uvu@0.5.3
-      uvu-expect-dom: 0.2.4_uvu-expect@0.4.4+uvu@0.5.3
+      uvu-expect: 0.5.0_uvu@0.5.3
+      uvu-expect-dom: 0.2.4_uvu-expect@0.5.0+uvu@0.5.3
       vest: 4.0.1
       yup: 0.32.9
       zod: 1.11.13
@@ -11673,7 +11673,7 @@ packages:
     hasBin: true
     dev: true
 
-  /uvu-expect-dom/0.2.4_uvu-expect@0.4.4+uvu@0.5.3:
+  /uvu-expect-dom/0.2.4_uvu-expect@0.5.0+uvu@0.5.3:
     resolution: {integrity: sha512-lBZpgkkwMYAOgDNtH0/N+4q1R2HxVnpg53P7LXqrJgJLRcN5o6wGusB2YhWBy7eVvzbaSb90qsZ765l1bfKdpg==}
     peerDependencies:
       uvu: ^0.5.3
@@ -11684,11 +11684,11 @@ packages:
       dom-accessibility-api: 0.5.11
       redent: 4.0.0
       uvu: 0.5.3
-      uvu-expect: 0.4.4_uvu@0.5.3
+      uvu-expect: 0.5.0_uvu@0.5.3
     dev: true
 
-  /uvu-expect/0.4.4_uvu@0.5.3:
-    resolution: {integrity: sha512-B7Jx75jVNhVB78dkGshM1RhOOqN5Q5hI0Elz0Jl54D2cj6yHZ5kgkv20/FjhF9OWwKh/7mcCddAycDybAkLJSg==}
+  /uvu-expect/0.5.0_uvu@0.5.3:
+    resolution: {integrity: sha512-n19d3yX+FvI28cvLQLYF5vMNCiAqXzTTz6T1bvUICdxOYJan32GV7FJnu1pgk7j7ZhFoV89ACd47RLcRriazdQ==}
     peerDependencies:
       uvu: ^0.5.3
     dependencies:

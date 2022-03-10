@@ -1,6 +1,7 @@
 import * as sinon from 'sinon';
 import { suite } from 'uvu';
 import { expect } from 'uvu-expect';
+import { createForm } from './common';
 import { FelteSubmitEvent, FelteErrorEvent, FelteSuccessEvent } from '../src';
 
 const Events = suite('Felte Events');
@@ -34,6 +35,59 @@ Events('error event should allow to set errors', () => {
   event.setErrors({ error: 'error' });
   expect(event.errors).to.match({ error: 'error' });
   expect(event.defaultPrevented).to.be.true;
+});
+
+Events('throws when error event is not default prevented', async () => {
+  const formElement = document.createElement('form');
+  document.body.appendChild(formElement);
+  const onSubmit = sinon.fake(() => {
+    throw new Error('Something went wrong');
+  });
+
+  const { form, createSubmitHandler } = createForm<any>({
+    onSubmit,
+  });
+
+  const submit = createSubmitHandler();
+
+  form(formElement);
+
+  await expect(submit())
+    .rejects.to.instanceOf(Error)
+    .with.property('message')
+    .that.equals('Something went wrong');
+
+  document.body.removeChild(formElement);
+});
+
+Events('does not throw when error event is default prevented', async () => {
+  const formElement = document.createElement('form');
+  document.body.appendChild(formElement);
+  const onSubmit = sinon.fake(() => {
+    throw new Error('Something went wrong');
+  });
+
+  const handleError = sinon.fake((e: Event) => {
+    e.preventDefault();
+  });
+
+  const { form, createSubmitHandler } = createForm<any>({
+    onSubmit,
+  });
+
+  formElement.addEventListener('felteerror', handleError);
+
+  const submit = createSubmitHandler();
+
+  form(formElement);
+
+  await expect(submit()).to.resolve;
+
+  expect(handleError).to.have.been.called.with(
+    expect.match.instanceOf(FelteErrorEvent)
+  );
+
+  document.body.removeChild(formElement);
 });
 
 Events.run();
