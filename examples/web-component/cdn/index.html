@@ -8,8 +8,8 @@
 
     <!-- We prepare our form. This needs to run before the document loads so don't  defer it -->
     <script type="module">
-     import { prepareForm } from 'https://unpkg.com/@felte/element@0.1.0/dist/esm/index.min.js';
-     import { reporter } from 'https://unpkg.com/@felte/reporter-element@0.1.0/dist/esm/index.min.js';
+     import { prepareForm } from 'https://unpkg.com/@felte/element/dist/esm/index.min.js';
+     import { reporter } from 'https://unpkg.com/@felte/reporter-element/dist/esm/index.min.js';
      prepareForm('signin', {
        onSubmit: (values) => {
          const submittedSection = document.getElementById('submitted');

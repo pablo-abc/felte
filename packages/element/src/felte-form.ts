@@ -63,7 +63,14 @@ export function prepareForm<Data extends Obj = any>(
   id: string,
   config: FormConfig<Data>
 ): Promise<HTMLFelteFormElement> {
-  window.__FELTE__.configs[id] = config;
+  function handleConnect(e: Event) {
+    const felteForm = e.composedPath()[0] as HTMLFelteFormElement;
+    if (felteForm.id !== id) return;
+    felteForm.setConfiguration(config);
+    document.removeEventListener('felteconnect', handleConnect);
+  }
+
+  document.addEventListener('felteconnect', handleConnect);
 
   return new Promise((resolve) => {
     function handleReady(e: Event) {
@@ -326,12 +333,10 @@ export class FelteForm<Data extends Obj = any> extends LitElement {
     );
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    const { configs } = window.__FELTE__;
-    if (this.id) {
-      this._configuration = configs[this.id] || this._configuration;
-    }
+  willUpdate() {
+    this.dispatchEvent(
+      new Event('felteconnect', { bubbles: true, composed: true })
+    );
   }
 
   updated(changed: PropertyValues<this>) {
