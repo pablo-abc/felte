@@ -28,7 +28,9 @@ Events('submit event should allow setting handler', () => {
 });
 
 Events('error event should allow to set errors', () => {
-  const event = new FelteErrorEvent({ error: 'error' } as any);
+  const event = new FelteErrorEvent({
+    error: 'error',
+  } as any);
   expect(event).to.have.property('detail').that.matches({ error: 'error' });
   expect(event.errors).to.be.undefined;
   expect(event.defaultPrevented).to.be.false;

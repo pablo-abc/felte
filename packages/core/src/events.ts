@@ -13,7 +13,21 @@ export type FelteErrorDetail<Data extends Obj = Obj> = SubmitContext<Data> & {
   error: unknown;
 };
 
-export class FelteSuccessEvent<Data extends Obj = any> extends CustomEvent<
+export class FelteCustomEvent<Detail = unknown> extends Event {
+  constructor(
+    name: string,
+    { detail, ...init }: EventInit & { detail: Detail }
+  ) {
+    super(name, init);
+    this._detail = detail;
+  }
+  private _detail: Detail;
+  get detail() {
+    return this._detail;
+  }
+}
+
+export class FelteSuccessEvent<Data extends Obj = any> extends FelteCustomEvent<
   FelteSuccessDetail<Data>
 > {
   constructor(detail: FelteSuccessDetail<Data>) {
@@ -21,7 +35,7 @@ export class FelteSuccessEvent<Data extends Obj = any> extends CustomEvent<
   }
 }
 
-export class FelteErrorEvent<Data extends Obj = any> extends CustomEvent<
+export class FelteErrorEvent<Data extends Obj = any> extends FelteCustomEvent<
   FelteErrorDetail<Data>
 > {
   constructor(detail: FelteErrorDetail<Data>) {
