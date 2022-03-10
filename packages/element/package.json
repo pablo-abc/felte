@@ -43,8 +43,16 @@
       "require": "./dist/index.cjs",
       "default": "./dist/esm/index.js"
     },
-    "./dist/esm/felte-form": "./dist/esm/felte-form.js",
-    "./dist/esm/felte-field": "./dist/esm/felte-field.js",
+    "./dist/esm/felte-form": {
+      "import": "./dist/esm/felte-form.js",
+      "require": "./dist/felte-form.cjs",
+      "default": "./dist/esm/felte-form.js"
+    },
+    "./dist/esm/felte-field": {
+      "import": "./dist/esm/felte-field.js",
+      "require": "./dist/felte-field.cjs",
+      "default": "./dist/esm/felte-field.js"
+    },
     "./package.json": "./package.json"
   }
 }
