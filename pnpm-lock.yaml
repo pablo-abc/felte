@@ -146,6 +146,21 @@ importers:
       typescript: 4.5.5
       vite: 2.8.4
 
+  examples/lit/custom-field:
+    specifiers:
+      '@felte/element': latest
+      '@felte/reporter-element': latest
+      lit: ^2.0.2
+      typescript: ^4.5.4
+      vite: ^2.8.0
+    dependencies:
+      '@felte/element': link:../../../packages/element
+      '@felte/reporter-element': link:../../../packages/reporter-element
+      lit: 2.2.0
+    devDependencies:
+      typescript: 4.5.5
+      vite: 2.8.4
+
   examples/preact/basic:
     specifiers:
       '@felte/preact': latest

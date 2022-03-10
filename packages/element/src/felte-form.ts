@@ -231,7 +231,7 @@ export class FelteForm<Data extends Obj = any> extends LitElement {
     return this._ready;
   }
 
-  onfelteready?(element: this): void;
+  onfelteready?(): void;
 
   validate: Helpers<Data, Paths<Data>>['validate'] = failFor('validate');
 
@@ -239,30 +239,6 @@ export class FelteForm<Data extends Obj = any> extends LitElement {
   formElements!: HTMLFormElement[];
 
   private _destroy?: () => void;
-
-  private _handleFelteSubmit = (e: Event) => {
-    const event = e as FelteSubmitEvent;
-    const submitEvent = new FelteSubmitEvent();
-    this.dispatchEvent(submitEvent);
-    if (submitEvent.defaultPrevented) event.preventDefault();
-    event.onSubmit = submitEvent.onSubmit;
-    event.onSuccess = submitEvent.onSuccess;
-    event.onError = submitEvent.onError;
-  };
-
-  private _handleFelteSuccess = (e: Event) => {
-    const event = e as FelteSuccessEvent;
-    const successEvent = new FelteSuccessEvent(event.detail);
-    this.dispatchEvent(successEvent);
-  };
-
-  private _handleFelteError = (e: Event) => {
-    const event = e as FelteErrorEvent;
-    const errorEvent = new FelteErrorEvent(event.detail);
-    this.dispatchEvent(errorEvent);
-    event.errors = errorEvent.errors;
-    if (errorEvent.defaultPrevented) event.preventDefault();
-  };
 
   private _createForm(config: FormConfig<Data>) {
     const [formElement] = this.formElements;
@@ -304,19 +280,44 @@ export class FelteForm<Data extends Obj = any> extends LitElement {
       );
     });
     const { destroy } = form(formElement);
-    formElement.addEventListener('feltesubmit', this._handleFelteSubmit);
-    formElement.addEventListener('feltesuccess', this._handleFelteSuccess);
-    formElement.addEventListener('felteerror', this._handleFelteError);
+
+    const handleFelteSubmit = (e: Event) => {
+      const event = e as FelteSubmitEvent;
+      const submitEvent = new FelteSubmitEvent();
+      this.dispatchEvent(submitEvent);
+      if (submitEvent.defaultPrevented) event.preventDefault();
+      event.onSubmit = submitEvent.onSubmit;
+      event.onSuccess = submitEvent.onSuccess;
+      event.onError = submitEvent.onError;
+    };
+
+    const handleFelteSuccess = (e: Event) => {
+      const event = e as FelteSuccessEvent;
+      const successEvent = new FelteSuccessEvent(event.detail);
+      this.dispatchEvent(successEvent);
+    };
+
+    const handleFelteError = (e: Event) => {
+      const event = e as FelteErrorEvent;
+      const errorEvent = new FelteErrorEvent(event.detail);
+      this.dispatchEvent(errorEvent);
+      event.errors = errorEvent.errors;
+      if (errorEvent.defaultPrevented) event.preventDefault();
+    };
+
+    formElement.addEventListener('feltesubmit', handleFelteSubmit);
+    formElement.addEventListener('feltesuccess', handleFelteSuccess);
+    formElement.addEventListener('felteerror', handleFelteError);
     this._destroy = () => {
       destroy();
       cleanup();
-      formElement.removeEventListener('feltesubmit', this._handleFelteSubmit);
-      formElement.removeEventListener('feltesuccess', this._handleFelteSuccess);
-      formElement.removeEventListener('felteerror', this._handleFelteError);
+      formElement.removeEventListener('feltesubmit', handleFelteSubmit);
+      formElement.removeEventListener('feltesuccess', handleFelteSuccess);
+      formElement.removeEventListener('felteerror', handleFelteError);
       unsubs.forEach((unsub) => unsub());
     };
     this._ready = true;
-    this.onfelteready?.(this);
+    this.onfelteready?.();
     this.dispatchEvent(
       new Event('felteready', { bubbles: true, composed: true })
     );
