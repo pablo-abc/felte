@@ -1,5 +1,12 @@
 # @felte/core
 
+## 1.1.1
+
+### Patch Changes
+
+- 03b9e01: Stop using CustomEvent for compatibility with Node
+- 6dafd80: Fix breakage on SSR
+
 ## 1.1.0
 
 ### Minor Changes

@@ -1,5 +1,13 @@
 # felte
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [03b9e01]
+- Updated dependencies [6dafd80]
+  - @felte/core@1.1.1
+
 ## 1.1.0
 
 ### Minor Changes
