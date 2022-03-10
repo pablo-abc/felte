@@ -310,7 +310,7 @@ export type FormConfigWithoutTransformFn<Data extends Obj> = {
   onError?: (
     error: unknown,
     context: SubmitContext<Data>
-  ) => Promise<void | Errors<Data>> | void | Errors<Data>;
+  ) => Promise<void | AssignableErrors<Data>> | void | AssignableErrors<Data>;
   /** Optional function/s to extend Felte's functionality. */
   extend?: Extender<Data> | Extender<Data>[];
   [key: string]: unknown;
@@ -343,7 +343,7 @@ export type FormConfigWithTransformFn<Data extends Obj> = {
   onError?: (
     error: unknown,
     context: SubmitContext<Data>
-  ) => Promise<void | Errors<Data>> | void | Errors<Data>;
+  ) => Promise<void | AssignableErrors<Data>> | void | AssignableErrors<Data>;
   /** Optional function/s to extend Felte's functionality. */
   extend?: Extender<Data> | Extender<Data>[];
   [key: string]: unknown;
@@ -484,7 +484,7 @@ export type Form<Data extends Obj> = {
   /** Function that creates a submit handler. If a function is passed as first argument it overrides the default `onSubmit` function set in the `createForm` config object. */
   createSubmitHandler: (
     altConfig?: CreateSubmitHandlerConfig<Data>
-  ) => (e?: Event) => void;
+  ) => (e?: Event) => Promise<void>;
 };
 
 export type StoreFactory<Ext = Record<string, any>> = <Value>(

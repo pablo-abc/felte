@@ -5,7 +5,7 @@ import { waitFor } from '@testing-library/dom';
 
 const Stores = suite('createStores');
 
-Stores.only('Updates signal observable', async () => {
+Stores('Updates signal observable', async () => {
   const mockFn = sinon.fake();
   const observable = storeFactory(true);
   observable.subscribe(mockFn);

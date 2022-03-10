@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + Lit App</title>
+    <script type="module" src="/src/sign-in-form.ts"></script>
+    <style>
+     :root {
+       --primary-background: #111111;
+       --primary-font-color: #fffff0;
+     }
+
+     * {
+       box-sizing: border-box;
+     }
+
+     body {
+       margin: 0;
+       font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, Segoe UI,
+       Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+       font-size: 14px;
+       line-height: 1.5;
+       color: var(--primary-font-color);
+       background: var(--primary-background);
+       font-size: 1.1rem;
+     }
+    </style>
+  </head>
+  <body>
+    <template id="validation-message">
+      <ul aria-live="polite" part="container">
+        <li part="item" />
+      </ul>
+    </template>
+    <sign-in-form></sign-in-form>
+  </body>
+</html>

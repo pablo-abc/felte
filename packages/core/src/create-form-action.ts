@@ -33,9 +33,9 @@ import {
   getFormControls,
   _isPlainObject,
 } from '@felte/common';
-import type { FelteSuccessDetail, FelteErrorDetail } from './events';
 import type { SuccessResponse, FetchResponse } from './error';
 import { get } from './get';
+import { FelteSuccessEvent, FelteErrorEvent, FelteSubmitEvent } from './events';
 import { FelteSubmitError } from './error';
 import { deepSetTouched } from './deep-set-touched';
 import { deepRemoveKey } from './deep-set-key';
@@ -144,16 +144,22 @@ export function createFormAction<Data extends Obj>({
   } = stores;
 
   function createSubmitHandler(altConfig?: CreateSubmitHandlerConfig<Data>) {
-    const onError = altConfig?.onError ?? config.onError;
-    const onSuccess = altConfig?.onSuccess ?? config.onSuccess;
     return async function handleSubmit(event?: Event) {
       const formNode = _getFormNode();
+      const submitEvent = new FelteSubmitEvent<Data>();
+      formNode?.dispatchEvent(submitEvent);
+      const onError =
+        submitEvent.onError ?? altConfig?.onError ?? config.onError;
+      const onSuccess =
+        submitEvent.onSuccess ?? altConfig?.onSuccess ?? config.onSuccess;
       const onSubmit =
+        submitEvent.onSubmit ??
         altConfig?.onSubmit ??
         config.onSubmit ??
         createDefaultSubmitHandler(formNode);
       if (!onSubmit) return;
       event?.preventDefault();
+      if (submitEvent.defaultPrevented) return;
       isSubmitting.set(true);
       interacted.set(null);
       const currentData = deepRemoveKey(get(data));
@@ -169,6 +175,7 @@ export function createFormAction<Data extends Obj>({
         warnings.set(_merge(deepSet(currentData, []), currentWarnings));
       touched.set(deepSetTouched(currentData, true));
       if (currentErrors) {
+        touched.set(deepSetTouched(currentErrors as Data, true));
         const hasErrors = deepSome(currentErrors, (error) =>
           Array.isArray(error) ? error.length >= 1 : !!error
         );
@@ -194,32 +201,25 @@ export function createFormAction<Data extends Obj>({
       try {
         const response = await onSubmit(currentData, context);
         formNode?.dispatchEvent(
-          new CustomEvent<FelteSuccessDetail<Data>>('feltesuccess', {
-            detail: {
-              response,
-              ...context,
-            },
-          })
+          new FelteSuccessEvent({ response, ...context })
         );
         await onSuccess?.(response, context);
       } catch (e) {
-        formNode?.dispatchEvent(
-          new CustomEvent<FelteErrorDetail<Data>>('felteerror', {
-            detail: {
-              error: e,
-              ...context,
-            },
-          })
-        );
-        if (!onError) return;
-        const serverErrors = await onError(e, context);
+        const errorEvent = new FelteErrorEvent<Data>({ error: e, ...context });
+        formNode?.dispatchEvent(errorEvent);
+        if (!onError && !errorEvent.defaultPrevented) {
+          throw e;
+        }
+        if (!onError && !errorEvent.errors) return;
+        const serverErrors = errorEvent.errors || (await onError?.(e, context));
         if (serverErrors) {
+          touched.set(deepSetTouched((serverErrors as unknown) as Data, true));
           errors.set(serverErrors);
           await new Promise((r) => setTimeout(r));
           _getCurrentExtenders().forEach((extender) =>
             extender.onSubmitError?.({
               data: currentData,
-              errors: serverErrors,
+              errors: get(errors),
             })
           );
         }

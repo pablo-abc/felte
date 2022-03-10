@@ -1,7 +1,9 @@
 # @felte/validator-zod
 
+[![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)](https://github.com/pablo-abc/felte/actions/workflows/test.yml)
 [![Bundle size](https://img.shields.io/bundlephobia/min/@felte/validator-zod)](https://bundlephobia.com/result?p=@felte/validator-zod)
 [![NPM Version](https://img.shields.io/npm/v/@felte/validator-zod)](https://www.npmjs.com/package/@felte/validator-zod)
+[![codecov](https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC)](https://codecov.io/gh/pablo-abc/felte)
 
 A package to help you handle validation with Zod in Felte.
 

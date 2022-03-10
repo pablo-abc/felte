@@ -1,0 +1,27 @@
+{
+  "name": "@example/lit-basic",
+  "private": true,
+  "version": "0.0.0",
+  "main": "dist/sign-in-form.es.js",
+  "exports": {
+    ".": "./dist/sign-in-form.es.js"
+  },
+  "types": "types/sign-in-form.d.ts",
+  "files": [
+    "dist",
+    "types"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build"
+  },
+  "dependencies": {
+    "@felte/element": "latest",
+    "@felte/reporter-element": "latest",
+    "lit": "^2.0.2"
+  },
+  "devDependencies": {
+    "vite": "^2.8.0",
+    "typescript": "^4.5.4"
+  }
+}
