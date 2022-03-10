@@ -1,7 +1,9 @@
-# @felte/react
+# Felte: A form library for React
 
+[![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)](https://github.com/pablo-abc/felte/actions/workflows/test.yml)
 [![Bundle size](https://img.shields.io/bundlephobia/min/@felte/react)](https://bundlephobia.com/result?p=@felte/react)
 [![NPM Version](https://img.shields.io/npm/v/@felte/react)](https://www.npmjs.com/package/@felte/react)
+[![codecov](https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC)](https://codecov.io/gh/pablo-abc/felte)
 
 Felte is an extensible form library originally built for Svelte but easily integrated with React using this package. Felte, on its most simple form, only requires you to set a `ref` to your form element to work. No custom `Field`or `Form` components are needed, making custom styles really easy to do. You can see it in action in this [CodeSandbox demo](https://codesandbox.io/s/felte-react-demo-q2xxw?file=/src/App.js)
 

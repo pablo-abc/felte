@@ -1,7 +1,9 @@
 # @felte/reporter-react
 
+[![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)](https://github.com/pablo-abc/felte/actions/workflows/test.yml)
 [![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-react)](https://bundlephobia.com/result?p=@felte/reporter-react)
 [![NPM Version](https://img.shields.io/npm/v/@felte/reporter-react)](https://www.npmjs.com/package/@felte/reporter-react)
+[![codecov](https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC)](https://codecov.io/gh/pablo-abc/felte)
 
 A Felte reporter that uses a custom React component to report errors.
 

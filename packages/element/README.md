@@ -1,4 +1,4 @@
-# @felte/element
+# Felte: A form library for vanilla JS (web component)
 
 [![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)](https://github.com/pablo-abc/felte/actions/workflows/test.yml)
 [![Bundle size](https://img.shields.io/bundlephobia/min/@felte/element)](https://bundlephobia.com/result?p=@felte/element)
@@ -7,6 +7,8 @@
 [![codecov](https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC)](https://codecov.io/gh/pablo-abc/felte)
 
 Felte is an extensible form library originally bult for Svelte. This package aims to provide Felte's functionality using a custom element. Felte, on its most simple form, only requires you to provide a `<form>` element to it in order to work.
+
+> **WARNING**: This package is under development, things might break on updates and documentation is almost non-existent besides this README.
 
 ## Features
 

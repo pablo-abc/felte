@@ -1,7 +1,9 @@
 # @felte/reporter-svelte
 
+[![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)](https://github.com/pablo-abc/felte/actions/workflows/test.yml)
 [![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-svelte)](https://bundlephobia.com/result?p=@felte/reporter-svelte)
 [![NPM Version](https://img.shields.io/npm/v/@felte/reporter-svelte)](https://www.npmjs.com/package/@felte/reporter-svelte)
+[![codecov](https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC)](https://codecov.io/gh/pablo-abc/felte)
 
 A Felte reporter that uses a custom Svelte component to report errors.
 

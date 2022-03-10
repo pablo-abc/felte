@@ -1,7 +1,9 @@
 # @felte/reporter-dom
 
+[![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)](https://github.com/pablo-abc/felte/actions/workflows/test.yml)
 [![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-dom)](https://bundlephobia.com/result?p=@felte/reporter-dom)
 [![NPM Version](https://img.shields.io/npm/v/@felte/reporter-dom)](https://www.npmjs.com/package/@felte/reporter-dom)
+[![codecov](https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC)](https://codecov.io/gh/pablo-abc/felte)
 
 A Felte reporter that uses the DOM to display your error messages.
 

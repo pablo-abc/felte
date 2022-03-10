@@ -1,7 +1,9 @@
-# @felte/vanilla
+# Felte: A form library for vanilla JS
 
+[![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)](https://github.com/pablo-abc/felte/actions/workflows/test.yml)
 [![Bundle size](https://img.shields.io/bundlephobia/min/@felte/vanilla)](https://bundlephobia.com/result?p=@felte/vanilla)
 [![NPM Version](https://img.shields.io/npm/v/@felte/vanilla)](https://www.npmjs.com/package/@felte/vanilla)
+[![codecov](https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC)](https://codecov.io/gh/pablo-abc/felte)
 
 Felte is an extensible form library originally built for Svelte. This package removes all integrations with frameworks so it can be used with vanilal JS. Unlike `@felte/core`, this package already comes with a store implementation. Felte, on its most simple form, only requires you to pass it your `<form>` element. No custom `Field`or `Form` components are needed, making custom styles really easy to do.
 

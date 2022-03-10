@@ -1,10 +1,13 @@
 # @felte/reporter-element
 
-
+[![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)](https://github.com/pablo-abc/felte/actions/workflows/test.yml)
 [![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-element)](https://bundlephobia.com/result?p=@felte/reporter-element)
 [![NPM Version](https://img.shields.io/npm/v/@felte/reporter-element)](https://www.npmjs.com/package/@felte/reporter-element)
+[![codecov](https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC)](https://codecov.io/gh/pablo-abc/felte)
 
 A Felte reporter that uses a web component to report errors.
+
+> **WARNING**: This package is under development, things might break on updates and documentation is almost non-existent besides this README.
 
 ## Installation
 

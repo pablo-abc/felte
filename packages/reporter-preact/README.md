@@ -1,7 +1,9 @@
 # @felte/reporter-preact
 
+[![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)](https://github.com/pablo-abc/felte/actions/workflows/test.yml)
 [![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-preact)](https://bundlephobia.com/result?p=@felte/reporter-preact)
 [![NPM Version](https://img.shields.io/npm/v/@felte/reporter-preact)](https://www.npmjs.com/package/@felte/reporter-preact)
+[![codecov](https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC)](https://codecov.io/gh/pablo-abc/felte)
 
 A Felte reporter that uses a custom Preact component to report errors.
 
