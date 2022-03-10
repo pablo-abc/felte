@@ -3,7 +3,6 @@ import { suite } from 'uvu';
 import { unreachable } from 'uvu/assert';
 import { expect } from 'uvu-expect';
 import { waitFor, screen } from '@testing-library/dom';
-import userEvent from '@testing-library/user-event';
 import { cleanupDOM } from './common';
 import '../src/felte-field';
 
