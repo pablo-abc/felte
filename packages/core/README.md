@@ -11,10 +11,10 @@ Since this package is _bundled_ with other packages, breaking changes might occu
 
 If you're looking to use Felte for any of your apps, you're most likely looking for:
 
-- [felte](../felte) if you're working with Svelte.
+- [felte](/packages/felte) if you're working with Svelte.
 
-- [@felte/solid](../solid) if you're working with Solid.
+- [@felte/solid](/packages/solid) if you're working with Solid.
 
-- [@felte/react](../react) if your're working with React.
+- [@felte/react](/packages/react) if your're working with React.
 
-- [@felte/element](../element) if you're working with vanilla JS.
+- [@felte/element](/packages/element) if you're working with vanilla JS.
