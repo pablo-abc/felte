@@ -168,4 +168,4 @@ You are in control of the contents of the shadow DOM of this element, so you can
 
 ## Framework compatibility
 
-This element should work nicely with any framework except React due to an issue on [how React renders `<template>` elements](https://github.com/facebook/react/issues/19932) (although anyway a [specific package for React exists for this same purpose](../reporter-react).
+This element should work nicely with any framework except React due to an issue on [how React renders `<template>` elements](https://github.com/facebook/react/issues/19932) (although anyway a [specific package for React exists for this same purpose](/packages/reporter-react).
