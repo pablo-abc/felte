@@ -35,7 +35,7 @@ import {
 } from '@felte/common';
 import type { SuccessResponse, FetchResponse } from './error';
 import { get } from './get';
-import { FelteSuccessEvent, FelteErrorEvent, FelteSubmitEvent } from './events';
+import { createEventConstructors } from './events';
 import { FelteSubmitError } from './error';
 import { deepSetTouched } from './deep-set-touched';
 import { deepRemoveKey } from './deep-set-key';
@@ -146,7 +146,12 @@ export function createFormAction<Data extends Obj>({
   function createSubmitHandler(altConfig?: CreateSubmitHandlerConfig<Data>) {
     return async function handleSubmit(event?: Event) {
       const formNode = _getFormNode();
-      const submitEvent = new FelteSubmitEvent<Data>();
+      const {
+        createErrorEvent,
+        createSubmitEvent,
+        createSuccessEvent,
+      } = createEventConstructors<Data>();
+      const submitEvent = createSubmitEvent();
       formNode?.dispatchEvent(submitEvent);
       const onError =
         submitEvent.onError ?? altConfig?.onError ?? config.onError;
@@ -200,12 +205,10 @@ export function createFormAction<Data extends Obj>({
       };
       try {
         const response = await onSubmit(currentData, context);
-        formNode?.dispatchEvent(
-          new FelteSuccessEvent({ response, ...context })
-        );
+        formNode?.dispatchEvent(createSuccessEvent({ response, ...context }));
         await onSuccess?.(response, context);
       } catch (e) {
-        const errorEvent = new FelteErrorEvent<Data>({ error: e, ...context });
+        const errorEvent = createErrorEvent({ error: e, ...context });
         formNode?.dispatchEvent(errorEvent);
         if (!onError && !errorEvent.defaultPrevented) {
           throw e;

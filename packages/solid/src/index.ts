@@ -3,11 +3,10 @@ export type {
   FelteErrorDetail,
   Field,
   FieldConfig,
-} from '@felte/core';
-export {
-  FelteSubmitError,
   FelteSuccessEvent,
   FelteErrorEvent,
+  FelteSubmitEvent,
 } from '@felte/core';
+export { FelteSubmitError } from '@felte/core';
 export { createForm } from './create-form';
 export { createField } from './create-field';

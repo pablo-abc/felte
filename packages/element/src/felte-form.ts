@@ -1,8 +1,8 @@
-export {
+export { FelteSubmitError } from '@felte/core';
+export type {
   FelteSubmitEvent,
   FelteErrorEvent,
   FelteSuccessEvent,
-  FelteSubmitError,
 } from '@felte/core';
 import type { PropertyValues } from 'lit';
 import type { Readable } from 'svelte/store';
@@ -17,6 +17,9 @@ import type {
   Paths,
   FieldsSetter,
   ObjectSetter,
+  FelteSubmitEvent,
+  FelteErrorEvent,
+  FelteSuccessEvent,
 } from '@felte/core';
 import { LitElement, html } from 'lit';
 import {
@@ -25,13 +28,7 @@ import {
   property,
   state,
 } from 'lit/decorators.js';
-import {
-  createForm,
-  isEqual,
-  FelteSubmitEvent,
-  FelteSuccessEvent,
-  FelteErrorEvent,
-} from '@felte/core';
+import { createForm, isEqual, createEventConstructors } from '@felte/core';
 import { writable } from './stores';
 
 type StoreValues<Data extends Obj> = {
@@ -281,9 +278,15 @@ export class FelteForm<Data extends Obj = any> extends LitElement {
     });
     const { destroy } = form(formElement);
 
+    const {
+      createSubmitEvent,
+      createErrorEvent,
+      createSuccessEvent,
+    } = createEventConstructors<Data>();
+
     const handleFelteSubmit = (e: Event) => {
       const event = e as FelteSubmitEvent;
-      const submitEvent = new FelteSubmitEvent();
+      const submitEvent = createSubmitEvent();
       this.dispatchEvent(submitEvent);
       if (submitEvent.defaultPrevented) event.preventDefault();
       event.onSubmit = submitEvent.onSubmit;
@@ -293,13 +296,13 @@ export class FelteForm<Data extends Obj = any> extends LitElement {
 
     const handleFelteSuccess = (e: Event) => {
       const event = e as FelteSuccessEvent;
-      const successEvent = new FelteSuccessEvent(event.detail);
+      const successEvent = createSuccessEvent(event.detail);
       this.dispatchEvent(successEvent);
     };
 
     const handleFelteError = (e: Event) => {
       const event = e as FelteErrorEvent;
-      const errorEvent = new FelteErrorEvent(event.detail);
+      const errorEvent = createErrorEvent(event.detail);
       this.dispatchEvent(errorEvent);
       event.errors = errorEvent.errors;
       if (errorEvent.defaultPrevented) event.preventDefault();
