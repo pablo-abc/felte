@@ -9,3 +9,5 @@
 ---
 
 Add FelteSubmitEvent and allow to set errors on FelteErrorEvent
+
+Fixes bug where errors failed silently on submit
