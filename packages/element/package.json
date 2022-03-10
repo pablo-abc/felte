@@ -43,6 +43,8 @@
       "require": "./dist/index.cjs",
       "default": "./dist/esm/index.js"
     },
+    "./dist/esm/felte-form": "./dist/esm/felte-form.js",
+    "./dist/esm/felte-field": "./dist/esm/felte-field.js",
     "./package.json": "./package.json"
   }
 }
