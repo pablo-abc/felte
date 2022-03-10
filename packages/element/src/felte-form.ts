@@ -1,3 +1,9 @@
+export {
+  FelteSubmitEvent,
+  FelteErrorEvent,
+  FelteSuccessEvent,
+  FelteSubmitError,
+} from '@felte/core';
 import type { PropertyValues } from 'lit';
 import type { Readable } from 'svelte/store';
 import type {
