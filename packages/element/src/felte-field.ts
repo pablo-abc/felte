@@ -12,6 +12,7 @@ function failFor(name: string) {
 export class FelteField<
   Value extends FieldValue = FieldValue
 > extends HTMLElement {
+  [key: string]: unknown;
   static get observedAttributes() {
     return [
       'name',
@@ -23,28 +24,43 @@ export class FelteField<
     ];
   }
 
+  static get attributeMap(): Record<
+    string,
+    { converter: (v: any) => any; name: string }
+  > {
+    return {
+      name: {
+        converter: String,
+        name: 'name',
+      },
+      touchonchange: {
+        converter: (value: string) =>
+          value === '' || (!!value && value !== 'false'),
+        name: 'touchOnChange',
+      },
+      valueprop: {
+        converter: String,
+        name: 'valueProp',
+      },
+      inputevent: {
+        converter: String,
+        name: 'inputEvent',
+      },
+      blurevent: {
+        converter: String,
+        name: 'blurEvent',
+      },
+      value: {
+        converter: String,
+        name: 'value',
+      },
+    };
+  }
+
   attributeChangedCallback(name: string, oldValue: any, newValue: any) {
     if (oldValue === newValue) return;
-    switch (name) {
-      case 'name':
-        this.name = newValue;
-        break;
-      case 'touchonchange':
-        this.touchOnChange = Boolean(newValue);
-        break;
-      case 'valueprop':
-        this.valueProp = newValue;
-        break;
-      case 'inputevent':
-        this.inputEvent = newValue;
-        break;
-      case 'blurevent':
-        this.blurEvent = newValue;
-        break;
-      case 'value':
-        this.value = newValue;
-        break;
-    }
+    const { converter, name: propName } = FelteField.attributeMap[name];
+    this[propName] = converter(newValue);
   }
 
   name?: string;
@@ -126,28 +142,15 @@ export class FelteField<
     this.dispatchEvent(new Event('feltefieldready'));
   }
 
-  private _onChildChange = () => {
-    const element = this.children.item(0) as HTMLElement;
-    if (!element || element === this._fieldElement) return;
-    this._fieldElement = element;
-    this._destroy?.();
-    this._createField();
-  };
-
-  private _observer?: MutationObserver;
-
   connectedCallback() {
     setTimeout(() => {
       if (!this.isConnected || this._destroy) return;
       this._createField();
-      this._observer = new MutationObserver(this._onChildChange);
-      this._observer.observe(this, { childList: true });
     });
   }
 
   disconnectedCallback() {
     this._destroy?.();
-    this._observer?.disconnect();
   }
 }
 

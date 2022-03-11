@@ -3,6 +3,7 @@ import { suite } from 'uvu';
 import { unreachable } from 'uvu/assert';
 import { expect } from 'uvu-expect';
 import { waitFor, screen } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 import { cleanupDOM } from './common';
 import '../src/felte-field';
 
@@ -22,7 +23,7 @@ Field.after.each(() => {
 Field('adds hidden input when none is present', async () => {
   const template = /* HTML */ `
     <form name="test-form">
-      <felte-field name="test">
+      <felte-field name="test" valueprop="textContent">
         <div contenteditable tabindex="0" role="textbox"></div>
       </felte-field>
     </form>
@@ -41,7 +42,7 @@ Field('adds hidden input when none is present', async () => {
 Field('does not add hidden input when one is already present', async () => {
   const template = /* HTML */ `
     <form name="test-form">
-      <felte-field name="test">
+      <felte-field name="test" valueprop="textContent">
         <div contenteditable tabindex="0" role="textbox"></div>
         <input type="hidden" name="test" />
       </felte-field>
@@ -93,7 +94,7 @@ Field(
 Field('dispatches input events', async () => {
   const template = /* HTML */ `
     <form name="test-form">
-      <felte-field name="test">
+      <felte-field name="test" valueprop="textContent">
         <div contenteditable tabindex="0" role="textbox"></div>
       </felte-field>
     </form>
@@ -160,7 +161,7 @@ Field('dispatches input events', async () => {
 Field('dispatches change events', async () => {
   const template = /* HTML */ `
     <form name="test-form">
-      <felte-field name="test" touchonchange>
+      <felte-field name="test" touchonchange valueprop="textContent">
         <div contenteditable tabindex="0" role="textbox"></div>
       </felte-field>
     </form>
@@ -190,8 +191,90 @@ Field('dispatches change events', async () => {
   });
 
   felteField.value = 'new value';
+  await waitFor(() => {
+    expect(changeListener).to.have.been.called;
+  });
 
   formElement.removeEventListener('change', changeListener);
+});
+
+Field('calls event handlers', async () => {
+  const template = /* HTML */ `
+    <form name="test-form">
+      <felte-field name="test" valueprop="textContent">
+        <div contenteditable tabindex="0" role="textbox"></div>
+      </felte-field>
+      <button type="button">Button</button>
+    </form>
+  `;
+  document.body.innerHTML = template;
+  const inputListener = sinon.fake();
+  const blurListener = sinon.fake();
+  const formElement = screen.getByRole('form') as HTMLFormElement;
+  const inputElement = document.querySelector(
+    '[contenteditable]'
+  ) as HTMLDivElement;
+
+  const felteField = document.querySelector(
+    'felte-field'
+  ) as HTMLFelteFieldElement;
+  formElement.addEventListener('input', inputListener);
+  formElement.addEventListener('focusout', blurListener);
+
+  sinon.assert.notCalled(inputListener);
+  sinon.assert.notCalled(blurListener);
+
+  try {
+    felteField.blur();
+    unreachable();
+  } catch (err) {
+    expect(err).to.have.property('message');
+  }
+
+  sinon.assert.notCalled(inputListener);
+  sinon.assert.notCalled(blurListener);
+
+  await waitForReady(felteField);
+
+  await waitFor(() => {
+    const hiddenElement = document.querySelector(
+      'input[name="test"]'
+    ) as HTMLInputElement;
+
+    expect(hiddenElement).not.to.be.null;
+  });
+  userEvent.type(inputElement, 'new value');
+  await waitFor(() => {
+    const hiddenElement = document.querySelector(
+      'input[name="test"]'
+    ) as HTMLInputElement;
+    expect(hiddenElement.value).to.equal('new value');
+    sinon.assert.calledWith(
+      inputListener,
+      sinon.match({
+        target: hiddenElement,
+      })
+    );
+  });
+
+  sinon.assert.notCalled(blurListener);
+
+  userEvent.tab();
+
+  await waitFor(() => {
+    const hiddenElement = document.querySelector(
+      'input[name="test"]'
+    ) as HTMLInputElement;
+    sinon.assert.calledWith(
+      blurListener,
+      sinon.match({
+        target: hiddenElement,
+      })
+    );
+  });
+
+  formElement.removeEventListener('input', inputListener);
+  formElement.removeEventListener('focusout', blurListener);
 });
 
 Field.run();

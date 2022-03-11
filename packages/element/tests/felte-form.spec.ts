@@ -188,4 +188,46 @@ FelteForm('sets configuration using method', async () => {
   });
 });
 
+FelteForm('changes configuration after load', async () => {
+  const onSubmit = sinon.fake();
+  const html = /* HTML */ `
+    <felte-form>
+      <form>
+        <input name="email" />
+        <input name="password" />
+        <button type="submit">Submit</button>
+      </form>
+    </felte-form>
+  `;
+  document.body.innerHTML = html;
+  const felteForm = document.querySelector(
+    'felte-form'
+  ) as HTMLFelteFormElement;
+  expect(felteForm).to.not.be.null;
+  felteForm.setConfiguration({ onSubmit });
+  await waitForReady(felteForm);
+  const button = screen.queryByRole('button', {
+    name: 'Submit',
+  }) as HTMLButtonElement;
+  userEvent.click(button);
+  await waitFor(() => {
+    expect(onSubmit).to.have.been.called.with(
+      {
+        email: '',
+        password: '',
+      },
+      expect.match.any
+    );
+  });
+
+  onSubmit.resetHistory();
+  const altOnSubmit = sinon.fake();
+  felteForm.setConfiguration({ onSubmit: altOnSubmit });
+  userEvent.click(button);
+  await waitFor(() => {
+    expect(onSubmit).to.have.not.been.called;
+    expect(altOnSubmit).to.have.been.called;
+  });
+});
+
 FelteForm.run();
