@@ -1,5 +1,6 @@
 {
   "name": "@example/lit-custom-field",
+  "description": "Example of using Felte with Lit using @felte/element and @felte/reporter-element. This shows how to use contenteditable elementas as inputs using `felte-field`",
   "private": true,
   "version": "0.0.0",
   "main": "dist/sign-in-form.es.js",

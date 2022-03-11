@@ -1,5 +1,6 @@
 {
   "name": "@example/lit-basic",
+  "description": "Example of using Felte with Lit using @felte/element and @felte/reporter-element",
   "private": true,
   "version": "0.0.0",
   "main": "dist/sign-in-form.es.js",
