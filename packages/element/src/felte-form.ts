@@ -4,7 +4,6 @@ export type {
   FelteErrorEvent,
   FelteSuccessEvent,
 } from '@felte/core';
-import type { PropertyValues } from 'lit';
 import type { Readable } from 'svelte/store';
 import type {
   Obj,
@@ -21,8 +20,6 @@ import type {
   FelteErrorEvent,
   FelteSuccessEvent,
 } from '@felte/core';
-import { LitElement } from 'lit';
-import { customElement, query, property, state } from 'lit/decorators.js';
 import { createForm, isEqual, createEventConstructors } from '@felte/core';
 import { writable } from './stores';
 
@@ -68,18 +65,21 @@ const storeKeys = [
   'interacted',
 ];
 
-@customElement('felte-form')
-export class FelteForm<Data extends Obj = any> extends LitElement {
+export class FelteForm<Data extends Obj = any> extends HTMLElement {
   [key: string]: unknown;
 
-  @property()
   id = '';
 
-  @state()
-  _configuration: FormConfig<Data> = {};
+  private _configuration: FormConfig<Data> = {};
 
   setConfiguration(config: FormConfig<Data>) {
     this._configuration = config;
+    if (this._destroy) {
+      this._destroy();
+      this._destroy = undefined;
+      this._ready = false;
+      this._createForm(config);
+    }
   }
 
   elements?: HTMLFormElement['elements'];
@@ -204,13 +204,12 @@ export class FelteForm<Data extends Obj = any> extends LitElement {
 
   validate: Helpers<Data, Paths<Data>>['validate'] = failFor('validate');
 
-  @query('form')
-  formElement?: HTMLFormElement;
+  private _formElement: HTMLFormElement | null = null;
 
   private _destroy?: () => void;
 
   private _createForm(config: FormConfig<Data>) {
-    const formElement = this.formElement;
+    const formElement = this._formElement;
     if (!formElement || this._destroy) return;
     this.elements = formElement.elements;
 
@@ -298,30 +297,49 @@ export class FelteForm<Data extends Obj = any> extends LitElement {
     );
   }
 
-  willUpdate() {
-    this.dispatchEvent(
-      new Event('felteconnect', { bubbles: true, composed: true })
-    );
-  }
+  private _onChildChange = () => {
+    const formElement = this.querySelector('form') as HTMLFormElement | null;
+    if (!formElement || formElement === this._formElement) return;
+    this._formElement = formElement;
+    this._destroy?.();
+    this._createForm(this._configuration);
+  };
 
-  updated(changed: PropertyValues<this>) {
-    if (changed.has('_configuration')) {
-      this._destroy?.();
-      this._destroy = undefined;
-      this._ready = false;
-      this._createForm(this._configuration);
-    }
+  private _observer?: MutationObserver;
+
+  connectedCallback() {
+    setTimeout(() => {
+      if (!this.isConnected || this._destroy) return;
+      this.dispatchEvent(
+        new Event('felteconnect', { bubbles: true, composed: true })
+      );
+      this._onChildChange();
+      this._observer = new MutationObserver(this._onChildChange);
+      this._observer.observe(this, { childList: true });
+    });
   }
 
   disconnectedCallback() {
-    super.disconnectedCallback();
     this._destroy?.();
+    this._observer?.disconnect();
   }
 
-  createRenderRoot() {
-    return this;
+  static get observedAttributes() {
+    return ['id'];
+  }
+
+  attributeChangedCallback(name: string, oldValue: any, newValue: any) {
+    if (oldValue === newValue) return;
+    switch (name) {
+      case 'id':
+        this.id = newValue;
+        break;
+    }
   }
 }
+
+if (!customElements.get('felte-form'))
+  customElements.define('felte-form', FelteForm);
 
 declare global {
   interface HTMLElementTagNameMap {

@@ -1,4 +1,4 @@
-# Felte: A form library for vanilla JS (web component)
+# Felte: A form library for vanilla JS (custom element)
 
 [![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)](https://github.com/pablo-abc/felte/actions/workflows/test.yml)
 [![Bundle size](https://img.shields.io/bundlephobia/min/@felte/element)](https://bundlephobia.com/result?p=@felte/element)

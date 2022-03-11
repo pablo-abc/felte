@@ -35,8 +35,7 @@
     "uvu": "^0.5.3"
   },
   "dependencies": {
-    "@felte/common": "workspace:*",
-    "lit": "^2.2.0"
+    "@felte/common": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

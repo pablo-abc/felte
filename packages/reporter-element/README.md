@@ -5,7 +5,7 @@
 [![NPM Version](https://img.shields.io/npm/v/@felte/reporter-element)](https://www.npmjs.com/package/@felte/reporter-element)
 [![codecov](https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC)](https://codecov.io/gh/pablo-abc/felte)
 
-A Felte reporter that uses a web component to report errors.
+A Felte reporter that uses a custom element to report errors.
 
 > **WARNING**: This package is under development, things might break on updates and documentation is almost non-existent besides this README.
 
@@ -30,7 +30,7 @@ The package exports a `reporter` function. Pass the `reporter` function to the `
 * `level`: (optional) the kind of validation messages this element should display. Set it to `warning` to display warning messages. Default: `error`.
 * `templateid` or `templateId`: (optional) the id of the template element to be used for this element.
 
-It expects a `<template>` element as its slot (or assigned using `templateid`), which will be used as the template for your validation messages. This template will be cloned into the shadow DOM and updated when validation messages change. The template **must** have an element with an attribute `part="item"`. This element is the one that will contain the validation message, and it will be appended for each message. Optionally you can add an element with `part="message"` deeper within the item element if you want your message somewhere else.
+It expects a `<template>` element as its child (or assigned using `templateid`), which will be used as the template for your validation messages. This template will be cloned into the as a child of `<felte-validation-message>` and updated when validation messages change. The template **must** have an element with an attribute `data-part="item"`. This element is the one that will contain the validation message, and it will be appended for each message. Optionally you can add an element with `data-part="message"` deeper within the item element if you want your message somewhere else.
 
 An example of its usage:
 
@@ -38,8 +38,8 @@ An example of its usage:
 <felte-validation-message for="email" max="2">
   <template>
     <ul aria-live="polite">
-      <li part="item">
-        <em part="message"></em>
+      <li data-part="item">
+        <em data-part="message"></em>
       </li>
     </ul>
   </template>
@@ -51,8 +51,8 @@ When using `templateid`, this package expects the template to be either on the l
 ```html
 <template id="message-template">
   <ul aria-live="polite">
-    <li part="item">
-      <em part="message"></em>
+    <li data-part="item">
+      <em data-part="message"></em>
     </li>
   </ul>
 </template>
@@ -83,14 +83,14 @@ A more complete example using `@felte/element`:
     <input id="email" type="text" name="email" />
     <felte-validation-message for="email" max="1">
       <template>
-        <span part="message" />
+        <span data-part="message" />
       </template>
     </felte-validation-message>
     <input type="password" name="password" />
     <felte-validation-message for="password">
       <template>
         <ul aria-live="polite">
-          <li part="item" />
+          <li data-part="item" />
         </ul>
       </template>
     </felte-validation-message>
@@ -107,64 +107,13 @@ This reporter can help you display your `warning` messages as well. If you want 
 <felte-validation-message level="warning" for="email">
   <template>
     <ul aria-live="polite">
-      <li part="item">
-        <em part="message"></em>
+      <li data-part="item">
+        <em data-part="message"></em>
       </li>
     </ul>
   </template>
 </felte-validation-message>
 ```
-
-## Styling
-
-Since the contents of your template will be inserted on the shadow DOM, you'll need to use the CSS selector `::part` to style the messages. For example:
-
-```html
-<style>
-  felte-validation-message::part(container) {
-    color: #ff3a43;
-    margin: 0;
-    padding: 0;
-  }
-
-  felte-validation-message::part(item) {
-    list-style: disc inside;
-  }
-</style>
-
-<felte-validation-message level="warning" for="email">
-  <template>
-    <ul aria-live="polite" part="container">
-      <li part="item"></li>
-    </ul>
-  </template>
-</felte-validation-message>
-```
-
-You may also add a `<style>` tag inside of the template:
-
-```html
-<felte-validation-message level="warning" for="email">
-  <template>
-    <style>
-      ul {
-        color: #ff3a43;
-        margin: 0;
-        padding: 0;
-      }
-
-      li {
-        list-style: disc inside;
-      }
-    </style>
-    <ul aria-live="polite" part="container">
-      <li part="item"></li>
-    </ul>
-  </template>
-</felte-validation-message>
-```
-
-You are in control of the contents of the shadow DOM of this element, so you can freely add parts to it for easier styling. The only parts that have "special" meaning are `item` and `message`.
 
 ## Framework compatibility
 

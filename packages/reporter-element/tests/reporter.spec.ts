@@ -169,16 +169,14 @@ Reporter(
     userEvent.click(formElement);
 
     await waitFor(() => {
-      expect(
-        validationMessageElement.renderRoot.querySelector('ul')
-      ).to.contain.html('<li data-part="item">An error</li>');
-      expect(
-        warningMessageElement.renderRoot.querySelector('ul')
-      ).to.contain.html('<li data-part="item">A warning</li>');
+      expect(validationMessageElement).to.contain.html(
+        '<li data-part="item">An error</li>'
+      );
+      expect(warningMessageElement).to.contain.html(
+        '<li data-part="item">A warning</li>'
+      );
       multipleMessages.forEach((mes) =>
-        expect(mes.renderRoot.querySelector('ul')).to.contain.html(
-          '<li data-part="item">An error</li>'
-        )
+        expect(mes).to.contain.html('<li data-part="item">An error</li>')
       );
     });
 
@@ -255,13 +253,11 @@ Reporter(
     userEvent.click(formElement);
 
     await waitFor(() => {
-      expect(
-        validationMessageElement.renderRoot.querySelector('span')
-      ).to.be.html('<span data-part="item">An error</span>');
+      expect(validationMessageElement).to.be.html(
+        '<span data-part="item">An error</span>'
+      );
       multipleMessages.forEach((mes) => {
-        expect(mes.renderRoot.querySelector('span')).to.contain.html(
-          '<span data-part="item">An error</span>'
-        );
+        expect(mes).to.contain.html('<span data-part="item">An error</span>');
       });
     });
 
@@ -314,9 +310,9 @@ Reporter(
 
     await waitFor(() => {
       expect(inputElement).to.equal(document.activeElement);
-      expect(
-        validationMessageElement.renderRoot.querySelector('span')
-      ).to.have.text.that.contains('A test error');
+      expect(validationMessageElement).to.have.text.that.contains(
+        'A test error'
+      );
     });
   }
 );
