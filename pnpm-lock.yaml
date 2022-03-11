@@ -268,12 +268,10 @@ importers:
   packages/element:
     specifiers:
       '@felte/core': workspace:*
-      lit: ^2.2.0
       tslib: ^2.3.1
       uvu: ^0.5.3
     dependencies:
       '@felte/core': link:../core
-      lit: 2.2.0
     devDependencies:
       tslib: 2.3.1
       uvu: 0.5.3
@@ -368,12 +366,10 @@ importers:
     specifiers:
       '@felte/common': workspace:*
       '@felte/core': workspace:*
-      lit: ^2.2.0
       tslib: ^2.3.1
       uvu: ^0.5.3
     dependencies:
       '@felte/common': link:../common
-      lit: 2.2.0
     devDependencies:
       '@felte/core': link:../core
       tslib: 2.3.1

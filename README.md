@@ -209,19 +209,19 @@ A reporter packages that uses a Preact component to pass the validation messages
 
 ### VanillaJS
 
-We provide three packages that can be used with only VanillaJS. Two of them using [Web Components](https://www.webcomponents.org/introduction).
+We provide three packages that can be used with only VanillaJS. Two of them using [Web Components](https://www.webcomponents.org/introduction). These elements do not use the shadow DOM since there is no reason to isolate styles.
 
 #### [@felte/element](./packages/element)
 
-This is the main package that contains the basic functionality you need to handle your forms in vanilla JS using a web component. Similar to `felte` but specifically made to be used as a web component. This is the recommended way to handle your forms when using Vanilla JS. Web components are [well supported by all major browsers](https://caniuse.com/custom-elementsv1) so this should be a safe option unless you need to support legacy browsers.
+This is the main package that contains the basic functionality you need to handle your forms in vanilla JS using a custom element. Similar to `felte` but specifically made to be used as a custom element. This is the recommended way to handle your forms when using Vanilla JS. Web components are [well supported by all major browsers](https://caniuse.com/custom-elementsv1) so this should be a safe option unless you need to support legacy browsers.
 
 #### [@felte/reporter-element](./packages/reporter-element)
 
-A reporter packages that uses a web component to display validation messages on the DOM. This the recommended way to display your validation messages when using vanilla JS.
+A reporter packages that uses a custom element to display validation messages on the DOM. This the recommended way to display your validation messages when using vanilla JS.
 
 #### [@felte/vanilla](./packages/vanilla)
 
-This is the main package that contains the basic functionality you need to handle your forms in vanilla JS using a web component. Similar to `felte` and other integrations but with all code related to frameworks removed. This requires a bit more work to use, since you'll be the one in charge of cleaning up subscribers and listeners on it. It's API is basically the same as `felte` (Svelte's integration) so you _can_ use Svelte's documentation as a reference. This can be used as a starting point to create your own integration/package for other environments. When it comes to vanilla JS we'd recommend using `@felte/element` using web components.
+This is the main package that contains the basic functionality you need to handle your forms in vanilla JS. Similar to `felte` and other integrations but with all code related to frameworks removed. This requires a bit more work to use, since you'll be the one in charge of cleaning up subscribers and listeners on it. It's API is basically the same as `felte` (Svelte's integration) so you _can_ use Svelte's documentation as a reference. This can be used as a starting point to create your own integration/package for other environments. When it comes to vanilla JS we'd recommend using `@felte/element` using web components.
 
 ### Validators
 

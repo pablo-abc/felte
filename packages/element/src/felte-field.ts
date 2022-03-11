@@ -1,7 +1,4 @@
-import type { PropertyValues } from 'lit';
 import type { FieldValue } from '@felte/core';
-import { LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
 import { createField } from '@felte/core';
 
 function failFor(name: string) {
@@ -12,27 +9,63 @@ function failFor(name: string) {
   };
 }
 
-@customElement('felte-field')
 export class FelteField<
   Value extends FieldValue = FieldValue
-> extends LitElement {
-  @property()
+> extends HTMLElement {
+  static get observedAttributes() {
+    return [
+      'name',
+      'touchonchange',
+      'valueprop',
+      'inputevent',
+      'blurevent',
+      'value',
+    ];
+  }
+
+  attributeChangedCallback(name: string, oldValue: any, newValue: any) {
+    if (oldValue === newValue) return;
+    switch (name) {
+      case 'name':
+        this.name = newValue;
+        break;
+      case 'touchonchange':
+        this.touchOnChange = Boolean(newValue);
+        break;
+      case 'valueprop':
+        this.valueProp = newValue;
+        break;
+      case 'inputevent':
+        this.inputEvent = newValue;
+        break;
+      case 'blurevent':
+        this.blurEvent = newValue;
+        break;
+      case 'value':
+        this.value = newValue;
+        break;
+    }
+  }
+
   name?: string;
 
-  @property({ type: Boolean })
   touchOnChange = false;
 
-  @property()
   valueProp = 'value';
 
-  @property()
   inputEvent = 'input';
 
-  @property()
   blurEvent = 'focusout';
 
-  @property()
-  value?: Value;
+  private _value?: Value;
+  set value(newValue: Value) {
+    this._onInput?.(newValue);
+    this._value = newValue;
+  }
+
+  get value() {
+    return this._value as Value;
+  }
 
   private _onInput?: (value: Value) => void;
 
@@ -51,7 +84,9 @@ export class FelteField<
 
   onfeltefieldready?(): void;
 
-  firstUpdated() {
+  private _fieldElement?: HTMLElement;
+
+  private _createField() {
     const {
       name,
       inputEvent,
@@ -62,6 +97,7 @@ export class FelteField<
     if (!name) throw new Error('<felte-field> must have a "name" attribute');
     const element = this.children.item(0) as HTMLElement;
     if (!element) return;
+    this._fieldElement = element;
     (element as any)[this.valueProp] = defaultValue;
     const { field, onInput, onBlur } = createField(name, {
       touchOnChange,
@@ -90,21 +126,33 @@ export class FelteField<
     this.dispatchEvent(new Event('feltefieldready'));
   }
 
-  updated(changed: PropertyValues<this>) {
-    if (changed.has('value')) {
-      this._onInput?.(this.value as Value);
-    }
+  private _onChildChange = () => {
+    const element = this.children.item(0) as HTMLElement;
+    if (!element || element === this._fieldElement) return;
+    this._fieldElement = element;
+    this._destroy?.();
+    this._createField();
+  };
+
+  private _observer?: MutationObserver;
+
+  connectedCallback() {
+    setTimeout(() => {
+      if (!this.isConnected || this._destroy) return;
+      this._createField();
+      this._observer = new MutationObserver(this._onChildChange);
+      this._observer.observe(this, { childList: true });
+    });
   }
 
   disconnectedCallback() {
-    super.disconnectedCallback();
     this._destroy?.();
-  }
-
-  createRenderRoot() {
-    return this;
+    this._observer?.disconnect();
   }
 }
+
+if (!customElements.get('felte-field'))
+  customElements.define('felte-field', FelteField);
 
 declare global {
   interface HTMLElementTagNameMap {
