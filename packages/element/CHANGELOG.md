@@ -1,5 +1,11 @@
 # @felte/element
 
+## 0.2.3
+
+### Patch Changes
+
+- 456b287: Move to vanilla custom elements to reduce bundle size
+
 ## 0.2.2
 
 ### Patch Changes
