@@ -100,8 +100,6 @@ export class FelteField<
 
   onfeltefieldready?(): void;
 
-  private _fieldElement?: HTMLElement;
-
   private _createField() {
     const {
       name,
@@ -113,7 +111,6 @@ export class FelteField<
     if (!name) throw new Error('<felte-field> must have a "name" attribute');
     const element = this.children.item(0) as HTMLElement;
     if (!element) return;
-    this._fieldElement = element;
     (element as any)[this.valueProp] = defaultValue;
     const { field, onInput, onBlur } = createField(name, {
       touchOnChange,
