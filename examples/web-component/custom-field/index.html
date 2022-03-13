@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&family=Inconsolata&family=Nunito+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Field Example - Web Components</title>
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body>
+    <h1>Custom Field Example - Web Components</h1>
+
+    <!-- template for validation message -->
+    <template id="validation-message">
+      <ul aria-live="polite">
+        <li data-part="item" />
+      </ul>
+    </template>
+
+    <felte-form id="signin">
+      <form>
+        <fieldset>
+          <legend>Sign In</legend>
+          <div id="email-label">Email:</div>
+          <felte-field name="email" valueprop="textContent">
+            <div
+              aria-labelledby="email-label"
+              id="email"
+              contenteditable="true"
+              tabindex="0"
+              role="textbox"
+            ></div>
+          </felte-field>
+          <felte-validation-message
+            for="email"
+            templateid="validation-message"
+          ></felte-validation-message>
+          <div id="password-label">Password:</div>
+          <felte-field name="password" valueprop="textContent">
+            <div
+              aria-labelledby="password-label"
+              id="password"
+              contenteditable="true"
+              tabindex="0"
+              role="textbox"
+            ></div>
+          </felte-field>
+          <felte-validation-message
+            for="password"
+            templateid="validation-message"
+          ></felte-validation-message>
+        </fieldset>
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+      </form>
+    </felte-form>
+    <section id="submitted"></section>
+  </body>
+</html>
