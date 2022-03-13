@@ -31,17 +31,14 @@
        },
        extend: [reporter],
      });
-    </script>
 
-    <!-- We remove the submitted value on reset -->
-    <script>
-     window.onload = function() {
-       const form = document.querySelector('form');
-       const submitted = document.getElementById('submitted');
-       form.addEventListener('reset', function() {
-         submitted.innerHTML = '';
-       });
-     }
+
+    // We remove the submitted value on reset
+     const form = document.querySelector('form');
+     const submitted = document.getElementById('submitted');
+     form.addEventListener('reset', function() {
+       submitted.innerHTML = '';
+     });
     </script>
   </head>
   <body>
