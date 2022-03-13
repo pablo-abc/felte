@@ -41,7 +41,7 @@ const styles = css`
   }
 
   input[type='email'],
-  [contenteditable],
+  div[role='textbox'],
   input[type='password'] {
     font-size: 1em;
     border: 1px solid #aaa;
@@ -51,9 +51,10 @@ const styles = css`
     height: 3rem;
     width: 18rem;
     color: black;
+    cursor: text;
   }
 
-  [contenteditable][aria-invalid='true'] {
+  div[role='textbox'][aria-invalid='true'] {
     border: 2px solid var(--error-color);
   }
 

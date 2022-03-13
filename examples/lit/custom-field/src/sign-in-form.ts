@@ -1,5 +1,5 @@
 import { html, LitElement, nothing } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
+import { customElement, state, queryAll } from 'lit/decorators.js';
 import { reporter } from '@felte/reporter-element';
 import { prepareForm } from '@felte/element';
 import styles from './sign-in-form.styles';
@@ -8,6 +8,25 @@ type Data = {
   email: string;
   password: string;
 };
+
+/**
+ * Firefox does not handle focus well on contenteditable divs
+ * that are within a shadow root. This fixes the issue by
+ * adding/removing the `contenteditable` attribute depending
+ * on if the field is focused or not.
+ *
+ * It's probably better to delegate this event higher up the tree,
+ * but this works for the purpose of this example.
+ */
+function handleFocus(e: Event) {
+  const target = e.target as HTMLDivElement;
+  target.setAttribute('contenteditable', '');
+}
+
+function handleBlur(e: Event) {
+  const target = e.target as HTMLDivElement;
+  target.removeAttribute('contenteditable');
+}
 
 @customElement('sign-in-form')
 export class SignInForm extends LitElement {
@@ -19,6 +38,9 @@ export class SignInForm extends LitElement {
   handleReset() {
     this.submitted = undefined;
   }
+
+  @queryAll('div[role="textbox"]')
+  fields!: NodeListOf<HTMLDivElement>;
 
   /**
    * Running `prepareForm` on `connectedCallback` allows us to guarantee
@@ -46,6 +68,20 @@ export class SignInForm extends LitElement {
         return errors;
       },
       extend: [reporter],
+    });
+  }
+
+  firstUpdated() {
+    this.fields.forEach((field) => {
+      field.addEventListener('focusin', handleFocus);
+      field.addEventListener('focusout', handleBlur);
+    });
+  }
+
+  disconnectedCallback() {
+    this.fields.forEach((field) => {
+      field.removeEventListener('focusin', handleFocus);
+      field.removeEventListener('focusout', handleBlur);
     });
   }
 
@@ -79,7 +115,6 @@ export class SignInForm extends LitElement {
               <div
                 aria-labelledby="email-label"
                 id="email"
-                contenteditable="true"
                 tabindex="0"
                 role="textbox"
               ></div>
@@ -94,7 +129,6 @@ export class SignInForm extends LitElement {
               <div
                 aria-labelledby="password-label"
                 id="password"
-                contenteditable="true"
                 tabindex="0"
                 role="textbox"
               ></div>
