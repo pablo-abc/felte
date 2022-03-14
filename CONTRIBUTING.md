@@ -73,6 +73,8 @@ pnpm -r --filter='@felte/common' test
 pnpm -r --filter='@felte/common' test:ci
 ```
 
+Felte uses [uvu](https://github.com/lukeed/uvu) as a test runner, which provides a really fast execution of tests. Since uvu itself is only a test runner, we use [sinonjs](https://sinonjs.org) to handle mocking of functions, and [uvu-exect](https://github.com/pablo-abc/uvu-expect) with [uvu-expect-dom](https://github.com/pablo-abc/uvu-expect-dom) to handle assertions.
+
 ## Local documentation site development
 
 We are using [SvelteKit](https://github.com/sveltejs/kit) for the documentation site. You can run a development build of it with:
