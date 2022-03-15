@@ -1,5 +1,11 @@
 # @felte/core
 
+## 1.2.1
+
+### Patch Changes
+
+- 1c88b92: Fix name of reset function of createField
+
 ## 1.2.0
 
 ### Minor Changes

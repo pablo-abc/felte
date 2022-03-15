@@ -1,5 +1,13 @@
 # @felte/element
 
+## 0.2.5
+
+### Patch Changes
+
+- 1c88b92: Fix name of reset function of createField
+- Updated dependencies [1c88b92]
+  - @felte/core@1.2.1
+
 ## 0.2.4
 
 ### Patch Changes
