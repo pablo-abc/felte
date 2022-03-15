@@ -31,7 +31,7 @@ prepareForm<Data>('signin', {
     return errors;
   },
   extend: [reporter],
-}).then(console.log);
+});
 
 window.onload = function () {
   const form = document.querySelector('form');
