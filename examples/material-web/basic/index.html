@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&family=Inconsolata&family=Nunito+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic Example - Material Web</title>
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body>
+    <h1>Basic Example - Material Web</h1>
+
+    <!-- template for validation message -->
+    <template id="validation-message">
+      <ul aria-live="polite">
+        <li data-part="item" />
+      </ul>
+    </template>
+
+    <felte-form id="signin">
+      <form>
+        <fieldset>
+          <legend>Sign In</legend>
+          <felte-field name="email">
+            <mwc-textfield label="Email"></mwc-textfield>
+          </felte-field>
+          <felte-validation-message
+            for="email"
+            templateid="validation-message"
+          ></felte-validation-message>
+          <felte-field name="password">
+            <mwc-textfield label="Password"></mwc-textfield>
+          </felte-field>
+          <felte-validation-message
+            for="password"
+            templateid="validation-message"
+          ></felte-validation-message>
+        </fieldset>
+        <mwc-button raised label="Submit"></mwc-button>
+      </form>
+    </felte-form>
+    <section id="submitted"></section>
+  </body>
+</html>

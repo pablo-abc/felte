@@ -20,6 +20,7 @@ export class FelteField<
       'valueprop',
       'inputevent',
       'blurevent',
+      'composed',
       'value',
     ];
   }
@@ -54,6 +55,11 @@ export class FelteField<
         converter: String,
         name: 'value',
       },
+      composed: {
+        converter: (value: string) =>
+          value === '' || (!!value && value !== 'false'),
+        name: 'composed',
+      },
     };
   }
 
@@ -72,6 +78,8 @@ export class FelteField<
   inputEvent = 'input';
 
   blurEvent = 'focusout';
+
+  composed = false;
 
   private _value?: Value;
   set value(newValue: Value) {
@@ -107,11 +115,14 @@ export class FelteField<
       blurEvent,
       touchOnChange,
       value: defaultValue,
+      composed,
     } = this;
     if (!name) throw new Error('<felte-field> must have a "name" attribute');
     const element = this.children.item(0) as HTMLElement;
     if (!element) return;
-    (element as any)[this.valueProp] = defaultValue;
+    if (defaultValue != null) {
+      (element as any)[this.valueProp] = defaultValue;
+    }
     const { field, onInput, onBlur } = createField(name, {
       touchOnChange,
       defaultValue,
@@ -120,7 +131,7 @@ export class FelteField<
     this._onBlur = onBlur;
     const { destroy } = field(element);
     const handleInput = (e: Event) => {
-      const target = e.target as any;
+      const target = composed ? e.composedPath()[0] : (e.target as any);
       this.value = target[this.valueProp];
     };
     const handleBlur = () => {

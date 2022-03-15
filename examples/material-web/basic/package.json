@@ -1,0 +1,21 @@
+{
+  "name": "@example/material-basic",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@felte/element": "latest",
+    "@felte/reporter-element": "latest",
+    "@material/mwc-button": "^0.25.3",
+    "@material/mwc-formfield": "^0.25.3",
+    "@material/mwc-textfield": "^0.25.3"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.4",
+    "vite": "^2.8.0"
+  }
+}
