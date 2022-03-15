@@ -77,7 +77,7 @@ export class SignInForm extends LitElement {
           <fieldset>
             <legend>Sign In</legend>
             <div id="email-label">Email:</div>
-            <felte-field name="email" valueprop="textContent">
+            <felte-field name="email">
               <custom-field
                 aria-labelledby="email-label"
                 id="email"
@@ -89,7 +89,7 @@ export class SignInForm extends LitElement {
             >
             </felte-validation-message>
             <div id="password-label">Password:</div>
-            <felte-field name="password" valueprop="textContent">
+            <felte-field name="password">
               <custom-field
                 aria-labelledby="password-label"
                 id="password"
@@ -101,6 +101,7 @@ export class SignInForm extends LitElement {
             ></felte-validation-message>
           </fieldset>
           <button type="submit">Submit</button>
+          <button type="reset">Reset</button>
         </form>
       </felte-form>
       ${this.submitted

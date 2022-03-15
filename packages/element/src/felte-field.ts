@@ -120,12 +120,15 @@ export class FelteField<
     if (!name) throw new Error('<felte-field> must have a "name" attribute');
     const element = this.children.item(0) as HTMLElement;
     if (!element) return;
-    if (defaultValue != null) {
-      (element as any)[this.valueProp] = defaultValue;
-    }
+    (element as any)[this.valueProp] = defaultValue;
+
     const { field, onInput, onBlur } = createField(name, {
       touchOnChange,
       defaultValue,
+      onReset: () => {
+        this.value = defaultValue;
+        (element as any)[this.valueProp] = defaultValue;
+      },
     });
     this._onInput = onInput;
     this._onBlur = onBlur;

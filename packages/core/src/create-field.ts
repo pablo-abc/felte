@@ -5,6 +5,7 @@ export type FieldConfig = {
   name: string;
   touchOnChange?: boolean;
   defaultValue?: FieldValue;
+  onReset?(e: ResetEvent): void;
 };
 
 export type Field = {
@@ -15,6 +16,8 @@ export type Field = {
 };
 
 type EventType = 'input' | 'change' | 'focusout';
+
+type ResetEvent = Event & { target: HTMLFormElement };
 
 const observerConfig = {
   attributes: true,
@@ -39,15 +42,18 @@ export function createField(
   let touchOnChange: boolean;
   let fieldNode: HTMLElement;
   let control: FormControl;
+  let onReset: ((e: ResetEvent) => void) | undefined;
 
   if (typeof nameOrConfig === 'string') {
     name = nameOrConfig;
     defaultValue = config?.defaultValue;
     touchOnChange = config?.touchOnChange ?? false;
+    onReset = config?.onReset;
   } else {
     name = nameOrConfig.name;
     defaultValue = nameOrConfig.defaultValue;
     touchOnChange = nameOrConfig.touchOnChange ?? false;
+    onReset = nameOrConfig?.onReset;
   }
 
   function dispatchEvent(eventType: 'focusout'): void;
@@ -83,9 +89,15 @@ export function createField(
     });
   }
 
+  function handleReset(e: Event) {
+    setControlValue(control, defaultValue);
+    onReset?.(e as ResetEvent);
+  }
+
   function field(node: HTMLElement) {
     fieldNode = node;
     let observer: MutationObserver;
+    let formElement: HTMLFormElement | null;
     if (isFormControl(node)) {
       control = node;
       control.name = name;
@@ -109,10 +121,13 @@ export function createField(
 
         observer = new MutationObserver(mutationCallback);
         observer.observe(control, observerConfig);
+        formElement = control.closest('form');
+        formElement?.addEventListener('reset', handleReset);
       });
       return {
         destroy() {
           observer?.disconnect();
+          formElement?.removeEventListener('reset', handleReset);
         },
       };
     }

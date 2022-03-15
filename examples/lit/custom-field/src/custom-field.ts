@@ -38,6 +38,14 @@ export class CustomField extends HTMLElement {
     this.style.cursor = 'text';
   }
 
+  get value() {
+    return this.innerText;
+  }
+
+  set value(value: string) {
+    this.innerText = value || '';
+  }
+
   connectedCallback() {
     this.addEventListener('focusin', handleFocus);
     this.addEventListener('focusout', handleBlur);
