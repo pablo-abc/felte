@@ -30,6 +30,8 @@ Using Svelte as an example:
 <script type="module">
   import { prepareForm } from '@felte/element';
 
+  // Needs to run _before_ `<felte-form>` connects.
+  // Make sure to call it at the top leve of the module.
   prepareForm('signin', {
     onSubmit: async (values) => {
       /* call to an api */
