@@ -277,4 +277,81 @@ Field('calls event handlers', async () => {
   formElement.removeEventListener('focusout', blurListener);
 });
 
+Field('handles reset event on form', async () => {
+  const template = /* HTML */ `
+    <form name="test-form">
+      <felte-field name="test" valueprop="textContent">
+        <div contenteditable tabindex="0" role="textbox"></div>
+      </felte-field>
+    </form>
+  `;
+  document.body.innerHTML = template;
+  const inputListener = sinon.fake();
+  const blurListener = sinon.fake();
+  const formElement = screen.getByRole('form') as HTMLFormElement;
+
+  const felteField = document.querySelector(
+    'felte-field'
+  ) as HTMLFelteFieldElement;
+  const contenteditable = document.querySelector(
+    'div[contenteditable]'
+  ) as HTMLDivElement;
+  felteField.setAttribute('value', '');
+  formElement.addEventListener('input', inputListener);
+  formElement.addEventListener('focusout', blurListener);
+
+  sinon.assert.notCalled(inputListener);
+  sinon.assert.notCalled(blurListener);
+
+  sinon.assert.notCalled(inputListener);
+  sinon.assert.notCalled(blurListener);
+
+  await waitForReady(felteField);
+
+  await waitFor(() => {
+    const hiddenElement = document.querySelector(
+      'input[name="test"]'
+    ) as HTMLInputElement;
+
+    expect(hiddenElement).not.to.be.null;
+  });
+
+  userEvent.type(contenteditable, 'new value');
+  await waitFor(() => {
+    const hiddenElement = document.querySelector(
+      'input[name="test"]'
+    ) as HTMLInputElement;
+    expect(hiddenElement.value).to.equal('new value');
+    sinon.assert.calledWith(
+      inputListener,
+      sinon.match({
+        target: hiddenElement,
+      })
+    );
+    sinon.assert.notCalled(blurListener);
+
+    felteField.blur();
+
+    sinon.assert.calledWith(
+      blurListener,
+      sinon.match({
+        target: hiddenElement,
+      })
+    );
+  });
+
+  expect(felteField.value).to.equal('new value');
+  expect(contenteditable.textContent).to.equal('new value');
+
+  formElement.reset();
+
+  await waitFor(() => {
+    expect(felteField.value).to.equal('');
+    expect(contenteditable.textContent).to.equal('');
+  });
+
+  formElement.removeEventListener('input', inputListener);
+  formElement.removeEventListener('focusout', blurListener);
+});
+
 Field.run();
