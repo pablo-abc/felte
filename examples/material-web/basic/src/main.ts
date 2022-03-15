@@ -37,7 +37,23 @@ prepareForm<Data>('signin', {
 
 // `mwc-button` is not a submit button so we have to manually
 // trigger a submit
-document.querySelector('mwc-button')?.addEventListener('click', (e: Event) => {
-  const target = e.target as HTMLElement;
-  target.closest('form')?.requestSubmit();
+document
+  .querySelector('mwc-button[label="Submit"]')
+  ?.addEventListener('click', (e: Event) => {
+    const target = e.target as HTMLElement;
+    target.closest('form')?.requestSubmit();
+  });
+
+document
+  .querySelector('mwc-button[label="Reset"]')
+  ?.addEventListener('click', (e: Event) => {
+    const target = e.target as HTMLElement;
+    target.closest('form')?.reset();
+  });
+
+const form = document.querySelector('form');
+const submitted = document.getElementById('submitted');
+form?.addEventListener('reset', function () {
+  if (!submitted) return;
+  submitted.innerHTML = '';
 });

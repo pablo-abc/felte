@@ -22,15 +22,16 @@
       <form>
         <fieldset>
           <legend>Sign In</legend>
-          <felte-field name="email">
+          <felte-field name="email" value="">
             <mwc-textfield label="Email"></mwc-textfield>
           </felte-field>
           <felte-validation-message
             for="email"
             templateid="validation-message"
           ></felte-validation-message>
-          <felte-field name="password">
-            <mwc-textfield label="Password"></mwc-textfield>
+          <felte-field name="password" value="">
+            <mwc-textfield type="password" label="Password">
+            </mwc-textfield>
           </felte-field>
           <felte-validation-message
             for="password"
@@ -38,6 +39,7 @@
           ></felte-validation-message>
         </fieldset>
         <mwc-button raised label="Submit"></mwc-button>
+        <mwc-button raised label="Reset"></mwc-button>
       </form>
     </felte-form>
     <section id="submitted"></section>
