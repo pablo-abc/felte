@@ -202,4 +202,23 @@ Field('does nothing with unmounted element', () => {
   expect(field(inputElement)).to.have.property('destroy');
 });
 
+Field('calls onReset', async () => {
+  const onReset = sinon.fake();
+  const formElement = screen.getByRole('form') as HTMLFormElement;
+  const inputElement = createContentEditable();
+  formElement.appendChild(inputElement);
+
+  const { field } = createField('test', { onReset });
+
+  field(inputElement);
+
+  await new Promise((r) => setTimeout(r));
+
+  formElement.reset();
+
+  await waitFor(() => {
+    expect(onReset).to.have.been.called;
+  });
+});
+
 Field.run();

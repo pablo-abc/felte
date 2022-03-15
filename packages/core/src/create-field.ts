@@ -90,8 +90,9 @@ export function createField(
   }
 
   function handleReset(e: Event) {
+    if (!onReset) return;
     setControlValue(control, defaultValue);
-    onReset?.(e as ResetEvent);
+    onReset(e as ResetEvent);
   }
 
   function field(node: HTMLElement) {

@@ -1,5 +1,14 @@
 # @felte/element
 
+## 0.2.4
+
+### Patch Changes
+
+- 4bea95a: Add `composed` attribute to `felte-field`
+- fd58a47: Add support for `reset` event
+- Updated dependencies [fd58a47]
+  - @felte/core@1.2.0
+
 ## 0.2.3
 
 ### Patch Changes
