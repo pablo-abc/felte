@@ -33,11 +33,9 @@ prepareForm<Data>('signin', {
   extend: [reporter],
 });
 
-window.onload = function () {
-  const form = document.querySelector('form');
-  const submitted = document.getElementById('submitted');
-  form?.addEventListener('reset', function () {
-    if (!submitted) return;
-    submitted.innerHTML = '';
-  });
-};
+const form = document.querySelector('form');
+const submitted = document.getElementById('submitted');
+form?.addEventListener('reset', function () {
+  if (!submitted) return;
+  submitted.innerHTML = '';
+});

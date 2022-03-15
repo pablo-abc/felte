@@ -6,6 +6,8 @@
 [![Bundle size](https://img.shields.io/bundlephobia/min/felte)](https://bundlephobia.com/result?p=felte)
 [![NPM Version](https://img.shields.io/npm/v/felte)](https://www.npmjs.com/package/felte)
 [![codecov](https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC)](https://codecov.io/gh/pablo-abc/felte)
+[![Follow Felte on Twitter](https://img.shields.io/twitter/follow/feltejs?style=social)](https://twitter.com/feltejs)
+[![Follow Pablo on Twitter](https://img.shields.io/twitter/follow/Pablo_ABC?style=social)](https://twitter.com/Pablo_ABC)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->

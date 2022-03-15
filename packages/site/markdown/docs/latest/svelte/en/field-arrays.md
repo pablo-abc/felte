@@ -41,7 +41,7 @@ Using field arrays would look something like this:
 </script>
 
 <form use:form>
-  {#each interests as interest, index (interest.key)}
+  {#each interests as interest, index}
     <div>
       <input name="interests.{index}.value" />
       <button type="button" on:click="{addInterest(index + 1)}">

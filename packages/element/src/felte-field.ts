@@ -125,7 +125,7 @@ export class FelteField<
     const { field, onInput, onBlur } = createField(name, {
       touchOnChange,
       defaultValue,
-      onReset: () => {
+      onFormReset: () => {
         this.value = defaultValue;
         (element as any)[this.valueProp] = defaultValue;
       },

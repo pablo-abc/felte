@@ -5,7 +5,7 @@ export type FieldConfig = {
   name: string;
   touchOnChange?: boolean;
   defaultValue?: FieldValue;
-  onReset?(e: ResetEvent): void;
+  onFormReset?(e: ResetEvent): void;
 };
 
 export type Field = {
@@ -42,18 +42,18 @@ export function createField(
   let touchOnChange: boolean;
   let fieldNode: HTMLElement;
   let control: FormControl;
-  let onReset: ((e: ResetEvent) => void) | undefined;
+  let onFormReset: ((e: ResetEvent) => void) | undefined;
 
   if (typeof nameOrConfig === 'string') {
     name = nameOrConfig;
     defaultValue = config?.defaultValue;
     touchOnChange = config?.touchOnChange ?? false;
-    onReset = config?.onReset;
+    onFormReset = config?.onFormReset;
   } else {
     name = nameOrConfig.name;
     defaultValue = nameOrConfig.defaultValue;
     touchOnChange = nameOrConfig.touchOnChange ?? false;
-    onReset = nameOrConfig?.onReset;
+    onFormReset = nameOrConfig?.onFormReset;
   }
 
   function dispatchEvent(eventType: 'focusout'): void;
@@ -90,9 +90,9 @@ export function createField(
   }
 
   function handleReset(e: Event) {
-    if (!onReset) return;
+    if (!onFormReset) return;
     setControlValue(control, defaultValue);
-    onReset(e as ResetEvent);
+    onFormReset(e as ResetEvent);
   }
 
   function field(node: HTMLElement) {
