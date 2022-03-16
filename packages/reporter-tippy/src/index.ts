@@ -1,15 +1,15 @@
 import tippy from 'tippy.js';
 import type { Instance, Props } from 'tippy.js';
-import {
+import type {
   CurrentForm,
   ExtenderHandler,
   FormControl,
   Obj,
   Errors,
   Extender,
-  isFormControl,
-  getPath,
+  PartialWritableErrors,
 } from '@felte/common';
+import { isFormControl, getPath } from '@felte/common';
 import { _get } from '@felte/common';
 import { get } from 'svelte/store';
 
@@ -103,14 +103,22 @@ function tippyReporter<Data extends Obj = any>({
     }
   }
 
+  let observer: MutationObserver | undefined;
+  let tippyInstances: Instance<Props>[] = [];
+  let customControls: HTMLElement[] = [];
+  let controls: FormControl[] = [];
+  let form: HTMLFormElement;
+  let store: PartialWritableErrors<Data>;
+
   return function reporter(
     currentForm: CurrentForm<Data>
   ): ExtenderHandler<Data> {
     if (currentForm.stage === 'SETUP') return {};
-    const { controls, form } = currentForm;
-    const store = level === 'error' ? currentForm.errors : currentForm.warnings;
-    let tippyInstances: Instance<Props>[] = [];
-    let customControls = Array.from(
+    ({ controls, form } = currentForm);
+    if (!store) {
+      store = level === 'error' ? currentForm.errors : currentForm.warnings;
+    }
+    customControls = Array.from(
       form.querySelectorAll('[data-felte-reporter-tippy-for]')
     ) as HTMLElement[];
 
@@ -165,25 +173,22 @@ function tippyReporter<Data extends Obj = any>({
       };
     }
 
-    function mutationCallback(mutationList: MutationRecord[]) {
-      for (const mutation of mutationList) {
-        if (form && mutation.type === 'childList') {
-          customControls = Array.from(
-            form.querySelectorAll('[data-felte-reporter-tippy-for]')
-          ) as HTMLElement[];
-          tippyInstances.forEach((instance) => instance.destroy());
-          tippyInstances = [
-            ...(controls
-              ? (controls
-                  .map(createControlInstance)
-                  .filter(Boolean) as Instance<Props>[])
-              : []),
-            ...(customControls
-              .map(createCustomControlInstance(get(store)))
-              .filter(Boolean) as Instance<Props>[]),
-          ];
-        }
-      }
+    function mutationCallback() {
+      if (!form) return;
+      customControls = Array.from(
+        form.querySelectorAll('[data-felte-reporter-tippy-for]')
+      ) as HTMLElement[];
+      tippyInstances.forEach((instance) => instance.destroy());
+      tippyInstances = [
+        ...(controls
+          ? (controls
+              .map(createControlInstance)
+              .filter(Boolean) as Instance<Props>[])
+          : []),
+        ...(customControls
+          .map(createCustomControlInstance(get(store)))
+          .filter(Boolean) as Instance<Props>[]),
+      ];
     }
 
     if (controls) {
@@ -199,7 +204,9 @@ function tippyReporter<Data extends Obj = any>({
         .filter(Boolean) as Instance<Props>[]),
     ];
 
-    const observer = new MutationObserver(mutationCallback);
+    if (!observer) {
+      observer = new MutationObserver(mutationCallback);
+    }
     observer.observe(form, { childList: true });
     const unsubscribe = store.subscribe(($messages) => {
       for (const control of customControls) {
@@ -241,6 +248,7 @@ function tippyReporter<Data extends Obj = any>({
       destroy() {
         tippyInstances.forEach((instance) => instance.destroy());
         unsubscribe();
+        observer?.disconnect();
       },
       onSubmitError({ errors }) {
         if (level !== 'error') return;
