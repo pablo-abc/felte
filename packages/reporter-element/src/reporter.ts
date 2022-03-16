@@ -18,7 +18,9 @@ export function reporter<Data extends Obj>(
   }
   if (!currentForm.form.hasAttribute('data-felte-reporter-element-id')) {
     currentForm.form.dataset.felteReporterElementId = config.__felteReporterElementId as string;
-    currentForm.form.dispatchEvent(new Event('feltereporterelement:load'));
+    currentForm.form.dispatchEvent(
+      new CustomEvent('feltereporterelement:load')
+    );
   }
   return {
     onSubmitError() {

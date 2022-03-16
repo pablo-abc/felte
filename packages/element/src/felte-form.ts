@@ -243,7 +243,7 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
           const k = key.toLowerCase();
           const handler = this[`on${k}change`];
           if (typeof handler === 'function') handler($value);
-          this.dispatchEvent(new Event(`${k}change`));
+          this.dispatchEvent(new CustomEvent(`${k}change`));
         }
       );
     });
@@ -293,7 +293,7 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
     this._ready = true;
     this.onfelteready?.();
     this.dispatchEvent(
-      new Event('felteready', { bubbles: true, composed: true })
+      new CustomEvent('felteready', { bubbles: true, composed: true })
     );
   }
 
@@ -311,7 +311,7 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
     setTimeout(() => {
       if (!this.isConnected || this._destroy) return;
       this.dispatchEvent(
-        new Event('felteconnect', { bubbles: true, composed: true })
+        new CustomEvent('felteconnect', { bubbles: true, composed: true })
       );
       this._onChildChange();
       this._observer = new MutationObserver(this._onChildChange);

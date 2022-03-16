@@ -62,7 +62,7 @@ export function createEventConstructors<Data extends Obj = any>() {
     }
   }
 
-  class SubmitEvent<Data extends Obj = any> extends Event {
+  class SubmitEvent<Data extends Obj = any> extends CustomEvent<undefined> {
     constructor() {
       super('feltesubmit', { cancelable: true });
     }

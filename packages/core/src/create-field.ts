@@ -64,7 +64,7 @@ export function createField(
   function dispatchEvent(eventType: EventType, value?: FieldValue): void {
     if (!control) return;
     setControlValue(control, value);
-    const customEvent = new Event(eventType, {
+    const customEvent = new CustomEvent(eventType, {
       bubbles: true,
       composed: true,
     });

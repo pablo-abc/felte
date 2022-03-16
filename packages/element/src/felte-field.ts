@@ -150,7 +150,7 @@ export class FelteField<
 
     this._ready = true;
     this.onfeltefieldready?.();
-    this.dispatchEvent(new Event('feltefieldready'));
+    this.dispatchEvent(new CustomEvent('feltefieldready'));
   }
 
   connectedCallback() {
