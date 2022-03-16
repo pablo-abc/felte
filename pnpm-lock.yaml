@@ -597,7 +597,7 @@ importers:
       postcss-load-config: 3.1.1
       postcss-preset-env: 7.3.1
       prism-svelte: 0.4.7
-      prismjs: 1.26.0
+      prismjs: 1.27.0
       svelte: 3.46.4
       svelte-focus-on: 0.1.4
       svelte-markdown: 0.2.2
@@ -615,7 +615,7 @@ importers:
       focus-visible: 5.2.0
       html-minifier: 4.0.0
       prism-svelte: 0.4.7
-      prismjs: 1.26.0
+      prismjs: 1.27.0
       svelte-markdown: 0.2.2_svelte@3.46.4
       svelte-portal: 2.1.2
     devDependencies:
@@ -8801,7 +8801,7 @@ packages:
     dependencies:
       '@types/unist': 2.0.3
       prism-svelte: 0.4.7
-      prismjs: 1.26.0
+      prismjs: 1.27.0
       svelte: 3.46.4
       vfile-message: 2.0.4
     dev: true
@@ -10170,6 +10170,11 @@ packages:
 
   /prismjs/1.26.0:
     resolution: {integrity: sha512-HUoH9C5Z3jKkl3UunCyiD5jwk0+Hz0fIgQ2nbwU2Oo/ceuTAQAg+pPVnfdt2TJWRVLcxKh9iuoYDUSc8clb5UQ==}
+    engines: {node: '>=6'}
+    dev: true
+
+  /prismjs/1.27.0:
+    resolution: {integrity: sha512-t13BGPUlFDR7wRB5kQDG4jjl7XeuH6jbJGt11JHPL96qwsEHNX2+68tFXqc1/k+/jALsbSWJKUOT/hcYAZ5LkA==}
     engines: {node: '>=6'}
 
   /process-on-spawn/1.0.0:

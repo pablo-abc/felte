@@ -103,8 +103,14 @@ Field('dispatches input events', async () => {
     ) as HTMLInputElement;
 
     expect(hiddenElement).not.to.be.null;
+  });
 
-    onChange('new value');
+  onChange('new value');
+
+  await waitFor(() => {
+    const hiddenElement = document.querySelector(
+      'input[name="test"]'
+    ) as HTMLInputElement;
 
     expect(hiddenElement.value).to.equal('new value');
     expect(inputListener).to.have.been.called.with(
