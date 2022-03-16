@@ -32,6 +32,7 @@ import {
   getFormDefaultValues,
   getFormControls,
   _isPlainObject,
+  debounce,
 } from '@felte/common';
 import type { SuccessResponse, FetchResponse } from './error';
 import { get } from './get';
@@ -380,6 +381,10 @@ export function createFormAction<Data extends Obj>({
     const mutationOptions = { childList: true, subtree: true };
 
     function unsetTaggedForRemove(formControls: FormControl[]) {
+      let currentData = get(data);
+      let currentTouched = get(touched);
+      let currentErrors = get(errors);
+      let currentWarnings = get(warnings);
       for (const control of formControls.reverse()) {
         if (
           control.hasAttribute('data-felte-keep-on-remove') &&
@@ -400,20 +405,38 @@ export function createFormAction<Data extends Obj>({
             fieldName = arrayPath;
           }
         }
-        data.update(($data) => {
-          return _unset($data, fieldName);
-        });
-        touched.update(($touched) => {
-          return _unset($touched, fieldName);
-        });
-        errors.update(($errors) => {
-          return _unset($errors, fieldName);
-        });
-        warnings.update(($warnings) => {
-          return _unset($warnings, fieldName);
-        });
+        currentData = _unset(currentData, fieldName);
+        currentTouched = _unset(currentTouched, fieldName);
+        currentErrors = _unset(currentErrors, fieldName);
+        currentWarnings = _unset(currentWarnings, fieldName);
       }
+      data.set(currentData as Data);
+      touched.set(currentTouched);
+      errors.set(currentErrors);
+      warnings.set(currentWarnings);
     }
+
+    const updateAddedNodes = debounce(() => {
+      _getCurrentExtenders().forEach((extender) => extender.destroy?.());
+      _setCurrentExtenders(extender.map(callExtender('UPDATE')));
+      const {
+        defaultData: newDefaultData,
+        defaultTouched: newDefaultTouched,
+      } = getFormDefaultValues<Data>(node);
+      data.update(($data) => _defaultsDeep<Data>($data, newDefaultData));
+      touched.update(($touched) => {
+        return _defaultsDeep($touched, newDefaultTouched);
+      });
+    }, 0);
+
+    let removedFormControls: FormControl[] = [];
+
+    const updateRemovedNodes = debounce(() => {
+      _getCurrentExtenders().forEach((extender) => extender.destroy?.());
+      _setCurrentExtenders(extender.map(callExtender('UPDATE')));
+      unsetTaggedForRemove(removedFormControls);
+      removedFormControls = [];
+    }, 0);
 
     function mutationCallback(mutationList: MutationRecord[]) {
       for (const mutation of mutationList) {
@@ -426,25 +449,15 @@ export function createFormAction<Data extends Obj>({
             return formControls.length > 0;
           });
           if (!shouldUpdate) continue;
-          _getCurrentExtenders().forEach((extender) => extender.destroy?.());
-          _setCurrentExtenders(extender.map(callExtender('UPDATE')));
-          const {
-            defaultData: newDefaultData,
-            defaultTouched: newDefaultTouched,
-          } = getFormDefaultValues<Data>(node);
-          data.update(($data) => _defaultsDeep<Data>($data, newDefaultData));
-          touched.update(($touched) => {
-            return _defaultsDeep($touched, newDefaultTouched);
-          });
+          updateAddedNodes();
         }
         if (mutation.removedNodes.length > 0) {
           for (const removedNode of mutation.removedNodes) {
             if (!isElement(removedNode)) continue;
             const formControls = getFormControls(removedNode);
             if (formControls.length === 0) continue;
-            _getCurrentExtenders().forEach((extender) => extender.destroy?.());
-            _setCurrentExtenders(extender.map(callExtender('UPDATE')));
-            unsetTaggedForRemove(formControls);
+            removedFormControls.push(...formControls);
+            updateRemovedNodes();
           }
         }
       }

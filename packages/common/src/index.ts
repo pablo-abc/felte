@@ -19,6 +19,7 @@ export { mergeErrors, runValidations } from './utils/executeValidation';
 export { executeTransforms } from './utils/executeTransforms';
 export { createId } from './utils/createId';
 export { isEqual } from './utils/isEqual';
+export { debounce } from './utils/debounce';
 export * from './utils/typeGuards';
 export * from './utils/domUtils';
 export * from './types';
