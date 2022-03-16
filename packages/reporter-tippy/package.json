@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-tippy",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "An error reporter for Felte using Tippy.js",
   "main": "dist/index.cjs",
   "browser": "dist/index.mjs",

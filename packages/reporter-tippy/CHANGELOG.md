@@ -1,5 +1,12 @@
 # @felte/reporter-tippy
 
+## 1.0.4
+
+### Patch Changes
+
+- c6f1497: Reuse single MutationObserver instance
+- c6f1497: Fix missing disconnect on destroy
+
 ## 1.0.3
 
 ### Patch Changes
