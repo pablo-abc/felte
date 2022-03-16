@@ -1,5 +1,11 @@
 # @felte/validator-zod
 
+## 1.0.4
+
+### Patch Changes
+
+- e7e05bc: Update accepted type for schema to be either ZodEffects or AnyZodObject
+
 ## 1.0.3
 
 ### Patch Changes
