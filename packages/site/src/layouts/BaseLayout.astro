@@ -7,9 +7,9 @@ import Nav from 'components:Nav.astro';
 
 const { title, section } = Astro.props;
 
-const currentVersion = import.meta.env.VITE_FELTE_VERSION;
-const altVersion = import.meta.env.VITE_FELTE_ALT_VERSION;
-const altLink = import.meta.env.VITE_FELTE_ALT_LINK;
+const currentVersion = import.meta.env.PUBLIC_FELTE_CURRENT_VERSION;
+const altVersion = import.meta.env.PUBLIC_FELTE_ALT_VERSION;
+const altLink = import.meta.env.PUBLIC_FELTE_ALT_LINK;
 ---
 
 <html lang="en">
