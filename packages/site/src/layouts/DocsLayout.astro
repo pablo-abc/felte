@@ -12,7 +12,7 @@ const { section, all, framework } = Astro.props;
     </nav>
   </div>
   <div class="mobile-menu">
-    <sl-drawer label="Sections">
+    <sl-drawer label="Sections" id="drawer-menu">
       <nav class="sidebar" aria-label="side menu" class="desktop-menu">
         <DocsNav items={all} framework={framework} section={section} />
       </nav>
@@ -52,7 +52,7 @@ const { section, all, framework } = Astro.props;
     import '@shoelace-style/shoelace/dist/components/drawer/drawer';
 
     const menuButton = document.querySelector('#side-menu-button');
-    const drawer = document.querySelector('sl-drawer');
+    const drawer = document.querySelector('#drawer-menu');
 
     menuButton.addEventListener('click', () => {
       drawer.show();
@@ -135,7 +135,13 @@ const { section, all, framework } = Astro.props;
     background: var(--primary-background);
   }
 
-  sl-drawer::part(close-button__base):focus {
+  sl-drawer::part(body) {
+    padding: 0;
+    padding-top: 1rem;
+  }
+
+  sl-drawer::part(close-button__base):focus,
+  sl-drawer::part(close-button__base):hover {
     color: var(--primary-color);
   }
 
