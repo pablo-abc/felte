@@ -3,6 +3,8 @@ import tippy from 'tippy.js';
 import { html, render } from 'uhtml';
 import * as FlexSearch from 'flexsearch';
 
+import './search-results.ts';
+
 export class SearchBar extends HTMLElement {
   [key: string]: unknown;
 
@@ -39,6 +41,7 @@ export class SearchBar extends HTMLElement {
 
   #searchValue = '';
   set searchValue(value: string) {
+    if (value === this.#searchValue) return;
     this.#searchValue = value || '';
     this.searchInput.value = value || '';
     this.search();
@@ -61,7 +64,6 @@ export class SearchBar extends HTMLElement {
   #foundItems: any[] = [];
   set foundItems(value: any[]) {
     this.#foundItems = value;
-    this.update();
   }
 
   get foundItems() {
@@ -90,12 +92,12 @@ export class SearchBar extends HTMLElement {
         .split('\n')
         .slice(1)
         .join('\n')
-        .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
         .replace(/```.*/g, '')
         .replace(/> /g, '')
         .replace(/#+ /g, '')
         .replace(/__?([^_]+)__?/g, '$1')
-        .replace(/\*\*?([^\*]+)\*\*?/g, '$1');
+        .replace(/\*\*?([^*]+)\*\*?/g, '$1');
       return {
         ...item,
         id: index,
@@ -139,6 +141,8 @@ export class SearchBar extends HTMLElement {
   }
 
   handleInput() {
+    this.activeIndex = undefined;
+    this.activeDescendant = undefined;
     this.searchValue = this.searchInput.value;
   }
 
@@ -176,6 +180,7 @@ export class SearchBar extends HTMLElement {
       this.expanded = false;
       this.activeIndex = undefined;
       this.activeDescendant = undefined;
+      this.clear();
       return;
     }
     if (document.activeElement === this.searchInput) return;
@@ -188,7 +193,7 @@ export class SearchBar extends HTMLElement {
     if (this.searchValue.length === 0) return;
     if (this.activeDescendant) {
       const target = this.descendants[this.activeIndex];
-      const href = target.shadowRoot.querySelector('a').href;
+      const href = target.querySelector('a').href;
       window.location = href;
     } else {
       window.location =
@@ -266,6 +271,10 @@ export class SearchBar extends HTMLElement {
       this.shadowRoot!,
       html`
         <style>
+          :host {
+            display: block;
+          }
+
           :host(.focus-visible) *:focus {
             outline: 3px solid var(--primary-color);
             outline-offset: 2px;
@@ -477,6 +486,7 @@ export class SearchBar extends HTMLElement {
           class=${this.tippyInstance ? 'mounted' : ''}
         >
           <search-results
+            tabindex="-1"
             id="search-results"
             isListbox
             framework=${this.framework}

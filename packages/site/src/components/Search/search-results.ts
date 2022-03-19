@@ -58,6 +58,15 @@ export class SearchResults extends HTMLElement {
     this.dispatchEvent(new CustomEvent('deactivate'));
   }
 
+  activate() {
+    this.dispatchEvent(
+      new CustomEvent('activate', {
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+
   connectedCallback() {
     this.setAttribute('role', this.isListbox ? 'listbox' : 'list');
     this.addEventListener('mouseleave', this.deactivate.bind(this));
@@ -86,19 +95,62 @@ export class SearchResults extends HTMLElement {
           .active {
             background: var(--header-background-hover);
           }
+
+          strong {
+            font-size: 1.2rem;
+            font-weight: 700;
+          }
+
+          a {
+            display: block;
+            padding: 0.5rem;
+            border-radius: 10px;
+            color: var(--primary-font-color);
+            text-decoration: none;
+          }
+
+          a:hover {
+            color: var(--primary-font-color-hover);
+          }
+
+          li {
+            margin-bottom: 1rem;
+            color: var(--primary-font-color);
+            display: block;
+          }
+
+          .content {
+            margin-left: 0.5rem;
+            font-weight: 300;
+          }
+
+          li.active {
+            background: var(--header-background-hover);
+          }
         </style>
         ${this.foundItems.length >= 1
           ? this.foundItems.map((item) => {
+              const isActive =
+                this.activeDescendant === `result-${item.attributes.section}`;
               return html.for(item)/* HTML */ `
-                <search-result
-                  part="option"
+                <li
+                  class=${isActive ? 'active' : ''}
+                  aria-selected=${this.isListbox ? String(isActive) : null}
+                  data-combobox-option
                   role=${this.isListbox ? 'option' : undefined}
-                  framework=${this.framework}
-                  .bodyLength=${this.bodyLength}
-                  .item=${item}
-                  .active=${this.activeDescendant ===
-                  `result-${item.attributes.section}`}
-                ></search-result>
+                  part="option"
+                  id=${`result-${item.attributes.section}`}
+                  @mouseenter=${this.activate.bind(this)}
+                >
+                  <a href=${`/docs/${this.framework}/${item.attributes.id}`}>
+                    <div>
+                      <strong>${item.attributes.section}</strong>
+                      <div class="content">
+                        ${item.body.substr(0, this.bodyLength) + '...'}
+                      </div>
+                    </div>
+                  </a>
+                </li>
               `;
             })
           : ''}

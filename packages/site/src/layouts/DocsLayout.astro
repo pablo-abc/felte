@@ -45,8 +45,6 @@ const { section, all, framework } = Astro.props;
     <slot></slot>
   </main>
   <script type="module" hoist>
-    import 'components:Search/search-result.ts';
-    import 'components:Search/search-results.ts';
     import 'components:Search/search-bar.ts';
     import '@shoelace-style/shoelace/dist/themes/light.css';
     import '@shoelace-style/shoelace/dist/components/drawer/drawer';
@@ -149,7 +147,8 @@ const { section, all, framework } = Astro.props;
     box-shadow: none;
   }
 
-  search-bar div {
-    height: 8rem;
+  search-bar {
+    display: block;
+    height: 4rem;
   }
 </style>
