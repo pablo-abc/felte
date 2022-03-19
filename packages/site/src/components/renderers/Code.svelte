@@ -30,6 +30,8 @@
     margin: 1rem 0;
     border: 2px solid var(--primary-color);
     border-radius: 10px 30px;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
   }
 
   .container {

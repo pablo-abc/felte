@@ -35,6 +35,7 @@
     display: flex;
     align-items: center;
     margin-top: 3rem;
+    margin-left: 2rem;
   }
 
   a {

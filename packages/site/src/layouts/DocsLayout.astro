@@ -1,4 +1,5 @@
 ---
+import '@shoelace-style/shoelace/dist/themes/light.css';
 import BaseLayout from './BaseLayout.astro';
 import DocsNav from 'components:Docs/DocsNav.astro';
 
@@ -12,8 +13,8 @@ const { section, all, framework } = Astro.props;
     </nav>
   </div>
   <div class="mobile-menu">
-    <sl-drawer label="Sections" id="drawer-menu">
-      <nav class="sidebar" aria-label="side menu" class="desktop-menu">
+    <sl-drawer label="Sections" id="drawer-menu" placement="start">
+      <nav style="display: none;" class="sidebar" aria-label="side menu" class="desktop-menu">
         <DocsNav items={all} framework={framework} section={section} />
       </nav>
     </sl-drawer>
@@ -46,11 +47,15 @@ const { section, all, framework } = Astro.props;
   </main>
   <script type="module" hoist>
     import 'components:Search/search-bar.ts';
-    import '@shoelace-style/shoelace/dist/themes/light.css';
     import '@shoelace-style/shoelace/dist/components/drawer/drawer';
 
     const menuButton = document.querySelector('#side-menu-button');
     const drawer = document.querySelector('#drawer-menu');
+    document.querySelector('#drawer-menu nav').style.display = 'block';
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 966 && drawer.open) drawer.hide();
+    });
 
     menuButton.addEventListener('click', () => {
       drawer.show();
@@ -136,6 +141,10 @@ const { section, all, framework } = Astro.props;
   sl-drawer::part(body) {
     padding: 0;
     padding-top: 1rem;
+  }
+
+  sl-drawer::part(close-button__base) {
+    color: var(--primary-font-color);
   }
 
   sl-drawer::part(close-button__base):focus,
