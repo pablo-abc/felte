@@ -434,7 +434,7 @@ export class SearchBar extends HTMLElement {
               @focus=${this.handleFocus.bind(this)}
               id="search-bar"
               type="search"
-              placeholder="Search docs (/)"
+              placeholder="Search docs ( / )"
             />
           </span>
           <button

@@ -9,7 +9,7 @@
   {#if depth === 3}
     <a class="anchor" tabindex="-1" aria-hidden="true" {id}>&nbsp;</a>
     <a href={`#${id}`} tabindex="-1" aria-hidden=true>
-      <img src="/icons/link.svg" alt="" />
+      <img height="26" width="26" src="/icons/link.svg" alt="" />
     </a>
   {/if}
   {#if depth === 1}
