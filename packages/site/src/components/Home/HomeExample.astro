@@ -1,0 +1,62 @@
+<script type="module" hoist>
+  import { prepareForm } from '@felte/element';
+  import reporter from '@felte/reporter-tippy';
+  import { validator } from '@felte/validator-yup';
+  import * as yup from 'yup';
+
+  const schema = yup.object({
+    email: yup.string().email().required(),
+    password: yup.string().required(),
+  });
+
+  prepareForm('home-example-form', {
+    onSubmit: () => {
+      throw {
+        password: 'This password already exists',
+      };
+    },
+    onError: (error) => error,
+    extend: [validator({ schema }), reporter()],
+  });
+</script>
+
+<felte-form id="home-example-form">
+  <form>
+    <label>
+      <span>Email:</span>
+      <input name="email" type="email" aria-describedby="signin-description" />
+    </label>
+    <span id="signin-description"
+      >Use any value you want, this is just a demo.</span
+    >
+    <label>
+      <span>Password:</span>
+      <input name="password" type="password" />
+    </label>
+    <button class="primary" type="submit">Fail to sign in</button>
+  </form>
+</felte-form>
+
+<style>
+  form {
+    display: inline-block;
+    font-size: 1.2em;
+    background: var(--example-background);
+    padding: 2rem;
+    border-radius: 10px 30px;
+  }
+
+  #signin-description {
+    font-size: 0.7em;
+  }
+
+  label,
+  input {
+    display: block;
+  }
+
+  label span {
+    font-weight: 700;
+    margin-top: 0.7em;
+  }
+</style>

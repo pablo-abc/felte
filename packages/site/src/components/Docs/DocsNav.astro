@@ -1,0 +1,69 @@
+---
+const { items = [], framework, section } = Astro.props;
+---
+
+<ul class=sections>
+  {items.map((item) => (
+    <li>
+      <a
+        href={`/docs/${framework}/${item.attributes.id}`}
+        aria-current={item.attributes.id === section}
+        >
+        {item.attributes.section}
+      </a>
+      {!!item.attributes.subsections && (
+        <ul class=subsections>
+          {item.attributes.subsections.map((subsection) => (
+            <li>
+              <a
+                href={`/docs/${framework}/${item.attributes.id}#${subsection.id}`}
+                aria-label={`${item.attributes.section} - ${subsection.name}`}
+                >
+                {subsection.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
+  ))}
+</ul>
+
+<style>
+  .sections {
+    padding: 0;
+    font-size: 1.2rem;
+  }
+  @media (min-width: 966px) {
+    .sections {
+      padding: 1rem 0;
+    }
+  }
+
+  .sections, .subsections {
+    list-style-type: none;
+  }
+
+  .subsections a {
+    padding-left: 3rem;
+  }
+
+  a {
+    display: inline-block;
+    padding: 0.4rem 0;
+    padding-left: 1.5rem;
+    width: 100%;
+    height: 100%;
+    transition: background 0.1s;
+  }
+
+  a:hover {
+    color: var(--primary-font-color);
+    background: var(--header-background-hover);
+  }
+
+  a[aria-current=true] {
+    text-decoration: underline solid var(--primary-color);
+    -webkit-text-decoration: underline solid var(--primary-color);
+  }
+</style>
