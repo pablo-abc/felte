@@ -7,7 +7,7 @@ const { items = [], framework, section } = Astro.props;
     <li>
       <a
         href={`/docs/${framework}/${item.attributes.id}`}
-        aria-current={item.attributes.id === section}
+        aria-current={item.attributes.id === section ? 'page' : undefined}
         >
         {item.attributes.section}
       </a>
@@ -62,7 +62,7 @@ const { items = [], framework, section } = Astro.props;
     background: var(--header-background-hover);
   }
 
-  a[aria-current=true] {
+  a[aria-current="page"] {
     text-decoration: underline solid var(--primary-color);
     -webkit-text-decoration: underline solid var(--primary-color);
   }
