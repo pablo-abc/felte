@@ -41,6 +41,7 @@ import {
   mergeErrors,
   createId,
   isEqual,
+  debounce,
 } from '../src';
 
 function createLoginForm() {
@@ -1052,6 +1053,16 @@ Utils('isEqual', () => {
       }
     )
   ).to.equal(false);
+});
+
+Utils('debounce', async () => {
+  const fn = sinon.fake();
+  const debouncedFn = debounce(fn, 0);
+  Array.from({ length: 100 }).forEach(debouncedFn);
+  await new Promise((r) => setTimeout(r));
+  expect(fn).to.have.been.called.once;
+  await new Promise((r) => setTimeout(r));
+  expect(fn).to.have.been.called.once;
 });
 
 Utils.run();

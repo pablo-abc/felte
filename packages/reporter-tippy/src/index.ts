@@ -9,7 +9,7 @@ import type {
   Extender,
   PartialWritableErrors,
 } from '@felte/common';
-import { isFormControl, getPath } from '@felte/common';
+import { isFormControl, getPath, debounce } from '@felte/common';
 import { _get } from '@felte/common';
 import { get } from 'svelte/store';
 
@@ -205,7 +205,7 @@ function tippyReporter<Data extends Obj = any>({
     ];
 
     if (!observer) {
-      observer = new MutationObserver(mutationCallback);
+      observer = new MutationObserver(debounce(mutationCallback, 0));
     }
     observer.observe(form, { childList: true });
     const unsubscribe = store.subscribe(($messages) => {
