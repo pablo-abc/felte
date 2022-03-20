@@ -402,6 +402,10 @@ export class SearchBar extends HTMLElement {
             -webkit-appearance: none;
             display: none;
           }
+
+          input::-webkit-search-decoration {
+            -webkit-appearance: none;
+          }
         </style>
         <span
           class="sr-only"
