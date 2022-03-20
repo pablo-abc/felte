@@ -1,0 +1,106 @@
+---
+import 'tippy.js/dist/tippy.css';
+import '../styles/fonts.css';
+import '../styles/reset.css';
+import '../styles/prism.css';
+import '../styles/global.css';
+import Nav from 'components:Nav.astro';
+
+const { title, section } = Astro.props;
+
+const currentVersion = import.meta.env.PUBLIC_FELTE_CURRENT_VERSION;
+const altVersion = import.meta.env.PUBLIC_FELTE_ALT_VERSION;
+const altLink = import.meta.env.PUBLIC_FELTE_ALT_LINK;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ff3e00" />
+
+    <link rel="manifest" href="/manifest.json" crossorigin="use-credentials" />
+    <link rel="icon" type="image/png" href="/favicon.ico" />
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <script type="module" hoist>
+      import './setup.js';
+      import 'components:theme-toggle.ts';
+      import 'components:copy-button.ts';
+    </script>
+
+    <title>{title}</title>
+    <meta name="description" content="An extensible form library for Svelte, Solid and React.">
+
+    <!-- Google / Search Engine Tags -->
+    <meta itemprop="name" content={title}>
+    <meta itemprop="description" content="An extensible form library for Svelte, Solid and React.">
+    <meta itemprop="image" content="https://felte.dev/felte-logo-filled.png">
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://felte.dev">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content="An extensible form library for Svelte, Solid and React.">
+    <meta property="og:image" content="https://felte.dev/felte-logo-filled.png">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content={title}>
+    <meta name="twitter:description" content="An extensible form library for Svelte, Solid and React.">
+    <meta name="twitter:image" content="https://felte.dev/felte-logo-filled.png">
+  </head>
+  <body>
+    <script>
+      const colorScheme = localStorage.getItem('colorScheme');
+      if (colorScheme) document.body.classList.add(colorScheme);
+    </script>
+    <aside class="banner mobile">
+      If you're looking for the documentation for {altVersion},
+      <a href="{altLink}" re="external">click here</a>.
+    </aside>
+    <aside class="banner desktop">
+      This is the documentation for Felte {currentVersion}. If you're looking
+      for the documentation for {altVersion},
+      <a href={altLink} re="external">click here</a>.
+    </aside>
+    <Nav section={section} />
+    <slot></slot>
+  </body>
+</html>
+
+<style>
+  .banner {
+    background-color: var(--highlight-background);
+    color: #fff;
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    text-align: center;
+  }
+
+  .banner a {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .banner :global(a:focus-visible) {
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+  }
+
+  .desktop {
+    display: none;
+  }
+
+  @media only screen and (min-width: 900px) {
+    .desktop {
+      display: block;
+    }
+
+    .mobile {
+      display: none;
+    }
+  }
+</style>

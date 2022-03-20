@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "components:*": ["src/components/*"],
+      "layouts:*": ["src/layouts/*"],
+      "styles:*": ["src/styles/*"]
+    }
+  }
+}

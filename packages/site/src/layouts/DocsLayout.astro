@@ -1,0 +1,175 @@
+---
+import '@shoelace-style/shoelace/dist/themes/light.css';
+import BaseLayout from './BaseLayout.astro';
+import DocsNav from 'components:Docs/DocsNav.astro';
+
+const { section, all, framework } = Astro.props;
+---
+
+<div class="container">
+  <div class="desktop-menu">
+    <nav class="sidebar" aria-label="documentation">
+      <DocsNav items={all} framework={framework} section={section} />
+    </nav>
+  </div>
+  <div class="mobile-menu">
+    <sl-drawer label="Documentation" id="drawer-menu" placement="start">
+      <nav style="display: none;" class="sidebar" aria-label="documentation" class="desktop-menu">
+        <DocsNav items={all} framework={framework} section={section} />
+      </nav>
+    </sl-drawer>
+    <div class="menu-button">
+      <button
+        id="side-menu-button"
+        class="menu-button"
+        aria-label="Open side menu"
+        >
+        <svg
+          aria-hidden="true"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+            ></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <main>
+    <search-bar items={JSON.stringify(all)} framework={framework}><div /></search-bar>
+    <slot></slot>
+  </main>
+  <script type="module" hoist>
+    import 'components:Search/search-bar.ts';
+    import '@shoelace-style/shoelace/dist/components/drawer/drawer';
+    import '@shoelace-style/shoelace/dist/components/details/details';
+
+    const menuButton = document.querySelector('#side-menu-button');
+    const drawer = document.querySelector('#drawer-menu');
+    document.querySelector('#drawer-menu nav').style.display = 'block';
+
+    const sidebar = document.querySelector('.sidebar');
+    const current = document.querySelector('.desktop-menu a[aria-current="page"]');
+    if (current) {
+      sidebar.scrollTo({
+        top:
+          current.getBoundingClientRect().top -
+          sidebar.getBoundingClientRect().top -
+          (window.innerHeight / 3),
+      })
+    }
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 966 && drawer.open) drawer.hide();
+    });
+
+    menuButton.addEventListener('click', () => {
+      drawer.show();
+    });
+  </script>
+</div>
+
+<style>
+  main {
+    max-width: 700px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 6rem;
+    width: 95%;
+  }
+
+  .container {
+    display: flex;
+  }
+
+  .desktop-menu {
+    display: none;
+  }
+
+  @media (min-width: 966px) {
+    main {
+      margin-left: 2rem;
+      margin-right: 2rem;
+    }
+
+    .desktop-menu {
+      display: block;
+    }
+
+    .mobile-menu {
+      display: none;
+    }
+
+    .sidebar {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0rem;
+      min-height: 0;
+      max-height: 100vh;
+      padding-bottom: 6rem;
+      box-shadow: none;
+      overflow: auto;
+    }
+  }
+
+  .menu-button {
+    position: fixed;
+    display: grid;
+    place-items: center;
+    background: var(--primary-color);
+    height: 56px;
+    width: 56px;
+    left: 2rem;
+    bottom: 2rem;
+    transition: background 100ms;
+    z-index: 1;
+    border-radius: 50%;
+    box-shadow: 0 2.8px 6.2px rgba(77, 64, 43, 0.064),
+      0 6.7px 8.3px rgba(0, 0, 0, 0.098);
+  }
+
+  .menu-button:hover {
+    background: var(--primary-color-hover);
+  }
+
+  .menu-button button {
+    background: transparent;
+    color: var(--on-primary-color);
+  }
+
+  .menu-button svg {
+    width: 36px;
+  }
+
+  sl-drawer::part(panel) {
+    background: var(--primary-background);
+  }
+
+  sl-drawer::part(body) {
+    padding: 0;
+  }
+
+  sl-drawer::part(close-button__base) {
+    color: var(--primary-font-color);
+  }
+
+  sl-drawer::part(close-button__base):focus,
+  sl-drawer::part(close-button__base):hover {
+    color: var(--primary-color);
+  }
+
+  sl-drawer::part(close-button__base):focus-visible {
+    box-shadow: none;
+  }
+
+  search-bar {
+    display: block;
+    height: 4rem;
+  }
+</style>
