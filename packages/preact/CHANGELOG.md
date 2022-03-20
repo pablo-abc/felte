@@ -1,5 +1,13 @@
 # @felte/preact
 
+## 1.1.4
+
+### Patch Changes
+
+- Updated dependencies [aa6483d]
+- Updated dependencies [aa6483d]
+  - @felte/core@1.2.2
+
 ## 1.1.3
 
 ### Patch Changes

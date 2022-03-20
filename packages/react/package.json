@@ -1,6 +1,6 @@
 {
   "name": "@felte/react",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "An extensible form library for ReactJS",
   "main": "dist/cjs/index.cjs",
   "browser": "dist/esm/index.js",

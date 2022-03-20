@@ -1,5 +1,12 @@
 # @felte/common
 
+## 1.0.3
+
+### Patch Changes
+
+- aa6483d: Add `debounce` utility
+- aa6483d: Debounce calls to extenders on MutationObserver
+
 ## 1.0.2
 
 ### Patch Changes

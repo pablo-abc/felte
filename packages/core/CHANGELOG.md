@@ -1,5 +1,15 @@
 # @felte/core
 
+## 1.2.2
+
+### Patch Changes
+
+- aa6483d: Improve performance when using dynamic fields
+- aa6483d: Debounce calls to extenders on MutationObserver
+- Updated dependencies [aa6483d]
+- Updated dependencies [aa6483d]
+  - @felte/common@1.0.3
+
 ## 1.2.1
 
 ### Patch Changes
