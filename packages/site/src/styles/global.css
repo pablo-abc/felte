@@ -1,0 +1,176 @@
+:root,
+body.light {
+  --primary-color: hsl(15, 100%, 50%);
+  --highlight-background: hsl(15, 100%, 43%);
+  --highlight-background-hover: hsl(15, 100%, 50%);
+  --on-highlight-background: hsl(0, 0%, 0%);
+  --on-primary-color: #fffff9;
+  --primary-color-hover: rgb(255, 113, 51);
+  --primary-background: #fffff0;
+  --header-background: rgba(255, 255, 255, 0.6);
+  --header-background-hover: #dfdfd0;
+  --feature-background-1: rgba(255, 62, 0, 0.2);
+  --feature-background-2: rgba(13, 255, 62, 0.2);
+  --feature-background-3: rgba(13, 180, 255, 0.2);
+  --example-background: var(--feature-background-1);
+  --error-color: #f70c16;
+  --link-color: #0f73a0;
+  --link-color-hover: #0db4ff;
+
+  --primary-font-color: #4d402b;
+  --primary-font-color-hover: #80735e;
+
+  --header-height: 3.8rem;
+}
+
+body.dark {
+  --error-color: #ff3a43;
+  --primary-background: #111111;
+  --primary-font-color: #fffff0;
+  --primary-font-color-hover: #bfbfb0;
+  --header-background: #222222;
+  --header-background-hover: #323232;
+  --feature-background-1: rgba(255, 62, 0, 0.5);
+  --feature-background-2: rgba(13, 255, 62, 0.5);
+  --feature-background-3: rgba(13, 180, 255, 0.5);
+  --example-background: var(--header-background);
+  --link-color: #00a8f4;
+  --link-color-hover: #3cc2ff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --error-color: #ff3a43;
+    --primary-background: #111111;
+    --primary-font-color: #fffff0;
+    --primary-font-color-hover: #bfbfb0;
+    --header-background: #222222;
+    --header-background-hover: #323232;
+    --feature-background-1: rgba(255, 62, 0, 0.5);
+    --feature-background-2: rgba(13, 255, 62, 0.5);
+    --feature-background-3: rgba(13, 180, 255, 0.5);
+    --example-background: var(--header-background);
+    --link-color: #00a8f4;
+    --link-color-hover: #3cc2ff;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, Segoe UI,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--primary-font-color);
+  background: var(--primary-background);
+  font-size: 1.1rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Cabin', sans-serif;
+  margin: 0 0 0.3em 0;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+p {
+  margin: 1.5rem 0;
+}
+
+h1 {
+  font-size: 2.1rem;
+}
+
+a {
+  color: var(--primary-font-color);
+  text-decoration: none;
+  transition: color 100ms;
+}
+
+a:hover {
+  color: var(--primary-font-color-hover);
+}
+
+code {
+  font-family: inconsolata, monospace;
+  font-size: calc(1em - 2px);
+}
+
+code:not([class*='prism']) {
+  color: var(--primary-font-color);
+  background-color: var(--header-background);
+  padding: 0.2em 0.4em;
+  border-radius: 2px;
+}
+
+label input {
+  font-size: 1em;
+  border: 1px solid #aaa;
+  border-radius: 10px;
+  padding: 0.3rem 1rem;
+  background: var(--on-primary-color);
+  height: 3rem;
+  width: 18rem;
+}
+
+label input[aria-invalid='true'] {
+  border: 2px solid var(--error-color);
+}
+
+.sr-only {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+button.primary {
+  margin-top: 0.7em;
+  font-size: 0.8em;
+  font-weight: 700;
+  padding: 0.7em;
+  background: var(--highlight-background);
+  border-radius: 10px;
+  border: none;
+  color: white;
+  transition: transform 0.1s;
+}
+
+button.primary:hover {
+  background: var(--highlight-background-hover);
+}
+
+button.primary:active {
+  transform: scale(0.9);
+}
+
+a:focus-visible,
+button:focus-visible,
+copy-button:focus-visible,
+copy-button.focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+nav:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+sl-drawer.focus-visible::part(close-button__base):focus {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+sl-drawer.focus-visible::part(body):focus {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 2px;
+}
