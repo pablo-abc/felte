@@ -142,7 +142,10 @@ export class SearchResults extends HTMLElement {
                   id=${`result-${item.attributes.section}`}
                   @mouseenter=${this.activate.bind(this)}
                 >
-                  <a href=${`/docs/${this.framework}/${item.attributes.id}`}>
+                  <a
+                    part="option__link"
+                    href=${`/docs/${this.framework}/${item.attributes.id}`}
+                  >
                     <div>
                       <strong>${item.attributes.section}</strong>
                       <div class="content">

@@ -1,9 +1,7 @@
 ---
 import BaseLayout from 'layouts:BaseLayout.astro';
 import DocsLayout from 'layouts:DocsLayout.astro';
-import Section from 'components:Docs/Section.svelte';
 import sections from '../../../other/sections.json';
-import Search from '../../../components/Search/Search.svelte';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import fm from 'front-matter';
@@ -66,6 +64,9 @@ const { all } = Astro.props;
 
 <BaseLayout title="Felte | Search">
   <DocsLayout section="search" all={all} framework={framework}>
-    <Search items={all} framework={framework} client:only />
+    <search-pagE items={JSON.stringify(all)} framework={framework}><div /></search-page>
+    <script type="module" hoist>
+      import 'components:Search/search-page.ts';
+    </script>
   </DocsLayout>
 </BaseLayout>
