@@ -1,9 +1,22 @@
 ---
 const { items = [], framework, section } = Astro.props;
+
+let frameworkTitle;
+switch (framework) {
+  case 'svelte':
+    frameworkTitle = 'Svelte';
+    break;
+  case 'solid':
+    frameworkTitle = 'Solid';
+    break;
+  case 'react':
+    frameworkTitle = 'React/Preact';
+    break;
+}
 ---
 
 <sl-details>
-  <span slot="summary">Change framework:</span>
+  <span slot="summary">{frameworkTitle}</span>
   <ul class="framework-list">
     <li>
       <a
@@ -102,6 +115,16 @@ const { items = [], framework, section } = Astro.props;
     padding-top: 0.5rem;
   }
 
+  sl-details::part(header) {
+    padding-left: 1.5rem;
+  }
+
+  sl-details::part(content) {
+    padding: 0;
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+  }
+
   sl-details.focus-visible::part(header):focus {
     outline: 3px solid var(--primary-color);
     outline-offset: 2px;
@@ -112,8 +135,16 @@ const { items = [], framework, section } = Astro.props;
     background: var(--header-background-hover);
   }
 
+  sl-details::part(summary) {
+    font-size: 1.2rem;
+  }
+
   .framework-list {
     padding: 0;
     list-style-type: none;
+  }
+
+  .framework-list li a {
+    padding-left: 3rem;
   }
 </style>

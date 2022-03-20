@@ -8,13 +8,13 @@ const { section, all, framework } = Astro.props;
 
 <div class="container">
   <div class="desktop-menu">
-    <nav class="sidebar" aria-label="side menu">
+    <nav class="sidebar" aria-label="documentation">
       <DocsNav items={all} framework={framework} section={section} />
     </nav>
   </div>
   <div class="mobile-menu">
-    <sl-drawer label="Sections" id="drawer-menu" placement="start">
-      <nav style="display: none;" class="sidebar" aria-label="side menu" class="desktop-menu">
+    <sl-drawer label="Documentation" id="drawer-menu" placement="start">
+      <nav style="display: none;" class="sidebar" aria-label="documentation" class="desktop-menu">
         <DocsNav items={all} framework={framework} section={section} />
       </nav>
     </sl-drawer>
@@ -153,7 +153,6 @@ const { section, all, framework } = Astro.props;
 
   sl-drawer::part(body) {
     padding: 0;
-    padding-top: 1rem;
   }
 
   sl-drawer::part(close-button__base) {

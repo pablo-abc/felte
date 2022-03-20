@@ -66,10 +66,23 @@ export async function getStaticPaths() {
 
 const { section, framework } = Astro.request.params;
 const { content, all } = Astro.props;
+let frameworkTitle;
+
+switch (framework) {
+  case 'svelte':
+    frameworkTitle = 'Svelte';
+    break;
+  case 'solid':
+    frameworkTitle = 'Solid';
+    break;
+  case 'react':
+    frameworkTitle = 'React/Preact';
+    break;
+}
 ---
 
-<BaseLayout title={`Felte | ${content.attributes.section}`}>
-  <DocsLayout section={content.attributes.id} all={all} framework={framework}>
+<BaseLayout title={`Felte | ${content.attributes.section} | ${frameworkTitle}`}>
+  <DocsLayout section={section} all={all} framework={framework}>
     <Section items={all} section={content} framework={framework} />
   </DocsLayout>
 </BaseLayout>

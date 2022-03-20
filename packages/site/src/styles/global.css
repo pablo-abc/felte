@@ -169,3 +169,8 @@ sl-drawer.focus-visible::part(close-button__base):focus {
   outline: 3px solid var(--primary-color);
   outline-offset: 2px;
 }
+
+sl-drawer.focus-visible::part(body):focus {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 2px;
+}
