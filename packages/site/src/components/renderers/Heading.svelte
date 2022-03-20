@@ -12,17 +12,17 @@
       <img height="26" width="26" src="/icons/link.svg" alt="" />
     </a>
   {/if}
-  {#if depth === 1}
+  {#if depth === 2}
     <h1><slot></slot></h1>
-  {:else if depth === 2}
-    <h2><slot></slot></h2>
   {:else if depth === 3}
-    <h3><slot></slot></h3>
+    <h2><slot></slot></h2>
   {:else if depth === 4}
-    <h4><slot></slot></h4>
+    <h3><slot></slot></h3>
   {:else if depth === 5}
-    <h5><slot></slot></h5>
+    <h4><slot></slot></h4>
   {:else if depth === 6}
+    <h5><slot></slot></h5>
+  {:else if depth === 7}
     <h6><slot></slot></h6>
   {:else}
     {raw}
@@ -57,15 +57,15 @@
     opacity: 1;
   }
 
-  h2 {
+  h1 {
     font-size: 3rem;
   }
 
-  h3 {
+  h2 {
     font-size: 2rem;
   }
 
-  h4 {
+  h3 {
     font-size: 1.4rem;
   }
 </style>

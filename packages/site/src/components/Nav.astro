@@ -6,15 +6,14 @@ const { section } = Astro.props;
 
 <header>
   <nav aria-label="main">
-    <h1>
-      <a
-        href="/"
-        aria-current={section === 'home' ? 'page' : undefined}
-        >
-        <span class="sr-only">Felte Home</span>
-        <Logo />
-      </a>
-    </h1>
+    <a
+      class="nav-logo"
+      href="/"
+      aria-current={section === 'home' ? 'page' : undefined}
+      >
+      <span class="sr-only">Felte Home</span>
+      <Logo />
+    </a>
     <ul>
       <li>
         <a
@@ -70,16 +69,11 @@ const { section } = Astro.props;
     width: 95%;
   }
 
-  h1 {
-    margin: 0;
-    padding: 0;
-    padding-left: 2rem;
-  }
-
-  h1 a {
+  .nav-logo {
     display: grid;
     place-items: center;
     padding: 0 0.5rem;
+    margin-left: 2rem;
   }
 
   ul {
