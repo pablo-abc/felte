@@ -2,6 +2,35 @@
 const { items = [], framework, section } = Astro.props;
 ---
 
+<sl-details>
+  <span slot="summary">Change framework:</span>
+  <ul class="framework-list">
+    <li>
+      <a
+        href={`/docs/svelte/${section}`}
+        aria-current={framework === 'svelte' ? 'true' : undefined}
+        >
+        Svelte
+        </a>
+    </li>
+    <li>
+      <a
+        href={`/docs/solid/${section}`}
+        aria-current={framework === 'solid' ? 'true' : undefined}
+        >
+        Solid
+        </a>
+    </li>
+    <li>
+      <a
+        href={`/docs/react/${section}`}
+        aria-current={framework === 'react' ? 'true' : undefined}
+        >
+        React/Preact
+        </a>
+    </li>
+  </ul>
+</sl-details>
 <ul class=sections>
   {items.map((item) => (
     <li>
@@ -62,8 +91,29 @@ const { items = [], framework, section } = Astro.props;
     background: var(--header-background-hover);
   }
 
-  a[aria-current="page"] {
+  a[aria-current="page"], a[aria-current="true"] {
     text-decoration: underline solid var(--primary-color);
     -webkit-text-decoration: underline solid var(--primary-color);
+  }
+
+  sl-details::part(base) {
+    background: transparent;
+    border: none;
+    padding-top: 1rem;
+  }
+
+  sl-details.focus-visible::part(header):focus {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+
+  sl-details::part(header):hover {
+    background: var(--header-background-hover);
+  }
+
+  .framework-list {
+    padding: 0;
+    list-style-type: none;
   }
 </style>
