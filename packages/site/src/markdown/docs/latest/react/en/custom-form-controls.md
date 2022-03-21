@@ -81,6 +81,7 @@ The options accepted by `useField` are:
 - `name`: only when passing `options` as first argument. It's the `name` of the field.
 - `defaultValue`: (Optional) the field's default value. Defaults to `undefined`.
 - `touchOnChange`: (Optional) if set to `true`, the field will be marked as "touched" with a call to `onChange`. If `false`, the field will only be marked as "touched" when calling `onBlur`. Defaults to `false`.
+- `onFormReset`: (Optional) a function that will be called when the form containing your field emits a `reset` event. It will receive the event object from the `reset` event.
 
 `useField` returns an object with the following properties:
 
