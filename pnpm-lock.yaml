@@ -582,7 +582,7 @@ importers:
       '@astrojs/renderer-solid': 0.4.0
       '@astrojs/renderer-svelte': 0.5.2
       '@babel/core': ^7.17.7
-      '@felte/element': ^0.2.5
+      '@felte/element': ^0.3.0
       '@felte/reporter-element': ^0.1.2
       '@felte/reporter-tippy': ^1.0.4
       '@felte/validator-yup': ^1.0.2

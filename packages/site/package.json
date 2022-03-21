@@ -25,7 +25,7 @@
     "svelte": "^3.46.4"
   },
   "dependencies": {
-    "@felte/element": "^0.2.5",
+    "@felte/element": "^0.3.0",
     "@felte/reporter-element": "^0.1.2",
     "@felte/reporter-tippy": "^1.0.4",
     "@felte/validator-yup": "^1.0.2",

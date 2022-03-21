@@ -1,5 +1,11 @@
 # @felte/element
 
+## 0.3.0
+
+### Minor Changes
+
+- ddb734f: BREAKING: Update casing of event handler functions
+
 ## 0.2.6
 
 ### Patch Changes
