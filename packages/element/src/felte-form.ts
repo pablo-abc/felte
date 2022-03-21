@@ -65,14 +65,17 @@ const storeKeys = [
   'interacted',
 ];
 
+function capitalizeFirst(value: string) {
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
 export class FelteForm<Data extends Obj = any> extends HTMLElement {
   [key: string]: unknown;
 
   id = '';
 
   private _configuration: FormConfig<Data> = {};
-
-  setConfiguration(config: FormConfig<Data>) {
+  set configuration(config: FormConfig<Data>) {
     this._configuration = config;
     if (this._destroy) {
       this._destroy();
@@ -80,6 +83,10 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
       this._ready = false;
       this._createForm(config);
     }
+  }
+
+  get configuration() {
+    return this._configuration;
   }
 
   elements?: HTMLFormElement['elements'];
@@ -101,7 +108,7 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
     return this._storeValues.data;
   }
 
-  ondatachange?(data: Data): void;
+  onDataChange?(data: Data): void;
 
   setData: ObjectSetter<Data, Paths<Data>> = failFor('setData');
 
@@ -133,7 +140,7 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
     return this._storeValues.errors;
   }
 
-  onerrorschange?(errors: Errors<Data>): void;
+  onErrorsChange?(errors: Errors<Data>): void;
 
   setErrors: Helpers<Data, Paths<Data>>['setErrors'] = failFor('setErrors');
 
@@ -141,7 +148,7 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
     return this._storeValues.touched;
   }
 
-  ontouchedchange?(touched: Touched<Data>): void;
+  onTouchedChange?(touched: Touched<Data>): void;
 
   setTouched: Helpers<Data, Paths<Data>>['setTouched'] = failFor('setTouched');
 
@@ -149,7 +156,7 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
     return this._storeValues.warnings;
   }
 
-  onwarningschange?(warnings: Errors<Data>): void;
+  onWarningsChange?(warnings: Errors<Data>): void;
 
   setWarnings: Helpers<Data, Paths<Data>>['setWarnings'] = failFor(
     'setWarnings'
@@ -159,7 +166,7 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
     return this._storeValues.isSubmitting;
   }
 
-  onissubmittingchange?(isSubmitting: boolean): void;
+  onIsSubmittingChange?(isSubmitting: boolean): void;
 
   setIsSubmitting: Helpers<Data, Paths<Data>>['setIsSubmitting'] = failFor(
     'setIsSubmitting'
@@ -169,7 +176,7 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
     return this._storeValues.isDirty;
   }
 
-  onisdirtychange?(isDirty: boolean): void;
+  onIsDirtyChange?(isDirty: boolean): void;
 
   setIsDirty: Helpers<Data, Paths<Data>>['setIsDirty'] = failFor('setIsDirty');
 
@@ -177,19 +184,19 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
     return this._storeValues.isValid;
   }
 
-  onisvalidchange?(isValid: boolean): void;
+  onIsValidChange?(isValid: boolean): void;
 
   get isValidating() {
     return this._storeValues.isValidating;
   }
 
-  onisvalidatingchange?(isValidating: boolean): void;
+  onIsValidatingChange?(isValidating: boolean): void;
 
   get interacted() {
     return this._storeValues.interacted;
   }
 
-  oninteractedchange?(interacted: string | null): void;
+  onInteractedChange?(interacted: string | null): void;
 
   setInteracted: Helpers<Data, Paths<Data>>['setInteracted'] = failFor(
     'setInteracted'
@@ -200,7 +207,7 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
     return this._ready;
   }
 
-  onfelteready?(): void;
+  onFelteReady?(): void;
 
   validate: Helpers<Data, Paths<Data>>['validate'] = failFor('validate');
 
@@ -241,7 +248,7 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
           if (isEqual($value, this._storeValues[key as string])) return;
           this._storeValues[key as string] = $value;
           const k = key.toLowerCase();
-          const handler = this[`on${k}change`];
+          const handler = this[`on${capitalizeFirst(key)}Change`];
           if (typeof handler === 'function') handler($value);
           this.dispatchEvent(new Event(`${k}change`));
         }
@@ -291,7 +298,7 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
       unsubs.forEach((unsub) => unsub());
     };
     this._ready = true;
-    this.onfelteready?.();
+    this.onFelteReady?.();
     this.dispatchEvent(
       new Event('felteready', { bubbles: true, composed: true })
     );
@@ -302,7 +309,7 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
     if (!formElement || formElement === this._formElement) return;
     this._formElement = formElement;
     this._destroy?.();
-    this._createForm(this._configuration);
+    this._createForm(this.configuration);
   };
 
   private _observer?: MutationObserver;

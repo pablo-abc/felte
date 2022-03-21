@@ -13,7 +13,7 @@ export function prepareForm<Data extends Obj = any>(
   function handleConnect(e: Event) {
     const felteForm = e.composedPath()[0] as HTMLFelteFormElement;
     if (felteForm.id !== id) return;
-    felteForm.setConfiguration(config);
+    felteForm.configuration = config;
     document.removeEventListener('felteconnect', handleConnect);
   }
 

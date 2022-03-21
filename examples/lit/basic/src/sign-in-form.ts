@@ -26,7 +26,7 @@ export class SignInForm extends LitElement {
    * `prepareForm` does nothing if the form has already loadad.
    *
    * If you need to change the form's configuration after load,
-   * use `HTMLFelteFormElement.setConfiguration`.
+   * use `HTMLFelteFormElement.configuration`.
    */
   connectedCallback() {
     super.connectedCallback();

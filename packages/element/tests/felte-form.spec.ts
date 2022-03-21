@@ -11,7 +11,7 @@ const FelteForm = suite('FelteForm');
 
 function waitForReady(form: HTMLFelteFormElement) {
   return new Promise((resolve) => {
-    form.onfelteready = () => resolve(true);
+    form.onFelteReady = () => resolve(true);
   });
 }
 
@@ -171,7 +171,7 @@ FelteForm('sets configuration using method', async () => {
     'felte-form'
   ) as HTMLFelteFormElement;
   expect(felteForm).to.not.be.null;
-  felteForm.setConfiguration({ onSubmit });
+  felteForm.configuration = { onSubmit };
   await waitForReady(felteForm);
   const button = screen.queryByRole('button', {
     name: 'Submit',
@@ -204,7 +204,7 @@ FelteForm('changes configuration after load', async () => {
     'felte-form'
   ) as HTMLFelteFormElement;
   expect(felteForm).to.not.be.null;
-  felteForm.setConfiguration({ onSubmit });
+  felteForm.configuration = { onSubmit };
   await waitForReady(felteForm);
   const button = screen.queryByRole('button', {
     name: 'Submit',
@@ -222,7 +222,7 @@ FelteForm('changes configuration after load', async () => {
 
   onSubmit.resetHistory();
   const altOnSubmit = sinon.fake();
-  felteForm.setConfiguration({ onSubmit: altOnSubmit });
+  felteForm.configuration = { onSubmit: altOnSubmit };
   userEvent.click(button);
   await waitFor(() => {
     expect(onSubmit).to.have.not.been.called;
