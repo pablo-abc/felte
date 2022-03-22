@@ -58,10 +58,6 @@ export class SearchBar extends LitElement {
     }
 
     form {
-      margin: 2rem;
-      margin-left: auto;
-      margin-right: auto;
-      margin-bottom: 0;
       display: flex;
       justify-content: space-between;
       align-items: center;

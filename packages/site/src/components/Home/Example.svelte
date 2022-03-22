@@ -8,6 +8,9 @@
 
 <section class="example" aria-labelledby={id}>
   <h2 {id}>{title}</h2>
+  <noscript>
+    You've disabled JavaScript. You need JavaScript enabled for this to work!
+  </noscript>
   {#if show}
     <div class="iframe-container"><slot></slot></div>
   {:else}
