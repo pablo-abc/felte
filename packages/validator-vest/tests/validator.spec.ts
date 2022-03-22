@@ -265,4 +265,44 @@ Validator('does not call addValidator when stage is not `SETUP`', () => {
   sinon.assert.notCalled(addValidator);
 });
 
+Validator('handles asynchronous tests', async () => {
+  const mockData = {
+    email: '',
+    password: '',
+  };
+  const suite = create('form', (data: typeof mockData) => {
+    assert('email', 'Email is required', async () => {
+      enforce(data.email).isNotEmpty();
+    });
+    assert('password', 'Password is required', async () => {
+      enforce(data.password).isNotEmpty();
+    });
+  });
+  const { validate, errors, data } = createForm({
+    initialValues: mockData,
+    onSubmit: sinon.fake(),
+    validate: validateSuite(suite),
+  });
+
+  await validate();
+
+  expect(get(data)).to.deep.equal(mockData);
+  expect(get(errors)).to.deep.equal({
+    email: ['Email is required'],
+    password: ['Password is required'],
+  });
+
+  data.set({
+    email: 'test@email.com',
+    password: 'test',
+  });
+
+  await validate();
+
+  expect(get(errors)).to.deep.equal({
+    email: null,
+    password: null,
+  });
+});
+
 Validator.run();
