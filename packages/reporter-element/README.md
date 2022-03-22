@@ -23,7 +23,7 @@ yarn add @felte/reporter-element
 
 The package exports a `reporter` function. Pass the `reporter` function to the `extend` option of `createForm` or `useForm`.
 
-`@felte/reporter-element` also defines a custom element globally: `<felte-validation-message>`, you can add this wherever you want your validation message for the specified field to be displayed. It accepts the following props:
+`@felte/reporter-element` also defines a custom element globally: `<felte-validation-message>`, you can add this wherever you want your validation message for the specified field to be displayed. It accepts the following attributes:
 
 * `for`: (required) the name of the field you want to display the validation messages for.
 * `max`: (optional) the maximun amount of validation messages to display for the given field. Useful if you can get multiple validation messages but you only want to display a few at a time.

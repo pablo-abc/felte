@@ -59,6 +59,25 @@
       "extending-felte",
       "configuration-reference",
       "migrating"
+    ],
+    "element": [
+      "getting-started",
+      "submitting",
+      "validation",
+      "validators",
+      "transformations",
+      "default-data",
+      "nested-forms",
+      "dynamic-forms",
+      "stores",
+      "helper-functions",
+      "field-arrays",
+      "reporters",
+      "custom-form-controls",
+      "multi-page-forms",
+      "accessibility",
+      "extending-felte",
+      "configuration-reference"
     ]
   },
   "v0": {

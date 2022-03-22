@@ -60,7 +60,7 @@ yarn add @felte/element
 
 ## Usage
 
-To learn more about how to use `felte` to handle your forms, check the [official documentation](https://felte.dev/docs/element/getting-started). **TODO**: Add documentation
+To learn more about how to use `felte` to handle your forms, check the [official documentation](https://felte.dev/docs/element/getting-started).
 
 ## Framework compatibility
 

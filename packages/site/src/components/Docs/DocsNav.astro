@@ -12,6 +12,9 @@ switch (framework) {
   case 'react':
     frameworkTitle = 'React/Preact';
     break;
+  case 'element':
+    frameworkTitle = 'Vanilla JS (Custom element)';
+    break;
 }
 ---
 
@@ -40,6 +43,14 @@ switch (framework) {
         aria-current={framework === 'react' ? 'true' : undefined}
         >
         React/Preact
+        </a>
+    </li>
+    <li>
+      <a
+        href={`/docs/element/${section}`}
+        aria-current={framework === 'element' ? 'true' : undefined}
+        >
+        Vanilla JS (Custom element)
         </a>
     </li>
   </ul>

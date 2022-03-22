@@ -247,10 +247,9 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
         ($value) => {
           if (isEqual($value, this._storeValues[key as string])) return;
           this._storeValues[key as string] = $value;
-          const k = key.toLowerCase();
           const handler = this[`on${capitalizeFirst(key)}Change`];
           if (typeof handler === 'function') handler($value);
-          this.dispatchEvent(new Event(`${k}change`));
+          this.dispatchEvent(new Event(`${key.toLowerCase()}change`));
         }
       );
     });
