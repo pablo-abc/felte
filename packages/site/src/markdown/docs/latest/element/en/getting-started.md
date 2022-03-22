@@ -141,7 +141,7 @@ You don't need to use `prepareForm`, instead you can set up the `configuration` 
 Example using [Lit](https://lit.dev):
 
 ```javascript
-import { html, LitElement, nothing } from 'lit';
+import { html, LitElement } from 'lit';
 import '@felte/element';
 
 export class MyApp extends LitElement {
