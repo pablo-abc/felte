@@ -6,6 +6,8 @@ section: Getting started
 
 Felte is a JavaScript library that tries to help you ease the management of forms, form validation and the reporting of validation errors. To use its basic functionalities you'll only need the base `@felte/element` package from npm or through a CDN.
 
+> **NOTE**: This version is being actively developed currently. There is still improvements to be made and there will be breaking changes in between minor versions. If you're using this, make sure to pin your versions and check the changelog whenever you upgrade.
+
 ### Using a CDN
 
 `@felte/element` is only distributed as an ES module. You can import it directly from a CDN in a `<script type="module">` tag.
