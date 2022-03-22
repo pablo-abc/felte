@@ -67,6 +67,11 @@ const altLink = import.meta.env.PUBLIC_FELTE_ALT_LINK;
       for the documentation for {altVersion},
       <a href={altLink} re="external">click here</a>.
     </aside>
+    <noscript>
+      <aside class="banner">
+        This page works best with JavaScript enabled!
+      </aside>
+    </noscript>
     <Nav section={section} />
     <slot></slot>
   </body>
