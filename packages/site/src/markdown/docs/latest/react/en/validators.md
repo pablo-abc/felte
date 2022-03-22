@@ -80,8 +80,6 @@ const { form } = useForm({
 Yup lets you infer the type of your schema using `yup.InferType`, you can use this to avoid creating a type for your data.
 
 ```typescript
-import type { ValidatorConfig } from '@felte/validator-yup';
-
 import * as yup from 'yup';
 
 const schema = yup.object({
@@ -159,7 +157,6 @@ const { form } = useForm({
 Zod lets you infer the type of your schema using `z.infer`. You can use this to avoid needing to create a type for your form's data.
 
 ```typescript
-import type { ValidatorConfig } from '@felte/validator-zod';
 import { z } from 'zod';
 
 const schema = z.object({
@@ -167,7 +164,7 @@ const schema = z.object({
   password: z.string().nonempty(),
 });
 
-const { form } = useForm<z.infer<typeof schema>, ValidatorConfig>(/* ... */);
+const { form } = useForm<z.infer<typeof schema>>(/* ... */);
 ```
 
 ### Using Superstruct

@@ -17,7 +17,7 @@ Felte watches for any added or removed form controls in your form, updating the 
 
 <form use:form>
   <input name="username">
-  <input type=checkbox bind:checked={hasBio}>
+  <input type="checkbox" name="hasBio" bind:checked={hasBio}>
   {#if hasBio}
     <textarea name="bio" />
   {/if}

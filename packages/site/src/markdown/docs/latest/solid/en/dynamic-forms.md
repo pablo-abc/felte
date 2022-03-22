@@ -17,7 +17,7 @@ function Form() {
   return (
     <form use:form>
       <input name="username" />
-      <input type=checkbox checked={hasBio()} onChange={handleChange} />
+      <input type=checkbox name="hasBio" checked={hasBio()} onChange={handleChange} />
       <Show when={hasBio()}>
         <textarea name="bio" />
       </Show>

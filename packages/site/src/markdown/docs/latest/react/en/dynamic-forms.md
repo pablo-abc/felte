@@ -18,7 +18,7 @@ function Form() {
   return (
     <form ref={form}>
       <input name="username" />
-      <input type=checkbox checked={hasBio} onChange={handleChange} />
+      <input type="checkbox" name="hasBio" checked={hasBio} onChange={handleChange} />
       {hasBio && <textarea name="bio" />}
     </form>
   );

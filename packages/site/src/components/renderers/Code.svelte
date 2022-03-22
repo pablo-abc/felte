@@ -14,12 +14,12 @@
   let langKey = lang;
   if (lang === 'sh') langKey = 'bash';
   let language = Prism.languages[langKey];
-  let code = Prism.highlight(text, language, langKey);
+  let code = language ? Prism.highlight(text, language, langKey) : text;
 </script>
 
 <div class="container">
   <pre
-    class="{`prism language-${lang}`}"
+    class="{language ? `prism language-${lang}` : 'prism language-'}"
     tabindex="0"
   ><code class=prism>{@html code}</code></pre>
   <copy-button {text}></copy-button>
