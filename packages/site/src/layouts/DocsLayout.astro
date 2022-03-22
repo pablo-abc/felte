@@ -18,7 +18,11 @@ const { section, all, framework } = Astro.props;
         <DocsNav items={all} framework={framework} section={section} />
       </nav>
     </sl-drawer>
-    <div class="menu-button">
+    <div
+      id="side-menu-button-container"
+      class="menu-button"
+      style="display: none;"
+      >
       <button
         id="side-menu-button"
         class="menu-button"
@@ -40,6 +44,17 @@ const { section, all, framework } = Astro.props;
         </svg>
       </button>
     </div>
+    <noscript>
+      <details>
+        <summary class="menu-button">Menu</summary>
+        <div class="nojs-menu">
+          <h2>Documentation</h2>
+          <nav aria-label="documentation">
+            <DocsNav items={all} framework={framework} section={section} />
+          </nav>
+        </div>
+      </details>
+    </noscript>
   </div>
   <main tabindex="-1" id="main-content">
     <search-bar items={JSON.stringify(all)} framework={framework}><div /></search-bar>
@@ -50,6 +65,7 @@ const { section, all, framework } = Astro.props;
     import '@shoelace-style/shoelace/dist/components/drawer/drawer';
     import '@shoelace-style/shoelace/dist/components/details/details';
 
+    document.querySelector('#side-menu-button-container').style.display = 'grid';
     const menuButton = document.querySelector('#side-menu-button');
     const drawer = document.querySelector('#drawer-menu');
     document.querySelector('#drawer-menu nav').style.display = 'block';
@@ -132,6 +148,24 @@ const { section, all, framework } = Astro.props;
     border-radius: 50%;
     box-shadow: 0 2.8px 6.2px rgba(77, 64, 43, 0.064),
       0 6.7px 8.3px rgba(0, 0, 0, 0.098);
+  }
+
+  summary.menu-button {
+    z-index: 800;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .nojs-menu {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 700;
+    padding-bottom: 6rem;
+    overflow: auto;
+    background: var(--primary-background);
   }
 
   .menu-button:hover {
