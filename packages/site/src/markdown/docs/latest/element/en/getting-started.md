@@ -140,12 +140,10 @@ You don't need to use `prepareForm`, instead you can set up the `configuration` 
 
 Example using [Lit](https://lit.dev):
 
-```typescript
-import {html, css, LitElement, nothing} from 'lit';
-import {customElement} from 'lit/decorators.js';
+```javascript
+import { html, LitElement, nothing } from 'lit';
 import '@felte/element';
 
-@customElement('my-app')
 export class MyApp extends LitElement {
   render() {
     return html`
@@ -163,6 +161,8 @@ export class MyApp extends LitElement {
         `;
   }
 }
+
+customElements.define('my-app', MyApp);
 ```
 
 Felte does not export any components like `Form`, `Field` or anything like that, but you do need to make felte aware of your inputs by assigning a **name** to them.
