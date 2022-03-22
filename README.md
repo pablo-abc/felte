@@ -1,4 +1,4 @@
-![Felte](./packages/site/static/felte-logo-thin.png)
+![Felte](./packages/site/public/felte-logo-thin.png)
 
 # Felte: A form library for Svelte, Solid and React
 
