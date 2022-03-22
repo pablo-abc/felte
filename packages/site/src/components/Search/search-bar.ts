@@ -49,6 +49,10 @@ export class SearchBar extends LitElement {
       margin-bottom: 0;
     }
 
+    #tippy-content *:focus {
+      outline: none;
+    }
+
     #tippy-content.mounted {
       visibility: visible;
     }
@@ -264,8 +268,13 @@ export class SearchBar extends LitElement {
     this.searchValue = this.searchInput.value;
   }
 
+  blurTimeout?: NodeJS.Timeout;
+
   handleBlur() {
-    this.tippyInstance.hide();
+    if (this.blurTimeout) clearTimeout(this.blurTimeout);
+    this.blurTimeout = setTimeout(() => {
+      this.tippyInstance.hide();
+    }, 100);
   }
 
   handleArrowKeys(event: KeyboardEvent) {
@@ -323,6 +332,10 @@ export class SearchBar extends LitElement {
   handleActivate(e: Event) {
     const target = e.composedPath()[0] as HTMLElement;
     this.activeDescendant = target.id;
+    if (this.blurTimeout) {
+      clearTimeout(this.blurTimeout);
+      this.blurTimeout = undefined;
+    }
   }
 
   handleDeactivate() {
