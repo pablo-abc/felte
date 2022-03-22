@@ -7,6 +7,12 @@ const { section } = Astro.props;
 <header>
   <nav aria-label="main">
     <a
+      id="skip-to-content"
+      href="#main-content"
+      >
+      Skip to content
+      </a>
+    <a
       class="nav-logo"
       href="/"
       aria-current={section === 'home' ? 'page' : undefined}
@@ -130,6 +136,23 @@ const { section } = Astro.props;
   a:hover, button:hover {
     color: var(--primary-font-color);
     background: var(--header-background-hover);
+  }
+
+  #skip-to-content:not(:focus) {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  #skip-to-content {
+    position: absolute;
+    top: 1rem;
+    background: var(--primary-background);
+    z-index: 10;
   }
 
 </style>

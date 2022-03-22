@@ -41,7 +41,7 @@ const { section, all, framework } = Astro.props;
       </button>
     </div>
   </div>
-  <main>
+  <main tabindex="-1" id="main-content">
     <search-bar items={JSON.stringify(all)} framework={framework}><div /></search-bar>
     <slot></slot>
   </main>

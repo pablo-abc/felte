@@ -21,6 +21,11 @@ export class SearchBar extends LitElement {
       outline-offset: 2px;
     }
 
+    input:focus {
+      outline: 3px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+
     *:focus {
       outline: none;
     }

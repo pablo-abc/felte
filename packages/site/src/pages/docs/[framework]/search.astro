@@ -64,7 +64,7 @@ const { all } = Astro.props;
 
 <BaseLayout title="Felte | Search">
   <DocsLayout section="search" all={all} framework={framework}>
-    <search-pagE items={JSON.stringify(all)} framework={framework}><div /></search-page>
+    <search-page items={JSON.stringify(all)} framework={framework}><div /></search-page>
     <script type="module" hoist>
       import 'components:Search/search-page.ts';
     </script>
