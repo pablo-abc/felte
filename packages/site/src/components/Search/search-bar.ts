@@ -1,89 +1,211 @@
+import type { PropertyValues } from 'lit';
+import { LitElement, html, css } from 'lit';
+import { customElement, state, property, query } from 'lit/decorators.js';
 import type { Instance as TippyInstance } from 'tippy.js';
 import tippy from 'tippy.js';
-import { html, render } from 'uhtml';
 import * as FlexSearch from 'flexsearch';
 
 import './search-results.ts';
 
-export class SearchBar extends HTMLElement {
-  [key: string]: unknown;
+export const tagName = 'search-bar';
 
+@customElement(tagName)
+export class SearchBar extends LitElement {
+  static styles = css`
+    :host {
+      display: block;
+    }
+
+    :host(.focus-visible) *:focus {
+      outline: 3px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+
+    *:focus {
+      outline: none;
+    }
+
+    .sr-only {
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      height: 1px;
+      overflow: hidden;
+      position: absolute;
+      white-space: nowrap;
+      width: 1px;
+    }
+
+    #tippy-content {
+      visibility: hidden;
+    }
+
+    #tippy-content search-results::part(option) {
+      padding: 0.5rem 1rem;
+      margin-bottom: 0;
+    }
+
+    #tippy-content.mounted {
+      visibility: visible;
+    }
+
+    form {
+      margin: 2rem;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1em;
+      border: 1px solid #aaa;
+      border-radius: 10px;
+      background: var(--on-primary-color);
+      height: 3rem;
+      width: 100%;
+    }
+
+    form .tippy-box {
+      background: var(--primary-background);
+      border: 2px solid var(--primary-color);
+    }
+
+    form .tippy-content {
+      padding: 0;
+    }
+
+    input {
+      background: transparent;
+      border: none;
+      width: 100%;
+      font-size: 1em;
+    }
+
+    button[type='submit'] {
+      color: #555;
+      height: 100%;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      border-radius: 0 9px 9px 0;
+      transition: background 0.1s;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+    }
+
+    button[type='submit'][aria-disabled='true'] {
+      cursor: not-allowed;
+    }
+
+    button.clear {
+      display: none;
+      height: 100%;
+      padding: 0.2rem;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    button.clear svg {
+      height: 1rem;
+      width: 1rem;
+    }
+
+    button.clear.visible {
+      display: flex;
+      align-items: center;
+      color: #555;
+    }
+
+    button:hover {
+      background: #ddd;
+    }
+
+    svg {
+      height: 2rem;
+      width: 2rem;
+    }
+
+    #search-bar {
+      padding-left: 0.5rem;
+      height: 100%;
+      border-radius: 10px 0 0 10px;
+      cursor: text;
+    }
+
+    .search-input {
+      flex: 1;
+      height: 100%;
+      border-radius: 10px 0 0 10px;
+    }
+
+    input::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+      display: none;
+    }
+
+    input::-webkit-search-decoration {
+      -webkit-appearance: none;
+    }
+  `;
+
+  @property({ type: Object })
   items: any[] = [];
+
+  @property()
   framework = '';
+
   activeIndex: number | undefined = undefined;
   descendants: any[] = [];
   tippyInstance!: TippyInstance;
 
-  #a11yStatus = '';
-  set a11yStatus(value: string) {
-    this.#a11yStatus = value;
-    this.update();
-  }
+  @state()
+  a11yStatus = '';
 
-  get a11yStatus() {
-    return this.#a11yStatus;
-  }
+  @state()
+  expanded = false;
 
-  #expanded = false;
-  set expanded(value: boolean) {
-    this.#expanded = value;
-    if (value) {
-      this.tippyInstance.show();
-    } else {
-      this.tippyInstance.hide();
+  @state()
+  searchValue = '';
+
+  @state()
+  activeDescendant = '';
+
+  @state()
+  foundItems: any[] = [];
+
+  @query('form')
+  formElement!: HTMLFormElement;
+
+  @query('input')
+  searchInput!: HTMLInputElement;
+
+  @query('#search-results')
+  searchResult!: HTMLElement;
+
+  @query('#tippy-content')
+  tippyContent!: HTMLElement;
+
+  willUpdate(changed: PropertyValues<this>) {
+    if (changed.has('searchValue') && this.searchInput) {
+      this.searchInput.value = this.searchValue || '';
+      this.search();
     }
-    this.update();
   }
 
-  get expanded() {
-    return this.#expanded;
-  }
-
-  #searchValue = '';
-  set searchValue(value: string) {
-    if (value === this.#searchValue) return;
-    this.#searchValue = value || '';
-    this.searchInput.value = value || '';
-    this.search();
-  }
-
-  get searchValue() {
-    return this.#searchValue;
-  }
-
-  #activeDescendant = '';
-  set activeDescendant(value: string) {
-    this.#activeDescendant = value;
-    this.update();
-  }
-
-  get activeDescendant() {
-    return this.#activeDescendant;
-  }
-
-  #foundItems: any[] = [];
-  set foundItems(value: any[]) {
-    this.#foundItems = value;
-  }
-
-  get foundItems() {
-    return this.#foundItems;
-  }
-
-  get formElement() {
-    return this.shadowRoot!.querySelector('form');
-  }
-
-  get searchInput() {
-    return this.shadowRoot!.querySelector('input');
-  }
-
-  get searchResult() {
-    return this.shadowRoot!.querySelector('#search-results');
-  }
-
-  get tippyContent() {
-    return this.shadowRoot!.querySelector('#tippy-content');
+  updated(changed: PropertyValues<this>) {
+    if (changed.has('expanded')) {
+      if (this.expanded) {
+        this.tippyInstance.show();
+        setTimeout(() => {
+          const options =
+            this.searchResult?.shadowRoot.querySelectorAll(
+              '[data-combobox-option]'
+            ) || [];
+          this.descendants = Array.from(options);
+        });
+      } else this.tippyInstance.hide();
+    }
   }
 
   get searchable() {
@@ -129,15 +251,6 @@ export class SearchBar extends HTMLElement {
     } else {
       this.expanded = true;
     }
-    this.update();
-    if (this.expanded && this.searchValue.length >= 3) {
-      setTimeout(() => {
-        const options = this.searchResult.shadowRoot!.querySelectorAll(
-          '[data-combobox-option]'
-        );
-        this.descendants = Array.from(options);
-      });
-    }
   }
 
   handleInput() {
@@ -146,8 +259,8 @@ export class SearchBar extends HTMLElement {
     this.searchValue = this.searchInput.value;
   }
 
-  handleFocus() {
-    if (this.searchValue.length >= 3) this.expanded = true;
+  handleBlur() {
+    this.tippyInstance.hide();
   }
 
   handleArrowKeys(event: KeyboardEvent) {
@@ -212,8 +325,7 @@ export class SearchBar extends HTMLElement {
   }
 
   connectedCallback() {
-    this.attachShadow({ mode: 'open' });
-    this.update();
+    super.connectedCallback();
     this.doc = new FlexSearch.Document({
       tokenize: 'forward',
       document: {
@@ -224,14 +336,18 @@ export class SearchBar extends HTMLElement {
       this.doc.add(item);
     });
 
+    document.addEventListener('keydown', this.handleKeyDown.bind(this));
+  }
+
+  firstUpdated() {
     this.tippyInstance = tippy(this.searchInput, {
       content: this.tippyContent,
-      onClickOutside() {
+      onClickOutside: () => {
         this.expanded = false;
         this.activeIndex = undefined;
         this.activeDescendant = undefined;
       },
-      onHide() {
+      onHide: () => {
         this.expanded = false;
         this.activeIndex = undefined;
         this.activeDescendant = undefined;
@@ -247,262 +363,101 @@ export class SearchBar extends HTMLElement {
         expanded: null,
       },
     });
-    document.addEventListener('keydown', this.handleKeyDown.bind(this));
   }
 
   disconnectedCallback() {
+    super.disconnectedCallback();
     document.removeEventListener('keydown', this.handleKeyDown.bind(this));
   }
 
-  static get observedAttributes() {
-    return ['framework', 'items'];
-  }
-
-  attributeChangedCallback(name: string, _: string, newValue: string) {
-    if (name === 'items') {
-      this.items = newValue ? JSON.parse(newValue) : [];
-      return;
-    }
-    this[name] = newValue;
-  }
-
-  update() {
-    render(
-      this.shadowRoot!,
-      html`
-        <style>
-          :host {
-            display: block;
-          }
-
-          :host(.focus-visible) *:focus {
-            outline: 3px solid var(--primary-color);
-            outline-offset: 2px;
-          }
-
-          *:focus {
-            outline: none;
-          }
-
-          .sr-only {
-            clip: rect(0 0 0 0);
-            clip-path: inset(50%);
-            height: 1px;
-            overflow: hidden;
-            position: absolute;
-            white-space: nowrap;
-            width: 1px;
-          }
-
-          #tippy-content {
-            visibility: hidden;
-          }
-
-          #tippy-content search-results::part(option) {
-            padding: 0.5rem 1rem;
-            margin-bottom: 0;
-          }
-
-          #tippy-content.mounted {
-            visibility: visible;
-          }
-
-          form {
-            margin: 2rem;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1em;
-            border: 1px solid #aaa;
-            border-radius: 10px;
-            background: var(--on-primary-color);
-            height: 3rem;
-            width: 100%;
-          }
-
-          form .tippy-box {
-            background: var(--primary-background);
-            border: 2px solid var(--primary-color);
-          }
-
-          form .tippy-content {
-            padding: 0;
-          }
-
-          input {
-            background: transparent;
-            border: none;
-            width: 100%;
-            font-size: 1em;
-          }
-
-          button[type='submit'] {
-            color: #555;
-            height: 100%;
-            padding: 0 1rem;
-            display: flex;
-            align-items: center;
-            border-radius: 0 9px 9px 0;
-            transition: background 0.1s;
-            cursor: pointer;
-            border: none;
-            background: transparent;
-          }
-
-          button[type='submit'][aria-disabled='true'] {
-            cursor: not-allowed;
-          }
-
-          button.clear {
-            display: none;
-            height: 100%;
-            padding: 0.2rem;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-          }
-
-          button.clear svg {
-            height: 1rem;
-            width: 1rem;
-          }
-
-          button.clear.visible {
-            display: flex;
-            align-items: center;
-            color: #555;
-          }
-
-          button:hover {
-            background: #ddd;
-          }
-
-          svg {
-            height: 2rem;
-            width: 2rem;
-          }
-
-          #search-bar {
-            padding-left: 0.5rem;
-            height: 100%;
-            border-radius: 10px 0 0 10px;
-            cursor: text;
-          }
-
-          .search-input {
-            flex: 1;
-            height: 100%;
-            border-radius: 10px 0 0 10px;
-          }
-
-          input::-webkit-search-cancel-button {
-            -webkit-appearance: none;
-            display: none;
-          }
-
-          input::-webkit-search-decoration {
-            -webkit-appearance: none;
-          }
-        </style>
-        <span
-          class="sr-only"
-          aria-live="polite"
-          role="status"
-          aria-atomic="true"
-        >
-          ${this.a11yStatus}
+  render() {
+    return html`
+      <span class="sr-only" aria-live="polite" role="status" aria-atomic="true">
+        ${this.a11yStatus}
+      </span>
+      <form
+        role="search"
+        aria-haspopup="listbox"
+        aria-expanded=${this.expanded}
+        aria-owns="search-results"
+        aria-controls="search-results"
+        action=${`/docs/${this.framework}/search`}
+        @submit=${this.handleSubmit}
+      >
+        <span class="search-input">
+          <label class="sr-only" for="search-bar">Search documentation </label>
+          <input
+            name="q"
+            autocomplete="off"
+            aria-autocomplete="list"
+            aria-activedescendant=${this.activeDescendant || ''}
+            @input=${this.handleInput}
+            @keydown=${this.handleArrowKeys}
+            @blur=${this.handleBlur}
+            id="search-bar"
+            type="search"
+            placeholder="Search docs ( / )"
+          />
         </span>
-        <form
-          role="search"
-          aria-haspopup="listbox"
-          aria-expanded=${this.expanded}
-          aria-owns="search-results"
-          aria-controls="search-results"
-          action=${`/docs/${this.framework}/search`}
-          @submit=${this.handleSubmit.bind(this)}
+        <button
+          type="button"
+          @click=${this.clear}
+          class=${this.searchValue ? 'visible clear' : 'clear'}
         >
-          <span class="search-input">
-            <label class="sr-only" for="search-bar"
-              >Search documentation
-            </label>
-            <input
-              name="q"
-              autocomplete="off"
-              aria-autocomplete="list"
-              aria-activedescendant=${this.activeDescendant || ''}
-              @input=${this.handleInput.bind(this)}
-              @keydown=${this.handleArrowKeys.bind(this)}
-              @focus=${this.handleFocus.bind(this)}
-              id="search-bar"
-              type="search"
-              placeholder="Search docs ( / )"
-            />
-          </span>
-          <button
-            type="button"
-            @click=${this.clear.bind(this)}
-            class=${this.searchValue ? 'visible clear' : 'clear'}
+          <span class="sr-only">Clear search</span>
+          <svg
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            height="24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <span class="sr-only">Clear search</span>
-            <svg
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              height="24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              ></path>
-            </svg>
-          </button>
-          <button type="submit" aria-disabled=${this.searchValue.length === 0}>
-            <span class="sr-only">Search</span>
-            <svg
-              role="img"
-              aria-hidden="true"
-              fill="none"
-              stroke="currentColor"
-              height="24"
-              width="24"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              ></path>
-            </svg>
-          </button>
-        </form>
-        <div
-          id="tippy-content"
-          class="search-result"
-          class=${this.tippyInstance ? 'mounted' : ''}
-        >
-          <search-results
-            tabindex="-1"
-            id="search-results"
-            isListbox
-            framework=${this.framework}
-            .foundItems=${this.foundItems}
-            .activeDescendant=${this.activeDescendant}
-            @deactivate=${this.handleDeactivate.bind(this)}
-            @activate=${this.handleActivate.bind(this)}
-          ></search-results>
-        </div>
-      `
-    );
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </button>
+        <button type="submit" aria-disabled=${this.searchValue.length === 0}>
+          <span class="sr-only">Search</span>
+          <svg
+            role="img"
+            aria-hidden="true"
+            fill="none"
+            stroke="currentColor"
+            height="24"
+            width="24"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            ></path>
+          </svg>
+        </button>
+      </form>
+      <div
+        id="tippy-content"
+        class="search-result"
+        class=${this.tippyInstance ? 'mounted' : ''}
+      >
+        <search-results
+          tabindex="-1"
+          id="search-results"
+          isListbox
+          framework=${this.framework}
+          .foundItems=${this.foundItems}
+          .activeDescendant=${this.activeDescendant}
+          @deactivate=${this.handleDeactivate}
+          @activate=${this.handleActivate}
+        ></search-results>
+      </div>
+    `;
   }
 }
-
-customElements.define('search-bar', SearchBar);

@@ -595,6 +595,7 @@ importers:
       flexsearch: ^0.7.21
       focus-visible: ^5.2.0
       front-matter: ^4.0.2
+      lit: ^2.0.2
       postcss: ^8.4.12
       postcss-preset-env: ^7.4.2
       prettier: ^2.6.0
@@ -603,7 +604,6 @@ importers:
       svelte: ^3.46.4
       svelte-markdown: ^0.2.2
       tippy.js: ^6.3.7
-      uhtml: ^2.8.0
       yup: ^0.32.11
     dependencies:
       '@felte/element': link:../element
@@ -614,11 +614,11 @@ importers:
       felte: link:../felte
       flexsearch: 0.7.21
       focus-visible: 5.2.0
+      lit: 2.2.0
       prism-svelte: 0.5.0
       prismjs: 1.27.0
       svelte-markdown: 0.2.2_svelte@3.46.4
       tippy.js: 6.3.7
-      uhtml: 2.8.0
       yup: 0.32.11
     devDependencies:
       '@astrojs/renderer-preact': 0.5.0_@babel+core@7.17.8
@@ -5596,10 +5596,6 @@ packages:
       eslint-visitor-keys: 3.1.0
     dev: true
 
-  /@ungap/create-content/0.3.1:
-    resolution: {integrity: sha512-SHzmtS3KHG+gzNhO/E0tFqs12vNC5H3YxpF8a8AeodB/iX3ZYcxzS8vgWXbDGmHy6bgl7m+f9+wDKBdqOVT5FA==}
-    dev: false
-
   /@vitejs/plugin-react/1.1.4:
     resolution: {integrity: sha512-cMUBDonNY8PPeHWjIrYKbRn6bLSunh/Ixo2XLLBd3DM0uYBZft+c+04zkGhhN1lAwvoRKJ2FdtvhGhPgViHc6w==}
     engines: {node: '>=12.0.0'}
@@ -6061,10 +6057,6 @@ packages:
       - supports-color
       - typescript
     dev: true
-
-  /async-tag/0.2.0:
-    resolution: {integrity: sha512-hNstPiQvxVVJdkBjfBsNb3zDEM2IUY3Xp7qaadEnhaGXq1/OFdS+TuwjEJxnIvZRm7e13KrPW74fIeDra7P5vw==}
-    dev: false
 
   /async/3.2.0:
     resolution: {integrity: sha512-TR2mEZFVOj2pLStYxLht7TyfuRzaydfpxr3k9RpHIzMgw7A64dzsdqCxH1WJyQdoe8T10nDXd9wnEigmiuHIZw==}
@@ -9789,10 +9781,6 @@ packages:
     resolution: {integrity: sha1-P02uSpH6wxX3EGL4UhzCOfE2YoA=}
     engines: {'0': node >= 0.2.0}
     dev: true
-
-  /jsx2tag/0.3.0:
-    resolution: {integrity: sha512-AcELEC4kZIByPXqtK+QdaQ0t7MVZkZ9zjoitLwqGkpLkopDwBOwpG0JHxBcqGaVkv2KF3jPFp6l3l/5cN3J/Yw==}
-    dev: false
 
   /just-extend/4.2.1:
     resolution: {integrity: sha512-g3UB796vUFIY90VIv/WX3L2c8CS2MdWUww3CNrYmqza1Fg0DURc2K/O4YrnklBdQarSJ/y8JnJYDGc+1iumQjg==}
@@ -13893,38 +13881,6 @@ packages:
     resolution: {integrity: sha512-00y/AXhx0/SsnI51fTc0rLRmafiGOM4/O+ny10Ps7f+j/b8p/ZY11ytMgznXkOVo4GQ+KwQG5UQLkLGirsACRg==}
     dev: true
 
-  /uarray/1.0.0:
-    resolution: {integrity: sha512-LHmiAd5QuAv7pU2vbh+Zq9YOnqVK0H764p2Ozinpfy9ka58OID4IsGLiXsitqH7n0NAIDxvax1A/kDXpii/Ckg==}
-    dev: false
-
-  /udomdiff/1.1.0:
-    resolution: {integrity: sha512-aqjTs5x/wsShZBkVagdafJkP8S3UMGhkHKszsu1cszjjZ7iOp86+Qb3QOFYh01oWjPMy5ZTuxD6hw5uTKxd+VA==}
-    dev: false
-
-  /uhandlers/0.6.1:
-    resolution: {integrity: sha512-2jMpdT/3twUKnJxvVEtysdkw5v7KhynNvMP8sueocaGYgEXG6l9fG/66JlKrQo/jVNCF2gcJb3Ne7vYCeVR6tw==}
-    dependencies:
-      uarray: 1.0.0
-    dev: false
-
-  /uhtml/2.8.0:
-    resolution: {integrity: sha512-UVtSfxRh06r06xQguEyWyQF2E6x9CbtxqRTG7gLunrTKO4y223+yRkrB0wiPFSaU5qdscDO5LAi65oFQk839zg==}
-    dependencies:
-      '@ungap/create-content': 0.3.1
-      async-tag: 0.2.0
-      jsx2tag: 0.3.0
-      uarray: 1.0.0
-      udomdiff: 1.1.0
-      uhandlers: 0.6.1
-      umap: 1.0.2
-      uparser: 0.2.1
-      uwire: 1.1.0
-    dev: false
-
-  /umap/1.0.2:
-    resolution: {integrity: sha512-bW127HgG4H4VAD6qlqO5vCC+7bnlYvZ6A6BdwyGblkWvlEG7VYpj1bcpf3iJpvyKmkPZWDIeZDmoULz67ec7NA==}
-    dev: false
-
   /unbox-primitive/1.0.1:
     resolution: {integrity: sha512-tZU/3NqK3dA5gpE1KtyiJUrEB0lxnGkMFHptJ7q6ewdZ8s12QrODwNbhIJStmJkd1QDXa1NRA8aF2A1zk/Ypyw==}
     dependencies:
@@ -14091,10 +14047,6 @@ packages:
       isobject: 3.0.1
     dev: true
 
-  /uparser/0.2.1:
-    resolution: {integrity: sha512-hTwK8e+bAaER8gJBOysoFGjRPsX/xOthSPR/ieI9EgTf1rts9ey25tbDXIU0rDr/cGcLsvkCo1n8J/eccfAvvw==}
-    dev: false
-
   /uri-js/4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
     dependencies:
@@ -14167,12 +14119,6 @@ packages:
       kleur: 4.1.4
       sade: 1.7.4
     dev: true
-
-  /uwire/1.1.0:
-    resolution: {integrity: sha512-XJPmJnySabt8D0/wnfFFywgUOBnXszDEW32nEVIfOx1n6gLTZSp+X+70+blSnHKNiIUVSFPmmRuxOal0I/aB5g==}
-    dependencies:
-      uarray: 1.0.0
-    dev: false
 
   /v8-compile-cache/2.3.0:
     resolution: {integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==}
