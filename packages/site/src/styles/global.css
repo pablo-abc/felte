@@ -160,7 +160,7 @@ input:focus-visible,
 textarea:focus-visible,
 select:focus-visible,
 nav:focus-visible,
-[tabindex]:focus-visible {
+[tabindex='0']:focus-visible {
   outline: 3px solid var(--primary-color);
   outline-offset: 2px;
 }
@@ -173,4 +173,8 @@ sl-drawer.focus-visible::part(close-button__base):focus {
 sl-drawer.focus-visible::part(body):focus {
   outline: 3px solid var(--primary-color);
   outline-offset: 2px;
+}
+
+main:focus {
+  outline: none;
 }
