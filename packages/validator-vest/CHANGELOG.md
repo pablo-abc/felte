@@ -1,5 +1,11 @@
 # @felte/validator-vest
 
+## 1.0.4
+
+### Patch Changes
+
+- 9979d5f: Fix asynchronous tests
+
 ## 1.0.3
 
 ### Patch Changes
