@@ -63,7 +63,6 @@ body:
         - OS:
         - Browser:
         - Version:
-      render: markdown
     validations:
       required: true
   - type: textarea
@@ -78,7 +77,6 @@ body:
           2. Click on '....'
           3. Scroll down to '....'
           4. See error
-      render: markdown
     validations:
       required: false
   - type: input
@@ -104,6 +102,5 @@ body:
     attributes:
       label: Additional context
       description: Add any other context about your problem here.
-      render: markdown
     validations:
       required: false
