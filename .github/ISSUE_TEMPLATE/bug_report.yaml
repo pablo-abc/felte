@@ -22,10 +22,10 @@ body:
       label: To reproduce
       description: Steps to reproduce the behaviour.
       placeholder: |
-        1. Go to '...'
-        2. Click on '....'
-        3. Scroll down to '....'
-        4. See error
+        1. Go to '...'\n
+        2. Click on '....'\n
+        3. Scroll down to '....'\n
+        4. See error\n
       render: markdown
     validations:
       required: false
