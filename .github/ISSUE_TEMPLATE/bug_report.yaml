@@ -16,6 +16,56 @@ body:
       description: A clear and concise description of what the bug is.
     validations:
       required: true
+  - type: dropdown
+    id: packages
+    attributes:
+      label: Which package/s are you using?
+      description: |
+        Select the Felte packages you're using in your project.
+
+        Note: `@felte/core` and `@felte/common` are not meant to be used by consumers but package authors.
+      multiple: true
+      options:
+        - felte (Svelte)
+        - '@felte/reporter-svelte'
+        - '@felte/solid (SolidJS)'
+        - '@felte/reporter-solid'
+        - '@felte/react (ReactJS)'
+        - '@felte/reporter-react'
+        - '@felte/preact (PreactJS)'
+        - '@felte/reporter-preact'
+        - '@felte/element (VanillaJS through custom elements)'
+        - '@felte/reporter-element'
+        - '@felte/vanilla (VanillaJS with `createForm` and `createField`)'
+        - '@felte/validator-yup'
+        - '@felte/validator-zod'
+        - '@felte/validator-superstruct'
+        - '@felte/validator-vest'
+        - '@felte/reporter-tippy'
+        - '@felte/reporter-dom'
+        - '@felte/reporter-cvapi'
+        - '@felte/core'
+        - '@felte/common'
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: |
+        Please complete the following information.
+
+        Example:
+          - OS: [e.g. iOS]
+          - Browser: [e.g. chrome, safari]
+          - Version: [e.g. felte@1.0.0, @felte/reporter-svelte@1.0.0]
+      value: |
+        - OS:
+        - Browser:
+        - Version:
+      render: markdown
+    validations:
+      required: true
   - type: textarea
     id: reproduction
     attributes:
@@ -39,24 +89,6 @@ body:
       placeholder: https://codesandbox.io/s/...
     validations:
       required: false
-  - type: textarea
-    id: environment
-    attributes:
-      label: Environment
-      description: |
-        Please complete the following information.
-
-        Example:
-          - OS: [e.g. iOS]
-          - Browser: [e.g. chrome, safari]
-          - Version: [e.g. felte@1.0.0, @felte/reporter-svelte@1.0.0]
-      value: |
-        - OS:
-        - Browser:
-        - Version:
-      render: markdown
-    validations:
-      required: true
   - type: textarea
     id: screenshots
     attributes:
