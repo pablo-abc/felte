@@ -26,6 +26,7 @@ body:
         2. Click on '....'
         3. Scroll down to '....'
         4. See error
+      render: markdown
     validations:
       required: false
   - type: input
@@ -52,7 +53,7 @@ body:
         - Version:
       render: markdown
     validations:
-      required: false
+      required: true
   - type: textarea
     id: screenshots
     attributes:
