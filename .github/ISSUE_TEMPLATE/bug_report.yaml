@@ -20,12 +20,14 @@ body:
     id: reproduction
     attributes:
       label: To reproduce
-      description: Steps to reproduce the behaviour.
-      placeholder: |
-        1. Go to '...'\n
-        2. Click on '....'\n
-        3. Scroll down to '....'\n
-        4. See error\n
+      description: |
+        Steps to reproduce the behaviour.
+
+        Example:
+          1. Go to '...'
+          2. Click on '....'
+          3. Scroll down to '....'
+          4. See error
       render: markdown
     validations:
       required: false
@@ -43,6 +45,7 @@ body:
       label: Environment
       description: |
         Please complete the following information.
+
         Example:
           - OS: [e.g. iOS]
           - Browser: [e.g. chrome, safari]
