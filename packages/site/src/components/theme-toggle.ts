@@ -6,15 +6,24 @@ let mqList: MediaQueryList;
 export class ThemeToggle extends HTMLElement {
   button!: HTMLButtonElement;
 
+  constructor() {
+    super();
+    this.mutationCallback = this.mutationCallback.bind(this);
+    this.watchMedia = this.watchMedia.bind(this);
+    this.toggleDarkMode = this.toggleDarkMode.bind(this);
+  }
+
   updatePressed() {
     this.button.setAttribute('aria-pressed', String(prefersDarkScheme));
   }
 
-  mutationCallback(mutationsList) {
+  mutationCallback(mutationsList: MutationRecord[]) {
     for (const mutation of mutationsList) {
       if (mutation.type !== 'attributes' || mutation.attributeName !== 'class')
         continue;
-      prefersDarkScheme = mutation.target.classList.contains('dark');
+      prefersDarkScheme = (mutation.target as HTMLElement).classList.contains(
+        'dark'
+      );
     }
     this.updatePressed();
   }
@@ -48,18 +57,18 @@ export class ThemeToggle extends HTMLElement {
   }
 
   connectedCallback() {
-    observer = new MutationObserver(this.mutationCallback.bind(this));
+    observer = new MutationObserver(this.mutationCallback);
     observer.observe(document.body, { attributes: true });
     const colorScheme = localStorage.getItem('colorScheme');
     mqList = matchMedia('(prefers-color-scheme: dark)');
     matchesPrefersDarkScheme = mqList.matches;
-    mqList.addEventListener('change', this.watchMedia.bind(this));
+    mqList.addEventListener('change', this.watchMedia);
     if (colorScheme) prefersDarkScheme = colorScheme === 'dark';
     else prefersDarkScheme = matchesPrefersDarkScheme;
     if (prefersDarkScheme) document.body.classList.add('dark');
     else document.body.classList.add('light');
     this.button = this.querySelector('button');
-    this.button.addEventListener('click', this.toggleDarkMode.bind(this));
+    this.button.addEventListener('click', this.toggleDarkMode);
     this.updatePressed();
   }
 
