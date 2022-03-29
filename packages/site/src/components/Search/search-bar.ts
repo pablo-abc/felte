@@ -270,7 +270,7 @@ export class SearchBar extends LitElement {
     if (this.blurTimeout) clearTimeout(this.blurTimeout);
     this.blurTimeout = setTimeout(() => {
       this.tippyInstance.hide();
-    }, 100);
+    }, 1000);
   }
 
   handleArrowKeys(event: KeyboardEvent) {
