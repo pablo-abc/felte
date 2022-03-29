@@ -1,5 +1,13 @@
 # @felte/element
 
+## 0.3.1
+
+### Patch Changes
+
+- 256e5b1: Handle possibility of child elements changing
+- Updated dependencies [9b49b35]
+  - @felte/core@1.2.3
+
 ## 0.3.0
 
 ### Minor Changes

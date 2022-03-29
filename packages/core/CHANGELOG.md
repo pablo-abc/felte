@@ -1,5 +1,11 @@
 # @felte/core
 
+## 1.2.3
+
+### Patch Changes
+
+- 9b49b35: Remove hidden input on unmount and handle possible race conditions
+
 ## 1.2.2
 
 ### Patch Changes
