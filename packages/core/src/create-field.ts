@@ -105,7 +105,10 @@ export function createField(
       return {};
     } else {
       // This setTimeout is necessary to guarantee the node has been mounted
+      let created = false;
+      let destroyed = false;
       setTimeout(() => {
+        if (destroyed) return;
         const parent = fieldNode.parentNode;
         if (!parent || !isElement(parent)) return;
         const foundControl = parent.querySelector(`[name="${name}"]`);
@@ -115,6 +118,7 @@ export function createField(
           input.name = name;
           parent.insertBefore(input, node.nextSibling);
           control = input;
+          created = true;
         } else {
           control = foundControl;
         }
@@ -127,6 +131,8 @@ export function createField(
       });
       return {
         destroy() {
+          if (created) control.parentNode?.removeChild(control);
+          destroyed = true;
           observer?.disconnect();
           formElement?.removeEventListener('reset', handleReset);
         },
