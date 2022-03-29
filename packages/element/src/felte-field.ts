@@ -108,6 +108,8 @@ export class FelteField<
 
   onfeltefieldready?(): void;
 
+  private _element?: HTMLElement;
+
   private _createField() {
     const {
       name,
@@ -118,7 +120,7 @@ export class FelteField<
       composed,
     } = this;
     if (!name) throw new Error('<felte-field> must have a "name" attribute');
-    const element = this.children.item(0) as HTMLElement;
+    const element = this._element;
     if (!element) return;
     (element as any)[this.valueProp] = defaultValue;
 
@@ -153,24 +155,47 @@ export class FelteField<
     this.dispatchEvent(new Event('feltefieldready'));
   }
 
+  private _updateField = () => {
+    const element = this.children.item(0) as HTMLElement;
+    if (!element || element === this._element) return;
+    this._element = element;
+    this._destroy?.();
+    this._destroy = undefined;
+    this._createField();
+  };
+
+  private _observer?: MutationObserver;
+
   connectedCallback() {
     setTimeout(() => {
-      if (!this.isConnected || this._destroy) return;
-      this._createField();
+      this._updateField();
+      this._observer = new MutationObserver(this._updateField);
+      this._observer.observe(this, { childList: true });
     });
   }
 
   disconnectedCallback() {
     this._destroy?.();
+    this._observer?.disconnect();
   }
 }
 
-if (!customElements.get('felte-field'))
+if (!customElements.get('felte-field')) {
   customElements.define('felte-field', FelteField);
+  window.HTMLFelteFieldElement = FelteField;
+}
 
 declare global {
   interface HTMLElementTagNameMap {
     'felte-field': FelteField;
+  }
+
+  interface Window {
+    HTMLFelteFieldElement: {
+      new <
+        Value extends FieldValue = FieldValue
+      >(): HTMLFelteFieldElement<Value>;
+    };
   }
 
   type HTMLFelteFieldElement<

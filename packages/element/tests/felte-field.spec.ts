@@ -13,7 +13,7 @@ function waitForReady(field: HTMLFelteFieldElement) {
   });
 }
 
-const Field = suite('Custom controls with createField');
+const Field = suite('Custom controls with felte-field');
 
 Field.after.each(() => {
   cleanupDOM();

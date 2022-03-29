@@ -81,7 +81,7 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
       this._destroy();
       this._destroy = undefined;
       this._ready = false;
-      this._createForm(config);
+      this._createForm();
     }
   }
 
@@ -215,9 +215,10 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
 
   private _destroy?: () => void;
 
-  private _createForm(config: FormConfig<Data>) {
+  private _createForm() {
     const formElement = this._formElement;
-    if (!formElement || this._destroy) return;
+    if (!formElement) return;
+    const config = this.configuration;
     this.elements = formElement.elements;
 
     const { form, cleanup, ...rest } = createForm<Data>(config, {
@@ -303,24 +304,24 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
     );
   }
 
-  private _onChildChange = () => {
+  private _updateForm = () => {
     const formElement = this.querySelector('form') as HTMLFormElement | null;
     if (!formElement || formElement === this._formElement) return;
+    this.dispatchEvent(
+      new Event('felteconnect', { bubbles: true, composed: true })
+    );
     this._formElement = formElement;
     this._destroy?.();
-    this._createForm(this.configuration);
+    this._destroy = undefined;
+    this._createForm();
   };
 
   private _observer?: MutationObserver;
 
   connectedCallback() {
     setTimeout(() => {
-      if (!this.isConnected || this._destroy) return;
-      this.dispatchEvent(
-        new Event('felteconnect', { bubbles: true, composed: true })
-      );
-      this._onChildChange();
-      this._observer = new MutationObserver(this._onChildChange);
+      this._updateForm();
+      this._observer = new MutationObserver(this._updateForm);
       this._observer.observe(this, { childList: true });
     });
   }
@@ -344,13 +345,20 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
   }
 }
 
-if (!customElements.get('felte-form'))
+if (!customElements.get('felte-form')) {
   customElements.define('felte-form', FelteForm);
+  window.HTMLFelteFormElement = FelteForm;
+}
 
 declare global {
   interface HTMLElementTagNameMap {
     'felte-form': FelteForm;
   }
 
+  interface Window {
+    HTMLFelteFormElement: {
+      new <Data extends Obj = any>(): HTMLFelteFormElement<Data>;
+    };
+  }
   type HTMLFelteFormElement<Data extends Obj = any> = FelteForm<Data>;
 }
