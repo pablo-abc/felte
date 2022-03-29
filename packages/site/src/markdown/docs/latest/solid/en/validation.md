@@ -113,7 +113,7 @@ The `warn` function works exactly the same as the `validate` function. With the 
 Felte supports asynchronous validations by default by returning a promise from your validation functions, either for warnings or errors. Felte takes care of possible race conditions by ignoring the results of previous async validations if it's executed again before the previous one finishes.
 
 ```javascript
-const { form } = useForm({
+const { form } = createForm({
   // ...
   validate: async (values) => {
     const response = await someAsyncAction(values);
@@ -130,7 +130,7 @@ Validations execute at every keypress, so make sure to not execute anything you 
 If your validation shouldn't be called for every keypress of the user, such as an expensive synchronous validation or an API call, Felte can debounce said validations for you. These validations should be added within the `debounced` property of Felte's configuration:
 
 ```javascript
-const { form } = useForm({
+const { form } = createForm({
   // ...
   debounced: {
     // defaults to 300
