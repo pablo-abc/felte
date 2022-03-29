@@ -578,6 +578,7 @@ importers:
   packages/site:
     specifiers:
       '@astrojs/svelte': ^0.0.2
+      '@astrojs/turbolinks': ^0.0.2
       '@babel/core': ^7.17.7
       '@felte/element': ^0.3.0
       '@felte/reporter-element': ^0.1.2
@@ -620,6 +621,7 @@ importers:
       yup: 0.32.11
     devDependencies:
       '@astrojs/svelte': 0.0.2_47a1d4ecc0af379450591f4e748090c9
+      '@astrojs/turbolinks': 0.0.2
       '@babel/core': 7.17.8
       '@types/flexsearch': 0.7.3
       astro: 0.25.2
@@ -815,6 +817,12 @@ packages:
       - ts-node
       - typescript
       - vite
+    dev: true
+
+  /@astrojs/turbolinks/0.0.2:
+    resolution: {integrity: sha512-e2xZPJCJ5PKA80nY9jPkgNMpslgbYEWsOgvJa7sBCKWWhcfPUUVLJ/lF5/ZTCrn9ab1IPbIGYUO69JyQBTsn7w==}
+    dependencies:
+      turbolinks: 5.2.0
     dev: true
 
   /@astrojs/webapi/0.11.0:
@@ -13838,6 +13846,10 @@ packages:
       wcwidth: 1.0.1
       yargs: 15.4.1
     dev: false
+
+  /turbolinks/5.2.0:
+    resolution: {integrity: sha512-pMiez3tyBo6uRHFNNZoYMmrES/IaGgMhQQM+VFF36keryjb5ms0XkVpmKHkfW/4Vy96qiGW3K9bz0tF5sK9bBw==}
+    dev: true
 
   /type-check/0.3.2:
     resolution: {integrity: sha1-WITKtRLPHTVeP7eE8wgEsrUg23I=}

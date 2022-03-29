@@ -1,4 +1,5 @@
 import svelte from '@astrojs/svelte';
+import turbolinks from '@astrojs/turbolinks';
 
 export default {
   projectRoot: '.', // Where to resolve all URLs relative to. Useful if you have a monorepo project.
@@ -13,5 +14,5 @@ export default {
     // hostname: 'localhost',  // The hostname to run the dev server on.
     // port: 3000,             // The port to run the dev server on.
   },
-  integrations: [svelte()],
+  integrations: [svelte(), turbolinks()],
 };

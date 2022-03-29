@@ -55,8 +55,10 @@ const altLink = import.meta.env.PUBLIC_FELTE_ALT_LINK;
   </head>
   <body>
     <script>
-      const colorScheme = localStorage.getItem('colorScheme');
-      if (colorScheme) document.body.classList.add(colorScheme);
+      (function() {
+          const colorScheme = localStorage.getItem('colorScheme');
+          if (colorScheme) document.body.classList.add(colorScheme);
+      })()
     </script>
     <aside class="banner mobile">
       If you're looking for the documentation for {altVersion},
