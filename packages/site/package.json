@@ -9,20 +9,18 @@
     "preview": "astro preview"
   },
   "devDependencies": {
-    "@astrojs/renderer-preact": "0.5.0",
-    "@astrojs/renderer-react": "0.5.0",
-    "@astrojs/renderer-solid": "0.4.0",
-    "@astrojs/renderer-svelte": "0.5.2",
+    "@astrojs/svelte": "^0.0.2",
     "@babel/core": "^7.17.7",
     "@types/flexsearch": "^0.7.3",
-    "astro": "0.24.3",
+    "astro": "0.25.2",
     "autoprefixer": "^10.4.4",
     "cssnano": "^5.1.4",
     "front-matter": "^4.0.2",
     "postcss": "^8.4.12",
     "postcss-preset-env": "^7.4.2",
     "prettier": "^2.6.0",
-    "svelte": "^3.46.4"
+    "svelte": "^3.46.4",
+    "vite": "^2.8.6"
   },
   "dependencies": {
     "@felte/element": "^0.3.0",
