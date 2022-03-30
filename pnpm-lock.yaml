@@ -164,18 +164,18 @@ importers:
   examples/material-web/basic:
     specifiers:
       '@felte/element': latest
-      '@felte/reporter-element': latest
       '@material/mwc-button': ^0.25.3
       '@material/mwc-formfield': ^0.25.3
       '@material/mwc-textfield': ^0.25.3
+      '@material/mwc-top-app-bar': ^0.25.3
       typescript: ^4.5.4
       vite: ^2.8.0
     dependencies:
       '@felte/element': link:../../../packages/element
-      '@felte/reporter-element': link:../../../packages/reporter-element
       '@material/mwc-button': 0.25.3
       '@material/mwc-formfield': 0.25.3
       '@material/mwc-textfield': 0.25.3
+      '@material/mwc-top-app-bar': 0.25.3
     devDependencies:
       typescript: 4.5.5
       vite: 2.8.4
@@ -4312,6 +4312,17 @@ packages:
       tslib: 2.3.1
     dev: false
 
+  /@material/elevation/14.0.0-canary.261f2db59.0:
+    resolution: {integrity: sha512-AqN/tsTGGyBzZ7CtoSMBY9bDYvCuUt98EUfiGjZGXcf4HgoHV3Cn/JSLrhru5Cq8Nx6HF6AmHh3dQCfNCQduew==}
+    dependencies:
+      '@material/animation': 14.0.0-canary.261f2db59.0
+      '@material/base': 14.0.0-canary.261f2db59.0
+      '@material/feature-targeting': 14.0.0-canary.261f2db59.0
+      '@material/rtl': 14.0.0-canary.261f2db59.0
+      '@material/theme': 14.0.0-canary.261f2db59.0
+      tslib: 2.3.1
+    dev: false
+
   /@material/feature-targeting/14.0.0-canary.261f2db59.0:
     resolution: {integrity: sha512-CrVoGNu0ym52OPEKy3kgeNL2oSWOCBYbYxSH3GhERxCq5FwGBN+XmK/ZDLFVQlHYy3v8x4TqVEwXviCeumNTxQ==}
     dependencies:
@@ -4437,6 +4448,15 @@ packages:
       tslib: 2.3.1
     dev: false
 
+  /@material/mwc-top-app-bar/0.25.3:
+    resolution: {integrity: sha512-2z13T/L9WTq3JFq2ygi5HF5tEUBToXjYn/BEJjPXSbe0jepRS+0wtk5axkbaq5ObSkvhBxdzjsZAaWFJ0QVF0A==}
+    dependencies:
+      '@material/mwc-base': 0.25.3
+      '@material/top-app-bar': 14.0.0-canary.261f2db59.0
+      lit: 2.2.0
+      tslib: 2.3.1
+    dev: false
+
   /@material/notched-outline/14.0.0-canary.261f2db59.0:
     resolution: {integrity: sha512-gtn+IKAiX2rbfbX3a9aDlfUoKCEYrlAPOZifKXUaZ4UJYMNLzZuAqy7l5Ds30emtqUE22mySTEWqhzK6dePKsA==}
     dependencies:
@@ -4500,6 +4520,20 @@ packages:
     resolution: {integrity: sha512-bUqyFT0QF8Nxx02fekt3CXIfC9DEPOPdo2hjgdtvhrNP+vftbkI2tKZ5/uRUnVA+zqQAOyIl5z6FOMg4fyemCA==}
     dependencies:
       '@material/feature-targeting': 14.0.0-canary.261f2db59.0
+      tslib: 2.3.1
+    dev: false
+
+  /@material/top-app-bar/14.0.0-canary.261f2db59.0:
+    resolution: {integrity: sha512-qizULSReG7wpxWzNk2JykLiqMuuhOuyXoOUx5bl4FZCuivT6HK2xYLJ49ZM15SFbpWqZopfjmSrLo2TPw3wuhg==}
+    dependencies:
+      '@material/animation': 14.0.0-canary.261f2db59.0
+      '@material/base': 14.0.0-canary.261f2db59.0
+      '@material/elevation': 14.0.0-canary.261f2db59.0
+      '@material/ripple': 14.0.0-canary.261f2db59.0
+      '@material/rtl': 14.0.0-canary.261f2db59.0
+      '@material/shape': 14.0.0-canary.261f2db59.0
+      '@material/theme': 14.0.0-canary.261f2db59.0
+      '@material/typography': 14.0.0-canary.261f2db59.0
       tslib: 2.3.1
     dev: false
 

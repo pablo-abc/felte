@@ -1,7 +1,7 @@
 import './style.css';
-import '@material/mwc-textfield';
+import { TextField } from '@material/mwc-textfield';
 import '@material/mwc-button';
-import { reporter } from '@felte/reporter-element';
+import '@material/mwc-top-app-bar';
 import { prepareForm } from '@felte/element';
 
 type Data = {
@@ -32,7 +32,17 @@ prepareForm<Data>('signin', {
     if (!values.password) errors.password.push('Must not be empty');
     return errors;
   },
-  extend: [reporter],
+}).then((felteForm) => {
+  // We report errors using the textfield's API
+  const fields = document.querySelectorAll('felte-field');
+
+  felteForm.onErrorsChange = () => {
+    fields.forEach((field) => {
+      const input = field.firstElementChild as TextField;
+      input.setCustomValidity(felteForm?.errors[field.name!]?.[0] || '');
+      input.reportValidity();
+    });
+  };
 });
 
 // `mwc-button` is not a submit button so we have to manually
@@ -56,4 +66,11 @@ const submitted = document.getElementById('submitted');
 form?.addEventListener('reset', function () {
   if (!submitted) return;
   submitted.innerHTML = '';
+});
+
+form?.addEventListener('keyup', (event: KeyboardEvent) => {
+  if (event.key === 'Enter' && event.target instanceof TextField) {
+    event.preventDefault();
+    form.requestSubmit();
+  }
 });

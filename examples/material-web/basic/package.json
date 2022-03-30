@@ -9,10 +9,10 @@
   },
   "dependencies": {
     "@felte/element": "latest",
-    "@felte/reporter-element": "latest",
     "@material/mwc-button": "^0.25.3",
     "@material/mwc-formfield": "^0.25.3",
-    "@material/mwc-textfield": "^0.25.3"
+    "@material/mwc-textfield": "^0.25.3",
+    "@material/mwc-top-app-bar": "^0.25.3"
   },
   "devDependencies": {
     "typescript": "^4.5.4",
