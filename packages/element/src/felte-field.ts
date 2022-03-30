@@ -156,7 +156,7 @@ export class FelteField<
   }
 
   private _updateField = () => {
-    const element = this.children.item(0) as HTMLElement;
+    const element = this.firstElementChild as HTMLElement | null;
     if (!element || element === this._element) return;
     this._element = element;
     this._destroy?.();
