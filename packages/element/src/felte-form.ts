@@ -72,7 +72,7 @@ function capitalizeFirst(value: string) {
 export class FelteForm<Data extends Obj = any> extends HTMLElement {
   [key: string]: unknown;
 
-  id = '';
+  id!: string;
 
   private _configuration: FormConfig<Data> = {};
   set configuration(config: FormConfig<Data>) {
