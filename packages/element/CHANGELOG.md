@@ -1,5 +1,12 @@
 # @felte/element
 
+## 0.3.2
+
+### Patch Changes
+
+- a39ca69: Don't set default id (it was causing a default attribute of `[id=""]`)
+- 34230fe: Add `target` attribute to get field from a custom selector
+
 ## 0.3.1
 
 ### Patch Changes
