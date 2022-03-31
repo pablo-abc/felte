@@ -61,5 +61,6 @@ The previous example also shows that you can use the `valueprop` attribute to sp
 - `composed`: (boolean, optional) If the custom elemet uses a native input underneath, setting this attribute tells `<felte-field>` to expect a composed event dispatched from within the Shadow DOM, and to use its original target (instead of the custom element) as its source of truth. (default: `false`)
 - `value`: (string, optional) It can be used as a way to assign a default value to the field. For example, some custom elements would stringify `undefined` so assigning this attribute as `value=""` should assing an empty string as default value. (default: `undefined`)
 - `touchonchange`/`touchOnChange`: (boolean, optional) Tells Felte to immediately set the field as touched when the value changes. Useful for custom elements that function as checkboxes and such. (default: `false`)
+- `target`: (string, optional) A CSS selector for the field. Useful when using custom elements that _need_ to be direct children of other custom elements to work properly (like labels).
 
 > **NOTE**: The name after a slash (`/`) refers to the same attribute but accessed as a property.
