@@ -277,6 +277,93 @@ Field('calls event handlers', async () => {
   formElement.removeEventListener('focusout', blurListener);
 });
 
+Field('calls event handlers on custom target', async () => {
+  const template = /* HTML */ `
+    <form name="test-form">
+      <felte-field
+        name="test"
+        valueprop="textContent"
+        target="[contenteditable]"
+      >
+        <section>
+          <div>
+            <div contenteditable tabindex="0" role="textbox"></div>
+          </div>
+        </section>
+      </felte-field>
+      <button type="button">Button</button>
+    </form>
+  `;
+  document.body.innerHTML = template;
+  const inputListener = sinon.fake();
+  const blurListener = sinon.fake();
+  const formElement = screen.getByRole('form') as HTMLFormElement;
+  const inputElement = document.querySelector(
+    '[contenteditable]'
+  ) as HTMLDivElement;
+
+  const felteField = document.querySelector(
+    'felte-field'
+  ) as HTMLFelteFieldElement;
+  formElement.addEventListener('input', inputListener);
+  formElement.addEventListener('focusout', blurListener);
+
+  sinon.assert.notCalled(inputListener);
+  sinon.assert.notCalled(blurListener);
+
+  try {
+    felteField.blur();
+    unreachable();
+  } catch (err) {
+    expect(err).to.have.property('message');
+  }
+
+  sinon.assert.notCalled(inputListener);
+  sinon.assert.notCalled(blurListener);
+
+  await waitForReady(felteField);
+
+  await waitFor(() => {
+    const hiddenElement = document.querySelector(
+      'input[name="test"]'
+    ) as HTMLInputElement;
+
+    expect(hiddenElement).not.to.be.null;
+  });
+  userEvent.type(inputElement, 'new value');
+  await waitFor(() => {
+    const hiddenElement = document.querySelector(
+      'input[name="test"]'
+    ) as HTMLInputElement;
+    expect(hiddenElement.value).to.equal('new value');
+    sinon.assert.calledWith(
+      inputListener,
+      sinon.match({
+        target: hiddenElement,
+      })
+    );
+  });
+
+  sinon.assert.notCalled(blurListener);
+
+  userEvent.tab();
+
+  await waitFor(() => {
+    const hiddenElement = document.querySelector(
+      'input[name="test"]'
+    ) as HTMLInputElement;
+    sinon.assert.calledWith(
+      blurListener,
+      sinon.match({
+        target: hiddenElement,
+      })
+    );
+  });
+
+  formElement.removeEventListener('input', inputListener);
+  formElement.removeEventListener('focusout', blurListener);
+});
+
 Field('handles reset event on form', async () => {
   const template = /* HTML */ `
     <form name="test-form">

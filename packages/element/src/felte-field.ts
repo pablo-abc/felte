@@ -9,6 +9,10 @@ function failFor(name: string) {
   };
 }
 
+function booleanCoverter(value: string) {
+  return value === '' || (!!value && value !== 'false');
+}
+
 export class FelteField<
   Value extends FieldValue = FieldValue
 > extends HTMLElement {
@@ -22,6 +26,7 @@ export class FelteField<
       'blurevent',
       'composed',
       'value',
+      'target',
     ];
   }
 
@@ -35,8 +40,7 @@ export class FelteField<
         name: 'name',
       },
       touchonchange: {
-        converter: (value: string) =>
-          value === '' || (!!value && value !== 'false'),
+        converter: booleanCoverter,
         name: 'touchOnChange',
       },
       valueprop: {
@@ -56,9 +60,12 @@ export class FelteField<
         name: 'value',
       },
       composed: {
-        converter: (value: string) =>
-          value === '' || (!!value && value !== 'false'),
+        converter: booleanCoverter,
         name: 'composed',
+      },
+      target: {
+        converter: String,
+        name: 'target',
       },
     };
   }
@@ -80,6 +87,8 @@ export class FelteField<
   blurEvent = 'focusout';
 
   composed = false;
+
+  target?: string;
 
   private _value?: Value;
   set value(newValue: Value) {
@@ -156,7 +165,9 @@ export class FelteField<
   }
 
   private _updateField = () => {
-    const element = this.firstElementChild as HTMLElement | null;
+    const element = this.target
+      ? (this.querySelector(this.target) as HTMLElement | null)
+      : (this.firstElementChild as HTMLElement | null);
     if (!element || element === this._element) return;
     this._element = element;
     this._destroy?.();
