@@ -70,17 +70,6 @@ const { section, all, framework } = Astro.props;
     const drawer = document.querySelector('#drawer-menu');
     document.querySelector('#drawer-menu nav').style.display = 'block';
 
-    const sidebar = document.querySelector('.sidebar');
-    const current = document.querySelector('.desktop-menu a[aria-current="page"]');
-    if (current) {
-      sidebar.scrollTo({
-        top:
-          current.getBoundingClientRect().top -
-          sidebar.getBoundingClientRect().top -
-          (window.innerHeight / 3),
-      })
-    }
-
     window.addEventListener('resize', () => {
       if (window.innerWidth >= 966 && drawer.open) drawer.hide();
     });
@@ -88,6 +77,20 @@ const { section, all, framework } = Astro.props;
     menuButton.addEventListener('click', () => {
       drawer.show();
     });
+  </script>
+  <script>
+    (function () {
+      const sidebar = document.querySelector('.sidebar');
+      const current = document.querySelector('.desktop-menu a[aria-current="page"]');
+      if (current) {
+        sidebar.scrollTo({
+          top:
+            current.getBoundingClientRect().top -
+              sidebar.getBoundingClientRect().top -
+              (window.innerHeight / 3),
+        })
+      }
+    })();
   </script>
 </div>
 
