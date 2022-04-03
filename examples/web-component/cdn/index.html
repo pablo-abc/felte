@@ -8,9 +8,11 @@
 
     <!-- We prepare our form. This needs to run before the document loads so don't  defer it -->
     <script type="module">
-     import { prepareForm } from 'https://unpkg.com/@felte/element@0.3.0/dist/index.min.js';
-     import { reporter } from 'https://unpkg.com/@felte/reporter-element@0.1.2/dist/index.min.js';
-     prepareForm('signin', {
+     import 'https://unpkg.com/@felte/element@0.4.0/dist/min/felte-form.js';
+     import 'https://unpkg.com/@felte/reporter-element@0.2.0/dist/min/validation-message.js';
+     import { reporter } from 'https://unpkg.com/@felte/reporter-element@0.2.0/dist/min/index.js';
+     const felteForm = document.querySelector('felte-form');
+     felteForm.configuration = {
        onSubmit: (values) => {
          const submittedSection = document.getElementById('submitted');
          submittedSection.innerHTML = `
@@ -30,7 +32,7 @@
          return errors;
        },
        extend: [reporter],
-     });
+     };
 
 
     // We remove the submitted value on reset
@@ -51,7 +53,7 @@
       </ul>
     </template>
 
-    <felte-form id="signin">
+    <felte-form>
       <form>
         <fieldset>
           <legend>Sign In</legend>
