@@ -1,5 +1,8 @@
 import { html, LitElement, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
+import '@felte/element/felte-form';
+import '@felte/element/felte-field';
+import '@felte/reporter-element/felte-validation-message';
 import { reporter } from '@felte/reporter-element';
 import { prepareForm } from '@felte/element';
 import styles from './sign-in-form.styles';

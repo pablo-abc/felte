@@ -1,2 +1,2 @@
-export * from './validation-message';
+export * from './ValidationMessage';
 export * from './reporter';

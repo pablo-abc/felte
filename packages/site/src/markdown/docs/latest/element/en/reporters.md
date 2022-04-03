@@ -23,12 +23,15 @@ npm i -S @felte/reporter-element
 yarn add @felte/reporter-element
 ```
 
-It exports a `reporter` function and defines a custom element `<felte-validation-message>`. Pass the `reporter` function to the `extend` option of Felte's configuration and add the `<felte-validation-message>` element wherever you want your validation messages to be displayed.
+It exports a `reporter` function and defines a custom element `<felte-validation-message>`. Pass the `reporter` function to the `extend` option of Felte's configuration. The main export also exposes the `ValidationMessage` class which you can use to register the validation message custom element with a tag of your choosing. Alternatively, importing side effects from `@felte/reporter-element/felte-validation-message` automatically registers the custom element as `<felte-validation-message`.
+
+Assuming you used the side effecst import, add the `<felte-validation-message>` element wherever you want your validation messages to be displayed.
 
 The `<felte-validation-message>` component needs a `for` attribute set with the **name** of the input it corresponds to. It expects a `<template>` element as its child (or assigned using `templateid`), which will be used as the template for your validation messages. This template will be cloned into the as a child of `<felte-validation-message>` and updated when validation messages change. The template **must** have an element with an attribute `data-part="item"`. This element is the one that will contain the validation message, and it will be appended for each message. Optionally you can add an element with `data-part="message"` deeper within the item element if you want your message somewhere else.
 
 ```html
 <script type="module">
+  import '@felte/reporter-element/felte-validation-message';
   import { reporter } from '@felte/reporter-element';
   import { prepareForm } from '@felte/element';
 

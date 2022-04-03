@@ -27,7 +27,8 @@
     "felte"
   ],
   "files": [
-    "dist"
+    "dist",
+    "felte-validation-message"
   ],
   "devDependencies": {
     "@felte/core": "workspace:*",
@@ -42,6 +43,7 @@
   },
   "exports": {
     ".": "./dist/index.js",
+    "./felte-validation-message": "./felte-validation-message",
     "./package.json": "./package.json"
   }
 }

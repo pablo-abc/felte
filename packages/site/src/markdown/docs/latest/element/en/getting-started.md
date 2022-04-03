@@ -14,7 +14,16 @@ Felte is a JavaScript library that tries to help you ease the management of form
 
 ```html
 <script type="module">
-  import 'https://unpkg.com/@felte/element@<VERSION>/dist/index.min.js';
+  // Minified exports:
+
+  // /min/index.js exports the classes for the custom elements and the
+  // `prepareForm` helper function. No side effects are run when importing from here.
+  import { prepareForm, FelteForm, FelteField } from 'https://unpkg.com/@felte/element@<VERSION>/dist/min/index.js';
+
+  // Side-effects exports. These automatically register `<felte-form`>
+  // and `<felte-field>`
+  import 'https://unpkg.com/@felte/element@<VERSION>/dist/min/felte-form.js';
+  import 'https://unpkg.com/@felte/element@<VERSION>/dist/min/felte-field.js';
 </script>
 ```
 
@@ -22,7 +31,8 @@ The easiest way to use it would be to import the `prepareForm` function from the
 
 ```html
 <script type="module">
-  import { prepareForm } from 'https://unpkg.com/@felte/element@<VERSION>/dist/index.min.js';
+  import 'https://unpkg.com/@felte/element@<VERSION>/dist/min/felte-form.js';
+  import { prepareForm } from 'https://unpkg.com/@felte/element@<VERSION>/dist/min/index.js';
 
   prepareForm('signin-form', {
     onSubmit: (values) => {
@@ -42,8 +52,6 @@ The easiest way to use it would be to import the `prepareForm` function from the
   </form>
 </felte-form>
 ```
-
-> **NOTE**: If you're only using `felte-form` (not `felte-field`) you can import it directly from `/dist/felte-form.min.js'.
 
 ### NPM
 
@@ -65,10 +73,19 @@ If you use yarn:
 yarn add @felte/element
 ```
 
-Then use it in your HTML as mentioned above, but importing from your local installation:
+The main export `@felte/element` exposes the classes for FelteField and FelteForm; and the `prepareForm` helper. This main export does not run any side effects, so you can register the custom elements with your own name. E.g. `customElements.define('my-form', FelteForm)`.
+
+Importing from `@felte/element/felte-form` automatically registers the form custom element as `<felte-form>` as a side effect. No other exports are exposed from here.
+
+Importing from `@felte/element/felte-field` automatically registers the field custom element as `<felte-field>` as a side effect. No other exports are exposed from here.
+
+You can use these in your HTML as mentioned above, but importing from your local installation:
 
 ```html
 <script type="module">
+  // Run side-effects
+  import '@felte/element/felte-form';
+  // Import helper
   import { prepareForm } from '@felte/element';
 
   prepareForm('signin-form', {
@@ -90,13 +107,11 @@ Then use it in your HTML as mentioned above, but importing from your local insta
 </felte-form>
 ```
 
-> **NOTE**: You can also import `felte-form` directly from `@felte/element/dist/felte-form.js` or `@felte/element/dist/felte-form.min.js`.
-
 The `onSubmit` handler is actually optional. If no handler is provided, Felte will send a request using `fetch` with the `action`, `method` and `enctype` attributes of your `form` element. It will send the request as `multipart/form-data` if you specify it with the `enctype` (which you should do if your form contains an `<input type=file>`), or `application/x-www-form-urlencoded`. If doing this, you don't need to import `prepareForm`, just the package for its side effects.
 
 ```html
 <script type="module">
-  import '@felte/element';
+  import '@felte/element/felte-form';
 </script>
 
 <felte-form>
@@ -118,7 +133,7 @@ You don't need to use `prepareForm`, instead you can set up the `configuration` 
 
 ```html
 <script type="module">
-  import '@felte/element';
+  import '@felte/element/felte-form';
 
   const felteForm = document.querySelector('felte-form');
 
@@ -142,7 +157,7 @@ Example using [Lit](https://lit.dev):
 
 ```javascript
 import { html, LitElement } from 'lit';
-import '@felte/element';
+import '@felte/element/felte-form';
 
 export class MyApp extends LitElement {
   render() {

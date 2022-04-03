@@ -162,6 +162,8 @@ A function that creates a submit handler with overriden `onSubmit`, `onError` an
 
 ```html
 <script type="module">
+  import '@felte/element/felte-form';
+
   const felteForm = document.querySelector('felte-form');
   felteForm.configuration = {
     onSubmit: (values) => console.log('Default onSubmit'),

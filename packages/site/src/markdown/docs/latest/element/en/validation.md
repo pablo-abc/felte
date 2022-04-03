@@ -66,7 +66,7 @@ There are similar methods and events for all the other available stores.
 
 ```html
 <script type="module">
-  import '@felte/element';
+  import '@felte/element/felte-form';
 
   const felteForm = document.querySelector('felte-form');
 

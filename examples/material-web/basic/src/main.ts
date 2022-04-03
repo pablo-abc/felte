@@ -2,6 +2,8 @@ import './style.css';
 import { TextField } from '@material/mwc-textfield';
 import '@material/mwc-button';
 import '@material/mwc-top-app-bar';
+import '@felte/element/felte-form';
+import '@felte/element/felte-field';
 import { prepareForm } from '@felte/element';
 
 type Data = {

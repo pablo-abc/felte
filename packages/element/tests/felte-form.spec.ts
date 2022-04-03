@@ -5,6 +5,7 @@ import { expect } from 'uvu-expect';
 import { waitFor, screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { cleanupDOM } from './common';
+import '../src/felte-form';
 import { prepareForm } from '../src';
 
 const FelteForm = suite('FelteForm');

@@ -11,6 +11,7 @@ import {
   createMultipleInputElements,
   createForm,
 } from './common';
+import '../src/validation-message';
 import { reporter } from '../src';
 
 const Reporter = suite('Reporter DOM');

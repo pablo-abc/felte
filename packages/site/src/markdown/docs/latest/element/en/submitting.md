@@ -26,7 +26,7 @@ If the request fails, Felte will emit a `felteerror` event that you can handle o
 
 ```html
 <script type="module">
-  import '@felte/element';
+  import '@felte/element/felte-form';
 
   const felteForm = document.querySelector('felte-form');
 
@@ -69,6 +69,7 @@ When using the default handler, if the request fails Felte will throw a `FelteSu
 
 ```html
 <script type="module">
+  import '@felte/element/felte-form';
   import { prepareForm } from '@felte/element';
 
   prepareForm('signin-form', {

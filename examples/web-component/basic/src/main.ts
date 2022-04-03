@@ -1,4 +1,6 @@
 import './style.css';
+import '@felte/reporter-element/felte-validation-message';
+import '@felte/element/felte-form';
 import { reporter } from '@felte/reporter-element';
 import { prepareForm } from '@felte/element';
 

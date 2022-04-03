@@ -8,7 +8,7 @@ Felte watches for any added or removed form controls in your form, updating the 
 
 ```html
 <script type="module">
-  import '@felte/element';
+  import '@felte/element/felte-form';
 
   const felteForm = document.querySelector('felte-form');
   const form = document.querySelector('form');

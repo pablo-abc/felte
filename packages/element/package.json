@@ -27,7 +27,9 @@
     "felte"
   ],
   "files": [
-    "dist"
+    "dist",
+    "felte-form",
+    "felte-field"
   ],
   "devDependencies": {
     "tslib": "^2.3.1",
@@ -41,8 +43,8 @@
   },
   "exports": {
     ".": "./dist/index.js",
-    "./dist/felte-form": "./dist/felte-form.js",
-    "./dist/felte-field": "./dist/felte-field.js",
+    "./felte-form": "./felte-form",
+    "./felte-field": "./felte-field",
     "./package.json": "./package.json"
   }
 }

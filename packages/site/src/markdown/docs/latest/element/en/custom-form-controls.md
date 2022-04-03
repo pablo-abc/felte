@@ -15,7 +15,7 @@ The more straightforward way would be to use any of the returned [helpers from `
 
 ```html
 <script type="module">
-  import '@felte/element';
+  import '@felte/element/felte-form';
 
   const felteForm = document.querySelector('felte-form');
   const customControl = document.querySelector('some-custom-control');
@@ -40,7 +40,7 @@ You might want to use other custom elements as inputs for your form. Custom elem
 
 ```html
 <script type="module">
-  import '@felte/element';
+  import '@felte/element/felte-field';
 </script>
 
 <felte-field name="fieldName" valueprop="textContent">
@@ -48,7 +48,7 @@ You might want to use other custom elements as inputs for your form. Custom elem
 </felte-field>
 ```
 
-> **NOTE**: `<felte-field>` can be imported directly from `@felte/element/dist/felte-field.js` or `@felte/element/dist/felte-field.min.js`.
+> **NOTE**: The class for `<felte-field>` is export from `@felte/element` without side effects if you want to register it with your own name or extend from it to build your own custom element.
 
 The previous element will behave just like a regular `input` when used within a form managed by Felte. Only requiring a `name` prop.
 
