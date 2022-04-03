@@ -1,5 +1,11 @@
 # @felte/reporter-element
 
+## 0.2.0
+
+### Minor Changes
+
+- 589bb34: BREAKING: Move side effect to `@felte/reporter-element/felte-validation-message`
+
 ## 0.1.3
 
 ### Patch Changes

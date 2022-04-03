@@ -1,5 +1,11 @@
 # @felte/element
 
+## 0.4.0
+
+### Minor Changes
+
+- 589bb34: BREAKING: Move side effects to `@felte/element/felte-form` and `@felte/element/felte-field`
+
 ## 0.3.2
 
 ### Patch Changes

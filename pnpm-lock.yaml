@@ -614,8 +614,8 @@ importers:
       vite: ^2.8.6
       yup: ^0.32.11
     dependencies:
-      '@felte/element': link:../element
-      '@felte/reporter-element': link:../reporter-element
+      '@felte/element': 0.3.2
+      '@felte/reporter-element': 0.1.3
       '@felte/reporter-tippy': link:../reporter-tippy
       '@felte/validator-yup': link:../validator-yup
       '@shoelace-style/shoelace': 2.0.0-beta.72
@@ -4162,6 +4162,30 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@felte/common/1.0.3:
+    resolution: {integrity: sha512-uOs9c9wHnfgKWsAqkUrcf2xY3zGu7JwgdgBn2ThFMJOxsdmR5GukckuRBlG0tdSSKg2UqdnWSE7IavCzBqCNMA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dev: false
+
+  /@felte/core/1.2.3:
+    resolution: {integrity: sha512-AkSAOjr5v3QOHmOc6aNblGfyzDSkZHd9efTkRrVmlh0PFctaipDgvwvaMk2SIQq3NQpJKg1n+SANqryu3p/5Jg==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dependencies:
+      '@felte/common': 1.0.3
+    dev: false
+
+  /@felte/element/0.3.2:
+    resolution: {integrity: sha512-35qRKV2m1sZc3t1h9sjRc4BkkQMRpX06kLcPmprQ+b7+Z+Ztoa/LcsU3tSFdU0YETwv9IhX/t91SZVG8EDmW+w==}
+    dependencies:
+      '@felte/core': 1.2.3
+    dev: false
+
+  /@felte/reporter-element/0.1.3:
+    resolution: {integrity: sha512-Ak7Exxs38dZJ0l/XwGsrioIGLWoV1t4iKXJfwCI6GOsgXbkEth1OqAPgwdP0hfllWuT+AxNgqyVaujP5GpvALw==}
+    dependencies:
+      '@felte/common': 1.0.3
+    dev: false
 
   /@floating-ui/core/0.5.1:
     resolution: {integrity: sha512-LOFg65vdU4o4eZjVKNhu7VXbjdnY0amMw9sydLtKZiCNwj0eMD06rmktbWp9L/f6w6s9Qqe22lkks8PbwYwy4Q==}
