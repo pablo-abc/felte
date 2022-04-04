@@ -1,5 +1,27 @@
 ---
+import fs from 'node:fs';
+
 const { items = [], framework, section } = Astro.props;
+const sections = JSON.parse(
+  fs.readFileSync(
+    new URL('../../other/sections.json', import.meta.url).pathname,
+    'utf-8',
+  ),
+).latest;
+
+const frameworkLinks = Object.keys(sections).reduce((acc, framework) => {
+  if (sections[framework].includes(section)) {
+    return {
+      ...acc,
+      [framework]: `/docs/${framework}/${section}`
+    };
+  } else {
+    return {
+      ...acc,
+      [framework]: `/docs/${framework}/${sections[framework][0]}`
+    };
+  }
+}, {});
 
 let frameworkTitle;
 switch (framework) {
@@ -23,7 +45,7 @@ switch (framework) {
   <ul class="framework-list">
     <li>
       <a
-        href={`/docs/svelte/${section}`}
+        href={frameworkLinks.svelte}
         aria-current={framework === 'svelte' ? 'true' : undefined}
         >
         Svelte
@@ -31,7 +53,7 @@ switch (framework) {
     </li>
     <li>
       <a
-        href={`/docs/solid/${section}`}
+        href={frameworkLinks.solid}
         aria-current={framework === 'solid' ? 'true' : undefined}
         >
         Solid
@@ -39,7 +61,7 @@ switch (framework) {
     </li>
     <li>
       <a
-        href={`/docs/react/${section}`}
+        href={frameworkLinks.react}
         aria-current={framework === 'react' ? 'true' : undefined}
         >
         React/Preact
@@ -47,7 +69,7 @@ switch (framework) {
     </li>
     <li>
       <a
-        href={`/docs/element/${section}`}
+        href={frameworkLinks.element}
         aria-current={framework === 'element' ? 'true' : undefined}
         >
         Vanilla JS (Custom element)
