@@ -64,19 +64,22 @@ const { section, all, framework } = Astro.props;
     import 'components:Search/search-bar.ts';
     import '@shoelace-style/shoelace/dist/components/drawer/drawer';
     import '@shoelace-style/shoelace/dist/components/details/details';
+  </script>
+  <script is:inline>
+    (function() {
+      document.querySelector('#side-menu-button-container').style.display = 'grid';
+      document.querySelector('#drawer-menu nav').style.display = 'block';
+      const menuButton = document.querySelector('#side-menu-button');
+      const drawer = document.querySelector('#drawer-menu');
 
-    document.querySelector('#side-menu-button-container').style.display = 'grid';
-    const menuButton = document.querySelector('#side-menu-button');
-    const drawer = document.querySelector('#drawer-menu');
-    document.querySelector('#drawer-menu nav').style.display = 'block';
+      menuButton.addEventListener('click', () => {
+        drawer.show();
+      });
 
-    window.addEventListener('resize', () => {
-      if (window.innerWidth >= 966 && drawer.open) drawer.hide();
-    });
-
-    menuButton.addEventListener('click', () => {
-      drawer.show();
-    });
+      window.addEventListener('resize', () => {
+        if (window.innerWidth >= 966 && drawer.open) drawer.hide();
+      });
+    })();
   </script>
   <script is:inline>
     (function () {

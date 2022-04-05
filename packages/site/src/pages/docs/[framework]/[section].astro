@@ -24,7 +24,8 @@ export async function getStaticPaths() {
     async function readMd(fileName) {
       const filePath = getFilePath(fileName);
       const file = await fs.readFile(filePath, { encoding: 'utf8' });
-      const data = fm(file);
+
+      const data = fm<any>(file);
       const id = idfy(data.attributes.section);
       data.attributes.id = id;
       data.attributes.subsections = data.attributes.subsections?.map(
