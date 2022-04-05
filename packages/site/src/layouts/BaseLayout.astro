@@ -10,7 +10,7 @@ const { title, section } = Astro.props;
 
 const currentVersion = import.meta.env.PUBLIC_FELTE_CURRENT_VERSION;
 const altVersion = import.meta.env.PUBLIC_FELTE_ALT_VERSION;
-const altLink = import.meta.env.PUBLIC_FELTE_ALT_LINK;
+const altLink = String(import.meta.env.PUBLIC_FELTE_ALT_LINK);
 ---
 
 <!DOCTYPE html>
@@ -26,7 +26,7 @@ const altLink = import.meta.env.PUBLIC_FELTE_ALT_LINK;
     <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
     <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <script type="module" hoist>
+    <script>
       import './setup.js';
       import 'components:theme-toggle.ts';
       import 'components:copy-button.ts';
@@ -54,7 +54,7 @@ const altLink = import.meta.env.PUBLIC_FELTE_ALT_LINK;
     <meta name="twitter:image" content="https://felte.dev/felte-logo-filled.png">
   </head>
   <body>
-    <script>
+    <script is:inline>
       (function() {
           const colorScheme = localStorage.getItem('colorScheme');
           if (colorScheme) document.body.classList.add(colorScheme);
@@ -62,12 +62,12 @@ const altLink = import.meta.env.PUBLIC_FELTE_ALT_LINK;
     </script>
     <aside class="banner mobile">
       If you're looking for the documentation for {altVersion},
-      <a href="{altLink}" re="external">click here</a>.
+      <a href={altLink} rel="external">click here</a>.
     </aside>
     <aside class="banner desktop">
       This is the documentation for Felte {currentVersion}. If you're looking
       for the documentation for {altVersion},
-      <a href={altLink} re="external">click here</a>.
+      <a href={altLink} rel="external">click here</a>.
     </aside>
     <noscript>
       <aside class="banner">

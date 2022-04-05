@@ -1,5 +1,5 @@
 ---
-import section from '../../../other/sections.json';
+import section from 'other:sections.json';
 
 export async function getStaticPaths() {
   const frameworks = Object.keys(section.latest);
@@ -12,7 +12,7 @@ export async function getStaticPaths() {
   });
 };
 
-const { framework } = Astro.request.params;
+const { framework } = Astro.params;
 ---
 
 <meta http-equiv="refresh" content={`0;url=/docs/${framework}/getting-started`}>

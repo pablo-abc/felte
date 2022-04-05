@@ -56,11 +56,11 @@ const { section, all, framework } = Astro.props;
       </details>
     </noscript>
   </div>
-  <main tabindex="-1" id="main-content">
+  <main tabindex={-1} id="main-content">
     <search-bar items={JSON.stringify(all)} framework={framework}><div /></search-bar>
     <slot></slot>
   </main>
-  <script type="module" hoist>
+  <script>
     import 'components:Search/search-bar.ts';
     import '@shoelace-style/shoelace/dist/components/drawer/drawer';
     import '@shoelace-style/shoelace/dist/components/details/details';
@@ -78,7 +78,7 @@ const { section, all, framework } = Astro.props;
       drawer.show();
     });
   </script>
-  <script>
+  <script is:inline>
     (function () {
       const sidebar = document.querySelector('.sidebar');
       const current = document.querySelector('.desktop-menu a[aria-current="page"]');

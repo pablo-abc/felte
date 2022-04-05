@@ -1,13 +1,8 @@
 ---
-import fs from 'node:fs';
+import allSections from 'other:sections.json';
 
 const { items = [], framework, section } = Astro.props;
-const sections = JSON.parse(
-  fs.readFileSync(
-    new URL('../../other/sections.json', import.meta.url).pathname,
-    'utf-8',
-  ),
-).latest;
+const sections = allSections.latest;
 
 const frameworkLinks = Object.keys(sections).reduce((acc, framework) => {
   if (sections[framework].includes(section)) {
@@ -21,7 +16,12 @@ const frameworkLinks = Object.keys(sections).reduce((acc, framework) => {
       [framework]: `/docs/${framework}/${sections[framework][0]}`
     };
   }
-}, {});
+}, {
+  svelte: '',
+  solid: '',
+  react: '',
+  element: '',
+});
 
 let frameworkTitle;
 switch (framework) {
@@ -77,7 +77,7 @@ switch (framework) {
     </li>
   </ul>
 </sl-details>
-<ul class=sections>
+<ul class="sections">
   {items.map((item) => (
     <li>
       <a
@@ -87,7 +87,7 @@ switch (framework) {
         {item.attributes.section}
       </a>
       {!!item.attributes.subsections && (
-        <ul class=subsections>
+        <ul class="subsections">
           {item.attributes.subsections.map((subsection) => (
             <li>
               <a

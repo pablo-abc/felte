@@ -2,7 +2,7 @@
 import BaseLayout from 'layouts:BaseLayout.astro';
 import DocsLayout from 'layouts:DocsLayout.astro';
 import Section from 'components:Docs/Section.svelte';
-import sections from '../../../other/sections.json';
+import sections from 'other:sections.json';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import fm from 'front-matter';
@@ -64,7 +64,7 @@ export async function getStaticPaths() {
   return params;
 };
 
-const { section, framework } = Astro.request.params;
+const { section, framework } = Astro.params;
 const { content, all } = Astro.props;
 let frameworkTitle;
 
