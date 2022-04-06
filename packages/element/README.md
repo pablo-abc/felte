@@ -28,18 +28,17 @@ Using Svelte as an example:
 
 ```html
 <script type="module">
-  import { prepareForm } from '@felte/element';
+  import '@felte/element/felte-form';
 
-  // Needs to run _before_ `<felte-form>` connects.
-  // Make sure to call it at the top leve of the module.
-  prepareForm('signin', {
+  const felteForm = document.querySelector('felte-form');
+  felteForm.configuration = {
     onSubmit: async (values) => {
       /* call to an api */
     },
-  });
+  };
 </script>
 
-<felte-form id="signin">
+<felte-form>
   <form>
     <input type="text" name="email" />
     <input type="password" name="password" />

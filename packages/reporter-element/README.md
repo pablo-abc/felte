@@ -23,12 +23,12 @@ yarn add @felte/reporter-element
 
 The package exports a `reporter` function. Pass the `reporter` function to the `extend` option of `createForm` or `useForm`.
 
-`@felte/reporter-element` also defines a custom element globally: `<felte-validation-message>`, you can add this wherever you want your validation message for the specified field to be displayed. It accepts the following attributes:
+You can import side effects from `@felte/reporter-element/felte-validation-message` to define the `<felte-validation-message>` element globally. You can add this wherever you want your validation message for the specified field to be displayed. It accepts the following attributes:
 
-* `for`: (required) the name of the field you want to display the validation messages for.
-* `max`: (optional) the maximun amount of validation messages to display for the given field. Useful if you can get multiple validation messages but you only want to display a few at a time.
-* `level`: (optional) the kind of validation messages this element should display. Set it to `warning` to display warning messages. Default: `error`.
-* `templateid` or `templateId`: (optional) the id of the template element to be used for this element.
+- `for`: (required) the name of the field you want to display the validation messages for.
+- `max`: (optional) the maximun amount of validation messages to display for the given field. Useful if you can get multiple validation messages but you only want to display a few at a time.
+- `level`: (optional) the kind of validation messages this element should display. Set it to `warning` to display warning messages. Default: `error`.
+- `templateid` or `templateId`: (optional) the id of the template element to be used for this element.
 
 It expects a `<template>` element as its child (or assigned using `templateid`), which will be used as the template for your validation messages. This template will be cloned into the as a child of `<felte-validation-message>` and updated when validation messages change. The template **must** have an element with an attribute `data-part="item"`. This element is the one that will contain the validation message, and it will be appended for each message. Optionally you can add an element with `data-part="message"` deeper within the item element if you want your message somewhere else.
 
@@ -57,30 +57,37 @@ When using `templateid`, this package expects the template to be either on the l
   </ul>
 </template>
 
-<felte-validation-message for="email" templateid="message-template"></felte-validation-message>
+<felte-validation-message
+  for="email"
+  templateid="message-template"
+></felte-validation-message>
 
-<felte-validation-message for="password" templateid="message-template"></felte-validation-message>
+<felte-validation-message
+  for="password"
+  templateid="message-template"
+></felte-validation-message>
 ```
 
 A more complete example using `@felte/element`:
 
-
 ```html
 <script type="module">
+  import '@felte/element/felte-form';
+  import '@felte/reporter-element/felte-validation-message';
   import { reporter } from '@felte/reporter-element';
-  import { prepareForm } from '@felte/element';
 
-  prepareForm('signin', {
+  const felteForm = document.querySelector('felte-form');
+  felteForm.configuration = {
     // ...
     extend: reporter,
     // ...
-  })
+  };
 </script>
 
-<!-- For the first element, we assume there will only be a single message at all times -->
-<felte-form id="signin">
+<felte-form>
   <form>
     <input id="email" type="text" name="email" />
+    <!-- For the first element, we assume there will only be a single message at all times -->
     <felte-validation-message for="email" max="1">
       <template>
         <span data-part="message" />
