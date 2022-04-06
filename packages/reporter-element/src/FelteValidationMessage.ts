@@ -3,11 +3,12 @@ import { _get, isEqual } from '@felte/common';
 
 export class FelteValidationMessage extends HTMLElement {
   [key: string]: unknown;
+
   static get observedAttributes() {
     return ['level', 'for', 'max', 'templateid'];
   }
 
-  attributeChangedCallback(name: string, oldValue: any, newValue: any) {
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (oldValue === newValue) return;
     switch (name) {
       case 'templateid':
@@ -37,7 +38,7 @@ export class FelteValidationMessage extends HTMLElement {
   set items(value: HTMLElement[]) {
     if (isEqual(value, this._items)) return;
     this._items = value;
-    this._updatedItems();
+    this._updateItems();
   }
   get items() {
     return this._items;
@@ -62,7 +63,7 @@ export class FelteValidationMessage extends HTMLElement {
 
   private cleanup?: () => void;
 
-  private formElement?: HTMLFormElement;
+  formElement?: HTMLFormElement;
 
   private _setup() {
     const rootNode = this.getRootNode() as ShadowRoot | null;
@@ -143,7 +144,7 @@ export class FelteValidationMessage extends HTMLElement {
     });
   }
 
-  private _updatedItems() {
+  private _updateItems() {
     if (this._container) {
       for (const child of Array.from(this._container.childNodes)) {
         if (this.items.includes(child as HTMLElement)) continue;

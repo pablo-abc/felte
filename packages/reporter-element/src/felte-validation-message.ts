@@ -1,4 +1,4 @@
-import { FelteValidationMessage } from './ValidationMessage';
+import { FelteValidationMessage } from './FelteValidationMessage';
 
 if (!customElements.get('felte-validation-message'))
   customElements.define('felte-validation-message', FelteValidationMessage);

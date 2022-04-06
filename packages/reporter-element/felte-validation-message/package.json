@@ -1,7 +1,7 @@
 {
   "name": "@felte/reporter-element/felte-validation-message",
   "private": true,
-  "main": "../dist/validation-message.js",
-  "module": "../dist/validation-message.js",
-  "types": "../dist/types/validation-message.d.ts"
+  "main": "../dist/felte-validation-message.js",
+  "module": "../dist/felte-validation-message.js",
+  "types": "../dist/types/felte-validation-message.d.ts"
 }

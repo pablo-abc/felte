@@ -7,7 +7,7 @@ import { terser } from 'rollup-plugin-terser';
 const prod = !process.env.ROLLUP_WATCH;
 
 export default {
-  input: ['./src/index.ts', './src/validation-message.ts'],
+  input: ['./src/index.ts', './src/felte-validation-message.ts'],
   output: [
     prod && {
       dir: 'dist/min',

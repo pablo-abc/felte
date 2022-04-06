@@ -1,2 +1,2 @@
-export * from './ValidationMessage';
+export * from './FelteValidationMessage';
 export * from './reporter';
