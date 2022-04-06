@@ -8,8 +8,11 @@
 [![codecov](https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC)](https://codecov.io/gh/pablo-abc/felte)
 [![Follow Felte on Twitter](https://img.shields.io/twitter/follow/feltejs?style=social)](https://twitter.com/feltejs)
 [![Follow Pablo on Twitter](https://img.shields.io/twitter/follow/Pablo_ABC?style=social)](https://twitter.com/Pablo_ABC)
+
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 - [Features](#features)
@@ -68,19 +71,19 @@ Felte is a simple to use form library for Svelte, Solid and React. No `Field` or
 
 ```html
 <script>
-  import { createForm } from 'felte'
+  import { createForm } from 'felte';
 
   const { form } = createForm({
     onSubmit: async (values) => {
       /* call to an api */
     },
-  })
+  });
 </script>
 
 <form use:form>
-  <input type=text name=email>
-  <input type=password name=password>
-  <button type=submit>Sign In</button>
+  <input type="text" name="email" />
+  <input type="password" name="password" />
+  <button type="submit">Sign In</button>
 </form>
 ```
 
@@ -94,7 +97,7 @@ function Form() {
     onSubmit: async (values) => {
       /* call to an api */
     },
-  })
+  });
 
   return (
     <form use:form>
@@ -117,7 +120,7 @@ function Form() {
     onSubmit: async (values) => {
       /* call to an api */
     },
-  })
+  });
 
   return (
     <form ref={form}>
@@ -133,20 +136,21 @@ function Form() {
 
 ```html
 <script type="module">
-  import { prepareForm } from 'https://unpkg.com/@felte/element@0.1.0/dist/esm/index.min.js'
+  import 'https://unpkg.com/@felte/element@0.4.0/dist/min/felte-form.js';
+  const felteForm = document.querySelector('felte-form');
 
-  prepareForm('signin', {
+  felteForm.configuration = {
     onSubmit: async (values) => {
       console.log(values);
     },
-  })
+  };
 </script>
 
-<felte-form id="signin">
+<felte-form>
   <form>
-    <input type=text name=email>
-    <input type=password name=password>
-    <button type=submit>Sign In</button>
+    <input type="text" name="email" />
+    <input type="password" name="password" />
+    <button type="submit">Sign In</button>
   </form>
 </felte-form>
 ```
