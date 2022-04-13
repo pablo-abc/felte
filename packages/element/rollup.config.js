@@ -8,18 +8,21 @@ const prod = !process.env.ROLLUP_WATCH;
 
 export default {
   input: ['./src/index.ts', './src/felte-form.ts', './src/felte-field.ts'],
+  external: ['@felte/core'],
   output: [
     prod && {
       dir: 'dist/min',
       format: 'esm',
       sourcemap: prod,
       exports: 'named',
+      hoistTransitiveImports: false,
       plugins: [terser()],
     },
     {
       dir: 'dist',
       format: 'esm',
       sourcemap: prod,
+      hoistTransitiveImports: false,
       exports: 'named',
     },
   ],

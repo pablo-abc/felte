@@ -8,6 +8,7 @@ const prod = !process.env.ROLLUP_WATCH;
 
 export default {
   input: ['./src/index.ts', './src/felte-validation-message.ts'],
+  external: ['@felte/common'],
   output: [
     prod && {
       dir: 'dist/min',

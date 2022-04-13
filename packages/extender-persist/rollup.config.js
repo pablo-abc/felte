@@ -13,7 +13,7 @@ const name = pkg.name
 
 export default {
   input: './src/index.ts',
-  external: ['tippy.js'],
+  external: ['@felte/common'],
   output: [
     {
       file: pkg.main,
@@ -22,7 +22,12 @@ export default {
       exports: 'named',
       name,
     },
-    { file: pkg.module, format: 'esm', sourcemap: prod, exports: 'named' },
+    {
+      file: pkg.module,
+      format: 'esm',
+      sourcemap: prod,
+      exports: 'named',
+    },
   ],
   plugins: [
     replace({

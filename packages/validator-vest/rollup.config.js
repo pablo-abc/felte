@@ -13,7 +13,7 @@ const name = pkg.name
 
 export default {
   input: './src/index.ts',
-  external: ['vest'],
+  external: ['vest', '@felte/common'],
   output: [
     {
       file: pkg.main,

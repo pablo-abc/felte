@@ -9,7 +9,7 @@ const prod = process.env.NODE_ENV === 'production';
 
 export default {
   input: './src/index.ts',
-  external: ['solid-js/store', 'solid-js'],
+  external: ['solid-js/store', 'solid-js', '@felte/core'],
   output: [
     {
       file: pkg.main,

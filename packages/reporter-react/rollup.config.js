@@ -19,7 +19,7 @@ export default {
       format: 'cjs',
     },
   ],
-  external: ['react', 'react-dom'],
+  external: ['react', 'react-dom', '@felte/common'],
   plugins: [
     nodeResolve({
       extensions: ['.js', '.ts', '.tsx'],

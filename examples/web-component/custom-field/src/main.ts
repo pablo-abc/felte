@@ -42,3 +42,15 @@ form?.addEventListener('reset', function () {
   if (!submitted) return;
   submitted.innerHTML = '';
 });
+
+// Let `Enter` submit the form
+form?.addEventListener('keydown', (event) => {
+  const target = event.target as HTMLElement;
+  if (event.key === 'Enter' && target.matches('div[contenteditable]'))
+    event.preventDefault();
+});
+form?.addEventListener('keyup', (event) => {
+  const target = event.target as HTMLElement;
+  if (event.key === 'Enter' && target.matches('div[contenteditable]'))
+    form.requestSubmit();
+});
