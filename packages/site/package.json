@@ -25,12 +25,12 @@
     "vite": "^2.8.6"
   },
   "dependencies": {
-    "@felte/element": "^0.3.0",
-    "@felte/reporter-element": "^0.1.2",
-    "@felte/reporter-tippy": "^1.0.4",
-    "@felte/validator-yup": "^1.0.2",
+    "@felte/element": "latest",
+    "@felte/reporter-element": "latest",
+    "@felte/reporter-tippy": "latest",
+    "@felte/validator-yup": "latest",
     "@shoelace-style/shoelace": "^2.0.0-beta.72",
-    "felte": "^1.1.3",
+    "felte": "latest",
     "flexsearch": "^0.7.21",
     "focus-visible": "^5.2.0",
     "lit": "^2.0.2",

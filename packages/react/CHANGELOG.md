@@ -1,5 +1,13 @@
 # @felte/react
 
+## 1.1.6
+
+### Patch Changes
+
+- d9e7b12: Stop bundling core/common packages to allow for code reusability
+- Updated dependencies [d9e7b12]
+  - @felte/core@1.2.4
+
 ## 1.1.5
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @felte/reporter-preact
 
+## 1.0.3
+
+### Patch Changes
+
+- d9e7b12: Stop bundling core/common packages to allow for code reusability
+
 ## 1.0.2
 
 ### Patch Changes

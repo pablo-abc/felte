@@ -1,5 +1,11 @@
 # @felte/core
 
+## 1.2.4
+
+### Patch Changes
+
+- d9e7b12: Stop bundling core/common packages to allow for code reusability
+
 ## 1.2.3
 
 ### Patch Changes

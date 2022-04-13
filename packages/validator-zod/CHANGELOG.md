@@ -1,5 +1,11 @@
 # @felte/validator-zod
 
+## 1.0.6
+
+### Patch Changes
+
+- d9e7b12: Stop bundling core/common packages to allow for code reusability
+
 ## 1.0.5
 
 ### Patch Changes

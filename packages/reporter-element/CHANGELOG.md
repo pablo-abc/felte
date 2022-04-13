@@ -1,5 +1,15 @@
 # @felte/reporter-element
 
+## 0.3.0
+
+### Minor Changes
+
+- 985f60a: Change minified dist export name for element
+
+### Patch Changes
+
+- d9e7b12: Stop bundling core/common packages to allow for code reusability
+
 ## 0.2.0
 
 ### Minor Changes
