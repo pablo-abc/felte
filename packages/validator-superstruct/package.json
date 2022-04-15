@@ -11,7 +11,11 @@
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
   "sideEffects": false,
-  "author": "Pablo Berganza <pablo@berganza.dev>",
+  "author": {
+    "name": "Pablo Berganza",
+    "email": "pablo@berganza.dev",
+    "url": "https://pablo.berganza.dev"
+  },
   "repository": "github:pablo-abc/felte",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/validator-superstruct",
   "keywords": [

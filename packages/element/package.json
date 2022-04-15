@@ -15,7 +15,11 @@
     "test": "uvu -r tsm -r global-jsdom/register tests -i common",
     "test:ci": "nyc pnpm test"
   },
-  "author": "Pablo Berganza <pablo@berganza.dev>",
+  "author": {
+    "name": "Pablo Berganza",
+    "email": "pablo@berganza.dev",
+    "url": "https://pablo.berganza.dev"
+  },
   "license": "MIT",
   "repository": "github:pablo-abc/felte",
   "homepage": "https://felte.dev",
@@ -43,8 +47,8 @@
   },
   "exports": {
     ".": "./dist/index.js",
-    "./felte-form": "./felte-form",
-    "./felte-field": "./felte-field",
+    "./felte-form": "./felte-form/index.js",
+    "./felte-field": "./felte-field/index.js",
     "./package.json": "./package.json"
   }
 }

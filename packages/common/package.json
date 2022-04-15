@@ -2,7 +2,11 @@
   "name": "@felte/common",
   "version": "1.0.4",
   "description": "Common utilities for Felte packages",
-  "author": "Pablo Berganza <pablo@berganza.dev>",
+  "author": {
+    "name": "Pablo Berganza",
+    "email": "pablo@berganza.dev",
+    "url": "https://pablo.berganza.dev"
+  },
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/common",
   "license": "MIT",
   "main": "dist/cjs/index.cjs",
