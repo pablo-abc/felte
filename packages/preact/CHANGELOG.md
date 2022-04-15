@@ -1,5 +1,11 @@
 # @felte/preact
 
+## 1.1.7
+
+### Patch Changes
+
+- @felte/core@1.2.5
+
 ## 1.1.6
 
 ### Patch Changes

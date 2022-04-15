@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.0.4
+
+### Patch Changes
+
+- 32028b1: Fix external dependencies
+
 ## 1.0.3
 
 ### Patch Changes
