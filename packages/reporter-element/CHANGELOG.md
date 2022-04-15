@@ -1,5 +1,11 @@
 # @felte/reporter-element
 
+## 0.3.2
+
+### Patch Changes
+
+- 2530072: Fix module exports
+
 ## 0.3.1
 
 ### Patch Changes

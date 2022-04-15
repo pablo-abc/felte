@@ -1,5 +1,11 @@
 # @felte/element
 
+## 0.4.3
+
+### Patch Changes
+
+- 2530072: Fix module exports
+
 ## 0.4.2
 
 ### Patch Changes

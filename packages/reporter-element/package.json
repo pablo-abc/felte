@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-element",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "An error reporter for Felte using custom elements",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
