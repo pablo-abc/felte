@@ -130,4 +130,6 @@ dist
 # and uncomment the following lines
 # .pnp.*
 
+.turbo
+
 # End of https://www.toptal.com/developers/gitignore/api/node,yarn

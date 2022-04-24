@@ -32,6 +32,9 @@
     "test": "uvu -r tsm -r global-jsdom/register tests -i common",
     "test:ci": "nyc -n src pnpm test"
   },
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@felte/common": "workspace:*"
   },

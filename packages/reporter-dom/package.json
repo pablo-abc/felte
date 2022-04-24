@@ -32,6 +32,9 @@
     "test": "uvu -r tsm -r global-jsdom/register -r module-alias/register tests -i common -i mocks",
     "test:ci": "nyc -n src pnpm test"
   },
+  "files": [
+    "dist"
+  ],
   "license": "MIT",
   "dependencies": {
     "@felte/common": "workspace:*"

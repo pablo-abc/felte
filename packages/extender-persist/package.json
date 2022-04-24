@@ -7,6 +7,9 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "type": "module",
+  "files": [
+    "dist"
+  ],
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
