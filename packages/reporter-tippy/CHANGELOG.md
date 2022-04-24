@@ -1,5 +1,11 @@
 # @felte/reporter-tippy
 
+## 1.0.8
+
+### Patch Changes
+
+- 43e1376: Add "files" field to package.json
+
 ## 1.0.7
 
 ### Patch Changes

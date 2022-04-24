@@ -1,5 +1,11 @@
 # @felte/validator-superstruct
 
+## 1.0.6
+
+### Patch Changes
+
+- 43e1376: Add "files" field to package.json
+
 ## 1.0.5
 
 ### Patch Changes

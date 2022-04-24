@@ -1,5 +1,11 @@
 # @felte/validator-vest
 
+## 1.0.7
+
+### Patch Changes
+
+- 43e1376: Add "files" field to package.json
+
 ## 1.0.6
 
 ### Patch Changes
