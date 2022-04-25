@@ -55,12 +55,14 @@ export type TippyReporterOptions<Data extends Obj> = {
   tippyProps?: TippyFieldProps;
   tippyPropsMap?: TippyPropsMap<Data>;
   level?: 'error' | 'warning';
+  preventFocusOnError?: boolean;
 };
 
 function tippyReporter<Data extends Obj = any>({
   setContent,
   level = 'error',
   tippyProps,
+  preventFocusOnError,
   tippyPropsMap = {},
 }: TippyReporterOptions<Data> = {}): Extender<Data> {
   function setTippyInstance(
@@ -251,6 +253,7 @@ function tippyReporter<Data extends Obj = any>({
         observer?.disconnect();
       },
       onSubmitError({ errors }) {
+        if (preventFocusOnError) return;
         if (level !== 'error') return;
         const firstInvalidElement = form.querySelector(
           '[aria-invalid="true"]:not([type="hidden"])'

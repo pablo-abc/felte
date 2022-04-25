@@ -3,11 +3,16 @@ import type {
   ExtenderHandler,
   FormControl,
   Obj,
+  Extender,
 } from '@felte/common';
 
 const mutationConfig: MutationObserverInit = {
   attributes: true,
   subtree: true,
+};
+
+export type ReporterOptions = {
+  preventFocusOnError?: boolean;
 };
 
 function mutationCallback(mutationList: MutationRecord[]) {
@@ -20,7 +25,8 @@ function mutationCallback(mutationList: MutationRecord[]) {
 }
 
 function cvapiReporter<Data extends Obj = Obj>(
-  currentForm: CurrentForm<Data>
+  currentForm: CurrentForm<Data>,
+  options?: ReporterOptions
 ): ExtenderHandler<Data> {
   if (currentForm.stage === 'SETUP') return {};
   const form = currentForm.form;
@@ -31,6 +37,7 @@ function cvapiReporter<Data extends Obj = Obj>(
       mutationObserver.disconnect();
     },
     onSubmitError() {
+      if (options?.preventFocusOnError) return;
       const firstInvalidElement = form.querySelector(
         '[aria-invalid="true"]:not([type="hidden"])'
       ) as FormControl | null;
@@ -40,4 +47,20 @@ function cvapiReporter<Data extends Obj = Obj>(
   };
 }
 
-export default cvapiReporter;
+function reporter<Data extends Obj = any>(
+  options?: ReporterOptions
+): Extender<Data>;
+function reporter<Data extends Obj = any>(
+  currentForm: CurrentForm<Data>
+): ExtenderHandler<Data>;
+function reporter<Data extends Obj = any>(
+  currentFormOrOptions?: CurrentForm<Data> | ReporterOptions
+): Extender<Data> | ExtenderHandler<Data> {
+  if (!currentFormOrOptions || 'preventFocusOnError' in currentFormOrOptions) {
+    return (currentForm: CurrentForm<any>) =>
+      cvapiReporter(currentForm, currentFormOrOptions);
+  }
+  return cvapiReporter(currentFormOrOptions as CurrentForm<Data>);
+}
+
+export default reporter;
