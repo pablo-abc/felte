@@ -1,5 +1,11 @@
 # @felte/reporter-cvapi
 
+## 1.1.0
+
+### Minor Changes
+
+- c55b7fe: Allow to prevent focus on error by passing options to the reporter
+
 ## 1.0.6
 
 ### Patch Changes

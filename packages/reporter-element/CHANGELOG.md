@@ -1,5 +1,11 @@
 # @felte/reporter-element
 
+## 0.4.0
+
+### Minor Changes
+
+- c55b7fe: Allow to prevent focus on error by passing options to the reporter
+
 ## 0.3.2
 
 ### Patch Changes

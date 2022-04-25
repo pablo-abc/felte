@@ -1,5 +1,11 @@
 # @felte/reporter-preact
 
+## 1.1.0
+
+### Minor Changes
+
+- c55b7fe: Allow to prevent focus on error by passing options to the reporter
+
 ## 1.0.4
 
 ### Patch Changes
