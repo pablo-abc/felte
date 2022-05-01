@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.1.0
+
+### Minor Changes
+
+- 72f5389: Pass all stores, `createSubmitHandler` and `handleSubmit` to extenders
+
 ## 1.0.4
 
 ### Patch Changes

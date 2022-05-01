@@ -1,5 +1,16 @@
 # @felte/vanilla
 
+## 0.3.0
+
+### Minor Changes
+
+- 72f5389: Pass all stores, `createSubmitHandler` and `handleSubmit` to extenders
+
+### Patch Changes
+
+- Updated dependencies [72f5389]
+  - @felte/core@1.3.0
+
 ## 0.2.7
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@felte/preact",
-  "version": "1.1.7",
+  "version": "1.2.0",
   "description": "An extensible form library for Preact",
   "main": "dist/cjs/index.cjs",
   "browser": "dist/esm/index.js",
