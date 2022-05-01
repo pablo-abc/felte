@@ -179,6 +179,9 @@ function createSignupForm() {
   multipleSelectElement.append(...multipleOptionElements);
   formElement.appendChild(multipleSelectElement);
 
+  const hiddenElement = createInputElement({ name: 'hidden', type: 'hidden' });
+  formElement.appendChild(hiddenElement);
+
   return {
     formElement,
     emailInput,
@@ -205,6 +208,7 @@ function createSignupForm() {
     accountTypeElement,
     selectElement,
     multipleSelectElement,
+    hiddenElement,
   };
 }
 
@@ -640,6 +644,8 @@ UserInteractions('Handles user events', () => {
     extraPreferences1,
     extraFileInputs,
     accountTypeElement,
+    multipleSelectElement,
+    hiddenElement,
   } = createSignupForm();
 
   form(formElement);
@@ -663,6 +669,8 @@ UserInteractions('Handles user events', () => {
       pictures: [],
     },
     preferences: [],
+    multipleSelect: [],
+    hidden: '',
   });
 
   const mockFile = new File(['test file'], 'test.png', { type: 'image/png' });
@@ -690,6 +698,10 @@ UserInteractions('Handles user events', () => {
   userEvent.click(extraPreferences1[1]);
   userEvent.upload(extraFileInputs[1], mockFile);
   userEvent.selectOptions(accountTypeElement, ['admin']);
+  userEvent.selectOptions(multipleSelectElement, ['1', '2']);
+
+  hiddenElement.value = 'value';
+  hiddenElement.dispatchEvent(new Event('change', { bubbles: true }));
 
   expect(get(data)).to.deep.include({
     account: {
@@ -710,6 +722,8 @@ UserInteractions('Handles user events', () => {
       pictures: [mockFile, mockFile],
     },
     preferences: ['technology'],
+    multipleSelect: ['1', '2'],
+    hidden: 'value',
   });
 });
 

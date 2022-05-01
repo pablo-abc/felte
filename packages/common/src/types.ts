@@ -187,33 +187,27 @@ export type SetupCurrentForm<Data extends Obj> = {
   form?: never;
   controls?: never;
   stage: 'SETUP';
-  errors: PartialWritableErrors<Data>;
-  warnings: PartialWritableErrors<Data>;
-  data: KeyedWritable<Data>;
-  touched: Writable<Touched<Data>>;
   config: FormConfig<Data>;
   setFields(values: Data): void;
   reset(): void;
   validate(): Promise<Errors<Data> | void>;
   addValidator: AddValidatorFn<Data>;
   addTransformer(transformer: TransformFunction<Data>): void;
-};
+} & Stores<Data> &
+  Omit<Form<Data>, 'form'>;
 
 export type MountedCurrentForm<Data extends Obj> = {
   form: HTMLFormElement;
   controls: FormControl[];
   stage: 'MOUNT' | 'UPDATE';
-  errors: PartialWritableErrors<Data>;
-  warnings: PartialWritableErrors<Data>;
-  data: KeyedWritable<Data>;
-  touched: Writable<Touched<Data>>;
   config: FormConfig<Data>;
   setFields(values: Data): void;
   reset(): void;
   validate(): Promise<Errors<Data> | void>;
   addValidator: AddValidatorFn<Data>;
   addTransformer(transformer: TransformFunction<Data>): void;
-};
+} & Stores<Data> &
+  Omit<Form<Data>, 'form'>;
 
 export type CurrentForm<Data extends Obj> =
   | MountedCurrentForm<Data>

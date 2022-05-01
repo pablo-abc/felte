@@ -6,12 +6,9 @@ import type {
   TransformFunction,
   ExtenderHandler,
   FormControl,
-  CreateSubmitHandlerConfig,
-  Errors,
   AddValidatorFn,
   Helpers,
-  ValidationFunction,
-  Keyed,
+  Form,
 } from '@felte/common';
 import {
   isFormControl,
@@ -27,86 +24,24 @@ import {
   _cloneDeep,
   _defaultsDeep,
   getPath,
-  deepSet,
-  deepSome,
   getFormDefaultValues,
   getFormControls,
   _isPlainObject,
   debounce,
 } from '@felte/common';
-import type { SuccessResponse, FetchResponse } from './error';
 import { get } from './get';
-import { createEventConstructors } from './events';
-import { FelteSubmitError } from './error';
-import { deepSetTouched } from './deep-set-touched';
-import { deepRemoveKey } from './deep-set-key';
-
-function createDefaultSubmitHandler(form?: HTMLFormElement) {
-  if (!form) return;
-  return async function onSubmit(): Promise<SuccessResponse> {
-    let body: FormData | URLSearchParams = new FormData(form);
-    const action = new URL(form.action);
-    const method =
-      form.method.toLowerCase() === 'get'
-        ? 'get'
-        : action.searchParams.get('_method') || form.method;
-    let enctype = form.enctype;
-
-    if (form.querySelector('input[type="file"]')) {
-      enctype = 'multipart/form-data';
-    }
-    if (method === 'get' || enctype === 'application/x-www-form-urlencoded') {
-      body = new URLSearchParams(body as any);
-    }
-
-    let fetchOptions: RequestInit;
-
-    if (method === 'get') {
-      (body as URLSearchParams).forEach((value, key) => {
-        action.searchParams.append(key, value);
-      });
-      fetchOptions = { method };
-    } else {
-      fetchOptions = {
-        method,
-        body,
-        headers: {
-          'Content-Type': enctype,
-        },
-      };
-    }
-
-    const response: FetchResponse = await window.fetch(
-      action.toString(),
-      fetchOptions
-    );
-
-    if (response.ok) return response;
-    throw new FelteSubmitError(
-      'An error occurred while submitting the form',
-      response
-    );
-  };
-}
 
 export type FormActionConfig<Data extends Obj> = {
   stores: Stores<Data>;
   config: FormConfig<Data>;
   extender: Extender<Data>[];
-  validateErrors(
-    data: Data | Keyed<Data>,
-    altValidate?: ValidationFunction<Data> | ValidationFunction<Data>[]
-  ): Promise<Errors<Data> | undefined>;
-  validateWarnings(
-    data: Data | Keyed<Data>,
-    altWarn?: ValidationFunction<Data> | ValidationFunction<Data>[]
-  ): Promise<Errors<Data> | undefined>;
   helpers: Helpers<Data, string> & {
     addValidator: AddValidatorFn<Data>;
     addTransformer(transformer: TransformFunction<Data>): void;
   };
+  createSubmitHandler: Form<Data>['createSubmitHandler'];
+  handleSubmit: Form<Data>['handleSubmit'];
   _setFormNode(node: HTMLFormElement): void;
-  _getFormNode(): HTMLFormElement | undefined;
   _getInitialValues(): Data;
   _setCurrentExtenders(extenders: ExtenderHandler<Data>[]): void;
   _getCurrentExtenders(): ExtenderHandler<Data>[];
@@ -117,23 +52,15 @@ export function createFormAction<Data extends Obj>({
   stores,
   config,
   extender,
-  validateErrors,
-  validateWarnings,
+  createSubmitHandler,
+  handleSubmit,
   _setFormNode,
-  _getFormNode,
   _getInitialValues,
   _setCurrentExtenders,
   _getCurrentExtenders,
 }: FormActionConfig<Data>) {
   const { setFields, setTouched, reset, setInitialValues } = helpers;
-  const {
-    addValidator,
-    addTransformer,
-    validate,
-    setIsDirty,
-    setIsSubmitting,
-    ...contextHelpers
-  } = helpers;
+  const { addValidator, addTransformer, validate } = helpers;
   const {
     data,
     errors,
@@ -142,98 +69,9 @@ export function createFormAction<Data extends Obj>({
     isSubmitting,
     isDirty,
     interacted,
+    isValid,
+    isValidating,
   } = stores;
-
-  function createSubmitHandler(altConfig?: CreateSubmitHandlerConfig<Data>) {
-    return async function handleSubmit(event?: Event) {
-      const formNode = _getFormNode();
-      const {
-        createErrorEvent,
-        createSubmitEvent,
-        createSuccessEvent,
-      } = createEventConstructors<Data>();
-      const submitEvent = createSubmitEvent();
-      formNode?.dispatchEvent(submitEvent);
-      const onError =
-        submitEvent.onError ?? altConfig?.onError ?? config.onError;
-      const onSuccess =
-        submitEvent.onSuccess ?? altConfig?.onSuccess ?? config.onSuccess;
-      const onSubmit =
-        submitEvent.onSubmit ??
-        altConfig?.onSubmit ??
-        config.onSubmit ??
-        createDefaultSubmitHandler(formNode);
-      if (!onSubmit) return;
-      event?.preventDefault();
-      if (submitEvent.defaultPrevented) return;
-      isSubmitting.set(true);
-      interacted.set(null);
-      const currentData = deepRemoveKey(get(data));
-      const currentErrors = await validateErrors(
-        currentData,
-        altConfig?.validate
-      );
-      const currentWarnings = await validateWarnings(
-        currentData,
-        altConfig?.warn
-      );
-      if (currentWarnings)
-        warnings.set(_merge(deepSet(currentData, []), currentWarnings));
-      touched.set(deepSetTouched(currentData, true));
-      if (currentErrors) {
-        touched.set(deepSetTouched(currentErrors as Data, true));
-        const hasErrors = deepSome(currentErrors, (error) =>
-          Array.isArray(error) ? error.length >= 1 : !!error
-        );
-        if (hasErrors) {
-          await new Promise((r) => setTimeout(r));
-          _getCurrentExtenders().forEach((extender) =>
-            extender.onSubmitError?.({
-              data: currentData,
-              errors: currentErrors,
-            })
-          );
-          isSubmitting.set(false);
-          return;
-        }
-      }
-      const context = {
-        ...contextHelpers,
-        form: formNode,
-        controls:
-          formNode && Array.from(formNode.elements).filter(isFormControl),
-        config: { ...config, ...altConfig },
-      };
-      try {
-        const response = await onSubmit(currentData, context);
-        formNode?.dispatchEvent(createSuccessEvent({ response, ...context }));
-        await onSuccess?.(response, context);
-      } catch (e) {
-        const errorEvent = createErrorEvent({ error: e, ...context });
-        formNode?.dispatchEvent(errorEvent);
-        if (!onError && !errorEvent.defaultPrevented) {
-          throw e;
-        }
-        if (!onError && !errorEvent.errors) return;
-        const serverErrors = errorEvent.errors || (await onError?.(e, context));
-        if (serverErrors) {
-          touched.set(deepSetTouched((serverErrors as unknown) as Data, true));
-          errors.set(serverErrors);
-          await new Promise((r) => setTimeout(r));
-          _getCurrentExtenders().forEach((extender) =>
-            extender.onSubmitError?.({
-              data: currentData,
-              errors: get(errors),
-            })
-          );
-        }
-      } finally {
-        isSubmitting.set(false);
-      }
-    };
-  }
-
-  const handleSubmit = createSubmitHandler();
 
   function form(node: HTMLFormElement) {
     if (!node.requestSubmit)
@@ -248,12 +86,19 @@ export function createFormAction<Data extends Obj>({
           errors,
           warnings,
           touched,
+          isValid,
+          isValidating,
+          isSubmitting,
+          isDirty,
+          interacted,
           config,
           addValidator,
           addTransformer,
           setFields,
           validate,
           reset,
+          createSubmitHandler,
+          handleSubmit,
         });
       };
     }
@@ -505,9 +350,5 @@ export function createFormAction<Data extends Obj>({
     };
   }
 
-  return {
-    form,
-    createSubmitHandler,
-    handleSubmit,
-  };
+  return { form };
 }
