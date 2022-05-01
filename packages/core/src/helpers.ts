@@ -413,7 +413,6 @@ export function createHelpers<Data extends Obj>({
     _setFormNode(node: HTMLFormElement) {
       formNode = node;
     },
-    _getFormNode: () => formNode,
     _getInitialValues: () => initialValues,
   };
 
