@@ -17,17 +17,19 @@ function extender({
   errors,
   warnings,
   touched,
-  isValid,
-  isValidating,
-  isSubmitting,
-  isDirty,
-  interacted,
   config,
   addValidator,
   addTransformer,
   setFields,
   validate,
   reset,
+
+  // Since 1.2.0
+  isValid,
+  isValidating,
+  isSubmitting,
+  isDirty,
+  interacted,
   handleSubmit,
   createSubmitHandler,
 }) {
@@ -50,11 +52,11 @@ function extender({
 - `errors` is an observable that contains the errors of the form.
 - `warnings` is an observable that contains the warnings of the form.
 - `touched` is an observable that contains the touched values of the form.
-- `isValid` is an observable that contains a boolean showing if the form is valid.
-- `isValidating` is an observable that contains a boolean showing if validations are running.
-- `isSubmitting` is an observable that contains a boolean showing if the form is submitting.
-- `isDirty` is an observable that contains a boolean showing if the user has interacted with the form.
-- `interacted` is an observable that contains either `null` or a string with the name of the last field the user interacted with.
+- `isValid` _(since 1.2.0)_ is an observable that contains a boolean showing if the form is valid.
+- `isValidating` _(since 1.2.0)_ is an observable that contains a boolean showing if validations are running.
+- `isSubmitting` _(since 1.2.0)_ is an observable that contains a boolean showing if the form is submitting.
+- `isDirty` _(since 1.2.0)_ is an observable that contains a boolean showing if the user has interacted with the form.
+- `interacted` _(since 1.2.0)_ is an observable that contains either `null` or a string with the name of the last field the user interacted with.
 - `config` is the configuration object passed by the user to `createForm`.
 - `addValidator` is a function that accepts a validation function to add to the user's `validate` or `warn` configuration. Optionally accepts an object as second parameter with the following properties:
   - `debounce` is a boolean. If `true`, adds to debounced validators. Default: `false`.
@@ -63,8 +65,8 @@ function extender({
 - `setFields` is the same setter described in the [Helper functions section](/docs/svelte/helper-functions#setters).
 - `validate` is the same helper described in the [Helper functions section](/docs/svelte/helper-functions#validate).
 - `reset` is the same helper described in the [Helper functions section](/docs/svelte/helper-functions#reset).
-- `handleSubmit` is a function that triggers a form submission.
-- `createSubmitHandler` is the same helper descriped in the [Helper functions section](/docs/svelte/helper-functions#createsubmithandler).
+- `handleSubmit` _(since 1.2.0)_ is a function that triggers a form submission.
+- `createSubmitHandler` _(since 1.2.0)_ is the same helper descriped in the [Helper functions section](/docs/svelte/helper-functions#createsubmithandler).
 
 If you're subscribing to any store, or adding any event listeners in the extender, you will want to unsubscribe and/or remove any event listeners in the `destroy` function that you can return from the extender. If you're not using any events or subscribing to any store, you don't need to set this.
 
