@@ -296,7 +296,7 @@ const { form } = useForm({
 This validator will update the `warnings` store with the messages returned from any test marked with `warn()`:
 
 ```javascript
-import { validateSuite } from '@felte/validator-vest';
+import { validator } from '@felte/validator-vest';
 import { create, enforce, test, warn } from 'vest';
 
 const suite = create('form', (data) => {
@@ -317,7 +317,7 @@ const suite = create('form', (data) => {
 
 const { form } = useForm({
   // ...
-  validate: validateSuite(suite),
+  extend: validator({ suite }), // or `extend: [validator({ suite })],`
   // ...
 });
 ```
