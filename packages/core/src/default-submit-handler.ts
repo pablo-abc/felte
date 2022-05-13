@@ -25,13 +25,14 @@ export function createDefaultSubmitHandler(form?: HTMLFormElement) {
       (body as URLSearchParams).forEach((value, key) => {
         action.searchParams.append(key, value);
       });
-      fetchOptions = { method };
+      fetchOptions = { method, headers: { Accept: 'application/json' } };
     } else {
       fetchOptions = {
         method,
         body,
         headers: {
           'Content-Type': enctype,
+          Accept: 'application/json',
         },
       };
     }
