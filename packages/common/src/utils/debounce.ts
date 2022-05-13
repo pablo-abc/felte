@@ -1,13 +1,17 @@
 export function debounce<T extends unknown[]>(
   this: any,
   func: (...v: T) => any,
-  timeout?: number
+  timeout?: number,
+  { onInit, onEnd }: { onInit?: () => void; onEnd?: () => void } = {}
 ) {
-  let timer: NodeJS.Timeout;
+  let timer: NodeJS.Timeout | undefined;
   return (...args: T) => {
-    clearTimeout(timer);
+    if (!timer) onInit?.();
+    if (timer) clearTimeout(timer);
     timer = setTimeout(() => {
       func.apply(this, args);
+      timer = undefined;
+      onEnd?.();
     }, timeout);
   };
 }

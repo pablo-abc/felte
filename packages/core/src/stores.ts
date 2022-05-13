@@ -329,7 +329,15 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   const validateDebouncedWarnings = cancellableValidation(debouncedWarnings);
   const _validateDebouncedErrors = debounce(
     validateDebouncedErrors,
-    config.debounced?.validateTimeout ?? config.debounced?.timeout ?? 300
+    config.debounced?.validateTimeout ?? config.debounced?.timeout ?? 300,
+    {
+      onInit: () => {
+        validationCount.update((c) => c + 1);
+      },
+      onEnd: () => {
+        validationCount.update((c) => c - 1);
+      },
+    }
   );
   const _validateDebouncedWarnings = debounce(
     validateDebouncedWarnings,
