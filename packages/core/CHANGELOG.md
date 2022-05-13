@@ -1,5 +1,11 @@
 # @felte/core
 
+## 1.3.2
+
+### Patch Changes
+
+- ab24c7e: Send `Accept` headers on default submit handler
+
 ## 1.3.1
 
 ### Patch Changes
