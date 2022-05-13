@@ -117,9 +117,11 @@ FelteForm('sets value with helper', async () => {
   await waitFor(() => {
     expect(felteForm.isDirty).to.deep.equal(true);
   });
-  expect(felteForm.isValid).to.be.false;
-  expect(felteForm.isValidating).to.be.false;
-  expect(felteForm.interacted).to.be.null;
+  await waitFor(() => {
+    expect(felteForm.isValid).to.be.false;
+    expect(felteForm.isValidating).to.be.false;
+    expect(felteForm.interacted).to.be.null;
+  });
 });
 
 FelteForm('handles submit error event', async () => {

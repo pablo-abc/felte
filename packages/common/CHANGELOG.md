@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.1.1
+
+### Patch Changes
+
+- 1386ac3: update `isValidating` on debounced validators
+
 ## 1.1.0
 
 ### Minor Changes

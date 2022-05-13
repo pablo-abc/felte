@@ -1,5 +1,13 @@
 # @felte/core
 
+## 1.3.1
+
+### Patch Changes
+
+- 1386ac3: update `isValidating` on debounced validators
+- Updated dependencies [1386ac3]
+  - @felte/common@1.1.1
+
 ## 1.3.0
 
 ### Minor Changes
