@@ -112,7 +112,7 @@ const { form } = useForm({
 });
 ```
 
-* `form` is an HTML form element. This can be useful if you want to send your dara as `FormData`.
+* `form` is an HTML form element. This can be useful if you want to send your data as `FormData`.
 * `controls` is an array containing your HTML elements that refer to your controls.
 * `config` is the original configuration you passed to `useForm`.
 * The rest are some of the same helpers documented in the [helper functions section](/docs/react/helper-functions)
