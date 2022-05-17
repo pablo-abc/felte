@@ -120,7 +120,7 @@ prepareForm('form-id', {
 });
 ```
 
-* `form` is an HTML form element. This can be useful if you want to send your dara as `FormData`.
+* `form` is an HTML form element. This can be useful if you want to send your data as `FormData`.
 * `controls` is an array containing your HTML elements that refer to your controls.
 * `config` is the original configuration you passed to `createForm`.
 * The rest are some of the same helpers documented in the [helper functions section](/docs/element/helper-functions)
