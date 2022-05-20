@@ -8,7 +8,6 @@ This project is a monorepo containing all the packages related to Felte, as well
 
 Most of the packages use TypeScript for type safety, and all of them use [Rollup](https://rollupjs.org) for bundling.
 
-
 ## Local package development
 
 In order to run this locally, fork this repo and clone it to your machine. You then will install dependencies using `pnpm`. This an all other commands we show in this guide will be run in the root folder of the monorepo.
@@ -39,13 +38,15 @@ This will watch ALL packages.
 
 ### Per package
 
-If you want to scope your commands to a single package you can filter per-package with `pnpm`. The following would build only the `@felte/common` package. The `w` (or `workspace`) scopes the command to a single package. The workspace name is the name inside each of the packages' `package.json` (a.k.a. the name they're published as).
+If you want to scope your commands to a single package you can filter per-package with `pnpm`. The following would build only the `@felte/common` package. The `--filter` option allows you to only run the command on specific packages. The name within `--filter` is the name inside each of the packages' `package.json` (a.k.a. the name they're published as).
 
 ```sh
 pnpm -r --filter='@felte/common' build
 ```
 
 Something similar would be done if you want to watch your changes:
+
+> NOTE: Running more than one package will require using `--parallel`.
 
 ```sh
 pnpm -r --filter='@felte/common' dev
