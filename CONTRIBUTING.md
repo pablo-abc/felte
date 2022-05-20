@@ -78,7 +78,7 @@ Felte uses [uvu](https://github.com/lukeed/uvu) as a test runner, which provides
 
 ## Local documentation site development
 
-We are using [SvelteKit](https://github.com/sveltejs/kit) for the documentation site. You can run a development build of it with:
+We are using [Astro](https://astro.build) for the documentation site. You can run a development build of it with:
 
 ```sh
 pnpm site:dev
@@ -89,14 +89,14 @@ Or you can run a production build using:
 ```sh
 pnpm site:build # makes a production build
 
-pnpm site:start # runs the production build
+pnpm site:preview # runs the production build
 ```
 
 All documentation files for the site are made using Markdown, and they're contained in the `packages/site/markdown/docs/` directory. Its structure right now was made for future i18n and multiple versioning, but right now there's only documentation in the `packages/site/markdown/docs/en/latest` directory.
 
 If you're making changes to any package that require documentation, it would be nice if you could update this as well.
 
-Adding a new section to the docs page would require adding a new markdown file next to the other docs files with the same format as the rest. Then adding the file name (without the extension) to the `sections` array in line 9 of `packages/site/src/routes/docs/_docs.js`. Add the file name where you want the section to be related to the others.
+Adding a new section to the docs page would require adding a new markdown file next to the other docs files with the same format as the rest. Then adding the file name (without the extension) to the `sections` object `packages/site/src/other/sections.json`. Add the file name where you want the section to be related to the others.
 
 ## Commit messages
 
