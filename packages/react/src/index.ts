@@ -3,6 +3,7 @@ export type {
   FelteErrorDetail,
   FelteSuccessEvent,
   FelteErrorEvent,
+  FelteSubmitEvent,
 } from '@felte/core';
 export { FelteSubmitError } from '@felte/core';
 export { useAccessor } from './use-accessor';

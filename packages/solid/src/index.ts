@@ -1,10 +1,11 @@
 export type {
   FelteSuccessDetail,
   FelteErrorDetail,
-  FelteSuccessEvent,
-  FelteErrorEvent,
   Field,
   FieldConfig,
+  FelteSuccessEvent,
+  FelteErrorEvent,
+  FelteSubmitEvent,
 } from '@felte/core';
 export { FelteSubmitError } from '@felte/core';
 export { createForm } from './create-form';

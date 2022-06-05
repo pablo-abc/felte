@@ -1,6 +1,7 @@
 export type {
   FelteSuccessDetail,
   FelteErrorDetail,
+  FelteSubmitEvent,
   FelteSuccessEvent,
   FelteErrorEvent,
 } from '@felte/core';

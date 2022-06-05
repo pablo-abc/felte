@@ -1,0 +1,18 @@
+---
+import section from 'other:sections.json';
+
+export async function getStaticPaths() {
+  const frameworks = Object.keys(section.latest);
+  return frameworks.map((framework) => {
+    return {
+      params: {
+        framework,
+      },
+    };
+  });
+};
+
+const { framework } = Astro.params;
+---
+
+<meta http-equiv="refresh" content={`0;url=/docs/${framework}/getting-started`}>

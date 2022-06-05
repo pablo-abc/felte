@@ -9,7 +9,7 @@ const prod = process.env.NODE_ENV === 'production';
 
 export default {
   input: './src/index.ts',
-  external: ['react'],
+  external: ['react', '@felte/core'],
   output: [
     {
       file: pkg.main,

@@ -1,6 +1,6 @@
 {
   "name": "@felte/solid",
-  "version": "1.0.2",
+  "version": "1.2.2",
   "description": "An extensible form library for SolidJS",
   "main": "dist/cjs/index.cjs",
   "browser": "dist/esm/index.js",
@@ -11,11 +11,14 @@
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
   "sideEffects": false,
-  "author": "Pablo Berganza <pablo@berganza.dev>",
+  "author": {
+    "name": "Pablo Berganza",
+    "email": "pablo@berganza.dev",
+    "url": "https://pablo.berganza.dev"
+  },
   "license": "MIT",
   "homepage": "https://felte.dev",
   "repository": "github:pablo-abc/felte",
-  "funding": "https://www.buymeacoffee.com/pablo.abc",
   "keywords": [
     "solidjs",
     "solid",

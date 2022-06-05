@@ -20,6 +20,7 @@ import {
   mergeErrors,
   executeTransforms,
   deepSome,
+  debounce,
 } from '@felte/common';
 import { deepSetTouched } from './deep-set-touched';
 import { deepRemoveKey, deepSetKey } from './deep-set-key';
@@ -102,20 +103,6 @@ function filterWarnings<Data extends Obj>([errors, touched]: [
   Touched<Data>
 ]) {
   return _mergeWith<Errors<Data>>(touched, errors, warningFilterer);
-}
-
-function debounce<T extends unknown[]>(
-  this: any,
-  func: (...v: T) => any,
-  timeout = 300
-) {
-  let timer: NodeJS.Timeout;
-  return (...args: T) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      func.apply(this, args);
-    }, timeout);
-  };
 }
 
 type Readables =
@@ -342,11 +329,19 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   const validateDebouncedWarnings = cancellableValidation(debouncedWarnings);
   const _validateDebouncedErrors = debounce(
     validateDebouncedErrors,
-    config.debounced?.validateTimeout ?? config.debounced?.timeout
+    config.debounced?.validateTimeout ?? config.debounced?.timeout ?? 300,
+    {
+      onInit: () => {
+        validationCount.update((c) => c + 1);
+      },
+      onEnd: () => {
+        validationCount.update((c) => c - 1);
+      },
+    }
   );
   const _validateDebouncedWarnings = debounce(
     validateDebouncedWarnings,
-    config.debounced?.warnTimeout ?? config.debounced?.timeout
+    config.debounced?.warnTimeout ?? config.debounced?.timeout ?? 300
   );
 
   async function executeErrorsValidation(

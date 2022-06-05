@@ -17,7 +17,7 @@ export default [
         sourcemap: prod,
       },
     ],
-    external: ['solid-js', 'solid-js/web', 'solid-js/store'],
+    external: ['solid-js', 'solid-js/web', 'solid-js/store', '@felte/common'],
     acornInjectPlugins: [jsx()],
     plugins: [
       nodeResolve({
@@ -47,7 +47,7 @@ export default [
         sourcemap: prod,
       },
     ],
-    external: ['solid-js', 'solid-js/web', 'solid-js/store'],
+    external: ['solid-js', 'solid-js/web', 'solid-js/store', '@felte/common'],
     plugins: [
       nodeResolve({
         extensions: ['.js', '.ts', '.tsx'],

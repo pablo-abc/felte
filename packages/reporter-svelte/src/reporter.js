@@ -1,7 +1,7 @@
 import { errorStores, warningStores } from './stores';
 import { createId } from '@felte/common';
 
-export function reporter(currentForm) {
+function reporterSvelte(currentForm) {
   const config = currentForm.config;
   if (currentForm.stage === 'SETUP') {
     if (!config.__felteReporterSvelteId) {
@@ -26,4 +26,11 @@ export function reporter(currentForm) {
       firstInvalidElement && firstInvalidElement.focus();
     },
   };
+}
+
+export function reporter(currentFormOrOptions) {
+  if (!currentFormOrOptions || 'preventFocusOnError' in currentFormOrOptions) {
+    return (currentForm) => reporterSvelte(currentForm, currentFormOrOptions);
+  }
+  return reporterSvelte(currentFormOrOptions);
 }

@@ -1,0 +1,6 @@
+{
+  "name": "@example/webcomponent-cdn",
+  "description": "Example of using Felte with vanilla JS using @felte/element and @felte/reporter-element via CDN (no build step)",
+  "private": true,
+  "version": "0.0.0"
+}

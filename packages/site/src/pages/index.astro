@@ -1,0 +1,154 @@
+---
+import BaseLayout from 'layouts:BaseLayout.astro';
+import HomeExample from 'components:Home/HomeExample.astro';
+import Features from 'components:Home/Features.astro';
+import Example from 'components:Home/Example.svelte';
+import Articles from 'components:Home/Articles.svelte';
+import articles from 'other:articles.json';
+---
+
+<BaseLayout title="Felte | Home" section="home">
+  <main tabindex={-1} id="main-content">
+    <div class="row">
+      <section class="title" aria-labelledby="felte-title">
+        <h1 id="felte-title">FELTE</h1>
+        <p>
+          An extensible <span class="bold">f</span>orm library for Sv<span
+            class="bold"
+            >elte</span
+          >, Solid and React
+        </p>
+      </section>
+      <section aria-label="Functional example">
+        <HomeExample />
+      </section>
+    </div>
+    <div class="row">
+      <Features />
+    </div>
+    <div class="row">
+      <Articles {articles} />
+    </div>
+    <div class="row">
+      <Example title="Using Svelte" client:visible>
+        <iframe
+          src="https://codesandbox.io/embed/felte-v1-demo-svelte-0egr6?fontsize=14&hidenavigation=1&module=%2FApp.svelte&theme=dark"
+          loading="lazy"
+          style="
+            width: 100%;
+            height: 500px;
+            border: 0;
+            border-radius: 4px;
+            overflow: hidden;
+          "
+          title="felte-v1-demo-svelte"
+          allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+          sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+        ></iframe>
+      </Example>
+    </div>
+    <div class="row">
+      <Example title="Using Solid" client:visible>
+        <iframe
+          src="https://codesandbox.io/embed/felte-v1-demo-solidjs-rt0cm?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fmain.tsx&theme=dark"
+          style="
+            width: 100%;
+            height: 500px;
+            border: 0;
+            border-radius: 4px;
+            overflow: hidden;
+          "
+          title="felte-v1-demo-solidjs"
+          allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+          sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+        ></iframe>
+      </Example>
+    </div>
+    <div class="row">
+      <Example title="Using React" client:visible>
+        <iframe
+          src="https://codesandbox.io/embed/felte-react-demo-q2xxw?fontsize=14&hidenavigation=1&module=%2Fsrc%2FApp.js&theme=dark"
+          style="
+            width: 100%;
+            height: 500px;
+            border: 0;
+            border-radius: 4px;
+            overflow: hidden;
+          "
+          title="felte-react-demo"
+          allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+          sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+        ></iframe>
+      </Example>
+    </div>
+    <div class="row">
+      <Example title="Using Preact" client:visible>
+        <iframe
+          src="https://codesandbox.io/embed/felte-preact-demo-svkbbe?fontsize=14&hidenavigation=1&module=%2Fsrc%2FApp.js&theme=dark"
+          style="
+            width: 100%;
+            height: 500px;
+            border: 0;
+            border-radius: 4px;
+            overflow: hidden;
+          "
+          title="felte-preact-demo"
+          allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+          sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+        ></iframe>
+      </Example>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .row {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    min-height: calc(100vh - 6rem);
+    max-width: 128rem;
+    margin: 0 auto;
+  }
+
+  .row section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 2rem 1rem;
+  }
+
+  .title {
+    min-width: min(60%, 600px);
+  }
+
+  h1 {
+    margin: 0 auto;
+    font-size: 4em;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin: 0 0 0.2em 0;
+  }
+
+  p {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+
+  .bold {
+    font-weight: 700;
+  }
+
+  @media (min-width: 971px) {
+    h1 {
+      font-size: 7em;
+    }
+
+    .title {
+      min-height: calc(100vh - 10rem);
+    }
+  }
+</style>

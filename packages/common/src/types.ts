@@ -187,33 +187,27 @@ export type SetupCurrentForm<Data extends Obj> = {
   form?: never;
   controls?: never;
   stage: 'SETUP';
-  errors: PartialWritableErrors<Data>;
-  warnings: PartialWritableErrors<Data>;
-  data: KeyedWritable<Data>;
-  touched: Writable<Touched<Data>>;
   config: FormConfig<Data>;
   setFields(values: Data): void;
   reset(): void;
   validate(): Promise<Errors<Data> | void>;
   addValidator: AddValidatorFn<Data>;
   addTransformer(transformer: TransformFunction<Data>): void;
-};
+} & Stores<Data> &
+  Omit<Form<Data>, 'form'>;
 
 export type MountedCurrentForm<Data extends Obj> = {
   form: HTMLFormElement;
   controls: FormControl[];
   stage: 'MOUNT' | 'UPDATE';
-  errors: PartialWritableErrors<Data>;
-  warnings: PartialWritableErrors<Data>;
-  data: KeyedWritable<Data>;
-  touched: Writable<Touched<Data>>;
   config: FormConfig<Data>;
   setFields(values: Data): void;
   reset(): void;
   validate(): Promise<Errors<Data> | void>;
   addValidator: AddValidatorFn<Data>;
   addTransformer(transformer: TransformFunction<Data>): void;
-};
+} & Stores<Data> &
+  Omit<Form<Data>, 'form'>;
 
 export type CurrentForm<Data extends Obj> =
   | MountedCurrentForm<Data>
@@ -310,7 +304,7 @@ export type FormConfigWithoutTransformFn<Data extends Obj> = {
   onError?: (
     error: unknown,
     context: SubmitContext<Data>
-  ) => Promise<void | Errors<Data>> | void | Errors<Data>;
+  ) => Promise<void | AssignableErrors<Data>> | void | AssignableErrors<Data>;
   /** Optional function/s to extend Felte's functionality. */
   extend?: Extender<Data> | Extender<Data>[];
   [key: string]: unknown;
@@ -343,7 +337,7 @@ export type FormConfigWithTransformFn<Data extends Obj> = {
   onError?: (
     error: unknown,
     context: SubmitContext<Data>
-  ) => Promise<void | Errors<Data>> | void | Errors<Data>;
+  ) => Promise<void | AssignableErrors<Data>> | void | AssignableErrors<Data>;
   /** Optional function/s to extend Felte's functionality. */
   extend?: Extender<Data> | Extender<Data>[];
   [key: string]: unknown;
@@ -484,7 +478,7 @@ export type Form<Data extends Obj> = {
   /** Function that creates a submit handler. If a function is passed as first argument it overrides the default `onSubmit` function set in the `createForm` config object. */
   createSubmitHandler: (
     altConfig?: CreateSubmitHandlerConfig<Data>
-  ) => (e?: Event) => void;
+  ) => (e?: Event) => Promise<void>;
 };
 
 export type StoreFactory<Ext = Record<string, any>> = <Value>(

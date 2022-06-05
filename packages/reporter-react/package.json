@@ -1,11 +1,15 @@
 {
   "name": "@felte/reporter-react",
-  "version": "1.1.1",
+  "version": "1.2.2",
   "description": "An error reporter for Felte using a React component",
   "main": "dist/index.cjs",
   "module": "dist/esm/index.js",
   "sideEffects": false,
-  "author": "Pablo Berganza <pablo@berganza.dev>",
+  "author": {
+    "name": "Pablo Berganza",
+    "email": "pablo@berganza.dev",
+    "url": "https://pablo.berganza.dev"
+  },
   "repository": "github:pablo-abc/felte",
   "homepage": "https://github.com/pablo-abc/felte/tree/main/packages/reporter-react",
   "keywords": [
@@ -53,6 +57,7 @@
     "@rollup/plugin-node-resolve": "13.0.5",
     "@testing-library/react": "^12.1.2",
     "@types/node": "^15.12.4",
+    "@types/react": "^17.0.39",
     "babel-jest": "^26.6.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

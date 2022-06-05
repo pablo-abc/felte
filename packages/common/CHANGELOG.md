@@ -1,5 +1,37 @@
 # @felte/common
 
+## 1.1.1
+
+### Patch Changes
+
+- 1386ac3: update `isValidating` on debounced validators
+
+## 1.1.0
+
+### Minor Changes
+
+- 72f5389: Pass all stores, `createSubmitHandler` and `handleSubmit` to extenders
+
+## 1.0.4
+
+### Patch Changes
+
+- 32028b1: Fix external dependencies
+
+## 1.0.3
+
+### Patch Changes
+
+- aa6483d: Add `debounce` utility
+- aa6483d: Debounce calls to extenders on MutationObserver
+
+## 1.0.2
+
+### Patch Changes
+
+- c00d0e1: Allow onError to return partial errors
+- c00d0e1: Update type of submit handler
+
 ## 1.0.1
 
 ### Patch Changes

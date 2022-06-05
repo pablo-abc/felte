@@ -1,0 +1,92 @@
+---
+import BaseLayout from 'layouts:BaseLayout.astro';
+import DocsLayout from 'layouts:DocsLayout.astro';
+import Section from 'components:Docs/Section.svelte';
+import sections from 'other:sections.json';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import fm from 'front-matter';
+
+export async function getStaticPaths() {
+
+  function idfy(value) {
+    return value.toLowerCase().replace(/[^a-zA-Z0-9]/g, '-');
+  }
+
+  async function getDocs({ framework = 'svelte', section }) {
+    const version = process.env.FELTE_VERSION ?? 'latest';
+    const lang = 'en';
+    const getFilePath = (fileName) =>
+      path.resolve(
+        `./src/markdown/docs/${version}/${framework}/${lang}/${fileName}.md`
+      );
+
+    async function readMd(fileName) {
+      const filePath = getFilePath(fileName);
+      const file = await fs.readFile(filePath, { encoding: 'utf8' });
+
+      const data = fm<any>(file);
+      const id = idfy(data.attributes.section);
+      data.attributes.id = id;
+      data.attributes.subsections = data.attributes.subsections?.map(
+        (subsection) => ({ id: idfy(subsection), name: subsection })
+      );
+      return data;
+    }
+
+    try {
+      if (section === 'all')
+        return await Promise.all(
+          sections[version][framework].map((section) => readMd(section))
+        );
+      if (section) return readMd(section);
+      return readMd('introduction');
+    } catch (err) {
+      return;
+    }
+  }
+
+  const frameworks = Object.keys(sections.latest);
+  const params = await Promise.all(frameworks.flatMap(async (framework) => {
+    return await Promise.all(sections.latest[framework].map(async (section) => {
+      const content = await getDocs({ framework, section });
+      return {
+        params: {
+          section,
+          framework,
+        },
+        props: {
+          content,
+          all: await getDocs({ framework, section: 'all' }),
+        },
+      }
+    }));
+  }));
+  return params;
+};
+
+const { section, framework } = Astro.params;
+const { content, all } = Astro.props;
+let frameworkTitle;
+
+switch (framework) {
+  case 'svelte':
+    frameworkTitle = 'Svelte';
+    break;
+  case 'solid':
+    frameworkTitle = 'Solid';
+    break;
+  case 'react':
+    frameworkTitle = 'React/Preact';
+    break;
+  case 'element':
+    frameworkTitle = 'Vanilla JS (Custom element)';
+    break;
+}
+---
+
+<BaseLayout title={`Felte | ${content.attributes.section} | ${frameworkTitle}`}>
+  <DocsLayout section={section} all={all} framework={framework}>
+    <Section items={all} section={content} framework={framework} />
+  </DocsLayout>
+</BaseLayout>

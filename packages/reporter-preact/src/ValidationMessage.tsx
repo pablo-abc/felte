@@ -11,7 +11,14 @@ export type ValidationMessageProps = {
   level?: 'error' | 'warning';
   children: (
     messages: string[] | null
-  ) => VNode<any> | undefined | null | Element | Element[] | VNode<any>[];
+  ) =>
+    | VNode<any>
+    | undefined
+    | null
+    | Element
+    | Element[]
+    | VNode<any>[]
+    | false;
   as?: string | ComponentType<any>;
 };
 

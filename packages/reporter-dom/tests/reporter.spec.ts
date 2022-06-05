@@ -264,7 +264,7 @@ Reporter(
     const mockErrors = { test: 'A test error' };
     const mockValidate = sinon.fake(() => mockErrors);
     const { form } = createForm({
-      onSubmit: sinon.fake(),
+      onSubmit: () => undefined,
       validate: mockValidate,
       extend: reporter(),
     });
@@ -288,7 +288,45 @@ Reporter(
     formElement.submit();
 
     await waitFor(() => {
-      expect(inputElement).to.equal(document.activeElement);
+      expect(inputElement).to.be.focused;
+      expect(validationMessageElement).to.have.text.that.contains(
+        'A test error'
+      );
+    });
+  }
+);
+
+Reporter(
+  'does not focus first invalid input and shows validation message on submit',
+  async () => {
+    const mockErrors = { test: 'A test error' };
+    const mockValidate = sinon.fake(() => mockErrors);
+    const { form } = createForm({
+      onSubmit: () => undefined,
+      validate: mockValidate,
+      extend: reporter({ preventFocusOnError: true }),
+    });
+
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const inputElement = createInputElement({
+      name: 'test',
+      type: 'text',
+      id: 'test',
+    });
+    const validationMessageElement = document.createElement('div');
+    validationMessageElement.setAttribute(
+      'data-felte-reporter-dom-for',
+      'test'
+    );
+    formElement.appendChild(inputElement);
+    formElement.appendChild(validationMessageElement);
+
+    form(formElement);
+
+    formElement.submit();
+
+    await waitFor(() => {
+      expect(inputElement).to.not.be.focused;
       expect(validationMessageElement).to.have.text.that.contains(
         'A test error'
       );

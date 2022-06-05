@@ -1,0 +1,7 @@
+{
+  "name": "@felte/element/felte-field",
+  "private": true,
+  "main": "../dist/felte-field.js",
+  "module": "../dist/felte-field.js",
+  "types": "../dist/types/felte-field.d.ts"
+}

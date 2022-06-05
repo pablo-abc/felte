@@ -98,7 +98,6 @@ Reporter('reports validation message', async () => {
 
   expect(emailInput).to.be.valid;
   expect(emailMessage).to.be.empty;
-  passwordMessage.childNodes.forEach((c) => console.log(c.nodeName));
   expect(passwordMessage).to.be.empty;
   expect(passwordWarning).to.be.empty;
 

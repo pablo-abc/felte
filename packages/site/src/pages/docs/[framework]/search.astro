@@ -1,0 +1,72 @@
+---
+import BaseLayout from 'layouts:BaseLayout.astro';
+import DocsLayout from 'layouts:DocsLayout.astro';
+import sections from 'other:sections.json';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import fm from 'front-matter';
+
+export async function getStaticPaths() {
+
+  function idfy(value) {
+    return value.toLowerCase().replace(/[^a-zA-Z0-9]/g, '-');
+  }
+
+  async function getDocs({ framework = 'svelte', section }) {
+    const version = process.env.FELTE_VERSION ?? 'latest';
+    const lang = 'en';
+    const getFilePath = (fileName) =>
+      path.resolve(
+        `./src/markdown/docs/${version}/${framework}/${lang}/${fileName}.md`
+      );
+
+    async function readMd(fileName) {
+      const filePath = getFilePath(fileName);
+      const file = await fs.readFile(filePath, { encoding: 'utf8' });
+      const data = fm<any>(file);
+      const id = idfy(data.attributes.section);
+      data.attributes.id = id;
+      data.attributes.subsections = data.attributes.subsections?.map(
+        (subsection) => ({ id: idfy(subsection), name: subsection })
+      );
+      return data;
+    }
+
+    try {
+      if (section === 'all')
+        return await Promise.all(
+          sections[version][framework].map((section) => readMd(section))
+        );
+      if (section) return readMd(section);
+      return readMd('introduction');
+    } catch (err) {
+      return;
+    }
+  }
+
+  const frameworks = Object.keys(sections.latest);
+  const params = await Promise.all(frameworks.flatMap(async (framework) => {
+    return {
+      params: {
+        framework,
+      },
+      props: {
+        all: await getDocs({ framework, section: 'all' }),
+      },
+    };
+  }));
+  return params;
+};
+
+const { framework } = Astro.params;
+const { all } = Astro.props;
+---
+
+<BaseLayout title="Felte | Search">
+  <DocsLayout section="search" all={all} framework={framework}>
+    <search-page items={JSON.stringify(all)} framework={framework}><div /></search-page>
+    <script>
+      import 'components:Search/search-page.ts';
+    </script>
+  </DocsLayout>
+</BaseLayout>

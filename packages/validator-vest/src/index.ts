@@ -28,10 +28,15 @@ export function validateSuite<Data extends Obj>(
   return async function validate(
     values: Data
   ): Promise<AssignableErrors<Data> | undefined> {
-    const results = suite(values);
-    if (results.hasErrors()) {
-      return shapeErrors<Data>(results.getErrors());
-    }
+    return new Promise((resolve) => {
+      suite(values).done((results) => {
+        if (results.hasErrors()) {
+          resolve(shapeErrors<Data>(results.getErrors()));
+        } else {
+          resolve(undefined);
+        }
+      });
+    });
   };
 }
 

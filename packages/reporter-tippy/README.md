@@ -1,7 +1,9 @@
 # @felte/reporter-tippy
 
+[![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)](https://github.com/pablo-abc/felte/actions/workflows/test.yml)
 [![Bundle size](https://img.shields.io/bundlephobia/min/@felte/reporter-tippy)](https://bundlephobia.com/result?p=@felte/reporter-tippy)
 [![NPM Version](https://img.shields.io/npm/v/@felte/reporter-tippy)](https://www.npmjs.com/package/@felte/reporter-tippy)
+[![codecov](https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC)](https://codecov.io/gh/pablo-abc/felte)
 
 A Felte reporter that uses [Tippy.js](https://atomiks.github.io/tippyjs/) to display your error messages.
 

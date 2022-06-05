@@ -1,0 +1,26 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+form {
+  width: min(500px, 95%);
+  margin: 2rem;
+}
+
+form > felte-field {
+  display: block;
+}
+
+mwc-textfield {
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.buttons {
+  text-align: right;
+}

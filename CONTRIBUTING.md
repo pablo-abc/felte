@@ -8,7 +8,6 @@ This project is a monorepo containing all the packages related to Felte, as well
 
 Most of the packages use TypeScript for type safety, and all of them use [Rollup](https://rollupjs.org) for bundling.
 
-
 ## Local package development
 
 In order to run this locally, fork this repo and clone it to your machine. You then will install dependencies using `pnpm`. This an all other commands we show in this guide will be run in the root folder of the monorepo.
@@ -39,13 +38,15 @@ This will watch ALL packages.
 
 ### Per package
 
-If you want to scope your commands to a single package you can filter per-package with `pnpm`. The following would build only the `@felte/common` package. The `w` (or `workspace`) scopes the command to a single package. The workspace name is the name inside each of the packages' `package.json` (a.k.a. the name they're published as).
+If you want to scope your commands to a single package you can filter per-package with `pnpm`. The following would build only the `@felte/common` package. The `--filter` option allows you to only run the command on specific packages. The name within `--filter` is the name inside each of the packages' `package.json` (a.k.a. the name they're published as).
 
 ```sh
 pnpm -r --filter='@felte/common' build
 ```
 
 Something similar would be done if you want to watch your changes:
+
+> NOTE: Running more than one package will require using `--parallel`.
 
 ```sh
 pnpm -r --filter='@felte/common' dev
@@ -73,9 +74,11 @@ pnpm -r --filter='@felte/common' test
 pnpm -r --filter='@felte/common' test:ci
 ```
 
+Felte uses [uvu](https://github.com/lukeed/uvu) as a test runner, which provides a really fast execution of tests. Since uvu itself is only a test runner, we use [sinonjs](https://sinonjs.org) to handle mocking of functions, and [uvu-exect](https://github.com/pablo-abc/uvu-expect) with [uvu-expect-dom](https://github.com/pablo-abc/uvu-expect-dom) to handle assertions.
+
 ## Local documentation site development
 
-We are using [SvelteKit](https://github.com/sveltejs/kit) for the documentation site. You can run a development build of it with:
+We are using [Astro](https://astro.build) for the documentation site. You can run a development build of it with:
 
 ```sh
 pnpm site:dev
@@ -86,14 +89,14 @@ Or you can run a production build using:
 ```sh
 pnpm site:build # makes a production build
 
-pnpm site:start # runs the production build
+pnpm site:preview # runs the production build
 ```
 
 All documentation files for the site are made using Markdown, and they're contained in the `packages/site/markdown/docs/` directory. Its structure right now was made for future i18n and multiple versioning, but right now there's only documentation in the `packages/site/markdown/docs/en/latest` directory.
 
 If you're making changes to any package that require documentation, it would be nice if you could update this as well.
 
-Adding a new section to the docs page would require adding a new markdown file next to the other docs files with the same format as the rest. Then adding the file name (without the extension) to the `sections` array in line 9 of `packages/site/src/routes/docs/_docs.js`. Add the file name where you want the section to be related to the others.
+Adding a new section to the docs page would require adding a new markdown file next to the other docs files with the same format as the rest. Then adding the file name (without the extension) to the `sections` object `packages/site/src/other/sections.json`. Add the file name where you want the section to be related to the others.
 
 ## Commit messages
 

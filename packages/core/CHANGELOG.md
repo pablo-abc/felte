@@ -1,5 +1,93 @@
 # @felte/core
 
+## 1.3.2
+
+### Patch Changes
+
+- ab24c7e: Send `Accept` headers on default submit handler
+
+## 1.3.1
+
+### Patch Changes
+
+- 1386ac3: update `isValidating` on debounced validators
+- Updated dependencies [1386ac3]
+  - @felte/common@1.1.1
+
+## 1.3.0
+
+### Minor Changes
+
+- 72f5389: Pass all stores, `createSubmitHandler` and `handleSubmit` to extenders
+
+### Patch Changes
+
+- Updated dependencies [72f5389]
+  - @felte/common@1.1.0
+
+## 1.2.5
+
+### Patch Changes
+
+- Updated dependencies [32028b1]
+  - @felte/common@1.0.4
+
+## 1.2.4
+
+### Patch Changes
+
+- d9e7b12: Stop bundling core/common packages to allow for code reusability
+
+## 1.2.3
+
+### Patch Changes
+
+- 9b49b35: Remove hidden input on unmount and handle possible race conditions
+
+## 1.2.2
+
+### Patch Changes
+
+- aa6483d: Improve performance when using dynamic fields
+- aa6483d: Debounce calls to extenders on MutationObserver
+- Updated dependencies [aa6483d]
+- Updated dependencies [aa6483d]
+  - @felte/common@1.0.3
+
+## 1.2.1
+
+### Patch Changes
+
+- 1c88b92: Fix name of reset function of createField
+
+## 1.2.0
+
+### Minor Changes
+
+- fd58a47: Add `onReset` to `createField`
+
+## 1.1.1
+
+### Patch Changes
+
+- 03b9e01: Stop using CustomEvent for compatibility with Node
+- 6dafd80: Fix breakage on SSR
+
+## 1.1.0
+
+### Minor Changes
+
+- c00d0e1: Add FelteSubmitEvent and allow to set errors on FelteErrorEvent
+
+  Fixes bug where errors failed silently on submit
+
+### Patch Changes
+
+- c00d0e1: Allow onError to return partial errors
+- Updated dependencies [c00d0e1]
+- Updated dependencies [c00d0e1]
+  - @felte/common@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes

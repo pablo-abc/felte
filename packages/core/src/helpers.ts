@@ -16,6 +16,9 @@ import type {
   FieldsSetter,
   Helpers,
   Keyed,
+  CreateSubmitHandlerConfig,
+  ExtenderHandler,
+  Form,
 } from '@felte/common';
 import {
   deepSet,
@@ -27,19 +30,31 @@ import {
   _update,
   _isPlainObject,
   createId,
+  _merge,
+  deepSome,
+  isFormControl,
 } from '@felte/common';
 import { get } from './get';
 import { deepSetTouched } from './deep-set-touched';
-import { deepSetKey } from './deep-set-key';
+import { deepSetKey, deepRemoveKey } from './deep-set-key';
+import { createEventConstructors } from './events';
+import { createDefaultSubmitHandler } from './default-submit-handler';
 
 type CreateHelpersOptions<Data extends Obj> = {
   config: FormConfig<Data>;
   stores: Stores<Data>;
-  validateErrors(data: Data | Keyed<Data>): Promise<Errors<Data> | undefined>;
-  validateWarnings(data: Data | Keyed<Data>): Promise<Errors<Data> | undefined>;
+  validateErrors(
+    data: Data | Keyed<Data>,
+    altValidate?: ValidationFunction<Data> | ValidationFunction<Data>[]
+  ): Promise<Errors<Data> | undefined>;
+  validateWarnings(
+    data: Data | Keyed<Data>,
+    altWarn?: ValidationFunction<Data> | ValidationFunction<Data>[]
+  ): Promise<Errors<Data> | undefined>;
   extender: Extender<Data>[];
   addValidator(validator: ValidationFunction<Data>): void;
   addTransformer(transformer: TransformFunction<Data>): void;
+  _getCurrentExtenders(): ExtenderHandler<Data>[];
 };
 
 function addAtIndex<Data extends Obj>(
@@ -136,6 +151,7 @@ export function createHelpers<Data extends Obj>({
   config,
   validateErrors,
   validateWarnings,
+  _getCurrentExtenders,
 }: CreateHelpersOptions<Data>) {
   let formNode: HTMLFormElement | undefined;
   let initialValues = deepSetKey((config.initialValues ?? {}) as Data);
@@ -271,7 +287,106 @@ export function createHelpers<Data extends Obj>({
     isDirty.set(false);
   }
 
-  const publicHelpers: Helpers<Data> = {
+  function createSubmitHandler(altConfig?: CreateSubmitHandlerConfig<Data>) {
+    return async function handleSubmit(event?: Event) {
+      const {
+        createErrorEvent,
+        createSubmitEvent,
+        createSuccessEvent,
+      } = createEventConstructors<Data>();
+      const submitEvent = createSubmitEvent();
+      formNode?.dispatchEvent(submitEvent);
+      const onError =
+        submitEvent.onError ?? altConfig?.onError ?? config.onError;
+      const onSuccess =
+        submitEvent.onSuccess ?? altConfig?.onSuccess ?? config.onSuccess;
+      const onSubmit =
+        submitEvent.onSubmit ??
+        altConfig?.onSubmit ??
+        config.onSubmit ??
+        createDefaultSubmitHandler(formNode);
+      if (!onSubmit) return;
+      event?.preventDefault();
+      if (submitEvent.defaultPrevented) return;
+      isSubmitting.set(true);
+      interacted.set(null);
+      const currentData = deepRemoveKey(get(data));
+      const currentErrors = await validateErrors(
+        currentData,
+        altConfig?.validate
+      );
+      const currentWarnings = await validateWarnings(
+        currentData,
+        altConfig?.warn
+      );
+      if (currentWarnings)
+        warnings.set(_merge(deepSet(currentData, []), currentWarnings));
+      touched.set(deepSetTouched(currentData, true));
+      if (currentErrors) {
+        touched.set(deepSetTouched(currentErrors as Data, true));
+        const hasErrors = deepSome(currentErrors, (error) =>
+          Array.isArray(error) ? error.length >= 1 : !!error
+        );
+        if (hasErrors) {
+          await new Promise((r) => setTimeout(r));
+          _getCurrentExtenders().forEach((extender) =>
+            extender.onSubmitError?.({
+              data: currentData,
+              errors: currentErrors,
+            })
+          );
+          isSubmitting.set(false);
+          return;
+        }
+      }
+      const context = {
+        setFields,
+        setData,
+        setTouched,
+        setErrors,
+        setWarnings,
+        unsetField,
+        addField,
+        resetField,
+        reset,
+        setInitialValues: publicHelpers.setInitialValues,
+        moveField,
+        swapFields,
+        form: formNode,
+        controls:
+          formNode && Array.from(formNode.elements).filter(isFormControl),
+        config: { ...config, ...altConfig },
+      };
+      try {
+        const response = await onSubmit(currentData, context);
+        formNode?.dispatchEvent(createSuccessEvent({ response, ...context }));
+        await onSuccess?.(response, context);
+      } catch (e) {
+        const errorEvent = createErrorEvent({ error: e, ...context });
+        formNode?.dispatchEvent(errorEvent);
+        if (!onError && !errorEvent.defaultPrevented) {
+          throw e;
+        }
+        if (!onError && !errorEvent.errors) return;
+        const serverErrors = errorEvent.errors || (await onError?.(e, context));
+        if (serverErrors) {
+          touched.set(deepSetTouched((serverErrors as unknown) as Data, true));
+          errors.set(serverErrors);
+          await new Promise((r) => setTimeout(r));
+          _getCurrentExtenders().forEach((extender) =>
+            extender.onSubmitError?.({
+              data: currentData,
+              errors: get(errors),
+            })
+          );
+        }
+      } finally {
+        isSubmitting.set(false);
+      }
+    };
+  }
+
+  const publicHelpers: Helpers<Data> & Omit<Form<Data>, 'form'> = {
     setData,
     setFields,
     setTouched,
@@ -287,6 +402,8 @@ export function createHelpers<Data extends Obj>({
     addField,
     swapFields,
     moveField,
+    createSubmitHandler,
+    handleSubmit: createSubmitHandler(),
     setInitialValues: (values: Data) => {
       initialValues = deepSetKey(values);
     },
@@ -296,7 +413,6 @@ export function createHelpers<Data extends Obj>({
     _setFormNode(node: HTMLFormElement) {
       formNode = node;
     },
-    _getFormNode: () => formNode,
     _getInitialValues: () => initialValues,
   };
 

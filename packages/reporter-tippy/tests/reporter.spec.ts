@@ -170,7 +170,7 @@ Reporter('shows tippy if active element is input', async () => {
   const mockErrors = { test: 'An error' };
   const mockValidate = sinon.fake(() => mockErrors);
   const { form, validate } = createForm({
-    onSubmit: sinon.fake(),
+    onSubmit: () => undefined,
     validate: mockValidate,
     extend: reporter(),
   });
@@ -201,7 +201,7 @@ Reporter('focuses first invalid input and shows tippy on submit', async () => {
   const mockErrors = { test: 'A test error' };
   const mockValidate = sinon.fake(() => mockErrors);
   const { form } = createForm({
-    onSubmit: sinon.fake(),
+    onSubmit: () => undefined,
     validate: mockValidate,
     extend: reporter(),
   });
@@ -226,11 +226,42 @@ Reporter('focuses first invalid input and shows tippy on submit', async () => {
   });
 });
 
+Reporter(
+  'does not focus first invalid input and shows tippy on submit',
+  async () => {
+    const mockErrors = { test: 'A test error' };
+    const mockValidate = sinon.fake(() => mockErrors);
+    const { form } = createForm({
+      onSubmit: () => undefined,
+      validate: mockValidate,
+      extend: reporter({ preventFocusOnError: true }),
+    });
+
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const inputElement = createInputElement({
+      name: 'test',
+      type: 'text',
+    });
+    formElement.appendChild(inputElement);
+
+    form(formElement);
+
+    formElement.submit();
+
+    await waitFor(() => {
+      expect(inputElement).to.not.be.focused;
+      const tippyInstance = getTippy(inputElement);
+      expect(tippyInstance?.state.isEnabled).to.be.true;
+      expect(tippyInstance?.state.isVisible).to.be.false;
+    });
+  }
+);
+
 Reporter('sets custom content', async () => {
   const mockErrors = { test: 'An error' };
   const mockValidate = sinon.fake(() => mockErrors);
   const { form, validate } = createForm({
-    onSubmit: sinon.fake(),
+    onSubmit: () => undefined,
     validate: mockValidate,
     extend: reporter({
       setContent: (messages) => {
@@ -311,7 +342,7 @@ Reporter('sets custom props per field', async () => {
 
 Reporter('ignores tippy', async () => {
   const { form } = createForm({
-    onSubmit: sinon.fake(),
+    onSubmit: () => undefined,
     extend: reporter(),
   });
 

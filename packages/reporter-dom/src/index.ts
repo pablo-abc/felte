@@ -8,7 +8,7 @@ import type {
 } from '@felte/common';
 import { _get, getPath } from '@felte/common';
 
-export interface DomReporterOptions {
+export type DomReporterOptions = {
   listType?: 'ul' | 'ol';
   listAttributes?: {
     class?: string | string[];
@@ -20,7 +20,8 @@ export interface DomReporterOptions {
   singleAttributes?: {
     class?: string | string[];
   };
-}
+  preventFocusOnError?: boolean;
+};
 
 function removeAllChildren(parent: Node): void {
   while (parent.firstChild) {
@@ -140,6 +141,7 @@ function domReporter<Data extends Obj = any>(
         unsubscribeWarnings();
       },
       onSubmitError() {
+        if (options?.preventFocusOnError) return;
         const firstInvalidElement = form.querySelector(
           '[data-felte-validation-message]:not([type="hidden"])'
         ) as FormControl;

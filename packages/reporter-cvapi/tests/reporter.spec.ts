@@ -75,7 +75,35 @@ Reporter('focuses first invalid input and sets validity', async () => {
   userEvent.click(submitElement);
 
   await waitFor(() => {
-    expect(inputElement).to.equal(document.activeElement);
+    expect(inputElement).to.be.focused;
+    expect(inputElement.validationMessage).to.equal(mockErrors.test);
+  });
+});
+
+Reporter('does not focus first invalid input and sets validity', async () => {
+  const mockErrors = { test: 'A test error' };
+  const mockValidate = sinon.fake(() => mockErrors);
+  const { form } = createForm({
+    onSubmit: () => undefined,
+    validate: mockValidate,
+    extend: reporter({ preventFocusOnError: true }),
+  });
+
+  const formElement = screen.getByRole('form') as HTMLFormElement;
+  const inputElement = createInputElement({
+    name: 'test',
+    type: 'text',
+  });
+  const submitElement = createInputElement({ type: 'submit' });
+  formElement.appendChild(inputElement);
+  formElement.appendChild(submitElement);
+
+  form(formElement);
+
+  userEvent.click(submitElement);
+
+  await waitFor(() => {
+    expect(inputElement).to.not.be.focused;
     expect(inputElement.validationMessage).to.equal(mockErrors.test);
   });
 });

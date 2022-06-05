@@ -5,6 +5,7 @@ export type FieldConfig = {
   name: string;
   touchOnChange?: boolean;
   defaultValue?: FieldValue;
+  onFormReset?(e: ResetEvent): void;
 };
 
 export type Field = {
@@ -15,6 +16,8 @@ export type Field = {
 };
 
 type EventType = 'input' | 'change' | 'focusout';
+
+type ResetEvent = Event & { target: HTMLFormElement };
 
 const observerConfig = {
   attributes: true,
@@ -39,15 +42,18 @@ export function createField(
   let touchOnChange: boolean;
   let fieldNode: HTMLElement;
   let control: FormControl;
+  let onFormReset: ((e: ResetEvent) => void) | undefined;
 
   if (typeof nameOrConfig === 'string') {
     name = nameOrConfig;
     defaultValue = config?.defaultValue;
     touchOnChange = config?.touchOnChange ?? false;
+    onFormReset = config?.onFormReset;
   } else {
     name = nameOrConfig.name;
     defaultValue = nameOrConfig.defaultValue;
     touchOnChange = nameOrConfig.touchOnChange ?? false;
+    onFormReset = nameOrConfig?.onFormReset;
   }
 
   function dispatchEvent(eventType: 'focusout'): void;
@@ -60,7 +66,7 @@ export function createField(
     setControlValue(control, value);
     const customEvent = new Event(eventType, {
       bubbles: true,
-      cancelable: true,
+      composed: true,
     });
     control.dispatchEvent(customEvent);
   }
@@ -83,16 +89,26 @@ export function createField(
     });
   }
 
+  function handleReset(e: Event) {
+    if (!onFormReset) return;
+    setControlValue(control, defaultValue);
+    onFormReset(e as ResetEvent);
+  }
+
   function field(node: HTMLElement) {
     fieldNode = node;
     let observer: MutationObserver;
+    let formElement: HTMLFormElement | null;
     if (isFormControl(node)) {
       control = node;
       control.name = name;
       return {};
     } else {
       // This setTimeout is necessary to guarantee the node has been mounted
+      let created = false;
+      let destroyed = false;
       setTimeout(() => {
+        if (destroyed) return;
         const parent = fieldNode.parentNode;
         if (!parent || !isElement(parent)) return;
         const foundControl = parent.querySelector(`[name="${name}"]`);
@@ -102,6 +118,7 @@ export function createField(
           input.name = name;
           parent.insertBefore(input, node.nextSibling);
           control = input;
+          created = true;
         } else {
           control = foundControl;
         }
@@ -109,10 +126,15 @@ export function createField(
 
         observer = new MutationObserver(mutationCallback);
         observer.observe(control, observerConfig);
+        formElement = control.closest('form');
+        formElement?.addEventListener('reset', handleReset);
       });
       return {
         destroy() {
+          if (created) control.parentNode?.removeChild(control);
+          destroyed = true;
           observer?.disconnect();
+          formElement?.removeEventListener('reset', handleReset);
         },
       };
     }

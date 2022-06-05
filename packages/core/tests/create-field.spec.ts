@@ -103,8 +103,14 @@ Field('dispatches input events', async () => {
     ) as HTMLInputElement;
 
     expect(hiddenElement).not.to.be.null;
+  });
 
-    onChange('new value');
+  onChange('new value');
+
+  await waitFor(() => {
+    const hiddenElement = document.querySelector(
+      'input[name="test"]'
+    ) as HTMLInputElement;
 
     expect(hiddenElement.value).to.equal('new value');
     expect(inputListener).to.have.been.called.with(
@@ -200,6 +206,25 @@ Field('does nothing with unmounted element', () => {
   const inputElement = createContentEditable();
   const { field } = createField('test');
   expect(field(inputElement)).to.have.property('destroy');
+});
+
+Field('calls onFormReset', async () => {
+  const onFormReset = sinon.fake();
+  const formElement = screen.getByRole('form') as HTMLFormElement;
+  const inputElement = createContentEditable();
+  formElement.appendChild(inputElement);
+
+  const { field } = createField('test', { onFormReset });
+
+  field(inputElement);
+
+  await new Promise((r) => setTimeout(r));
+
+  formElement.reset();
+
+  await waitFor(() => {
+    expect(onFormReset).to.have.been.called;
+  });
 });
 
 Field.run();

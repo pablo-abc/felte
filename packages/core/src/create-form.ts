@@ -115,6 +115,12 @@ export function createForm<
     : [config.extend];
 
   let currentExtenders: ExtenderHandler<Data>[] = [];
+
+  const _getCurrentExtenders = () => currentExtenders;
+  const _setCurrentExtenders = (extenders: ExtenderHandler<Data>[]) => {
+    currentExtenders = extenders;
+  };
+
   const {
     isSubmitting,
     isValidating,
@@ -150,6 +156,7 @@ export function createForm<
     addTransformer,
     validateErrors,
     validateWarnings,
+    _getCurrentExtenders,
     stores: {
       data,
       errors,
@@ -163,6 +170,8 @@ export function createForm<
     },
   });
 
+  const { createSubmitHandler, handleSubmit } = helpers.public;
+
   currentExtenders = extender.map((extender) =>
     extender({
       stage: 'SETUP',
@@ -170,19 +179,21 @@ export function createForm<
       warnings,
       touched,
       data,
+      isDirty,
+      isValid,
+      isValidating,
+      isSubmitting,
+      interacted,
       config,
       addValidator,
       addTransformer,
       setFields: helpers.public.setFields,
       reset: helpers.public.reset,
       validate: helpers.public.validate,
+      handleSubmit,
+      createSubmitHandler,
     })
   );
-
-  const _getCurrentExtenders = () => currentExtenders;
-  const _setCurrentExtenders = (extenders: ExtenderHandler<Data>[]) => {
-    currentExtenders = extenders;
-  };
 
   const formActionConfig: FormActionConfig<Data> = {
     config,
@@ -197,22 +208,20 @@ export function createForm<
       isDirty,
       interacted,
     },
+    createSubmitHandler,
+    handleSubmit,
     helpers: {
       ...helpers.public,
       addTransformer,
       addValidator,
     },
     extender,
-    validateErrors,
-    validateWarnings,
     _getCurrentExtenders,
     _setCurrentExtenders,
     ...helpers.private,
   };
 
-  const { form, createSubmitHandler, handleSubmit } = createFormAction<Data>(
-    formActionConfig
-  );
+  const { form } = createFormAction<Data>(formActionConfig);
 
   return {
     data,
@@ -225,8 +234,6 @@ export function createForm<
     isDirty,
     interacted,
     form,
-    handleSubmit,
-    createSubmitHandler,
     cleanup,
     startStores: start,
     ...helpers.public,

@@ -1,7 +1,9 @@
 # @felte/validator-vest
 
+[![Tests](https://github.com/pablo-abc/felte/workflows/Tests/badge.svg)](https://github.com/pablo-abc/felte/actions/workflows/test.yml)
 [![Bundle size](https://img.shields.io/bundlephobia/min/@felte/validator-vest)](https://bundlephobia.com/result?p=@felte/validator-vest)
 [![NPM Version](https://img.shields.io/npm/v/@felte/validator-vest)](https://www.npmjs.com/package/@felte/validator-vest)
+[![codecov](https://codecov.io/gh/pablo-abc/felte/branch/main/graph/badge.svg?token=T73OJZ50LC)](https://codecov.io/gh/pablo-abc/felte)
 
 A package to help you handle validation with Vest in Felte.
 
@@ -66,7 +68,7 @@ const { form } = createForm({
 This validator will update the `warnings` store with the messages returned from any test marked with `warn()`:
 
 ```javascript
-import { validateSuite } from '@felte/validator-vest';
+import { validator } from '@felte/validator-vest';
 import { create, enforce, test, warn } from 'vest';
 
 const suite = create('form', (data) => {
@@ -87,7 +89,7 @@ const suite = create('form', (data) => {
 
 const { form } = createForm({
   // ...
-  validate: validateSuite(suite),
+  extend: validator({ suite }), // or `extend: [validator({ suite })],`
   // ...
 });
 ```

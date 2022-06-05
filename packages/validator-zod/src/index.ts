@@ -7,15 +7,19 @@ import type {
   Extender,
 } from '@felte/common';
 import { _update } from '@felte/common';
-import type { ZodError, ZodObject } from 'zod';
+import type { ZodError, AnyZodObject } from 'zod';
+
+type ZodSchema = {
+  parseAsync: AnyZodObject['parseAsync'];
+};
 
 export type ValidatorConfig = {
-  schema: ZodObject<any>;
+  schema: ZodSchema;
   level?: 'error' | 'warning';
 };
 
 export function validateSchema<Data extends Obj>(
-  schema: ZodObject<any>
+  schema: ZodSchema
 ): ValidationFunction<Data> {
   function shapeErrors(errors: ZodError): AssignableErrors<Data> {
     return errors.issues.reduce((err, value) => {

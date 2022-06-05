@@ -1,0 +1,19 @@
+{
+  "name": "@example/webcomponent-basic",
+  "description": "Example of using Felte with vanilla JS using @felte/element and @felte/reporter-element",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@felte/element": "latest",
+    "@felte/reporter-element": "latest"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.4",
+    "vite": "^2.8.0"
+  }
+}

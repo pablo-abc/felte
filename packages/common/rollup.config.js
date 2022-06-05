@@ -2,6 +2,7 @@ import typescript from 'rollup-plugin-ts';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
+import renameNodeModules from 'rollup-plugin-rename-node-modules';
 import pkg from './package.json';
 
 const prod = process.env.NODE_ENV === 'production';
@@ -33,5 +34,6 @@ export default {
     resolve({ browser: true }),
     commonjs(),
     typescript({ browserslist: false }),
+    renameNodeModules('external', prod),
   ],
 };

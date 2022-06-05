@@ -1,0 +1,116 @@
+:root {
+  --primary-color: rgb(255, 62, 0);
+  --on-primary-color: #fffff9;
+  --primary-color-hover: rgb(255, 113, 51);
+  --error-color: #ff3a43;
+  --primary-background: #111111;
+  --primary-font-color: #fffff0;
+  --fieldset-background: #222222;
+  --link-color: #00a8f4;
+  --link-color-hover: #3cc2ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 2rem;
+  font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, Segoe UI,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--primary-font-color);
+  background: var(--primary-background);
+  font-size: 1.1rem;
+}
+
+h1,
+h2 {
+  font-family: 'Cabin', sans-serif;
+  margin: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2.1rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+}
+
+section {
+  margin: 1rem;
+  margin-top: 2rem;
+}
+
+input {
+  font-size: 1em;
+  border: 1px solid #aaa;
+  border-radius: 10px;
+  padding: 0.3rem 1rem;
+  background: var(--on-primary-color);
+  height: 3rem;
+  width: 18rem;
+  color: black;
+}
+
+input[aria-invalid='true'] {
+  border: 2px solid var(--error-color);
+}
+
+fieldset {
+  width: 400px;
+  border: 2px solid var(--primary-color);
+  display: block;
+  font-size: 1.2em;
+  background: var(--fieldset-background);
+  padding: 2rem;
+  border-radius: 10px 30px;
+}
+
+button {
+  margin-top: 0.7em;
+  font-size: 0.8em;
+  font-weight: 700;
+  padding: 0.7em;
+  background: var(--primary-color);
+  border-radius: 10px;
+  border: none;
+  color: var(--on-primary-color);
+  transition: transform 0.1s;
+}
+
+button:not([aria-disabled='true']):hover {
+  cursor: pointer;
+  background: var(--primary-color-hover);
+}
+
+button:not([aria-disabled='true']):active {
+  transform: scale(0.9);
+}
+
+button[aria-disabled='true'] {
+  background: var(--primary-color-hover);
+  cursor: not-allowed;
+}
+
+button {
+  margin: 0.5rem;
+}
+
+label {
+  display: block;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  color: var(--error-color);
+}
+
+li {
+  list-style: disc inside;
+}

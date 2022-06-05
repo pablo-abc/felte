@@ -19,7 +19,7 @@ export default {
       format: 'cjs',
     },
   ],
-  external: ['preact', 'preact/hooks'],
+  external: ['preact', 'preact/hooks', '@felte/common'],
   plugins: [
     nodeResolve({
       extensions: ['.js', '.ts', '.tsx'],
