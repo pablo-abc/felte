@@ -1,0 +1,1 @@
+ncu --reject '/^@felte\/.*$/' --deep

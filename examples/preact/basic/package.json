@@ -13,8 +13,11 @@
     "preact": "^10.5.15"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.10",
     "@preact/preset-vite": "^2.1.5",
     "typescript": "^4.5.4",
     "vite": "^2.8.0"
+  },
+  "peerDependencies": {
   }
 }

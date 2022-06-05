@@ -9,9 +9,8 @@
     "test": "pnpm -r test",
     "test:ci": "pnpm -r test:ci",
     "lint": "eslint packages --max-warnings=0 --ignore-pattern *packages/site*",
-    "build_": "pnpm -r build --filter='!root' --filter='!@felte/site' --filter='!@example/*'",
+    "build_": "pnpm -r build --filter='!@felte/site' --filter='!@example/*'",
     "build": "pnpm turbo run build",
-    "<!-- Turbo bug / missing feature -->": "https://github.com/vercel/turborepo/pull/81#issuecomment-1058911676 --scope=\"@felte/*\" --scope=\"felte\" --scope=\"!@example/*\" --scope=\"!@felte/site\" --ignore=\"examples/**/*\" --ignore=\"packages/site/**/*\"",
     "dev_": "pnpm -r --parallel dev --filter='!@felte/site' --filter='!@example/*'",
     "dev": "pnpm build && pnpm chokidar \"packages/**/*.ts\" \"packages/**/*.js\" \"packages/**/*.cjs\" \"packages/**/*.mjs\" \"packages/**/*.tsx\" \"packages/**/*.css\" \"packages/**/*.json\" \"packages/**/*.md\" \"packages/**/*.svg\" \"packages/**/*.png\" --ignore \"**/node_modules/**/*\" --ignore \"**/.turbo/**/*\" --ignore \"**/dist/**/*\" --ignore \"**/.svelte-kit/**/*\" --ignore \"**/build/**/*\" -c \"pnpm build\"",
     "prepare": "husky install",
@@ -80,7 +79,7 @@
   "volta": {
     "node": "14.19.0"
   },
-  "packageManager": "pnpm@6.32.2",
+  "packageManager": "pnpm@7.1.8",
   "dependencies": {
     "@babel/plugin-syntax-jsx": "^7.14.5",
     "@changesets/cli": "^2.20.0",
