@@ -973,6 +973,8 @@ Utils('mergeErrors', () => {
   ).to.deep.equal({
     test: ['error', 'another'],
   });
+  expect(mergeErrors(["Error" as any, { a: 1 }])).to.equal("Error");
+  expect(mergeErrors([{ a: 1 }, "Error" as any])).to.equal("Error");
 });
 
 Utils('createId', () => {
