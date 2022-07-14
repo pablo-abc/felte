@@ -306,4 +306,22 @@ Validator('Issue #116', async () => {
   });
 });
 
+Validator("Allow null input", async () => {
+  const schema = z.object({elems:z.object({ name: z.string() }).optional().array()});
+  const mockData = {elems:[null, { name: "" }]}
+
+  const { validate, errors } = createForm<typeof mockData>({
+    initialValues: mockData,
+    onSubmit: sinon.fake(),
+    extend: validator({ schema }),
+  });
+
+  await validate();
+
+  expect(get(errors)).to.deep.equal({
+    elems:[{0:null},{name:null}]
+  });
+
+})
+
 Validator.run();
