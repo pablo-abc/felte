@@ -47,7 +47,7 @@ In order to show the errors for a field, you'll need to add a container for each
 
 ```html
 <label for="email">Email:</label>
-<input name="email" aria-describedby="email-validation">
+<input name="email" aria-describedby="email-validation" />
 <div id="email-validation" data-felte-reporter-dom-for="email" />
 ```
 
@@ -59,12 +59,12 @@ This reporter can help you display your `warning` messages as well. If you want 
 
 ```html
 <label for="email">Email:</label>
-<input name="email" aria-describedby="email-validation">
+<input name="email" aria-describedby="email-validation" />
 <div
   id="email-validation"
   data-felte-reporter-dom-for="email"
   data-felte-reporter-dom-level="warning"
-  />
+/>
 ```
 
 ## Styling
@@ -73,4 +73,4 @@ This reporter will add the error messages inside of your container element.
 
 If the `single` option is `true`, then it will add a single message in a `span` element with the attribute `data-felte-reporter-dom-single-message`. You can style this with the CSS selector `[data-felte-reporter-dom-single-message]`.
 
-If `single` is `false` the it will add a single list (using the element defined in `listType`) with the attribute `data-felte-reporter-dom-list`. The list will containe a `li` element per message, each with the attribute `data-felte-reporter-dom-list-message`. You can style them using a similar CSS selector as described above.
+If `single` is `false` then it will add a single list (using the element defined in `listType`) with the attribute `data-felte-reporter-dom-list`. The list will containe a `li` element per message, each with the attribute `data-felte-reporter-dom-list-message`. You can style them using a similar CSS selector as described above.

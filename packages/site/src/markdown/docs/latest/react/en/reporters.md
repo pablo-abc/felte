@@ -139,7 +139,11 @@ In order to show the errors for a field, you'll need to add a container for each
 ```html
 <label for="email">Email:</label>
 <input name="email" aria-describedby="email-validation" />
-<div id="email-validation" data-felte-reporter-dom-for="email" aria-live="polite" />
+<div
+  id="email-validation"
+  data-felte-reporter-dom-for="email"
+  aria-live="polite"
+/>
 ```
 
 You can choose individually if you want to show errors as a `span` or a list with the attributes `data-felte-reporter-dom-as-single` and `data-felte-reporter-dom-as-list` respectively.
@@ -150,12 +154,12 @@ This reporter can help you display your `warning` messages as well. If you want 
 
 ```html
 <label for="email">Email:</label>
-<input name="email" aria-describedby="email-validation">
+<input name="email" aria-describedby="email-validation" />
 <div
   id="email-validation"
   data-felte-reporter-dom-for="email"
   data-felte-reporter-dom-level="warning"
-  />
+/>
 ```
 
 #### Styling
@@ -164,7 +168,7 @@ This reporter will add the error messages inside of your container element.
 
 If the `single` option is `true`, then it will add a single message in a `span` element with the attribute `data-felte-reporter-dom-single-message`. You can style this with the CSS selector `[data-felte-reporter-dom-single-message]`.
 
-If `single` is `false` the it will add a single list (using the element defined in `listType`) with the attribute `data-felte-reporter-dom-list`. The list will containe a `li` element per message, each with the attribute `data-felte-reporter-dom-list-message`. You can style them using a similar CSS selector as described above.
+If `single` is `false` then it will add a single list (using the element defined in `listType`) with the attribute `data-felte-reporter-dom-list`. The list will containe a `li` element per message, each with the attribute `data-felte-reporter-dom-list-message`. You can style them using a similar CSS selector as described above.
 
 ### Using Tippy.js
 
@@ -203,8 +207,10 @@ For a more complex use case, you can pass [options](https://atomiks.github.io/ti
 
 ```javascript
 reporter({
-  tippyProps: {/* tippy options */},
-})
+  tippyProps: {
+    /* tippy options */
+  },
+});
 ```
 
 You can also pass a `setContent` function that will receive the current validation messages for the field and its path. Here you can modify your validation messages, which can come in useful if you want to display HTML content inside of Tippy. The `messages` argument will either by an array of strings (it can be more than one message depending on your validation strategy) or undefined. The `path` argument will be a string with the full path of your field (e.g. `email`, `account.email`, etc).
@@ -212,12 +218,12 @@ You can also pass a `setContent` function that will receive the current validati
 ```javascript
 reporter({
   setContent: (messages, path) => {
-    return messages?.map(message => `<p>${message}</p>`);
+    return messages?.map((message) => `<p>${message}</p>`);
   },
   tippyProps: {
     allowHTML: true,
   },
-})
+});
 ```
 
 You may also pass options to a specific Tippy instance using the `tippyPropsMap` property. It expects an object with the same shape as your data:
@@ -232,7 +238,7 @@ reporter({
       },
     },
   },
-})
+});
 ```
 
 You may also opt-out of this package reporting your errors for a specific field by adding `data-felte-reporter-tippy-ignore` to the input:
@@ -249,8 +255,15 @@ If you're using a custom control not managed by Felte, you can still make use of
 The custom control will always be a trigger for tippy, the second argument is useful if you want to trigger Tippy with another element such as a label to mimic this package's default behaviour.
 
 ```html
-<span id="email-label" data-felte-reporter-tippy-trigger-for="email">Email:</span>
-<div contenteditable data-felte-reporter-tippy-for="email" aria-labelledby="email-label" tabindex="0" />
+<span id="email-label" data-felte-reporter-tippy-trigger-for="email"
+  >Email:</span
+>
+<div
+  contenteditable
+  data-felte-reporter-tippy-for="email"
+  aria-labelledby="email-label"
+  tabindex="0"
+/>
 ```
 
 If you need to show your Tippy in a different position, you may use the `data-felte-reporter-tippy-position-for` attribute. This would be useful if you're using a custom control that does use a valid HTML input behind the scenes but hides it:
@@ -268,8 +281,8 @@ This reporter can also display your warning messages. In order to do so you'll n
 
 ```javascript
 reporter({
-  level: 'warning'
-})
+  level: 'warning',
+});
 ```
 
 > In order to avoid cluttering your UI it'd be recommended to use Tippy to report errors _OR_ warnings, not both.
