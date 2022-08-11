@@ -4,12 +4,15 @@ import { _isPlainObject } from './isPlainObject';
 import { deepSet } from './deepSet';
 
 /** @ignore */
-export function _mergeWith<T extends Obj>(...args: any[]): T {
+export function _mergeWith<T>(...args: any[]): T {
   const customizer = args.pop();
-  const obj = _cloneDeep(args.shift());
+  const _obj = args.shift();
+  if (typeof _obj === "string") return _obj as any;
+  const obj = _cloneDeep(_obj);
   if (args.length === 0) return obj;
   for (const source of args) {
     if (!source) continue;
+    if (typeof source === "string") return source as any;
     let rsValue = customizer(obj, source);
     if (typeof rsValue !== 'undefined') return rsValue;
     const keys = Array.from(
