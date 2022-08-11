@@ -1,5 +1,12 @@
 # @felte/common
 
+## 1.1.2
+
+### Patch Changes
+
+- 61679da: Allow for null values in array
+- 61679da: Fix `_mergeWith` choking if one input was a string
+
 ## 1.1.1
 
 ### Patch Changes

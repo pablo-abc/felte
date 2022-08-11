@@ -1,5 +1,13 @@
 # @felte/reporter-preact
 
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies [61679da]
+- Updated dependencies [61679da]
+  - @felte/common@1.1.2
+
 ## 1.1.2
 
 ### Patch Changes

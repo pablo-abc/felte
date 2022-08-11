@@ -1,6 +1,6 @@
 {
   "name": "@felte/core",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Core utility for Felte's integration with front-end frameworks",
   "main": "dist/cjs/index.cjs",
   "browser": "dist/esm/index.js",

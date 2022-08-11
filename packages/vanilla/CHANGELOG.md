@@ -1,5 +1,11 @@
 # @felte/vanilla
 
+## 0.3.3
+
+### Patch Changes
+
+- @felte/core@1.3.3
+
 ## 0.3.2
 
 ### Patch Changes
