@@ -1,5 +1,12 @@
 # @felte/element
 
+## 0.5.4
+
+### Patch Changes
+
+- Updated dependencies [686907b]
+  - @felte/core@1.3.4
+
 ## 0.5.3
 
 ### Patch Changes
