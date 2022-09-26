@@ -283,28 +283,32 @@ export function createFormAction<Data extends Obj>({
       removedFormControls = [];
     }, 0);
 
+    function handleNodeAddition(mutation: MutationRecord) {
+      const shouldUpdate = Array.from(mutation.addedNodes).some((node) => {
+        if (!isElement(node)) return false;
+        if (isFormControl(node)) return true;
+        const formControls = getFormControls(node);
+        return formControls.length > 0;
+      });
+      if (!shouldUpdate) return;
+      updateAddedNodes();
+    }
+
+    function handleNodeRemoval(mutation: MutationRecord) {
+      for (const removedNode of mutation.removedNodes) {
+        if (!isElement(removedNode)) continue;
+        const formControls = getFormControls(removedNode);
+        if (formControls.length === 0) continue;
+        removedFormControls.push(...formControls);
+        updateRemovedNodes();
+      }
+    }
+
     function mutationCallback(mutationList: MutationRecord[]) {
       for (const mutation of mutationList) {
         if (mutation.type !== 'childList') continue;
-        if (mutation.addedNodes.length > 0) {
-          const shouldUpdate = Array.from(mutation.addedNodes).some((node) => {
-            if (!isElement(node)) return false;
-            if (isFormControl(node)) return true;
-            const formControls = getFormControls(node);
-            return formControls.length > 0;
-          });
-          if (!shouldUpdate) continue;
-          updateAddedNodes();
-        }
-        if (mutation.removedNodes.length > 0) {
-          for (const removedNode of mutation.removedNodes) {
-            if (!isElement(removedNode)) continue;
-            const formControls = getFormControls(removedNode);
-            if (formControls.length === 0) continue;
-            removedFormControls.push(...formControls);
-            updateRemovedNodes();
-          }
-        }
+        if (mutation.addedNodes.length > 0) handleNodeAddition(mutation);
+        if (mutation.removedNodes.length > 0) handleNodeRemoval(mutation);
       }
     }
 
