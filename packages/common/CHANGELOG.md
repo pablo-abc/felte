@@ -1,5 +1,12 @@
 # @felte/common
 
+## 1.1.3
+
+### Patch Changes
+
+- 8ef7866: Stop grabbing store types from `svelte/store`
+- 22bfa3b: Cast select comparison to string
+
 ## 1.1.2
 
 ### Patch Changes

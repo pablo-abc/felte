@@ -1,5 +1,13 @@
 # @felte/reporter-solid
 
+## 1.2.4
+
+### Patch Changes
+
+- Updated dependencies [8ef7866]
+- Updated dependencies [22bfa3b]
+  - @felte/common@1.1.3
+
 ## 1.2.3
 
 ### Patch Changes

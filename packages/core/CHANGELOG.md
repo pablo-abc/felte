@@ -1,5 +1,14 @@
 # @felte/core
 
+## 1.3.5
+
+### Patch Changes
+
+- 8ef7866: Stop grabbing store types from `svelte/store`
+- Updated dependencies [8ef7866]
+- Updated dependencies [22bfa3b]
+  - @felte/common@1.1.3
+
 ## 1.3.4
 
 ### Patch Changes

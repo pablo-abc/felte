@@ -1,5 +1,13 @@
 # @felte/preact
 
+## 1.2.5
+
+### Patch Changes
+
+- 8ef7866: Stop grabbing store types from `svelte/store`
+- Updated dependencies [8ef7866]
+  - @felte/core@1.3.5
+
 ## 1.2.4
 
 ### Patch Changes
