@@ -9,8 +9,10 @@ import type {
   PartialWritableErrors,
   AssignableErrors,
   KeyedWritable,
+  Writable,
+  Readable,
+  Unsubscriber,
 } from '@felte/common';
-import type { Writable, Readable, Unsubscriber } from 'svelte/store';
 import {
   _cloneDeep,
   deepSet,

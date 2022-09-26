@@ -1,4 +1,4 @@
-import type { Readable } from 'svelte/store';
+import type { Readable } from '@felte/common';
 
 function subscribe(store: any, ...callbacks: any[]) {
   const unsub = store.subscribe(...callbacks);

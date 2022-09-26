@@ -1,6 +1,5 @@
-import type { StoreFactory } from '@felte/core';
+import type { StoreFactory, Writable } from '@felte/core';
 import type { FelteAccessor } from './create-accessor';
-import type { Writable } from 'svelte/store';
 import { createSignal, createRoot, createEffect } from 'solid-js';
 import { createAccessor } from './create-accessor';
 

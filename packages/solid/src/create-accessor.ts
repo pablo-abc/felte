@@ -7,9 +7,10 @@ import type {
   Paths,
   Keyed,
   KeyedWritable,
+  Writable,
+  Readable,
 } from '@felte/core';
 import type { Accessor } from 'solid-js';
-import type { Writable, Readable } from 'svelte/store';
 import { getValue, isEqual } from '@felte/core';
 import { untrack, createSignal, createEffect } from 'solid-js';
 

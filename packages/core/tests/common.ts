@@ -55,7 +55,7 @@ export function createMultipleInputElements(
   attr: InputAttributes,
   amount = 3
 ): HTMLInputElement[] {
-  const inputs = [];
+  const inputs: HTMLInputElement[] = [];
   for (let i = 0; i < amount; i++) {
     const input = createInputElement({ ...attr, index: i });
     inputs.push(input);

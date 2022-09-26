@@ -1,4 +1,15 @@
-import type { Readable, Writable } from 'svelte/store';
+export type Subscriber<T> = (value: T) => void;
+export type Unsubscriber = () => void;
+export type Updater<T> = (value: T) => T;
+
+export type Readable<T> = {
+  subscribe(this: void, run: Subscriber<T>): Unsubscriber;
+};
+
+export type Writable<T> = Readable<T> & {
+  set(this: void, value: T): void;
+  update(this: void, updater: Updater<T>): void;
+};
 
 export type RecursivePartial<T extends Record<string, any>> = {
   [P in keyof T]?: T[P] extends Record<string, any> | Array<any>

@@ -14,6 +14,7 @@ import type {
   Keyed,
   Paths,
   KeyedWritable,
+  Writable,
 } from '@felte/core';
 import type {
   Stores,
@@ -21,7 +22,6 @@ import type {
   UnknownStores,
   FelteAccessor,
 } from './create-accessor';
-import type { Writable } from 'svelte/store';
 
 type Obj = Record<string, any>;
 

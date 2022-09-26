@@ -4,7 +4,6 @@ export type {
   FelteErrorEvent,
   FelteSuccessEvent,
 } from '@felte/core';
-import type { Readable } from 'svelte/store';
 import type {
   Obj,
   FormConfig,
@@ -19,6 +18,7 @@ import type {
   FelteSubmitEvent,
   FelteErrorEvent,
   FelteSuccessEvent,
+  Readable,
 } from '@felte/core';
 import { createForm, isEqual, createEventConstructors } from '@felte/core';
 import { writable } from './stores';

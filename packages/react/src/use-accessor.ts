@@ -8,8 +8,9 @@ import type {
   Paths,
   Keyed,
   KeyedWritable,
+  Readable,
+  Writable,
 } from '@felte/core';
-import type { Readable, Writable } from 'svelte/store';
 import { getValue, getValueFromStore, isEqual } from '@felte/core';
 
 export type Accessor<T> = T extends Obj

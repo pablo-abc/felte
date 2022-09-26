@@ -14,8 +14,8 @@ import type {
   FormConfigWithoutTransformFn,
   Keyed,
   KeyedWritable,
+  Writable,
 } from '@felte/core';
-import type { Writable } from 'svelte/store';
 import { createForm as coreCreateForm } from '@felte/core';
 import { writable } from './stores';
 import type {
