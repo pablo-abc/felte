@@ -175,7 +175,7 @@ export function setControlValue(
     if (!multiple) {
       el.value = String(fieldValue ?? '');
       for (const option of el.options) {
-        if (option.value === fieldValue) {
+        if (option.value === String(fieldValue)) {
           option.selected = true;
         } else {
           option.selected = false;
@@ -183,8 +183,9 @@ export function setControlValue(
       }
     } else if (Array.isArray(fieldValue)) {
       el.value = String(fieldValue[0] ?? '');
+      const stringValues = fieldValue.map((v) => String(v));
       for (const option of el.options) {
-        if ((fieldValue as string[]).includes(option.value)) {
+        if (stringValues.includes(option.value)) {
           option.selected = true;
         } else {
           option.selected = false;
