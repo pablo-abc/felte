@@ -30,6 +30,7 @@ export class FelteField<
     ];
   }
 
+  /** @internal */
   static get attributeMap(): Record<
     string,
     { converter: (v: any) => any; name: string }
@@ -76,40 +77,69 @@ export class FelteField<
     this[propName] = converter(newValue);
   }
 
+  /**
+   * @attr
+   */
   name?: string;
 
+  /**
+   * @attr touchonchange
+   */
   touchOnChange = false;
 
+  /**
+   * @attr valueprop
+   */
   valueProp = 'value';
 
+  /**
+   * @attr inputevent
+   */
   inputEvent = 'input';
 
+  /**
+   * @attr blurevent
+   */
   blurEvent = 'focusout';
 
+  /**
+   * @attr
+   */
   composed = false;
 
+  /**
+   * @attr
+   */
   target?: string;
 
+  /** @internal */
   private _value?: Value;
   set value(newValue: Value) {
     this._onInput?.(newValue);
     this._value = newValue;
   }
 
+  /**
+   * @attr
+   */
   get value() {
     return this._value as Value;
   }
 
+  /** @internal */
   private _onInput?: (value: Value) => void;
 
+  /** @internal */
   private _onBlur: () => void = failFor('blur');
 
   blur() {
     this._onBlur();
   }
 
+  /** @internal */
   private _destroy?: () => void;
 
+  /** @internal */
   private _ready = false;
   get ready() {
     return this._ready;
@@ -117,8 +147,10 @@ export class FelteField<
 
   onfeltefieldready?(): void;
 
+  /** @internal */
   private _element?: HTMLElement;
 
+  /** @internal */
   private _createField() {
     const {
       name,
@@ -164,6 +196,7 @@ export class FelteField<
     this.dispatchEvent(new Event('feltefieldready'));
   }
 
+  /** @internal */
   private _updateField = () => {
     const element = this.target
       ? (this.querySelector(this.target) as HTMLElement | null)
@@ -175,6 +208,7 @@ export class FelteField<
     this._createField();
   };
 
+  /** @internal */
   private _observer?: MutationObserver;
 
   connectedCallback() {

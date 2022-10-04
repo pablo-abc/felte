@@ -1,0 +1,725 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/FelteField.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "FelteField",
+          "members": [
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "touchOnChange",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "touchonchange"
+            },
+            {
+              "kind": "field",
+              "name": "valueProp",
+              "type": {
+                "text": "string"
+              },
+              "default": "'value'",
+              "attribute": "valueprop"
+            },
+            {
+              "kind": "field",
+              "name": "inputEvent",
+              "type": {
+                "text": "string"
+              },
+              "default": "'input'",
+              "attribute": "inputevent"
+            },
+            {
+              "kind": "field",
+              "name": "blurEvent",
+              "type": {
+                "text": "string"
+              },
+              "default": "'focusout'",
+              "attribute": "blurevent"
+            },
+            {
+              "kind": "field",
+              "name": "composed",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "composed"
+            },
+            {
+              "kind": "field",
+              "name": "target",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "target"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "attribute": "value"
+            },
+            {
+              "kind": "method",
+              "name": "blur"
+            },
+            {
+              "kind": "field",
+              "name": "ready"
+            },
+            {
+              "kind": "method",
+              "name": "onfeltefieldready",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "feltefieldready",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "name"
+            },
+            {
+              "name": "touchonchange",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "touchOnChange"
+            },
+            {
+              "name": "valueprop",
+              "type": {
+                "text": "string"
+              },
+              "default": "'value'",
+              "fieldName": "valueProp"
+            },
+            {
+              "name": "inputevent",
+              "type": {
+                "text": "string"
+              },
+              "default": "'input'",
+              "fieldName": "inputEvent"
+            },
+            {
+              "name": "blurevent",
+              "type": {
+                "text": "string"
+              },
+              "default": "'focusout'",
+              "fieldName": "blurEvent"
+            },
+            {
+              "name": "composed",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "composed"
+            },
+            {
+              "name": "value",
+              "fieldName": "value"
+            },
+            {
+              "name": "target",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "target"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "tagName": "felte-field",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "FelteField",
+          "declaration": {
+            "name": "FelteField",
+            "module": "src/FelteField.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/FelteForm.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "FelteForm",
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "configuration"
+            },
+            {
+              "kind": "field",
+              "name": "elements",
+              "type": {
+                "text": "HTMLFormElement['elements'] | undefined"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "data"
+            },
+            {
+              "kind": "method",
+              "name": "onDataChange",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "data",
+                  "type": {
+                    "text": "Data"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "setData",
+              "type": {
+                "text": "ObjectSetter<Data, Paths<Data>>"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "setFields",
+              "type": {
+                "text": "FieldsSetter<Data, Paths<Data>>"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "setInitialValues",
+              "type": {
+                "text": "Helpers<Data, Paths<Data>>['setInitialValues']"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "addField",
+              "type": {
+                "text": "Helpers<Data, Paths<Data>>['addField']"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "unsetField",
+              "type": {
+                "text": "Helpers<Data, Paths<Data>>['unsetField']"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "swapFields",
+              "type": {
+                "text": "Helpers<Data, Paths<Data>>['swapFields']"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "moveField",
+              "type": {
+                "text": "Helpers<Data, Paths<Data>>['moveField']"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "resetField",
+              "type": {
+                "text": "Helpers<Data, Paths<Data>>['resetField']"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "reset",
+              "type": {
+                "text": "Helpers<Data, Paths<Data>>['reset']"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "submit",
+              "type": {
+                "text": "() => void"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "createSubmitHandler",
+              "type": {
+                "text": "Form<Data>['createSubmitHandler']"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "errors"
+            },
+            {
+              "kind": "method",
+              "name": "onErrorsChange",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "errors",
+                  "type": {
+                    "text": "Errors<Data>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "setErrors",
+              "type": {
+                "text": "Helpers<Data, Paths<Data>>['setErrors']"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "touched"
+            },
+            {
+              "kind": "method",
+              "name": "onTouchedChange",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "touched",
+                  "type": {
+                    "text": "Touched<Data>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "setTouched",
+              "type": {
+                "text": "Helpers<Data, Paths<Data>>['setTouched']"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "warnings"
+            },
+            {
+              "kind": "method",
+              "name": "onWarningsChange",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "warnings",
+                  "type": {
+                    "text": "Errors<Data>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "setWarnings",
+              "type": {
+                "text": "Helpers<Data, Paths<Data>>['setWarnings']"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "isSubmitting"
+            },
+            {
+              "kind": "method",
+              "name": "onIsSubmittingChange",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "isSubmitting",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "setIsSubmitting",
+              "type": {
+                "text": "Helpers<Data, Paths<Data>>['setIsSubmitting']"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "isDirty"
+            },
+            {
+              "kind": "method",
+              "name": "onIsDirtyChange",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "isDirty",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "setIsDirty",
+              "type": {
+                "text": "Helpers<Data, Paths<Data>>['setIsDirty']"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "isValid"
+            },
+            {
+              "kind": "method",
+              "name": "onIsValidChange",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "isValid",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "isValidating"
+            },
+            {
+              "kind": "method",
+              "name": "onIsValidatingChange",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "isValidating",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "interacted"
+            },
+            {
+              "kind": "method",
+              "name": "onInteractedChange",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "interacted",
+                  "type": {
+                    "text": "string | null"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "setInteracted",
+              "type": {
+                "text": "Helpers<Data, Paths<Data>>['setInteracted']"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "ready"
+            },
+            {
+              "kind": "method",
+              "name": "onFelteReady",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "validate",
+              "type": {
+                "text": "Helpers<Data, Paths<Data>>['validate']"
+              }
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "felteready",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "type": {
+                "text": "CustomEvent"
+              },
+              "name": "datachange"
+            },
+            {
+              "type": {
+                "text": "CustomEvent"
+              },
+              "name": "errorschange"
+            },
+            {
+              "type": {
+                "text": "CustomEvent"
+              },
+              "name": "warningschange"
+            },
+            {
+              "type": {
+                "text": "CustomEvent"
+              },
+              "name": "touchedchange"
+            },
+            {
+              "type": {
+                "text": "CustomEvent"
+              },
+              "name": "isvalidchange"
+            },
+            {
+              "type": {
+                "text": "CustomEvent"
+              },
+              "name": "issubmittingchange"
+            },
+            {
+              "type": {
+                "text": "CustomEvent"
+              },
+              "name": "isdirtychange"
+            },
+            {
+              "type": {
+                "text": "CustomEvent"
+              },
+              "name": "isvalidatingchange"
+            },
+            {
+              "type": {
+                "text": "CustomEvent"
+              },
+              "name": "interactedchange"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "tagName": "felte-form",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "FelteSubmitError",
+          "declaration": {
+            "name": "FelteSubmitError",
+            "package": "@felte/core"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FelteSubmitEvent",
+          "declaration": {
+            "name": "FelteSubmitEvent",
+            "package": "@felte/core"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FelteErrorEvent",
+          "declaration": {
+            "name": "FelteErrorEvent",
+            "package": "@felte/core"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FelteSuccessEvent",
+          "declaration": {
+            "name": "FelteSuccessEvent",
+            "package": "@felte/core"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FelteForm",
+          "declaration": {
+            "name": "FelteForm",
+            "module": "src/FelteForm.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/felte-field.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "felte-field",
+          "declaration": {
+            "name": "FelteField",
+            "module": "/src/FelteField"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/felte-form.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "FelteSubmitError",
+          "declaration": {
+            "name": "FelteSubmitError",
+            "package": "@felte/core"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FelteSubmitEvent",
+          "declaration": {
+            "name": "FelteSubmitEvent",
+            "package": "@felte/core"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FelteErrorEvent",
+          "declaration": {
+            "name": "FelteErrorEvent",
+            "package": "@felte/core"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FelteSuccessEvent",
+          "declaration": {
+            "name": "FelteSuccessEvent",
+            "package": "@felte/core"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "felte-form",
+          "declaration": {
+            "name": "FelteForm",
+            "module": "/src/FelteForm"
+          }
+        }
+      ]
+    }
+  ]
+}

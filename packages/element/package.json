@@ -13,7 +13,8 @@
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm run build",
     "test": "uvu -r tsm -r global-jsdom/register tests -i common",
-    "test:ci": "nyc pnpm test"
+    "test:ci": "nyc pnpm test",
+    "cem": "cem analyze --globs 'src/Felte*' --globs 'src/felte-*'"
   },
   "author": {
     "name": "Pablo Berganza",
@@ -36,6 +37,7 @@
     "felte-field"
   ],
   "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.6.4",
     "tslib": "^2.3.1",
     "uvu": "^0.5.3"
   },
@@ -49,6 +51,7 @@
     ".": "./dist/index.js",
     "./felte-form": "./felte-form/index.js",
     "./felte-field": "./felte-field/index.js",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./custom-elements.json": "./custom-elements.json"
   }
 }

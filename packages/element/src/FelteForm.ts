@@ -69,11 +69,23 @@ function capitalizeFirst(value: string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
+/**
+ * @event {CustomEvent} datachange
+ * @event {CustomEvent} errorschange
+ * @event {CustomEvent} warningschange
+ * @event {CustomEvent} touchedchange
+ * @event {CustomEvent} isvalidchange
+ * @event {CustomEvent} issubmittingchange
+ * @event {CustomEvent} isdirtychange
+ * @event {CustomEvent} isvalidatingchange
+ * @event {CustomEvent} interactedchange
+ */
 export class FelteForm<Data extends Obj = any> extends HTMLElement {
   [key: string]: unknown;
 
   id!: string;
 
+  /** @internal */
   private _configuration: FormConfig<Data> = {};
   set configuration(config: FormConfig<Data>) {
     this._configuration = config;
@@ -91,7 +103,11 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
 
   elements?: HTMLFormElement['elements'];
 
-  /* Stores (observables) */
+  /**
+   * Stores (observables)
+   *
+   * @internal
+   */
   private _storeValues: StoreValues<Data> = {
     data: undefined,
     errors: undefined,
@@ -202,6 +218,7 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
     'setInteracted'
   );
 
+  /** @internal */
   private _ready = false;
   get ready() {
     return this._ready;
@@ -211,10 +228,13 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
 
   validate: Helpers<Data, Paths<Data>>['validate'] = failFor('validate');
 
+  /** @internal */
   private _formElement: HTMLFormElement | null = null;
 
+  /** @internal */
   private _destroy?: () => void;
 
+  /** @internal */
   private _createForm() {
     const formElement = this._formElement;
     if (!formElement) return;
@@ -304,6 +324,7 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
     );
   }
 
+  /** @internal */
   private _updateForm = () => {
     const formElement = this.querySelector('form') as HTMLFormElement | null;
     if (!formElement || formElement === this._formElement) return;
@@ -316,6 +337,7 @@ export class FelteForm<Data extends Obj = any> extends HTMLElement {
     this._createForm();
   };
 
+  /** @internal */
   private _observer?: MutationObserver;
 
   connectedCallback() {
