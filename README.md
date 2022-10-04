@@ -10,7 +10,7 @@
 [![Follow Pablo on Twitter](https://img.shields.io/twitter/follow/Pablo_ABC?style=social)](https://twitter.com/Pablo_ABC)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-16-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-17-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 - [Features](#features)
@@ -296,6 +296,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://bandism.net/"><img src="https://avatars.githubusercontent.com/u/22633385?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ikko Ashimine</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=eltociear" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/pasqui23"><img src="https://avatars.githubusercontent.com/u/6931743?v=4?s=100" width="100px;" alt=""/><br /><sub><b>pasqui23</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=pasqui23" title="Code">💻</a></td>
+    <td align="center"><a href="http://icalvin.de/"><img src="https://avatars.githubusercontent.com/u/40042006?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Immanuel Calvin Herchenbach</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=icalvin102" title="Documentation">📖</a></td>
   </tr>
 </table>
 

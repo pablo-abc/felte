@@ -164,6 +164,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "icalvin102",
+      "name": "Immanuel Calvin Herchenbach",
+      "avatar_url": "https://avatars.githubusercontent.com/u/40042006?v=4",
+      "profile": "http://icalvin.de/",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7
