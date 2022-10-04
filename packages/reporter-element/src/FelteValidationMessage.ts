@@ -23,33 +23,58 @@ export class FelteValidationMessage extends HTMLElement {
     }
   }
 
+  /**
+   * @attr templateid
+   */
   templateId?: string;
+
+  /**
+   * @attr
+   */
   max?: number;
+
+  /**
+   * @attr
+   */
   level = 'error';
+
+  /**
+   * @attr
+   */
   for?: string;
 
+  /** @internal */
   messages: string[] | null = null;
 
+  /** @internal */
   private _container?: HTMLElement | null;
 
+  /** @internal */
   private _item?: HTMLElement | null;
 
+  /** @internal */
   private _items: HTMLElement[] = [];
   set items(value: HTMLElement[]) {
     if (isEqual(value, this._items)) return;
     this._items = value;
     this._updateItems();
   }
+
+  /** @internal */
   get items() {
     return this._items;
   }
 
+  /** @internal */
   private _content: DocumentFragment | null = null;
 
+  /** @internal */
   private _prevSiblings: Node[] = [];
 
+  /** @internal */
   private _nextSiblings: Node[] = [];
 
+  /** @internal */
   private _handleLoad = (e: Event) => {
     const target = e.currentTarget as HTMLFormElement;
     const reporterId = target.dataset.felteReporterElementId;
@@ -61,10 +86,13 @@ export class FelteValidationMessage extends HTMLElement {
     );
   };
 
+  /** @internal */
   private cleanup?: () => void;
 
+  /** @internal */
   formElement?: HTMLFormElement;
 
+  /** @internal */
   private _setup() {
     const rootNode = this.getRootNode() as ShadowRoot | null;
     const hostNode = rootNode?.host?.shadowRoot;
@@ -90,6 +118,7 @@ export class FelteValidationMessage extends HTMLElement {
     if (!this._container) this._container = this;
   }
 
+  /** @internal */
   private _start(reporterId: string) {
     if (this.cleanup || !reporterId) return;
     const path = this.for;
@@ -144,6 +173,7 @@ export class FelteValidationMessage extends HTMLElement {
     });
   }
 
+  /** @internal */
   private _updateItems() {
     if (this._container) {
       for (const child of Array.from(this._container.childNodes)) {

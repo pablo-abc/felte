@@ -409,6 +409,7 @@ importers:
 
   packages/reporter-element:
     specifiers:
+      '@custom-elements-manifest/analyzer': ^0.6.4
       '@felte/common': workspace:*
       '@felte/core': workspace:*
       tslib: ^2.3.1
@@ -416,6 +417,7 @@ importers:
     dependencies:
       '@felte/common': link:../common
     devDependencies:
+      '@custom-elements-manifest/analyzer': 0.6.4
       '@felte/core': link:../core
       tslib: 2.3.1
       uvu: 0.5.3

@@ -13,7 +13,8 @@
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm run build",
     "test": "uvu -r tsm -r global-jsdom/register tests -i common",
-    "test:ci": "nyc pnpm test"
+    "test:ci": "nyc pnpm test",
+    "cem": "cem analyze --globs 'src/Felte*' --globs 'src/felte-*'"
   },
   "author": {
     "name": "Pablo Berganza",
@@ -35,6 +36,7 @@
     "felte-validation-message"
   ],
   "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.6.4",
     "@felte/core": "workspace:*",
     "tslib": "^2.3.1",
     "uvu": "^0.5.3"

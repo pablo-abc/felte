@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/FelteValidationMessage.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "FelteValidationMessage",
+          "members": [
+            {
+              "kind": "field",
+              "name": "templateId",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "templateid"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number | undefined"
+              },
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "level",
+              "type": {
+                "text": "string"
+              },
+              "default": "'error'",
+              "attribute": "level"
+            },
+            {
+              "kind": "field",
+              "name": "for",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "for"
+            },
+            {
+              "kind": "field",
+              "name": "items"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "level",
+              "type": {
+                "text": "string"
+              },
+              "default": "'error'",
+              "fieldName": "level"
+            },
+            {
+              "name": "for",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "for"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number | undefined"
+              },
+              "fieldName": "max"
+            },
+            {
+              "name": "templateid",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "templateId"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "tagName": "felte-validation-message",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "FelteValidationMessage",
+          "declaration": {
+            "name": "FelteValidationMessage",
+            "module": "src/FelteValidationMessage.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/felte-validation-message.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "felte-validation-message",
+          "declaration": {
+            "name": "FelteValidationMessage",
+            "module": "/src/FelteValidationMessage"
+          }
+        }
+      ]
+    }
+  ]
+}

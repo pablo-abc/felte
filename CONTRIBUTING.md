@@ -121,7 +121,7 @@ The only documentation requirement I really ask for is to add the `changeset` as
 When making a pull request, we want any changes you make to be documented. This is where `Changesets` comes in. `Changesets` will help you document which changes you're making. For this you can run:
 
 ```sh
-pnpx changeset
+pnpm changeset
 ```
 
 And go to the prompts it'll give you.
