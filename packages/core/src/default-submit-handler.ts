@@ -31,7 +31,11 @@ export function createDefaultSubmitHandler(form?: HTMLFormElement) {
         method,
         body,
         headers: {
-          'Content-Type': enctype,
+          // If `Content-Type` is set on multipart/form-data, boundary will be missing
+          // See: https://github.com/pablo-abc/felte/issues/165
+          ...(enctype !== 'multipart/form-data' && {
+            'Content-Type': enctype,
+          }),
           Accept: 'application/json',
         },
       };

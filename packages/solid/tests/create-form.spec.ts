@@ -106,9 +106,7 @@ CreateForm('submits with default action and file input', async () => {
       sinon.match({
         body: sinon.match.instanceOf(FormData),
         method: 'post',
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+        headers: {},
       })
     );
   });
