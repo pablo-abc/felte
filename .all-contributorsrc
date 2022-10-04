@@ -155,6 +155,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "pasqui23",
+      "name": "pasqui23",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6931743?v=4",
+      "profile": "https://github.com/pasqui23",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7
