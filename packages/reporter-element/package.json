@@ -50,6 +50,7 @@
   "exports": {
     ".": "./dist/index.js",
     "./felte-validation-message": "./felte-validation-message/index.js",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./custom-elements.json": "./custom-elements.json"
   }
 }
