@@ -1,5 +1,11 @@
 # @felte/reporter-element
 
+## 0.4.5
+
+### Patch Changes
+
+- 0aa06b8: Add custom elements manifest
+
 ## 0.4.4
 
 ### Patch Changes

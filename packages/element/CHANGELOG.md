@@ -1,5 +1,13 @@
 # @felte/element
 
+## 0.5.6
+
+### Patch Changes
+
+- 5a88603: add custom-elements.json manifest
+- Updated dependencies [2e109f9]
+  - @felte/core@1.3.6
+
 ## 0.5.5
 
 ### Patch Changes

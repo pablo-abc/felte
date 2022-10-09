@@ -1,5 +1,11 @@
 # @felte/core
 
+## 1.3.6
+
+### Patch Changes
+
+- 2e109f9: Remove `Content-Type` header when sending multipart/form-data on default form handler
+
 ## 1.3.5
 
 ### Patch Changes
