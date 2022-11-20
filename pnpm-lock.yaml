@@ -607,12 +607,12 @@ importers:
       '@felte/reporter-tippy': latest
       '@felte/validator-yup': latest
       '@shoelace-style/shoelace': ^2.0.0-beta.72
-      '@types/flexsearch': ^0.7.3
+      '@types/flexsearch': 0.7.3
       astro: 1.4.7
       autoprefixer: ^10.4.4
       cssnano: ^5.1.4
       felte: latest
-      flexsearch: ^0.7.21
+      flexsearch: 0.7.21
       focus-visible: ^5.2.0
       front-matter: ^4.0.2
       lit: ^2.0.2
