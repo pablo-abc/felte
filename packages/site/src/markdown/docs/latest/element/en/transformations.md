@@ -23,4 +23,4 @@ These transformation functions run also when directly setting values to the `dat
 
 ### TypeScript
 
-TypeScript users should keep in mind that when using a `transform` function, the types of Felte become looser. `setFields` and `setData` will accept any value expecting you to transform your data into the appropriate shape in your `transform` function. This also means that `initialValues` will have a type of `unknown` and and the type of your `data` can no longer be inferred from it.
+TypeScript users should keep in mind that when using a `transform` function, the types of Felte become looser. `setFields` and `setData` will accept any value expecting you to transform your data into the appropriate shape in your `transform` function. This also means that `initialValues` will have a type of `unknown` and the type of your `data` can no longer be inferred from it.
