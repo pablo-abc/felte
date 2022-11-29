@@ -1,4 +1,3 @@
-import 'uvu-expect-dom/extend';
 export function cleanupDOM(): void {
   removeAllChildren(document.body);
 }

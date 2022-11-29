@@ -10,7 +10,6 @@ importers:
       '@changesets/cli': ^2.20.0
       '@commitlint/cli': ^12.1.1
       '@commitlint/config-conventional': ^12.1.1
-      '@istanbuljs/nyc-config-typescript': ^1.0.2
       '@rollup/plugin-commonjs': ^23.0.3
       '@rollup/plugin-node-resolve': ^15.0.1
       '@rollup/plugin-replace': ^5.0.1
@@ -43,7 +42,6 @@ importers:
       husky: ^7.0.4
       jsdom: ^20.0.3
       mdsvex: ^0.9.0
-      nyc: ^15.1.0
       pnpm: ^7.9.0
       prettier: ^2.2.1
       rimraf: ^3.0.2
@@ -53,7 +51,6 @@ importers:
       rollup-plugin-svelte: ^7.1.0
       rollup-plugin-terser: ^7.0.2
       rollup-plugin-ts: ^3.0.2
-      sinon: ^13.0.1
       superstruct: ^0.15.0
       svelte: ^3.31.0
       svelte-focus-on: ^0.1.4
@@ -62,12 +59,8 @@ importers:
       svelte-preprocess: ^4.6.9
       tippy.js: ^6.0.0
       tslib: ^2.3.1
-      tsm: ^2.3.0
       typedoc: ^0.23.21
       typescript: ^4.9.3
-      uvu: ^0.5.6
-      uvu-expect: ^0.5.0
-      uvu-expect-dom: ^0.2.4
       vest: ^4.0.1
       vitest: ^0.25.3
       yup: ^0.32.9
@@ -85,7 +78,6 @@ importers:
       '@changesets/changelog-git': 0.1.7
       '@commitlint/cli': 12.1.1
       '@commitlint/config-conventional': 12.1.1
-      '@istanbuljs/nyc-config-typescript': 1.0.2_nyc@15.1.0
       '@rollup/plugin-commonjs': 23.0.3_rollup@3.5.0
       '@rollup/plugin-node-resolve': 15.0.1_rollup@3.5.0
       '@rollup/plugin-replace': 5.0.1_rollup@3.5.0
@@ -115,7 +107,6 @@ importers:
       husky: 7.0.4
       jsdom: 20.0.3
       mdsvex: 0.9.0_svelte@3.37.0
-      nyc: 15.1.0
       pnpm: 7.9.0
       prettier: 2.2.1
       rimraf: 3.0.2
@@ -124,7 +115,6 @@ importers:
       rollup-plugin-rename-node-modules: 1.3.1_rollup@3.5.0
       rollup-plugin-terser: 7.0.2_rollup@3.5.0
       rollup-plugin-ts: 3.0.2_2frbfsalpugxj5yq5xqpnkbhve
-      sinon: 13.0.1
       superstruct: 0.15.1
       svelte: 3.37.0
       svelte-focus-on: 0.1.4
@@ -132,12 +122,8 @@ importers:
       svelte-portal: 2.1.2
       tippy.js: 6.3.1
       tslib: 2.3.1
-      tsm: 2.3.0
       typedoc: 0.23.21_typescript@4.9.3
       typescript: 4.9.3
-      uvu: 0.5.6
-      uvu-expect: 0.5.0_uvu@0.5.6
-      uvu-expect-dom: 0.2.4_uvu-expect@0.5.0+uvu@0.5.6
       vest: 4.0.1
       vitest: 0.25.3_jsdom@20.0.3
       yup: 0.32.9
@@ -5419,16 +5405,6 @@ packages:
       resolve-from: 5.0.0
     dev: true
 
-  /@istanbuljs/nyc-config-typescript/1.0.2_nyc@15.1.0:
-    resolution: {integrity: sha512-iKGIyMoyJuFnJRSVTZ78POIRvNnwZaWIf8vG4ZS3rQq58MMDrqEX2nnzx0R28V2X8JvmKYiqY9FP2hlJsm8A0w==}
-    engines: {node: '>=8'}
-    peerDependencies:
-      nyc: '>=15'
-    dependencies:
-      '@istanbuljs/schema': 0.1.3
-      nyc: 15.1.0
-    dev: true
-
   /@istanbuljs/schema/0.1.3:
     resolution: {integrity: sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==}
     engines: {node: '>=8'}
@@ -6174,24 +6150,6 @@ packages:
     resolution: {integrity: sha512-iQADsW4LBMISqZ6Ci1dupJL9pprqwcVFTcOsEmQOEhW+KLCVn/Y4Jrvg2k19fIHCp+iFprriYPTdRcQR8NbUPg==}
     dependencies:
       '@sinonjs/commons': 1.8.3
-    dev: true
-
-  /@sinonjs/fake-timers/9.1.0:
-    resolution: {integrity: sha512-M8vapsv9qQupMdzrVzkn5rb9jG7aUTEPAZdMtME2PuBaefksFZVE2C1g4LBRTkF/k3nRDNbDc5tp5NFC1PEYxA==}
-    dependencies:
-      '@sinonjs/commons': 1.8.3
-    dev: true
-
-  /@sinonjs/samsam/6.1.1:
-    resolution: {integrity: sha512-cZ7rKJTLiE7u7Wi/v9Hc2fs3Ucc3jrWeMgPHbbTCeVAB2S0wOBbYlkJVeNSL04i7fdhT8wIbDq1zhC/PXTD2SA==}
-    dependencies:
-      '@sinonjs/commons': 1.8.3
-      lodash.get: 4.4.2
-      type-detect: 4.0.8
-    dev: true
-
-  /@sinonjs/text-encoding/0.7.1:
-    resolution: {integrity: sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==}
     dev: true
 
   /@solid-reach/rollup-plugin-jsx/0.0.2:
@@ -8503,14 +8461,6 @@ packages:
     resolution: {integrity: sha512-YUifsXXuknHlUsmlgyY0PKzgPOr7/FjCePfHNt0jxm83wHZi44VDMQ7/fGNkjY3/jV1MC+1CmZbaHzugyeRtpg==}
     dev: true
 
-  /css/3.0.0:
-    resolution: {integrity: sha512-DG9pFfwOrzc+hawpmqX/dHYHJG+Bsdb0klhyi1sDneOgGOXy9wQIC8hzyVp1e4NRYDBdxcylvywPkkXCHAzTyQ==}
-    dependencies:
-      inherits: 2.0.4
-      source-map: 0.6.1
-      source-map-resolve: 0.6.0
-    dev: true
-
   /cssdb/6.5.0:
     resolution: {integrity: sha512-Rh7AAopF2ckPXe/VBcoUS9JrCZNSyc60+KpgE6X25vpVxA32TmiqvExjkfhwP4wGSb6Xe8Z/JIyGqwgx/zZYFA==}
     dev: true
@@ -8818,11 +8768,6 @@ packages:
   /diff-sequences/27.4.0:
     resolution: {integrity: sha512-YqiQzkrsmHMH5uuh8OdQFU9/ZpADnwzml8z0O5HvRNda+5UZsaX/xN+AAxfR2hWq1Y7HZnAzO9J5lJXOuDz2Ww==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-    dev: true
-
-  /diff/5.0.0:
-    resolution: {integrity: sha512-/VTCrvm5Z0JGty/BWHljh+BAiw3IK+2j87NGMu8Nwc/f48WoDAC395uomO9ZD117ZOBaHmkX1oyLvkVM/aIT3w==}
-    engines: {node: '>=0.3.1'}
     dev: true
 
   /diff/5.1.0:
@@ -10894,11 +10839,6 @@ packages:
     resolution: {integrity: sha512-EdDDZu4A2OyIK7Lr/2zG+w5jmbuk1DVBnEwREQvBzspBJkCEbRa8GxU1lghYcaGJCnRWibjDXlq779X1/y5xwg==}
     engines: {node: '>=8'}
 
-  /indent-string/5.0.0:
-    resolution: {integrity: sha512-m6FAo/spmsW2Ab2fU35JTYwtOKa2yAwXSwgjSv1TJzh4Mh7mC3lzAOVLBprb72XsTrgkEIsl7YrFNAiDiRhIGg==}
-    engines: {node: '>=12'}
-    dev: true
-
   /inflight/1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
     dependencies:
@@ -11230,10 +11170,6 @@ packages:
       is-docker: 2.2.1
     dev: true
 
-  /isarray/0.0.1:
-    resolution: {integrity: sha1-ihis/Kmo9Bd+Cav8YDiTmwXR7t8=}
-    dev: true
-
   /isarray/1.0.0:
     resolution: {integrity: sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE=}
     dev: true
@@ -11532,10 +11468,6 @@ packages:
     engines: {'0': node >= 0.2.0}
     dev: true
 
-  /just-extend/4.2.1:
-    resolution: {integrity: sha512-g3UB796vUFIY90VIv/WX3L2c8CS2MdWUww3CNrYmqza1Fg0DURc2K/O4YrnklBdQarSJ/y8JnJYDGc+1iumQjg==}
-    dev: true
-
   /kind-of/3.2.2:
     resolution: {integrity: sha1-MeohpzS6ubuw8yRm2JOupR5KPGQ=}
     engines: {node: '>=0.10.0'}
@@ -11683,10 +11615,6 @@ packages:
 
   /lodash.flattendeep/4.4.0:
     resolution: {integrity: sha1-+wMJF/hqMTTlvJvsDWngAT3f7bI=}
-    dev: true
-
-  /lodash.get/4.4.2:
-    resolution: {integrity: sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=}
     dev: true
 
   /lodash.memoize/4.1.2:
@@ -12551,16 +12479,6 @@ packages:
     resolution: {integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==}
     dev: true
 
-  /nise/5.1.1:
-    resolution: {integrity: sha512-yr5kW2THW1AkxVmCnKEh4nbYkJdB3I7LUkiUgOvEkOp414mc2UMaHMA7pjq1nYowhdoJZGwEKGaQVbxfpWj10A==}
-    dependencies:
-      '@sinonjs/commons': 1.8.3
-      '@sinonjs/fake-timers': 9.1.0
-      '@sinonjs/text-encoding': 0.7.1
-      just-extend: 4.2.1
-      path-to-regexp: 1.8.0
-    dev: true
-
   /nlcst-to-string/2.0.4:
     resolution: {integrity: sha512-3x3jwTd6UPG7vi5k4GEzvxJ5rDA7hVUIRNHPblKuMVP9Z3xmlsd9cgLcpAMkc5uPOBna82EeshROFhsPkbnTZg==}
     dev: true
@@ -13015,12 +12933,6 @@ packages:
 
   /path-parse/1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
-
-  /path-to-regexp/1.8.0:
-    resolution: {integrity: sha512-n43JRhlUKUAlibEJhPeir1ncUID16QnEjNpwzNdO3Lm4ywrBpBZ5oLD0I6br9evr1Y9JTqwRtAh7JLoOzAQdVA==}
-    dependencies:
-      isarray: 0.0.1
-    dev: true
 
   /path-to-regexp/6.2.1:
     resolution: {integrity: sha512-JLyh7xT1kizaEvcaXOQwOc2/Yhw6KZOvPf1S8401UyLk86CU79LN3vl7ztXGm/pZ+YjoyAJ4rxmHwbkBXJX+yw==}
@@ -14082,14 +13994,6 @@ packages:
       indent-string: 4.0.0
       strip-indent: 3.0.0
 
-  /redent/4.0.0:
-    resolution: {integrity: sha512-tYkDkVVtYkSVhuQ4zBgfvciymHaeuel+zFKXShfDnFP5SyVEP7qo70Rf1jTOTCx3vGNAbnEi/xFkcfQVMIBWag==}
-    engines: {node: '>=12'}
-    dependencies:
-      indent-string: 5.0.0
-      strip-indent: 4.0.0
-    dev: true
-
   /regenerate-unicode-properties/8.2.0:
     resolution: {integrity: sha512-F9DjY1vKLo/tPePDycuH3dn9H1OTPIkVD9Kz4LODu+F2C75mgjAJ7x/gwy6ZcSNRAAkhNlJSOHRe8k3p+K9WhA==}
     engines: {node: '>=4'}
@@ -14444,10 +14348,11 @@ packages:
 
   /rollup-plugin-terser/7.0.2_rollup@2.52.7:
     resolution: {integrity: sha512-w3iIaU4OxcF52UUXiZNsNeuXIMDvFrr+ZXK6bFZ0Q60qyVfq4uLptoS4bbq3paG3x216eQllFZX7zt6TIImguQ==}
+    deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser
     peerDependencies:
       rollup: ^2.0.0
     dependencies:
-      '@babel/code-frame': 7.16.7
+      '@babel/code-frame': 7.18.6
       jest-worker: 26.6.2
       rollup: 2.52.7
       serialize-javascript: 4.0.0
@@ -14456,10 +14361,11 @@ packages:
 
   /rollup-plugin-terser/7.0.2_rollup@2.61.1:
     resolution: {integrity: sha512-w3iIaU4OxcF52UUXiZNsNeuXIMDvFrr+ZXK6bFZ0Q60qyVfq4uLptoS4bbq3paG3x216eQllFZX7zt6TIImguQ==}
+    deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser
     peerDependencies:
       rollup: ^2.0.0
     dependencies:
-      '@babel/code-frame': 7.16.7
+      '@babel/code-frame': 7.18.6
       jest-worker: 26.6.2
       rollup: 2.61.1
       serialize-javascript: 4.0.0
@@ -14783,17 +14689,6 @@ packages:
       is-arrayish: 0.3.2
     dev: false
 
-  /sinon/13.0.1:
-    resolution: {integrity: sha512-8yx2wIvkBjIq/MGY1D9h1LMraYW+z1X0mb648KZnKSdvLasvDu7maa0dFaNYdTDczFgbjNw2tOmWdTk9saVfwQ==}
-    dependencies:
-      '@sinonjs/commons': 1.8.3
-      '@sinonjs/fake-timers': 9.1.0
-      '@sinonjs/samsam': 6.1.1
-      diff: 5.0.0
-      nise: 5.1.1
-      supports-color: 7.2.0
-    dev: true
-
   /sirv/2.0.2:
     resolution: {integrity: sha512-4Qog6aE29nIjAOKe/wowFTxOdmbEZKb+3tsLljaBRzJwtqto0BChD2zzH0LhgCSXiI+V7X+Y45v14wBZQ1TK3w==}
     engines: {node: '>= 10'}
@@ -14964,14 +14859,6 @@ packages:
       resolve-url: 0.2.1
       source-map-url: 0.4.1
       urix: 0.1.0
-    dev: true
-
-  /source-map-resolve/0.6.0:
-    resolution: {integrity: sha512-KXBr9d/fO/bWo97NXsPIAW1bFSBOuCnjbNTBMO7N59hsv5i9yzRDfcYwwt0l04+VqnKC+EwzvJZIP/qkuMgR/w==}
-    deprecated: See https://github.com/lydell/source-map-resolve#deprecated
-    dependencies:
-      atob: 2.1.2
-      decode-uri-component: 0.2.0
     dev: true
 
   /source-map-support/0.5.21:
@@ -15185,13 +15072,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       min-indent: 1.0.1
-
-  /strip-indent/4.0.0:
-    resolution: {integrity: sha512-mnVSV2l+Zv6BLpSD/8V87CW/y9EmmbYzGCIavsnsI6/nwn26DwffM/yztm30Z/I2DY9wdS3vXVCMnHDgZaVNoA==}
-    engines: {node: '>=12'}
-    dependencies:
-      min-indent: 1.0.1
-    dev: true
 
   /strip-json-comments/3.1.1:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
@@ -15837,14 +15717,6 @@ packages:
       esbuild: 0.14.54
     dev: true
 
-  /tsm/2.3.0:
-    resolution: {integrity: sha512-++0HFnmmR+gMpDtKTnW3XJ4yv9kVGi20n+NfyQWB9qwJvTaIWY9kBmzek2YUQK5APTQ/1DTrXmm4QtFPmW9Rzw==}
-    engines: {node: '>=12'}
-    hasBin: true
-    dependencies:
-      esbuild: 0.15.16
-    dev: true
-
   /tsutils/3.21.0_typescript@4.9.3:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
     engines: {node: '>= 6'}
@@ -16165,32 +16037,6 @@ packages:
     hasBin: true
     dev: true
 
-  /uvu-expect-dom/0.2.4_uvu-expect@0.5.0+uvu@0.5.6:
-    resolution: {integrity: sha512-lBZpgkkwMYAOgDNtH0/N+4q1R2HxVnpg53P7LXqrJgJLRcN5o6wGusB2YhWBy7eVvzbaSb90qsZ765l1bfKdpg==}
-    peerDependencies:
-      uvu: ^0.5.3
-      uvu-expect: '>=0.4.4'
-    dependencies:
-      '@testing-library/jest-dom': 5.16.5
-      css: 3.0.0
-      dom-accessibility-api: 0.5.11
-      redent: 4.0.0
-      uvu: 0.5.6
-      uvu-expect: 0.5.0_uvu@0.5.6
-    dev: true
-
-  /uvu-expect/0.5.0_uvu@0.5.6:
-    resolution: {integrity: sha512-n19d3yX+FvI28cvLQLYF5vMNCiAqXzTTz6T1bvUICdxOYJan32GV7FJnu1pgk7j7ZhFoV89ACd47RLcRriazdQ==}
-    peerDependencies:
-      uvu: ^0.5.3
-    dependencies:
-      '@sinonjs/samsam': 6.1.1
-      kleur: 4.1.4
-      lodash: 4.17.21
-      tslib: 2.3.1
-      uvu: 0.5.6
-    dev: true
-
   /uvu/0.5.3:
     resolution: {integrity: sha512-brFwqA3FXzilmtnIyJ+CxdkInkY/i4ErvP7uV0DnUVxQcQ55reuHphorpF+tZoVHK2MniZ/VJzI7zJQoc9T9Yw==}
     engines: {node: '>=8'}
@@ -16199,17 +16045,6 @@ packages:
       dequal: 2.0.2
       diff: 5.1.0
       kleur: 4.1.4
-      sade: 1.7.4
-    dev: true
-
-  /uvu/0.5.6:
-    resolution: {integrity: sha512-+g8ENReyr8YsOc6fv/NVJs2vFdHBnBNdfE49rshrTzDWOlUx4Gq7KOS2GD8eqhy2j+Ejq29+SbKH8yjkAqXqoA==}
-    engines: {node: '>=8'}
-    hasBin: true
-    dependencies:
-      dequal: 2.0.2
-      diff: 5.1.0
-      kleur: 4.1.5
       sade: 1.7.4
     dev: true
 
