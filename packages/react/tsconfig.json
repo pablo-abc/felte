@@ -11,7 +11,8 @@
     "declaration": true,
     "declarationMap": true,
     "jsx": "react",
-    "declarationDir": "./dist/types"
+    "declarationDir": "./dist/esm"
   },
-  "include": ["./src", "./tests"]
+  "include": ["./src", "./tests"],
+  "exclude": ["./tests"]
 }

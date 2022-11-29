@@ -13,5 +13,6 @@
     "declarationMap": true,
     "declarationDir": "./dist/esm"
   },
-  "include": ["src", "test"]
+  "include": ["src", "test"],
+  "exclude": ["test"]
 }

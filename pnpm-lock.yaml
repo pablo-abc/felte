@@ -22,6 +22,7 @@ importers:
       '@testing-library/user-event': ^13.1.3
       '@types/chai': ^4.3.0
       '@types/jsdom-global': ^3.0.2
+      '@types/node': ^18.11.9
       '@types/sinon': ^10.0.10
       '@types/testing-library__jest-dom': ^5.14.5
       '@typescript-eslint/eslint-plugin': ^5.9.1
@@ -38,7 +39,6 @@ importers:
       eslint-plugin-svelte3: ^3.2.0
       eslint-plugin-testing-library: ^4.0.1
       front-matter: ^4.0.2
-      global-jsdom: ^8.4.0
       husky: ^7.0.4
       jsdom: ^20.0.3
       mdsvex: ^0.9.0
@@ -89,6 +89,7 @@ importers:
       '@testing-library/user-event': 13.1.3_guxlxp7vo4tna3wzljhmqxhtce
       '@types/chai': 4.3.0
       '@types/jsdom-global': 3.0.2
+      '@types/node': 18.11.9
       '@types/sinon': 10.0.10
       '@types/testing-library__jest-dom': 5.14.5
       '@typescript-eslint/eslint-plugin': 5.9.1_bttv6j5rzfv5qpcbmwfbla6hjm
@@ -103,7 +104,6 @@ importers:
       eslint-plugin-svelte3: 3.2.0_tltfidwzmyyx535yi6rj33k4by
       eslint-plugin-testing-library: 4.0.1_nfj6pkssl76eraaivqz3lh2aje
       front-matter: 4.0.2
-      global-jsdom: 8.4.0_jsdom@20.0.3
       husky: 7.0.4
       jsdom: 20.0.3
       mdsvex: 0.9.0_svelte@3.37.0
@@ -323,27 +323,21 @@ importers:
     specifiers:
       '@felte/common': workspace:*
       '@felte/core': workspace:*
-      felte: workspace:*
-      module-alias: ^2.2.2
       svelte: ^3.46.4
     dependencies:
       '@felte/common': link:../common
     devDependencies:
       '@felte/core': link:../core
-      felte: link:../felte
-      module-alias: 2.2.2
       svelte: 3.46.4
 
   packages/felte:
     specifiers:
       '@felte/core': workspace:*
-      module-alias: ^2.2.2
       svelte: ^3.46.4
       uvu: ^0.5.3
     dependencies:
       '@felte/core': link:../core
     devDependencies:
-      module-alias: 2.2.2
       svelte: 3.46.4
       uvu: 0.5.3
 
@@ -388,23 +382,23 @@ importers:
   packages/reporter-cvapi:
     specifiers:
       '@felte/common': workspace:*
-      felte: workspace:*
+      '@felte/core': workspace:*
       svelte: ^3.46.4
     dependencies:
       '@felte/common': link:../common
     devDependencies:
-      felte: link:../felte
+      '@felte/core': link:../core
       svelte: 3.46.4
 
   packages/reporter-dom:
     specifiers:
       '@felte/common': workspace:*
-      felte: workspace:*
+      '@felte/core': workspace:*
       svelte: ^3.46.4
     dependencies:
       '@felte/common': link:../common
     devDependencies:
-      felte: link:../felte
+      '@felte/core': link:../core
       svelte: 3.46.4
 
   packages/reporter-element:
@@ -436,7 +430,6 @@ importers:
       '@rollup/plugin-node-resolve': 13.0.5
       '@testing-library/preact': ^2.0.1
       '@testing-library/preact-hooks': ^1.1.0
-      '@types/node': ^15.12.4
       babel-jest: ^26.6.3
       preact: ^10.5.15
       rollup: ^2.52.1
@@ -454,7 +447,6 @@ importers:
       '@rollup/plugin-node-resolve': 13.0.5_rollup@2.61.1
       '@testing-library/preact': 2.0.1_preact@10.6.6
       '@testing-library/preact-hooks': 1.1.0_2hicfftk5w6nnkwnyfxlremt4u
-      '@types/node': 15.12.4
       babel-jest: 26.6.3_@babel+core@7.17.0
       preact: 10.6.6
       rollup: 2.61.1
@@ -473,7 +465,6 @@ importers:
       '@rollup/plugin-babel': 5.3.0
       '@rollup/plugin-node-resolve': 13.0.5
       '@testing-library/react': ^12.1.2
-      '@types/node': ^15.12.4
       '@types/react': ^17.0.39
       babel-jest: ^26.6.3
       react: ^17.0.2
@@ -494,7 +485,6 @@ importers:
       '@rollup/plugin-babel': 5.3.0_afqnzlvi5otcqykk7xzzwiilga
       '@rollup/plugin-node-resolve': 13.0.5_rollup@2.61.1
       '@testing-library/react': 12.1.2_sfoxds7t5ydpegc3knd667wn6m
-      '@types/node': 15.12.4
       '@types/react': 17.0.39
       babel-jest: 26.6.3_@babel+core@7.16.5
       react: 17.0.2
@@ -515,7 +505,6 @@ importers:
       '@felte/solid': workspace:*
       '@rollup/plugin-babel': 5.3.0
       '@rollup/plugin-node-resolve': 13.0.5
-      '@types/node': ^15.12.4
       acorn: ^8.7.0
       acorn-jsx: ^5.3.2
       babel-preset-solid: ^1.3.5
@@ -539,7 +528,6 @@ importers:
       '@felte/solid': link:../solid
       '@rollup/plugin-babel': 5.3.0_vh4s73smkkiklvh6atagzjhzzi
       '@rollup/plugin-node-resolve': 13.0.5_rollup@2.52.7
-      '@types/node': 15.12.4
       acorn: 8.7.0
       acorn-jsx: 5.3.2_acorn@8.7.0
       babel-preset-solid: 1.3.5_@babel+core@7.17.0
@@ -5441,7 +5429,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.3
       '@types/istanbul-reports': 3.0.0
-      '@types/node': 17.0.45
+      '@types/node': 18.11.9
       '@types/yargs': 15.0.13
       chalk: 4.1.2
     dev: true
@@ -6500,7 +6488,7 @@ packages:
   /@types/jsdom/16.2.14:
     resolution: {integrity: sha512-6BAy1xXEmMuHeAJ4Fv4yXKwBDTGTOseExKE3OaHiNycdHdZw59KfYzrt0DkDluvwmik1HRt6QS7bImxUmpSy+w==}
     dependencies:
-      '@types/node': 16.11.21
+      '@types/node': 18.11.9
       '@types/parse5': 6.0.3
       '@types/tough-cookie': 4.0.1
     dev: true
@@ -6560,10 +6548,6 @@ packages:
     resolution: {integrity: sha512-Qipn7rfTxGEDqZiezH+wxqWYR8vcXq5LRpZrETD19Gs4o8LbklbmqotSUsMU+s5G3PJwMRDfNEYoxrcBwIxOuw==}
     dev: true
 
-  /@types/node/15.12.4:
-    resolution: {integrity: sha512-zrNj1+yqYF4WskCMOHwN+w9iuD12+dGm0rQ35HLl9/Ouuq52cEtd0CH9qMgrdNmi5ejC1/V7vKEXYubB+65DkA==}
-    dev: true
-
   /@types/node/16.11.21:
     resolution: {integrity: sha512-Pf8M1XD9i1ksZEcCP8vuSNwooJ/bZapNmIzpmsMaL+jMI+8mEYU3PKvs+xDNuQcJWF/x24WzY4qxLtB0zNow9A==}
     dev: true
@@ -6574,6 +6558,10 @@ packages:
 
   /@types/node/17.0.45:
     resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
+    dev: true
+
+  /@types/node/18.11.9:
+    resolution: {integrity: sha512-CRpX21/kGdzjOpFsZSkcrXMGIBWMGNIHXXBVFSH+ggkftxg+XYP20TESbh+zFvFj3EQOl5byk0HTRn1IL6hbqg==}
 
   /@types/normalize-package-data/2.4.0:
     resolution: {integrity: sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==}
@@ -6644,7 +6632,7 @@ packages:
   /@types/sass/1.16.0:
     resolution: {integrity: sha512-2XZovu4NwcqmtZtsBR5XYLw18T8cBCnU2USFHTnYLLHz9fkhnoEMoDsqShJIOFsFhn5aJHjweiUUdTrDGujegA==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.11.9
 
   /@types/sax/1.2.4:
     resolution: {integrity: sha512-pSAff4IAxJjfAXUG6tFkO7dsSbTmf8CtUpfhhZ5VhkRpC4628tJhh3+V6H1E+/Gs9piSzYKT5yzHO5M4GG9jkw==}
@@ -10449,15 +10437,6 @@ packages:
       ini: 1.3.8
     dev: true
 
-  /global-jsdom/8.4.0_jsdom@20.0.3:
-    resolution: {integrity: sha512-0wBpSA/uTbPwMUldVKvPkJmQ30PZacTY8LzXSnTYlptZl6c5OFAVXSb24o1vdvjUNAmIksj+BAJb/c/KSPlLCQ==}
-    engines: {node: '>=12'}
-    peerDependencies:
-      jsdom: '>=10.0.0 || <20'
-    dependencies:
-      jsdom: 20.0.3
-    dev: true
-
   /globals/11.12.0:
     resolution: {integrity: sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA==}
     engines: {node: '>=4'}
@@ -11336,7 +11315,7 @@ packages:
     resolution: {integrity: sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.11.9
       merge-stream: 2.0.0
       supports-color: 7.2.0
     dev: true
@@ -16222,7 +16201,7 @@ packages:
     dependencies:
       '@types/chai': 4.3.4
       '@types/chai-subset': 1.3.3
-      '@types/node': 17.0.45
+      '@types/node': 18.11.9
       acorn: 8.8.0
       acorn-walk: 8.2.0
       chai: 4.3.7

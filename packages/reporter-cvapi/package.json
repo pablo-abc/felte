@@ -5,7 +5,7 @@
   "main": "dist/index.cjs",
   "browser": "dist/index.mjs",
   "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "type": "module",
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
@@ -29,8 +29,9 @@
     "build": "pnpm prebuild && cross-env NODE_ENV=production rollup -c",
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build && pnpm test",
-    "test": "uvu -r tsm -r global-jsdom/register -r module-alias/register tests -i common -i mocks",
-    "test:ci": "nyc -n src pnpm test"
+    "vitest": "vitest",
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage"
   },
   "files": [
     "dist"
@@ -40,7 +41,7 @@
     "@felte/common": "workspace:*"
   },
   "devDependencies": {
-    "felte": "workspace:*",
+    "@felte/core": "workspace:*",
     "svelte": "^3.46.4"
   },
   "publishConfig": {
@@ -53,9 +54,5 @@
       "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
-  },
-  "_moduleAliases": {
-    "svelte": "tests/mocks/svelte.js",
-    "svelte/store": "node_modules/svelte/store/index.mjs"
   }
 }
