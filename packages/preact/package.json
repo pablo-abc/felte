@@ -48,9 +48,9 @@
   },
   "devDependencies": {
     "@felte/common": "workspace:*",
-    "@testing-library/preact": "^2.0.1",
+    "@testing-library/preact": "^3.2.2",
     "@testing-library/preact-hooks": "^1.1.0",
-    "preact": "^10.5.15"
+    "preact": "^10.11.3"
   },
   "exports": {
     ".": {

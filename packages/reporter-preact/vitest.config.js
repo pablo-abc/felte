@@ -14,6 +14,10 @@ export default defineConfig({
         find: '@testing-library/preact',
         replacement: require.resolve('@testing-library/preact'),
       },
+      {
+        find: '@felte/preact',
+        replacement: require.resolve('@felte/preact'),
+      },
     ],
   },
   test: {
