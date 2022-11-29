@@ -322,12 +322,14 @@ importers:
   packages/extender-persist:
     specifiers:
       '@felte/common': workspace:*
+      '@felte/core': workspace:*
       felte: workspace:*
       module-alias: ^2.2.2
       svelte: ^3.46.4
     dependencies:
       '@felte/common': link:../common
     devDependencies:
+      '@felte/core': link:../core
       felte: link:../felte
       module-alias: 2.2.2
       svelte: 3.46.4
