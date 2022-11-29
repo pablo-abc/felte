@@ -1,4 +1,4 @@
-import { expect, describe, test, vi, beforeEach, afterEach } from 'vitest';
+import { expect, describe, test } from 'vitest';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { writable } from 'svelte/store';
 import { useAccessor } from '../src/use-accessor';

@@ -12,10 +12,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
-    "declaration": true,
-    "declarationMap": true,
-    "jsx": "react",
-    "declarationDir": "./dist/types"
+    "jsx": "react"
   },
-  "include": ["./src", "./tests"]
+  "include": ["./src", "./tests"],
+  "exclude": ["./tests"]
 }

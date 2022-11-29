@@ -12,8 +12,9 @@
     "build": "pnpm prebuild && NODE_ENV=production rollup -c",
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm run build",
-    "test": "uvu -r tsm -r global-jsdom/register tests -i common",
-    "test:ci": "nyc pnpm test",
+    "vitest": "vitest",
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage",
     "cem": "cem analyze --globs 'src/Felte*' --globs 'src/felte-*'"
   },
   "author": {

@@ -1,9 +1,8 @@
-import * as sinon from 'sinon';
-import { suite } from 'uvu';
-import { unreachable } from 'uvu/assert';
-import { expect } from 'uvu-expect';
+import matchers from '@testing-library/jest-dom/matchers';
+import { expect, describe, test, vi, beforeEach, afterEach } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { screen, waitFor } from '@testing-library/dom';
+import { AssertionError } from 'node:assert';
 import {
   createDOM,
   cleanupDOM,
@@ -14,13 +13,7 @@ import {
 import '../src/felte-validation-message';
 import { reporter } from '../src';
 
-const Reporter = suite('Reporter DOM');
-
-Reporter.before.each(createDOM);
-Reporter.after.each(() => {
-  cleanupDOM();
-  sinon.restore();
-});
+expect.extend(matchers);
 
 const template = `
 <template>
@@ -30,66 +23,71 @@ const template = `
 </template>
 `;
 
-Reporter('sets aria-invalid to input and removes if valid', async () => {
-  const mockErrors = {
-    test: 'An error',
-    multiple: new Array(3).fill({ value: 'An error' }),
-  };
-  const mockValidate = sinon.stub().returns(mockErrors);
-  const { form, validate } = createForm({
-    onSubmit: sinon.fake(),
-    validate: mockValidate,
-    extend: reporter,
+describe('Reporter DOM', () => {
+  beforeEach(createDOM);
+  afterEach(() => {
+    cleanupDOM();
+    vi.restoreAllMocks();
   });
 
-  const formElement = screen.getByRole('form') as HTMLFormElement;
-  const inputElement = createInputElement({
-    name: 'test',
-    type: 'text',
+  test('sets aria-invalid to input and removes if valid', async () => {
+    const mockErrors = {
+      test: 'An error',
+      multiple: new Array(3).fill({ value: 'An error' }),
+    };
+    const mockValidate = vi.fn().mockReturnValue(mockErrors);
+    const { form, validate } = createForm({
+      onSubmit: vi.fn(),
+      validate: mockValidate,
+      extend: reporter,
+    });
+
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const inputElement = createInputElement({
+      name: 'test',
+      type: 'text',
+    });
+    const multipleInputs = createMultipleInputElements({
+      name: 'multiple',
+      type: 'text',
+    });
+    const multipleMessages = multipleInputs.map((el) => {
+      const mes = document.createElement('felte-validation-message');
+      mes.innerHTML = template;
+      mes.setAttribute('for', el.name);
+      return mes;
+    });
+    const validationMessageElement = document.createElement(
+      'felte-validation-message'
+    );
+    validationMessageElement.innerHTML = template;
+    validationMessageElement.setAttribute('for', 'test');
+    formElement.appendChild(inputElement);
+    formElement.appendChild(validationMessageElement);
+    formElement.append(...multipleInputs, ...multipleMessages);
+
+    const { destroy } = form(formElement);
+
+    await validate();
+
+    await waitFor(() => {
+      expect(inputElement).toBeInvalid();
+      multipleInputs.forEach((input) => expect(input).toBeInvalid());
+    });
+
+    mockValidate.mockReturnValue({} as any);
+
+    await validate();
+
+    await waitFor(() => {
+      expect(inputElement).toBeValid();
+      multipleInputs.forEach((input) => expect(input).toBeValid());
+    });
+
+    destroy();
   });
-  const multipleInputs = createMultipleInputElements({
-    name: 'multiple',
-    type: 'text',
-  });
-  const multipleMessages = multipleInputs.map((el) => {
-    const mes = document.createElement('felte-validation-message');
-    mes.innerHTML = template;
-    mes.setAttribute('for', el.name);
-    return mes;
-  });
-  const validationMessageElement = document.createElement(
-    'felte-validation-message'
-  );
-  validationMessageElement.innerHTML = template;
-  validationMessageElement.setAttribute('for', 'test');
-  formElement.appendChild(inputElement);
-  formElement.appendChild(validationMessageElement);
-  formElement.append(...multipleInputs, ...multipleMessages);
 
-  const { destroy } = form(formElement);
-
-  await validate();
-
-  await waitFor(() => {
-    expect(inputElement).to.be.invalid;
-    multipleInputs.forEach((input) => expect(input).to.be.invalid);
-  });
-
-  mockValidate.returns({} as any);
-
-  await validate();
-
-  await waitFor(() => {
-    expect(inputElement).to.be.valid;
-    multipleInputs.forEach((input) => expect(input).to.be.valid);
-  });
-
-  destroy();
-});
-
-Reporter(
-  'sets error message in list if invalid and removes it if valid',
-  async () => {
+  test('sets error message in list if invalid and removes it if valid', async () => {
     type Data = {
       container: {
         test: string;
@@ -107,10 +105,10 @@ Reporter(
         test: 'A warning',
       },
     };
-    const mockValidate = sinon.stub().returns(mockErrors);
-    const mockWarn = sinon.stub().returns(mockWarnings);
+    const mockValidate = vi.fn().mockReturnValue(mockErrors);
+    const mockWarn = vi.fn().mockReturnValue(mockWarnings);
     const { form, validate } = createForm<Data>({
-      onSubmit: sinon.fake(),
+      onSubmit: vi.fn(),
       validate: mockValidate,
       warn: mockWarn,
       extend: reporter,
@@ -170,49 +168,44 @@ Reporter(
     userEvent.click(formElement);
 
     await waitFor(() => {
-      expect(validationMessageElement).to.contain.html(
+      expect(validationMessageElement).toContainHTML(
         '<li data-part="item">An error</li>'
       );
-      expect(warningMessageElement).to.contain.html(
+      expect(warningMessageElement).toContainHTML(
         '<li data-part="item">A warning</li>'
       );
       multipleMessages.forEach((mes) =>
-        expect(mes).to.contain.html('<li data-part="item">An error</li>')
+        expect(mes).toContainHTML('<li data-part="item">An error</li>')
       );
     });
 
-    mockValidate.returns({} as any);
+    mockValidate.mockReturnValue({} as any);
 
     await validate();
 
     await waitFor(() => {
-      expect(validationMessageElement).to.have.text.that.does.not.contain(
-        'An error'
-      );
+      expect(validationMessageElement).not.toHaveTextContent('An error');
       multipleMessages.forEach((mes) =>
-        expect(mes).not.to.contain.html(
+        expect(mes).not.toContainHTML(
           '<li data-felte-reporter-dom-list-message="">An error</li>'
         )
       );
     });
-  }
-);
+  });
 
-const spanTemplate = `
+  const spanTemplate = `
 <template>
   <span data-part="item"></span>
 </template>`;
 
-Reporter(
-  'sets error message in span if invalid and removes it if valid',
-  async () => {
+  test('sets error message in span if invalid and removes it if valid', async () => {
     const mockErrors = {
       test: 'An error',
       multiple: new Array(3).fill({ value: 'An error' }),
     };
-    const mockValidate = sinon.stub().returns(mockErrors);
+    const mockValidate = vi.fn().mockReturnValue(mockErrors);
     const { form, validate } = createForm({
-      onSubmit: sinon.fake(),
+      onSubmit: vi.fn(),
       validate: mockValidate,
       extend: reporter,
     });
@@ -254,38 +247,33 @@ Reporter(
     userEvent.click(formElement);
 
     await waitFor(() => {
-      expect(validationMessageElement).to.be.html(
+      expect(validationMessageElement).toContainHTML(
         '<span data-part="item">An error</span>'
       );
       multipleMessages.forEach((mes) => {
-        expect(mes).to.contain.html('<span data-part="item">An error</span>');
+        expect(mes).toContainHTML('<span data-part="item">An error</span>');
       });
     });
 
-    mockValidate.returns({} as any);
+    mockValidate.mockReturnValue({} as any);
 
     await validate();
 
     await waitFor(() => {
-      expect(validationMessageElement).to.have.text.that.does.not.contain(
-        'An error'
-      );
+      expect(validationMessageElement).not.toHaveTextContent('An error');
       multipleMessages.forEach((mes) =>
-        expect(mes).not.to.contain.html(
+        expect(mes).not.toContainHTML(
           '<span aria-live="polite" data-felte-reporter-dom-single-message="">An error</span>'
         )
       );
     });
-  }
-);
+  });
 
-Reporter(
-  'focuses first invalid input and shows validation message on submit',
-  async () => {
+  test('focuses first invalid input and shows validation message on submit', async () => {
     const mockErrors = { test: 'A test error' };
-    const mockValidate = sinon.fake(() => mockErrors);
+    const mockValidate = vi.fn(() => mockErrors);
     const { form } = createForm({
-      onSubmit: sinon.fake(),
+      onSubmit: vi.fn(),
       validate: mockValidate,
       extend: reporter,
     });
@@ -310,19 +298,14 @@ Reporter(
     formElement.submit();
 
     await waitFor(() => {
-      expect(inputElement).to.be.focused;
-      expect(validationMessageElement).to.have.text.that.contains(
-        'A test error'
-      );
+      expect(inputElement).toHaveFocus();
+      expect(validationMessageElement).toHaveTextContent('A test error');
     });
-  }
-);
+  });
 
-Reporter(
-  'does not focus first invalid input and shows validation message on submit',
-  async () => {
+  test('does not focus first invalid input and shows validation message on submit', async () => {
     const mockErrors = { test: 'A test error' };
-    const mockValidate = sinon.fake(() => mockErrors);
+    const mockValidate = vi.fn(() => mockErrors);
     const { form } = createForm({
       onSubmit: () => undefined,
       validate: mockValidate,
@@ -349,109 +332,105 @@ Reporter(
     formElement.submit();
 
     await waitFor(() => {
-      expect(inputElement).to.not.be.focused;
-      expect(validationMessageElement).to.have.text.that.contains(
-        'A test error'
-      );
+      expect(inputElement).not.toHaveFocus();
+      expect(validationMessageElement).toHaveTextContent('A test error');
     });
-  }
-);
+  });
 
-Reporter('throws error when no `for` attribute is given', async () => {
-  const element = document.createElement('felte-validation-message');
-  try {
-    (element as any)._start('test-id');
-    unreachable();
-  } catch (err: any) {
-    expect(err.message).to.equal(
-      '<felte-validation-message> requires a `for` attribute'
-    );
-  }
-});
-
-Reporter('throws error when not a child of a form', () => {
-  const element = document.createElement('felte-validation-message');
-  element.setAttribute('for', 'email');
-  const template = document.createElement('template');
-  element.appendChild(template);
-  const span = document.createElement('span');
-  span.setAttribute('part', 'item');
-  template.content.appendChild(span);
-  try {
-    element.connectedCallback();
-    unreachable();
-  } catch (err) {
-    expect(err)
-      .to.have.property('message')
-      .that.equals(
-        '<felte-validation-message> must be a child of a <form> element'
+  test('throws error when no `for` attribute is given', async () => {
+    const element = document.createElement('felte-validation-message');
+    try {
+      (element as any)._start('test-id');
+      throw new AssertionError({ message: 'Unreachable' });
+    } catch (err: any) {
+      expect(err.message).to.equal(
+        '<felte-validation-message> requires a `for` attribute'
       );
-  }
-});
-
-Reporter('calls start on load event', async () => {
-  const formElement = screen.getByRole('form') as HTMLFormElement;
-  const element = document.createElement('felte-validation-message');
-  const spy = sinon.stub(element as any, '_start').returns(true);
-
-  (element as any)._handleLoad({
-    currentTarget: formElement,
+    }
   });
 
-  expect(spy).to.not.have.been.called;
-
-  formElement.dataset.felteReporterElementId = 'test-id';
-  (element as any)._handleLoad({
-    currentTarget: formElement,
+  test('throws error when not a child of a form', () => {
+    const element = document.createElement('felte-validation-message');
+    element.setAttribute('for', 'email');
+    const template = document.createElement('template');
+    element.appendChild(template);
+    const span = document.createElement('span');
+    span.setAttribute('part', 'item');
+    template.content.appendChild(span);
+    try {
+      element.connectedCallback();
+      throw new AssertionError({ message: 'Unreachable' });
+    } catch (err) {
+      expect(err)
+        .to.have.property('message')
+        .that.equals(
+          '<felte-validation-message> must be a child of a <form> element'
+        );
+    }
   });
-  await waitFor(() => {
-    expect(spy).to.have.been.called.once;
+
+  test('calls start on load event', async () => {
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const element = document.createElement('felte-validation-message');
+    const spy = vi.spyOn(element as any, '_start').mockReturnValue(true);
+
+    (element as any)._handleLoad({
+      currentTarget: formElement,
+    });
+
+    expect(spy).not.toHaveBeenCalled();
+
+    formElement.dataset.felteReporterElementId = 'test-id';
+    (element as any)._handleLoad({
+      currentTarget: formElement,
+    });
+    await waitFor(() => {
+      expect(spy).toHaveBeenCalledOnce();
+    });
+
+    spy.mockClear();
+
+    (element as any).formElement = formElement;
+    (element as any)._handleLoad({
+      currentTarget: formElement,
+    });
+    await waitFor(() => {
+      expect(spy).toHaveBeenCalledOnce();
+    });
   });
 
-  spy.resetHistory();
+  test('does not fail without a template', () => {
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const element = document.createElement('felte-validation-message');
+    formElement.appendChild(element);
+    element.setAttribute('for', 'email');
 
-  (element as any).formElement = formElement;
-  (element as any)._handleLoad({
-    currentTarget: formElement,
+    expect(element.connectedCallback()).to.be.undefined;
   });
-  await waitFor(() => {
-    expect(spy).to.have.been.called.once;
+
+  test('does not fail without an item', () => {
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const element = document.createElement('felte-validation-message');
+    const template = document.createElement('template');
+    element.appendChild(template);
+    formElement.appendChild(element);
+    element.setAttribute('for', 'email');
+
+    expect(element.connectedCallback()).to.be.undefined;
+  });
+
+  test('does not fail with a template on a parent shadow root', () => {
+    const div = document.createElement('div');
+    div.attachShadow({ mode: 'open' });
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const element = document.createElement('felte-validation-message');
+    element.setAttribute('templateid', 'template');
+    const template = document.createElement('template');
+    template.id = 'template';
+    div.shadowRoot?.append(formElement, template);
+    formElement.appendChild(element);
+    element.setAttribute('for', 'email');
+
+    expect(element.connectedCallback()).to.be.undefined;
   });
 });
-
-Reporter('does not fail without a template', () => {
-  const formElement = screen.getByRole('form') as HTMLFormElement;
-  const element = document.createElement('felte-validation-message');
-  formElement.appendChild(element);
-  element.setAttribute('for', 'email');
-
-  expect(element.connectedCallback()).to.be.undefined;
-});
-
-Reporter('does not fail without an item', () => {
-  const formElement = screen.getByRole('form') as HTMLFormElement;
-  const element = document.createElement('felte-validation-message');
-  const template = document.createElement('template');
-  element.appendChild(template);
-  formElement.appendChild(element);
-  element.setAttribute('for', 'email');
-
-  expect(element.connectedCallback()).to.be.undefined;
-});
-
-Reporter('does not fail with a template on a parent shadow root', () => {
-  const div = document.createElement('div');
-  div.attachShadow({ mode: 'open' });
-  const formElement = screen.getByRole('form') as HTMLFormElement;
-  const element = document.createElement('felte-validation-message');
-  element.setAttribute('templateid', 'template');
-  const template = document.createElement('template');
-  template.id = 'template';
-  div.shadowRoot?.append(formElement, template);
-  formElement.appendChild(element);
-  element.setAttribute('for', 'email');
-
-  expect(element.connectedCallback()).to.be.undefined;
-});
-
-Reporter.run();
