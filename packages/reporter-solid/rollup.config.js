@@ -1,4 +1,4 @@
-import typescript from 'rollup-plugin-ts';
+import typescript from '@rollup/plugin-typescript';
 import babel from '@rollup/plugin-babel';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import jsxPlugin from '@solid-reach/rollup-plugin-jsx';
@@ -23,7 +23,7 @@ export default [
       nodeResolve({
         extensions: ['.js', '.ts', '.tsx'],
       }),
-      typescript({ browserlist: false }),
+      typescript({ tsconfig: 'tsconfig.build.json' }),
       babel({
         extensions: ['.js', '.ts', '.tsx'],
         babelHelpers: 'bundled',
@@ -52,7 +52,7 @@ export default [
       nodeResolve({
         extensions: ['.js', '.ts', '.tsx'],
       }),
-      typescript({ browserlist: false }),
+      typescript({ tsconfig: 'tsconfig.build.json' }),
       babel({
         extensions: ['.js', '.ts', '.tsx'],
         babelHelpers: 'bundled',

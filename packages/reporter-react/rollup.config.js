@@ -1,7 +1,7 @@
-import typescript from 'rollup-plugin-ts';
+import typescript from '@rollup/plugin-typescript';
 import babel from '@rollup/plugin-babel';
 import nodeResolve from '@rollup/plugin-node-resolve';
-import pkg from './package.json';
+import pkg from './package.json' assert { type: 'json' };
 
 export default {
   input: 'src/index.tsx',
@@ -24,7 +24,7 @@ export default {
     nodeResolve({
       extensions: ['.js', '.ts', '.tsx'],
     }),
-    typescript({ browserlist: false }),
+    typescript(),
     babel({
       extensions: ['.js', '.ts', '.tsx'],
       babelHelpers: 'bundled',

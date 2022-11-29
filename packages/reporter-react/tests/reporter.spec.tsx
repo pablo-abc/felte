@@ -1,12 +1,12 @@
 import React from 'react';
-import * as sinon from 'sinon';
-import { suite } from 'uvu';
-import { expect } from 'uvu-expect';
-import 'uvu-expect-dom/extend';
+import matchers from '@testing-library/jest-dom/matchers';
+import { expect, describe, test, vi } from 'vitest';
 import { render, screen, waitFor, act } from '@testing-library/react';
 import { useForm } from '@felte/react';
 import userEvent from '@testing-library/user-event';
 import { ValidationMessage, reporter } from '../src';
+
+expect.extend(matchers);
 
 type Data = {
   email: string;
@@ -29,7 +29,7 @@ function getArrayError(message: string, errorValue?: string[]) {
 
 function Wrapper() {
   const { form } = useForm<Data>({
-    onSubmit: sinon.fake(),
+    onSubmit: vi.fn(),
     extend: reporter,
     validate(values) {
       const errors: DataErrors = {};
@@ -81,60 +81,50 @@ function Wrapper() {
   );
 }
 
-const Reporter = suite('reporter');
+describe('reporter', () => {
+  test('reports validation message', async () => {
+    render(<Wrapper />);
 
-Reporter('reports validation message', async () => {
-  render(<Wrapper />);
+    const formElement = screen.getByTestId('test-form') as HTMLFormElement;
+    const emailInput = screen.getByRole('textbox', { name: 'Email' });
+    const passwordInput = screen.getByRole('textbox', { name: 'Password' });
+    let emailMessage = screen.getByTestId('email-message');
+    let passwordMessage = screen.getByTestId('password-message');
+    let passwordWarning = screen.getByTestId('password-warning');
 
-  const formElement = screen.getByTestId('test-form') as HTMLFormElement;
-  const emailInput = screen.getByRole('textbox', { name: 'Email' });
-  const passwordInput = screen.getByRole('textbox', { name: 'Password' });
-  let emailMessage = screen.getByTestId('email-message');
-  let passwordMessage = screen.getByTestId('password-message');
-  let passwordWarning = screen.getByTestId('password-warning');
+    expect(emailInput).not.toBeInvalid();
+    expect(emailMessage).toBeEmptyDOMElement();
+    expect(passwordMessage).toBeEmptyDOMElement();
 
-  expect(emailInput).to.not.be.invalid;
-  expect(emailMessage).to.be.empty;
-  expect(passwordMessage).to.be.empty;
+    act(() => formElement.submit());
 
-  act(() => formElement.submit());
+    await waitFor(() => {
+      expect(emailInput).toBeInvalid();
+      expect(passwordInput).toBeInvalid();
+      emailMessage = screen.getByTestId('email-message');
+      passwordMessage = screen.getByTestId('password-message');
+      passwordWarning = screen.getByTestId('password-warning');
+      expect(emailMessage).toHaveTextContent('Must not be empty');
+      expect(passwordMessage).toHaveTextContent('Must not be empty');
+      expect(passwordMessage).toHaveTextContent('Must be at least 8 chars');
+      expect(passwordWarning).not.toHaveTextContent('Not secure enough');
+    });
 
-  await waitFor(() => {
-    expect(emailInput).to.be.invalid;
-    expect(passwordInput).to.to.be.invalid;
-    emailMessage = screen.getByTestId('email-message');
-    passwordMessage = screen.getByTestId('password-message');
-    passwordWarning = screen.getByTestId('password-warning');
-    expect(emailMessage).to.have.text.that.contains('Must not be empty');
-    expect(passwordMessage).to.have.text.that.contains('Must not be empty');
-    expect(passwordMessage).to.have.text.that.contains(
-      'Must be at least 8 chars'
-    );
-    expect(passwordWarning).to.have.text.that.does.not.contain(
-      'Not secure enough'
-    );
-  });
+    act(() => {
+      userEvent.type(emailInput, 'zaphod@beeblebrox.com');
+      userEvent.type(passwordInput, '1234');
+    });
 
-  act(() => {
-    userEvent.type(emailInput, 'zaphod@beeblebrox.com');
-    userEvent.type(passwordInput, '1234');
-  });
-
-  await waitFor(() => {
-    expect(emailInput).to.not.to.be.invalid;
-    expect(passwordInput).to.to.be.invalid;
-    emailMessage = screen.getByTestId('email-message');
-    passwordMessage = screen.getByTestId('password-message');
-    passwordWarning = screen.getByTestId('password-warning');
-    expect(emailMessage).to.be.empty;
-    expect(passwordMessage).to.have.text.that.does.not.contain(
-      'Must not be empty'
-    );
-    expect(passwordMessage).to.have.text.that.contains(
-      'Must be at least 8 chars'
-    );
-    expect(passwordWarning).to.have.text.that.contains('Not secure enough');
+    await waitFor(() => {
+      expect(emailInput).to.not.toBeInvalid();
+      expect(passwordInput).to.toBeInvalid();
+      emailMessage = screen.getByTestId('email-message');
+      passwordMessage = screen.getByTestId('password-message');
+      passwordWarning = screen.getByTestId('password-warning');
+      expect(emailMessage).toBeEmptyDOMElement();
+      expect(passwordMessage).not.toHaveTextContent('Must not be empty');
+      expect(passwordMessage).toHaveTextContent('Must be at least 8 chars');
+      expect(passwordWarning).toHaveTextContent('Not secure enough');
+    });
   });
 });
-
-Reporter.run();
