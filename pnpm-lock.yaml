@@ -16,7 +16,7 @@ importers:
       '@rollup/plugin-replace': ^5.0.1
       '@rollup/plugin-terser': ^0.1.0
       '@rollup/plugin-typescript': ^10.0.1
-      '@solid-reach/rollup-plugin-jsx': ^0.0.2
+      '@solid-reach/rollup-plugin-jsx': ^0.0.4
       '@sveltejs/vite-plugin-svelte': ^1.0.0-next.30
       '@testing-library/dom': ^7.29.4
       '@testing-library/jest-dom': ^5.16.5
@@ -70,7 +70,7 @@ importers:
     dependencies:
       '@babel/plugin-syntax-jsx': 7.14.5_@babel+core@7.16.5
       '@changesets/cli': 2.20.0
-      '@solid-reach/rollup-plugin-jsx': 0.0.2
+      '@solid-reach/rollup-plugin-jsx': 0.0.4
       babel-plugin-annotate-pure-calls: 0.4.0_@babel+core@7.16.5
       babel-plugin-dev-expression: 0.2.2_@babel+core@7.16.5
       svelte-preprocess: 4.7.0_6cqqphtkd65mj4z4sfccnuodhy
@@ -492,7 +492,6 @@ importers:
       '@felte/solid': workspace:*
       acorn: ^8.7.0
       acorn-jsx: ^5.3.2
-      rollup: ^2.52.1
       solid-js: ^1.6.2
       solid-testing-library: ^0.5.0
       typescript: ~4.9.3
@@ -505,7 +504,6 @@ importers:
       '@felte/solid': link:../solid
       acorn: 8.7.0
       acorn-jsx: 5.3.2_acorn@8.7.0
-      rollup: 2.52.7
       solid-js: 1.6.2
       solid-testing-library: 0.5.0_solid-js@1.6.2
       typescript: 4.9.3
@@ -612,14 +610,12 @@ importers:
     specifiers:
       '@felte/common': workspace:*
       '@felte/core': workspace:*
-      felte: workspace:*
       superstruct: ^1.0.3
       svelte: ^3.46.4
     dependencies:
       '@felte/common': link:../common
     devDependencies:
       '@felte/core': link:../core
-      felte: link:../felte
       superstruct: 1.0.3
       svelte: 3.46.4
 
@@ -6286,11 +6282,11 @@ packages:
       '@sinonjs/commons': 1.8.3
     dev: true
 
-  /@solid-reach/rollup-plugin-jsx/0.0.2:
-    resolution: {integrity: sha512-DFuS0X9zWn8+IF693AqTEaRxsxWq61Of4/I8d3Q0aJiMhgxVqA7aSd8GCSGi1bwqB95npFS2itlTUOys76hcOg==}
+  /@solid-reach/rollup-plugin-jsx/0.0.4:
+    resolution: {integrity: sha512-scUuSRWsz8zeVXQl/mqyVwriYUfhtOjUH373SPHg3PUY/wGvK9oMOKytXVib/agpxAUVJDZd0xPMn3Au2i/gWw==}
     dependencies:
       estree-walker: 3.0.0
-      magic-string: 0.25.7
+      magic-string: 0.25.9
     dev: false
 
   /@sveltejs/vite-plugin-svelte/1.0.0-next.32_svelte@3.44.3+vite@2.7.13:
@@ -11533,12 +11529,12 @@ packages:
     resolution: {integrity: sha512-4CrMT5DOHTDk4HYDlzmwu4FVCcIYI8gauveasrdCu2IKIFOJ3f0v/8MDGJCDL9oD2ppz/Av1b0Nj345H9M+XIA==}
     dependencies:
       sourcemap-codec: 1.4.8
+    dev: true
 
   /magic-string/0.25.9:
     resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
     dependencies:
       sourcemap-codec: 1.4.8
-    dev: true
 
   /magic-string/0.26.7:
     resolution: {integrity: sha512-hX9XH3ziStPoPhJxLq1syWuZMxbDvGNbVchfrdCtanC7D13888bMFow61x8axrx+GfHLtVeAx2kxL7tTGRl+Ow==}
@@ -14140,14 +14136,6 @@ packages:
     resolution: {integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==}
     dependencies:
       estree-walker: 0.6.1
-    dev: true
-
-  /rollup/2.52.7:
-    resolution: {integrity: sha512-55cSH4CCU6MaPr9TAOyrIC+7qFCHscL7tkNsm1MBfIJRRqRbCEY0mmeFn4Wg8FKsHtEH8r389Fz38r/o+kgXLg==}
-    engines: {node: '>=10.0.0'}
-    hasBin: true
-    optionalDependencies:
-      fsevents: 2.3.2
     dev: true
 
   /rollup/2.61.1:
