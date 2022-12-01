@@ -9,7 +9,7 @@ const prod = process.env.NODE_ENV === 'production';
 
 export default {
   input: './src/index.ts',
-  external: ['svelte/store', 'svelte', '@felte/core'],
+  external: ['svelte/store', 'svelte', 'svelte/internal', '@felte/core'],
   output: [
     {
       file: pkg.main,

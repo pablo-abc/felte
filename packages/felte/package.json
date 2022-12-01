@@ -47,8 +47,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "svelte": "^3.46.4",
-    "uvu": "^0.5.3"
+    "svelte": "^3.53.1"
   },
   "exports": {
     ".": {

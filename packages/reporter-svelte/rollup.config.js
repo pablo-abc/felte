@@ -4,7 +4,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import bundleSize from 'rollup-plugin-bundle-size';
-import pkg from './package.json';
+import pkg from './package.json' assert { type: 'json' };
 
 const prod = process.env.NODE_ENV === 'production';
 const name = pkg.name

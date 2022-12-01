@@ -1,13 +1,14 @@
 <script>
-  import * as sinon from 'sinon';
+  import { vi } from 'vitest';
   import { createForm } from 'felte';
+  import { onDestroy } from 'svelte';
   import { reporter } from '../src/index.js';
   import ValidationMessage from '../src/ValidationMessage.svelte';
 
   const { form } = createForm({
-    onSubmit: sinon.fake(),
+    onSubmit: vi.fn(),
     extend: reporter,
-    validate: sinon.fake(() => ({
+    validate: vi.fn(() => ({
       multiple: {
         test: new Array(3).fill('An error message'),
       },
