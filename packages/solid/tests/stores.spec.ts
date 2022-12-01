@@ -1,4 +1,4 @@
-import { expect, describe, test, vi, beforeEach, afterEach } from 'vitest';
+import { expect, describe, test, vi } from 'vitest';
 import { storeFactory } from '../src/stores';
 import { waitFor } from '@testing-library/dom';
 
