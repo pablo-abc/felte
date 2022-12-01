@@ -1,9 +1,9 @@
-import typescript from 'rollup-plugin-ts';
+import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import renameNodeModules from 'rollup-plugin-rename-node-modules';
-import pkg from './package.json';
+import pkg from './package.json' assert { type: 'json' };
 
 const prod = process.env.NODE_ENV === 'production';
 
@@ -34,7 +34,7 @@ export default {
     }),
     resolve({ browser: true, exportConditions: prod ? [] : ['development'] }),
     commonjs(),
-    typescript({ browserslist: false }),
+    typescript({ tsconfig: 'tsconfig.build.json' }),
     renameNodeModules('external', prod),
   ],
 };

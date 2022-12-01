@@ -613,14 +613,14 @@ importers:
       '@felte/common': workspace:*
       '@felte/core': workspace:*
       felte: workspace:*
-      superstruct: ^0.15.0
+      superstruct: ^1.0.3
       svelte: ^3.46.4
     dependencies:
       '@felte/common': link:../common
     devDependencies:
       '@felte/core': link:../core
       felte: link:../felte
-      superstruct: 0.15.1
+      superstruct: 1.0.3
       svelte: 3.46.4
 
   packages/validator-vest:
@@ -14767,6 +14767,11 @@ packages:
 
   /superstruct/0.15.1:
     resolution: {integrity: sha512-amjQaSpO94o3DTcNgeuYhGYGbji6JLLnySbxyolXO+WtV+bwwK1IzKAet/jYcpltGg2nnX8CBnHpueYNyx2Cgw==}
+    dev: true
+
+  /superstruct/1.0.3:
+    resolution: {integrity: sha512-8iTn3oSS8nRGn+C2pgXSKPI3jmpm6FExNazNpjvqS6ZUJQCej3PUXEKM8NjHBOs54ExM+LPW/FBRhymrdcCiSg==}
+    engines: {node: '>=14.0.0'}
     dev: true
 
   /supports-color/2.0.0:

@@ -11,10 +11,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "declaration": true,
-    "declarationMap": true,
-    "jsx": "react",
-    "declarationDir": "./dist/types"
+    "jsx": "react"
   },
   "include": ["./src", "./tests"]
 }

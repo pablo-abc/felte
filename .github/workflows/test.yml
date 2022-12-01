@@ -5,37 +5,36 @@ name: Tests
 
 on:
   push:
-    branches: [ '**' ]
+    branches: ['**']
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install pnpm
-      run: npm i -g pnpm
-    - name: Install dependencies
-      run: pnpm i
-    - name: Build packages
-      run: pnpm build
-    - name: Lint code
-      run: pnpm lint
-    - name: Run tests and generate coverage
-      run: pnpm test:ci
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
-      with:
-        directory: ./packages
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install pnpm
+        run: npm i -g pnpm
+      - name: Install dependencies
+        run: pnpm i
+      - name: Build packages
+        run: pnpm build
+      - name: Lint code
+        run: pnpm lint
+      - name: Run tests and generate coverage
+        run: pnpm test:ci
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          directory: ./packages

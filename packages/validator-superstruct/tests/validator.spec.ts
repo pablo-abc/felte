@@ -1,124 +1,125 @@
-import * as sinon from 'sinon';
-import { suite } from 'uvu';
-import { expect } from 'uvu-expect';
+import matchers from '@testing-library/jest-dom/matchers';
+import { expect, describe, test, vi } from 'vitest';
 import { createForm } from './common';
 import { validateStruct, validator } from '../src';
 import type { Infer } from 'superstruct';
 import { object, string, size, coerce, date, any, refine } from 'superstruct';
 import { get } from 'svelte/store';
 
-const Validator = suite('Validator superstruct');
+expect.extend(matchers);
 
-Validator('correctly validates', async () => {
-  const struct = object({
-    email: size(string(), 1, Infinity),
-    password: size(string(), 1, Infinity),
-  });
-  const mockData = {
-    email: '',
-    password: '',
-  };
-  const { validate, errors, data } = createForm({
-    initialValues: mockData,
-    onSubmit: sinon.fake(),
-    validate: validateStruct(struct),
-  });
-
-  await validate();
-
-  expect(get(data)).to.deep.equal(mockData);
-  expect(get(errors)).to.deep.equal({
-    email: [
-      'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
-    ],
-    password: [
-      'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
-    ],
-  });
-
-  data.set({
-    email: 'test@email.com',
-    password: 'test',
-  });
-
-  await validate();
-
-  expect(get(errors)).to.deep.equal({
-    email: null,
-    password: null,
-  });
-});
-
-Validator('correctly validates deep form', async () => {
-  const struct = object({
-    account: object({
+describe('Validator superstruct', () => {
+  test('correctly validates', async () => {
+    const struct = object({
       email: size(string(), 1, Infinity),
       password: size(string(), 1, Infinity),
-    }),
-  });
-  const mockData = {
-    account: {
+    });
+    const mockData = {
       email: '',
       password: '',
-    },
-  };
-  const { validate, errors, data } = createForm({
-    initialValues: mockData,
-    onSubmit: sinon.fake(),
-    validate: validateStruct(struct),
-  });
+    };
+    const { validate, errors, data } = createForm({
+      initialValues: mockData,
+      onSubmit: vi.fn(),
+      validate: validateStruct(struct),
+    });
 
-  await validate();
+    await validate();
 
-  expect(get(data)).to.deep.equal(mockData);
-  expect(get(errors)).to.deep.equal({
-    account: {
+    expect(get(data)).to.deep.equal(mockData);
+    expect(get(errors)).to.deep.equal({
       email: [
         'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
       ],
       password: [
         'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
       ],
-    },
-  });
+    });
 
-  data.set({
-    account: {
+    data.set({
       email: 'test@email.com',
       password: 'test',
-    },
-  });
+    });
 
-  await validate();
+    await validate();
 
-  expect(get(errors)).to.deep.equal({
-    account: {
+    expect(get(errors)).to.deep.equal({
       email: null,
       password: null,
-    },
+    });
   });
-});
 
-Validator('correctly validates with extend', async () => {
-  const struct = object({
-    email: size(string(), 1, Infinity),
-    password: size(string(), 1, Infinity),
-  });
-  const secure = refine(string(), 'secure', (value) =>
-    value ? value.length > 8 : true
-  );
-  const warnStruct = object({
-    email: any(),
-    password: secure,
-  });
-  const mockData = {
-    email: '',
-    password: '',
-  };
-  const { validate, errors, warnings, data } = createForm<Infer<typeof struct>>(
-    {
+  test('correctly validates deep form', async () => {
+    const struct = object({
+      account: object({
+        email: size(string(), 1, Infinity),
+        password: size(string(), 1, Infinity),
+      }),
+    });
+    const mockData = {
+      account: {
+        email: '',
+        password: '',
+      },
+    };
+    const { validate, errors, data } = createForm({
       initialValues: mockData,
-      onSubmit: sinon.fake(),
+      onSubmit: vi.fn(),
+      validate: validateStruct(struct),
+    });
+
+    await validate();
+
+    expect(get(data)).to.deep.equal(mockData);
+    expect(get(errors)).to.deep.equal({
+      account: {
+        email: [
+          'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
+        ],
+        password: [
+          'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
+        ],
+      },
+    });
+
+    data.set({
+      account: {
+        email: 'test@email.com',
+        password: 'test',
+      },
+    });
+
+    await validate();
+
+    expect(get(errors)).to.deep.equal({
+      account: {
+        email: null,
+        password: null,
+      },
+    });
+  });
+
+  test('correctly validates with extend', async () => {
+    const struct = object({
+      email: size(string(), 1, Infinity),
+      password: size(string(), 1, Infinity),
+    });
+    const secure = refine(string(), 'secure', (value) =>
+      value ? value.length > 8 : true
+    );
+    const warnStruct = object({
+      email: any(),
+      password: secure,
+    });
+    const mockData = {
+      email: '',
+      password: '',
+    };
+    const { validate, errors, warnings, data } = createForm<
+      Infer<typeof struct>
+    >({
+      initialValues: mockData,
+      onSubmit: vi.fn(),
       extend: [
         validator({
           struct,
@@ -132,95 +133,42 @@ Validator('correctly validates with extend', async () => {
           },
         }),
       ],
-    }
-  );
+    });
 
-  await validate();
+    await validate();
 
-  expect(get(data)).to.deep.equal(mockData);
-  expect(get(errors)).to.deep.equal({
-    email: [
-      'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
-    ],
-    password: [
-      'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
-    ],
-  });
-  expect(get(warnings)).to.deep.equal({
-    email: null,
-    password: null,
-  });
-
-  data.set({
-    email: 'test@email.com',
-    password: 'test',
-  });
-
-  await validate();
-
-  expect(get(errors)).to.deep.equal({
-    email: null,
-    password: null,
-  });
-  expect(get(warnings)).to.deep.equal({
-    email: null,
-    password: ['Not secure'],
-  });
-});
-
-Validator('correctly validates deep form with extend', async () => {
-  const struct = object({
-    account: object({
-      email: size(string(), 1, Infinity),
-      password: size(string(), 1, Infinity),
-    }),
-  });
-  const mockData = {
-    account: {
-      email: '',
-      password: '',
-    },
-  };
-  const { validate, errors, data } = createForm<typeof mockData>({
-    initialValues: mockData,
-    onSubmit: sinon.fake(),
-    extend: validator({ struct }),
-  });
-
-  await validate();
-
-  expect(get(data)).to.deep.equal(mockData);
-  expect(get(errors)).to.deep.equal({
-    account: {
+    expect(get(data)).to.deep.equal(mockData);
+    expect(get(errors)).to.deep.equal({
       email: [
         'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
       ],
       password: [
         'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
       ],
-    },
-  });
-
-  data.set({
-    account: {
-      email: 'test@email.com',
-      password: 'test',
-    },
-  });
-
-  await validate();
-
-  expect(get(errors)).to.deep.equal({
-    account: {
+    });
+    expect(get(warnings)).to.deep.equal({
       email: null,
       password: null,
-    },
-  });
-});
+    });
 
-Validator(
-  'correctly validates deep form with extend and transform',
-  async () => {
+    data.set({
+      email: 'test@email.com',
+      password: 'test',
+    });
+
+    await validate();
+
+    expect(get(errors)).to.deep.equal({
+      email: null,
+      password: null,
+    });
+    expect(get(warnings)).to.deep.equal({
+      email: null,
+      password: ['Not secure'],
+    });
+  });
+
+  test('correctly validates deep form with extend', async () => {
     const struct = object({
       account: object({
         email: size(string(), 1, Infinity),
@@ -235,7 +183,57 @@ Validator(
     };
     const { validate, errors, data } = createForm<typeof mockData>({
       initialValues: mockData,
-      onSubmit: sinon.fake(),
+      onSubmit: vi.fn(),
+      extend: validator({ struct }),
+    });
+
+    await validate();
+
+    expect(get(data)).to.deep.equal(mockData);
+    expect(get(errors)).to.deep.equal({
+      account: {
+        email: [
+          'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
+        ],
+        password: [
+          'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
+        ],
+      },
+    });
+
+    data.set({
+      account: {
+        email: 'test@email.com',
+        password: 'test',
+      },
+    });
+
+    await validate();
+
+    expect(get(errors)).to.deep.equal({
+      account: {
+        email: null,
+        password: null,
+      },
+    });
+  });
+
+  test('correctly validates deep form with extend and transform', async () => {
+    const struct = object({
+      account: object({
+        email: size(string(), 1, Infinity),
+        password: size(string(), 1, Infinity),
+      }),
+    });
+    const mockData = {
+      account: {
+        email: '',
+        password: '',
+      },
+    };
+    const { validate, errors, data } = createForm<typeof mockData>({
+      initialValues: mockData,
+      onSubmit: vi.fn(),
       extend: validator({
         struct,
         transform: (value) =>
@@ -268,129 +266,127 @@ Validator(
         password: null,
       },
     });
-  }
-);
-
-Validator('correctly validates deep form with extend', async () => {
-  const struct = object({
-    account: object({
-      email: size(string(), 1, Infinity),
-      password: size(string(), 1, Infinity),
-    }),
   });
-  const mockData = {
-    account: {
-      email: '',
-      password: '',
-    },
-  };
-  const { validate, errors, data } = createForm<Infer<typeof struct>>({
-    initialValues: mockData,
-    onSubmit: sinon.fake(),
-    extend: validator({ struct }),
-    validate: sinon.fake(() => ({
+
+  test('correctly validates deep form with extend', async () => {
+    const struct = object({
+      account: object({
+        email: size(string(), 1, Infinity),
+        password: size(string(), 1, Infinity),
+      }),
+    });
+    const mockData = {
+      account: {
+        email: '',
+        password: '',
+      },
+    };
+    const { validate, errors, data } = createForm<Infer<typeof struct>>({
+      initialValues: mockData,
+      onSubmit: vi.fn(),
+      extend: validator({ struct }),
+      validate: vi.fn(() => ({
+        account: {
+          email: ['not an email'],
+        },
+      })),
+    });
+
+    await validate();
+
+    expect(get(data)).to.deep.equal(mockData);
+    expect(get(errors)).to.deep.equal({
+      account: {
+        email: [
+          'not an email',
+          'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
+        ],
+        password: [
+          'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
+        ],
+      },
+    });
+
+    data.set({
+      account: {
+        email: 'test@email.com',
+        password: 'test',
+      },
+    });
+
+    await validate();
+
+    expect(get(errors)).to.deep.equal({
       account: {
         email: ['not an email'],
+        password: null,
       },
-    })),
+    });
   });
 
-  await validate();
+  test('correctly validates form with coercion', async () => {
+    const struct = object({
+      name: size(string(), 1, Infinity),
+      date: coerce(date(), string(), (value) => new Date(value)),
+    });
 
-  expect(get(data)).to.deep.equal(mockData);
-  expect(get(errors)).to.deep.equal({
-    account: {
-      email: [
-        'not an email',
+    type Data = {
+      name: string;
+      date: Date;
+    };
+
+    const { validate, errors, data } = createForm<Data>({
+      onSubmit: vi.fn(),
+      extend: validator({ struct, castValues: true }),
+    });
+
+    data.set({
+      name: '',
+      // @ts-expect-error intentionally setting invalid type
+      date: 'Not A Date',
+    });
+
+    expect(get(data).name).to.deep.equal('');
+    expect(get(data).date).to.be.instanceOf(Date);
+    expect(get(data).date.getTime()).to.be.NaN;
+
+    await validate();
+
+    expect(get(errors)).to.deep.equal({
+      name: [
         'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
       ],
-      password: [
-        'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
-      ],
-    },
+      date: ['Expected a valid `Date` object, but received: Invalid Date'],
+    });
+
+    data.set({
+      name: 'test@email.com',
+      // @ts-expect-error coercing this to a date
+      date: '2021-06-09',
+    });
+
+    expect(get(data)).to.deep.equal({
+      name: 'test@email.com',
+      date: new Date('2021-06-09'),
+    });
+
+    await validate();
+
+    expect(get(errors)).to.deep.equal({
+      name: null,
+      date: null,
+    });
   });
 
-  data.set({
-    account: {
-      email: 'test@email.com',
-      password: 'test',
-    },
-  });
+  test('does not call addValidator when stage is not `SETUP`', () => {
+    const struct = object({});
+    const addValidator = vi.fn();
+    const validate = validator({ struct });
+    validate({ stage: 'SETUP', addValidator } as any);
+    expect(addValidator).toHaveBeenCalled();
 
-  await validate();
-
-  expect(get(errors)).to.deep.equal({
-    account: {
-      email: ['not an email'],
-      password: null,
-    },
-  });
-});
-
-Validator('correctly validates form with coercion', async () => {
-  const struct = object({
-    name: size(string(), 1, Infinity),
-    date: coerce(date(), string(), (value) => new Date(value)),
-  });
-
-  type Data = {
-    name: string;
-    date: Date;
-  };
-
-  const { validate, errors, data } = createForm<Data>({
-    onSubmit: sinon.fake(),
-    extend: validator({ struct, castValues: true }),
-  });
-
-  data.set({
-    name: '',
-    // @ts-expect-error intentionally setting invalid type
-    date: 'Not A Date',
-  });
-
-  expect(get(data).name).to.deep.equal('');
-  expect(get(data).date).to.be.instanceOf(Date);
-  expect(get(data).date.getTime()).to.be.NaN;
-
-  await validate();
-
-  expect(get(errors)).to.deep.equal({
-    name: [
-      'Expected a string with a length between `1` and `Infinity` but received one with a length of `0`',
-    ],
-    date: ['Expected a valid `Date` object, but received: Invalid Date'],
-  });
-
-  data.set({
-    name: 'test@email.com',
-    // @ts-expect-error coercing this to a date
-    date: '2021-06-09',
-  });
-
-  expect(get(data)).to.deep.equal({
-    name: 'test@email.com',
-    date: new Date('2021-06-09'),
-  });
-
-  await validate();
-
-  expect(get(errors)).to.deep.equal({
-    name: null,
-    date: null,
+    addValidator.mockClear();
+    validate({ stage: 'MOUNT', addValidator } as any);
+    expect(addValidator).not.toHaveBeenCalled();
   });
 });
-
-Validator('does not call addValidator when stage is not `SETUP`', () => {
-  const struct = object({});
-  const addValidator = sinon.fake();
-  const validate = validator({ struct });
-  validate({ stage: 'SETUP', addValidator } as any);
-  sinon.assert.called(addValidator);
-
-  addValidator.resetHistory();
-  validate({ stage: 'MOUNT', addValidator } as any);
-  sinon.assert.notCalled(addValidator);
-});
-
-Validator.run();

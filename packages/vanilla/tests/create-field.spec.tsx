@@ -1,8 +1,9 @@
-import 'uvu-expect-dom/extend';
+import matchers from '@testing-library/jest-dom/matchers';
+import { expect, describe, test } from 'vitest';
 import { waitFor } from '@testing-library/dom';
-import { suite } from 'uvu';
-import { expect } from 'uvu-expect';
 import { createField } from '../src';
+
+expect.extend(matchers);
 
 function createContentEditable() {
   const input = document.createElement('div');
@@ -12,19 +13,17 @@ function createContentEditable() {
   return input;
 }
 
-const Field = suite('Correctly uses createField');
+describe('Correctly uses createField', () => {
+  test('adds hidden input', async () => {
+    const div = createContentEditable();
+    document.body.appendChild(div);
+    const { field } = createField('test');
+    const { destroy } = field(div);
 
-Field('adds hidden input', async () => {
-  const div = createContentEditable();
-  document.body.appendChild(div);
-  const { field } = createField('test');
-  const { destroy } = field(div);
-
-  expect(document.querySelector('[name="test"]')).to.not.be.in.document;
-  await waitFor(() => {
-    expect(document.querySelector('[name="test"]')).to.be.in.document;
+    expect(document.querySelector('[name="test"]')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(document.querySelector('[name="test"]')).toBeInTheDocument();
+    });
+    destroy?.();
   });
-  destroy?.();
 });
-
-Field.run();

@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "moduleResolution": "node",
-    "target": "es2017",
+    "target": "es2019",
+    "module": "ES2015",
+    "lib": ["ES2019", "dom"],
+    "useDefineForClassFields": false,
     "importsNotUsedAsValues": "error",
     "isolatedModules": true,
     "strict": true,
@@ -10,7 +13,8 @@
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
     "declarationMap": true,
-    "declarationDir": "./types"
+    "jsx": "react",
+    "declarationDir": "./dist/esm"
   },
-  "include": ["src"]
+  "include": ["./src"]
 }
