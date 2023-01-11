@@ -1,25 +1,25 @@
 ---
-'@felte/common': minor
-'@felte/core': minor
-'@felte/element': minor
-'@felte/extender-persist': minor
-'felte': minor
-'@felte/preact': minor
-'@felte/react': minor
-'@felte/reporter-cvapi': minor
-'@felte/reporter-dom': minor
-'@felte/reporter-element': minor
-'@felte/reporter-preact': minor
-'@felte/reporter-react': minor
-'@felte/reporter-solid': minor
-'@felte/reporter-svelte': minor
-'@felte/reporter-tippy': minor
-'@felte/solid': minor
-'@felte/validator-superstruct': minor
-'@felte/validator-vest': minor
-'@felte/validator-yup': minor
-'@felte/validator-zod': minor
-'@felte/vanilla': minor
+'@felte/common': patch
+'@felte/core': patch
+'@felte/element': patch
+'@felte/extender-persist': patch
+'felte': patch
+'@felte/preact': patch
+'@felte/react': patch
+'@felte/reporter-cvapi': patch
+'@felte/reporter-dom': patch
+'@felte/reporter-element': patch
+'@felte/reporter-preact': patch
+'@felte/reporter-react': patch
+'@felte/reporter-solid': patch
+'@felte/reporter-svelte': patch
+'@felte/reporter-tippy': patch
+'@felte/solid': patch
+'@felte/validator-superstruct': patch
+'@felte/validator-vest': patch
+'@felte/validator-yup': patch
+'@felte/validator-zod': patch
+'@felte/vanilla': patch
 ---
 
 Upgrade to node@18

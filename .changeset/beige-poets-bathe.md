@@ -1,13 +1,13 @@
 ---
-'@felte/common': minor
-'@felte/core': minor
-'@felte/element': minor
-'@felte/extender-persist': minor
-'felte': minor
-'@felte/preact': minor
-'@felte/react': minor
-'@felte/reporter-cvapi': minor
-'@felte/reporter-dom': minor
+'@felte/common': patch
+'@felte/core': patch
+'@felte/element': patch
+'@felte/extender-persist': patch
+'felte': patch
+'@felte/preact': patch
+'@felte/react': patch
+'@felte/reporter-cvapi': patch
+'@felte/reporter-dom': patch
 ---
 
 Upgrade to node@18
