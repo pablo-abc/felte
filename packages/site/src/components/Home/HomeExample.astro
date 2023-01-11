@@ -10,7 +10,9 @@
     password: yup.string().required(),
   });
 
-  prepareForm('home-example-form', {
+  const form = document.querySelector('#home-example-form');
+
+  form.configuration = {
     onSubmit: () => {
       throw {
         password: 'This password already exists',
@@ -18,7 +20,7 @@
     },
     onError: (error) => error,
     extend: [validator({ schema }), reporter()],
-  });
+  }
 </script>
 
 <felte-form id="home-example-form">
