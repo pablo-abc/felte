@@ -5,7 +5,7 @@
   "main": "dist/cjs/index.cjs",
   "browser": "dist/esm/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/esm/index.d.ts",
   "type": "module",
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
@@ -30,8 +30,9 @@
     "docs:build": "typedoc --out ../../docs",
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm build && pnpm test",
-    "test": "uvu -r module-alias/register -r tsm -r global-jsdom/register tests -i common -i mocks",
-    "test:ci": "nyc -n src pnpm test"
+    "vitest": "vitest",
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage"
   },
   "peerDependencies": {
     "svelte": "^3.31.0"
@@ -46,9 +47,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "module-alias": "^2.2.2",
-    "svelte": "^3.46.4",
-    "uvu": "^0.5.3"
+    "svelte": "^3.53.1"
   },
   "exports": {
     ".": {
@@ -57,9 +56,5 @@
       "default": "./dist/esm/index.js"
     },
     "./package.json": "./package.json"
-  },
-  "_moduleAliases": {
-    "svelte": "tests/mocks/svelte.js",
-    "svelte/store": "node_modules/svelte/store/index.mjs"
   }
 }

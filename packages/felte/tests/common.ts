@@ -1,5 +1,3 @@
-import 'uvu-expect-dom/extend';
-
 export function createDOM(): void {
   const formElement = document.createElement('form');
   formElement.name = 'test-form';

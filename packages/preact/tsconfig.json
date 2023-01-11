@@ -19,7 +19,8 @@
     "jsxFragmentFactory": "Fragment",
     "declaration": true,
     "declarationMap": true,
-    "declarationDir": "./dist/types"
+    "declarationDir": "./dist/esm"
   },
-  "include": ["src", "tests"]
+  "include": ["src", "tests"],
+  "exclude": ["tests"]
 }

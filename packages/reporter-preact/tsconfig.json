@@ -15,10 +15,7 @@
     "noEmit": true,
     "jsx": "preserve",
     "jsxFactory": "h",
-    "jsxFragmentFactory": "Fragment",
-    "declaration": true,
-    "declarationMap": true,
-    "declarationDir": "./dist/types"
+    "jsxFragmentFactory": "Fragment"
   },
   "include": ["src", "tests"]
 }

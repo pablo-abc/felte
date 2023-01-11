@@ -1,36 +1,33 @@
-import * as sinon from 'sinon';
-import { suite } from 'uvu';
+import { expect, describe, test, vi } from 'vitest';
 import { storeFactory } from '../src/stores';
 import { waitFor } from '@testing-library/dom';
 
-const Stores = suite('createStores');
+describe('createStores', () => {
+  test('Updates signal observable', async () => {
+    const mockFn = vi.fn();
+    const observable = storeFactory(true);
+    observable.subscribe(mockFn);
+    expect(mockFn).toHaveBeenCalledOnce();
+    expect(mockFn).toHaveBeenCalledWith(true);
 
-Stores('Updates signal observable', async () => {
-  const mockFn = sinon.fake();
-  const observable = storeFactory(true);
-  observable.subscribe(mockFn);
-  sinon.assert.calledOnce(mockFn);
-  sinon.assert.calledWith(mockFn, true);
+    observable.update((v) => !v);
+    await waitFor(() => {
+      expect(mockFn).toHaveBeenCalledTimes(2);
+      expect(mockFn).toHaveBeenCalledWith(false);
+    });
+  });
 
-  observable.update((v) => !v);
-  await waitFor(() => {
-    sinon.assert.calledTwice(mockFn);
-    sinon.assert.calledWith(mockFn, false);
+  test('Sets signal observable', async () => {
+    const mockFn = vi.fn();
+    const observable = storeFactory(true);
+    observable.subscribe(mockFn);
+    expect(mockFn).toHaveBeenCalledOnce();
+    expect(mockFn).toHaveBeenCalledWith(true);
+
+    observable.set(false);
+    await waitFor(() => {
+      expect(mockFn).toHaveBeenCalledTimes(2);
+      expect(mockFn).toHaveBeenCalledWith(false);
+    });
   });
 });
-
-Stores('Sets signal observable', async () => {
-  const mockFn = sinon.fake();
-  const observable = storeFactory(true);
-  observable.subscribe(mockFn);
-  sinon.assert.calledOnce(mockFn);
-  sinon.assert.calledWith(mockFn, true);
-
-  observable.set(false);
-  await waitFor(() => {
-    sinon.assert.calledTwice(mockFn);
-    sinon.assert.calledWith(mockFn, false);
-  });
-});
-
-Stores.run();

@@ -1,9 +1,10 @@
-import * as sinon from 'sinon';
-import { suite } from 'uvu';
-import { expect } from 'uvu-expect';
+import matchers from '@testing-library/jest-dom/matchers';
+import { expect, describe, test, vi, beforeEach, afterEach } from 'vitest';
 import { waitFor, screen } from '@testing-library/dom';
 import { createInputElement, createDOM, cleanupDOM } from './common';
 import { createField } from '../src';
+
+expect.extend(matchers);
 
 function createContentEditable() {
   const input = document.createElement('div');
@@ -13,49 +14,50 @@ function createContentEditable() {
   return input;
 }
 
-const Field = suite('Custom controls with createField');
-
-Field.before.each(createDOM);
-Field.after.each(() => {
-  cleanupDOM();
-  sinon.restore();
-});
-
-Field('adds hidden input when none is present', async () => {
-  const formElement = screen.getByRole('form') as HTMLFormElement;
-  const inputElement = createContentEditable();
-  formElement.appendChild(inputElement);
-
-  expect(formElement.querySelector('input[name="test"]')).to.be.null;
-
-  const { field } = createField('test');
-
-  field(inputElement);
-
-  await waitFor(() => {
-    expect(formElement.querySelector('input[name="test"]')).not.to.be.null;
+describe('Custom controls with createField', () => {
+  beforeEach(createDOM);
+  afterEach(() => {
+    cleanupDOM();
+    vi.restoreAllMocks();
   });
-});
 
-Field('does not add hidden input when one is already present', () => {
-  const formElement = screen.getByRole('form') as HTMLFormElement;
-  const hiddenElement = createInputElement({ name: 'test', type: 'hidden' });
-  const inputElement = createContentEditable();
-  formElement.appendChild(inputElement);
-  formElement.appendChild(hiddenElement);
+  test('adds hidden input when none is present', async () => {
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const inputElement = createContentEditable();
+    formElement.appendChild(inputElement);
 
-  expect(formElement.querySelectorAll('input[name="test"]').length).to.equal(1);
+    expect(formElement.querySelector('input[name="test"]')).to.be.null;
 
-  const { field } = createField({ name: 'test' });
+    const { field } = createField('test');
 
-  field(inputElement);
+    field(inputElement);
 
-  expect(formElement.querySelectorAll('input[name="test"]').length).to.equal(1);
-});
+    await waitFor(() => {
+      expect(formElement.querySelector('input[name="test"]')).not.to.be.null;
+    });
+  });
 
-Field(
-  'does not add hidden input when assigning to a native input',
-  async () => {
+  test('does not add hidden input when one is already present', () => {
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const hiddenElement = createInputElement({ name: 'test', type: 'hidden' });
+    const inputElement = createContentEditable();
+    formElement.appendChild(inputElement);
+    formElement.appendChild(hiddenElement);
+
+    expect(formElement.querySelectorAll('input[name="test"]').length).to.equal(
+      1
+    );
+
+    const { field } = createField({ name: 'test' });
+
+    field(inputElement);
+
+    expect(formElement.querySelectorAll('input[name="test"]').length).to.equal(
+      1
+    );
+  });
+
+  test('does not add hidden input when assigning to a native input', async () => {
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const inputElement = createInputElement({ name: '', type: 'text' });
     formElement.appendChild(inputElement);
@@ -70,135 +72,132 @@ Field(
       expect(
         formElement.querySelectorAll('input[name="test"]').length
       ).to.equal(1);
-      expect(formElement.querySelector('input[name="test"]')).to.be.visible;
+      expect(formElement.querySelector('input[name="test"]')).toBeVisible();
     });
-  }
-);
+  });
 
-Field('dispatches input events', async () => {
-  const inputListener = sinon.fake();
-  const blurListener = sinon.fake();
-  const formElement = screen.getByRole('form') as HTMLFormElement;
-  const inputElement = createContentEditable();
-  formElement.appendChild(inputElement);
-  formElement.addEventListener('input', inputListener);
-  formElement.addEventListener('focusout', blurListener);
+  test('dispatches input events', async () => {
+    const inputListener = vi.fn();
+    const blurListener = vi.fn();
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const inputElement = createContentEditable();
+    formElement.appendChild(inputElement);
+    formElement.addEventListener('input', inputListener);
+    formElement.addEventListener('focusout', blurListener);
 
-  const { field, onChange, onBlur } = createField('test');
+    const { field, onChange, onBlur } = createField('test');
 
-  sinon.assert.notCalled(inputListener);
-  sinon.assert.notCalled(blurListener);
+    expect(inputListener).not.toHaveBeenCalled();
+    expect(blurListener).not.toHaveBeenCalled();
 
-  onChange('ignored value');
-  onBlur();
+    onChange('ignored value');
+    onBlur();
 
-  sinon.assert.notCalled(inputListener);
-  sinon.assert.notCalled(blurListener);
+    expect(inputListener).not.toHaveBeenCalled();
+    expect(blurListener).not.toHaveBeenCalled();
 
-  field(inputElement);
+    field(inputElement);
 
-  await waitFor(() => {
-    const hiddenElement = document.querySelector(
-      'input[name="test"]'
-    ) as HTMLInputElement;
+    await waitFor(() => {
+      const hiddenElement = document.querySelector(
+        'input[name="test"]'
+      ) as HTMLInputElement;
 
-    expect(hiddenElement).not.to.be.null;
+      expect(hiddenElement).not.to.be.null;
+
+      onChange('new value');
+
+      expect(hiddenElement.value).to.equal('new value');
+      expect(inputListener).toHaveBeenCalledWith(
+        expect.objectContaining({
+          target: hiddenElement,
+        })
+      );
+      expect(blurListener).not.toHaveBeenCalled();
+
+      onBlur();
+
+      expect(blurListener).toHaveBeenCalledWith(
+        expect.objectContaining({
+          target: hiddenElement,
+        })
+      );
+    });
+
+    formElement.removeEventListener('input', inputListener);
+    formElement.removeEventListener('focusout', blurListener);
+  });
+
+  test('dispatches change events', async () => {
+    const changeListener = vi.fn();
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const inputElement = createContentEditable();
+    formElement.appendChild(inputElement);
+    formElement.addEventListener('change', changeListener);
+
+    const { field, onChange } = createField('test', { touchOnChange: true });
+
+    expect(changeListener).not.toHaveBeenCalled();
+
+    onChange('ignored value');
+
+    expect(changeListener).not.toHaveBeenCalled();
+
+    const { destroy } = field(inputElement);
+
+    await waitFor(() => {
+      const hiddenElement = document.querySelector(
+        'input[name="test"]'
+      ) as HTMLInputElement;
+
+      expect(hiddenElement).not.to.be.null;
+    });
 
     onChange('new value');
 
-    expect(hiddenElement.value).to.equal('new value');
-    sinon.assert.calledWith(
-      inputListener,
-      sinon.match({
-        target: hiddenElement,
-      })
-    );
-    sinon.assert.notCalled(blurListener);
+    formElement.removeEventListener('change', changeListener);
 
-    onBlur();
-
-    sinon.assert.calledWith(
-      blurListener,
-      sinon.match({
-        target: hiddenElement,
-      })
-    );
+    destroy?.();
   });
 
-  formElement.removeEventListener('input', inputListener);
-  formElement.removeEventListener('focusout', blurListener);
-});
+  test('listens to hidden input attribute changes', async () => {
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const hiddenElement = createInputElement({ name: 'test', type: 'hidden' });
+    const inputElement = createContentEditable();
+    formElement.appendChild(inputElement);
+    formElement.appendChild(hiddenElement);
 
-Field('dispatches change events', async () => {
-  const changeListener = sinon.fake();
-  const formElement = screen.getByRole('form') as HTMLFormElement;
-  const inputElement = createContentEditable();
-  formElement.appendChild(inputElement);
-  formElement.addEventListener('change', changeListener);
+    const { field } = createField('test');
 
-  const { field, onChange } = createField('test', { touchOnChange: true });
+    field(inputElement);
 
-  sinon.assert.notCalled(changeListener);
+    await new Promise((r) => setTimeout(r, 10));
 
-  onChange('ignored value');
+    hiddenElement.setAttribute('aria-invalid', 'true');
+    await waitFor(() => {
+      expect(inputElement).toBeInvalid();
+    });
+    hiddenElement.removeAttribute('aria-invalid');
+    await waitFor(() => {
+      expect(inputElement).not.toBeValid();
+    });
 
-  sinon.assert.notCalled(changeListener);
-
-  const { destroy } = field(inputElement);
-
-  await waitFor(() => {
-    const hiddenElement = document.querySelector(
-      'input[name="test"]'
-    ) as HTMLInputElement;
-
-    expect(hiddenElement).not.to.be.null;
+    hiddenElement.setAttribute('data-felte-validation-message', 'a message');
+    await waitFor(() => {
+      expect(inputElement).toHaveAttribute(
+        'data-felte-validation-message',
+        'a message'
+      );
+    });
+    hiddenElement.removeAttribute('data-felte-validation-message');
+    await waitFor(() => {
+      expect(inputElement).not.toHaveAttribute('data-felte-validation-message');
+    });
   });
 
-  onChange('new value');
-
-  formElement.removeEventListener('change', changeListener);
-
-  destroy?.();
-});
-
-Field('listens to hidden input attribute changes', async () => {
-  const formElement = screen.getByRole('form') as HTMLFormElement;
-  const hiddenElement = createInputElement({ name: 'test', type: 'hidden' });
-  const inputElement = createContentEditable();
-  formElement.appendChild(inputElement);
-  formElement.appendChild(hiddenElement);
-
-  const { field } = createField('test');
-
-  field(inputElement);
-
-  await new Promise((r) => setTimeout(r, 10));
-
-  hiddenElement.setAttribute('aria-invalid', 'true');
-  await waitFor(() => {
-    expect(inputElement).to.to.be.invalid;
-  });
-  hiddenElement.removeAttribute('aria-invalid');
-  await waitFor(() => {
-    expect(inputElement).not.be.valid;
-  });
-
-  hiddenElement.setAttribute('data-felte-validation-message', 'a message');
-  await waitFor(() => {
-    expect(inputElement)
-      .to.have.attribute('data-felte-validation-message')
-      .that.equals('a message');
-  });
-  hiddenElement.removeAttribute('data-felte-validation-message');
-  await waitFor(() => {
-    expect(inputElement).not.to.have.attribute('data-felte-validation-message');
+  test('does nothing with unmounted element', () => {
+    const inputElement = createContentEditable();
+    const { field } = createField('test');
+    expect(field(inputElement)).to.have.property('destroy');
   });
 });
-
-Field('does nothing with unmounted element', () => {
-  const inputElement = createContentEditable();
-  const { field } = createField('test');
-  expect(field(inputElement)).to.have.property('destroy');
-});
-
-Field.run();

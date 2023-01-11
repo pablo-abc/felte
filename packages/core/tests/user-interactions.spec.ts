@@ -1,6 +1,5 @@
-import * as sinon from 'sinon';
-import { suite } from 'uvu';
-import { expect } from 'uvu-expect';
+import matchers from '@testing-library/jest-dom/matchers';
+import { expect, describe, test, vi, beforeEach, afterEach } from 'vitest';
 import { waitFor, screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import {
@@ -13,6 +12,8 @@ import {
 import { get } from 'svelte/store';
 import { isFormControl } from '@felte/common';
 import { FelteSubmitError } from '../src';
+
+expect.extend(matchers);
 
 function createSelectElement({
   name,
@@ -212,271 +213,267 @@ function createSignupForm() {
   };
 }
 
-const UserInteractions = suite('User interactions with form');
-
-UserInteractions.before.each(() => {
-  createDOM();
-});
-UserInteractions.after.each(() => {
-  cleanupDOM();
-  sinon.restore();
-});
-
-UserInteractions('Sets default data correctly', () => {
-  const { form, data, cleanup } = createForm({
-    onSubmit: sinon.fake(),
+describe('User interactions with form', () => {
+  beforeEach(() => {
+    createDOM();
   });
-  const { formElement } = createSignupForm();
-  form(formElement);
-  const $data = get(data);
-  expect($data).to.deep.include({
-    account: {
-      email: '',
-      password: '',
-      confirmPassword: '',
-      showPassword: false,
-      publicEmail: undefined,
-      accountType: 'user',
-    },
-    profile: {
-      firstName: '',
-      lastName: '',
-      bio: '',
-      picture: undefined,
-    },
-    extra: {
-      pictures: [],
-    },
-    preferences: [],
-    select: '0',
-    multipleSelect: [],
+  afterEach(() => {
+    cleanupDOM();
+    vi.restoreAllMocks();
   });
-  cleanup();
-});
 
-UserInteractions('Validates default data correctly', async () => {
-  type Data = {
-    account: {
-      email: string;
-      password: string;
+  test('Sets default data correctly', () => {
+    const { form, data, cleanup } = createForm({
+      onSubmit: vi.fn(),
+    });
+    const { formElement } = createSignupForm();
+    form(formElement);
+    const $data = get(data);
+    expect($data).to.deep.include({
+      account: {
+        email: '',
+        password: '',
+        confirmPassword: '',
+        showPassword: false,
+        publicEmail: undefined,
+        accountType: 'user',
+      },
+      profile: {
+        firstName: '',
+        lastName: '',
+        bio: '',
+        picture: undefined,
+      },
+      extra: {
+        pictures: [],
+      },
+      preferences: [],
+      select: '0',
+      multipleSelect: [],
+    });
+    cleanup();
+  });
+
+  test('Validates default data correctly', async () => {
+    type Data = {
+      account: {
+        email: string;
+        password: string;
+      };
+      multiple: Record<string, Record<string, any>[]>;
     };
-    multiple: Record<string, Record<string, any>[]>;
-  };
-  const { form, data, errors, warnings, setTouched } = createForm<Data>({
-    onSubmit: sinon.fake(),
-    validate: (values) => {
-      const errors: {
-        account: { password?: string; email?: string };
-      } = { account: {} };
-      if (!values.account?.email) errors.account.email = 'Must not be empty';
-      if (!values.account?.password)
-        errors.account.password = 'Must not be empty';
-      return errors;
-    },
-    warn: (values: any) => {
-      const warnings: {
-        account: { password?: string; email?: string };
-      } = { account: {} };
-      if (!values.account?.password)
-        warnings.account.password = 'Should be safer';
-      return warnings;
-    },
-  });
-  const { formElement } = createSignupForm();
-  form(formElement);
-  const $data = get(data);
-  expect($data).to.have.nested.property('multiple.extraText');
-  Object.keys($data.multiple).forEach((key) => {
-    expect($data.multiple[key]).to.be.an('array');
-    $data.multiple[key].forEach((obj) => {
-      expect(obj).to.have.a.property('key').that.is.a('string');
+    const { form, data, errors, warnings, setTouched } = createForm<Data>({
+      onSubmit: vi.fn(),
+      validate: (values) => {
+        const errors: {
+          account: { password?: string; email?: string };
+        } = { account: {} };
+        if (!values.account?.email) errors.account.email = 'Must not be empty';
+        if (!values.account?.password)
+          errors.account.password = 'Must not be empty';
+        return errors;
+      },
+      warn: (values: any) => {
+        const warnings: {
+          account: { password?: string; email?: string };
+        } = { account: {} };
+        if (!values.account?.password)
+          warnings.account.password = 'Should be safer';
+        return warnings;
+      },
+    });
+    const { formElement } = createSignupForm();
+    form(formElement);
+    const $data = get(data);
+    expect($data).to.have.nested.property('multiple.extraText');
+    Object.keys($data.multiple).forEach((key) => {
+      expect($data.multiple[key]).to.be.an('array');
+      $data.multiple[key].forEach((obj) => {
+        expect(obj).to.have.a.property('key').that.is.a('string');
+      });
+    });
+    expect($data).to.deep.include({
+      account: {
+        email: '',
+        password: '',
+        confirmPassword: '',
+        showPassword: false,
+        publicEmail: undefined,
+        accountType: 'user',
+      },
+      profile: {
+        firstName: '',
+        lastName: '',
+        bio: '',
+        picture: undefined,
+      },
+      extra: {
+        pictures: [],
+      },
+      preferences: [],
+    });
+    expect(get(errors)).to.have.property('account').that.includes({
+      email: null,
+      password: null,
+    });
+    setTouched('account.email', true);
+    await waitFor(() => {
+      expect(get(warnings))
+        .to.have.property('account')
+        .that.deep.includes({
+          password: ['Should be safer'],
+        });
+      expect(get(errors))
+        .to.have.property('account')
+        .that.deep.include({
+          email: ['Must not be empty'],
+          password: null,
+        });
+    });
+    setTouched('account.password', true);
+    await waitFor(() => {
+      expect(get(errors))
+        .to.have.property('account')
+        .that.deep.include({
+          email: ['Must not be empty'],
+          password: ['Must not be empty'],
+        });
     });
   });
-  expect($data).to.deep.include({
-    account: {
-      email: '',
-      password: '',
-      confirmPassword: '',
-      showPassword: false,
-      publicEmail: undefined,
-      accountType: 'user',
-    },
-    profile: {
-      firstName: '',
-      lastName: '',
-      bio: '',
-      picture: undefined,
-    },
-    extra: {
-      pictures: [],
-    },
-    preferences: [],
-  });
-  expect(get(errors)).to.have.property('account').that.includes({
-    email: null,
-    password: null,
-  });
-  setTouched('account.email', true);
-  await waitFor(() => {
-    expect(get(warnings))
-      .to.have.property('account')
-      .that.deep.includes({
-        password: ['Should be safer'],
-      });
-    expect(get(errors))
-      .to.have.property('account')
-      .that.deep.include({
-        email: ['Must not be empty'],
-        password: null,
-      });
-  });
-  setTouched('account.password', true);
-  await waitFor(() => {
-    expect(get(errors))
-      .to.have.property('account')
-      .that.deep.include({
-        email: ['Must not be empty'],
-        password: ['Must not be empty'],
-      });
-  });
-});
 
-UserInteractions('Sets custom default data correctly', () => {
-  const { form, data, isValid } = createForm({
-    onSubmit: sinon.fake(),
+  test('Sets custom default data correctly', () => {
+    const { form, data, isValid } = createForm({
+      onSubmit: vi.fn(),
+    });
+    const {
+      formElement,
+      emailInput,
+      bioInput,
+      publicEmailYesRadio,
+      showPasswordInput,
+      techCheckbox,
+      extraTextInputs,
+      extraNumberInputs,
+      extraCheckboxes,
+      extraPreferences1,
+      accountTypeElement,
+      selectElement,
+      multipleSelectElement,
+    } = createSignupForm();
+    emailInput.value = 'jacek@soplica.com';
+    const bioTest = 'Litwo! Ojczyzno moja! ty jesteś jak zdrowie';
+    bioInput.value = bioTest;
+    publicEmailYesRadio.checked = true;
+    showPasswordInput.checked = true;
+    techCheckbox.checked = true;
+    extraTextInputs[1].value = 'demo text';
+    extraNumberInputs[1].value = '1';
+    extraCheckboxes[1].checked = true;
+    extraPreferences1[1].checked = true;
+    Array.from(selectElement.options)[1].selected = true;
+    const options = Array.from(multipleSelectElement.options);
+    options[1].selected = true;
+    options[2].selected = true;
+    accountTypeElement.value = 'admin';
+    form(formElement);
+    const $data = get(data);
+    expect($data)
+      .to.have.a.nested.property('multiple.extraText.1.value')
+      .that.equals('demo text');
+    expect($data)
+      .to.have.a.nested.property('multiple.extraNumber.1.value')
+      .that.equals(1);
+    expect($data).to.have.a.nested.property('multiple.extraCheckbox.1.value')
+      .that.true;
+    expect($data)
+      .to.have.a.nested.property('multiple.extraPreference.1.value')
+      .that.is.an('array')
+      .that.deep.equals(['preference1']);
+    expect($data).to.deep.include({
+      account: {
+        email: 'jacek@soplica.com',
+        password: '',
+        confirmPassword: '',
+        showPassword: true,
+        publicEmail: 'yes',
+        accountType: 'admin',
+      },
+      profile: {
+        firstName: '',
+        lastName: '',
+        bio: bioTest,
+        picture: undefined,
+      },
+      extra: {
+        pictures: [],
+      },
+      preferences: ['technology'],
+      select: '1',
+      multipleSelect: ['1', '2'],
+    });
+    expect(get(isValid)).to.be.ok;
   });
-  const {
-    formElement,
-    emailInput,
-    bioInput,
-    publicEmailYesRadio,
-    showPasswordInput,
-    techCheckbox,
-    extraTextInputs,
-    extraNumberInputs,
-    extraCheckboxes,
-    extraPreferences1,
-    accountTypeElement,
-    selectElement,
-    multipleSelectElement,
-  } = createSignupForm();
-  emailInput.value = 'jacek@soplica.com';
-  const bioTest = 'Litwo! Ojczyzno moja! ty jesteś jak zdrowie';
-  bioInput.value = bioTest;
-  publicEmailYesRadio.checked = true;
-  showPasswordInput.checked = true;
-  techCheckbox.checked = true;
-  extraTextInputs[1].value = 'demo text';
-  extraNumberInputs[1].value = '1';
-  extraCheckboxes[1].checked = true;
-  extraPreferences1[1].checked = true;
-  Array.from(selectElement.options)[1].selected = true;
-  const options = Array.from(multipleSelectElement.options);
-  options[1].selected = true;
-  options[2].selected = true;
-  accountTypeElement.value = 'admin';
-  form(formElement);
-  const $data = get(data);
-  expect($data)
-    .to.have.a.nested.property('multiple.extraText.1.value')
-    .that.equals('demo text');
-  expect($data)
-    .to.have.a.nested.property('multiple.extraNumber.1.value')
-    .that.equals(1);
-  expect($data).to.have.a.nested.property('multiple.extraCheckbox.1.value').that
-    .true;
-  expect($data)
-    .to.have.a.nested.property('multiple.extraPreference.1.value')
-    .that.is.an('array')
-    .that.deep.equals(['preference1']);
-  expect($data).to.deep.include({
-    account: {
-      email: 'jacek@soplica.com',
-      password: '',
-      confirmPassword: '',
-      showPassword: true,
-      publicEmail: 'yes',
-      accountType: 'admin',
-    },
-    profile: {
-      firstName: '',
-      lastName: '',
-      bio: bioTest,
-      picture: undefined,
-    },
-    extra: {
-      pictures: [],
-    },
-    preferences: ['technology'],
-    select: '1',
-    multipleSelect: ['1', '2'],
-  });
-  expect(get(isValid)).to.be.ok;
-});
 
-UserInteractions('Input and data object get same value', () => {
-  const { form, data } = createForm({
-    onSubmit: sinon.fake(),
+  test('Input and data object get same value', () => {
+    const { form, data } = createForm({
+      onSubmit: vi.fn(),
+    });
+    const { formElement, emailInput, passwordInput } = createLoginForm();
+    form(formElement);
+    userEvent.type(emailInput, 'jacek@soplica.com');
+    userEvent.type(passwordInput, 'password');
+    const $data = get(data);
+    expect($data).to.deep.equal({
+      account: {
+        email: 'jacek@soplica.com',
+        password: 'password',
+      },
+    });
   });
-  const { formElement, emailInput, passwordInput } = createLoginForm();
-  form(formElement);
-  userEvent.type(emailInput, 'jacek@soplica.com');
-  userEvent.type(passwordInput, 'password');
-  const $data = get(data);
-  expect($data).to.deep.equal({
-    account: {
-      email: 'jacek@soplica.com',
-      password: 'password',
-    },
-  });
-});
 
-UserInteractions('Calls validation function on submit', async () => {
-  const validate = sinon.fake(() => ({}));
-  const warn = sinon.fake(() => ({}));
-  const onSubmit = sinon.fake();
-  const { form, isSubmitting } = createForm({
-    onSubmit,
-    validate,
-    warn,
-  });
-  const { formElement } = createLoginForm();
-  form(formElement);
-  formElement.submit();
-  expect(validate).to.have.been.called;
-  expect(warn).to.have.been.called;
-  await waitFor(() => {
-    sinon.assert.calledWith(
+  test('Calls validation function on submit', async () => {
+    const validate = vi.fn(() => ({}));
+    const warn = vi.fn(() => ({}));
+    const onSubmit = vi.fn();
+    const { form, isSubmitting } = createForm({
       onSubmit,
-      sinon.match({
-        account: {
-          email: '',
-          password: '',
-        },
-      }),
-      sinon.match({
-        form: formElement,
-        controls: sinon.match(
-          Array.from(formElement.elements).filter(isFormControl)
-        ),
-      })
-    );
-    expect(get(isSubmitting)).not.to.be.ok;
+      validate,
+      warn,
+    });
+    const { formElement } = createLoginForm();
+    form(formElement);
+    formElement.submit();
+    expect(validate).toHaveBeenCalled();
+    expect(warn).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledWith(
+        expect.objectContaining({
+          account: {
+            email: '',
+            password: '',
+          },
+        }),
+        expect.objectContaining({
+          form: formElement,
+          controls: expect.arrayContaining(
+            Array.from(formElement.elements).filter(isFormControl)
+          ),
+        })
+      );
+      expect(get(isSubmitting)).not.to.be.ok;
+    });
   });
-});
 
-UserInteractions(
-  'Calls validation function on submit without calling onSubmit',
-  async () => {
+  test('Calls validation function on submit without calling onSubmit', async () => {
     type Data = {
       account: {
         email: string;
         password: string;
       };
     };
-    const validate = sinon.fake(() => ({ account: { email: 'Not email' } }));
-    const warn = sinon.fake(() => ({ account: { email: 'Not email' } }));
-    const onSubmit = sinon.fake();
+    const validate = vi.fn(() => ({ account: { email: 'Not email' } }));
+    const warn = vi.fn(() => ({ account: { email: 'Not email' } }));
+    const onSubmit = vi.fn();
     const { form, isValid, isSubmitting } = createForm<Data>({
       onSubmit,
       validate,
@@ -485,75 +482,72 @@ UserInteractions(
     const { formElement } = createLoginForm();
     form(formElement);
     formElement.submit();
-    expect(validate).to.have.been.called;
-    expect(warn).to.have.been.called;
+    expect(validate).toHaveBeenCalled();
+    expect(warn).toHaveBeenCalled();
     await waitFor(() => {
-      expect(onSubmit).to.have.not.been.called;
+      expect(onSubmit).not.toHaveBeenCalled();
     });
     expect(get(isValid)).not.to.be.ok;
     await waitFor(() => {
       expect(get(isSubmitting)).not.to.be.ok;
     });
-  }
-);
-
-UserInteractions('Calls validate on input', async () => {
-  const validate = sinon.fake(() => ({}));
-  const warn = sinon.fake(() => ({}));
-  const onSubmit = sinon.fake();
-  const { form, isValid } = createForm({
-    onSubmit,
-    validate,
-    warn,
   });
-  const { formElement, emailInput } = createLoginForm();
-  expect(get(isValid)).to.be.false;
-  form(formElement);
-  userEvent.type(emailInput, 'jacek@soplica.com');
-  await waitFor(() => {
-    expect(validate).to.have.been.called;
-    expect(warn).to.have.been.called;
-    expect(get(isValid)).to.be.ok;
-  });
-});
 
-UserInteractions('Calls debounced validate on input', async () => {
-  const validate = sinon.fake(() => ({}));
-  const warn = sinon.fake(() => ({}));
-  const onSubmit = sinon.fake();
-  const { form, isValid } = createForm({
-    onSubmit,
-    debounced: {
-      timeout: 0,
+  test('Calls validate on input', async () => {
+    const validate = vi.fn(() => ({}));
+    const warn = vi.fn(() => ({}));
+    const onSubmit = vi.fn();
+    const { form, isValid } = createForm({
+      onSubmit,
       validate,
       warn,
-    },
+    });
+    const { formElement, emailInput } = createLoginForm();
+    expect(get(isValid)).to.be.false;
+    form(formElement);
+    userEvent.type(emailInput, 'jacek@soplica.com');
+    await waitFor(() => {
+      expect(validate).toHaveBeenCalled();
+      expect(warn).toHaveBeenCalled();
+      expect(get(isValid)).to.be.ok;
+    });
   });
-  const { formElement, emailInput } = createLoginForm();
-  expect(get(isValid)).to.be.false;
-  form(formElement);
-  userEvent.type(emailInput, 'jacek@soplica.');
-  await waitFor(() => {
-    sinon.assert.calledOnce(validate);
-    sinon.assert.calledOnce(warn);
-    expect(get(isValid)).to.be.ok;
-  });
-  userEvent.type(emailInput, 'c');
-  userEvent.type(emailInput, 'o');
-  userEvent.type(emailInput, 'm');
-  await waitFor(() => {
-    sinon.assert.calledTwice(validate);
-    sinon.assert.calledTwice(warn);
-    expect(get(isValid)).to.be.ok;
-  });
-});
 
-UserInteractions(
-  'Calls debounced validate on input with custom timeout',
-  async () => {
-    const validate = sinon.fake(() => ({}));
-    const warn = sinon.fake(() => ({}));
-    const onSubmit = sinon.fake();
+  test('Calls debounced validate on input', async () => {
+    const validate = vi.fn(() => ({}));
+    const warn = vi.fn(() => ({}));
+    const onSubmit = vi.fn();
+    const { form, isValid } = createForm({
+      onSubmit,
+      debounced: {
+        timeout: 0,
+        validate,
+        warn,
+      },
+    });
+    const { formElement, emailInput } = createLoginForm();
+    expect(get(isValid)).to.be.false;
+    form(formElement);
+    userEvent.type(emailInput, 'jacek@soplica.');
+    await waitFor(() => {
+      expect(validate).toHaveBeenCalledOnce();
+      expect(warn).toHaveBeenCalledOnce();
+      expect(get(isValid)).to.be.ok;
+    });
+    userEvent.type(emailInput, 'c');
+    userEvent.type(emailInput, 'o');
+    userEvent.type(emailInput, 'm');
+    await waitFor(() => {
+      expect(validate).toHaveBeenCalledTimes(2);
+      expect(warn).toHaveBeenCalledTimes(2);
+      expect(get(isValid)).to.be.ok;
+    });
+  });
+
+  test('Calls debounced validate on input with custom timeout', async () => {
+    const validate = vi.fn(() => ({}));
+    const warn = vi.fn(() => ({}));
+    const onSubmit = vi.fn();
     const { form, isValid } = createForm({
       onSubmit,
       debounced: {
@@ -567,19 +561,16 @@ UserInteractions(
     form(formElement);
     userEvent.type(emailInput, 'jacek@soplica.com');
     await waitFor(() => {
-      expect(validate).to.have.been.called;
-      expect(warn).to.have.been.called;
+      expect(validate).toHaveBeenCalled();
+      expect(warn).toHaveBeenCalled();
       expect(get(isValid)).to.be.ok;
     });
-  }
-);
+  });
 
-UserInteractions(
-  'Calls debounced validate on input with validate and warn timeout',
-  async () => {
-    const validate = sinon.fake(() => ({}));
-    const warn = sinon.fake(() => ({}));
-    const onSubmit = sinon.fake();
+  test('Calls debounced validate on input with validate and warn timeout', async () => {
+    const validate = vi.fn(() => ({}));
+    const warn = vi.fn(() => ({}));
+    const onSubmit = vi.fn();
     const { form, isValid } = createForm({
       onSubmit,
       debounced: {
@@ -594,513 +585,513 @@ UserInteractions(
     form(formElement);
     userEvent.type(emailInput, 'jacek@soplica.com');
     await waitFor(() => {
-      expect(validate).to.have.been.called;
-      expect(warn).to.have.been.called;
+      expect(validate).toHaveBeenCalled();
+      expect(warn).toHaveBeenCalled();
       expect(get(isValid)).to.be.ok;
     });
-  }
-);
-
-UserInteractions('Handles user events', () => {
-  type Data = {
-    account: {
-      email: string;
-      password: string;
-      confirmPassword: string;
-      showPassword: boolean;
-      publicEmail?: 'yes' | 'no';
-      accountType: 'user' | 'admin';
-    };
-    profile: {
-      firstName: string;
-      lastName: string;
-      bio: string;
-      picture: any;
-    };
-    extra: {
-      pictures: any[];
-    };
-    preferences: any[];
-  };
-  const { form, touched, data, interacted, isDirty } = createForm<Data>({
-    onSubmit: sinon.fake(),
-  });
-  const {
-    formElement,
-    emailInput,
-    passwordInput,
-    confirmPasswordInput,
-    showPasswordInput,
-    publicEmailYesRadio,
-    firstNameInput,
-    lastNameInput,
-    bioInput,
-    techCheckbox,
-    pictureInput,
-    extraPicsInput,
-    extraTextInputs,
-    extraNumberInputs,
-    extraCheckboxes,
-    extraPreferences1,
-    extraFileInputs,
-    accountTypeElement,
-    multipleSelectElement,
-    hiddenElement,
-  } = createSignupForm();
-
-  form(formElement);
-
-  expect(get(data)).to.deep.include({
-    account: {
-      email: '',
-      password: '',
-      confirmPassword: '',
-      showPassword: false,
-      publicEmail: undefined,
-      accountType: 'user',
-    },
-    profile: {
-      firstName: '',
-      lastName: '',
-      bio: '',
-      picture: undefined,
-    },
-    extra: {
-      pictures: [],
-    },
-    preferences: [],
-    multipleSelect: [],
-    hidden: '',
   });
 
-  const mockFile = new File(['test file'], 'test.png', { type: 'image/png' });
-  expect(get(isDirty)).to.be.false;
-  expect(get(interacted)).to.be.null;
-  userEvent.type(emailInput, 'jacek@soplica.com');
-  expect(get(touched).account.email).to.be.false;
-  expect(get(isDirty)).to.be.true;
-  expect(get(interacted)).to.equal(emailInput.name);
-  userEvent.type(passwordInput, 'password');
-  expect(get(touched).account.email).to.be.true;
-  userEvent.type(confirmPasswordInput, 'password');
-  userEvent.click(showPasswordInput);
-  userEvent.click(publicEmailYesRadio);
-  userEvent.type(firstNameInput, 'Jacek');
-  userEvent.type(lastNameInput, 'Soplica');
-  const bioTest = 'Litwo! Ojczyzno moja! ty jesteś jak zdrowie';
-  userEvent.type(bioInput, bioTest);
-  userEvent.click(techCheckbox);
-  userEvent.upload(pictureInput, mockFile);
-  userEvent.upload(extraPicsInput, [mockFile, mockFile]);
-  userEvent.type(extraTextInputs[1], 'demo text');
-  userEvent.type(extraNumberInputs[1], '1');
-  userEvent.click(extraCheckboxes[1]);
-  userEvent.click(extraPreferences1[1]);
-  userEvent.upload(extraFileInputs[1], mockFile);
-  userEvent.selectOptions(accountTypeElement, ['admin']);
-  userEvent.selectOptions(multipleSelectElement, ['1', '2']);
+  test('Handles user events', () => {
+    type Data = {
+      account: {
+        email: string;
+        password: string;
+        confirmPassword: string;
+        showPassword: boolean;
+        publicEmail?: 'yes' | 'no';
+        accountType: 'user' | 'admin';
+      };
+      profile: {
+        firstName: string;
+        lastName: string;
+        bio: string;
+        picture: any;
+      };
+      extra: {
+        pictures: any[];
+      };
+      preferences: any[];
+    };
+    const { form, touched, data, interacted, isDirty } = createForm<Data>({
+      onSubmit: vi.fn(),
+    });
+    const {
+      formElement,
+      emailInput,
+      passwordInput,
+      confirmPasswordInput,
+      showPasswordInput,
+      publicEmailYesRadio,
+      firstNameInput,
+      lastNameInput,
+      bioInput,
+      techCheckbox,
+      pictureInput,
+      extraPicsInput,
+      extraTextInputs,
+      extraNumberInputs,
+      extraCheckboxes,
+      extraPreferences1,
+      extraFileInputs,
+      accountTypeElement,
+      multipleSelectElement,
+      hiddenElement,
+    } = createSignupForm();
 
-  hiddenElement.value = 'value';
-  hiddenElement.dispatchEvent(new Event('change', { bubbles: true }));
+    form(formElement);
 
-  expect(get(data)).to.deep.include({
-    account: {
-      email: 'jacek@soplica.com',
-      password: 'password',
-      confirmPassword: 'password',
-      showPassword: true,
-      publicEmail: 'yes',
-      accountType: 'admin',
-    },
-    profile: {
-      firstName: 'Jacek',
-      lastName: 'Soplica',
-      bio: bioTest,
-      picture: mockFile,
-    },
-    extra: {
-      pictures: [mockFile, mockFile],
-    },
-    preferences: ['technology'],
-    multipleSelect: ['1', '2'],
-    hidden: 'value',
+    expect(get(data)).to.deep.include({
+      account: {
+        email: '',
+        password: '',
+        confirmPassword: '',
+        showPassword: false,
+        publicEmail: undefined,
+        accountType: 'user',
+      },
+      profile: {
+        firstName: '',
+        lastName: '',
+        bio: '',
+        picture: undefined,
+      },
+      extra: {
+        pictures: [],
+      },
+      preferences: [],
+      multipleSelect: [],
+      hidden: '',
+    });
+
+    const mockFile = new File(['test file'], 'test.png', { type: 'image/png' });
+    expect(get(isDirty)).to.be.false;
+    expect(get(interacted)).to.be.null;
+    userEvent.type(emailInput, 'jacek@soplica.com');
+    expect(get(touched).account.email).to.be.false;
+    expect(get(isDirty)).to.be.true;
+    expect(get(interacted)).to.equal(emailInput.name);
+    userEvent.type(passwordInput, 'password');
+    expect(get(touched).account.email).to.be.true;
+    userEvent.type(confirmPasswordInput, 'password');
+    userEvent.click(showPasswordInput);
+    userEvent.click(publicEmailYesRadio);
+    userEvent.type(firstNameInput, 'Jacek');
+    userEvent.type(lastNameInput, 'Soplica');
+    const bioTest = 'Litwo! Ojczyzno moja! ty jesteś jak zdrowie';
+    userEvent.type(bioInput, bioTest);
+    userEvent.click(techCheckbox);
+    userEvent.upload(pictureInput, mockFile);
+    userEvent.upload(extraPicsInput, [mockFile, mockFile]);
+    userEvent.type(extraTextInputs[1], 'demo text');
+    userEvent.type(extraNumberInputs[1], '1');
+    userEvent.click(extraCheckboxes[1]);
+    userEvent.click(extraPreferences1[1]);
+    userEvent.upload(extraFileInputs[1], mockFile);
+    userEvent.selectOptions(accountTypeElement, ['admin']);
+    userEvent.selectOptions(multipleSelectElement, ['1', '2']);
+
+    hiddenElement.value = 'value';
+    hiddenElement.dispatchEvent(new CustomEvent('change', { bubbles: true }));
+
+    expect(get(data)).to.deep.include({
+      account: {
+        email: 'jacek@soplica.com',
+        password: 'password',
+        confirmPassword: 'password',
+        showPassword: true,
+        publicEmail: 'yes',
+        accountType: 'admin',
+      },
+      profile: {
+        firstName: 'Jacek',
+        lastName: 'Soplica',
+        bio: bioTest,
+        picture: mockFile,
+      },
+      extra: {
+        pictures: [mockFile, mockFile],
+      },
+      preferences: ['technology'],
+      multipleSelect: ['1', '2'],
+      hidden: 'value',
+    });
   });
-});
 
-UserInteractions('Sets default data with initialValues', () => {
-  const { emailInput, passwordInput, formElement } = createLoginForm();
-  const { data, form } = createForm({
-    onSubmit: sinon.fake(),
-    initialValues: {
+  test('Sets default data with initialValues', () => {
+    const { emailInput, passwordInput, formElement } = createLoginForm();
+    const { data, form } = createForm({
+      onSubmit: vi.fn(),
+      initialValues: {
+        account: {
+          email: 'jacek@soplica.com',
+          password: 'password',
+        },
+      },
+    });
+    expect(get(data)).to.deep.include({
       account: {
         email: 'jacek@soplica.com',
         password: 'password',
       },
-    },
+    });
+
+    form(formElement);
+
+    expect(emailInput.value).to.equal('jacek@soplica.com');
+    expect(passwordInput.value).to.equal('password');
   });
-  expect(get(data)).to.deep.include({
-    account: {
-      email: 'jacek@soplica.com',
-      password: 'password',
-    },
-  });
 
-  form(formElement);
-
-  expect(emailInput.value).to.equal('jacek@soplica.com');
-  expect(passwordInput.value).to.equal('password');
-});
-
-UserInteractions('Validates initial values correctly', async () => {
-  type Data = {
-    account: {
-      email: string;
-      password: string;
+  test('Validates initial values correctly', async () => {
+    type Data = {
+      account: {
+        email: string;
+        password: string;
+      };
     };
-  };
-  const { data, errors, setTouched, touched } = createForm<Data>({
-    onSubmit: sinon.fake(),
-    validate: (values: any) => {
-      const errors: any = { account: {} };
-      if (!values.account.email) errors.account.email = 'Must not be empty';
-      if (!values.account.password)
-        errors.account.password = 'Must not be empty';
-      return errors;
-    },
-    initialValues: {
+    const { data, errors, setTouched, touched } = createForm<Data>({
+      onSubmit: vi.fn(),
+      validate: (values: any) => {
+        const errors: any = { account: {} };
+        if (!values.account.email) errors.account.email = 'Must not be empty';
+        if (!values.account.password)
+          errors.account.password = 'Must not be empty';
+        return errors;
+      },
+      initialValues: {
+        account: {
+          email: 'jacek@soplica.com',
+          password: '',
+        },
+      },
+    });
+    expect(get(errors)).to.deep.equal({
+      account: {
+        email: null,
+        password: null,
+      },
+    });
+    setTouched('account.email', true);
+    expect(get(touched)).to.deep.equal({
+      account: {
+        email: true,
+        password: false,
+      },
+    });
+    expect(get(errors)).to.deep.equal({
+      account: {
+        email: null,
+        password: null,
+      },
+    });
+    setTouched('account.password', true);
+    expect(get(touched)).to.deep.equal({
+      account: {
+        email: true,
+        password: true,
+      },
+    });
+    await waitFor(() => {
+      expect(get(errors)).to.deep.equal({
+        account: {
+          email: null,
+          password: ['Must not be empty'],
+        },
+      });
+    });
+    expect(get(data)).to.deep.include({
       account: {
         email: 'jacek@soplica.com',
         password: '',
       },
-    },
-  });
-  expect(get(errors)).to.deep.equal({
-    account: {
-      email: null,
-      password: null,
-    },
-  });
-  setTouched('account.email', true);
-  expect(get(touched)).to.deep.equal({
-    account: {
-      email: true,
-      password: false,
-    },
-  });
-  expect(get(errors)).to.deep.equal({
-    account: {
-      email: null,
-      password: null,
-    },
-  });
-  setTouched('account.password', true);
-  expect(get(touched)).to.deep.equal({
-    account: {
-      email: true,
-      password: true,
-    },
-  });
-  await waitFor(() => {
-    expect(get(errors)).to.deep.equal({
-      account: {
-        email: null,
-        password: ['Must not be empty'],
-      },
     });
   });
-  expect(get(data)).to.deep.include({
-    account: {
-      email: 'jacek@soplica.com',
-      password: '',
-    },
-  });
-});
 
-UserInteractions('calls onError', async () => {
-  const formElement = screen.getByRole('form') as HTMLFormElement;
-  const onError = sinon.fake();
-  const mockErrors = { account: { email: 'Not email' } };
-  const onSubmit = sinon.fake(() => {
-    throw mockErrors;
-  });
+  test('calls onError', async () => {
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const onError = vi.fn();
+    const mockErrors = { account: { email: 'Not email' } };
+    const onSubmit = vi.fn(() => {
+      throw mockErrors;
+    });
 
-  const { form, isSubmitting } = createForm<any>({
-    onSubmit,
-    onError,
-  });
+    const { form, isSubmitting } = createForm<any>({
+      onSubmit,
+      onError,
+    });
 
-  form(formElement);
+    form(formElement);
 
-  expect(onError).to.have.not.been.called;
+    expect(onError).not.toHaveBeenCalled();
 
-  formElement.submit();
+    formElement.submit();
 
-  await waitFor(() => {
-    expect(onSubmit).to.have.been.called;
-    sinon.assert.calledWith(onError, mockErrors);
-    expect(get(isSubmitting)).not.to.be.ok;
-  });
-});
-
-UserInteractions('use createSubmitHandler to override submit', async () => {
-  const mockOnSubmit = sinon.stub();
-  const mockValidate = sinon.fake();
-  const mockOnError = sinon.fake();
-  const formElement = screen.getByRole('form') as HTMLFormElement;
-  const defaultConfig = {
-    onSubmit: sinon.fake(),
-    validate: sinon.fake(),
-    onError: sinon.fake(),
-  };
-  const { form, createSubmitHandler, isSubmitting } = createForm(defaultConfig);
-  const altOnSubmit = createSubmitHandler({
-    onSubmit: mockOnSubmit,
-    onError: mockOnError,
-    validate: mockValidate,
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalled();
+      expect(onError).toHaveBeenCalledWith(
+        expect.objectContaining(mockErrors),
+        expect.anything()
+      );
+      expect(get(isSubmitting)).not.to.be.ok;
+    });
   });
 
-  form(formElement);
-
-  const submitInput = createInputElement({
-    type: 'submit',
-    value: 'Alt Submit',
-  });
-
-  submitInput.addEventListener('click', altOnSubmit);
-
-  formElement.appendChild(submitInput);
-
-  userEvent.click(submitInput);
-
-  await waitFor(() => {
-    sinon.assert.calledOnce(mockValidate);
-    expect(defaultConfig.onSubmit).to.have.not.been.called;
-    sinon.assert.calledOnce(mockOnSubmit);
-    expect(defaultConfig.onError).to.have.not.been.called;
-    expect(mockOnError).to.have.not.been.called;
-    expect(get(isSubmitting)).not.to.be.ok;
-  });
-
-  const mockErrors = { account: { email: 'Not email' } };
-  mockOnSubmit.resetHistory();
-  mockOnSubmit.onFirstCall().throws(mockErrors);
-
-  userEvent.click(submitInput);
-
-  await waitFor(() => {
-    expect(mockOnError).to.have.been.called;
-    sinon.assert.calledTwice(mockValidate);
-    sinon.assert.calledOnce(mockOnSubmit);
-    expect(get(isSubmitting)).not.to.be.ok;
-  });
-});
-
-UserInteractions('calls submit handler without event', async () => {
-  const { createSubmitHandler, isSubmitting } = createForm({
-    onSubmit: sinon.fake(),
-  });
-  const mockOnSubmit = sinon.fake();
-  const altOnSubmit = createSubmitHandler({ onSubmit: mockOnSubmit });
-  altOnSubmit();
-  await waitFor(() => {
-    expect(mockOnSubmit).to.have.been.called;
-    expect(get(isSubmitting)).not.to.be.ok;
-  });
-});
-
-UserInteractions('ignores inputs with data-felte-ignore', async () => {
-  type Data = {
-    account: {
-      email: string;
-      password: string;
-      confirmPassword: string;
-      showPassword: boolean;
-      publicEmail?: 'yes' | 'no';
+  test('use createSubmitHandler to override submit', async () => {
+    const mockOnSubmit = vi.fn();
+    const mockValidate = vi.fn();
+    const mockOnError = vi.fn();
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const defaultConfig = {
+      onSubmit: vi.fn(),
+      validate: vi.fn(),
+      onError: vi.fn(),
     };
-    profile: {
-      firstName: string;
-      lastName: string;
-      bio: string;
-      picture: any;
-    };
-    extra: {
-      pictures: any[];
-    };
-    preferences: any[];
-  };
-  const {
-    formElement,
-    accountFieldset,
-    emailInput,
-    passwordInput,
-    firstNameInput,
-    lastNameInput,
-    publicEmailYesRadio,
-  } = createSignupForm();
-  accountFieldset.setAttribute('data-felte-ignore', '');
-  firstNameInput.setAttribute('data-felte-ignore', '');
-  const { data, form } = createForm<Data>({
-    onSubmit: sinon.fake(),
-  });
-  form(formElement);
-  userEvent.type(emailInput, 'jacek@soplica.com');
-  userEvent.type(passwordInput, 'password');
-  userEvent.type(firstNameInput, 'Jacek');
-  userEvent.type(lastNameInput, 'Soplica');
-  userEvent.click(publicEmailYesRadio);
-  await waitFor(() => {
-    expect(get(data).profile.lastName).to.equal('Soplica');
-    expect(get(data).profile.firstName).to.equal('');
-    expect(get(data).account.email).to.equal('');
-    expect(get(data).account.password).to.equal('');
-    expect(get(data).account.publicEmail).to.equal(undefined);
-  });
-});
-
-UserInteractions('transforms data', async () => {
-  type Data = {
-    account: {
-      email: string;
-      password: string;
-      confirmPassword: string;
-      showPassword: boolean;
-      publicEmail?: boolean;
-    };
-    profile: {
-      firstName: string;
-      lastName: string;
-      bio: string;
-      picture: any;
-    };
-    extra: {
-      pictures: any[];
-    };
-    preferences: any[];
-  };
-  const {
-    formElement,
-    publicEmailYesRadio,
-    publicEmailNoRadio,
-  } = createSignupForm();
-  const { data, form } = createForm<Data>({
-    onSubmit: sinon.fake(),
-    transform: (values: any) => {
-      if (values.account.publicEmail === 'yes') {
-        values.account.publicEmail = true;
-      } else {
-        values.account.publicEmail = false;
-      }
-      return values;
-    },
-  });
-
-  form(formElement);
-
-  userEvent.click(publicEmailYesRadio);
-  await waitFor(() => {
-    expect(get(data).account.publicEmail).to.be.true;
-  });
-  userEvent.click(publicEmailNoRadio);
-  await waitFor(() => {
-    expect(get(data).account.publicEmail).to.be.false;
-  });
-});
-
-UserInteractions('submits without requestSubmit', async () => {
-  const onSubmit = sinon.fake();
-  const { form } = createForm({ onSubmit });
-  const { formElement } = createLoginForm();
-  formElement.requestSubmit = undefined as any;
-  form(formElement);
-  formElement.submit();
-
-  await waitFor(() => {
-    expect(onSubmit).to.have.been.called;
-  });
-});
-
-UserInteractions('submits post request with default action', async () => {
-  window.fetch = sinon.stub().resolves({ ok: true });
-  const onSuccess = sinon.fake();
-  const eventOnSuccess = sinon.fake();
-  const { form } = createForm({ onSuccess });
-  const { formElement } = createLoginForm();
-  formElement.action = '/example';
-  formElement.method = 'post';
-  formElement.addEventListener('feltesuccess', eventOnSuccess);
-  form(formElement);
-  formElement.submit();
-
-  await waitFor(() => {
-    sinon.assert.calledWith(
-      window.fetch as any,
-      sinon.match('/example'),
-      sinon.match({
-        body: sinon.match.instanceOf(URLSearchParams),
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      })
+    const { form, createSubmitHandler, isSubmitting } = createForm(
+      defaultConfig
     );
-    sinon.assert.calledWith(
-      onSuccess,
-      sinon.match({
-        ok: true,
-      }),
-      sinon.match.any
-    );
+    const altOnSubmit = createSubmitHandler({
+      onSubmit: mockOnSubmit,
+      onError: mockOnError,
+      validate: mockValidate,
+    });
+
+    form(formElement);
+
+    const submitInput = createInputElement({
+      type: 'submit',
+      value: 'Alt Submit',
+    });
+
+    submitInput.addEventListener('click', altOnSubmit);
+
+    formElement.appendChild(submitInput);
+
+    userEvent.click(submitInput);
+
+    await waitFor(() => {
+      expect(mockValidate).toHaveBeenCalledOnce();
+      expect(defaultConfig.onSubmit).not.toHaveBeenCalled();
+      expect(mockOnSubmit).toHaveBeenCalledOnce();
+      expect(defaultConfig.onError).not.toHaveBeenCalled();
+      expect(mockOnError).not.toHaveBeenCalled();
+      expect(get(isSubmitting)).not.to.be.ok;
+    });
+
+    const mockErrors = { account: { email: 'Not email' } };
+    mockOnSubmit.mockClear();
+    mockOnSubmit.mockImplementationOnce(() => {
+      throw mockErrors;
+    });
+
+    userEvent.click(submitInput);
+
+    await waitFor(() => {
+      expect(mockOnError).toHaveBeenCalled();
+      expect(mockValidate).toHaveBeenCalledTimes(2);
+      expect(mockOnSubmit).toHaveBeenCalledOnce();
+      expect(get(isSubmitting)).not.to.be.ok;
+    });
   });
-});
 
-UserInteractions('submits get request with default action', async () => {
-  window.fetch = sinon.stub().resolves({ ok: true });
-  const onSuccess = sinon.fake();
-  const eventOnSuccess = sinon.fake();
-  const { form } = createForm({ onSuccess });
-  const { formElement, emailInput } = createLoginForm();
-  formElement.action = '/example';
-  formElement.method = 'get';
-  formElement.addEventListener('feltesuccess', eventOnSuccess);
-  form(formElement);
+  test('calls submit handler without event', async () => {
+    const { createSubmitHandler, isSubmitting } = createForm({
+      onSubmit: vi.fn(),
+    });
+    const mockOnSubmit = vi.fn();
+    const altOnSubmit = createSubmitHandler({ onSubmit: mockOnSubmit });
+    altOnSubmit();
+    await waitFor(() => {
+      expect(mockOnSubmit).toHaveBeenCalled();
+      expect(get(isSubmitting)).not.to.be.ok;
+    });
+  });
 
-  userEvent.type(emailInput, 'zaphod@beeblebrox.com');
-  formElement.submit();
+  test('ignores inputs with data-felte-ignore', async () => {
+    type Data = {
+      account: {
+        email: string;
+        password: string;
+        confirmPassword: string;
+        showPassword: boolean;
+        publicEmail?: 'yes' | 'no';
+      };
+      profile: {
+        firstName: string;
+        lastName: string;
+        bio: string;
+        picture: any;
+      };
+      extra: {
+        pictures: any[];
+      };
+      preferences: any[];
+    };
+    const {
+      formElement,
+      accountFieldset,
+      emailInput,
+      passwordInput,
+      firstNameInput,
+      lastNameInput,
+      publicEmailYesRadio,
+    } = createSignupForm();
+    accountFieldset.setAttribute('data-felte-ignore', '');
+    firstNameInput.setAttribute('data-felte-ignore', '');
+    const { data, form } = createForm<Data>({
+      onSubmit: vi.fn(),
+    });
+    form(formElement);
+    userEvent.type(emailInput, 'jacek@soplica.com');
+    userEvent.type(passwordInput, 'password');
+    userEvent.type(firstNameInput, 'Jacek');
+    userEvent.type(lastNameInput, 'Soplica');
+    userEvent.click(publicEmailYesRadio);
+    await waitFor(() => {
+      expect(get(data).profile.lastName).to.equal('Soplica');
+      expect(get(data).profile.firstName).to.equal('');
+      expect(get(data).account.email).to.equal('');
+      expect(get(data).account.password).to.equal('');
+      expect(get(data).account.publicEmail).to.equal(undefined);
+    });
+  });
 
-  await waitFor(() => {
-    sinon.assert.calledWith(
-      window.fetch as any,
-      sinon.match(
-        '/example?account.email=zaphod%40beeblebrox.com&account.password='
-      ),
-      sinon.match({
-        method: 'get',
-      })
-    );
-    sinon.assert.calledWith(
-      onSuccess,
-      sinon.match({
-        ok: true,
-      }),
-      sinon.match.any
-    );
-    sinon.assert.calledWith(
-      eventOnSuccess,
-      sinon.match({
-        detail: sinon.match({
-          response: sinon.match({
-            ok: true,
+  test('transforms data', async () => {
+    type Data = {
+      account: {
+        email: string;
+        password: string;
+        confirmPassword: string;
+        showPassword: boolean;
+        publicEmail?: boolean;
+      };
+      profile: {
+        firstName: string;
+        lastName: string;
+        bio: string;
+        picture: any;
+      };
+      extra: {
+        pictures: any[];
+      };
+      preferences: any[];
+    };
+    const {
+      formElement,
+      publicEmailYesRadio,
+      publicEmailNoRadio,
+    } = createSignupForm();
+    const { data, form } = createForm<Data>({
+      onSubmit: vi.fn(),
+      transform: (values: any) => {
+        if (values.account.publicEmail === 'yes') {
+          values.account.publicEmail = true;
+        } else {
+          values.account.publicEmail = false;
+        }
+        return values;
+      },
+    });
+
+    form(formElement);
+
+    userEvent.click(publicEmailYesRadio);
+    await waitFor(() => {
+      expect(get(data).account.publicEmail).to.be.true;
+    });
+    userEvent.click(publicEmailNoRadio);
+    await waitFor(() => {
+      expect(get(data).account.publicEmail).to.be.false;
+    });
+  });
+
+  test('submits without requestSubmit', async () => {
+    const onSubmit = vi.fn();
+    const { form } = createForm({ onSubmit });
+    const { formElement } = createLoginForm();
+    formElement.requestSubmit = undefined as any;
+    form(formElement);
+    formElement.submit();
+
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalled();
+    });
+  });
+
+  test('submits post request with default action', async () => {
+    window.fetch = vi.fn().mockResolvedValue({ ok: true });
+    const onSuccess = vi.fn();
+    const eventOnSuccess = vi.fn();
+    const { form } = createForm({ onSuccess });
+    const { formElement } = createLoginForm();
+    formElement.action = '/example';
+    formElement.method = 'post';
+    formElement.addEventListener('feltesuccess', eventOnSuccess);
+    form(formElement);
+    formElement.submit();
+
+    await waitFor(() => {
+      expect(window.fetch as any).toHaveBeenCalledWith(
+        expect.stringContaining('/example'),
+        expect.objectContaining({
+          body: expect.any(URLSearchParams),
+          method: 'post',
+          headers: expect.objectContaining({
+            'Content-Type': 'application/x-www-form-urlencoded',
           }),
+        })
+      );
+      expect(onSuccess).toHaveBeenCalledWith(
+        expect.objectContaining({
+          ok: true,
         }),
-      })
-    );
+        expect.anything()
+      );
+    });
   });
-});
 
-UserInteractions(
-  'submits with default action and overriden method',
-  async () => {
-    window.fetch = sinon.stub().resolves({ ok: true });
+  test('submits get request with default action', async () => {
+    window.fetch = vi.fn().mockResolvedValue({ ok: true });
+    const onSuccess = vi.fn();
+    const eventOnSuccess = vi.fn();
+    const { form } = createForm({ onSuccess });
+    const { formElement, emailInput } = createLoginForm();
+    formElement.action = '/example';
+    formElement.method = 'get';
+    formElement.addEventListener('feltesuccess', eventOnSuccess);
+    form(formElement);
+
+    userEvent.type(emailInput, 'zaphod@beeblebrox.com');
+    formElement.submit();
+
+    await waitFor(() => {
+      expect(window.fetch as any).toHaveBeenCalledWith(
+        expect.stringContaining(
+          '/example?account.email=zaphod%40beeblebrox.com&account.password='
+        ),
+        expect.objectContaining({
+          method: 'get',
+          headers: expect.objectContaining({}),
+        })
+      );
+      expect(onSuccess).toHaveBeenCalledWith(
+        expect.objectContaining({
+          ok: true,
+        }),
+        expect.anything()
+      );
+      expect(eventOnSuccess).toHaveBeenCalledWith(
+        expect.objectContaining({
+          detail: expect.objectContaining({
+            response: expect.objectContaining({
+              ok: true,
+            }),
+          }),
+        })
+      );
+    });
+  });
+
+  test('submits with default action and overriden method', async () => {
+    window.fetch = vi.fn().mockResolvedValue({ ok: true });
     const { form } = createForm();
     const { formElement } = createLoginForm();
     formElement.action = '/example?_method=put';
@@ -1109,83 +1100,76 @@ UserInteractions(
     formElement.submit();
 
     await waitFor(() => {
-      sinon.assert.calledWith(
-        window.fetch as any,
-        sinon.match('/example'),
-        sinon.match({
-          body: sinon.match.instanceOf(URLSearchParams),
+      expect(window.fetch as any).toHaveBeenCalledWith(
+        expect.stringMatching('/example'),
+        expect.objectContaining({
+          body: expect.any(URLSearchParams),
           method: 'put',
-          headers: {
+          headers: expect.objectContaining({
             'Content-Type': 'application/x-www-form-urlencoded',
-          },
+          }),
         })
       );
     });
-  }
-);
+  });
 
-UserInteractions('submits with default action and file input', async () => {
-  window.fetch = sinon.stub().resolves({ ok: true });
-  const { form } = createForm();
-  const { formElement } = createLoginForm();
-  formElement.action = '/example';
-  formElement.method = 'post';
-  const fileInput = createInputElement({ name: 'profilePic', type: 'file' });
-  formElement.appendChild(fileInput);
-  form(formElement);
-  formElement.submit();
+  test('submits with default action and file input', async () => {
+    window.fetch = vi.fn().mockResolvedValue({ ok: true });
+    const { form } = createForm();
+    const { formElement } = createLoginForm();
+    formElement.action = '/example';
+    formElement.method = 'post';
+    const fileInput = createInputElement({ name: 'profilePic', type: 'file' });
+    formElement.appendChild(fileInput);
+    form(formElement);
+    formElement.submit();
 
-  await waitFor(() => {
-    sinon.assert.calledWith(
-      window.fetch as any,
-      sinon.match('/example'),
-      sinon.match({
-        body: sinon.match.instanceOf(FormData),
-        method: 'post',
-        headers: {},
-      })
-    );
+    await waitFor(() => {
+      expect(window.fetch as any).toHaveBeenCalledWith(
+        expect.stringMatching('/example'),
+        expect.objectContaining({
+          body: expect.any(FormData),
+          method: 'post',
+          headers: expect.objectContaining({}),
+        })
+      );
+    });
+  });
+
+  test('submits with default action and throws', async () => {
+    window.fetch = vi.fn().mockResolvedValue({ ok: false });
+    const onError = vi.fn();
+    const eventOnError = vi.fn();
+    const { form } = createForm({ onError });
+    const { formElement } = createLoginForm();
+    formElement.action = '/example';
+    formElement.method = 'post';
+    formElement.addEventListener('felteerror', eventOnError);
+    form(formElement);
+    formElement.submit();
+
+    await waitFor(() => {
+      expect(window.fetch as any).toHaveBeenCalledWith(
+        expect.stringMatching('.*/example'),
+        expect.objectContaining({
+          body: expect.any(URLSearchParams),
+          method: 'post',
+          headers: expect.objectContaining({
+            'Content-Type': 'application/x-www-form-urlencoded',
+          }),
+        })
+      );
+      expect(onError).toHaveBeenCalledWith(
+        expect.any(FelteSubmitError),
+        expect.anything()
+      );
+      expect(eventOnError).toHaveBeenCalledWith(
+        expect.objectContaining({
+          detail: expect.objectContaining({
+            error: expect.any(FelteSubmitError),
+          }),
+        })
+      );
+    });
   });
 });
-
-UserInteractions('submits with default action and throws', async () => {
-  window.fetch = sinon.stub().resolves({ ok: false });
-  const onError = sinon.fake();
-  const eventOnError = sinon.fake();
-  const { form } = createForm({ onError });
-  const { formElement } = createLoginForm();
-  formElement.action = '/example';
-  formElement.method = 'post';
-  formElement.addEventListener('felteerror', eventOnError);
-  form(formElement);
-  formElement.submit();
-
-  await waitFor(() => {
-    sinon.assert.calledWith(
-      window.fetch as any,
-      sinon.match('/example'),
-      sinon.match({
-        body: sinon.match.instanceOf(URLSearchParams),
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      })
-    );
-    sinon.assert.calledWith(
-      onError,
-      sinon.match.instanceOf(FelteSubmitError),
-      sinon.match.any
-    );
-    sinon.assert.calledWith(
-      eventOnError,
-      sinon.match({
-        detail: sinon.match({
-          error: sinon.match.instanceOf(FelteSubmitError),
-        }),
-      })
-    );
-  });
-});
-
-UserInteractions.run();

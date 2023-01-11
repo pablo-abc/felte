@@ -20,7 +20,7 @@ export type ValidationMessageProps = {
 };
 
 export function ValidationMessage(props: ValidationMessageProps) {
-  props = mergeProps({ level: 'error' }, props);
+  props = mergeProps({ level: 'error' as const }, props);
   const [, others] = splitProps(props, [
     'for',
     'level',

@@ -1,429 +1,399 @@
-import * as sinon from 'sinon';
-import { suite } from 'uvu';
+import matchers from '@testing-library/jest-dom/matchers';
+import { expect, describe, test, vi, beforeEach, afterEach } from 'vitest';
 import { waitFor, screen } from '@testing-library/dom';
 import { get } from 'svelte/store';
 import { createInputElement, createDOM, cleanupDOM } from './common';
 import type { CurrentForm } from '@felte/core';
 import { createForm } from '../src';
 
-const Extenders = suite('Extenders');
+expect.extend(matchers);
 
-Extenders.before.each(createDOM);
-Extenders.after.each(() => {
-  cleanupDOM();
-  sinon.restore();
-});
+vi.mock('svelte', () => ({ onDestroy: vi.fn() }));
 
-Extenders('calls extender', async () => {
-  const formElement = screen.getByRole('form') as HTMLFormElement;
-  const mockExtenderHandler = {
-    destroy: sinon.fake(),
-  };
-  const mockExtender = sinon.fake.returns(mockExtenderHandler);
-  const {
-    form,
-    data: { set, ...data },
-    errors,
-    touched,
-  } = createForm({
-    onSubmit: sinon.fake(),
-    extend: mockExtender,
+describe('Extenders', () => {
+  beforeEach(createDOM);
+  afterEach(() => {
+    cleanupDOM();
+    vi.restoreAllMocks();
   });
 
-  sinon.assert.calledWith(
-    mockExtender,
-    sinon.match({
-      data: sinon.match(data),
+  test('calls extender', async () => {
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const mockExtenderHandler = {
+      destroy: vi.fn(),
+    };
+    const mockExtender = vi.fn().mockReturnValue(mockExtenderHandler);
+    const {
+      form,
+      data: { set, ...data },
       errors,
       touched,
-      stage: 'SETUP',
-    })
-  );
+    } = createForm({
+      onSubmit: vi.fn(),
+      extend: mockExtender,
+    });
 
-  sinon.assert.calledOnce(mockExtender);
-
-  form(formElement);
-
-  sinon.assert.calledWith(
-    mockExtender,
-    sinon.match({
-      data: sinon.match(data),
-      stage: 'MOUNT',
-      errors,
-      touched,
-      form: formElement,
-      controls: sinon.match([]),
-    })
-  );
-
-  sinon.assert.calledTwice(mockExtender);
-
-  const inputElement = createInputElement({
-    name: 'test',
-    type: 'text',
-  });
-
-  formElement.appendChild(inputElement);
-
-  await waitFor(() => {
-    sinon.assert.calledWith(
-      mockExtender,
-      sinon.match({
-        data: sinon.match(data),
-        stage: 'UPDATE',
+    expect(mockExtender).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining(data),
         errors,
         touched,
-        form: formElement,
-        controls: sinon.match([inputElement]),
+        stage: 'SETUP',
       })
     );
 
-    sinon.assert.calledThrice(mockExtender);
+    expect(mockExtender).toHaveBeenCalledOnce();
 
-    sinon.assert.calledOnce(mockExtenderHandler.destroy);
-  });
+    form(formElement);
 
-  formElement.removeChild(inputElement);
-
-  await waitFor(() => {
-    sinon.assert.calledWith(
-      mockExtender,
-      sinon.match({
-        data: sinon.match(data),
-        stage: 'UPDATE',
+    expect(mockExtender).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining(data),
+        stage: 'MOUNT',
         errors,
         touched,
         form: formElement,
-        controls: sinon.match([]),
+        controls: expect.arrayContaining([]),
       })
     );
 
-    sinon.assert.callCount(mockExtender, 4);
+    expect(mockExtender).toHaveBeenCalledTimes(2);
 
-    sinon.assert.calledTwice(mockExtenderHandler.destroy);
-  });
-});
+    const inputElement = createInputElement({
+      name: 'test',
+      type: 'text',
+    });
 
-Extenders('calls multiple extenders', async () => {
-  const formElement = screen.getByRole('form') as HTMLFormElement;
-  const mockExtenderHandler = {
-    destroy: sinon.fake(),
-  };
-  const mockExtenderHandlerNoD = {};
-  const mockExtender = sinon.fake.returns(mockExtenderHandler);
-  const mockExtenderNoD = sinon.fake.returns(mockExtenderHandlerNoD);
-  const {
-    form,
-    data: { set, ...data },
-    errors,
-    touched,
-  } = createForm({
-    onSubmit: sinon.fake(),
-    extend: [mockExtender, mockExtenderNoD],
-  });
+    formElement.appendChild(inputElement);
 
-  sinon.assert.calledWith(
-    mockExtender,
-    sinon.match({
-      data: sinon.match(data),
-      errors,
-      touched,
-    })
-  );
+    await waitFor(() => {
+      expect(mockExtender).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining(data),
+          stage: 'UPDATE',
+          errors,
+          touched,
+          form: formElement,
+          controls: expect.arrayContaining([inputElement]),
+        })
+      );
 
-  sinon.assert.callCount(mockExtender, 1);
+      expect(mockExtender).toHaveBeenCalledTimes(3);
 
-  sinon.assert.calledWith(
-    mockExtenderNoD,
-    sinon.match({
-      data: sinon.match(data),
-      errors,
-      touched,
-    })
-  );
+      expect(mockExtenderHandler.destroy).toHaveBeenCalledOnce();
+    });
 
-  sinon.assert.callCount(mockExtenderNoD, 1);
+    formElement.removeChild(inputElement);
 
-  const { destroy } = form(formElement);
+    await waitFor(() => {
+      expect(mockExtender).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining(data),
+          stage: 'UPDATE',
+          errors,
+          touched,
+          form: formElement,
+          controls: expect.arrayContaining([]),
+        })
+      );
 
-  sinon.assert.calledWith(
-    mockExtender,
-    sinon.match({
-      data: sinon.match(data),
-      errors,
-      touched,
-      form: formElement,
-      controls: sinon.match([]),
-    })
-  );
+      expect(mockExtender).toHaveBeenCalledTimes(4);
 
-  sinon.assert.callCount(mockExtender, 2);
-
-  sinon.assert.calledWith(
-    mockExtenderNoD,
-    sinon.match({
-      data: sinon.match(data),
-      errors,
-      touched,
-      form: formElement,
-      controls: sinon.match([]),
-    })
-  );
-
-  sinon.assert.callCount(mockExtenderNoD, 2);
-
-  const inputElement = createInputElement({
-    name: 'test',
-    type: 'text',
+      expect(mockExtenderHandler.destroy).toHaveBeenCalledTimes(2);
+    });
   });
 
-  formElement.appendChild(inputElement);
+  test('calls multiple extenders', async () => {
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const mockExtenderHandler = {
+      destroy: vi.fn(),
+    };
+    const mockExtenderHandlerNoD = {};
+    const mockExtender = vi.fn().mockReturnValue(mockExtenderHandler);
+    const mockExtenderNoD = vi.fn().mockReturnValue(mockExtenderHandlerNoD);
+    const {
+      form,
+      data: { set, ...data },
+      errors,
+      touched,
+    } = createForm({
+      onSubmit: vi.fn(),
+      extend: [mockExtender, mockExtenderNoD],
+    });
 
-  await waitFor(() => {
-    sinon.assert.calledWith(
-      mockExtender,
-      sinon.match({
-        data: sinon.match(data),
+    expect(mockExtender).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining(data),
+        errors,
+        touched,
+      })
+    );
+
+    expect(mockExtender).toHaveBeenCalledTimes(1);
+
+    expect(mockExtenderNoD).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining(data),
+        errors,
+        touched,
+      })
+    );
+
+    expect(mockExtenderNoD).toHaveBeenCalledTimes(1);
+
+    const { destroy } = form(formElement);
+
+    expect(mockExtender).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining(data),
         errors,
         touched,
         form: formElement,
-        controls: sinon.match([inputElement]),
+        controls: expect.arrayContaining([]),
       })
     );
 
-    sinon.assert.callCount(mockExtender, 3);
+    expect(mockExtender).toHaveBeenCalledTimes(2);
 
-    sinon.assert.callCount(mockExtenderHandler.destroy, 1);
-  });
-
-  formElement.removeChild(inputElement);
-
-  await waitFor(() => {
-    sinon.assert.calledWith(
-      mockExtender,
-      sinon.match({
-        data: sinon.match(data),
+    expect(mockExtenderNoD).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining(data),
         errors,
         touched,
         form: formElement,
-        controls: sinon.match([]),
+        controls: expect.arrayContaining([]),
       })
     );
 
-    sinon.assert.callCount(mockExtender, 4);
+    expect(mockExtenderNoD).toHaveBeenCalledTimes(2);
 
-    sinon.assert.callCount(mockExtenderHandler.destroy, 2);
+    const inputElement = createInputElement({
+      name: 'test',
+      type: 'text',
+    });
+
+    formElement.appendChild(inputElement);
+
+    await waitFor(() => {
+      expect(mockExtender).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining(data),
+          errors,
+          touched,
+          form: formElement,
+          controls: expect.arrayContaining([inputElement]),
+        })
+      );
+
+      expect(mockExtender).toHaveBeenCalledTimes(3);
+
+      expect(mockExtenderHandler.destroy).toHaveBeenCalledTimes(1);
+    });
+
+    formElement.removeChild(inputElement);
+
+    await waitFor(() => {
+      expect(mockExtender).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining(data),
+          errors,
+          touched,
+          form: formElement,
+          controls: expect.arrayContaining([]),
+        })
+      );
+
+      expect(mockExtender).toHaveBeenCalledTimes(4);
+
+      expect(mockExtenderHandler.destroy).toHaveBeenCalledTimes(2);
+    });
+
+    destroy();
   });
 
-  destroy();
-});
+  test('calls onSubmitError', async () => {
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const mockExtenderHandler = {
+      onSubmitError: vi.fn(),
+    };
+    const mockExtender = vi.fn(() => mockExtenderHandler);
+    const mockErrors = { account: { email: 'Not email' } };
 
-Extenders('calls onSubmitError', async () => {
-  const formElement = screen.getByRole('form') as HTMLFormElement;
-  const mockExtenderHandler = {
-    onSubmitError: sinon.fake(),
-  };
-  const mockExtender = sinon.fake(() => mockExtenderHandler);
-  const mockErrors = { account: { email: 'Not email' } };
+    const { form, data } = createForm<any>({
+      onSubmit: vi.fn(() => {
+        throw mockErrors;
+      }),
+      onError: () => mockErrors,
+      extend: mockExtender,
+    });
 
-  const { form, data } = createForm<any>({
-    onSubmit: sinon.fake(() => {
+    form(formElement);
+
+    formElement.submit();
+
+    await waitFor(() => {
+      expect(mockExtenderHandler.onSubmitError).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining(get(data)),
+          errors: {
+            account: {
+              email: ['Not email'],
+            },
+          },
+        })
+      );
+    });
+  });
+
+  test('calls onSubmitError on multiple extenders', async () => {
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const mockExtenderHandler = {
+      onSubmitError: vi.fn(),
+    };
+    const mockExtender = vi.fn(() => mockExtenderHandler);
+    const validate = vi.fn();
+    const mockErrors = { account: { email: 'Not email' } };
+    const onSubmit = vi.fn(() => {
       throw mockErrors;
-    }),
-    onError: () => mockErrors,
-    extend: mockExtender,
-  });
+    });
 
-  form(formElement);
+    const { form, data } = createForm<any>({
+      onSubmit,
+      onError: () => mockErrors,
+      validate,
+      extend: [mockExtender, mockExtender],
+    });
 
-  formElement.submit();
+    form(formElement);
 
-  await waitFor(() => {
-    sinon.assert.calledWith(
-      mockExtenderHandler.onSubmitError,
-      sinon.match({
-        data: sinon.match(get(data)),
-        errors: {
-          account: {
-            email: ['Not email'],
+    formElement.submit();
+
+    await waitFor(() => {
+      expect(mockExtenderHandler.onSubmitError).toBeCalledWith(
+        expect.objectContaining({
+          data: get(data),
+          errors: {
+            account: {
+              email: ['Not email'],
+            },
           },
-        },
-      })
-    );
-  });
-});
+        })
+      );
+      expect(mockExtenderHandler.onSubmitError).toHaveBeenCalledTimes(2);
+      expect(onSubmit).toHaveBeenCalledTimes(1);
+    });
 
-Extenders('calls onSubmitError on multiple extenders', async () => {
-  const formElement = screen.getByRole('form') as HTMLFormElement;
-  const mockExtenderHandler = {
-    onSubmitError: sinon.fake(),
-  };
-  const mockExtender = sinon.fake(() => mockExtenderHandler);
-  const validate = sinon.stub();
-  const mockErrors = { account: { email: 'Not email' } };
-  const onSubmit = sinon.fake(() => {
-    throw mockErrors;
-  });
+    validate.mockReturnValue(mockErrors);
+    validate.mockClear();
 
-  const { form, data } = createForm<any>({
-    onSubmit,
-    onError: () => mockErrors,
-    validate,
-    extend: [mockExtender, mockExtender],
-  });
+    formElement.submit();
 
-  form(formElement);
-
-  formElement.submit();
-
-  await waitFor(() => {
-    sinon.assert.alwaysCalledWith(
-      mockExtenderHandler.onSubmitError,
-      sinon.match({
-        data: get(data),
-        errors: {
-          account: {
-            email: ['Not email'],
+    await waitFor(() => {
+      expect(mockExtenderHandler.onSubmitError).toBeCalledWith(
+        expect.objectContaining({
+          data: get(data),
+          errors: {
+            account: {
+              email: ['Not email'],
+            },
           },
-        },
-      })
-    );
-    sinon.assert.callCount(mockExtenderHandler.onSubmitError, 2);
-    sinon.assert.callCount(onSubmit, 1);
+        })
+      );
+      expect(mockExtenderHandler.onSubmitError).toHaveBeenCalledTimes(4);
+      expect(onSubmit).toHaveBeenCalledTimes(1);
+    });
   });
 
-  validate.returns(mockErrors);
-  validate.resetHistory();
-
-  formElement.submit();
-
-  await waitFor(() => {
-    sinon.assert.alwaysCalledWith(
-      mockExtenderHandler.onSubmitError,
-      sinon.match({
-        data: get(data),
-        errors: {
-          account: {
-            email: ['Not email'],
-          },
-        },
-      })
-    );
-    sinon.assert.callCount(mockExtenderHandler.onSubmitError, 4);
-    sinon.assert.callCount(onSubmit, 1);
-  });
-});
-
-Extenders(
-  'adds validator when no validators are present with addValidator',
-  async () => {
-    const validator = sinon.fake();
+  test('adds validator when no validators are present with addValidator', async () => {
+    const validator = vi.fn();
     function extender(currentForm: CurrentForm<any>) {
       currentForm.addValidator(validator);
       return {};
     }
     const { validate } = createForm({
-      onSubmit: sinon.fake(),
+      onSubmit: vi.fn(),
       extend: extender,
     });
     await validate();
-    sinon.assert.callCount(validator, 1);
-  }
-);
+    expect(validator).toHaveBeenCalledTimes(1);
+  });
 
-Extenders(
-  'adds validator when validators are present with addValidator',
-  async () => {
-    const validator = sinon.fake();
+  test('adds validator when validators are present with addValidator', async () => {
+    const validator = vi.fn();
     function extender(currentForm: CurrentForm<any>) {
       currentForm.addValidator(validator);
       return {};
     }
     const { validate } = createForm({
-      onSubmit: sinon.fake(),
+      onSubmit: vi.fn(),
       extend: extender,
       validate: validator,
     });
     await validate();
-    sinon.assert.callCount(validator, 3);
-  }
-);
+    expect(validator).toHaveBeenCalledTimes(3);
+  });
 
-Extenders(
-  'adds warn validator when no validators are present with addValidator',
-  async () => {
-    const validator = sinon.fake();
+  test('adds warn validator when no validators are present with addValidator', async () => {
+    const validator = vi.fn();
     function extender(currentForm: CurrentForm<any>) {
       currentForm.addValidator(validator, { level: 'warning' });
       return {};
     }
     const { validate } = createForm({
-      onSubmit: sinon.fake(),
+      onSubmit: vi.fn(),
       extend: extender,
     });
     await validate();
-    sinon.assert.callCount(validator, 1);
-  }
-);
+    expect(validator).toHaveBeenCalledTimes(1);
+  });
 
-Extenders(
-  'adds warn validator when validators are present with addValidator',
-  async () => {
-    const validator = sinon.fake();
+  test('adds warn validator when validators are present with addValidator', async () => {
+    const validator = vi.fn();
     function extender(currentForm: CurrentForm<any>) {
       currentForm.addValidator(validator, { level: 'warning' });
       return {};
     }
     const { validate } = createForm({
-      onSubmit: sinon.fake(),
+      onSubmit: vi.fn(),
       extend: extender,
       warn: validator,
     });
     await validate();
-    sinon.assert.callCount(validator, 3);
-  }
-);
+    expect(validator).toHaveBeenCalledTimes(3);
+  });
 
-// DEBOUNCED
-Extenders(
-  'adds debounced validator when no validators are present with addValidator',
-  async () => {
-    const validator = sinon.fake();
+  // DEBOUNCED
+  test('adds debounced validator when no validators are present with addValidator', async () => {
+    const validator = vi.fn();
     function extender(currentForm: CurrentForm<any>) {
       currentForm.addValidator(validator, { debounced: true });
       return {};
     }
     const { validate } = createForm({
-      onSubmit: sinon.fake(),
+      onSubmit: vi.fn(),
       extend: extender,
     });
     await validate();
-    sinon.assert.callCount(validator, 1);
-  }
-);
+    expect(validator).toHaveBeenCalledTimes(1);
+  });
 
-Extenders(
-  'adds debounced validator when validators are present with addValidator',
-  async () => {
-    const validator = sinon.fake();
+  test('adds debounced validator when validators are present with addValidator', async () => {
+    const validator = vi.fn();
     function extender(currentForm: CurrentForm<any>) {
       currentForm.addValidator(validator, { debounced: true });
       return {};
     }
     const { validate } = createForm({
-      onSubmit: sinon.fake(),
+      onSubmit: vi.fn(),
       extend: extender,
       validate: validator,
     });
     await validate();
-    sinon.assert.callCount(validator, 3);
-  }
-);
+    expect(validator).toHaveBeenCalledTimes(3);
+  });
 
-Extenders(
-  'adds debounced warn validator when no validators are present with addValidator',
-  async () => {
-    const validator = sinon.fake();
+  test('adds debounced warn validator when no validators are present with addValidator', async () => {
+    const validator = vi.fn();
     function extender(currentForm: CurrentForm<any>) {
       currentForm.addValidator(validator, {
         level: 'warning',
@@ -432,18 +402,15 @@ Extenders(
       return {};
     }
     const { validate } = createForm({
-      onSubmit: sinon.fake(),
+      onSubmit: vi.fn(),
       extend: extender,
     });
     await validate();
-    sinon.assert.callCount(validator, 1);
-  }
-);
+    expect(validator).toHaveBeenCalledTimes(1);
+  });
 
-Extenders(
-  'adds debounced warn validator when validators are present with addValidator',
-  async () => {
-    const validator = sinon.fake();
+  test('adds debounced warn validator when validators are present with addValidator', async () => {
+    const validator = vi.fn();
     function extender(currentForm: CurrentForm<any>) {
       currentForm.addValidator(validator, {
         level: 'warning',
@@ -452,48 +419,40 @@ Extenders(
       return {};
     }
     const { validate } = createForm({
-      onSubmit: sinon.fake(),
+      onSubmit: vi.fn(),
       extend: extender,
       warn: validator,
     });
     await validate();
-    sinon.assert.callCount(validator, 3);
-  }
-);
+    expect(validator).toHaveBeenCalledTimes(3);
+  });
 
-Extenders(
-  'adds transformer when no validators are present with addTransformer',
-  async () => {
-    const transformer = sinon.fake((v) => v);
+  test('adds transformer when no validators are present with addTransformer', async () => {
+    const transformer = vi.fn((v) => v);
     function extender(currentForm: CurrentForm<any>) {
       currentForm.addTransformer(transformer);
       return {};
     }
     const { data } = createForm({
-      onSubmit: sinon.fake(),
+      onSubmit: vi.fn(),
       extend: extender,
     });
     data.set({});
-    sinon.assert.callCount(transformer, 1);
-  }
-);
+    expect(transformer).toHaveBeenCalledTimes(1);
+  });
 
-Extenders(
-  'adds transformer when validators are present with addTransformer',
-  async () => {
-    const transformer = sinon.fake((v) => v);
+  test('adds transformer when validators are present with addTransformer', async () => {
+    const transformer = vi.fn((v) => v);
     function extender(currentForm: CurrentForm<any>) {
       currentForm.addTransformer(transformer);
       return {};
     }
     const { data } = createForm({
-      onSubmit: sinon.fake(),
+      onSubmit: vi.fn(),
       extend: extender,
       transform: transformer,
     });
     data.set({});
-    sinon.assert.callCount(transformer, 2);
-  }
-);
-
-Extenders.run();
+    expect(transformer).toHaveBeenCalledTimes(2);
+  });
+});

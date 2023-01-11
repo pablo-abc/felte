@@ -4,13 +4,15 @@
     "target": "es2017",
     "importsNotUsedAsValues": "error",
     "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
     "declarationMap": true,
-    "declarationDir": "./dist/types"
+    "declarationDir": "./dist/esm"
   },
-  "include": ["src"]
+  "include": ["src", "test"],
+  "exclude": ["test"]
 }

@@ -3,5 +3,5 @@
   "private": true,
   "main": "../dist/felte-field.js",
   "module": "../dist/felte-field.js",
-  "types": "../dist/types/felte-field.d.ts"
+  "types": "../dist/felte-field.d.ts"
 }

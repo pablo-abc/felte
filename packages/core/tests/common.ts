@@ -1,4 +1,3 @@
-import 'uvu-expect-dom/extend';
 import { createForm as coreCreateForm, CoreForm } from '../src';
 import { writable } from 'svelte/store';
 import type {

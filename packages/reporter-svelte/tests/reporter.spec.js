@@ -1,80 +1,71 @@
-import 'uvu-expect-dom/extend';
-import * as sinon from 'sinon';
-import { suite } from 'uvu';
-import { expect } from 'uvu-expect';
+import matchers from '@testing-library/jest-dom/matchers';
+import { expect, describe, test, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, waitFor, cleanup } from '@testing-library/svelte';
 import NoPlaceholder from './NoPlaceholder.svelte';
 import Placeholder from './Placeholder.svelte';
 import Multiple from './Multiple.svelte';
 
-const Reporter = suite('Reporter Svelte');
+expect.extend(matchers);
 
-let clock;
-Reporter.before.each(() => {
-  clock = sinon.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
-});
-
-Reporter.after.each(() => {
-  clock.runAll();
-  clock.restore();
-  cleanup();
-});
-
-Reporter('sets aria-invalid to input', async () => {
-  render(NoPlaceholder);
-  const inputElement = screen.getByRole('textbox', { name: 'test' });
-  const formElement = screen.getByRole('form');
-  formElement.submit();
-  clock.runAllAsync();
-  await waitFor(() => {
-    expect(inputElement).to.be.invalid;
+describe('Reporter Svelte', () => {
+  beforeEach(() => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
   });
-});
 
-Reporter('renders error message', async () => {
-  render(NoPlaceholder);
-  const formElement = screen.getByRole('form');
-  const validationMessageElement = screen.getByTestId('validation-message');
-  const warningMessageElement = screen.getByTestId('warning-message');
-  formElement.requestSubmit();
-  clock.runAllAsync();
-  await waitFor(() => {
-    expect(validationMessageElement).to.have.text.that.contains(
-      'An error message'
-    );
-    expect(warningMessageElement).to.have.text.that.contains(
-      'A warning message'
-    );
+  afterEach(() => {
+    vi.runAllTimers();
+    vi.restoreAllMocks();
+    cleanup();
   });
-});
 
-Reporter('renders placeholder', async () => {
-  render(Placeholder);
-  const formElement = screen.getByRole('form');
-  const placeholderElement = screen.getByTestId('placeholder');
-  formElement.submit();
-  clock.runAll();
-  await waitFor(() => {
-    expect(placeholderElement).to.not.be.null;
-    expect(placeholderElement).to.have.text.that.contains('Placeholder text');
-  });
-});
-
-Reporter('renders multiple errors', async () => {
-  render(Multiple);
-  const formElement = screen.getByRole('form');
-  formElement.submit();
-  clock.runAll();
-  for (const index of [0, 1, 2]) {
-    const validationMessageElement = screen.getByTestId(
-      `validation-message-${index}`
-    );
+  test('sets aria-invalid to input', async () => {
+    render(NoPlaceholder, {});
+    const inputElement = screen.getByRole('textbox', { name: 'test' });
+    const formElement = screen.getByRole('form');
+    formElement.submit();
+    vi.runAllTicks();
     await waitFor(() => {
-      expect(validationMessageElement).to.have.text.that.contains(
-        'An error message'
-      );
+      expect(inputElement).toBeInvalid();
     });
-  }
-});
+  });
 
-Reporter.run();
+  test('renders error message', async () => {
+    render(NoPlaceholder);
+    const formElement = screen.getByRole('form');
+    const validationMessageElement = screen.getByTestId('validation-message');
+    const warningMessageElement = screen.getByTestId('warning-message');
+    formElement.requestSubmit();
+    vi.runAllTicks();
+    await waitFor(() => {
+      expect(validationMessageElement).toHaveTextContent('An error message');
+      expect(warningMessageElement).toHaveTextContent('A warning message');
+    });
+  });
+
+  test('renders placeholder', async () => {
+    render(Placeholder);
+    const formElement = screen.getByRole('form');
+    const placeholderElement = screen.getByTestId('placeholder');
+    formElement.submit();
+    vi.runAllTimers();
+    await waitFor(() => {
+      expect(placeholderElement).to.not.be.null;
+      expect(placeholderElement).toHaveTextContent('Placeholder text');
+    });
+  });
+
+  test('renders multiple errors', async () => {
+    render(Multiple);
+    const formElement = screen.getByRole('form');
+    formElement.submit();
+    vi.runAllTimers();
+    for (const index of [0, 1, 2]) {
+      const validationMessageElement = screen.getByTestId(
+        `validation-message-${index}`
+      );
+      await waitFor(() => {
+        expect(validationMessageElement).toHaveTextContent('An error message');
+      });
+    }
+  });
+});

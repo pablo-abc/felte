@@ -9,8 +9,8 @@
     "module": "esnext",
     "declaration": true,
     "declarationMap": true,
-    "declarationDir": "./dist"
+    "declarationDir": "./dist/esm"
   },
-  "include": ["./src", "tests"],
+  "include": ["./src"],
   "exclude": ["node_modules/"]
 }

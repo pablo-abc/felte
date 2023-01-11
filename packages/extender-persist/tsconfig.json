@@ -10,7 +10,7 @@
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
     "declarationMap": true,
-    "declarationDir": "./dist"
+    "declarationDir": "types"
   },
   "include": ["src"]
 }
