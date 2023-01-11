@@ -272,6 +272,7 @@ export function createFormAction<Data extends Obj>({
       touched.update(($touched) => {
         return _defaultsDeep($touched, newDefaultTouched);
       });
+      helpers.setFields(get(data) as Data);
     }, 0);
 
     let removedFormControls: FormControl[] = [];
