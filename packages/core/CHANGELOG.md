@@ -1,5 +1,14 @@
 # @felte/core
 
+## 1.3.7
+
+### Patch Changes
+
+- 5e784f8: Upgrade to node@18
+- 95c5e1b: Set default value on dynamically added fields
+- Updated dependencies [5e784f8]
+  - @felte/common@1.1.4
+
 ## 1.3.6
 
 ### Patch Changes

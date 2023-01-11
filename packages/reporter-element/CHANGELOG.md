@@ -1,5 +1,13 @@
 # @felte/reporter-element
 
+## 0.4.6
+
+### Patch Changes
+
+- 5e784f8: Upgrade to node@18
+- Updated dependencies [5e784f8]
+  - @felte/common@1.1.4
+
 ## 0.4.5
 
 ### Patch Changes

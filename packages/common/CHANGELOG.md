@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.1.4
+
+### Patch Changes
+
+- 5e784f8: Upgrade to node@18
+
 ## 1.1.3
 
 ### Patch Changes

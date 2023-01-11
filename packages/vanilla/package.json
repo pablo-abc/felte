@@ -1,6 +1,6 @@
 {
   "name": "@felte/vanilla",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "An extensible form library for vanilla JS",
   "main": "dist/cjs/index.cjs",
   "browser": "dist/esm/index.js",

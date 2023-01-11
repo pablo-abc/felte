@@ -1,5 +1,14 @@
 # @felte/element
 
+## 0.5.7
+
+### Patch Changes
+
+- 5e784f8: Upgrade to node@18
+- Updated dependencies [5e784f8]
+- Updated dependencies [95c5e1b]
+  - @felte/core@1.3.7
+
 ## 0.5.6
 
 ### Patch Changes
