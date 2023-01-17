@@ -38,10 +38,13 @@ export function extender(config: ExtenderConfig) {
     if (!loaded[config.id]) {
       setTimeout(() => {
         const dataString = localStorage.getItem(config.id);
-        //if previous values does not exists in Local Storage, fallback to the initialValues instead of empty object
-        const retrievedData = (dataString) ? JSON.parse(dataString) : currentForm.config.initialValues;
-        currentForm.data.set(retrievedData);
-        setForm(form, retrievedData);
+
+        if(dataString){
+          const retrievedData = JSON.parse(dataString)
+          currentForm.data.set(retrievedData);
+          setForm(form, retrievedData);
+        }
+
         loaded[config.id] = true;
       });
     }
