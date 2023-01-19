@@ -38,9 +38,13 @@ export function extender(config: ExtenderConfig) {
     if (!loaded[config.id]) {
       setTimeout(() => {
         const dataString = localStorage.getItem(config.id);
-        const retrievedData = dataString && JSON.parse(dataString);
-        currentForm.data.set(retrievedData);
-        setForm(form, retrievedData);
+
+        if(dataString){
+          const retrievedData = JSON.parse(dataString)
+          currentForm.data.set(retrievedData);
+          setForm(form, retrievedData);
+        }
+
         loaded[config.id] = true;
       });
     }
