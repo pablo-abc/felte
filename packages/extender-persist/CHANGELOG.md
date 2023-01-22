@@ -1,5 +1,11 @@
 # @felte/validator-yup
 
+## 1.0.12
+
+### Patch Changes
+
+- cc71fbe: Handle initial values correctly when there's no persisted data
+
 ## 1.0.11
 
 ### Patch Changes
