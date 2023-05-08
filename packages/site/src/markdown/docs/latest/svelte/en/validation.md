@@ -148,7 +148,7 @@ const { form } = createForm({
 The `debounced` object accepts the following properties:
 
 * `validate` one or more validation funcions, the same as the regular `validate` property.
-* `warn` one or more validation funcions, the same as the regular `validate` property.
+* `warn` one or more validation funcions, the same as the regular `warn` property.
 * `timeout` optional time in milliseconds to wait before running validations after the user stops interacting with the form. Defaults to 300ms.
 * `validateTimeout` optional time in milliseconds that overrides the value of `timeout` for the `validate` functions.
 * `warnTimeout` optional time in milliseconds that overrides the value of `timeout` for the `warn` functions.
