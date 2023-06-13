@@ -57,6 +57,7 @@
   "exports": {
     ".": {
       "types": "./types/index.d.ts",
+      "svelte": "./src/index.js",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs",
       "default": "./dist/index.mjs"
