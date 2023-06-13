@@ -26,6 +26,7 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "solid": "./dist/index.jsx",
       "default": "./dist/index.js"
     },
