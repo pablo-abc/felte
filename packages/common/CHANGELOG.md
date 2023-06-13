@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.1.5
+
+### Patch Changes
+
+- d6144a4: Add "types" to package.json "exports" field
+
 ## 1.1.4
 
 ### Patch Changes

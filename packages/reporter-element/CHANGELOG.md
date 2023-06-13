@@ -1,5 +1,13 @@
 # @felte/reporter-element
 
+## 0.4.7
+
+### Patch Changes
+
+- d6144a4: Add "types" to package.json "exports" field
+- Updated dependencies [d6144a4]
+  - @felte/common@1.1.5
+
 ## 0.4.6
 
 ### Patch Changes

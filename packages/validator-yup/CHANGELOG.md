@@ -1,5 +1,17 @@
 # @felte/validator-yup
 
+## 1.1.0
+
+### Minor Changes
+
+- 32932e0: Update yup peer dependency to 1.0
+
+### Patch Changes
+
+- d6144a4: Add "types" to package.json "exports" field
+- Updated dependencies [d6144a4]
+  - @felte/common@1.1.5
+
 ## 1.0.11
 
 ### Patch Changes

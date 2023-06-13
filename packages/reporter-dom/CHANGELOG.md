@@ -1,5 +1,13 @@
 # @felte/reporter-dom
 
+## 1.1.6
+
+### Patch Changes
+
+- d6144a4: Add "types" to package.json "exports" field
+- Updated dependencies [d6144a4]
+  - @felte/common@1.1.5
+
 ## 1.1.5
 
 ### Patch Changes

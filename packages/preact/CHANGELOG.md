@@ -1,5 +1,13 @@
 # @felte/preact
 
+## 1.2.8
+
+### Patch Changes
+
+- d6144a4: Add "types" to package.json "exports" field
+- Updated dependencies [d6144a4]
+  - @felte/core@1.3.8
+
 ## 1.2.7
 
 ### Patch Changes
