@@ -44,10 +44,10 @@
     "@felte/core": "workspace:*",
     "felte": "workspace:*",
     "svelte": "^3.46.4",
-    "yup": "^0.32.9"
+    "yup": "^1.2.0"
   },
   "peerDependencies": {
-    "yup": "^0.32.9"
+    "yup": ">=1.2.0"
   },
   "publishConfig": {
     "access": "public"
