@@ -49,9 +49,18 @@
     "access": "public"
   },
   "exports": {
-    ".": "./dist/index.js",
-    "./felte-form": "./felte-form/index.js",
-    "./felte-field": "./felte-field/index.js",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./felte-form": {
+      "types": "./dist/felte-form.d.ts",
+      "default": "./felte-form/index.js"
+    },
+    "./felte-field": {
+      "types": "./dist/felte-field.d.ts",
+      "default": "./felte-field/index.js"
+    },
     "./package.json": "./package.json",
     "./custom-elements.json": "./custom-elements.json"
   }
