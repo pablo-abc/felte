@@ -135,7 +135,7 @@ export function getFormDefaultValues<Data extends Obj>(
 
 export function setControlValue(
   el: FormControl,
-  value: FieldValue | FieldValue[]
+  value: FieldValue | FieldValue[] | FileList
 ): void {
   if (!isFormControl(el)) return;
   const fieldValue = value;

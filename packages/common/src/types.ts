@@ -249,7 +249,6 @@ export type FieldValue =
   | number
   | File
   | File[]
-  | FileList
   | null
   | undefined;
 
