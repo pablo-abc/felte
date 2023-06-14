@@ -32,8 +32,8 @@ describe('Validator zod', () => {
 
     expect(get(data)).to.deep.equal(mockData);
     expect(get(errors)).to.deep.equal({
-      email: ['Invalid email', 'Should be at least 1 characters'],
-      password: ['Should be at least 1 characters'],
+      email: ['Invalid email', 'String must contain at least 1 character(s)'],
+      password: ['String must contain at least 1 character(s)'],
     });
 
     data.set({
@@ -73,8 +73,8 @@ describe('Validator zod', () => {
     expect(get(data)).to.deep.equal(mockData);
     expect(get(errors)).to.deep.equal({
       account: {
-        email: ['Invalid email', 'Should be at least 1 characters'],
-        password: ['Should be at least 1 characters'],
+        email: ['Invalid email', 'String must contain at least 1 character(s)'],
+        password: ['String must contain at least 1 character(s)'],
       },
     });
 
@@ -124,8 +124,8 @@ describe('Validator zod', () => {
 
     expect(get(data)).to.deep.equal(mockData);
     expect(get(errors)).to.deep.equal({
-      email: ['Invalid email', 'Should be at least 1 characters'],
-      password: ['Should be at least 1 characters'],
+      email: ['Invalid email', 'String must contain at least 1 character(s)'],
+      password: ['String must contain at least 1 character(s)'],
     });
     expect(get(warnings)).to.deep.equal({
       email: null,
@@ -173,8 +173,8 @@ describe('Validator zod', () => {
     expect(get(data)).to.deep.equal(mockData);
     expect(get(errors)).to.deep.equal({
       account: {
-        email: ['Invalid email', 'Should be at least 1 characters'],
-        password: ['Should be at least 1 characters'],
+        email: ['Invalid email', 'String must contain at least 1 character(s)'],
+        password: ['String must contain at least 1 character(s)'],
       },
     });
 
@@ -227,9 +227,9 @@ describe('Validator zod', () => {
         email: [
           'not an email',
           'Invalid email',
-          'Should be at least 1 characters',
+          'String must contain at least 1 character(s)',
         ],
-        password: ['Should be at least 1 characters'],
+        password: ['String must contain at least 1 character(s)'],
       },
     });
 

@@ -28,7 +28,7 @@
     "@felte/reporter-element": "latest",
     "@felte/reporter-tippy": "latest",
     "@felte/validator-yup": "latest",
-    "@shoelace-style/shoelace": "^2.0.0-beta.72",
+    "@shoelace-style/shoelace": "^2.4.0",
     "felte": "latest",
     "flexsearch": "0.7.21",
     "focus-visible": "^5.2.0",

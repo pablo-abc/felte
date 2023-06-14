@@ -166,8 +166,25 @@ export function setControlValue(
       return;
     }
     if (el.type === 'file') {
-      el.files = null;
-      el.value = '';
+      if (value instanceof FileList) {
+        el.files = value;
+      } else if (value instanceof File) {
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(value);
+        el.files = dataTransfer.files;
+      } else if (
+        Array.isArray(value) &&
+        value.every((v) => v instanceof File)
+      ) {
+        const dataTransfer = new DataTransfer();
+        for (const file of value) {
+          dataTransfer.items.add(file as File);
+        }
+        el.files = dataTransfer.files;
+      } else if (!value || (Array.isArray(value) && !value.length)) {
+        el.files = null;
+        el.value = '';
+      }
       return;
     }
   } else if (isSelectElement(el)) {
