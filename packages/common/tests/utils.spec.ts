@@ -531,6 +531,8 @@ describe('test', () => {
 
   test('setForm', () => {
     const profilePic = new File([''], 'picture.png', { type: 'image/png' });
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(profilePic);
     const extraPictures = [
       new File([''], 'picture1.png', { type: 'image/png' }),
       new File([''], 'picture2.png', { type: 'image/png' }),
@@ -581,7 +583,13 @@ describe('test', () => {
       multipleSelectElement,
     } = createSignupForm();
 
-    setForm(formElement, formData);
+    setForm(formElement, {
+      ...formData,
+      profile: {
+        ...formData.profile,
+        picture: dataTransfer.files,
+      },
+    });
     const { defaultData } = getFormDefaultValues(formElement);
     expect(defaultData).to.deep.equal(formData);
     const multipleOptions = Array.from(multipleSelectElement.options);
