@@ -173,6 +173,7 @@ export function setControlValue(
         dataTransfer.items.add(value);
         el.files = dataTransfer.files;
       } else if (
+        typeof DataTransfer !== 'undefined' &&
         Array.isArray(value) &&
         value.every((v) => v instanceof File)
       ) {
