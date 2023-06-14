@@ -1,6 +1,6 @@
 {
   "name": "@felte/common",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Common utilities for Felte packages",
   "author": {
     "name": "Pablo Berganza",

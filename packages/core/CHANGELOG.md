@@ -1,5 +1,12 @@
 # @felte/core
 
+## 1.3.9
+
+### Patch Changes
+
+- Updated dependencies [100b17c]
+  - @felte/common@1.1.6
+
 ## 1.3.8
 
 ### Patch Changes

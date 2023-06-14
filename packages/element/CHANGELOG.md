@@ -1,5 +1,11 @@
 # @felte/element
 
+## 0.5.9
+
+### Patch Changes
+
+- @felte/core@1.3.9
+
 ## 0.5.8
 
 ### Patch Changes

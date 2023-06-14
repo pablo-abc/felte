@@ -1,5 +1,11 @@
 # @felte/solid
 
+## 1.2.9
+
+### Patch Changes
+
+- @felte/core@1.3.9
+
 ## 1.2.8
 
 ### Patch Changes

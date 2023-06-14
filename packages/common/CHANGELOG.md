@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.1.6
+
+### Patch Changes
+
+- 100b17c: Fix setForm clearing `<input type="file">` and add support to pass a `FileList`
+
 ## 1.1.5
 
 ### Patch Changes
