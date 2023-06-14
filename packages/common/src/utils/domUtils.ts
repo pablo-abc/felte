@@ -135,7 +135,7 @@ export function getFormDefaultValues<Data extends Obj>(
 
 export function setControlValue(
   el: FormControl,
-  value: FieldValue | FieldValue[]
+  value: FieldValue | FieldValue[] | FileList
 ): void {
   if (!isFormControl(el)) return;
   const fieldValue = value;
@@ -166,8 +166,26 @@ export function setControlValue(
       return;
     }
     if (el.type === 'file') {
-      el.files = null;
-      el.value = '';
+      if (value instanceof FileList) {
+        el.files = value;
+      } else if (value instanceof File && typeof DataTransfer !== 'undefined') {
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(value);
+        el.files = dataTransfer.files;
+      } else if (
+        typeof DataTransfer !== 'undefined' &&
+        Array.isArray(value) &&
+        value.some((v) => v instanceof File)
+      ) {
+        const dataTransfer = new DataTransfer();
+        for (const file of value) {
+          file instanceof File && dataTransfer.items.add(file as File);
+        }
+        el.files = dataTransfer.files;
+      } else if (!value || (Array.isArray(value) && !value.length)) {
+        el.files = null;
+        el.value = '';
+      }
       return;
     }
   } else if (isSelectElement(el)) {

@@ -1,7 +1,7 @@
 import matchers from '@testing-library/jest-dom/matchers';
 import { expect, describe, test, vi, afterEach } from 'vitest';
 import { createForm } from '@felte/solid';
-import { screen, render, waitFor, cleanup } from 'solid-testing-library';
+import { screen, render, waitFor, cleanup } from '@solidjs/testing-library';
 import { Index } from 'solid-js';
 import userEvent from '@testing-library/user-event';
 import { ValidationMessage, reporter } from '../src';
