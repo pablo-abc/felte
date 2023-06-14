@@ -530,6 +530,17 @@ describe('test', () => {
   });
 
   test('setForm', () => {
+    const profilePic = new File([''], 'picture.png', { type: 'image/png' });
+    const extraPictures = [
+      new File([''], 'picture1.png', { type: 'image/png' }),
+      new File([''], 'picture2.png', { type: 'image/png' }),
+      new File([''], 'picture3.png', { type: 'image/png' }),
+    ];
+    const extraFiles = [
+      new File([''], 'file1.txt', { type: 'text/plain' }),
+      new File([''], 'file2.txt', { type: 'text/plain' }),
+      undefined,
+    ];
     const formData = {
       account: {
         email: 'jacek@soplica.com',
@@ -542,17 +553,17 @@ describe('test', () => {
         firstName: 'Jacek',
         lastName: 'Soplica',
         bio: 'bio',
-        picture: undefined,
+        picture: profilePic,
         age: 0,
       },
       extra: {
-        pictures: [],
+        pictures: extraPictures,
       },
       preferences: ['technology', 'films'],
       multiple: {
         extraText: ['text1', 'text2', 'text3'],
         extraNumber: [1, 2, 3],
-        extraFiles: [undefined, undefined, undefined],
+        extraFiles,
         extraCheckbox: [true, false, true],
         extraPreference: [['preference1'], ['preference1', 'preference2'], []],
       },

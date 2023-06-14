@@ -175,11 +175,11 @@ export function setControlValue(
       } else if (
         typeof DataTransfer !== 'undefined' &&
         Array.isArray(value) &&
-        value.every((v) => v instanceof File)
+        value.some((v) => v instanceof File)
       ) {
         const dataTransfer = new DataTransfer();
         for (const file of value) {
-          dataTransfer.items.add(file as File);
+          file instanceof File && dataTransfer.items.add(file as File);
         }
         el.files = dataTransfer.files;
       } else if (!value || (Array.isArray(value) && !value.length)) {
