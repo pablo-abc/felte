@@ -168,7 +168,7 @@ export function setControlValue(
     if (el.type === 'file') {
       if (value instanceof FileList) {
         el.files = value;
-      } else if (value instanceof File) {
+      } else if (value instanceof File && typeof DataTransfer !== 'undefined') {
         const dataTransfer = new DataTransfer();
         dataTransfer.items.add(value);
         el.files = dataTransfer.files;
