@@ -24,13 +24,13 @@ export function deepRemoveKey<Data extends Obj>(
 ): Data {
   if (!obj) return {} as Data;
   return _mapValues(obj, (prop) => {
-    if (_isPlainObject(prop)) return deepSetKey(prop as Obj);
+    if (_isPlainObject(prop)) return deepRemoveKey(prop as Obj);
     if (Array.isArray(prop)) {
       if (prop.length === 0 || prop.every((p) => typeof p === 'string'))
         return prop;
       return prop.map((p) => {
         if (!_isPlainObject(p)) return p;
-        const { key, ...field } = deepSetKey(p as Obj);
+        const { key, ...field } = deepRemoveKey(p as Obj);
         return field;
       });
     }

@@ -11,6 +11,7 @@ import {
   cleanupDOM,
   createForm,
 } from './common';
+import { deepRemoveKey, deepSetKey } from '../src/deep-set-key';
 
 expect.extend(matchers);
 
@@ -400,20 +401,15 @@ describe('Helpers', () => {
         email: string;
       };
     };
-    const {
-      data,
-      setInitialValues,
-      touched,
-      setFields,
-      reset,
-    } = createForm<Data>({
-      initialValues: {
-        account: {
-          email: '',
+    const { data, setInitialValues, touched, setFields, reset } =
+      createForm<Data>({
+        initialValues: {
+          account: {
+            email: '',
+          },
         },
-      },
-      onSubmit: vi.fn(),
-    });
+        onSubmit: vi.fn(),
+      });
 
     expect(get(data).account.email).to.equal('');
     expect(get(touched).account.email).to.equal(false);
@@ -464,21 +460,15 @@ describe('Helpers', () => {
         email: string;
       };
     };
-    const {
-      form,
-      data,
-      touched,
-      errors,
-      warnings,
-      unsetField,
-    } = createForm<Data>({
-      initialValues: {
-        account: {
-          email: '',
+    const { form, data, touched, errors, warnings, unsetField } =
+      createForm<Data>({
+        initialValues: {
+          account: {
+            email: '',
+          },
         },
-      },
-      onSubmit: vi.fn(),
-    });
+        onSubmit: vi.fn(),
+      });
 
     form(formElement);
 
@@ -663,5 +653,28 @@ describe('Helpers', () => {
       expect(get(touched).todos[1].value).to.equal(true);
       expect(get(errors).todos?.[1].value).to.equal(null);
     });
+  });
+
+  test('deepSetKey sets unique keys to arrays and deepRemoveKey removes them', () => {
+    const data = {
+      name: 'name',
+      todos: {
+        internal: [{ value: 'Do something', complete: false }],
+        external: [{ value: 'Do something', complete: false }],
+      },
+    };
+    const withKeys = deepSetKey(data);
+    expect(withKeys).toStrictEqual({
+      name: 'name',
+      todos: {
+        internal: [
+          { value: 'Do something', complete: false, key: expect.any(String) },
+        ],
+        external: [
+          { value: 'Do something', complete: false, key: expect.any(String) },
+        ],
+      },
+    });
+    expect(deepRemoveKey(withKeys)).toStrictEqual(data);
   });
 });
