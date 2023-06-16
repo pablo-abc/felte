@@ -1,6 +1,6 @@
 {
   "name": "@felte/validator-zod",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "A package to use Zod validation with Felte",
   "main": "dist/index.cjs",
   "browser": "dist/index.mjs",

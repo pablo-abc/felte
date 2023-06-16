@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.1.7
+
+### Patch Changes
+
+- ffdee29: Use `selectedOptions` instead of filtering options
+
 ## 1.1.6
 
 ### Patch Changes

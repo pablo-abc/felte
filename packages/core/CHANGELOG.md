@@ -1,5 +1,17 @@
 # @felte/core
 
+## 1.4.0
+
+### Minor Changes
+
+- ffdee29: add submit event to `context`
+
+### Patch Changes
+
+- 6735209: Fix recursiveness of key removal from lists
+- Updated dependencies [ffdee29]
+  - @felte/common@1.1.7
+
 ## 1.3.9
 
 ### Patch Changes
