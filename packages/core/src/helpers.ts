@@ -19,6 +19,7 @@ import type {
   CreateSubmitHandlerConfig,
   ExtenderHandler,
   Form,
+  SubmitContext,
 } from '@felte/common';
 import {
   deepSet,
@@ -156,15 +157,8 @@ export function createHelpers<Data extends Obj>({
   let formNode: HTMLFormElement | undefined;
   let initialValues = deepSetKey((config.initialValues ?? {}) as Data);
 
-  const {
-    data,
-    touched,
-    errors,
-    warnings,
-    isDirty,
-    isSubmitting,
-    interacted,
-  } = stores;
+  const { data, touched, errors, warnings, isDirty, isSubmitting, interacted } =
+    stores;
 
   const setData = createSetHelper<Data, string>(data.update);
 
@@ -289,11 +283,8 @@ export function createHelpers<Data extends Obj>({
 
   function createSubmitHandler(altConfig?: CreateSubmitHandlerConfig<Data>) {
     return async function handleSubmit(event?: Event) {
-      const {
-        createErrorEvent,
-        createSubmitEvent,
-        createSuccessEvent,
-      } = createEventConstructors<Data>();
+      const { createErrorEvent, createSubmitEvent, createSuccessEvent } =
+        createEventConstructors<Data>();
       const submitEvent = createSubmitEvent();
       formNode?.dispatchEvent(submitEvent);
       const onError =
@@ -339,7 +330,8 @@ export function createHelpers<Data extends Obj>({
           return;
         }
       }
-      const context = {
+      const context: SubmitContext<Data> = {
+        event,
         setFields,
         setData,
         setTouched,
@@ -370,7 +362,7 @@ export function createHelpers<Data extends Obj>({
         if (!onError && !errorEvent.errors) return;
         const serverErrors = errorEvent.errors || (await onError?.(e, context));
         if (serverErrors) {
-          touched.set(deepSetTouched((serverErrors as unknown) as Data, true));
+          touched.set(deepSetTouched(serverErrors as unknown as Data, true));
           errors.set(serverErrors);
           await new Promise((r) => setTimeout(r));
           _getCurrentExtenders().forEach((extender) =>

@@ -270,6 +270,7 @@ export type SubmitContext<Data extends Obj> = {
   form?: HTMLFormElement;
   controls?: FormControl[];
   config: FormConfig<Data>;
+  event?: Event;
 } & Omit<
   Helpers<Data>,
   'validate' | 'setIsSubmitting' | 'setIsDirty' | 'setInteracted'

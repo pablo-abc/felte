@@ -118,9 +118,9 @@ export function getFormDefaultValues<Data extends Obj>(
       if (!multiple) {
         defaultData = _set(defaultData, elName, el.value);
       } else {
-        const selectedOptions = Array.from(el.options)
-          .filter((opt) => opt.selected)
-          .map((opt) => opt.value);
+        const selectedOptions = Array.from(el.selectedOptions).map(
+          (opt) => opt.value
+        );
         defaultData = _set(defaultData, elName, selectedOptions);
       }
       defaultTouched = _set(defaultTouched, elName, false);
