@@ -14,9 +14,9 @@ Felte offers two ways to submit your form data:
 
 If no `onSubmit` function is provided on `createForm`, Felte will send a request using the following attributes from your `form` element:
 
-* `action` will be the URL where the request will be sent.
-* `method` will be the method used to send the request. This can only be `get` or `post` but you can override it by adding a `_method=VERB` query string to your `action`. Overriding only works if your `method` attribute is set to `post`.
-* `enctype` is the MIME type that will be used to post your form data (if your `method` attribute has a value of `post`).
+- `action` will be the URL where the request will be sent.
+- `method` will be the method used to send the request. This can only be `get` or `post` but you can override it by adding a `_method=VERB` query string to your `action`. Overriding only works if your `method` attribute is set to `post`.
+- `enctype` is the MIME type that will be used to post your form data (if your `method` attribute has a value of `post`).
 
 If the request succeeds, Felte will emit a `feltesuccess` event that you can handle on your `form` element. This is a `CustomEvent` that contains the `Response` from fetch in the `response` property of `detail`, merged with the `context` object described below.
 
@@ -97,30 +97,35 @@ The `onSubmit`, `onSuccess` and `onError` functions also receive a second argume
 
 ```js
 const { form } = createForm({
-  onSubmit: async (values, {
-    form,
-    controls,
-    config,
-    setFields,
-    setData,
-    setTouched,
-    setErrors,
-    setWarnings,
-    unsetField,
-    addField,
-    resetField,
-    reset,
-    setInitialValues,
-  }) => {
+  onSubmit: async (
+    values,
+    {
+      form,
+      event,
+      controls,
+      config,
+      setFields,
+      setData,
+      setTouched,
+      setErrors,
+      setWarnings,
+      unsetField,
+      addField,
+      resetField,
+      reset,
+      setInitialValues,
+    }
+  ) => {
     // ...
   },
 });
 ```
 
-* `form` is an HTML form element. This can be useful if you want to send your data as `FormData`.
-* `controls` is an array containing your HTML elements that refer to your controls.
-* `config` is the original configuration you passed to `createForm`.
-* The rest are some of the same helpers documented in the [helper functions section](/docs/svelte/helper-functions)
+- `form` is an HTML form element. This can be useful if you want to send your data as `FormData`.
+- `event` is the submit event you'd receive on an event handler (if the submit was triggered by a form).
+- `controls` is an array containing your HTML elements that refer to your controls.
+- `config` is the original configuration you passed to `createForm`.
+- The rest are some of the same helpers documented in the [helper functions section](/docs/svelte/helper-functions)
 
 Events contain these same properties from context alongside a `response` property for the `feltesuccess` event, and an `error`property for the `felteerror` event.
 

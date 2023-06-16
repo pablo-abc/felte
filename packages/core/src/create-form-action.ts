@@ -158,9 +158,9 @@ export function createFormAction<Data extends Obj>({
           return _set($data, getPath(target), target.value);
         });
       } else {
-        const selectedOptions = Array.from(target.options)
-          .filter((opt) => opt.selected)
-          .map((opt) => opt.value);
+        const selectedOptions = Array.from(target.selectedOptions).map(
+          (opt) => opt.value
+        );
         data.update(($data) => {
           return _set($data, getPath(target), selectedOptions);
         });
