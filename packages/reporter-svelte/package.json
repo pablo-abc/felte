@@ -52,7 +52,7 @@
     "vite": "^4.3.9"
   },
   "peerDependencies": {
-    "svelte": "^3.31.0"
+    "svelte": "^3.31.0 || ^4.0.0"
   },
   "exports": {
     ".": {

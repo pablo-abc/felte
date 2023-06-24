@@ -35,7 +35,7 @@
     "test:ci": "vitest run --coverage"
   },
   "peerDependencies": {
-    "svelte": "^3.31.0"
+    "svelte": "^3.31.0 || ^4.0.0"
   },
   "files": [
     "dist"
