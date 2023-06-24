@@ -1,5 +1,11 @@
 # felte
 
+## 1.2.11
+
+### Patch Changes
+
+- 3ba831c: Update peer dependencies to support Svelte 4
+
 ## 1.2.10
 
 ### Patch Changes

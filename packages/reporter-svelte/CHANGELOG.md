@@ -1,5 +1,12 @@
 # @felte/reporter-dom
 
+## 1.1.9
+
+### Patch Changes
+
+- f69de9c: ValidationMessage component -> move from deprecated SvelteComponentTyped to SvelteComponent type
+- 3ba831c: Update peer dependencies to support Svelte 4
+
 ## 1.1.8
 
 ### Patch Changes
