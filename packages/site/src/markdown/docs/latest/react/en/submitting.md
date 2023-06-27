@@ -58,7 +58,7 @@ When using the default handler, if the request fails Felte will throw a `FelteSu
 
 ### Custom handler
 
-`useForm` accepts an `onSubmit` function on its configuration object. If you set `onSubmit`, the default submit handler **wil not** run. Anything returned by this function will be passed as a first argument to `onSuccess`. Anything thrown from this function will be passed as a first argument to `onError`.
+`useForm` accepts an `onSubmit` function on its configuration object. If you set `onSubmit`, the default submit handler **will not** run. Anything returned by this function will be passed as a first argument to `onSuccess`. Anything thrown from this function will be passed as a first argument to `onError`.
 
 ```jsx
 import { useForm } from '@felte/react';
