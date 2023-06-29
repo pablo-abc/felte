@@ -7,7 +7,7 @@ export interface ValidationMessageProps {
 
 export default class ValidationMessage extends SvelteComponent<
   ValidationMessageProps,
-  Record<string, never>,
+  Record<string, null>,
   {
     default: { messages: string[] | null };
     placeholder: Record<string, never>;
