@@ -66,9 +66,6 @@ importers:
       '@testing-library/jest-dom':
         specifier: ^5.16.5
         version: 5.16.5
-      '@testing-library/svelte':
-        specifier: ^3.0.3
-        version: 3.2.2(svelte@3.59.1)
       '@testing-library/user-event':
         specifier: ^13.1.3
         version: 13.5.0(@testing-library/dom@7.31.2)
@@ -97,7 +94,7 @@ importers:
         specifier: ^0.32.0
         version: 0.32.0(vitest@0.32.0)
       all-contributors-cli:
-        specifier: ^6.20.0
+        specifier: ^6.26.0
         version: 6.26.0
       cross-env:
         specifier: ^7.0.3
@@ -203,10 +200,10 @@ importers:
     dependencies:
       '@felte/element':
         specifier: latest
-        version: 0.5.9
+        version: 0.5.10
       '@felte/reporter-element':
         specifier: latest
-        version: 0.4.8
+        version: 0.4.9
       lit:
         specifier: ^2.0.2
         version: 2.7.5
@@ -222,10 +219,10 @@ importers:
     dependencies:
       '@felte/element':
         specifier: latest
-        version: 0.5.9
+        version: 0.5.10
       '@felte/reporter-element':
         specifier: latest
-        version: 0.4.8
+        version: 0.4.9
       lit:
         specifier: ^2.0.2
         version: 2.7.5
@@ -241,7 +238,7 @@ importers:
     dependencies:
       '@felte/element':
         specifier: latest
-        version: 0.5.9
+        version: 0.5.10
       '@material/mwc-button':
         specifier: ^0.25.3
         version: 0.25.3
@@ -266,10 +263,10 @@ importers:
     dependencies:
       '@felte/preact':
         specifier: latest
-        version: 1.2.9(preact@10.15.1)
+        version: 1.2.10(preact@10.15.1)
       '@felte/reporter-preact':
         specifier: latest
-        version: 1.1.7(preact@10.15.1)
+        version: 1.1.8(preact@10.15.1)
       preact:
         specifier: ^10.5.15
         version: 10.15.1
@@ -291,7 +288,7 @@ importers:
     dependencies:
       '@felte/react':
         specifier: latest
-        version: 1.2.9(react@17.0.2)
+        version: 1.2.10(react@17.0.2)
       '@felte/reporter-react':
         specifier: ^1.1.0
         version: 1.2.5(react@17.0.2)
@@ -347,7 +344,7 @@ importers:
         version: 1.1.8(svelte@4.0.0)
       felte:
         specifier: latest
-        version: 1.2.10(svelte@4.0.0)
+        version: 1.2.11(svelte@4.0.0)
     devDependencies:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^2.4.2
@@ -378,10 +375,10 @@ importers:
     dependencies:
       '@felte/element':
         specifier: latest
-        version: 0.5.9
+        version: 0.5.10
       '@felte/reporter-element':
         specifier: latest
-        version: 0.4.8
+        version: 0.4.9
     devDependencies:
       typescript:
         specifier: ^4.9.3
@@ -396,10 +393,10 @@ importers:
     dependencies:
       '@felte/element':
         specifier: latest
-        version: 0.5.9
+        version: 0.5.10
       '@felte/reporter-element':
         specifier: latest
-        version: 0.4.8
+        version: 0.4.9
     devDependencies:
       typescript:
         specifier: ^4.9.3
@@ -685,11 +682,14 @@ importers:
         specifier: workspace:*
         version: link:../common
     devDependencies:
+      '@testing-library/svelte':
+        specifier: ^3.2.2
+        version: 3.2.2(svelte@3.59.1)
       felte:
         specifier: workspace:*
         version: link:../felte
       svelte:
-        specifier: ^3.53.1
+        specifier: ^3.59.1
         version: 3.59.1
       vite:
         specifier: ^4.3.9
@@ -718,22 +718,22 @@ importers:
     dependencies:
       '@felte/element':
         specifier: latest
-        version: 0.5.9
+        version: 0.5.10
       '@felte/reporter-element':
         specifier: latest
-        version: 0.4.8
+        version: 0.4.9
       '@felte/reporter-tippy':
         specifier: latest
-        version: 1.1.7(tippy.js@6.3.7)
+        version: 1.1.8(tippy.js@6.3.7)
       '@felte/validator-yup':
         specifier: latest
-        version: 1.1.1(yup@0.32.11)
+        version: 1.1.2(yup@0.32.11)
       '@shoelace-style/shoelace':
         specifier: ^2.4.0
         version: 2.4.0
       felte:
         specifier: latest
-        version: 1.2.10(svelte@3.59.1)
+        version: 1.2.11(svelte@3.59.1)
       flexsearch:
         specifier: 0.7.21
         version: 0.7.21
@@ -3184,21 +3184,9 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dev: false
 
-  /@felte/common@1.1.6:
-    resolution: {integrity: sha512-I6FeRACjoGIi/9vlrIpZb/G7Rnjerld+DX4s8rAaatMf7HcxDNqpceYup/ivPa/2DPOMWIta1Jukx3zHeO8ejA==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dev: false
-
   /@felte/common@1.1.7:
     resolution: {integrity: sha512-vnm3Y4TBuldpfN1XojSWk3XNPrRNQUccIPsWTMgLnm+HWqC7DiRR2mDAjr7Ro0Qv5dZWNaakPhftZJbDW5F/iQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dev: false
-
-  /@felte/core@1.3.9:
-    resolution: {integrity: sha512-Nbv85qQ4G9Q+UgaBhqw91bE+iBgcfTLGGPzDfipkSeeZYXnE8oaGQwHQSJee0prkG85CXVE/Sv2VPd8fB+WLSw==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dependencies:
-      '@felte/common': 1.1.6
     dev: false
 
   /@felte/core@1.4.0:
@@ -3208,45 +3196,45 @@ packages:
       '@felte/common': 1.1.7
     dev: false
 
-  /@felte/element@0.5.9:
-    resolution: {integrity: sha512-an9sIpyPBEC87BZo+Kk2mVj5fbjAmZxzQiIJMw4euaPTy7pEGCh6NESju8zDuwKT5BiJRRf5rgC/MsXkxRJGrA==}
+  /@felte/element@0.5.10:
+    resolution: {integrity: sha512-Yd86fbfypGOsL+NR53P/c7pjf4amG9ZsqNSbeCVtmHxkNeqLB5R2SLHpDAILsqlSUglAGNWjsTbC5qzBxocMxw==}
     dependencies:
-      '@felte/core': 1.3.9
+      '@felte/core': 1.4.0
     dev: false
 
-  /@felte/preact@1.2.9(preact@10.15.1):
-    resolution: {integrity: sha512-ZLR/skuZRsAO4E0fNXhq1l65sAOrS1eV4Bg1GMk9n+j6hnpIqdze/ydJlcC3eWsL+qWuPwIBSoS0wdppnc1k5A==}
+  /@felte/preact@1.2.10(preact@10.15.1):
+    resolution: {integrity: sha512-NXYi+mRTksNULyLZ2lJ58b1O+cHCGerCbIO5RqJ8Ju7MbUXEEQwuHUmTk9vcdpPcBJoCqKUdbkUuXVy9QRfSIg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     peerDependencies:
       preact: ^10.0.0
     dependencies:
-      '@felte/core': 1.3.9
+      '@felte/core': 1.4.0
       preact: 10.15.1
     dev: false
 
-  /@felte/react@1.2.9(react@17.0.2):
-    resolution: {integrity: sha512-xOH5fmrojmxwLtUydEA5LZIJlBuNJIujcWZj4Bjtx7t3351s/zlPkYmMIQwdR0K5v7qb+VSUbPRG1hPokDfGbQ==}
+  /@felte/react@1.2.10(react@17.0.2):
+    resolution: {integrity: sha512-xEy+JQUR21xOu9IN7Y2VCKe2RG9ybCcYM9Cuqy2nZTTvOYsaQ4cdDsxCJdPamtmVTq6phzAMc9DDfi3IHbj42g==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     peerDependencies:
       react: ^16.8.0 || >=17.0.0
     dependencies:
-      '@felte/core': 1.3.9
+      '@felte/core': 1.4.0
       react: 17.0.2
     dev: false
 
-  /@felte/reporter-element@0.4.8:
-    resolution: {integrity: sha512-uKr8xi/SL0ouXaqIFs3/NWexSAqyqfsc+sbIX/kXKAfBLMJXN6adKA7iNTimIoErO8FUGeqkg/5e81dDJX4HmQ==}
+  /@felte/reporter-element@0.4.9:
+    resolution: {integrity: sha512-IHBUgREk7Pk9ZzflIR/n+6bHCscXlejEhVv24OaRVuhxDj6ArWP4ZZQM74GsHqMARautJmuinm6ENydfzkMuVw==}
     dependencies:
-      '@felte/common': 1.1.6
+      '@felte/common': 1.1.7
     dev: false
 
-  /@felte/reporter-preact@1.1.7(preact@10.15.1):
-    resolution: {integrity: sha512-AyMpxbSPLNj6gdtr+gnyC5KahwBeaJsbElGPt+PBXRHvBFM2F1RbFqTSpbrbILx9mE040zW6zW9fmkWFJpecQQ==}
+  /@felte/reporter-preact@1.1.8(preact@10.15.1):
+    resolution: {integrity: sha512-oDjca1U6DfI5ONznX8cecOFhEeKfQodskdbI3cMTeBlsX662a4EEZ2OUq3/Mr/p5l1WdZ2txHah0zTM43HID9A==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     peerDependencies:
       preact: ^10.0.0
     dependencies:
-      '@felte/common': 1.1.6
+      '@felte/common': 1.1.7
       preact: 10.15.1
     dev: false
 
@@ -3280,13 +3268,13 @@ packages:
       svelte: 4.0.0
     dev: false
 
-  /@felte/reporter-tippy@1.1.7(tippy.js@6.3.7):
-    resolution: {integrity: sha512-tTgBKig5CTUPt7oDw5j+r7GnzcunaVBwbBDC8blAES/hRsjnFLUJ6b+6gwL9Ez0Wm/djTgLCxm7c1Dxzbeog6w==}
+  /@felte/reporter-tippy@1.1.8(tippy.js@6.3.7):
+    resolution: {integrity: sha512-UOwOEQA/2oW2jD5EuKSC5PonfZaCHkadT2+2BV4y/pZ9tGt4Xt5sFQ02zEjd4mtkMP3zzqgVD7qYfj9ahauEJg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     peerDependencies:
       tippy.js: ^6.0.0
     dependencies:
-      '@felte/common': 1.1.6
+      '@felte/common': 1.1.7
       tippy.js: 6.3.7
     dev: false
 
@@ -3300,13 +3288,13 @@ packages:
       solid-js: 1.7.6
     dev: false
 
-  /@felte/validator-yup@1.1.1(yup@0.32.11):
-    resolution: {integrity: sha512-xcry4hN3BhnsIYEMtN/gv5VM8q4mAAuLPalcpiRlNzYdHaWKTE9MnMNFk/BDbXa4UBBglWM2KFeq/+R+zXYQkA==}
+  /@felte/validator-yup@1.1.2(yup@0.32.11):
+    resolution: {integrity: sha512-ujRrjVhS4OyujT3v6F4xkE+h5CR1Tr1Ap9bki3DMH6rgEJ79VF15jicHF75p7dbhyqJejHgQxF8TfaGu/mS1Gw==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     peerDependencies:
       yup: '>=1.2.0'
     dependencies:
-      '@felte/common': 1.1.6
+      '@felte/common': 1.1.7
       yup: 0.32.11
     dev: false
 
@@ -7560,21 +7548,21 @@ packages:
       bser: 2.1.1
     dev: true
 
-  /felte@1.2.10(svelte@3.59.1):
-    resolution: {integrity: sha512-fGj46Aeua89NKl+RgzaOUmLnA7Xs78KyCDjzTpkOsJXM2cenAX4YIvjgVZJXAxp9GCdWS81Wj8oZd5ti4098uA==}
+  /felte@1.2.11(svelte@3.59.1):
+    resolution: {integrity: sha512-GkuEo3IxUDe8MWKtLgCaSQvN47qcch8a21qtFqNNbYYcXrPrb+GgyqngjGI2Vk32Uk5Gz3O8Ja49ZcAX2XubsA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     peerDependencies:
-      svelte: ^3.31.0
+      svelte: ^3.31.0 || ^4.0.0
     dependencies:
       '@felte/core': 1.4.0
       svelte: 3.59.1
     dev: false
 
-  /felte@1.2.10(svelte@4.0.0):
-    resolution: {integrity: sha512-fGj46Aeua89NKl+RgzaOUmLnA7Xs78KyCDjzTpkOsJXM2cenAX4YIvjgVZJXAxp9GCdWS81Wj8oZd5ti4098uA==}
+  /felte@1.2.11(svelte@4.0.0):
+    resolution: {integrity: sha512-GkuEo3IxUDe8MWKtLgCaSQvN47qcch8a21qtFqNNbYYcXrPrb+GgyqngjGI2Vk32Uk5Gz3O8Ja49ZcAX2XubsA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     peerDependencies:
-      svelte: ^3.31.0
+      svelte: ^3.31.0 || ^4.0.0
     dependencies:
       '@felte/core': 1.4.0
       svelte: 4.0.0
