@@ -130,8 +130,8 @@ importers:
         specifier: ^0.9.0
         version: 0.9.8(svelte@3.59.1)
       pnpm:
-        specifier: ^8.6.3
-        version: 8.6.3
+        specifier: ^8.6.8
+        version: 8.6.8
       prettier:
         specifier: ^2.2.1
         version: 2.8.8
@@ -341,7 +341,7 @@ importers:
     dependencies:
       '@felte/reporter-svelte':
         specifier: latest
-        version: 1.1.8(svelte@4.0.0)
+        version: 1.1.10(svelte@4.0.0)
       felte:
         specifier: latest
         version: 1.2.11(svelte@4.0.0)
@@ -3258,11 +3258,11 @@ packages:
       solid-js: 1.7.6
     dev: false
 
-  /@felte/reporter-svelte@1.1.8(svelte@4.0.0):
-    resolution: {integrity: sha512-KFK/olTivWE3UIe9uHed/cCsfUPSglVv6D1wTy9kYYThgPKCtdlezn6kyY2cWn2fY02CkYWqgPVMmESq3xsWKg==}
+  /@felte/reporter-svelte@1.1.10(svelte@4.0.0):
+    resolution: {integrity: sha512-WxNnbXOm/e2h3LS+vvBoDKQJ6Gs0HQ4pvxohXJTZUUKMW9fRA3c13v5e4xy54sCnta7h9IRbNrN89mGJVROHoA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     peerDependencies:
-      svelte: ^3.31.0
+      svelte: ^3.31.0 || ^4.0.0
     dependencies:
       '@felte/common': 1.1.7
       svelte: 4.0.0
@@ -10423,8 +10423,8 @@ packages:
       pathe: 1.1.1
     dev: true
 
-  /pnpm@8.6.3:
-    resolution: {integrity: sha512-0Y4neugHIJEEa8y8oJMfd9wwgHkc1hIq6JC/UEEl2K92s3+zPaKH26n7u22m67E+MU6fpKRkx+/+PYWZzr5yQw==}
+  /pnpm@8.6.8:
+    resolution: {integrity: sha512-OtrCRUE7VqRyKly9E3gfExZHOAHtFDpmulyVFKrnl3v/n2xJckdueVumWJqUA5FHxcRP/T42r8P8CDr9duPP9w==}
     engines: {node: '>=16.14'}
     hasBin: true
     dev: true
