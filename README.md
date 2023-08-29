@@ -10,7 +10,7 @@
 [![Follow Pablo on Twitter](https://img.shields.io/twitter/follow/Pablo_ABC?style=social)](https://twitter.com/Pablo_ABC)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-21-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-22-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 - [Features](#features)
@@ -302,6 +302,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/ecelustka"><img src="https://avatars.githubusercontent.com/u/46893289?v=4?s=100" width="100px;" alt="Emil Celustka"/><br /><sub><b>Emil Celustka</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=ecelustka" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://www.callum-macdonald.com/"><img src="https://avatars.githubusercontent.com/u/690997?v=4?s=100" width="100px;" alt="Callum Macdonald"/><br /><sub><b>Callum Macdonald</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=chmac" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/jasongitmail"><img src="https://avatars.githubusercontent.com/u/50032291?v=4?s=100" width="100px;" alt="Jason"/><br /><sub><b>Jason</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=jasongitmail" title="Documentation">📖</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/winston0410"><img src="https://avatars.githubusercontent.com/u/59228178?v=4?s=100" width="100px;" alt="John Winston"/><br /><sub><b>John Winston</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=winston0410" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

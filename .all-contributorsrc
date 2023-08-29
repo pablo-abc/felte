@@ -154,6 +154,13 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/50032291?v=4",
       "profile": "https://github.com/jasongitmail",
       "contributions": ["doc"]
+    },
+    {
+      "login": "winston0410",
+      "name": "John Winston",
+      "avatar_url": "https://avatars.githubusercontent.com/u/59228178?v=4",
+      "profile": "https://github.com/winston0410",
+      "contributions": ["code"]
     }
   ],
   "contributorsPerLine": 7
