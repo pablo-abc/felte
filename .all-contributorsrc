@@ -168,6 +168,13 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/22396907?v=4",
       "profile": "https://www.timowilhelm.com/",
       "contributions": ["code"]
+    },
+    {
+      "login": "jfreyheit",
+      "name": "jfreyheit",
+      "avatar_url": "https://avatars.githubusercontent.com/u/26486071?v=4",
+      "profile": "https://github.com/jfreyheit",
+      "contributions": ["doc"]
     }
   ],
   "contributorsPerLine": 7

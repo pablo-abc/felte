@@ -10,7 +10,7 @@
 [![Follow Pablo on Twitter](https://img.shields.io/twitter/follow/Pablo_ABC?style=social)](https://twitter.com/Pablo_ABC)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-23-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-24-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 - [Features](#features)
@@ -306,6 +306,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/winston0410"><img src="https://avatars.githubusercontent.com/u/59228178?v=4?s=100" width="100px;" alt="John Winston"/><br /><sub><b>John Winston</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=winston0410" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://www.timowilhelm.com/"><img src="https://avatars.githubusercontent.com/u/22396907?v=4?s=100" width="100px;" alt="Timo Wilhelm"/><br /><sub><b>Timo Wilhelm</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=TimoWilhelm" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/jfreyheit"><img src="https://avatars.githubusercontent.com/u/26486071?v=4?s=100" width="100px;" alt="jfreyheit"/><br /><sub><b>jfreyheit</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=jfreyheit" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
