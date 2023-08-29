@@ -161,6 +161,13 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/59228178?v=4",
       "profile": "https://github.com/winston0410",
       "contributions": ["code"]
+    },
+    {
+      "login": "TimoWilhelm",
+      "name": "Timo Wilhelm",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22396907?v=4",
+      "profile": "https://www.timowilhelm.com/",
+      "contributions": ["code"]
     }
   ],
   "contributorsPerLine": 7
