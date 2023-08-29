@@ -510,7 +510,7 @@ describe('test', () => {
         lastName: '',
         bio: '',
         picture: undefined,
-        age: undefined,
+        age: null,
       },
       extra: {
         pictures: [],
@@ -518,7 +518,7 @@ describe('test', () => {
       preferences: [],
       multiple: {
         extraText: ['', '', ''],
-        extraNumber: [undefined, undefined, undefined],
+        extraNumber: [null, null, null],
         extraFiles: [undefined, undefined, undefined],
         extraCheckbox: [false, false, false],
         extraPreference: [[], [], []],
@@ -577,11 +577,8 @@ describe('test', () => {
       select: '1',
       multipleSelect: ['1', '2'],
     };
-    const {
-      formElement,
-      selectElement,
-      multipleSelectElement,
-    } = createSignupForm();
+    const { formElement, selectElement, multipleSelectElement } =
+      createSignupForm();
 
     setForm(formElement, {
       ...formData,
@@ -684,12 +681,12 @@ describe('test', () => {
     });
 
     expect(getInputTextOrNumber(textElement)).to.equal('');
-    expect(getInputTextOrNumber(numberElement)).to.equal(undefined);
+    expect(getInputTextOrNumber(numberElement)).to.equal(null);
 
     textElement.value = 'test';
     numberElement.value = 'test';
     expect(getInputTextOrNumber(textElement)).to.equal('test');
-    expect(getInputTextOrNumber(numberElement)).to.equal(undefined);
+    expect(getInputTextOrNumber(numberElement)).to.equal(null);
 
     numberElement.value = '42';
     expect(getInputTextOrNumber(numberElement)).to.equal(42);
