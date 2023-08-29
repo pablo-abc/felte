@@ -140,6 +140,13 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/46893289?v=4",
       "profile": "https://github.com/ecelustka",
       "contributions": ["code"]
+    },
+    {
+      "login": "chmac",
+      "name": "Callum Macdonald",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690997?v=4",
+      "profile": "http://www.callum-macdonald.com/",
+      "contributions": ["doc"]
     }
   ],
   "contributorsPerLine": 7
