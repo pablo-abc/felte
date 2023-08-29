@@ -135,9 +135,8 @@ export function createDerivedFactory<StoreExt = Record<string, any>>(
       ? storeOrStores
       : [storeOrStores];
     const values: any[] = new Array(stores.length);
-    const derivedStore: PossibleWritable<R> & StoreExt = storeFactory(
-      initialValue
-    );
+    const derivedStore: PossibleWritable<R> & StoreExt =
+      storeFactory(initialValue);
 
     const storeSet = derivedStore.set as Writable<R>['set'];
     const storeSubscribe = derivedStore.subscribe;
@@ -287,15 +286,12 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     _cloneDeep(initialErrors)
   );
 
-  const [
-    filteredWarnings,
-    startFilteredWarnings,
-    stopFilteredWarnings,
-  ] = derived(
-    [warnings as Readable<Errors<Data>>, touched as Readable<Touched<Data>>],
-    filterWarnings,
-    _cloneDeep(initialWarnings)
-  );
+  const [filteredWarnings, startFilteredWarnings, stopFilteredWarnings] =
+    derived(
+      [warnings as Readable<Errors<Data>>, touched as Readable<Touched<Data>>],
+      filterWarnings,
+      _cloneDeep(initialWarnings)
+    );
 
   // This is necessary since, on the first run, validations
   // have not run yet. We assume the form is not valid in the first calling
@@ -460,7 +456,8 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   filteredErrors.set = publicErrorsSetter;
   (filteredErrors as PartialWritableErrors<Data>).update = publicErrorsUpdater;
   filteredWarnings.set = publicWarningsSetter;
-  (filteredWarnings as PartialWritableErrors<Data>).update = publicWarningsUpdater;
+  (filteredWarnings as PartialWritableErrors<Data>).update =
+    publicWarningsUpdater;
 
   return {
     data: data as KeyedWritable<Data> & StoreExt,
