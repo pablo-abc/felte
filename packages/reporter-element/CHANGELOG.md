@@ -1,5 +1,12 @@
 # @felte/reporter-element
 
+## 0.4.10
+
+### Patch Changes
+
+- Updated dependencies [0a99410]
+  - @felte/common@1.1.8
+
 ## 0.4.9
 
 ### Patch Changes

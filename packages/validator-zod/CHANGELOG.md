@@ -1,5 +1,12 @@
 # @felte/validator-zod
 
+## 1.0.17
+
+### Patch Changes
+
+- Updated dependencies [0a99410]
+  - @felte/common@1.1.8
+
 ## 1.0.16
 
 ### Patch Changes
