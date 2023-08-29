@@ -147,6 +147,13 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/690997?v=4",
       "profile": "http://www.callum-macdonald.com/",
       "contributions": ["doc"]
+    },
+    {
+      "login": "jasongitmail",
+      "name": "Jason",
+      "avatar_url": "https://avatars.githubusercontent.com/u/50032291?v=4",
+      "profile": "https://github.com/jasongitmail",
+      "contributions": ["doc"]
     }
   ],
   "contributorsPerLine": 7
