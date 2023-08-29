@@ -8,6 +8,9 @@ export default defineConfig({
       web: [/\.[jt]sx?$/],
     },
   },
+  build: {
+    target: 'esnext',
+  },
   plugins: [solid()],
   resolve: {
     conditions: ['development', 'browser'],
