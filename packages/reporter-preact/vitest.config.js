@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitest/config';
 import { createRequire } from 'node:module';
+import preact from '@preact/preset-vite';
 
 const require = createRequire(import.meta.url);
 
@@ -20,6 +21,7 @@ export default defineConfig({
       },
     ],
   },
+  plugins: [preact()],
   test: {
     environment: 'jsdom',
   },

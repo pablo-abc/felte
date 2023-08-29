@@ -49,7 +49,7 @@
     "husky": "^7.0.4",
     "jsdom": "^20.0.3",
     "mdsvex": "^0.9.0",
-    "pnpm": "^8.6.3",
+    "pnpm": "^8.7.0",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
     "rollup": "^3.5.0",
@@ -73,7 +73,7 @@
     "zod": "^1.11.13"
   },
   "volta": {
-    "node": "18.12.1"
+    "node": "18.17.1"
   },
   "dependencies": {
     "@babel/plugin-syntax-jsx": "^7.14.5",
