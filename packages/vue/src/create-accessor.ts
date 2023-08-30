@@ -12,7 +12,7 @@ import {
   getValueFromStore,
 } from '@felte/core';
 import { getValue, isEqual } from '@felte/core';
-import { ref, readonly, onMounted, onUnmounted, type Ref } from 'vue';
+import { shallowRef, readonly, onMounted, onUnmounted, type Ref } from 'vue';
 
 export type FelteAccessor<T> = T extends Obj
   ? (<R>(selector: (storeValue: T) => R) => Ref<R>) &
@@ -64,14 +64,14 @@ export function createAccessor<T>(
 export function createAccessor<T, R>(
   store: Readable<T> | Writable<T>
 ): FelteAccessor<T> & (Readable<T> | Writable<T>) {
-  const storeRef = ref(getValueFromStore(store));
+  const storeRef = shallowRef(getValueFromStore(store));
   let cleanup: () => void;
   const subscribed: Record<string, SelectorOrPath<T, R>> = {};
-  const signals: Record<string, ReturnType<typeof ref>> = {};
+  const signals: Record<string, Ref> = {};
   const felteAccessor = ((selectorOrPath?: SelectorOrPath<T, R>) => {
     if (!selectorOrPath) return readonly(storeRef);
     if (!subscribed[selectorOrPath.toString()]) {
-      const valueSignal = ref(
+      const valueSignal = shallowRef(
         getValue(storeRef.value, selectorOrPath) as unknown
       );
       signals[selectorOrPath.toString()] = valueSignal;
