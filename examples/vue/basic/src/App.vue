@@ -9,7 +9,7 @@ type Data = {
 
 const submitted = ref<Data | null>(null);
 
-const { vForm } = createForm({
+const { vForm, errors } = createForm<Data>({
   onSubmit(values) {
     submitted.value = values;
   },
@@ -25,6 +25,8 @@ const { vForm } = createForm({
     return errors;
   },
 });
+const emailMessage = errors('email');
+const passwordMessage = errors('password');
 </script>
 
 <template>
@@ -34,8 +36,14 @@ const { vForm } = createForm({
       <legend>Sign In</legend>
       <label for="email">Email:</label>
       <input type="email" name="email" id="email" />
+      <ul v-if="emailMessage" aria-live="polite">
+        <li v-for="message in emailMessage" :key="message">{{ message }}</li>
+      </ul>
       <label for="password">Password:</label>
       <input type="password" name="password" id="password" />
+      <ul v-if="passwordMessage" aria-live="polite">
+        <li v-for="message in passwordMessage" :key="message">{{ message }}</li>
+      </ul>
     </fieldset>
     <button type="submit">Submit</button>
     <button type="reset" @click="submitted = null">Reset</button>

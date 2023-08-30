@@ -5,13 +5,22 @@ import type {
   Helpers,
   KnownHelpers,
   UnknownHelpers,
-  Stores,
-  KnownStores,
-  UnknownStores,
   FormConfigWithTransformFn,
   FormConfigWithoutTransformFn,
   Form as CoreForm,
+  Keyed,
+  KeyedWritable,
+  Writable,
+  Errors,
+  Touched,
 } from '@felte/core';
+import type {
+  Stores,
+  UnknownStores,
+  KnownStores,
+  FelteAccessor,
+} from './create-accessor';
+import { createAccessor } from './create-accessor';
 import { createForm as coreCreateForm } from '@felte/core';
 import { writable } from './stores';
 
@@ -39,6 +48,23 @@ export function createForm<Data extends Obj = Obj>(
       storeFactory: writable,
     }
   );
+
+  const data = createAccessor<Keyed<Data>>(rest.data) as FelteAccessor<
+    Keyed<Data>
+  > &
+    KeyedWritable<Data>;
+  const errors = createAccessor<Errors<Data>>(
+    rest.errors as Writable<Errors<Data>>
+  );
+  const touched = createAccessor<Touched<Data>>(rest.touched);
+  const warnings = createAccessor<Errors<Data>>(
+    rest.warnings as Writable<Errors<Data>>
+  );
+  const isSubmitting = createAccessor<boolean>(rest.isSubmitting);
+  const isDirty = createAccessor<boolean>(rest.isDirty);
+  const isValid = createAccessor<boolean>(rest.isValid);
+  const isValidating = createAccessor<boolean>(rest.isValidating);
+  const interacted = createAccessor<string | null>(rest.interacted);
   return {
     ...rest,
     vForm: {
@@ -55,5 +81,14 @@ export function createForm<Data extends Obj = Obj>(
         if (cleanup) cleanup();
       },
     },
+    data,
+    errors,
+    warnings,
+    touched,
+    isSubmitting,
+    isDirty,
+    isValid,
+    isValidating,
+    interacted,
   };
 }

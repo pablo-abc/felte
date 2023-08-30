@@ -44,7 +44,11 @@
     "access": "public"
   },
   "devDependencies": {
-    "@felte/common": "workspace:*"
+    "@felte/common": "workspace:*",
+    "vue": "^3.3.4"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
   },
   "exports": {
     ".": {
