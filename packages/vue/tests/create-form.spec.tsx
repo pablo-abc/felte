@@ -44,6 +44,7 @@ describe('createForm', () => {
     setTouched('email', true);
     expect(get(errors)).to.deep.equal({ email: null });
     expect(errors().value).to.deep.equal({ email: null });
+    expect(errors('email').value).to.equal(null);
     setErrors({ email: ['not an email'] });
     expect(get(errors)).to.deep.equal({ email: ['not an email'] });
     expect(errors().value).to.deep.equal({ email: ['not an email'] });
