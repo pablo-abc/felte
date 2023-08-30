@@ -10,7 +10,9 @@
 [![Follow Pablo on Twitter](https://img.shields.io/twitter/follow/Pablo_ABC?style=social)](https://twitter.com/Pablo_ABC)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-24-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 - [Features](#features)
@@ -18,6 +20,7 @@
   - [Svelte](#svelte)
   - [Solid](#solid)
   - [React/Preact](#reactpreact)
+  - [Vue](#vue)
   - [VanillaJS with Web Components](#vanillajs-with-web-components)
 - [More examples](#more-examples)
 - [Packages](#packages)
@@ -33,6 +36,8 @@
   - [Preact](#preact)
     - [`@felte/preact`](./packages/preact)
     - [`@felte/reporter-preact`](./packages/reporter-preact)
+  - [Vue](#vue-1)
+    - [`@felte/vue`](./packages/vue)
   - [VanillaJS](#vanillajs)
     - [`@felte/element`](./packages/element)
     - [`@felte/reporter-element`](./packages/reporter-element)
@@ -130,6 +135,27 @@ function Form() {
 }
 ```
 
+### Vue
+
+```html
+<script setup>
+  import { createForm } from '@felte/vue';
+
+  const { vForm } = createForm({
+    onSubmit: async (values) => {
+      /* call to an api */
+    },
+  });
+</script>
+<template>
+  <form v-form>
+    <input type="text" name="email" />
+    <input type="password" name="password" />
+    <button type="submit">Sign In</button>
+  </form>
+</template>
+```
+
 ### VanillaJS with Web Components
 
 ```html
@@ -210,6 +236,16 @@ This is the main package that contains the basic functionality you need to handl
 #### [@felte/reporter-preact](./packages/reporter-preact)
 
 A reporter packages that uses a Preact component to pass the validation messages for you to display. This provides an API that might feel the most familiar to most developers. The API is the same as `@felte/react` so you can refer to the same documentation.
+
+### Vue
+
+We provide (experimental) support for [Vue](https://vuejs.org) with the following package:
+
+#### [@felte/vue](./packages/vue)
+
+This is package contains the basic functionality you need to handle your forms in Vue. Same as `felte` but specifically made for Vue. The API is similar to that of `felte` but using a custom directive to register your form _and_ returning "accessors" (similar to the react/preact/solid packages) that resolve into reactive `ref`s.
+
+There's no documentation for this right now so use at your own risk.
 
 ### VanillaJS
 
