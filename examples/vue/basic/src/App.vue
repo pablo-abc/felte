@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { createForm } from '@felte/vue';
+import { useForm } from '@felte/vue';
 import { ref } from 'vue';
 
 type Data = {
@@ -9,7 +9,7 @@ type Data = {
 
 const submitted = ref<Data | null>(null);
 
-const { vForm, errors } = createForm<Data>({
+const { vForm, errors } = useForm<Data>({
   onSubmit(values) {
     submitted.value = values;
   },
