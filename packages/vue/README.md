@@ -50,4 +50,9 @@ yarn add @felte/vue
 
 ## Usage
 
-This package does not have documentation _yet_ but, besides it returning a directive definition instead of an `action` (here returned as `vForm`), the API remains exactly the same as Svelte. You can check the [official documentation](https://felte.dev/docs/svelte/getting-started)
+This package does not have documentation _yet_ but. The API is really similar to that of other packages, mainly the ones returning "accessors" such as the react/preact/solid ones. The main differences are:
+
+- It doesn't return a `form` action, but a `vForm` object that should be used as a custom directive. (In `<script setup>` it's enough to destructure it from the response and use it as `v-form` in your form).
+- It doesn't return observables but accessors. These accessors, when called, return reactive `ref`s (objects containing a reactive `value` property).
+
+You can check the [official documentation for Solid](https://felte.dev/docs/solid/getting-started) to have an idea on how to accessors _may_ look like. Or take a look at the [example in this repo](../../examples/vue/basic).
