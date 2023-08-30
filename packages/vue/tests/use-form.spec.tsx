@@ -1,7 +1,7 @@
 import { expect, describe, test, vi } from 'vitest';
 import { waitFor } from '@testing-library/dom';
 import { get } from 'svelte/store';
-import { createForm } from '../src';
+import { useForm } from '../src';
 
 vi.mock('vue', async () => ({
   ...(await vi.importActual<object>('vue')),
@@ -9,10 +9,10 @@ vi.mock('vue', async () => ({
   onUnmounted: vi.fn(),
 }));
 
-describe('createForm', () => {
+describe('useForm', () => {
   test('calls onSubmit without a form ref', async () => {
     const mockSubmit = vi.fn();
-    const { createSubmitHandler } = createForm({ onSubmit: mockSubmit });
+    const { createSubmitHandler } = useForm({ onSubmit: mockSubmit });
     const submit = createSubmitHandler();
     expect(mockSubmit).not.toHaveBeenCalled();
     submit();
@@ -23,7 +23,7 @@ describe('createForm', () => {
 
   test('calls onSubmit with a form ref', async () => {
     const mockSubmit = vi.fn();
-    const { vForm } = createForm({ onSubmit: mockSubmit });
+    const { vForm } = useForm({ onSubmit: mockSubmit });
     const formElement = document.createElement('form');
     vForm.mounted(formElement);
     expect(mockSubmit).not.toHaveBeenCalled();
@@ -35,7 +35,7 @@ describe('createForm', () => {
 
   test('sets value with helper', () => {
     const mockSubmit = vi.fn();
-    const { vForm, setTouched, setErrors, errors } = createForm({
+    const { vForm, setTouched, setErrors, errors } = useForm({
       onSubmit: mockSubmit,
       initialValues: { email: '' },
     });
@@ -58,7 +58,7 @@ describe('createForm', () => {
       email: string;
     };
     const mockSubmit = vi.fn();
-    const { vForm, setTouched, errors, setErrors } = createForm<Data>({
+    const { vForm, setTouched, errors, setErrors } = useForm<Data>({
       onSubmit: mockSubmit,
       initialValues: { email: '' },
     });

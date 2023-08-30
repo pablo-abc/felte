@@ -100,9 +100,9 @@ function Form() {
 
 ```html
 <script setup>
-  import { createForm } from '@felte/vue';
+  import { useForm } from '@felte/vue';
 
-  const { vForm } = createForm({
+  const { vForm } = useForm({
     onSubmit: async (values) => {
       /* call to an api */
     },

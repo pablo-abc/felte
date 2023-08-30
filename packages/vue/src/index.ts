@@ -6,6 +6,6 @@ export type {
   FelteSuccessEvent,
 } from '@felte/core';
 export { FelteSubmitError } from '@felte/core';
-export { createForm } from './create-form';
-export type { Field, FieldConfig } from './create-field';
-export { createField } from './create-field';
+export { useForm } from './use-form';
+export type { Field, FieldConfig } from './use-field';
+export { useField } from './use-field';

@@ -11,12 +11,12 @@ export type Field = Omit<CoreField, 'field'> & {
 
 const cleanups = new WeakMap<HTMLElement, () => void>();
 
-export function createField(
+export function useField(
   name: string,
   config?: Omit<FieldConfig, 'name'>
 ): Field;
-export function createField(config: FieldConfig): Field;
-export function createField(
+export function useField(config: FieldConfig): Field;
+export function useField(
   nameOrConfig: FieldConfig | string,
   config?: Omit<FieldConfig, 'name'>
 ): Field {

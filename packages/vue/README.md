@@ -23,9 +23,9 @@ Felte is an extensible form library originally built for Svelte but now supporti
 ```html
 <script setup>
   // inside some Vue SFC file
-  import { createForm } from '@felte/vue';
+  import { useForm } from '@felte/vue';
 
-  const { form } = createForm({
+  const { vForm } = useForm({
     onSubmit: (values) => console.log(values);
   });
 </script>

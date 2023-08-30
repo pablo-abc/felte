@@ -1,7 +1,7 @@
 import matchers from '@testing-library/jest-dom/matchers';
 import { expect, describe, test } from 'vitest';
 import { waitFor } from '@testing-library/dom';
-import { createField } from '../src';
+import { useField } from '../src';
 
 expect.extend(matchers);
 
@@ -13,11 +13,11 @@ function createContentEditable() {
   return input;
 }
 
-describe('Correctly uses createField', () => {
+describe('Correctly uses useField', () => {
   test('adds hidden input', async () => {
     const div = createContentEditable();
     document.body.appendChild(div);
-    const { vField } = createField('test');
+    const { vField } = useField('test');
     vField.mounted(div);
 
     expect(document.querySelector('[name="test"]')).not.toBeInTheDocument();
