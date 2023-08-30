@@ -3,6 +3,12 @@ import { waitFor } from '@testing-library/dom';
 import { get } from 'svelte/store';
 import { createForm } from '../src';
 
+vi.mock('vue', async () => ({
+  ...(await vi.importActual<object>('vue')),
+  onMounted: vi.fn((fn) => fn()),
+  onUnmounted: vi.fn(),
+}));
+
 describe('createForm', () => {
   test('calls onSubmit without a form ref', async () => {
     const mockSubmit = vi.fn();
@@ -37,8 +43,11 @@ describe('createForm', () => {
     vForm.mounted(formElement);
     setTouched('email', true);
     expect(get(errors)).to.deep.equal({ email: null });
+    expect(errors().value).to.deep.equal({ email: null });
     setErrors({ email: ['not an email'] });
     expect(get(errors)).to.deep.equal({ email: ['not an email'] });
+    expect(errors().value).to.deep.equal({ email: ['not an email'] });
+    expect(errors('email').value).to.deep.equal(['not an email']);
     vForm.unmounted(formElement);
   });
 
