@@ -1,6 +1,7 @@
 import { expect, describe, test, vi } from 'vitest';
 import { waitFor } from '@testing-library/dom';
 import { get } from 'svelte/store';
+import { nextTick } from 'vue';
 import { useForm } from '../src';
 
 vi.mock('vue', async () => ({
@@ -33,7 +34,7 @@ describe('useForm', () => {
     });
   });
 
-  test('sets value with helper', () => {
+  test('sets value with helper', async () => {
     const mockSubmit = vi.fn();
     const { vForm, setTouched, setErrors, errors } = useForm({
       onSubmit: mockSubmit,
@@ -42,18 +43,20 @@ describe('useForm', () => {
     const formElement = document.createElement('form');
     vForm.mounted(formElement);
     setTouched('email', true);
+    await nextTick();
     expect(get(errors)).to.deep.equal({ email: null });
     expect(errors().value).to.deep.equal({ email: null });
     const emailRef = errors('email');
     expect(emailRef.value).to.equal(null);
     setErrors({ email: ['not an email'] });
+    await nextTick();
     expect(get(errors)).to.deep.equal({ email: ['not an email'] });
     expect(errors().value).to.deep.equal({ email: ['not an email'] });
     expect(emailRef.value).to.deep.equal(['not an email']);
     vForm.unmounted(formElement);
   });
 
-  test('updates value with helper', () => {
+  test('updates value with helper', async () => {
     type Data = {
       email: string;
     };
@@ -65,15 +68,19 @@ describe('useForm', () => {
     const formElement = document.createElement('form');
     vForm.mounted(formElement);
     setTouched('email', true);
+    await nextTick();
     expect(get(errors)).to.deep.equal({ email: null });
     setErrors({ email: ['not an email'] });
+    await nextTick();
     expect(get(errors)).to.deep.equal({ email: ['not an email'] });
     setErrors((oldErrors) => ({
       ...oldErrors,
       email: oldErrors.email?.[0].toUpperCase(),
     }));
+    await nextTick();
     expect(get(errors)).to.deep.equal({ email: ['NOT AN EMAIL'] });
     setErrors('email', (email) => (email as string).toLowerCase());
+    await nextTick();
     expect(get(errors)).to.deep.equal({ email: ['not an email'] });
   });
 });

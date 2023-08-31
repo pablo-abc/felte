@@ -77,7 +77,8 @@ export function createAccessor<T, R>(
       signals[selectorOrPath.toString()] = valueSignal;
       subscribed[selectorOrPath.toString()] = selectorOrPath;
     }
-    return readonly(signals[selectorOrPath.toString()]);
+    const signal = signals[selectorOrPath.toString()];
+    return readonly(signal);
   }) as FelteAccessor<T> & Writable<T>;
 
   onMounted(() => {
