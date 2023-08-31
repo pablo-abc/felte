@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "vue": "^3.3.4",
-    "@felte/vue": "workspace:*"
+    "@felte/vue": "latest"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",

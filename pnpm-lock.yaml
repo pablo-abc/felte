@@ -374,8 +374,8 @@ importers:
   examples/vue/basic:
     dependencies:
       '@felte/vue':
-        specifier: workspace:*
-        version: link:../../../packages/vue
+        specifier: latest
+        version: 0.1.0(vue@3.3.4)
       vue:
         specifier: ^3.3.4
         version: 3.3.4
@@ -3547,6 +3547,16 @@ packages:
     dependencies:
       '@felte/common': 1.1.8
       yup: 1.2.0
+    dev: false
+
+  /@felte/vue@0.1.0(vue@3.3.4):
+    resolution: {integrity: sha512-tYnvIZmaHxTB+1JpK9PKafpV1p4FDWJge5cGmLnJdiuQFu3i7Bf4oS+YLo3f0snvz8W9fs2D68u0d/FYDBHbyw==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      '@felte/core': 1.4.1
+      vue: 3.3.4
     dev: false
 
   /@floating-ui/core@1.3.0:
