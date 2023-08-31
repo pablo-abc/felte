@@ -20,9 +20,8 @@ import type {
   KnownStores,
   FelteAccessor,
 } from './create-accessor';
-import { createAccessor } from './create-accessor';
 import { createForm as coreCreateForm } from '@felte/core';
-import { writable } from './stores';
+import { storeFactory } from './stores';
 
 export type Form<Data extends Obj = Obj> = Omit<CoreForm<Data>, 'form'> & {
   vForm: {
@@ -42,31 +41,20 @@ export function useForm<Data extends Obj = any, Ext extends Obj = Obj>(
 export function useForm<Data extends Obj = Obj>(
   config?: FormConfig<Data>
 ): Form<Data> & Helpers<Data, Paths<Data>> & Stores<Data> {
-  const { form, startStores, ...rest } = coreCreateForm(
-    { ...config, preventStoreStart: true },
-    {
-      storeFactory: writable,
-    }
-  );
+  const { form, startStores, data, errors, warnings, touched, ...rest } =
+    coreCreateForm(
+      { ...config, preventStoreStart: true },
+      {
+        storeFactory,
+      }
+    );
 
-  const data = createAccessor<Keyed<Data>>(rest.data) as FelteAccessor<
-    Keyed<Data>
-  > &
-    KeyedWritable<Data>;
-  const errors = createAccessor<Errors<Data>>(
-    rest.errors as Writable<Errors<Data>>
-  );
-  const touched = createAccessor<Touched<Data>>(rest.touched);
-  const warnings = createAccessor<Errors<Data>>(
-    rest.warnings as Writable<Errors<Data>>
-  );
-  const isSubmitting = createAccessor<boolean>(rest.isSubmitting);
-  const isDirty = createAccessor<boolean>(rest.isDirty);
-  const isValid = createAccessor<boolean>(rest.isValid);
-  const isValidating = createAccessor<boolean>(rest.isValidating);
-  const interacted = createAccessor<string | null>(rest.interacted);
   return {
     ...rest,
+    data: data as KeyedWritable<Data> & FelteAccessor<Keyed<Data>>,
+    errors: errors as Writable<Errors<Data>> & FelteAccessor<Errors<Data>>,
+    warnings: warnings as Writable<Errors<Data>> & FelteAccessor<Errors<Data>>,
+    touched: touched as Writable<Touched<Data>> & FelteAccessor<Touched<Data>>,
     vForm: {
       mounted: (el: HTMLFormElement) => {
         const { destroy } = form(el);
@@ -81,14 +69,5 @@ export function useForm<Data extends Obj = Obj>(
         if (cleanup) cleanup();
       },
     },
-    data,
-    errors,
-    warnings,
-    touched,
-    isSubmitting,
-    isDirty,
-    isValid,
-    isValidating,
-    interacted,
   };
 }

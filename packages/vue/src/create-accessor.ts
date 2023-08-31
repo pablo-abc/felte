@@ -1,4 +1,4 @@
-import {
+import type {
   Obj,
   Errors,
   Touched,
@@ -9,10 +9,16 @@ import {
   KeyedWritable,
   Writable,
   Readable,
-  getValueFromStore,
 } from '@felte/core';
 import { getValue, isEqual } from '@felte/core';
-import { shallowRef, readonly, onMounted, onUnmounted, type Ref } from 'vue';
+import {
+  shallowRef,
+  readonly,
+  onMounted,
+  onUnmounted,
+  watch,
+  type Ref,
+} from 'vue';
 
 export type FelteAccessor<T> = T extends Obj
   ? (<R>(selector: (storeValue: T) => R) => Ref<R>) &
@@ -51,20 +57,9 @@ export type Stores<Data extends Obj> = {
 
 type SelectorOrPath<T, R> = string | ((value: T) => R);
 
-function isWritable<T>(store: Readable<T>): store is Writable<T> {
-  return !!(store as any).set;
-}
-
-export function createAccessor<T>(
-  store: Writable<T>
-): FelteAccessor<T> & Writable<T>;
-export function createAccessor<T>(
-  store: Readable<T>
-): FelteAccessor<T> & Readable<T>;
 export function createAccessor<T, R>(
-  store: Readable<T> | Writable<T>
-): FelteAccessor<T> & (Readable<T> | Writable<T>) {
-  const storeRef = shallowRef(getValueFromStore(store));
+  storeRef: Ref<T>
+): FelteAccessor<T> & Writable<T> {
   let cleanup: () => void;
   const subscribed: Record<string, SelectorOrPath<T, R>> = {};
   const signals: Record<string, Ref> = {};
@@ -82,8 +77,7 @@ export function createAccessor<T, R>(
   }) as FelteAccessor<T> & Writable<T>;
 
   onMounted(() => {
-    cleanup = store.subscribe((value) => {
-      storeRef.value = value as any;
+    cleanup = watch(storeRef, (value) => {
       const keys = Object.keys(subscribed);
       for (const key of keys) {
         const subscriber = subscribed[key];
@@ -98,12 +92,6 @@ export function createAccessor<T, R>(
   onUnmounted(() => {
     cleanup?.();
   });
-
-  felteAccessor.subscribe = store.subscribe;
-  if (isWritable(store)) {
-    felteAccessor.set = store.set;
-    felteAccessor.update = store.update;
-  }
 
   return felteAccessor;
 }

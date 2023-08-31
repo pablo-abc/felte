@@ -1,5 +1,6 @@
 import { shallowRef, watch } from 'vue';
-import type { Writable } from '@felte/core';
+import type { StoreFactory, Writable } from '@felte/core';
+import { createAccessor, type FelteAccessor } from './create-accessor';
 
 /** Callback to inform of a value updates. */
 export type Subscriber<T> = (value: T) => void;
@@ -16,8 +17,12 @@ export function safe_not_equal(a: unknown, b: unknown) {
     ? b == b
     : a !== b || (a && typeof a === 'object') || typeof a === 'function';
 }
-export function writable<T>(value?: T): Writable<T> {
+
+export const storeFactory: StoreFactory<FelteAccessor<any>> = <T>(
+  value?: T
+) => {
   const ref = shallowRef(value);
+  const accessor = createAccessor(ref);
 
   function subscribe(run: Subscriber<T>): Unsubscriber {
     return watch(
@@ -39,5 +44,9 @@ export function writable<T>(value?: T): Writable<T> {
     set(fn(ref.value as any));
   }
 
-  return { subscribe, set, update };
-}
+  accessor.subscribe = subscribe;
+  accessor.set = set;
+  accessor.update = update;
+
+  return accessor as FelteAccessor<T> & Writable<T>;
+};
