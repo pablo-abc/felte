@@ -63,7 +63,8 @@ export function createField(
   ): void;
   function dispatchEvent(eventType: EventType, value?: FieldValue): void {
     if (!control) return;
-    setControlValue(control, value);
+    if (eventType !== 'focusout')
+      setControlValue(control, value);
     const customEvent = new Event(eventType, {
       bubbles: true,
       composed: true,
