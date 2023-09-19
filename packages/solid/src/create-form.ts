@@ -1,6 +1,6 @@
 import { createForm as coreCreateForm } from '@felte/core';
 import { storeFactory } from './stores';
-import { onCleanup } from 'solid-js';
+import { createEffect, createSignal, onCleanup } from 'solid-js';
 import type {
   Errors,
   Touched,
@@ -58,12 +58,25 @@ export function createForm<Data extends Obj = any, Ext extends Obj = Obj>(
   } = coreCreateForm(config ?? {}, {
     storeFactory,
   });
-  function form(node: HTMLFormElement) {
-    const { destroy } = formAction(node);
-    onCleanup(destroy);
-    return { destroy };
-  }
 
+  let _destroy: (() => void) | null = null;
+  const destroy = () => _destroy?.();
+  const [node, setNode] = createSignal<HTMLFormElement | null>(null);
+  createEffect(() => {
+    const _node = node();
+    if (_node) {
+      destroy();
+      _destroy = formAction(_node).destroy;
+    }
+  });
+  const form = (_node: HTMLFormElement) => {
+    setNode(_node);
+    return {
+      destroy,
+    };
+  };
+
+  onCleanup(destroy);
   onCleanup(cleanup);
 
   return {

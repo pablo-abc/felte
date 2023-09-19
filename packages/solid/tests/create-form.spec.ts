@@ -3,6 +3,7 @@ import { waitFor, screen } from '@testing-library/dom';
 import { createForm, FelteSubmitError } from '../src';
 import { createDOM, cleanupDOM, createInputElement } from './common';
 import { createRoot } from 'solid-js';
+import h from 'solid-js/h';
 
 function createLoginForm() {
   const formElement = screen.getByRole('form') as HTMLFormElement;
@@ -62,6 +63,32 @@ describe('createForm', () => {
     expect(errors()).to.deep.equal({ email: null });
     setErrors({ email: ['not an email'] });
     expect(errors()).to.deep.equal({ email: ['not an email'] });
+  });
+
+  test('sets value with props', async () => {
+    const mockSubmit = vi.fn();
+
+    const expected = { email: 'name@domain.com' };
+
+    const { form, data, createSubmitHandler } = createRoot(() =>
+      createForm({
+        onSubmit: mockSubmit,
+      })
+    );
+
+    createRoot<HTMLFormElement>(
+      h('form', { ref: form }, [
+        h('input', { type: 'email', name: 'email', value: expected.email }),
+      ])
+    );
+
+    expect(data()).toMatchObject(expected);
+
+    const submit = createSubmitHandler();
+    await submit();
+
+    expect(mockSubmit).toHaveBeenCalledOnce();
+    expect(mockSubmit.mock.lastCall[0]).toMatchObject(expected);
   });
 
   test('updates value with helper', () => {
