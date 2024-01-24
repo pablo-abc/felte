@@ -10,9 +10,7 @@
 [![Follow Pablo on Twitter](https://img.shields.io/twitter/follow/Pablo_ABC?style=social)](https://twitter.com/Pablo_ABC)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-24-orange.svg?style=flat-square)](#contributors-)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-25-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Felte is a simple to use form library for Svelte, Solid and React. No `Field` or `Form` components are needed, just plain stores and actions to build your form however you like. You can see it in action in this [CodeSandbox demo](https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte)!
@@ -304,6 +302,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/winston0410"><img src="https://avatars.githubusercontent.com/u/59228178?v=4?s=100" width="100px;" alt="John Winston"/><br /><sub><b>John Winston</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=winston0410" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://www.timowilhelm.com/"><img src="https://avatars.githubusercontent.com/u/22396907?v=4?s=100" width="100px;" alt="Timo Wilhelm"/><br /><sub><b>Timo Wilhelm</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=TimoWilhelm" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/jfreyheit"><img src="https://avatars.githubusercontent.com/u/26486071?v=4?s=100" width="100px;" alt="jfreyheit"/><br /><sub><b>jfreyheit</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=jfreyheit" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/uhon"><img src="https://avatars.githubusercontent.com/u/778583?v=4?s=100" width="100px;" alt="Urs Honegger"/><br /><sub><b>Urs Honegger</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=uhon" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>

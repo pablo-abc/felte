@@ -175,6 +175,13 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/26486071?v=4",
       "profile": "https://github.com/jfreyheit",
       "contributions": ["doc"]
+    },
+    {
+      "login": "uhon",
+      "name": "Urs Honegger",
+      "avatar_url": "https://avatars.githubusercontent.com/u/778583?v=4",
+      "profile": "https://github.com/uhon",
+      "contributions": ["doc"]
     }
   ],
   "contributorsPerLine": 7
