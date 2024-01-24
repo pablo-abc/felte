@@ -24,7 +24,6 @@ Extend Felte with the `extender` export, the extenders accepts an object with op
 ```javascript
 import { extender } from '@felte/extender-persist';
 
-
 const { form } = createForm({
   // ...
   extend: extender({ id: 'uniqueId' }), // or `extend: [extender({ id: 'uniqueId' })],`
