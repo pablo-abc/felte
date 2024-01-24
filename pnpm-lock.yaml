@@ -200,7 +200,7 @@ importers:
     dependencies:
       '@felte/element':
         specifier: latest
-        version: 0.5.12
+        version: 0.5.13
       '@felte/reporter-element':
         specifier: latest
         version: 0.4.10
@@ -219,7 +219,7 @@ importers:
     dependencies:
       '@felte/element':
         specifier: latest
-        version: 0.5.12
+        version: 0.5.13
       '@felte/reporter-element':
         specifier: latest
         version: 0.4.10
@@ -238,7 +238,7 @@ importers:
     dependencies:
       '@felte/element':
         specifier: latest
-        version: 0.5.12
+        version: 0.5.13
       '@material/mwc-button':
         specifier: ^0.25.3
         version: 0.25.3
@@ -263,7 +263,7 @@ importers:
     dependencies:
       '@felte/preact':
         specifier: latest
-        version: 1.2.12(preact@10.15.1)
+        version: 1.2.13(preact@10.15.1)
       '@felte/reporter-preact':
         specifier: latest
         version: 1.1.9(preact@10.15.1)
@@ -288,7 +288,7 @@ importers:
     dependencies:
       '@felte/react':
         specifier: latest
-        version: 1.2.12(react@17.0.2)
+        version: 1.2.13(react@17.0.2)
       '@felte/reporter-react':
         specifier: ^1.1.0
         version: 1.2.5(react@17.0.2)
@@ -322,7 +322,7 @@ importers:
         version: 1.2.5(solid-js@1.8.12)
       '@felte/solid':
         specifier: latest
-        version: 1.2.12(solid-js@1.8.12)
+        version: 1.2.13(solid-js@1.8.12)
       solid-js:
         specifier: ^1.8.6
         version: 1.8.12
@@ -344,7 +344,7 @@ importers:
         version: 1.1.11(svelte@4.0.0)
       felte:
         specifier: latest
-        version: 1.2.13(svelte@4.0.0)
+        version: 1.2.14(svelte@4.0.0)
     devDependencies:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^2.4.2
@@ -375,7 +375,7 @@ importers:
     dependencies:
       '@felte/vue':
         specifier: latest
-        version: 0.1.1(vue@3.3.4)
+        version: 0.1.2(vue@3.3.4)
       vue:
         specifier: ^3.3.4
         version: 3.3.4
@@ -397,7 +397,7 @@ importers:
     dependencies:
       '@felte/element':
         specifier: latest
-        version: 0.5.12
+        version: 0.5.13
       '@felte/reporter-element':
         specifier: latest
         version: 0.4.10
@@ -415,7 +415,7 @@ importers:
     dependencies:
       '@felte/element':
         specifier: latest
-        version: 0.5.12
+        version: 0.5.13
       '@felte/reporter-element':
         specifier: latest
         version: 0.4.10
@@ -749,7 +749,7 @@ importers:
     dependencies:
       '@felte/element':
         specifier: latest
-        version: 0.5.12
+        version: 0.5.13
       '@felte/reporter-element':
         specifier: latest
         version: 0.4.10
@@ -764,7 +764,7 @@ importers:
         version: 2.4.0
       felte:
         specifier: latest
-        version: 1.2.13(svelte@3.59.1)
+        version: 1.2.14(svelte@3.59.1)
       flexsearch:
         specifier: 0.7.21
         version: 0.7.21
@@ -3652,36 +3652,36 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dev: false
 
-  /@felte/core@1.4.2:
-    resolution: {integrity: sha512-fgmCW24VNdvK9hQDiG80Lzesp+0wlISKrJNQsul9LuP7qthX6a1SWJO/eP/5YWsBZbZDAFjom0rTCl3nhkuZwg==}
+  /@felte/core@1.4.3:
+    resolution: {integrity: sha512-DoXTuHD4atDG0SfTfI4orllcnriHRgM/ijMdRsUbLPL7O/UWGSWNXkxErx7XPbWOXMjX0J79KLfxZzm9abOCxw==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       '@felte/common': 1.1.8
     dev: false
 
-  /@felte/element@0.5.12:
-    resolution: {integrity: sha512-Y0YagZn6RYf+Iu8geotFGLqG/wVDw3cpFjQ60anemZDs5gcnzmjgjjuNgtGiJTH/drUVAjbaSh4wNZ/eV06J3g==}
+  /@felte/element@0.5.13:
+    resolution: {integrity: sha512-0haSThmVRkhWauvERRD2WsGZ6IB7TFdVaDX4ckZySIk15snW7MZSU+iB5P9SPf+vHUalUVXZDIqShpuc4R0tZg==}
     dependencies:
-      '@felte/core': 1.4.2
+      '@felte/core': 1.4.3
     dev: false
 
-  /@felte/preact@1.2.12(preact@10.15.1):
-    resolution: {integrity: sha512-IJ0eSHIyuT9mrNDxkN5dg/tEAmcnLCwxy0VbR1ERZimSj92SKJVsnm+xNvj8DWNUZHsQJrKKFI1a8X7iVrCSGw==}
+  /@felte/preact@1.2.13(preact@10.15.1):
+    resolution: {integrity: sha512-aXh98fg6sUFu0wDuaWvnjB1G7Qm0g+oEsGMOwGFjTH4LgvlF2cioaKJhcIm5o6qeHz93Wz635CSKqj76kn+9tw==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     peerDependencies:
       preact: ^10.0.0
     dependencies:
-      '@felte/core': 1.4.2
+      '@felte/core': 1.4.3
       preact: 10.15.1
     dev: false
 
-  /@felte/react@1.2.12(react@17.0.2):
-    resolution: {integrity: sha512-6ahylk4180wcEVBlMYEA8XZsst7/P81A9pYzu2HlmPWs/mBIGCc1A+9onny8ARCaOq3x92FFzI5lvJ4dueEj/A==}
+  /@felte/react@1.2.13(react@17.0.2):
+    resolution: {integrity: sha512-YQKEq0zaAk+IocWk0CDbsPSs2jMw6bGUTzNOmS73NQqwfYDr5GP4FNXaMF771ONLQL5ISBa7nMlbfy3AEu3mwg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     peerDependencies:
       react: ^16.8.0 || >=17.0.0
     dependencies:
-      '@felte/core': 1.4.2
+      '@felte/core': 1.4.3
       react: 17.0.2
     dev: false
 
@@ -3741,13 +3741,13 @@ packages:
       tippy.js: 6.3.7
     dev: false
 
-  /@felte/solid@1.2.12(solid-js@1.8.12):
-    resolution: {integrity: sha512-X01Te/D56FxNjsLfSAJhYFDpw4R353XLOWGywlkkn0r04LSZ5SJVx3v1UT8OZk5b3bP/1yjLulAi3KTc1ky66A==}
+  /@felte/solid@1.2.13(solid-js@1.8.12):
+    resolution: {integrity: sha512-ngJgNRe0Frxl6iypCFbpKxs+xGw3MXucttqbCDAx7rSFe4BL9NqLDr65CZhd28KY4NRjbnYgAqT0mf0HxHz9Vw==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     peerDependencies:
       solid-js: ^1.2.0
     dependencies:
-      '@felte/core': 1.4.2
+      '@felte/core': 1.4.3
       solid-js: 1.8.12
     dev: false
 
@@ -3761,13 +3761,13 @@ packages:
       yup: 1.2.0
     dev: false
 
-  /@felte/vue@0.1.1(vue@3.3.4):
-    resolution: {integrity: sha512-FMf7sDcu6p4IBV7ULmBkunbkF+iSS0XI0nwbV12+pmqdqapTp0VXHhilaDS0SFBt6eGSvv2JjJUGQ6EUuxptsg==}
+  /@felte/vue@0.1.2(vue@3.3.4):
+    resolution: {integrity: sha512-wdLDUajef2TQKpXAyVFD5//XswCE251KLoU/siUMrS4Q5Z5kBMR/RoeI37a/oz2zBYuAldYfvMXlCpiKggNrsA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     peerDependencies:
       vue: ^3.0.0
     dependencies:
-      '@felte/core': 1.4.2
+      '@felte/core': 1.4.3
       vue: 3.3.4
     dev: false
 
@@ -4494,7 +4494,7 @@ packages:
       is-glob: 4.0.3
       open: 9.1.0
       picocolors: 1.0.0
-      tslib: 2.5.3
+      tslib: 2.6.2
     dev: true
 
   /@polka/url@1.0.0-next.21:
@@ -8955,23 +8955,23 @@ packages:
       bser: 2.1.1
     dev: true
 
-  /felte@1.2.13(svelte@3.59.1):
-    resolution: {integrity: sha512-Uo5ER3sjGH4fXKjm955/9Kqp9CXs8JPgN3Ca+wSw8IMB78uvSPMdThJsltAmrjXPCkmLgUpIdxSUM2eztR4Vgg==}
+  /felte@1.2.14(svelte@3.59.1):
+    resolution: {integrity: sha512-eRByCSKhmvrkPOFQyCEGNx/DmP54nERvWwybyMcBSxlVXvsmDA7mDjXTJTuXFeKaemTehNvZE4tzf/xXLSE3HQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     peerDependencies:
       svelte: ^3.31.0 || ^4.0.0
     dependencies:
-      '@felte/core': 1.4.2
+      '@felte/core': 1.4.3
       svelte: 3.59.1
     dev: false
 
-  /felte@1.2.13(svelte@4.0.0):
-    resolution: {integrity: sha512-Uo5ER3sjGH4fXKjm955/9Kqp9CXs8JPgN3Ca+wSw8IMB78uvSPMdThJsltAmrjXPCkmLgUpIdxSUM2eztR4Vgg==}
+  /felte@1.2.14(svelte@4.0.0):
+    resolution: {integrity: sha512-eRByCSKhmvrkPOFQyCEGNx/DmP54nERvWwybyMcBSxlVXvsmDA7mDjXTJTuXFeKaemTehNvZE4tzf/xXLSE3HQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     peerDependencies:
       svelte: ^3.31.0 || ^4.0.0
     dependencies:
-      '@felte/core': 1.4.2
+      '@felte/core': 1.4.3
       svelte: 4.0.0
     dev: false
 
@@ -11055,7 +11055,7 @@ packages:
   /lower-case@2.0.2:
     resolution: {integrity: sha512-7fm3l3NAF9WfN6W3JOmf5drwpVqX78JtoGJ3A6W0a6ZnldM41w2fV5D490psKFTpMds8TJse/eHLFFsNHHjHgg==}
     dependencies:
-      tslib: 2.5.3
+      tslib: 2.6.2
     dev: true
 
   /lru-cache@4.1.5:
@@ -14837,7 +14837,7 @@ packages:
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
     dependencies:
       '@pkgr/utils': 2.4.1
-      tslib: 2.5.3
+      tslib: 2.6.2
     dev: true
 
   /table@6.8.1:
