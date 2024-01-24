@@ -228,4 +228,28 @@ describe('Custom controls with createField', () => {
       expect(onFormReset).toHaveBeenCalled();
     });
   });
+
+  test('does not change control value on focusout event', async () => {
+    function createTextInput() {
+      const input = document.createElement('input');
+      input.type = 'text';
+      return input;
+    }
+    
+    const formElement = screen.getByRole('form') as HTMLFormElement;
+    const inputElement = createTextInput();
+    inputElement.value = 'old value';
+    formElement.appendChild(inputElement);
+
+    const { field, onChange, onBlur } = createField('test');
+    field(inputElement);
+
+    expect(inputElement.value).to.equal('old value');
+
+    onChange('new value');
+    expect(inputElement.value).to.equal('new value');
+    
+    onBlur();
+    expect(inputElement.value).to.equal('new value');
+  });
 });
