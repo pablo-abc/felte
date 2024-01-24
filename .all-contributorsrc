@@ -189,6 +189,13 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/22850972?v=4",
       "profile": "https://github.com/BradLewis",
       "contributions": ["doc"]
+    },
+    {
+      "login": "SirbyAlive",
+      "name": "Julien Tome",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1277737?v=4",
+      "profile": "https://github.com/SirbyAlive",
+      "contributions": ["code"]
     }
   ],
   "contributorsPerLine": 7
