@@ -1,5 +1,12 @@
 # @felte/react
 
+## 1.2.13
+
+### Patch Changes
+
+- Updated dependencies [595c09c]
+  - @felte/core@1.4.3
+
 ## 1.2.12
 
 ### Patch Changes

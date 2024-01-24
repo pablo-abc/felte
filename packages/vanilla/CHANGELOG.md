@@ -1,5 +1,12 @@
 # @felte/vanilla
 
+## 0.3.13
+
+### Patch Changes
+
+- Updated dependencies [595c09c]
+  - @felte/core@1.4.3
+
 ## 0.3.12
 
 ### Patch Changes

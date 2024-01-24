@@ -1,5 +1,12 @@
 # felte
 
+## 1.2.14
+
+### Patch Changes
+
+- Updated dependencies [595c09c]
+  - @felte/core@1.4.3
+
 ## 1.2.13
 
 ### Patch Changes

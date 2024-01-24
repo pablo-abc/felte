@@ -1,5 +1,13 @@
 # @felte/solid
 
+## 1.2.13
+
+### Patch Changes
+
+- a7d1091: fix solid initialization from field `value` prop
+- Updated dependencies [595c09c]
+  - @felte/core@1.4.3
+
 ## 1.2.12
 
 ### Patch Changes

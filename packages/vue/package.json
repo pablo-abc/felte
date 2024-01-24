@@ -1,6 +1,6 @@
 {
   "name": "@felte/vue",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "An extensible form library for VueJS",
   "main": "dist/cjs/index.cjs",
   "browser": "dist/esm/index.js",
