@@ -1,5 +1,5 @@
 import type { JSX, Component } from 'solid-js';
-import { _get, createId } from '@felte/common';
+import { _get } from '@felte/common';
 import {
   onMount,
   createSignal,
