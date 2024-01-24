@@ -10,44 +10,10 @@
 [![Follow Pablo on Twitter](https://img.shields.io/twitter/follow/Pablo_ABC?style=social)](https://twitter.com/Pablo_ABC)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-18-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-- [Features](#features)
-- [Simple usage example](#simple-usage-example)
-  - [Svelte](#svelte)
-  - [Solid](#solid)
-  - [React/Preact](#reactpreact)
-  - [VanillaJS with Web Components](#vanillajs-with-web-components)
-- [More examples](#more-examples)
-- [Packages](#packages)
-  - [Svelte](#svelte-1)
-    - [`felte`](./packages/felte)
-    - [`@felte/reporter-svelte`](./packages/reporter-svelte)
-  - [Solid](#solid-1)
-    - [`@felte/solid`](./packages/solid)
-    - [`@felte/reporter-solid`](./packages/reporter-solid)
-  - [React](#react)
-    - [`@felte/react`](./packages/react)
-    - [`@felte/reporter-react`](./packages/reporter-react)
-  - [Preact](#preact)
-    - [`@felte/preact`](./packages/preact)
-    - [`@felte/reporter-preact`](./packages/reporter-preact)
-  - [VanillaJS](#vanillajs)
-    - [`@felte/element`](./packages/element)
-    - [`@felte/reporter-element`](./packages/reporter-element)
-    - [`@felte/vanilla`](./packages/vanilla)
-  - [Validators](#validators)
-    - [`@felte/validator-yup`](./packages/validator-yup)
-    - [`@felte/validator-zod`](./packages/validator-zod)
-    - [`@felte/validator-superstruct`](./packages/validator-superstruct)
-    - [`@felte/validator-vest`](./packages/validator-vest)
-  - [Reporters](#reporters)
-    - [`@felte/reporter-tippy`](./packages/reporter-tippy)
-    - [`@felte/reporter-cvapi`](./packages/reporter-cvapi)
-    - [`@felte/reporter-dom`](./packages/reporter-dom)
-- [Contributing](#contributing)
-- [Contributors](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-24-orange.svg?style=flat-square)](#contributors-)
+
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Felte is a simple to use form library for Svelte, Solid and React. No `Field` or `Form` components are needed, just plain stores and actions to build your form however you like. You can see it in action in this [CodeSandbox demo](https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte)!
 
@@ -128,6 +94,27 @@ function Form() {
     </form>
   );
 }
+```
+
+### Vue
+
+```html
+<script setup>
+  import { useForm } from '@felte/vue';
+
+  const { vForm } = useForm({
+    onSubmit: async (values) => {
+      /* call to an api */
+    },
+  });
+</script>
+<template>
+  <form v-form>
+    <input type="text" name="email" />
+    <input type="password" name="password" />
+    <button type="submit">Sign In</button>
+  </form>
+</template>
 ```
 
 ### VanillaJS with Web Components
@@ -211,6 +198,16 @@ This is the main package that contains the basic functionality you need to handl
 
 A reporter packages that uses a Preact component to pass the validation messages for you to display. This provides an API that might feel the most familiar to most developers. The API is the same as `@felte/react` so you can refer to the same documentation.
 
+### Vue
+
+We provide (experimental) support for [Vue](https://vuejs.org) with the following package:
+
+#### [@felte/vue](./packages/vue)
+
+This is package contains the basic functionality you need to handle your forms in Vue. Same as `felte` but specifically made for Vue. The API is similar to that of `felte` but using a custom directive to register your form _and_ returning "accessors" (similar to the react/preact/solid packages) that resolve into reactive `ref`s.
+
+There's no documentation for this right now so use at your own risk.
+
 ### VanillaJS
 
 We provide three packages that can be used with only VanillaJS. Two of them using [Web Components](https://www.webcomponents.org/introduction). These elements do not use the shadow DOM since there is no reason to isolate styles.
@@ -275,30 +272,40 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
-  <tr>
-    <td align="center"><a href="https://github.com/pablo-abc"><img src="https://avatars.githubusercontent.com/u/40573613?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Pablo Berganza</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=pablo-abc" title="Code">💻</a> <a href="https://github.com/pablo-abc/felte/commits?author=pablo-abc" title="Documentation">📖</a> <a href="#ideas-pablo-abc" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-pablo-abc" title="Maintenance">🚧</a> <a href="https://github.com/pablo-abc/felte/commits?author=pablo-abc" title="Tests">⚠️</a></td>
-    <td align="center"><a href="https://github.com/loremaps"><img src="https://avatars.githubusercontent.com/u/18003912?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Panagiotis Kapros</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=loremaps" title="Code">💻</a></td>
-    <td align="center"><a href="https://codepoet.de/"><img src="https://avatars.githubusercontent.com/u/462455?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Benjamin Bender</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=benbender" title="Code">💻</a> <a href="#ideas-benbender" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/pablo-abc/felte/commits?author=benbender" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/abhijit-kar"><img src="https://avatars.githubusercontent.com/u/25662120?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Abhijit Kar ツ</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/issues?q=author%3Aabhijit-kar" title="Bug reports">🐛</a> <a href="#ideas-abhijit-kar" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://convertpack.io/"><img src="https://avatars.githubusercontent.com/u/741969?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Hugo Maestá</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=hmaesta" title="Code">💻</a> <a href="#ideas-hmaesta" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://github.com/websocket98765"><img src="https://avatars.githubusercontent.com/u/41795874?v=4?s=100" width="100px;" alt=""/><br /><sub><b>websocket98765</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/issues?q=author%3Awebsocket98765" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/avimar"><img src="https://avatars.githubusercontent.com/u/314077?v=4?s=100" width="100px;" alt=""/><br /><sub><b>avimar</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=avimar" title="Documentation">📖</a></td>
-  </tr>
-  <tr>
-    <td align="center"><a href="https://umanggalaiya.in/"><img src="https://avatars.githubusercontent.com/u/5698706?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Umang Galaiya</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=umanghome" title="Code">💻</a> <a href="https://github.com/pablo-abc/felte/issues?q=author%3Aumanghome" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/djhi"><img src="https://avatars.githubusercontent.com/u/1122076?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Gildas Garcia</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=djhi" title="Code">💻</a> <a href="https://github.com/pablo-abc/felte/issues?q=author%3Adjhi" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/basaran"><img src="https://avatars.githubusercontent.com/u/30809170?v=4?s=100" width="100px;" alt=""/><br /><sub><b>basaran</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=basaran" title="Code">💻</a> <a href="https://github.com/pablo-abc/felte/issues?q=author%3Abasaran" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="http://ealush.com/"><img src="https://avatars.githubusercontent.com/u/11255103?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Evyatar</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=ealush" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/schurhammer"><img src="https://avatars.githubusercontent.com/u/2063443?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Julian Schurhammer</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=schurhammer" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/KoichiKiyokawa"><img src="https://avatars.githubusercontent.com/u/40315079?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Koichi Kiyokawa</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=KoichiKiyokawa" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/rschristian"><img src="https://avatars.githubusercontent.com/u/33403762?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ryan Christian</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=rschristian" title="Documentation">📖</a></td>
-  </tr>
-  <tr>
-    <td align="center"><a href="https://bandism.net/"><img src="https://avatars.githubusercontent.com/u/22633385?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ikko Ashimine</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=eltociear" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/pasqui23"><img src="https://avatars.githubusercontent.com/u/6931743?v=4?s=100" width="100px;" alt=""/><br /><sub><b>pasqui23</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=pasqui23" title="Code">💻</a></td>
-    <td align="center"><a href="http://icalvin.de/"><img src="https://avatars.githubusercontent.com/u/40042006?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Immanuel Calvin Herchenbach</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=icalvin102" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/dawidmachon"><img src="https://avatars.githubusercontent.com/u/44931854?v=4?s=100" width="100px;" alt=""/><br /><sub><b>dawidmachon</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=dawidmachon" title="Documentation">📖</a></td>
-  </tr>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/pablo-abc"><img src="https://avatars.githubusercontent.com/u/40573613?v=4?s=100" width="100px;" alt="Pablo Berganza"/><br /><sub><b>Pablo Berganza</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=pablo-abc" title="Code">💻</a> <a href="https://github.com/pablo-abc/felte/commits?author=pablo-abc" title="Documentation">📖</a> <a href="#ideas-pablo-abc" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-pablo-abc" title="Maintenance">🚧</a> <a href="https://github.com/pablo-abc/felte/commits?author=pablo-abc" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/loremaps"><img src="https://avatars.githubusercontent.com/u/18003912?v=4?s=100" width="100px;" alt="Panagiotis Kapros"/><br /><sub><b>Panagiotis Kapros</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=loremaps" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://codepoet.de/"><img src="https://avatars.githubusercontent.com/u/462455?v=4?s=100" width="100px;" alt="Benjamin Bender"/><br /><sub><b>Benjamin Bender</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=benbender" title="Code">💻</a> <a href="#ideas-benbender" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/pablo-abc/felte/commits?author=benbender" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/abhijit-kar"><img src="https://avatars.githubusercontent.com/u/25662120?v=4?s=100" width="100px;" alt="Abhijit Kar ツ"/><br /><sub><b>Abhijit Kar ツ</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/issues?q=author%3Aabhijit-kar" title="Bug reports">🐛</a> <a href="#ideas-abhijit-kar" title="Ideas, Planning, & Feedback">🤔</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://convertpack.io/"><img src="https://avatars.githubusercontent.com/u/741969?v=4?s=100" width="100px;" alt="Hugo Maestá"/><br /><sub><b>Hugo Maestá</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=hmaesta" title="Code">💻</a> <a href="#ideas-hmaesta" title="Ideas, Planning, & Feedback">🤔</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/websocket98765"><img src="https://avatars.githubusercontent.com/u/41795874?v=4?s=100" width="100px;" alt="websocket98765"/><br /><sub><b>websocket98765</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/issues?q=author%3Awebsocket98765" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/avimar"><img src="https://avatars.githubusercontent.com/u/314077?v=4?s=100" width="100px;" alt="avimar"/><br /><sub><b>avimar</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=avimar" title="Documentation">📖</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://umanggalaiya.in/"><img src="https://avatars.githubusercontent.com/u/5698706?v=4?s=100" width="100px;" alt="Umang Galaiya"/><br /><sub><b>Umang Galaiya</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=umanghome" title="Code">💻</a> <a href="https://github.com/pablo-abc/felte/issues?q=author%3Aumanghome" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/djhi"><img src="https://avatars.githubusercontent.com/u/1122076?v=4?s=100" width="100px;" alt="Gildas Garcia"/><br /><sub><b>Gildas Garcia</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=djhi" title="Code">💻</a> <a href="https://github.com/pablo-abc/felte/issues?q=author%3Adjhi" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/basaran"><img src="https://avatars.githubusercontent.com/u/30809170?v=4?s=100" width="100px;" alt="basaran"/><br /><sub><b>basaran</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=basaran" title="Code">💻</a> <a href="https://github.com/pablo-abc/felte/issues?q=author%3Abasaran" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://ealush.com/"><img src="https://avatars.githubusercontent.com/u/11255103?v=4?s=100" width="100px;" alt="Evyatar"/><br /><sub><b>Evyatar</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=ealush" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/schurhammer"><img src="https://avatars.githubusercontent.com/u/2063443?v=4?s=100" width="100px;" alt="Julian Schurhammer"/><br /><sub><b>Julian Schurhammer</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=schurhammer" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/KoichiKiyokawa"><img src="https://avatars.githubusercontent.com/u/40315079?v=4?s=100" width="100px;" alt="Koichi Kiyokawa"/><br /><sub><b>Koichi Kiyokawa</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=KoichiKiyokawa" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/rschristian"><img src="https://avatars.githubusercontent.com/u/33403762?v=4?s=100" width="100px;" alt="Ryan Christian"/><br /><sub><b>Ryan Christian</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=rschristian" title="Documentation">📖</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://bandism.net/"><img src="https://avatars.githubusercontent.com/u/22633385?v=4?s=100" width="100px;" alt="Ikko Ashimine"/><br /><sub><b>Ikko Ashimine</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=eltociear" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/pasqui23"><img src="https://avatars.githubusercontent.com/u/6931743?v=4?s=100" width="100px;" alt="pasqui23"/><br /><sub><b>pasqui23</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=pasqui23" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://icalvin.de/"><img src="https://avatars.githubusercontent.com/u/40042006?v=4?s=100" width="100px;" alt="Immanuel Calvin Herchenbach"/><br /><sub><b>Immanuel Calvin Herchenbach</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=icalvin102" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dawidmachon"><img src="https://avatars.githubusercontent.com/u/44931854?v=4?s=100" width="100px;" alt="dawidmachon"/><br /><sub><b>dawidmachon</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=dawidmachon" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ecelustka"><img src="https://avatars.githubusercontent.com/u/46893289?v=4?s=100" width="100px;" alt="Emil Celustka"/><br /><sub><b>Emil Celustka</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=ecelustka" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://www.callum-macdonald.com/"><img src="https://avatars.githubusercontent.com/u/690997?v=4?s=100" width="100px;" alt="Callum Macdonald"/><br /><sub><b>Callum Macdonald</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=chmac" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/jasongitmail"><img src="https://avatars.githubusercontent.com/u/50032291?v=4?s=100" width="100px;" alt="Jason"/><br /><sub><b>Jason</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=jasongitmail" title="Documentation">📖</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/winston0410"><img src="https://avatars.githubusercontent.com/u/59228178?v=4?s=100" width="100px;" alt="John Winston"/><br /><sub><b>John Winston</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=winston0410" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://www.timowilhelm.com/"><img src="https://avatars.githubusercontent.com/u/22396907?v=4?s=100" width="100px;" alt="Timo Wilhelm"/><br /><sub><b>Timo Wilhelm</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=TimoWilhelm" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/jfreyheit"><img src="https://avatars.githubusercontent.com/u/26486071?v=4?s=100" width="100px;" alt="jfreyheit"/><br /><sub><b>jfreyheit</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=jfreyheit" title="Documentation">📖</a></td>
+    </tr>
+  </tbody>
 </table>
 
 <!-- markdownlint-restore -->

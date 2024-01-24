@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.1.8
+
+### Patch Changes
+
+- 0a99410: Fix dynamically added number input not validating unless touched
+
 ## 1.1.7
 
 ### Patch Changes

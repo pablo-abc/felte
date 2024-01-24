@@ -1,4 +1,3 @@
-/** @jsx h */
 // eslint-disable-next-line
 import { h } from 'preact';
 import matchers from '@testing-library/jest-dom/matchers';

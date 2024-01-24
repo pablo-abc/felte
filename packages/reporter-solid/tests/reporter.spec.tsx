@@ -1,12 +1,9 @@
-import matchers from '@testing-library/jest-dom/matchers';
-import { expect, describe, test, vi, afterEach } from 'vitest';
+import '@testing-library/jest-dom';
 import { createForm } from '@felte/solid';
 import { screen, render, waitFor, cleanup } from '@solidjs/testing-library';
 import { Index } from 'solid-js';
 import userEvent from '@testing-library/user-event';
 import { ValidationMessage, reporter } from '../src';
-
-expect.extend(matchers);
 
 type Data = {
   email: string;
@@ -29,7 +26,7 @@ function getArrayError(message: string, errorValue?: string[]) {
 
 function Wrapper() {
   const { form } = createForm<Data>({
-    onSubmit: vi.fn(),
+    onSubmit: jest.fn(),
     extend: reporter,
     validate(values) {
       const errors: DataErrors = {};

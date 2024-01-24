@@ -1,6 +1,11 @@
 import type { SuccessResponse, FetchResponse } from './error';
 import { FelteSubmitError } from './error';
 
+/**
+ * Creates a default submit handler for your form.
+ * @param [form] - The form element to submit
+ * @returns A promise that resolves to the response of the submission
+ */
 export function createDefaultSubmitHandler(form?: HTMLFormElement) {
   if (!form) return;
   return async function onSubmit(): Promise<SuccessResponse> {
@@ -43,13 +48,13 @@ export function createDefaultSubmitHandler(form?: HTMLFormElement) {
 
     const response: FetchResponse = await window.fetch(
       action.toString(),
-      fetchOptions
+      fetchOptions,
     );
 
     if (response.ok) return response;
     throw new FelteSubmitError(
       'An error occurred while submitting the form',
-      response
+      response,
     );
   };
 }

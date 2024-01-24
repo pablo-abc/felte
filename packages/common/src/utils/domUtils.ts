@@ -46,11 +46,9 @@ export function addAttrsFromFieldset(fieldSet: HTMLFieldSetElement): void {
 }
 
 /** @ignore */
-export function getInputTextOrNumber(
-  el: FormControl
-): string | number | undefined {
+export function getInputTextOrNumber(el: FormControl): string | number | null {
   if (el.type.match(/^(number|range)$/)) {
-    return !el.value ? undefined : +el.value;
+    return !el.value ? null : +el.value;
   } else {
     return el.value;
   }

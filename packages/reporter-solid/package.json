@@ -1,8 +1,9 @@
 {
   "name": "@felte/reporter-solid",
-  "version": "1.2.8",
+  "version": "1.2.10",
   "description": "An error reporter for Felte using a Solid component",
-  "main": "dist/index.js",
+  "main": "dist/cjs/index.js",
+  "source": "src/index.tsx",
   "sideEffects": false,
   "author": {
     "name": "Pablo Berganza",
@@ -23,12 +24,14 @@
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
-  "types": "dist/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "solid": "./dist/index.jsx",
-      "default": "./dist/index.js"
+      "solid": "./dist/source/index.jsx",
+      "import": "./dist/esm/index.js",
+      "browser": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "node": "./dist/cjs/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -40,23 +43,23 @@
     "build": "pnpm prebuild && NODE_ENV=production rollup -c",
     "dev": "rollup -cw",
     "prepublishOnly": "pnpm run build",
-    "vitest": "vitest",
-    "test": "vitest run",
-    "test:ci": "vitest run --coverage"
+    "test": "jest",
+    "test:ci": "jest --coverage"
   },
   "dependencies": {
     "@felte/common": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.17.0",
-    "@babel/preset-env": "^7.16.5",
-    "@babel/preset-typescript": "^7.14.5",
     "@felte/solid": "workspace:*",
-    "@solidjs/testing-library": "^0.7.1",
+    "@solidjs/testing-library": "^0.8.4",
     "@testing-library/jest-dom": "^5.16.5",
-    "acorn": "^8.7.0",
-    "acorn-jsx": "^5.3.2",
-    "solid-js": "^1.6.2",
+    "babel-jest": "^26.6.3",
+    "jest": "^29.6.4",
+    "jest-environment-jsdom": "^29.6.4",
+    "rollup-preset-solid": "^2.0.1",
+    "solid-jest": "^0.2.0",
+    "solid-js": "^1.8.6",
     "typescript": "~4.9.3"
   },
   "peerDependencies": {

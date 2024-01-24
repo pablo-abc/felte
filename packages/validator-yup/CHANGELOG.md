@@ -1,5 +1,13 @@
 # @felte/validator-yup
 
+## 1.1.3
+
+### Patch Changes
+
+- 8d1b44e: Fix typings for 1.0
+- Updated dependencies [0a99410]
+  - @felte/common@1.1.8
+
 ## 1.1.2
 
 ### Patch Changes

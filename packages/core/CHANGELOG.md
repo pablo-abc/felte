@@ -1,5 +1,19 @@
 # @felte/core
 
+## 1.4.2
+
+### Patch Changes
+
+- 2e25206: Remove keys from data when validating
+
+## 1.4.1
+
+### Patch Changes
+
+- 0a99410: Fix dynamically added number input not validating unless touched
+- Updated dependencies [0a99410]
+  - @felte/common@1.1.8
+
 ## 1.4.0
 
 ### Minor Changes

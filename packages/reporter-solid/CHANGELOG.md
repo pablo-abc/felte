@@ -1,5 +1,18 @@
 # @felte/reporter-solid
 
+## 1.2.10
+
+### Patch Changes
+
+- e9e71fd: Support solid-start
+
+## 1.2.9
+
+### Patch Changes
+
+- Updated dependencies [0a99410]
+  - @felte/common@1.1.8
+
 ## 1.2.8
 
 ### Patch Changes

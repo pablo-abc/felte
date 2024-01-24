@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-react",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "description": "An error reporter for Felte using a React component",
   "main": "dist/index.cjs",
   "module": "dist/esm/index.js",

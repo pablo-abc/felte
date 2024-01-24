@@ -18,6 +18,6 @@
   "dependencies": {
     "@felte/reporter-solid": "^1.1.1",
     "@felte/solid": "latest",
-    "solid-js": "^1.7.6"
+    "solid-js": "^1.8.6"
   }
 }

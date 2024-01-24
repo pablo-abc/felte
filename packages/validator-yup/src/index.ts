@@ -1,5 +1,4 @@
-import type { ObjectSchema, ValidationError } from 'yup';
-import type { ValidateOptions } from 'yup/lib/types';
+import type { ObjectSchema, ValidationError, ValidateOptions } from 'yup';
 import type {
   Obj,
   AssignableErrors,

@@ -264,10 +264,8 @@ export function createFormAction<Data extends Obj>({
     const updateAddedNodes = debounce(() => {
       _getCurrentExtenders().forEach((extender) => extender.destroy?.());
       _setCurrentExtenders(extender.map(callExtender('UPDATE')));
-      const {
-        defaultData: newDefaultData,
-        defaultTouched: newDefaultTouched,
-      } = getFormDefaultValues<Data>(node);
+      const { defaultData: newDefaultData, defaultTouched: newDefaultTouched } =
+        getFormDefaultValues<Data>(node);
       data.update(($data) => _defaultsDeep<Data>($data, newDefaultData));
       touched.update(($touched) => {
         return _defaultsDeep($touched, newDefaultTouched);

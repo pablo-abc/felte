@@ -95,14 +95,14 @@ export function warningFilterer(touchValue?: unknown, errValue?: unknown) {
 
 function filterErrors<Data extends Obj>([errors, touched]: [
   Errors<Data>,
-  Touched<Data>
+  Touched<Data>,
 ]) {
   return _mergeWith<Errors<Data>>(touched, errors, errorFilterer);
 }
 
 function filterWarnings<Data extends Obj>([errors, touched]: [
   Errors<Data>,
-  Touched<Data>
+  Touched<Data>,
 ]) {
   return _mergeWith<Errors<Data>>(touched, errors, warningFilterer);
 }
@@ -112,9 +112,10 @@ type Readables =
   | [Readable<any>, ...Array<Readable<any>>]
   | Array<Readable<any>>;
 
-type ReadableValues<T> = T extends Readable<infer U>
-  ? [U]
-  : { [K in keyof T]: T[K] extends Readable<infer U> ? U : never };
+type ReadableValues<T> =
+  T extends Readable<infer U>
+    ? [U]
+    : { [K in keyof T]: T[K] extends Readable<infer U> ? U : never };
 
 type PossibleWritable<T> = Readable<T> & {
   update?: (updater: (v: T) => T) => void;
@@ -124,20 +125,19 @@ type PossibleWritable<T> = Readable<T> & {
 // A `derived` store factory that can defer subscription and be constructed
 // with any store factory.
 export function createDerivedFactory<StoreExt = Record<string, any>>(
-  storeFactory: StoreFactory<StoreExt>
+  storeFactory: StoreFactory<StoreExt>,
 ) {
   return function derived<R, T extends Readables = Readables>(
     storeOrStores: T,
     deriver: (values: ReadableValues<T>) => R,
-    initialValue: R
+    initialValue: R,
   ): [PossibleWritable<R> & StoreExt, () => void, () => void] {
     const stores: Readable<any>[] = Array.isArray(storeOrStores)
       ? storeOrStores
       : [storeOrStores];
     const values: any[] = new Array(stores.length);
-    const derivedStore: PossibleWritable<R> & StoreExt = storeFactory(
-      initialValue
-    );
+    const derivedStore: PossibleWritable<R> & StoreExt =
+      storeFactory(initialValue);
 
     const storeSet = derivedStore.set as Writable<R>['set'];
     const storeSubscribe = derivedStore.subscribe;
@@ -157,7 +157,7 @@ export function createDerivedFactory<StoreExt = Record<string, any>>(
     }
 
     derivedStore.subscribe = function subscribe(
-      subscriber: (value: R) => void
+      subscriber: (value: R) => void,
     ) {
       const unsubscribe = storeSubscribe(subscriber);
       return () => {
@@ -171,15 +171,15 @@ export function createDerivedFactory<StoreExt = Record<string, any>>(
 
 export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   storeFactory: StoreFactory<StoreExt>,
-  config: FormConfig<Data> & { preventStoreStart?: boolean }
+  config: FormConfig<Data> & { preventStoreStart?: boolean },
 ) {
   const derived = createDerivedFactory(storeFactory);
   const initialValues = (config.initialValues = config.initialValues
     ? deepSetKey(
         executeTransforms(
           _cloneDeep(config.initialValues as Data),
-          config.transform
-        )
+          config.transform,
+        ),
       )
     : ({} as Data));
   const initialTouched = deepSetTouched(deepRemoveKey(initialValues), false);
@@ -190,9 +190,9 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
     [touched, validationCount],
     ([$touched, $validationCount]) => {
       const isTouched = deepSome($touched as Obj, (t) => !!t);
-      return isTouched && $validationCount >= 1;
+      return isTouched && ($validationCount as number) >= 1;
     },
-    false
+    false,
   );
 
   // It is important not to destructure stores created with the factory
@@ -201,14 +201,14 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   delete isValidating.update;
 
   function cancellableValidation<Data extends Obj>(
-    store: PartialWritableErrors<Data>
+    store: PartialWritableErrors<Data>,
   ) {
     let activeController: ValidationController | undefined;
     return async function executeValidations(
-      $data: Data,
+      $data: Data | Keyed<Data>,
       shape: Errors<Data>,
       validations?: ValidationFunction<Data>[] | ValidationFunction<Data>,
-      priority = false
+      priority = false,
     ) {
       if (!validations || !$data) return;
       let current =
@@ -232,7 +232,7 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
       // override it, completely prevent validations
       if (activeController.signal.priority && !priority) return;
       validationCount.update((c) => c + 1);
-      const results = runValidations($data, validations);
+      const results = runValidations(deepRemoveKey($data), validations);
       results.forEach(async (promise: any) => {
         const result = await promise;
         if (controller.signal.aborted) return;
@@ -251,10 +251,10 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
 
   const initialErrors = deepSet(initialTouched, []) as Errors<Data>;
   const immediateErrors = storeFactory(
-    initialErrors
+    initialErrors,
   ) as PartialWritableErrors<Data> & StoreExt;
   const debouncedErrors = storeFactory(
-    _cloneDeep(initialErrors)
+    _cloneDeep(initialErrors),
   ) as PartialWritableErrors<Data> & StoreExt;
   const [errors, startErrors, stopErrors] = derived<Errors<Data>>(
     [
@@ -262,15 +262,15 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
       debouncedErrors as Readable<Errors<Data>>,
     ],
     mergeErrors,
-    _cloneDeep(initialErrors)
+    _cloneDeep(initialErrors),
   );
 
   const initialWarnings = deepSet(initialTouched, []) as Errors<Data>;
   const immediateWarnings = storeFactory(
-    initialWarnings
+    initialWarnings,
   ) as PartialWritableErrors<Data> & StoreExt;
   const debouncedWarnings = storeFactory(
-    _cloneDeep(initialWarnings)
+    _cloneDeep(initialWarnings),
   ) as PartialWritableErrors<Data> & StoreExt;
   const [warnings, startWarnings, stopWarnings] = derived<Errors<Data>>(
     [
@@ -278,24 +278,21 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
       debouncedWarnings as Readable<Errors<Data>>,
     ],
     mergeErrors,
-    _cloneDeep(initialWarnings)
+    _cloneDeep(initialWarnings),
   );
 
   const [filteredErrors, startFilteredErrors, stopFilteredErrors] = derived(
     [errors as Readable<Errors<Data>>, touched as Readable<Touched<Data>>],
     filterErrors,
-    _cloneDeep(initialErrors)
+    _cloneDeep(initialErrors),
   );
 
-  const [
-    filteredWarnings,
-    startFilteredWarnings,
-    stopFilteredWarnings,
-  ] = derived(
-    [warnings as Readable<Errors<Data>>, touched as Readable<Touched<Data>>],
-    filterWarnings,
-    _cloneDeep(initialWarnings)
-  );
+  const [filteredWarnings, startFilteredWarnings, stopFilteredWarnings] =
+    derived(
+      [warnings as Readable<Errors<Data>>, touched as Readable<Touched<Data>>],
+      filterWarnings,
+      _cloneDeep(initialWarnings),
+    );
 
   // This is necessary since, on the first run, validations
   // have not run yet. We assume the form is not valid in the first calling
@@ -309,11 +306,11 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
         return !config.validate && !config.debounced?.validate;
       } else {
         return !deepSome($errors, (error) =>
-          Array.isArray(error) ? error.length >= 1 : !!error
+          Array.isArray(error) ? error.length >= 1 : !!error,
         );
       }
     },
-    !config.validate && !config.debounced?.validate
+    !config.validate && !config.debounced?.validate,
   );
 
   delete isValid.set;
@@ -339,56 +336,54 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
       onEnd: () => {
         validationCount.update((c) => c - 1);
       },
-    }
+    },
   );
   const _validateDebouncedWarnings = debounce(
     validateDebouncedWarnings,
-    config.debounced?.warnTimeout ?? config.debounced?.timeout ?? 300
+    config.debounced?.warnTimeout ?? config.debounced?.timeout ?? 300,
   );
 
   async function executeErrorsValidation(
     data: Data | Keyed<Data>,
-    altValidate?: ValidationFunction<Data> | ValidationFunction<Data>[]
+    altValidate?: ValidationFunction<Data> | ValidationFunction<Data>[],
   ): Promise<Errors<Data> | undefined> {
-    const $data = deepRemoveKey(data);
     const errors = validateErrors(
-      $data,
+      data,
       storesShape,
       altValidate ?? config.validate,
-      true
+      true,
     );
     if (altValidate) return errors;
     const debouncedErrors = validateDebouncedErrors(
-      $data,
+      data,
       storesShape,
       config.debounced?.validate,
-      true
+      true,
     );
     return mergeErrors<Errors<Data>>(
-      await Promise.all([errors, debouncedErrors])
+      await Promise.all([errors, debouncedErrors]),
     );
   }
 
   async function executeWarningsValidation(
     data: Data | Keyed<Data>,
-    altWarn?: ValidationFunction<Data> | ValidationFunction<Data>[]
+    altWarn?: ValidationFunction<Data> | ValidationFunction<Data>[],
   ): Promise<Errors<Data> | undefined> {
-    const $data = deepRemoveKey(data);
     const warnings = validateWarnings(
-      $data,
+      data,
       storesShape,
       altWarn ?? config.warn,
-      true
+      true,
     );
     if (altWarn) return warnings;
     const debouncedWarnings = validateDebouncedWarnings(
-      $data,
+      data,
       storesShape,
       config.debounced?.warn,
-      true
+      true,
     );
     return mergeErrors<Errors<Data>>(
-      await Promise.all([warnings, debouncedWarnings])
+      await Promise.all([warnings, debouncedWarnings]),
     );
   }
 
@@ -436,14 +431,14 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   }
 
   function publicErrorsUpdater(
-    updater: (value: Errors<Data>) => AssignableErrors<Data>
+    updater: (value: Errors<Data>) => AssignableErrors<Data>,
   ): void {
     immediateErrors.set(updater(errorsValue));
     debouncedErrors.set({} as AssignableErrors<Data>);
   }
 
   function publicWarningsUpdater(
-    updater: (value: Errors<Data>) => AssignableErrors<Data>
+    updater: (value: Errors<Data>) => AssignableErrors<Data>,
   ): void {
     immediateWarnings.set(updater(warningsValue));
     debouncedWarnings.set({} as AssignableErrors<Data>);
@@ -460,7 +455,8 @@ export function createStores<Data extends Obj, StoreExt = Record<string, any>>(
   filteredErrors.set = publicErrorsSetter;
   (filteredErrors as PartialWritableErrors<Data>).update = publicErrorsUpdater;
   filteredWarnings.set = publicWarningsSetter;
-  (filteredWarnings as PartialWritableErrors<Data>).update = publicWarningsUpdater;
+  (filteredWarnings as PartialWritableErrors<Data>).update =
+    publicWarningsUpdater;
 
   return {
     data: data as KeyedWritable<Data> & StoreExt,

@@ -1,5 +1,20 @@
 # @felte/react
 
+## 1.2.12
+
+### Patch Changes
+
+- Updated dependencies [2e25206]
+  - @felte/core@1.4.2
+
+## 1.2.11
+
+### Patch Changes
+
+- 0a99410: Fix dynamically added number input not validating unless touched
+- Updated dependencies [0a99410]
+  - @felte/core@1.4.1
+
 ## 1.2.10
 
 ### Patch Changes
