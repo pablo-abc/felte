@@ -9,12 +9,11 @@
     "preview": "astro preview"
   },
   "devDependencies": {
-    "@astrojs/markdown-component": "^1.0.1",
-    "@astrojs/sitemap": "^1.0.0",
-    "@astrojs/svelte": "^1.0.1",
+    "@astrojs/sitemap": "^3.0.0",
+    "@astrojs/svelte": "^3.0.0",
     "@babel/core": "^7.17.7",
     "@types/flexsearch": "0.7.3",
-    "astro": "1.4.7",
+    "astro": "^3.0.0",
     "autoprefixer": "^10.4.4",
     "cssnano": "^5.1.4",
     "front-matter": "^4.0.2",
@@ -29,13 +28,14 @@
     "@felte/reporter-tippy": "latest",
     "@felte/validator-yup": "latest",
     "@shoelace-style/shoelace": "^2.4.0",
+    "astro-remote": "^0.2.4",
     "felte": "latest",
     "flexsearch": "0.7.21",
     "focus-visible": "^5.2.0",
     "lit": "^2.0.2",
     "prism-svelte": "^0.5.0",
     "prismjs": "^1.27.0",
-    "svelte-markdown": "^0.2.2",
+    "svelte-markdown": "^0.4.1",
     "tippy.js": "^6.3.7",
     "yup": "^1.2.0"
   }
