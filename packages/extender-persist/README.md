@@ -22,7 +22,8 @@ yarn add @felte/extender-persist
 Extend Felte with the `extender` export, the extenders accepts an object with options. A unique ID is required to use it as the ID for the localStorage.
 
 ```javascript
-import { extender } from '@felte/validator-yup';
+import { extender } from '@felte/extender-persist';
+
 
 const { form } = createForm({
   // ...
