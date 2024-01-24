@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@felte/common": "workspace:*",
-    "solid-js": "^1.2.0",
+    "solid-js": "^1.8.6",
     "uvu": "^0.5.3"
   },
   "exports": {
