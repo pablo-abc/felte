@@ -9,18 +9,18 @@
     "preview": "astro preview"
   },
   "devDependencies": {
-    "@astrojs/sitemap": "^3.0.0",
-    "@astrojs/svelte": "^3.0.0",
+    "@astrojs/sitemap": "^3.0.5",
+    "@astrojs/svelte": "^5.0.3",
     "@babel/core": "^7.17.7",
     "@types/flexsearch": "0.7.3",
-    "astro": "^3.0.0",
+    "astro": "^4.2.4",
     "autoprefixer": "^10.4.4",
     "cssnano": "^5.1.4",
     "front-matter": "^4.0.2",
     "postcss": "^8.4.12",
     "postcss-preset-env": "^7.4.2",
     "prettier": "^2.6.0",
-    "svelte": "^3.46.4"
+    "svelte": "^4.2.9"
   },
   "dependencies": {
     "@felte/element": "latest",
