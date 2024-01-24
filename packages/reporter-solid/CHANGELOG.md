@@ -1,5 +1,11 @@
 # @felte/reporter-solid
 
+## 1.2.10
+
+### Patch Changes
+
+- 62b51b0: Support solid-start
+
 ## 1.2.9
 
 ### Patch Changes

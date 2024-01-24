@@ -1,5 +1,11 @@
 # @felte/core
 
+## 1.4.2
+
+### Patch Changes
+
+- 2e25206: Remove keys from data when validating
+
 ## 1.4.1
 
 ### Patch Changes
