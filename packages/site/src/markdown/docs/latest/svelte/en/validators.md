@@ -68,7 +68,7 @@ const warnSchema = yup.object({
 const { form } = createForm({
   // ...
   extend: [
-    validator({ schema }),
+    validator({ validateSchema }),
     validator({ schema: warnSchema, level: 'warning' }),
   ],
   // ...
