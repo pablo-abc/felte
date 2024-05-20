@@ -314,7 +314,7 @@ describe('Validator zod', () => {
     });
     const mockData = { elems: [null, { name: '' }] };
 
-    const { validate, errors } = createForm<typeof mockData>({
+    const { validate, errors } = createForm({
       initialValues: mockData,
       onSubmit: vi.fn(),
       extend: validator({ schema }),
@@ -327,7 +327,7 @@ describe('Validator zod', () => {
     });
   });
 
-  test.skip('should surface union type errors', async () => {
+  test('should surface union type errors', async () => {
     async function t(schema: ZodSchema, initialValues: object) {
       const { validate, errors } = createForm({
         initialValues,
