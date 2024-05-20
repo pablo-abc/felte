@@ -2,7 +2,7 @@ import matchers from '@testing-library/jest-dom/matchers';
 import { expect, describe, test, vi } from 'vitest';
 import { createForm } from './common';
 import { validateSchema, validator } from '../src';
-import { z } from 'zod';
+import { z, ZodSchema } from 'zod';
 import { get } from 'svelte/store';
 
 expect.extend(matchers);
@@ -325,5 +325,23 @@ describe('Validator zod', () => {
     expect(get(errors)).to.deep.equal({
       elems: [{ 0: null }, { name: null }],
     });
+  });
+
+  test.skip('should surface union type errors', async () => {
+    async function t(schema: ZodSchema, initialValues: object) {
+      const { validate, errors } = createForm({
+        initialValues,
+        extend: validator({ schema }),
+      });
+      await validate();
+      return get(errors);
+    }
+
+    const schema = z.object({ foo: z.string().min(1) });
+
+    const unionErrors = await t(z.union([schema, schema]), {});
+    const errors = await t(schema, {});
+
+    expect(unionErrors).to.deep.equal(errors);
   });
 });
