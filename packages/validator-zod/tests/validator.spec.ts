@@ -338,10 +338,31 @@ describe('Validator zod', () => {
     }
 
     const schema = z.object({ foo: z.string().min(1) });
+    const data = { foo: '' };
 
-    const unionErrors = await t(z.union([schema, schema]), {});
-    const errors = await t(schema, {});
+    const unionErrors = await t(z.union([schema, schema]), data);
+    const errors = await t(schema, data);
 
     expect(unionErrors).to.deep.equal(errors);
+  });
+
+  test('should surface discriminatedUnion type errors', async () => {
+    async function t(schema: ZodSchema, initialValues: object) {
+      const { validate, errors } = createForm({
+        initialValues,
+        extend: validator({ schema }),
+      });
+      await validate();
+      return get(errors);
+    }
+
+    const schema = z.discriminatedUnion('type', [
+      z.object({ type: z.literal('foo'), foo: z.string().min(1) }),
+      z.object({ type: z.literal('bar'), bar: z.string().min(1) })
+    ], { errorMap: () => ({ message: 'Oops' }) });
+
+    const errors = await t(schema, { type: 'baz' });
+
+    expect(errors).to.deep.equal({ type: ['Oops'] });
   });
 });
