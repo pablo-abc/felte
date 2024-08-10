@@ -101,3 +101,28 @@ const schema = z.object({
 
 const { form } = createForm<z.infer<typeof schema>>(/* ... */);
 ```
+
+## Error messages
+
+The `validator` function accepts a `params` option that will be forwarded to zod, including [a contextual errorMap](https://zod.dev/ERROR_HANDLING?id=contextual-error-map) used to customize error messages. This parameter can be passed as second argument to the `validateSchema` function.
+
+```javascript
+import { validator } from '@felte/validator-zod';
+import { z } from 'zod';
+
+const schema = z.object({
+  email: z.string().email().nonempty(),
+  password: z.string().nonempty(),
+});
+
+const errorMap: zod.ZodErrorMap = (error) => {
+  // Error messages logic
+  return { message: '' };
+};
+
+const { form } = createForm({
+  // ...
+  extend: validator({ schema }, { errorMap }), // or `validateSchema(schema, { errorMap })`
+  // ...
+});
+```

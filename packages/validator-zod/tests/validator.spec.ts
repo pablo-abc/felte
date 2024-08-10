@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi } from 'vitest';
 import { createForm } from './common';
 import { validateSchema, validator } from '../src';
-import { z, ZodSchema } from 'zod';
+import { z, ZodErrorMap, ZodSchema } from 'zod';
 import { get } from 'svelte/store';
 
 type Data = {
@@ -362,5 +362,24 @@ describe('Validator zod', () => {
     const errors = await t(schema, { type: 'baz' });
 
     expect(errors).to.deep.equal({ type: ['Oops'] });
+  });
+
+  test('forwards parse parameters to zod', async () => {
+    const schema = z.object({ foo: z.literal('foo') });
+
+    const errorMap: ZodErrorMap = () => {
+      return { message: 'Oops' };
+    };
+
+    const { validate, errors } = createForm({
+      initialValues: { foo: 'bar' },
+      extend: validator({ schema, params: { errorMap } }),
+    });
+
+    await validate();
+
+    expect(get(errors)).to.deep.equal({
+      foo: ['Oops'],
+    });
   });
 });
