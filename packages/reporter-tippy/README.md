@@ -7,6 +7,10 @@
 
 A Felte reporter that uses [Tippy.js](https://atomiks.github.io/tippyjs/) to display your error messages.
 
+> [!WARNING]
+> Tippy.js has not been maintained for the last few years (and floating-ui seems to be its replacement)
+> Therefore I would not recommend using this package anymore and should be considered deprecated.
+
 ## Installation
 
 ```sh
@@ -43,8 +47,10 @@ You can pass options to Tippy when calling the reporter like so:
 
 ```javascript
 reporter({
-  tippyProps: {/* tippy options */},
-})
+  tippyProps: {
+    /* tippy options */
+  },
+});
 ```
 
 You can also pass a `setContent` function that will receive the current validation messages and the field path. Here you can modify your validation messages, which can come in useful if you want to display HTML content inside of Tippy. The `messages` argument will either be an array of strings (it can be more than one message depending on your validation strategy) or undefined. The `path` argument will be a string with the full path of your field (e.g. `email`, `account.email`, etc).
@@ -52,12 +58,12 @@ You can also pass a `setContent` function that will receive the current validati
 ```javascript
 reporter({
   setContent: (messages, path) => {
-    return messages?.map(message => `<p>${message}</p>`);
+    return messages?.map((message) => `<p>${message}</p>`);
   },
   tippyProps: {
     allowHTML: true,
   },
-})
+});
 ```
 
 You may also pass options to a specific Tippy instance using the `tippyPropsMap` property. It expects an object with the same shape as your data:
@@ -72,7 +78,7 @@ reporter({
       },
     },
   },
-})
+});
 ```
 
 ## Warnings
@@ -81,8 +87,8 @@ This reporter can also display your warning messages. In order to do so you'll n
 
 ```javascript
 reporter({
-  level: 'warning'
-})
+  level: 'warning',
+});
 ```
 
 > In order to avoid cluttering your UI it'd be recommended to use Tippy to report errors _OR_ warnings, not both.
@@ -92,7 +98,7 @@ reporter({
 If this package does not satisfy your needs for all cases, do know we are working on improving this, but you may as well opt-out of reporting a specific field's error by adding `data-felte-reporter-tippy-ignore` as an attribute to your input.
 
 ```html
-<input name="email" data-felte-reporter-tippy-ignore>
+<input name="email" data-felte-reporter-tippy-ignore />
 ```
 
 ## Custom controls
@@ -105,8 +111,15 @@ If you're using a custom control not managed by Felte, you can still make use of
 The custom control will always be a trigger for tippy, the second argument is useful if you want to trigger Tippy with another element such as a label to mimic this package's default behaviour.
 
 ```html
-<span id="email-label" data-felte-reporter-tippy-trigger-for="email">Email:</span>
-<div contenteditable data-felte-reporter-tippy-for="email" aria-labelledby="email-label" tabindex="0" />
+<span id="email-label" data-felte-reporter-tippy-trigger-for="email"
+  >Email:</span
+>
+<div
+  contenteditable
+  data-felte-reporter-tippy-for="email"
+  aria-labelledby="email-label"
+  tabindex="0"
+/>
 ```
 
 ## Custom positioning
@@ -117,5 +130,5 @@ If you need to show your Tippy in a different position, you may use the `data-fe
 <!-- Tippy will be shown on top of this div -->
 <div data-felte-reporter-tippy-position-for="email" />
 <!-- Not on top of this input -->
-<input name="email" type="email">
+<input name="email" type="email" />
 ```

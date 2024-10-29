@@ -1,7 +1,7 @@
 {
   "name": "@felte/reporter-tippy",
   "version": "1.1.9",
-  "description": "An error reporter for Felte using Tippy.js",
+  "description": "[DEPRECATED] An error reporter for Felte using Tippy.js",
   "main": "dist/index.cjs",
   "browser": "dist/index.mjs",
   "module": "dist/index.mjs",
@@ -27,10 +27,7 @@
     "prebuild": "rimraf ./dist",
     "build": "pnpm prebuild && cross-env NODE_ENV=production rollup -c",
     "dev": "rollup -cw",
-    "prepublishOnly": "pnpm build && pnpm test",
-    "vitest": "vitest",
-    "test": "vitest run",
-    "test:ci": "vitest run --coverage"
+    "prepublishOnly": "pnpm build"
   },
   "files": [
     "dist"
