@@ -1,5 +1,13 @@
 # @felte/validator-yup
 
+## 1.0.17
+
+### Patch Changes
+
+- 7c3dffc: Fix typescript issues
+- Updated dependencies [7c3dffc]
+  - @felte/common@1.1.9
+
 ## 1.0.16
 
 ### Patch Changes

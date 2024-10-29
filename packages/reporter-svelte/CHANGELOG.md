@@ -1,5 +1,17 @@
 # @felte/reporter-dom
 
+## 1.2.0
+
+### Minor Changes
+
+- 7c3dffc: Update peer dependencies to support Svelte 5
+
+### Patch Changes
+
+- 7c3dffc: Fix typescript issues
+- Updated dependencies [7c3dffc]
+  - @felte/common@1.1.9
+
 ## 1.1.11
 
 ### Patch Changes

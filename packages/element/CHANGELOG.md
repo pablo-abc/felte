@@ -1,5 +1,13 @@
 # @felte/element
 
+## 0.5.14
+
+### Patch Changes
+
+- 7c3dffc: Fix typescript issues
+- Updated dependencies [7c3dffc]
+  - @felte/core@1.4.4
+
 ## 0.5.13
 
 ### Patch Changes

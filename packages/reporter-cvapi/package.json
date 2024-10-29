@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-cvapi",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "An error reporter for Felte using the browser's Constraint Validation API",
   "main": "dist/index.cjs",
   "browser": "dist/index.mjs",

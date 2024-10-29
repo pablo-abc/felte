@@ -1,5 +1,11 @@
 # @felte/common
 
+## 1.1.9
+
+### Patch Changes
+
+- 7c3dffc: Fix typescript issues
+
 ## 1.1.8
 
 ### Patch Changes
@@ -95,7 +101,7 @@
   If you have an extender using `addWarnValidator`, you must update it by calling `addValidator` instead with the following options:
 
   ```javascript
-  addValidator(yourValidationFunction, { level: 'warning' });
+  addValidator(yourValidationFunction, { level: "warning" });
   ```
 
 - b007b7f: Pass a new property `stage` to extenders to distinguish between setup, mount and update stages
@@ -288,7 +294,7 @@
   If you have an extender using `addWarnValidator`, you must update it by calling `addValidator` instead with the following options:
 
   ```javascript
-  addValidator(yourValidationFunction, { level: 'warning' });
+  addValidator(yourValidationFunction, { level: "warning" });
   ```
 
 ### Minor Changes

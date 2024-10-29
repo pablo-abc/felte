@@ -1,5 +1,13 @@
 # @felte/vue
 
+## 0.1.3
+
+### Patch Changes
+
+- 7c3dffc: Fix typescript issues
+- Updated dependencies [7c3dffc]
+  - @felte/core@1.4.4
+
 ## 0.1.2
 
 ### Patch Changes
