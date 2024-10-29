@@ -46,9 +46,9 @@
     "types"
   ],
   "devDependencies": {
-    "@testing-library/svelte": "^3.2.2",
+    "@testing-library/svelte": "^5.2.4",
     "felte": "workspace:*",
-    "svelte": "^3.59.1",
+    "svelte": "^5.1.4",
     "vite": "^4.3.9"
   },
   "peerDependencies": {

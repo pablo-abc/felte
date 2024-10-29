@@ -1,7 +1,6 @@
 <script>
   import { vi } from 'vitest';
   import { createForm } from 'felte';
-  import { onDestroy } from 'svelte';
   import { reporter } from '../src/index.js';
   import ValidationMessage from '../src/ValidationMessage.svelte';
 
