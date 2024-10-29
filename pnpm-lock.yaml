@@ -64,8 +64,8 @@ importers:
         specifier: ^7.29.4
         version: 7.31.2
       '@testing-library/jest-dom':
-        specifier: ^6.6.2
-        version: 6.6.2
+        specifier: 6.6.1
+        version: 6.6.1
       '@testing-library/svelte':
         specifier: ^5.2.4
         version: 5.2.4(svelte@5.1.4)(vite@5.4.10(@types/node@22.8.4)(sass@1.80.4)(terser@5.36.0))(vitest@2.1.4(@types/node@22.8.4)(jsdom@20.0.3)(sass@1.80.4)(terser@5.36.0))
@@ -191,7 +191,7 @@ importers:
         version: 5.4.10(@types/node@22.8.4)(sass@1.80.4)(terser@5.36.0)
       vite-plugin-solid:
         specifier: ^2.7.0
-        version: 2.10.2(@testing-library/jest-dom@6.6.2)(solid-js@1.9.3)(vite@5.4.10(@types/node@22.8.4)(sass@1.80.4)(terser@5.36.0))
+        version: 2.10.2(@testing-library/jest-dom@6.6.1)(solid-js@1.9.3)(vite@5.4.10(@types/node@22.8.4)(sass@1.80.4)(terser@5.36.0))
       vitest:
         specifier: ^2.1.4
         version: 2.1.4(@types/node@22.8.4)(jsdom@20.0.3)(sass@1.80.4)(terser@5.36.0)
@@ -685,9 +685,6 @@ importers:
       '@solidjs/testing-library':
         specifier: ^0.8.10
         version: 0.8.10(solid-js@1.9.3)
-      '@testing-library/jest-dom':
-        specifier: ^6.6.2
-        version: 6.6.2
       babel-jest:
         specifier: ^26.6.3
         version: 26.6.3(@babel/core@7.26.0)
@@ -2905,6 +2902,10 @@ packages:
   '@testing-library/dom@8.20.1':
     resolution: {integrity: sha512-/DiOQ5xBxgdYRC8LNk7U+RWat0S3qRLeIw3ZIkMQ9kkVlRmwD/Eg8k8CqIpD6GW7u20JIUOfMKbxtiLutpjQ4g==}
     engines: {node: '>=12'}
+
+  '@testing-library/jest-dom@6.6.1':
+    resolution: {integrity: sha512-mNYIiAuP4yJwV2zBRQCV7PHoQwbb6/8TfMpPcwSUzcSVDJHWOXt6hjNtIN1v5knDmimYnjJxKhsoVd4LVGIO+w==}
+    engines: {node: '>=14', npm: '>=6', yarn: '>=1'}
 
   '@testing-library/jest-dom@6.6.2':
     resolution: {integrity: sha512-P6GJD4yqc9jZLbe98j/EkyQDTPgqftohZF5FBkHY5BUERZmcf4HeO2k0XaefEg329ux2p21i1A1DmyQ1kKw2Jw==}
@@ -10338,6 +10339,16 @@ snapshots:
       lz-string: 1.5.0
       pretty-format: 27.5.1
 
+  '@testing-library/jest-dom@6.6.1':
+    dependencies:
+      '@adobe/css-tools': 4.4.0
+      aria-query: 5.3.2
+      chalk: 3.0.0
+      css.escape: 1.5.1
+      dom-accessibility-api: 0.6.3
+      lodash: 4.17.21
+      redent: 3.0.0
+
   '@testing-library/jest-dom@6.6.2':
     dependencies:
       '@adobe/css-tools': 4.4.0
@@ -10347,6 +10358,7 @@ snapshots:
       dom-accessibility-api: 0.6.3
       lodash: 4.17.21
       redent: 3.0.0
+    optional: true
 
   '@testing-library/preact-hooks@1.1.0(@testing-library/preact@3.2.4(preact@10.24.3))(preact@10.24.3)':
     dependencies:
@@ -10534,7 +10546,7 @@ snapshots:
 
   '@types/testing-library__jest-dom@6.0.0':
     dependencies:
-      '@testing-library/jest-dom': 6.6.2
+      '@testing-library/jest-dom': 6.6.1
 
   '@types/tough-cookie@4.0.5': {}
 
@@ -15690,6 +15702,21 @@ snapshots:
       - supports-color
       - terser
 
+  vite-plugin-solid@2.10.2(@testing-library/jest-dom@6.6.1)(solid-js@1.9.3)(vite@5.4.10(@types/node@22.8.4)(sass@1.80.4)(terser@5.36.0)):
+    dependencies:
+      '@babel/core': 7.26.0
+      '@types/babel__core': 7.20.5
+      babel-preset-solid: 1.9.3(@babel/core@7.26.0)
+      merge-anything: 5.1.7
+      solid-js: 1.9.3
+      solid-refresh: 0.6.3(solid-js@1.9.3)
+      vite: 5.4.10(@types/node@22.8.4)(sass@1.80.4)(terser@5.36.0)
+      vitefu: 0.2.5(vite@5.4.10(@types/node@22.8.4)(sass@1.80.4)(terser@5.36.0))
+    optionalDependencies:
+      '@testing-library/jest-dom': 6.6.1
+    transitivePeerDependencies:
+      - supports-color
+
   vite-plugin-solid@2.10.2(@testing-library/jest-dom@6.6.2)(solid-js@1.9.3)(vite@4.5.5(@types/node@22.8.4)(sass@1.80.4)(terser@5.36.0)):
     dependencies:
       '@babel/core': 7.26.0
@@ -15700,21 +15727,6 @@ snapshots:
       solid-refresh: 0.6.3(solid-js@1.9.3)
       vite: 4.5.5(@types/node@22.8.4)(sass@1.80.4)(terser@5.36.0)
       vitefu: 0.2.5(vite@4.5.5(@types/node@22.8.4)(sass@1.80.4)(terser@5.36.0))
-    optionalDependencies:
-      '@testing-library/jest-dom': 6.6.2
-    transitivePeerDependencies:
-      - supports-color
-
-  vite-plugin-solid@2.10.2(@testing-library/jest-dom@6.6.2)(solid-js@1.9.3)(vite@5.4.10(@types/node@22.8.4)(sass@1.80.4)(terser@5.36.0)):
-    dependencies:
-      '@babel/core': 7.26.0
-      '@types/babel__core': 7.20.5
-      babel-preset-solid: 1.9.3(@babel/core@7.26.0)
-      merge-anything: 5.1.7
-      solid-js: 1.9.3
-      solid-refresh: 0.6.3(solid-js@1.9.3)
-      vite: 5.4.10(@types/node@22.8.4)(sass@1.80.4)(terser@5.36.0)
-      vitefu: 0.2.5(vite@5.4.10(@types/node@22.8.4)(sass@1.80.4)(terser@5.36.0))
     optionalDependencies:
       '@testing-library/jest-dom': 6.6.2
     transitivePeerDependencies:
