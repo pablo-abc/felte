@@ -33,18 +33,18 @@ export type Form<Data extends Obj> = {
   handleSubmit: (e?: Event) => void;
   /** Function that creates a submit handler. If a function is passed as first argument it overrides the default `onSubmit` function set in the `createForm` config object. */
   createSubmitHandler: (
-    altConfig?: CreateSubmitHandlerConfig<Data>
+    altConfig?: CreateSubmitHandlerConfig<Data>,
   ) => (e?: Event) => void;
 };
 
 export function createForm<Data extends Obj = any, Ext extends Obj = Obj>(
-  config: FormConfigWithTransformFn<Data> & Ext
+  config: FormConfigWithTransformFn<Data> & Ext,
 ): Form<Data> & UnknownHelpers<Data, Paths<Data>> & UnknownStores<Data>;
 export function createForm<Data extends Obj = any, Ext extends Obj = Obj>(
-  config?: FormConfigWithoutTransformFn<Data> & Ext
+  config?: FormConfigWithoutTransformFn<Data> & Ext,
 ): Form<Data> & KnownHelpers<Data, Paths<Data>> & KnownStores<Data>;
 export function createForm<Data extends Obj = any, Ext extends Obj = Obj>(
-  config?: FormConfig<Data> & Ext
+  config?: FormConfig<Data> & Ext,
 ): Form<Data> & Helpers<Data, Paths<Data>> & Stores<Data> {
   const {
     form: formAction,
@@ -82,8 +82,10 @@ export function createForm<Data extends Obj = any, Ext extends Obj = Obj>(
   return {
     ...rest,
     data: data as KeyedWritable<Data> & FelteAccessor<Keyed<Data>>,
-    errors: errors as Writable<Errors<Data>> & FelteAccessor<Errors<Data>>,
-    warnings: warnings as Writable<Errors<Data>> & FelteAccessor<Errors<Data>>,
+    errors: errors as unknown as Writable<Errors<Data>> &
+      FelteAccessor<Errors<Data>>,
+    warnings: warnings as unknown as Writable<Errors<Data>> &
+      FelteAccessor<Errors<Data>>,
     touched: touched as Writable<Touched<Data>> & FelteAccessor<Touched<Data>>,
     form,
   };

@@ -3,7 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import bundleSize from 'rollup-plugin-bundle-size';
-import pkg from './package.json' assert { type: 'json' };
+import pkg from './package.json' with { type: 'json' };
 
 const prod = process.env.NODE_ENV === 'production';
 const name = pkg.name
@@ -32,7 +32,7 @@ export default {
   plugins: [
     replace({
       'process.env.NODE_ENV': JSON.stringify(
-        prod ? 'production' : 'development'
+        prod ? 'production' : 'development',
       ),
       preventAssignment: true,
     }),

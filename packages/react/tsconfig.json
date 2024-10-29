@@ -2,7 +2,6 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "target": "es2017",
-    "importsNotUsedAsValues": "error",
     "isolatedModules": true,
     "strict": true,
     "esModuleInterop": true,

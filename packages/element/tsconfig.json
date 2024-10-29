@@ -5,7 +5,6 @@
     "module": "ES2015",
     "lib": ["ES2019", "dom"],
     "useDefineForClassFields": false,
-    "importsNotUsedAsValues": "error",
     "isolatedModules": true,
     "strict": true,
     "esModuleInterop": true,
