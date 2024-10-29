@@ -62,12 +62,29 @@ function Form() {
   });
 
   return (
-    <form use:form>
+    <form use:form={form}>
       <input type="text" name="email" />
       <input type="password" name="password" />
       <button type="submit">Sign In</button>
     </form>
   );
+}
+```
+
+> [!IMPORTANT]
+>
+> To use the `use-*` directive on **Solid**. [You need to extend the JSX namespace](https://docs.solidjs.com/reference/jsx-attributes/use#use). For example:
+
+```dts
+// src/global.d.ts
+declare global {
+  declare module "solid-js" {
+    namespace JSX {
+      interface Directives {
+        form: (node: HTMLFormElement) => void;
+      }
+    }
+  }
 }
 ```
 
