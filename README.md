@@ -10,7 +10,7 @@
 [![Follow Pablo on Twitter](https://img.shields.io/twitter/follow/Pablo_ABC?style=social)](https://twitter.com/Pablo_ABC)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-30-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-31-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Felte is a simple to use form library for Svelte, Solid and React. No `Field` or `Form` components are needed, just plain stores and actions to build your form however you like. You can see it in action in this [CodeSandbox demo](https://codesandbox.io/s/felte-demo-wce2h?file=/App.svelte)!
@@ -327,6 +327,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://www.alfredomm.com/"><img src="https://avatars.githubusercontent.com/u/20406650?v=4?s=100" width="100px;" alt="Alfredo Maria Milano"/><br /><sub><b>Alfredo Maria Milano</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=alfredomariamilano" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Blankeos"><img src="https://avatars.githubusercontent.com/u/38070918?v=4?s=100" width="100px;" alt="Carlo Taleon"/><br /><sub><b>Carlo Taleon</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=Blankeos" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/calvo-jp"><img src="https://avatars.githubusercontent.com/u/86353187?v=4?s=100" width="100px;" alt="John Paul Calvo"/><br /><sub><b>John Paul Calvo</b></sub></a><br /><a href="https://github.com/pablo-abc/felte/commits?author=calvo-jp" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

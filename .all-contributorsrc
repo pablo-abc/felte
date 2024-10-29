@@ -217,6 +217,13 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/38070918?v=4",
       "profile": "https://github.com/Blankeos",
       "contributions": ["doc"]
+    },
+    {
+      "login": "calvo-jp",
+      "name": "John Paul Calvo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/86353187?v=4",
+      "profile": "https://github.com/calvo-jp",
+      "contributions": ["code"]
     }
   ],
   "contributorsPerLine": 7
