@@ -1,4 +1,4 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi, beforeEach, afterEach } from 'vitest';
 import { waitFor, screen } from '@testing-library/dom';
 import {
@@ -9,8 +9,6 @@ import {
   createMultipleInputElements,
 } from './common';
 import { get } from 'svelte/store';
-
-expect.extend(matchers);
 
 describe('Form action DOM mutations', () => {
   beforeEach(createDOM);
@@ -55,7 +53,7 @@ describe('Form action DOM mutations', () => {
     [outerFieldset, outerTextInput, innerFieldset, innerTextInput].forEach(
       (el) => {
         expect(el).toHaveAttribute('data-felte-keep-on-remove', 'false');
-      }
+      },
     );
     [outerSecondaryInput, innerSecondaryinput].forEach((el) => {
       expect(el).toHaveAttribute('data-felte-keep-on-remove', 'true');
@@ -84,7 +82,7 @@ describe('Form action DOM mutations', () => {
       ...multipleOuterInputs,
       outerTextInput,
       outerSecondaryInput,
-      innerFieldset
+      innerFieldset,
     );
     const formElement = screen.getByRole('form') as HTMLFormElement;
     formElement.appendChild(outerFieldset);

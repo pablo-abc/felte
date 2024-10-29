@@ -1,4 +1,4 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi, beforeEach, afterEach } from 'vitest';
 import { waitFor, screen } from '@testing-library/dom';
 import { writable, get } from 'svelte/store';
@@ -10,8 +10,6 @@ import {
   cleanupDOM,
 } from './common';
 import { createForm } from '../src';
-
-expect.extend(matchers);
 
 vi.mock('svelte', () => ({
   onDestroy: vi.fn(),
@@ -306,7 +304,7 @@ describe('Helpers', () => {
           },
         },
         onSubmit: vi.fn(),
-      }
+      },
     );
 
     expect(get(data).account.email).to.equal('');
@@ -402,20 +400,15 @@ describe('Helpers', () => {
         email: string;
       };
     };
-    const {
-      data,
-      setInitialValues,
-      touched,
-      setFields,
-      reset,
-    } = createForm<Data>({
-      initialValues: {
-        account: {
-          email: '',
+    const { data, setInitialValues, touched, setFields, reset } =
+      createForm<Data>({
+        initialValues: {
+          account: {
+            email: '',
+          },
         },
-      },
-      onSubmit: vi.fn(),
-    });
+        onSubmit: vi.fn(),
+      });
 
     expect(get(data).account.email).to.equal('');
     expect(get(touched).account.email).to.equal(false);
@@ -466,21 +459,15 @@ describe('Helpers', () => {
         email: string;
       };
     };
-    const {
-      form,
-      data,
-      touched,
-      errors,
-      warnings,
-      unsetField,
-    } = createForm<Data>({
-      initialValues: {
-        account: {
-          email: '',
+    const { form, data, touched, errors, warnings, unsetField } =
+      createForm<Data>({
+        initialValues: {
+          account: {
+            email: '',
+          },
         },
-      },
-      onSubmit: vi.fn(),
-    });
+        onSubmit: vi.fn(),
+      });
 
     form(formElement);
 
@@ -555,7 +542,7 @@ describe('Helpers', () => {
       {
         name: 'todos',
       },
-      3
+      3,
     );
     formElement.append(...multipleInputs);
     type Data = {

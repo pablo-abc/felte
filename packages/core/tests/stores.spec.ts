@@ -1,10 +1,8 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test } from 'vitest';
 import { waitFor } from '@testing-library/dom';
 import { createStores, errorFilterer, warningFilterer } from '../src/stores';
 import { writable, get } from 'svelte/store';
-
-expect.extend(matchers);
 
 describe('createStores', () => {
   test('filters errors', async () => {
@@ -20,7 +18,7 @@ describe('createStores', () => {
           strings: ['test'],
         },
         preventStoreStart: true,
-      }
+      },
     );
     const clean = start();
     await waitFor(() => {

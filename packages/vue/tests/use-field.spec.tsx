@@ -1,9 +1,7 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test } from 'vitest';
 import { waitFor } from '@testing-library/dom';
 import { useField } from '../src';
-
-expect.extend(matchers);
 
 function createContentEditable() {
   const input = document.createElement('div');

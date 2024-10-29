@@ -2,6 +2,7 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "target": "es2019",
+    "types": ["@testing-library/jest-dom", "vite/client"],
     "module": "ES2015",
     "lib": ["ES2019", "dom"],
     "useDefineForClassFields": false,

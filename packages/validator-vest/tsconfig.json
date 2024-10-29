@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "moduleResolution": "node",
+    "types": ["@testing-library/jest-dom"],
     "target": "es2017",
     "isolatedModules": true,
     "strict": true,

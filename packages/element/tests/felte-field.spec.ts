@@ -1,12 +1,10 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi, afterEach } from 'vitest';
 import { waitFor, screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { cleanupDOM } from './common';
 import '../src/felte-field';
 import { AssertionError } from 'node:assert';
-
-expect.extend(matchers);
 
 function waitForReady(field: HTMLFelteFieldElement) {
   return new Promise((resolve) => {
@@ -51,17 +49,17 @@ describe('Custom controls with felte-field', () => {
     document.body.innerHTML = template;
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const felteField = document.querySelector(
-      'felte-field'
+      'felte-field',
     ) as HTMLFelteFieldElement;
 
     expect(formElement.querySelectorAll('input[name="test"]').length).to.equal(
-      1
+      1,
     );
 
     await waitForReady(felteField);
 
     expect(formElement.querySelectorAll('input[name="test"]').length).to.equal(
-      1
+      1,
     );
   });
 
@@ -76,7 +74,7 @@ describe('Custom controls with felte-field', () => {
     document.body.innerHTML = template;
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const felteField = document.querySelector(
-      'felte-field'
+      'felte-field',
     ) as HTMLFelteFieldElement;
 
     expect(formElement.querySelector('input[name="test"]')).to.be.null;
@@ -86,7 +84,7 @@ describe('Custom controls with felte-field', () => {
 
     await waitFor(() => {
       expect(
-        formElement.querySelectorAll('input[name="test"]').length
+        formElement.querySelectorAll('input[name="test"]').length,
       ).to.equal(1);
       expect(formElement.querySelector('input[name="test"]')).toBeVisible();
     });
@@ -106,7 +104,7 @@ describe('Custom controls with felte-field', () => {
     const formElement = screen.getByRole('form') as HTMLFormElement;
 
     const felteField = document.querySelector(
-      'felte-field'
+      'felte-field',
     ) as HTMLFelteFieldElement;
     formElement.addEventListener('input', inputListener);
     formElement.addEventListener('focusout', blurListener);
@@ -131,7 +129,7 @@ describe('Custom controls with felte-field', () => {
 
     await waitFor(() => {
       const hiddenElement = document.querySelector(
-        'input[name="test"]'
+        'input[name="test"]',
       ) as HTMLInputElement;
 
       expect(hiddenElement).not.to.be.null;
@@ -142,7 +140,7 @@ describe('Custom controls with felte-field', () => {
       expect(inputListener).toHaveBeenCalledWith(
         expect.objectContaining({
           target: hiddenElement,
-        })
+        }),
       );
       expect(blurListener).not.toHaveBeenCalled();
 
@@ -151,7 +149,7 @@ describe('Custom controls with felte-field', () => {
       expect(blurListener).toHaveBeenCalledWith(
         expect.objectContaining({
           target: hiddenElement,
-        })
+        }),
       );
     });
 
@@ -171,7 +169,7 @@ describe('Custom controls with felte-field', () => {
     const changeListener = vi.fn();
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const felteField = document.querySelector(
-      'felte-field'
+      'felte-field',
     ) as HTMLFelteFieldElement;
     formElement.addEventListener('change', changeListener);
 
@@ -185,7 +183,7 @@ describe('Custom controls with felte-field', () => {
 
     await waitFor(() => {
       const hiddenElement = document.querySelector(
-        'input[name="test"]'
+        'input[name="test"]',
       ) as HTMLInputElement;
 
       expect(hiddenElement).not.to.be.null;
@@ -213,11 +211,11 @@ describe('Custom controls with felte-field', () => {
     const blurListener = vi.fn();
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const inputElement = document.querySelector(
-      '[contenteditable]'
+      '[contenteditable]',
     ) as HTMLDivElement;
 
     const felteField = document.querySelector(
-      'felte-field'
+      'felte-field',
     ) as HTMLFelteFieldElement;
     formElement.addEventListener('input', inputListener);
     formElement.addEventListener('focusout', blurListener);
@@ -241,7 +239,7 @@ describe('Custom controls with felte-field', () => {
 
     await waitFor(() => {
       const hiddenElement = document.querySelector(
-        'input[name="test"]'
+        'input[name="test"]',
       ) as HTMLInputElement;
 
       expect(hiddenElement).not.to.be.null;
@@ -249,13 +247,13 @@ describe('Custom controls with felte-field', () => {
     userEvent.type(inputElement, 'new value');
     await waitFor(() => {
       const hiddenElement = document.querySelector(
-        'input[name="test"]'
+        'input[name="test"]',
       ) as HTMLInputElement;
       expect(hiddenElement.value).to.equal('new value');
       expect(inputListener).toHaveBeenCalledWith(
         expect.objectContaining({
           target: hiddenElement,
-        })
+        }),
       );
     });
 
@@ -265,12 +263,12 @@ describe('Custom controls with felte-field', () => {
 
     await waitFor(() => {
       const hiddenElement = document.querySelector(
-        'input[name="test"]'
+        'input[name="test"]',
       ) as HTMLInputElement;
       expect(blurListener).toHaveBeenCalledWith(
         expect.objectContaining({
           target: hiddenElement,
-        })
+        }),
       );
     });
 
@@ -300,11 +298,11 @@ describe('Custom controls with felte-field', () => {
     const blurListener = vi.fn();
     const formElement = screen.getByRole('form') as HTMLFormElement;
     const inputElement = document.querySelector(
-      '[contenteditable]'
+      '[contenteditable]',
     ) as HTMLDivElement;
 
     const felteField = document.querySelector(
-      'felte-field'
+      'felte-field',
     ) as HTMLFelteFieldElement;
     formElement.addEventListener('input', inputListener);
     formElement.addEventListener('focusout', blurListener);
@@ -328,7 +326,7 @@ describe('Custom controls with felte-field', () => {
 
     await waitFor(() => {
       const hiddenElement = document.querySelector(
-        'input[name="test"]'
+        'input[name="test"]',
       ) as HTMLInputElement;
 
       expect(hiddenElement).not.to.be.null;
@@ -336,13 +334,13 @@ describe('Custom controls with felte-field', () => {
     userEvent.type(inputElement, 'new value');
     await waitFor(() => {
       const hiddenElement = document.querySelector(
-        'input[name="test"]'
+        'input[name="test"]',
       ) as HTMLInputElement;
       expect(hiddenElement.value).to.equal('new value');
       expect(inputListener).toHaveBeenCalledWith(
         expect.objectContaining({
           target: hiddenElement,
-        })
+        }),
       );
     });
 
@@ -352,12 +350,12 @@ describe('Custom controls with felte-field', () => {
 
     await waitFor(() => {
       const hiddenElement = document.querySelector(
-        'input[name="test"]'
+        'input[name="test"]',
       ) as HTMLInputElement;
       expect(blurListener).toHaveBeenCalledWith(
         expect.objectContaining({
           target: hiddenElement,
-        })
+        }),
       );
     });
 
@@ -379,10 +377,10 @@ describe('Custom controls with felte-field', () => {
     const formElement = screen.getByRole('form') as HTMLFormElement;
 
     const felteField = document.querySelector(
-      'felte-field'
+      'felte-field',
     ) as HTMLFelteFieldElement;
     const contenteditable = document.querySelector(
-      'div[contenteditable]'
+      'div[contenteditable]',
     ) as HTMLDivElement;
     felteField.setAttribute('value', '');
     formElement.addEventListener('input', inputListener);
@@ -398,7 +396,7 @@ describe('Custom controls with felte-field', () => {
 
     await waitFor(() => {
       const hiddenElement = document.querySelector(
-        'input[name="test"]'
+        'input[name="test"]',
       ) as HTMLInputElement;
 
       expect(hiddenElement).not.to.be.null;
@@ -407,13 +405,13 @@ describe('Custom controls with felte-field', () => {
     userEvent.type(contenteditable, 'new value');
     await waitFor(() => {
       const hiddenElement = document.querySelector(
-        'input[name="test"]'
+        'input[name="test"]',
       ) as HTMLInputElement;
       expect(hiddenElement.value).to.equal('new value');
       expect(inputListener).toHaveBeenCalledWith(
         expect.objectContaining({
           target: hiddenElement,
-        })
+        }),
       );
       expect(blurListener).not.toHaveBeenCalled();
 
@@ -422,7 +420,7 @@ describe('Custom controls with felte-field', () => {
       expect(blurListener).toHaveBeenCalledWith(
         expect.objectContaining({
           target: hiddenElement,
-        })
+        }),
       );
     });
 

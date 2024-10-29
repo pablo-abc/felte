@@ -1,4 +1,4 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi, beforeEach, afterEach } from 'vitest';
 import { waitFor, screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
@@ -12,8 +12,6 @@ import {
 import { get } from 'svelte/store';
 import { isFormControl } from '@felte/common';
 import { FelteSubmitError } from '../src';
-
-expect.extend(matchers);
 
 function createSelectElement({
   name,
@@ -90,7 +88,7 @@ function createSignupForm() {
     publicEmailYesRadio,
     publicEmailNoRadio,
     confirmPasswordInput,
-    accountTypeElement
+    accountTypeElement,
   );
   formElement.appendChild(accountFieldset);
   const profileFieldset = document.createElement('fieldset');
@@ -155,7 +153,7 @@ function createSignupForm() {
     ...extraFileInputs,
     ...extraCheckboxes,
     ...extraPreferences1,
-    ...extraPreferences2
+    ...extraPreferences2,
   );
   formElement.appendChild(multipleFieldsetElement);
 
@@ -456,9 +454,9 @@ describe('User interactions with form', () => {
         expect.objectContaining({
           form: formElement,
           controls: expect.arrayContaining(
-            Array.from(formElement.elements).filter(isFormControl)
+            Array.from(formElement.elements).filter(isFormControl),
           ),
-        })
+        }),
       );
       expect(get(isSubmitting)).not.to.be.ok;
     });
@@ -829,7 +827,7 @@ describe('User interactions with form', () => {
       expect(onSubmit).toHaveBeenCalled();
       expect(onError).toHaveBeenCalledWith(
         expect.objectContaining(mockErrors),
-        expect.anything()
+        expect.anything(),
       );
       expect(get(isSubmitting)).not.to.be.ok;
     });
@@ -845,9 +843,8 @@ describe('User interactions with form', () => {
       validate: vi.fn(),
       onError: vi.fn(),
     };
-    const { form, createSubmitHandler, isSubmitting } = createForm(
-      defaultConfig
-    );
+    const { form, createSubmitHandler, isSubmitting } =
+      createForm(defaultConfig);
     const altOnSubmit = createSubmitHandler({
       onSubmit: mockOnSubmit,
       onError: mockOnError,
@@ -974,11 +971,8 @@ describe('User interactions with form', () => {
       };
       preferences: any[];
     };
-    const {
-      formElement,
-      publicEmailYesRadio,
-      publicEmailNoRadio,
-    } = createSignupForm();
+    const { formElement, publicEmailYesRadio, publicEmailNoRadio } =
+      createSignupForm();
     const { data, form } = createForm<Data>({
       onSubmit: vi.fn(),
       transform: (values: any) => {
@@ -1037,13 +1031,13 @@ describe('User interactions with form', () => {
           headers: expect.objectContaining({
             'Content-Type': 'application/x-www-form-urlencoded',
           }),
-        })
+        }),
       );
       expect(onSuccess).toHaveBeenCalledWith(
         expect.objectContaining({
           ok: true,
         }),
-        expect.anything()
+        expect.anything(),
       );
     });
   });
@@ -1065,18 +1059,18 @@ describe('User interactions with form', () => {
     await waitFor(() => {
       expect(window.fetch as any).toHaveBeenCalledWith(
         expect.stringContaining(
-          '/example?account.email=zaphod%40beeblebrox.com&account.password='
+          '/example?account.email=zaphod%40beeblebrox.com&account.password=',
         ),
         expect.objectContaining({
           method: 'get',
           headers: expect.objectContaining({}),
-        })
+        }),
       );
       expect(onSuccess).toHaveBeenCalledWith(
         expect.objectContaining({
           ok: true,
         }),
-        expect.anything()
+        expect.anything(),
       );
       expect(eventOnSuccess).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -1085,7 +1079,7 @@ describe('User interactions with form', () => {
               ok: true,
             }),
           }),
-        })
+        }),
       );
     });
   });
@@ -1108,7 +1102,7 @@ describe('User interactions with form', () => {
           headers: expect.objectContaining({
             'Content-Type': 'application/x-www-form-urlencoded',
           }),
-        })
+        }),
       );
     });
   });
@@ -1131,7 +1125,7 @@ describe('User interactions with form', () => {
           body: expect.any(FormData),
           method: 'post',
           headers: expect.objectContaining({}),
-        })
+        }),
       );
     });
   });
@@ -1157,18 +1151,18 @@ describe('User interactions with form', () => {
           headers: expect.objectContaining({
             'Content-Type': 'application/x-www-form-urlencoded',
           }),
-        })
+        }),
       );
       expect(onError).toHaveBeenCalledWith(
         expect.any(FelteSubmitError),
-        expect.anything()
+        expect.anything(),
       );
       expect(eventOnError).toHaveBeenCalledWith(
         expect.objectContaining({
           detail: expect.objectContaining({
             error: expect.any(FelteSubmitError),
           }),
-        })
+        }),
       );
     });
   });

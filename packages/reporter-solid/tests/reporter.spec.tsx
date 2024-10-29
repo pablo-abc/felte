@@ -1,4 +1,5 @@
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
+import { expect, describe, afterEach, test, vi } from 'vitest';
 import { createForm } from '@felte/solid';
 import { screen, render, waitFor, cleanup } from '@solidjs/testing-library';
 import { Index } from 'solid-js';
@@ -26,7 +27,7 @@ function getArrayError(message: string, errorValue?: string[]) {
 
 function Wrapper() {
   const { form } = createForm<Data>({
-    onSubmit: jest.fn(),
+    onSubmit: vi.fn(),
     extend: reporter,
     validate(values) {
       const errors: DataErrors = {};
@@ -36,7 +37,7 @@ function Wrapper() {
       if (values.password?.length < 8)
         errors.password = getArrayError(
           'Must be at least 8 chars',
-          errors.password
+          errors.password,
         );
       return errors;
     },

@@ -1,12 +1,10 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi } from 'vitest';
 import { createForm } from './common';
 import { validateStruct, validator } from '../src';
 import type { Infer } from 'superstruct';
 import { object, string, size, coerce, date, any, refine } from 'superstruct';
 import { get } from 'svelte/store';
-
-expect.extend(matchers);
 
 describe('Validator superstruct', () => {
   test('correctly validates', async () => {
@@ -105,7 +103,7 @@ describe('Validator superstruct', () => {
       password: size(string(), 1, Infinity),
     });
     const secure = refine(string(), 'secure', (value) =>
-      value ? value.length > 8 : true
+      value ? value.length > 8 : true,
     );
     const warnStruct = object({
       email: any(),

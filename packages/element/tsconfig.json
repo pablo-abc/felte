@@ -3,6 +3,7 @@
     "moduleResolution": "node",
     "target": "es2019",
     "module": "ES2015",
+    "types": ["@testing-library/jest-dom"],
     "lib": ["ES2019", "dom"],
     "useDefineForClassFields": false,
     "isolatedModules": true,

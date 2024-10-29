@@ -1,4 +1,4 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import * as matchers from '@testing-library/jest-dom/matchers';
 import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
 import { screen } from '@testing-library/dom';
 import type { AssignableErrors } from '../src';
@@ -105,7 +105,7 @@ function createSignupForm() {
     showPasswordInput,
     publicEmailYesRadio,
     publicEmailNoRadio,
-    confirmPasswordInput
+    confirmPasswordInput,
   );
   formElement.appendChild(accountFieldset);
   const profileFieldset = document.createElement('fieldset');
@@ -171,7 +171,7 @@ function createSignupForm() {
     ...extraFileInputs,
     ...extraCheckboxes,
     ...extraPreferences1,
-    ...extraPreferences2
+    ...extraPreferences2,
   );
   const fieldsets = [0, 1, 2].map((index) => {
     const input = createInputElement({ name: `fieldsets.${index}.otherText` });
@@ -245,13 +245,13 @@ describe('test', () => {
     };
     const truthyResult = _some(
       testObj,
-      (value) => typeof value === 'string' && value === 'test'
+      (value) => typeof value === 'string' && value === 'test',
     );
     expect(truthyResult).to.be.true;
 
     const falsyResult = _some(
       testObj,
-      (value) => typeof value === 'string' && value === 'not in object'
+      (value) => typeof value === 'string' && value === 'not in object',
     );
     expect(falsyResult).to.be.false;
   });
@@ -279,7 +279,7 @@ describe('test', () => {
     expect(_get(testObj, 'account.nonExistent')).to.equal(undefined);
     expect(_get(testObj, 'account.nonExistent', 'default')).to.equal('default');
     expect(_get(testObj, 'account.deep.nonExistent', 'default')).to.equal(
-      'default'
+      'default',
     );
     expect(_get(testObj, 'account')).to.deep.equal({
       username: 'test',
@@ -296,16 +296,16 @@ describe('test', () => {
     };
 
     expect(
-      _set(testObj, 'account.password', 'password').account.password
+      _set(testObj, 'account.password', 'password').account.password,
     ).to.equal('password');
     expect(_set(testObj, 'account.toExist', 'value').account.toExist).to.equal(
-      'value'
+      'value',
     );
     expect(
-      _set(testObj, ['account', 'toExist'], 'otherValue').account.toExist
+      _set(testObj, ['account', 'toExist'], 'otherValue').account.toExist,
     ).to.equal('otherValue');
     expect(
-      _set(undefined as any, 'account[0].toExist', 'value').account[0].toExist
+      _set(undefined as any, 'account[0].toExist', 'value').account[0].toExist,
     ).to.equal('value');
   });
 
@@ -320,16 +320,16 @@ describe('test', () => {
     };
 
     expect(_unset(testObj, 'account.password').account.password).to.equal(
-      undefined
+      undefined,
     );
     expect(_unset(testObj, 'account.noExist').account.noExist).to.equal(
-      undefined
+      undefined,
     );
     expect(_unset(testObj, ['account', 'confirm']).account.confirm).to.equal(
-      undefined
+      undefined,
     );
     expect(
-      _unset(testObj, 'account.preferences[1]').account.preferences
+      _unset(testObj, 'account.preferences[1]').account.preferences,
     ).to.deep.equal(['tech', 'fashion']);
     expect(_unset(undefined, 'account.noExist')).to.equal(undefined);
     expect(_unset({}, 'account.noExist')).to.deep.equal({});
@@ -344,14 +344,14 @@ describe('test', () => {
       },
     };
     expect(
-      _update(testObj, 'account.password', () => 'password').account.password
+      _update(testObj, 'account.password', () => 'password').account.password,
     ).to.equal('password');
     expect(
-      _update(testObj, ['account', 'toExist'], () => 'value').account.toExist
+      _update(testObj, ['account', 'toExist'], () => 'value').account.toExist,
     ).to.equal('value');
     expect(
       _update(undefined as any, 'account[0].toExist', () => 'value').account[0]
-        .toExist
+        .toExist,
     ).to.equal('value');
     expect(_update({}, 'account[0][0]', () => 'value')).to.deep.include({
       account: [['value']],
@@ -419,19 +419,19 @@ describe('test', () => {
     };
     const truthyResult = deepSome(
       testObj,
-      (value) => typeof value === 'string' && value === 'test'
+      (value) => typeof value === 'string' && value === 'test',
     );
     expect(truthyResult).to.be.true;
 
     const falsyResult = deepSome(
       testObj,
-      (value) => typeof value === 'string' && value === 'not in object'
+      (value) => typeof value === 'string' && value === 'not in object',
     );
     expect(falsyResult).to.be.false;
 
     expect(deepSome(testObj, (value) => value === 'name1')).to.be.true;
     expect(
-      deepSome(testObj, (value) => Array.isArray(value) && value.length === 1)
+      deepSome(testObj, (value) => Array.isArray(value) && value.length === 1),
     ).to.be.true;
     expect(deepSome({ test: { value: [true] } }, (v) => !!v)).to.be.true;
   });
@@ -462,7 +462,7 @@ describe('test', () => {
     inputElement.name = 'container.test';
     expect(getPath(inputElement)).to.equal('container.test');
     expect(getPath(inputElement, 'container.overriden')).to.equal(
-      'container.overriden'
+      'container.overriden',
     );
     expect(getPath(document.createElement('div'))).to.equal('');
   });
@@ -489,7 +489,7 @@ describe('test', () => {
     addAttrsFromFieldset(fieldsetUnset);
     expect(inputUnsetElement).toHaveAttribute(
       'data-felte-keep-on-remove',
-      'false'
+      'false',
     );
   });
 
@@ -625,7 +625,7 @@ describe('test', () => {
       .mockReturnValue(mockErrors);
 
     const errors = await Promise.all(
-      runValidations(mockValues, [validate, validate])
+      runValidations(mockValues, [validate, validate]),
     );
 
     expect(mergeErrors([deepSet(mockValues, []), ...errors])).to.deep.equal({
@@ -662,7 +662,7 @@ describe('test', () => {
       executeTransforms(mockValues, [
         transformToBase100,
         transformToString,
-      ] as any[])
+      ] as any[]),
     ).to.deep.equal({
       progress: {
         percentage: '42%',
@@ -909,7 +909,7 @@ describe('test', () => {
     };
     expect(getValue(data, 'account.email')).to.equal('zaphod@beeblebrox.com');
     expect(getValue(data, ($data) => $data.account.email)).to.equal(
-      'zaphod@beeblebrox.com'
+      'zaphod@beeblebrox.com',
     );
     expect(getValue('test')).to.equal('test');
   });
@@ -981,7 +981,7 @@ describe('test', () => {
         {
           test: 'another',
         },
-      ])
+      ]),
     ).to.deep.equal({
       test: ['error', 'another'],
     });
@@ -1031,8 +1031,8 @@ describe('test', () => {
             likes: 1,
             name: 'test',
           },
-        }
-      )
+        },
+      ),
     ).to.equal(true);
     expect(
       isEqual(
@@ -1064,8 +1064,8 @@ describe('test', () => {
             likes: 1,
             name: 'test',
           },
-        }
-      )
+        },
+      ),
     ).to.equal(false);
   });
 

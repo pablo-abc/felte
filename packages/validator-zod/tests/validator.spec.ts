@@ -1,11 +1,9 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi } from 'vitest';
 import { createForm } from './common';
 import { validateSchema, validator } from '../src';
 import { z } from 'zod';
 import { get } from 'svelte/store';
-
-expect.extend(matchers);
 
 type Data = {
   email: string;
@@ -15,8 +13,8 @@ type Data = {
 describe('Validator zod', () => {
   test('correctly validates', async () => {
     const schema = z.object({
-      email: z.string().email().nonempty(),
-      password: z.string().nonempty(),
+      email: z.string().email().min(1),
+      password: z.string().min(1),
     });
     const mockData = {
       email: '',
@@ -52,8 +50,8 @@ describe('Validator zod', () => {
   test('correctly validates deep form', async () => {
     const schema = z.object({
       account: z.object({
-        email: z.string().email().nonempty(),
-        password: z.string().nonempty(),
+        email: z.string().email().min(1),
+        password: z.string().min(1),
       }),
     });
     const mockData = {
@@ -97,8 +95,8 @@ describe('Validator zod', () => {
 
   test('correctly validates with extend', async () => {
     const schema = z.object({
-      email: z.string().email().nonempty(),
-      password: z.string().nonempty(),
+      email: z.string().email().min(1),
+      password: z.string().min(1),
     });
     const warnSchema = z.object({
       password: z
@@ -152,8 +150,8 @@ describe('Validator zod', () => {
   test('correctly validates deep form with extend', async () => {
     const schema = z.object({
       account: z.object({
-        email: z.string().email().nonempty(),
-        password: z.string().nonempty(),
+        email: z.string().email().min(1),
+        password: z.string().min(1),
       }),
     });
     const mockData = {
@@ -198,8 +196,8 @@ describe('Validator zod', () => {
   test('correctly validates deep form with other validate', async () => {
     const schema = z.object({
       account: z.object({
-        email: z.string().email().nonempty(),
-        password: z.string().nonempty(),
+        email: z.string().email().min(1),
+        password: z.string().min(1),
       }),
     });
     const mockData = {

@@ -1,4 +1,4 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi, beforeEach, afterEach } from 'vitest';
 import { waitFor, screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
@@ -10,8 +10,6 @@ import {
 } from './common';
 import { extender } from '../src';
 import { get } from 'svelte/store';
-
-expect.extend(matchers);
 
 describe('Extender persist', () => {
   beforeEach(createDOM);
@@ -93,7 +91,7 @@ describe('Extender persist', () => {
       'test-restore',
       JSON.stringify({
         account: { email: 'jacek@soplica.com', password: 'password' },
-      })
+      }),
     );
     type Data = {
       account: {

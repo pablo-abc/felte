@@ -1,11 +1,9 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, waitFor, cleanup } from '@testing-library/svelte';
 import NoPlaceholder from './NoPlaceholder.svelte';
 import Placeholder from './Placeholder.svelte';
 import Multiple from './Multiple.svelte';
-
-expect.extend(matchers);
 
 describe('Reporter Svelte', () => {
   beforeEach(() => {

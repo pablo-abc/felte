@@ -1,12 +1,10 @@
 import React from 'react';
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi } from 'vitest';
 import { render, screen, waitFor, act } from '@testing-library/react';
 import { useForm } from '@felte/react';
 import userEvent from '@testing-library/user-event';
 import { ValidationMessage, reporter } from '../src';
-
-expect.extend(matchers);
 
 type Data = {
   email: string;
@@ -39,7 +37,7 @@ function Wrapper() {
       if (values.password?.length < 8)
         errors.password = getArrayError(
           'Must be at least 8 chars',
-          errors.password
+          errors.password,
         );
       return errors;
     },

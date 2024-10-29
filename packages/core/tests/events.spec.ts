@@ -1,15 +1,10 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi } from 'vitest';
 import { createForm } from './common';
 import { createEventConstructors } from '../src';
 
-expect.extend(matchers);
-
-const {
-  createErrorEvent,
-  createSubmitEvent,
-  createSuccessEvent,
-} = createEventConstructors();
+const { createErrorEvent, createSubmitEvent, createSuccessEvent } =
+  createEventConstructors();
 
 describe('Felte Events', () => {
   test('success event should set details', () => {
@@ -63,7 +58,7 @@ describe('Felte Events', () => {
     form(formElement);
 
     await expect(submit()).rejects.toMatchObject(
-      new Error('Something went wrong')
+      new Error('Something went wrong'),
     );
 
     document.body.removeChild(formElement);

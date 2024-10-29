@@ -1,4 +1,4 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi, beforeEach, afterEach } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { screen, waitFor } from '@testing-library/dom';
@@ -9,8 +9,6 @@ import {
   createForm,
 } from './common';
 import reporter from '../src';
-
-expect.extend(matchers);
 
 describe('Reporter CVAPI', () => {
   beforeEach(createDOM);
