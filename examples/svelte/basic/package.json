@@ -20,7 +20,7 @@
     "vite": "^4.3.9"
   },
   "dependencies": {
-    "@felte/reporter-svelte": "workspace:*",
-    "felte": "workspace:*"
+    "@felte/reporter-svelte": "latest",
+    "felte": "latest"
   }
 }

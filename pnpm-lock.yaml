@@ -346,11 +346,11 @@ importers:
   examples/svelte/basic:
     dependencies:
       '@felte/reporter-svelte':
-        specifier: workspace:*
-        version: link:../../../packages/reporter-svelte
+        specifier: latest
+        version: 1.2.0(svelte@5.1.4)
       felte:
-        specifier: workspace:*
-        version: link:../../../packages/felte
+        specifier: latest
+        version: 1.3.0(svelte@5.1.4)
     devDependencies:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^4.0.0
@@ -2220,6 +2220,12 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     peerDependencies:
       solid-js: ^1.2.0
+
+  '@felte/reporter-svelte@1.2.0':
+    resolution: {integrity: sha512-FCWfezLdc7XXjtU8uAWk/r3VQktRvUFk4GYQji3DjjdOR/UQP4P1Y1xha/HAEj/Fnst5S/DipYVDzfa0DU6GZQ==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    peerDependencies:
+      svelte: ^3.31.0 || ^4.0.0 || ^5.0.0
 
   '@felte/reporter-tippy@1.1.9':
     resolution: {integrity: sha512-X826UDeovXjsv1cUzSihWNKVSB3SuzlH9IUD6ps712icieavTOuVn14u/Vz8kpvv3uzVUT7t1obkQIoXU2SucA==}
@@ -9891,6 +9897,11 @@ snapshots:
       '@felte/common': 1.1.8
       solid-js: 1.9.3
 
+  '@felte/reporter-svelte@1.2.0(svelte@5.1.4)':
+    dependencies:
+      '@felte/common': 1.1.9
+      svelte: 5.1.4
+
   '@felte/reporter-tippy@1.1.9(tippy.js@6.3.7)':
     dependencies:
       '@felte/common': 1.1.8
@@ -13206,6 +13217,11 @@ snapshots:
     dependencies:
       '@felte/core': 1.4.4
       svelte: 4.2.19
+
+  felte@1.3.0(svelte@5.1.4):
+    dependencies:
+      '@felte/core': 1.4.4
+      svelte: 5.1.4
 
   figures@1.7.0:
     dependencies:
