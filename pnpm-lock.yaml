@@ -130,8 +130,8 @@ importers:
         specifier: ^0.12.3
         version: 0.12.3(svelte@5.1.4)
       pnpm:
-        specifier: ^8.7.0
-        version: 8.15.9
+        specifier: ^9.12.3
+        version: 9.12.3
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
@@ -6552,9 +6552,9 @@ packages:
   pkg-types@1.2.1:
     resolution: {integrity: sha512-sQoqa8alT3nHjGuTjuKgOnvjo4cljkufdtLMnO2LBP/wRwuDlo1tkaEdMxCRhyGRPacv/ztlZgDPm2b7FAmEvw==}
 
-  pnpm@8.15.9:
-    resolution: {integrity: sha512-SZQ0ydj90aJ5Tr9FUrOyXApjOrzuW7Fee13pDzL0e1E6ypjNXP0AHDHw20VLw4BO3M1XhQHkyik6aBYWa72fgQ==}
-    engines: {node: '>=16.14'}
+  pnpm@9.12.3:
+    resolution: {integrity: sha512-zOD53pxafJW++UQWnMXf6HQav7FFB4wNUIuGgFaEiofIHmJiRstglny9f9KabAYu9z/4QNlrPIbECsks9KgT7g==}
+    engines: {node: '>=18.12'}
     hasBin: true
 
   posix-character-classes@0.1.1:
@@ -15380,7 +15380,7 @@ snapshots:
       mlly: 1.7.2
       pathe: 1.1.2
 
-  pnpm@8.15.9: {}
+  pnpm@9.12.3: {}
 
   posix-character-classes@0.1.1: {}
 
