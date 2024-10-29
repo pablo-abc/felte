@@ -27,7 +27,7 @@
   $: messages = errorPath && _get($errors, errorPath)
 </script>
 
-<div bind:this={element} style="display: none;" />
+<div bind:this={element} style="display: none;"></div>
 {#if !$$slots.placeholder || messages}
   <slot {messages}></slot>
 {:else}
