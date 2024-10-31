@@ -1,10 +1,8 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test } from 'vitest';
 import { renderHook, act } from '@testing-library/preact-hooks';
 import { writable } from 'svelte/store';
 import { useAccessor } from '../src/use-accessor';
-
-expect.extend(matchers);
 
 describe('useAccessor', () => {
   test('subscribes to primitive accessor', () => {
@@ -31,11 +29,11 @@ describe('useAccessor', () => {
     expect(result.current?.((data) => data.email)).to.equal('');
     act(() => store.set({ email: 'zaphod@beeblebrox.com' }));
     expect(result.current?.((data) => data.email)).to.equal(
-      'zaphod@beeblebrox.com'
+      'zaphod@beeblebrox.com',
     );
     act(() => store.set({ email: 'jacek@soplica.com' }));
     expect(result.current?.((data) => data.email)).to.equal(
-      'jacek@soplica.com'
+      'jacek@soplica.com',
     );
   });
 
@@ -54,7 +52,7 @@ describe('useAccessor', () => {
     expect(result.current?.('email')).to.equal('');
     act(() => store.set({ email: 'zaphod@beeblebrox.com' }));
     expect(result.current?.((data) => data.email)).to.equal(
-      'zaphod@beeblebrox.com'
+      'zaphod@beeblebrox.com',
     );
     expect(result.current?.('email')).to.equal('zaphod@beeblebrox.com');
   });

@@ -1,6 +1,6 @@
 {
   "name": "felte",
-  "version": "1.2.14",
+  "version": "1.3.0",
   "description": "An extensible form library for Svelte",
   "main": "dist/cjs/index.cjs",
   "browser": "dist/esm/index.js",
@@ -34,7 +34,7 @@
     "test:ci": "vitest run --coverage"
   },
   "peerDependencies": {
-    "svelte": "^3.31.0 || ^4.0.0"
+    "svelte": "^3.31.0 || ^4.0.0 || ^5.0.0"
   },
   "files": [
     "dist"

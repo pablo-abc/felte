@@ -1,11 +1,9 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, waitFor, cleanup } from '@testing-library/svelte';
 import NoPlaceholder from './NoPlaceholder.svelte';
 import Placeholder from './Placeholder.svelte';
 import Multiple from './Multiple.svelte';
-
-expect.extend(matchers);
 
 describe('Reporter Svelte', () => {
   beforeEach(() => {
@@ -22,7 +20,8 @@ describe('Reporter Svelte', () => {
     render(NoPlaceholder, {});
     const inputElement = screen.getByRole('textbox', { name: 'test' });
     const formElement = screen.getByRole('form');
-    formElement.submit();
+    vi.runAllTicks();
+    formElement.requestSubmit();
     vi.runAllTicks();
     await waitFor(() => {
       expect(inputElement).toBeInvalid();
@@ -32,11 +31,11 @@ describe('Reporter Svelte', () => {
   test('renders error message', async () => {
     render(NoPlaceholder);
     const formElement = screen.getByRole('form');
-    const validationMessageElement = screen.getByTestId('validation-message');
-    const warningMessageElement = screen.getByTestId('warning-message');
     formElement.requestSubmit();
-    vi.runAllTicks();
+    vi.runAllTimers();
     await waitFor(() => {
+      const validationMessageElement = screen.getByTestId('validation-message');
+      const warningMessageElement = screen.getByTestId('warning-message');
       expect(validationMessageElement).toHaveTextContent('An error message');
       expect(warningMessageElement).toHaveTextContent('A warning message');
     });
@@ -57,11 +56,11 @@ describe('Reporter Svelte', () => {
   test('renders multiple errors', async () => {
     render(Multiple);
     const formElement = screen.getByRole('form');
-    formElement.submit();
+    formElement.requestSubmit();
     vi.runAllTimers();
     for (const index of [0, 1, 2]) {
       const validationMessageElement = screen.getByTestId(
-        `validation-message-${index}`
+        `validation-message-${index}`,
       );
       await waitFor(() => {
         expect(validationMessageElement).toHaveTextContent('An error message');

@@ -1,4 +1,4 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi, beforeEach, afterEach } from 'vitest';
 import { waitFor, screen } from '@testing-library/dom';
 import { writable } from 'svelte/store';
@@ -12,8 +12,6 @@ import {
   createForm,
 } from './common';
 import { deepRemoveKey, deepSetKey } from '../src/deep-set-key';
-
-expect.extend(matchers);
 
 describe('Helpers', () => {
   beforeEach(createDOM);
@@ -305,7 +303,7 @@ describe('Helpers', () => {
           },
         },
         onSubmit: vi.fn(),
-      }
+      },
     );
 
     expect(get(data).account.email).to.equal('');
@@ -543,7 +541,7 @@ describe('Helpers', () => {
       {
         name: 'todos',
       },
-      3
+      3,
     );
     formElement.append(...multipleInputs);
     type Data = {

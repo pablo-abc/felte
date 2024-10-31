@@ -1,10 +1,8 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi, beforeEach, afterEach } from 'vitest';
 import { waitFor, screen } from '@testing-library/dom';
 import { createInputElement, createDOM, cleanupDOM } from './common';
 import { createField } from '../src';
-
-expect.extend(matchers);
 
 function createContentEditable() {
   const input = document.createElement('div');
@@ -45,7 +43,7 @@ describe('Custom controls with createField', () => {
     formElement.appendChild(hiddenElement);
 
     expect(formElement.querySelectorAll('input[name="test"]').length).to.equal(
-      1
+      1,
     );
 
     const { field } = createField({ name: 'test' });
@@ -53,7 +51,7 @@ describe('Custom controls with createField', () => {
     field(inputElement);
 
     expect(formElement.querySelectorAll('input[name="test"]').length).to.equal(
-      1
+      1,
     );
   });
 
@@ -70,7 +68,7 @@ describe('Custom controls with createField', () => {
 
     await waitFor(() => {
       expect(
-        formElement.querySelectorAll('input[name="test"]').length
+        formElement.querySelectorAll('input[name="test"]').length,
       ).to.equal(1);
       expect(formElement.querySelector('input[name="test"]')).toBeVisible();
     });
@@ -100,7 +98,7 @@ describe('Custom controls with createField', () => {
 
     await waitFor(() => {
       const hiddenElement = document.querySelector(
-        'input[name="test"]'
+        'input[name="test"]',
       ) as HTMLInputElement;
 
       expect(hiddenElement).not.to.be.null;
@@ -111,7 +109,7 @@ describe('Custom controls with createField', () => {
       expect(inputListener).toHaveBeenCalledWith(
         expect.objectContaining({
           target: hiddenElement,
-        })
+        }),
       );
       expect(blurListener).not.toHaveBeenCalled();
 
@@ -120,7 +118,7 @@ describe('Custom controls with createField', () => {
       expect(blurListener).toHaveBeenCalledWith(
         expect.objectContaining({
           target: hiddenElement,
-        })
+        }),
       );
     });
 
@@ -147,7 +145,7 @@ describe('Custom controls with createField', () => {
 
     await waitFor(() => {
       const hiddenElement = document.querySelector(
-        'input[name="test"]'
+        'input[name="test"]',
       ) as HTMLInputElement;
 
       expect(hiddenElement).not.to.be.null;
@@ -186,7 +184,7 @@ describe('Custom controls with createField', () => {
     await waitFor(() => {
       expect(inputElement).toHaveAttribute(
         'data-felte-validation-message',
-        'a message'
+        'a message',
       );
     });
     hiddenElement.removeAttribute('data-felte-validation-message');

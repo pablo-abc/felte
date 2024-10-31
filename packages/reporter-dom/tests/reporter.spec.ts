@@ -1,4 +1,4 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi, beforeEach, afterEach } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { screen, waitFor } from '@testing-library/dom';
@@ -10,8 +10,6 @@ import {
   createForm,
 } from './common';
 import reporter from '../src';
-
-expect.extend(matchers);
 
 describe('Reporter DOM', () => {
   beforeEach(createDOM);
@@ -49,7 +47,7 @@ describe('Reporter DOM', () => {
     const validationMessageElement = document.createElement('div');
     validationMessageElement.setAttribute(
       'data-felte-reporter-dom-for',
-      'test'
+      'test',
     );
     formElement.appendChild(inputElement);
     formElement.appendChild(validationMessageElement);
@@ -112,16 +110,16 @@ describe('Reporter DOM', () => {
     const validationMessageElement = document.createElement('div');
     validationMessageElement.setAttribute(
       'data-felte-reporter-dom-for',
-      'container.test'
+      'container.test',
     );
     const warningMessageElement = document.createElement('div');
     warningMessageElement.setAttribute(
       'data-felte-reporter-dom-for',
-      'container.test'
+      'container.test',
     );
     warningMessageElement.setAttribute(
       'data-felte-reporter-dom-level',
-      'warning'
+      'warning',
     );
     const multipleInputs = createMultipleInputElements({
       name: 'container.multiple',
@@ -157,15 +155,15 @@ describe('Reporter DOM', () => {
 
     await waitFor(() => {
       expect(validationMessageElement).toContainHTML(
-        '<li data-felte-reporter-dom-list-message="">An error</li>'
+        '<li data-felte-reporter-dom-list-message="">An error</li>',
       );
       expect(warningMessageElement).toContainHTML(
-        '<li data-felte-reporter-dom-list-message="">A warning</li>'
+        '<li data-felte-reporter-dom-list-message="">A warning</li>',
       );
       multipleMessages.forEach((mes) =>
         expect(mes).toContainHTML(
-          '<li data-felte-reporter-dom-list-message="">An error</li>'
-        )
+          '<li data-felte-reporter-dom-list-message="">An error</li>',
+        ),
       );
     });
 
@@ -177,8 +175,8 @@ describe('Reporter DOM', () => {
       expect(validationMessageElement).not.toHaveTextContent('An error');
       multipleMessages.forEach((mes) =>
         expect(mes).not.toContainHTML(
-          '<li data-felte-reporter-dom-list-message="">An error</li>'
-        )
+          '<li data-felte-reporter-dom-list-message="">An error</li>',
+        ),
       );
     });
   });
@@ -204,7 +202,7 @@ describe('Reporter DOM', () => {
     const validationMessageElement = document.createElement('div');
     validationMessageElement.setAttribute(
       'data-felte-reporter-dom-for',
-      'test'
+      'test',
     );
     const multipleInputs = createMultipleInputElements({
       name: 'multiple',
@@ -228,12 +226,12 @@ describe('Reporter DOM', () => {
 
     await waitFor(() => {
       expect(validationMessageElement).toContainHTML(
-        '<span aria-live="polite" data-felte-reporter-dom-single-message="">An error</span>'
+        '<span aria-live="polite" data-felte-reporter-dom-single-message="">An error</span>',
       );
       multipleMessages.forEach((mes) =>
         expect(mes).toContainHTML(
-          '<span aria-live="polite" data-felte-reporter-dom-single-message="">An error</span>'
-        )
+          '<span aria-live="polite" data-felte-reporter-dom-single-message="">An error</span>',
+        ),
       );
     });
 
@@ -245,8 +243,8 @@ describe('Reporter DOM', () => {
       expect(validationMessageElement).not.toHaveTextContent('An error');
       multipleMessages.forEach((mes) =>
         expect(mes).not.toContainHTML(
-          '<span aria-live="polite" data-felte-reporter-dom-single-message="">An error</span>'
-        )
+          '<span aria-live="polite" data-felte-reporter-dom-single-message="">An error</span>',
+        ),
       );
     });
   });
@@ -269,7 +267,7 @@ describe('Reporter DOM', () => {
     const validationMessageElement = document.createElement('div');
     validationMessageElement.setAttribute(
       'data-felte-reporter-dom-for',
-      'test'
+      'test',
     );
     formElement.appendChild(inputElement);
     formElement.appendChild(validationMessageElement);
@@ -302,7 +300,7 @@ describe('Reporter DOM', () => {
     const validationMessageElement = document.createElement('div');
     validationMessageElement.setAttribute(
       'data-felte-reporter-dom-for',
-      'test'
+      'test',
     );
     formElement.appendChild(inputElement);
     formElement.appendChild(validationMessageElement);
@@ -347,7 +345,7 @@ describe('Reporter DOM', () => {
     const validationMessageElement = document.createElement('div');
     validationMessageElement.setAttribute(
       'data-felte-reporter-dom-for',
-      'container.test'
+      'container.test',
     );
     const fieldsetElement = document.createElement('fieldset');
     fieldsetElement.appendChild(inputElement);
@@ -404,7 +402,7 @@ describe('Reporter DOM', () => {
     const validationMessageElement = document.createElement('div');
     validationMessageElement.setAttribute(
       'data-felte-reporter-dom-for',
-      'container.test'
+      'container.test',
     );
     const fieldsetElement = document.createElement('fieldset');
     fieldsetElement.appendChild(inputElement);

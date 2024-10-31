@@ -2,10 +2,10 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "target": "es2019",
+    "types": ["@testing-library/jest-dom"],
     "module": "ES2015",
     "lib": ["ES2019", "dom"],
     "useDefineForClassFields": false,
-    "importsNotUsedAsValues": "error",
     "isolatedModules": true,
     "strict": true,
     "esModuleInterop": true,

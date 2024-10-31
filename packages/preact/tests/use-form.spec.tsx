@@ -1,12 +1,10 @@
 // eslint-disable-next-line
 import { h } from 'preact';
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/preact';
 import { renderHook, act } from '@testing-library/preact-hooks';
 import { useForm } from '../src';
-
-expect.extend(matchers);
 
 describe('useForm', () => {
   test('calls onSubmit without a form ref', async () => {
@@ -38,7 +36,7 @@ describe('useForm', () => {
   test('sets value with helper', () => {
     const mockSubmit = vi.fn();
     const { result, unmount } = renderHook(() =>
-      useForm({ onSubmit: mockSubmit, initialValues: { email: '' } })
+      useForm({ onSubmit: mockSubmit, initialValues: { email: '' } }),
     );
     act(() => result.current?.setTouched('email', true));
     expect(result.current?.errors()).to.deep.equal({ email: null });
@@ -53,7 +51,7 @@ describe('useForm', () => {
     };
     const mockSubmit = vi.fn();
     const { result } = renderHook(() =>
-      useForm<Data>({ onSubmit: mockSubmit, initialValues: { email: '' } })
+      useForm<Data>({ onSubmit: mockSubmit, initialValues: { email: '' } }),
     );
     act(() => result.current?.setTouched('email', true));
     expect(result.current?.errors()).to.deep.equal({ email: null });
@@ -68,7 +66,7 @@ describe('useForm', () => {
     expect(result.current?.errors()).to.deep.equal({ email: ['NOT AN EMAIL'] });
     act(() => {
       result.current?.setErrors('email', (email) =>
-        (email as string).toLowerCase()
+        (email as string).toLowerCase(),
       );
     });
     expect(result.current?.errors()).to.deep.equal({ email: ['not an email'] });

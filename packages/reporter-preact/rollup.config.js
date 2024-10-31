@@ -2,7 +2,7 @@ import typescript from '@rollup/plugin-typescript';
 import babel from '@rollup/plugin-babel';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import renameNodeModules from 'rollup-plugin-rename-node-modules';
-import pkg from './package.json' assert { type: 'json' };
+import pkg from './package.json' with { type: 'json' };
 
 const prod = process.env.NODE_ENV === 'production';
 

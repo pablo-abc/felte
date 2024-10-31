@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-preact",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "An error reporter for Felte using a Preact component",
   "main": "dist/index.cjs",
   "module": "dist/esm/index.js",
@@ -54,13 +54,12 @@
     "@babel/preset-typescript": "^7.18.6",
     "@felte/preact": "workspace:*",
     "@preact/preset-vite": "^2.1.5",
-    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/preact": "^3.2.2",
     "@testing-library/preact-hooks": "^1.1.0",
     "babel-jest": "^26.6.3",
     "preact": "^10.11.3",
     "tsc-watch": "^4.4.0",
-    "typescript": "~4.9.3"
+    "typescript": "^5.6.3"
   },
   "peerDependencies": {
     "preact": "^10.0.0"

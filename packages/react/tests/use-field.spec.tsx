@@ -1,10 +1,8 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test } from 'vitest';
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { useField } from '../src';
-
-expect.extend(matchers);
 
 describe('Correctly uses useField', () => {
   test('adds hidden input', async () => {

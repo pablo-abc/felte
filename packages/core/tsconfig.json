@@ -2,7 +2,7 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "target": "es2017",
-    "importsNotUsedAsValues": "error",
+    "types": ["@testing-library/jest-dom"],
     "isolatedModules": true,
     "strict": true,
     "esModuleInterop": true,

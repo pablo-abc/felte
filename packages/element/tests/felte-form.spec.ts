@@ -1,4 +1,4 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi, afterEach } from 'vitest';
 import { waitFor, screen } from '@testing-library/dom';
 import { AssertionError } from 'node:assert';
@@ -6,8 +6,6 @@ import userEvent from '@testing-library/user-event';
 import { cleanupDOM } from './common';
 import '../src/felte-form';
 import { prepareForm } from '../src';
-
-expect.extend(matchers);
 
 function waitForReady(form: HTMLFelteFormElement) {
   return new Promise((resolve) => {
@@ -32,7 +30,7 @@ describe('FelteForm', () => {
     `;
     document.body.innerHTML = html;
     const felteForm = document.querySelector(
-      'felte-form'
+      'felte-form',
     ) as HTMLFelteFormElement;
     expect(felteForm).to.not.be.null;
     expect(onSubmit).not.toHaveBeenCalled();
@@ -60,7 +58,7 @@ describe('FelteForm', () => {
     `;
     document.body.innerHTML = html;
     const felteForm = document.querySelector(
-      'felte-form'
+      'felte-form',
     ) as HTMLFelteFormElement;
     expect(felteForm).to.not.be.null;
     try {
@@ -70,7 +68,7 @@ describe('FelteForm', () => {
       expect(err)
         .to.have.property('message')
         .that.equals(
-          'Can\'t call "setInitialValues" on HTMLFelteFormElement. The element is not ready yet.'
+          'Can\'t call "setInitialValues" on HTMLFelteFormElement. The element is not ready yet.',
         );
     }
     await new Promise((resolve) => {
@@ -140,7 +138,7 @@ describe('FelteForm', () => {
     `;
     document.body.innerHTML = html;
     const felteForm = document.querySelector(
-      'felte-form'
+      'felte-form',
     ) as HTMLFelteFormElement;
     expect(felteForm).to.not.be.null;
     expect(onSubmit).not.toHaveBeenCalled();
@@ -170,7 +168,7 @@ describe('FelteForm', () => {
     `;
     document.body.innerHTML = html;
     const felteForm = document.querySelector(
-      'felte-form'
+      'felte-form',
     ) as HTMLFelteFormElement;
     expect(felteForm).to.not.be.null;
     felteForm.configuration = { onSubmit };
@@ -185,7 +183,7 @@ describe('FelteForm', () => {
           email: '',
           password: '',
         },
-        expect.anything()
+        expect.anything(),
       );
     });
   });
@@ -203,7 +201,7 @@ describe('FelteForm', () => {
     `;
     document.body.innerHTML = html;
     const felteForm = document.querySelector(
-      'felte-form'
+      'felte-form',
     ) as HTMLFelteFormElement;
     expect(felteForm).to.not.be.null;
     felteForm.configuration = { onSubmit };
@@ -218,7 +216,7 @@ describe('FelteForm', () => {
           email: '',
           password: '',
         },
-        expect.anything()
+        expect.anything(),
       );
     });
 

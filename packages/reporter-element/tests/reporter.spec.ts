@@ -1,4 +1,4 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi, beforeEach, afterEach } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { screen, waitFor } from '@testing-library/dom';
@@ -12,8 +12,6 @@ import {
 } from './common';
 import '../src/felte-validation-message';
 import { reporter } from '../src';
-
-expect.extend(matchers);
 
 const template = `
 <template>
@@ -58,7 +56,7 @@ describe('Reporter DOM', () => {
       return mes;
     });
     const validationMessageElement = document.createElement(
-      'felte-validation-message'
+      'felte-validation-message',
     );
     validationMessageElement.innerHTML = template;
     validationMessageElement.setAttribute('for', 'test');
@@ -121,12 +119,12 @@ describe('Reporter DOM', () => {
       id: 'test',
     });
     const validationMessageElement = document.createElement(
-      'felte-validation-message'
+      'felte-validation-message',
     );
     validationMessageElement.innerHTML = template;
     validationMessageElement.setAttribute('for', 'container.test');
     const warningMessageElement = document.createElement(
-      'felte-validation-message'
+      'felte-validation-message',
     );
     warningMessageElement.innerHTML = template;
     warningMessageElement.setAttribute('for', 'container.test');
@@ -149,7 +147,7 @@ describe('Reporter DOM', () => {
       id: 'test',
     });
     const validMessageElement = document.createElement(
-      'felte-validation-message'
+      'felte-validation-message',
     );
     validMessageElement.innerHTML = template;
     validMessageElement.setAttribute('for', 'container.valid');
@@ -169,13 +167,13 @@ describe('Reporter DOM', () => {
 
     await waitFor(() => {
       expect(validationMessageElement).toContainHTML(
-        '<li data-part="item">An error</li>'
+        '<li data-part="item">An error</li>',
       );
       expect(warningMessageElement).toContainHTML(
-        '<li data-part="item">A warning</li>'
+        '<li data-part="item">A warning</li>',
       );
       multipleMessages.forEach((mes) =>
-        expect(mes).toContainHTML('<li data-part="item">An error</li>')
+        expect(mes).toContainHTML('<li data-part="item">An error</li>'),
       );
     });
 
@@ -187,8 +185,8 @@ describe('Reporter DOM', () => {
       expect(validationMessageElement).not.toHaveTextContent('An error');
       multipleMessages.forEach((mes) =>
         expect(mes).not.toContainHTML(
-          '<li data-felte-reporter-dom-list-message="">An error</li>'
-        )
+          '<li data-felte-reporter-dom-list-message="">An error</li>',
+        ),
       );
     });
   });
@@ -217,7 +215,7 @@ describe('Reporter DOM', () => {
       id: 'test',
     });
     const validationMessageElement = document.createElement(
-      'felte-validation-message'
+      'felte-validation-message',
     );
     validationMessageElement.innerHTML = spanTemplate;
     validationMessageElement.setAttribute('for', 'test');
@@ -248,7 +246,7 @@ describe('Reporter DOM', () => {
 
     await waitFor(() => {
       expect(validationMessageElement).toContainHTML(
-        '<span data-part="item">An error</span>'
+        '<span data-part="item">An error</span>',
       );
       multipleMessages.forEach((mes) => {
         expect(mes).toContainHTML('<span data-part="item">An error</span>');
@@ -263,8 +261,8 @@ describe('Reporter DOM', () => {
       expect(validationMessageElement).not.toHaveTextContent('An error');
       multipleMessages.forEach((mes) =>
         expect(mes).not.toContainHTML(
-          '<span aria-live="polite" data-felte-reporter-dom-single-message="">An error</span>'
-        )
+          '<span aria-live="polite" data-felte-reporter-dom-single-message="">An error</span>',
+        ),
       );
     });
   });
@@ -285,7 +283,7 @@ describe('Reporter DOM', () => {
       id: 'test',
     });
     const validationMessageElement = document.createElement(
-      'felte-validation-message'
+      'felte-validation-message',
     );
     validationMessageElement.setAttribute('for', 'test');
     validationMessageElement.setAttribute('max', '1');
@@ -319,7 +317,7 @@ describe('Reporter DOM', () => {
       id: 'test',
     });
     const validationMessageElement = document.createElement(
-      'felte-validation-message'
+      'felte-validation-message',
     );
     validationMessageElement.setAttribute('for', 'test');
     validationMessageElement.setAttribute('max', '1');
@@ -344,7 +342,7 @@ describe('Reporter DOM', () => {
       throw new AssertionError({ message: 'Unreachable' });
     } catch (err: any) {
       expect(err.message).to.equal(
-        '<felte-validation-message> requires a `for` attribute'
+        '<felte-validation-message> requires a `for` attribute',
       );
     }
   });
@@ -364,7 +362,7 @@ describe('Reporter DOM', () => {
       expect(err)
         .to.have.property('message')
         .that.equals(
-          '<felte-validation-message> must be a child of a <form> element'
+          '<felte-validation-message> must be a child of a <form> element',
         );
     }
   });

@@ -1,5 +1,13 @@
 # @felte/reporter-element
 
+## 0.4.11
+
+### Patch Changes
+
+- 7c3dffc: Fix typescript issues
+- Updated dependencies [7c3dffc]
+  - @felte/common@1.1.9
+
 ## 0.4.10
 
 ### Patch Changes

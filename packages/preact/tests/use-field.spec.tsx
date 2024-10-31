@@ -1,11 +1,9 @@
 // eslint-disable-next-line
 import { h } from 'preact';
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test } from 'vitest';
 import { render, waitFor } from '@testing-library/preact';
 import { useField } from '../src';
-
-expect.extend(matchers);
 
 describe('Correctly uses useField', () => {
   test('adds hidden input', async () => {

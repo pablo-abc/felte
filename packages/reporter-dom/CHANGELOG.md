@@ -1,5 +1,13 @@
 # @felte/reporter-dom
 
+## 1.1.10
+
+### Patch Changes
+
+- 7c3dffc: Fix typescript issues
+- Updated dependencies [7c3dffc]
+  - @felte/common@1.1.9
+
 ## 1.1.9
 
 ### Patch Changes

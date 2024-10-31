@@ -1,6 +1,6 @@
 {
   "name": "@felte/reporter-svelte",
-  "version": "1.1.11",
+  "version": "1.2.0",
   "description": "An error reporter for Felte using a Svelte component",
   "main": "dist/index.cjs",
   "svelte": "src/index.js",
@@ -46,13 +46,13 @@
     "types"
   ],
   "devDependencies": {
-    "@testing-library/svelte": "^3.2.2",
+    "@testing-library/svelte": "^5.2.4",
     "felte": "workspace:*",
-    "svelte": "^3.59.1",
+    "svelte": "^5.1.4",
     "vite": "^4.3.9"
   },
   "peerDependencies": {
-    "svelte": "^3.31.0 || ^4.0.0"
+    "svelte": "^3.31.0 || ^4.0.0 || ^5.0.0"
   },
   "exports": {
     ".": {

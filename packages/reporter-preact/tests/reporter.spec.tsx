@@ -1,13 +1,11 @@
 // eslint-disable-next-line
 import { h } from 'preact';
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi } from 'vitest';
 import { render, screen, waitFor, act } from '@testing-library/preact';
 import { useForm } from '@felte/preact';
 import userEvent from '@testing-library/user-event';
 import { ValidationMessage, reporter } from '../src';
-
-expect.extend(matchers);
 
 type Data = {
   email: string;
@@ -29,7 +27,6 @@ function getArrayError(message: string, errorValue?: string[]) {
 }
 
 function Wrapper() {
-  console.log('hello');
   const { form } = useForm<Data>({
     onSubmit: vi.fn(),
     extend: reporter,
@@ -41,7 +38,7 @@ function Wrapper() {
       if (values.password?.length < 8)
         errors.password = getArrayError(
           'Must be at least 8 chars',
-          errors.password
+          errors.password,
         );
       return errors;
     },

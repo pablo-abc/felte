@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "types": ["vite/client", "@testing-library/jest-dom"],
     "target": "es2017",
     "newLine": "LF",
     "moduleResolution": "node",

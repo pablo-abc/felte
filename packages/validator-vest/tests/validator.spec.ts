@@ -1,12 +1,10 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi } from 'vitest';
 import type { ValidationFunction } from '@felte/common';
 import { createForm } from './common';
 import { validateSuite, validator } from '../src';
 import { get } from 'svelte/store';
 import { create, enforce, test as assert, warn } from 'vest';
-
-expect.extend(matchers);
 
 describe('Validator vest', () => {
   test('correctly validates', async () => {

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "target": "es2017",
-    "importsNotUsedAsValues": "error",
+    "types": ["vite/client", "@testing-library/jest-dom"],
     "isolatedModules": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,

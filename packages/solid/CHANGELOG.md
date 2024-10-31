@@ -1,5 +1,13 @@
 # @felte/solid
 
+## 1.2.14
+
+### Patch Changes
+
+- 7c3dffc: Fix typescript issues
+- Updated dependencies [7c3dffc]
+  - @felte/core@1.4.4
+
 ## 1.2.13
 
 ### Patch Changes
@@ -208,7 +216,7 @@
   If you have an extender using `addWarnValidator`, you must update it by calling `addValidator` instead with the following options:
 
   ```javascript
-  addValidator(yourValidationFunction, { level: 'warning' });
+  addValidator(yourValidationFunction, { level: "warning" });
   ```
 
 - b007b7f: BREAKING: Helpers have been completely reworked.
@@ -506,7 +514,7 @@
   If you have an extender using `addWarnValidator`, you must update it by calling `addValidator` instead with the following options:
 
   ```javascript
-  addValidator(yourValidationFunction, { level: 'warning' });
+  addValidator(yourValidationFunction, { level: "warning" });
   ```
 
 ### Minor Changes

@@ -1,4 +1,4 @@
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect, describe, test, vi, beforeEach, afterEach } from 'vitest';
 import { waitFor, screen } from '@testing-library/dom';
 import { get } from 'svelte/store';
@@ -9,8 +9,6 @@ import {
   createForm,
 } from './common';
 import type { CurrentForm } from '@felte/common';
-
-expect.extend(matchers);
 
 describe('Extenders', () => {
   beforeEach(createDOM);
@@ -41,7 +39,7 @@ describe('Extenders', () => {
         errors,
         touched,
         stage: 'SETUP',
-      })
+      }),
     );
 
     expect(mockExtender).toHaveBeenCalledOnce();
@@ -56,7 +54,7 @@ describe('Extenders', () => {
         touched,
         form: formElement,
         controls: expect.arrayContaining([]),
-      })
+      }),
     );
 
     expect(mockExtender).toHaveBeenCalledTimes(2);
@@ -77,7 +75,7 @@ describe('Extenders', () => {
           touched,
           form: formElement,
           controls: expect.arrayContaining([inputElement]),
-        })
+        }),
       );
 
       expect(mockExtender).toHaveBeenCalledTimes(3);
@@ -96,7 +94,7 @@ describe('Extenders', () => {
           touched,
           form: formElement,
           controls: expect.arrayContaining([]),
-        })
+        }),
       );
 
       expect(mockExtender).toHaveBeenCalledTimes(4);
@@ -128,7 +126,7 @@ describe('Extenders', () => {
         data: expect.objectContaining(data),
         errors,
         touched,
-      })
+      }),
     );
 
     expect(mockExtender).toHaveBeenCalledOnce();
@@ -138,7 +136,7 @@ describe('Extenders', () => {
         data: expect.objectContaining(data),
         errors,
         touched,
-      })
+      }),
     );
 
     expect(mockExtenderNoD).toHaveBeenCalledOnce();
@@ -152,7 +150,7 @@ describe('Extenders', () => {
         touched,
         form: formElement,
         controls: expect.arrayContaining([]),
-      })
+      }),
     );
 
     expect(mockExtender).toHaveBeenCalledTimes(2);
@@ -164,7 +162,7 @@ describe('Extenders', () => {
         touched,
         form: formElement,
         controls: expect.arrayContaining([]),
-      })
+      }),
     );
 
     expect(mockExtenderNoD).toHaveBeenCalledTimes(2);
@@ -184,7 +182,7 @@ describe('Extenders', () => {
           touched,
           form: formElement,
           controls: expect.arrayContaining([inputElement]),
-        })
+        }),
       );
 
       expect(mockExtender).toHaveBeenCalledTimes(3);
@@ -202,7 +200,7 @@ describe('Extenders', () => {
           touched,
           form: formElement,
           controls: expect.arrayContaining([]),
-        })
+        }),
       );
 
       expect(mockExtender).toHaveBeenCalledTimes(4);
@@ -242,7 +240,7 @@ describe('Extenders', () => {
               email: ['Not email'],
             },
           },
-        })
+        }),
       );
     });
   });
@@ -279,7 +277,7 @@ describe('Extenders', () => {
               email: ['Not email'],
             },
           },
-        })
+        }),
       );
       expect(mockExtenderHandler.onSubmitError).toHaveBeenCalledTimes(2);
       expect(onSubmit).toHaveBeenCalledOnce();
@@ -299,7 +297,7 @@ describe('Extenders', () => {
               email: ['Not email'],
             },
           },
-        })
+        }),
       );
       expect(mockExtenderHandler.onSubmitError).toHaveBeenCalledTimes(4);
       expect(onSubmit).toHaveBeenCalledOnce();
