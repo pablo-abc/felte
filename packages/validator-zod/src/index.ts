@@ -7,42 +7,49 @@ import type {
   Extender,
 } from '@felte/common';
 import { _update } from '@felte/common';
-import type { ZodError, AnyZodObject } from 'zod';
+import type { ZodError, ZodSchema } from 'zod';
 
-type ZodSchema = {
-  parseAsync: AnyZodObject['parseAsync'];
-};
-
-export type ValidatorConfig = {
-  schema: ZodSchema;
+export type ValidatorConfig<Data extends Obj = Obj> = {
+  schema: ZodSchema<Data>;
   level?: 'error' | 'warning';
 };
 
 export function validateSchema<Data extends Obj>(
   schema: ZodSchema
 ): ValidationFunction<Data> {
-  function shapeErrors(errors: ZodError): AssignableErrors<Data> {
-    return errors.issues.reduce((err, value) => {
-      /* istanbul ignore next */
-      if (!value.path) return err;
-      return _update(
-        err,
-        value.path.join('.'),
-        (currentValue: undefined | string[]) => {
-          if (!currentValue || !Array.isArray(currentValue))
-            return [value.message];
-          return [...currentValue, value.message];
+  function walk(
+    error: ZodError,
+    err: AssignableErrors<Data>
+  ): AssignableErrors<Data> {
+    for (const issue of error.issues) {
+      if (issue.code === 'invalid_union') {
+        for (const unionError of issue.unionErrors) {
+          err = walk(unionError, err);
         }
-      );
-    }, {} as AssignableErrors<Data>);
+      } else {
+        if (!issue.path) continue;
+
+        const updater = (currentValue?: string[]) => {
+          if (!currentValue || !Array.isArray(currentValue)) {
+            return [issue.message];
+          }
+          return [...currentValue, issue.message];
+        };
+        err = _update(err, issue.path.join('.'), updater);
+      }
+    }
+
+    return err;
   }
+
   return async function validate(
     values: Data
   ): Promise<AssignableErrors<Data> | undefined> {
-    try {
-      await schema.parseAsync(values);
-    } catch (error) {
-      return shapeErrors(error as ZodError<any>);
+    const result = await schema.safeParseAsync(values);
+    if (!result.success) {
+      let err = {} as AssignableErrors<Data>;
+      err = walk(result.error, err);
+      return err;
     }
   };
 }
