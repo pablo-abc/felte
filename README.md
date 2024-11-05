@@ -75,7 +75,7 @@ function Form() {
 >
 > To use the `use-*` directive on **Solid**. [You need to extend the JSX namespace](https://docs.solidjs.com/reference/jsx-attributes/use#use). For example:
 
-```dts
+```typescript
 // src/global.d.ts
 declare global {
   declare module "solid-js" {
