@@ -24,7 +24,7 @@ The easiest way to do this would be to pass our initial values and handlers as p
   export let onSubmit;
   export let onBack;
 
-  const { form, data } = createForm({ onSubmit });
+  const { form, data } = createForm({ onSubmit, initialValues });
 </script>
 
 <form use:form>
